@@ -1,0 +1,11 @@
+{
+    "presets": [
+        "es2015",
+        "stage-0",
+        "react",
+        "@alife/babel-preset-fusion"
+    ],
+    "plugins": [
+        "transform-object-assign"
+    ]
+}
