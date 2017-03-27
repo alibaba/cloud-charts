@@ -1,4 +1,15 @@
 *{ margin: 0; padding: 0}
-body{padding: 50px;}
+body{padding: 20px;}
 
 @import '../src/index';
+
+.p2-chart-demo {
+  padding: 20px;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.hljs {
+  padding: 20px;
+}
+

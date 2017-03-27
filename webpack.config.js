@@ -68,6 +68,13 @@ const config = {
             commonjs: 'react-dom',
             amd: 'react-dom'
         }
+    }, {
+      '@alife/aisc': {
+        root: 'aisc',
+        commonjs2: 'aisc',
+        commonjs: 'aisc',
+        amd: 'aisc'
+      }
     }],
 
     module: {

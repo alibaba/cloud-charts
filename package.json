@@ -1,6 +1,6 @@
 {
   "name": "@alife/p2charts",
-  "main": "lib/index.js",
+  "main": "./build/index.js",
   "description": "屏方定制图表",
   "version": "0.1.0",
   "keywords": [
