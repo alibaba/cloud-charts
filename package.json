@@ -1,16 +1,16 @@
 {
-  "name": "@alife/p2charts",
+  "name": "@alife/p2widgets",
   "main": "./build/index.js",
   "description": "屏方定制图表",
   "version": "0.1.0",
   "keywords": [
     "alife",
     "react",
-    "p2charts"
+    "p2widgets"
   ],
   "repository": {
     "type": "git",
-    "url": "git@gitlab.alibaba-inc.com:ls/p2charts.git"
+    "url": "git@gitlab.alibaba-inc.com:ls/p2widgets.git"
   },
   "publishConfig": {
     "registry": "http://registry.npm.alibaba-inc.com"
@@ -22,9 +22,9 @@
     "demo"
   ],
   "scripts": {
-    "start" : "gulp start",
-    "build" : "gulp build",
-    "watch" : "babel src --out-dir lib --watch"
+    "start": "gulp start",
+    "build": "gulp build",
+    "watch": "babel src --out-dir lib --watch"
   },
   "author": {
     "name": "",
@@ -40,8 +40,7 @@
   "tnpm": {
     "mode": "npminstall"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "glob": "^7.0.3",
     "lodash": "^4.12.0",
@@ -63,7 +62,7 @@
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
     "gulp-util": "~3.0.7",
-    "fallback-port" : "^0.1.7",
+    "fallback-port": "^0.1.7",
     "less": "~2.6.1",
     "less-loader": "~2.2.3",
     "postcss-loader": "^0.9.1",
@@ -73,6 +72,6 @@
     "style-loader": "~0.13.1",
     "webpack": "~1.12.14",
     "webpack-dev-server": "~1.14.1",
-    "open" : "~0.0.5"
+    "open": "~0.0.5"
   }
 }

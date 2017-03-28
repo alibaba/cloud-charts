@@ -16,7 +16,7 @@ const FallbackPort = require('fallback-port');
 // 默认开启3000端口,若被占用,则开启其他端口
 const fallbackPort = new FallbackPort(3000);
 
-const componentName = 'P2charts';
+const componentName = 'P2widgets';
 const srcPath = path.resolve(__dirname, './src');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
@@ -49,8 +49,8 @@ const config = {
         root: srcPath,
         extensions: ['', '.js', '.jsx'],
         alias: {
-            '@alife/p2charts': srcPath,
-            '@alife/p2charts/lib': srcPath
+            '@alife/p2widgets': srcPath,
+            '@alife/p2widgets/lib': srcPath
         }
     },
 

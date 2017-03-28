@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Panel, RankList, TableList } from '@alife/p2charts';
+import { Grid, Panel, RankList, TableList } from '@alife/p2widgets';
 const { Item, TitleSub } = Panel;
 
 const data = [
