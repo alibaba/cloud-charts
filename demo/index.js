@@ -69288,7 +69288,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _p2charts = __webpack_require__(52);
+	var _p2widgets = __webpack_require__(52);
 
 	var _tops = __webpack_require__(188);
 
@@ -69308,10 +69308,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var Row = _p2charts.Grid.Row,
-	    Col = _p2charts.Grid.Col;
-	var Item = _p2charts.Panel.Item,
-	    TitleSub = _p2charts.Panel.TitleSub;
+	var Row = _p2widgets.Grid.Row,
+	    Col = _p2widgets.Grid.Col;
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
 
 	var data = {
 	  data0: {
@@ -69371,22 +69371,22 @@
 	          Col,
 	          { span: '10' },
 	          _react2['default'].createElement(
-	            _p2charts.Panel,
+	            _p2widgets.Panel,
 	            { title: '\u673A\u5668\u6570\u636E\u6307\u6807' },
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.CapacityIndex, { title: '\u6570\u636E\u5E93', data: data.data1 })
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u6570\u636E\u5E93', data: data.data1 })
 	            ),
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.CapacityIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data2 })
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data2 })
 	            ),
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.CapacityIndex, { title: '\u8682\u8681', data: data.data0 })
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u8682\u8681', data: data.data0 })
 	            )
 	          )
 	        ),
@@ -69394,22 +69394,22 @@
 	          Col,
 	          { span: '14' },
 	          _react2['default'].createElement(
-	            _p2charts.Panel,
+	            _p2widgets.Panel,
 	            { title: 'OSD\u6307\u6807' },
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.StateIndex, { title: '\u6570\u636E\u5E93', data: data.data3 })
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u6570\u636E\u5E93', data: data.data3 })
 	            ),
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.StateIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data4 })
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data4 })
 	            ),
 	            _react2['default'].createElement(
 	              Item,
 	              null,
-	              _react2['default'].createElement(_p2charts.StateIndex, { title: '\u8682\u8681', data: data.data5 })
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u8682\u8681', data: data.data5 })
 	            )
 	          )
 	        )
@@ -69456,7 +69456,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _p2charts = __webpack_require__(52);
+	var _p2widgets = __webpack_require__(52);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69468,8 +69468,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var Item = _p2charts.Panel.Item,
-	    TitleSub = _p2charts.Panel.TitleSub;
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
 
 
 	var data = [{
@@ -69566,12 +69566,12 @@
 
 	  Clusters.prototype.render = function render() {
 	    return _react2['default'].createElement(
-	      _p2charts.Panel,
+	      _p2widgets.Panel,
 	      null,
 	      _react2['default'].createElement(
 	        Item,
 	        null,
-	        _react2['default'].createElement(_p2charts.TableList, { cols: cols, data: this.state.data })
+	        _react2['default'].createElement(_p2widgets.TableList, { cols: cols, data: this.state.data })
 	      )
 	    );
 	  };
@@ -69619,7 +69619,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _p2charts = __webpack_require__(52);
+	var _p2widgets = __webpack_require__(52);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69631,8 +69631,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var Item = _p2charts.Panel.Item,
-	    TitleSub = _p2charts.Panel.TitleSub;
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
 
 
 	var cols = [{ key: 'value', cls: 'bigger', isIndex: true, width: 60 }, { key: 'site', link: 'http://106.11.160.79/dashboard/db/ceph-cluster-summary?var-Cluster=', linkKey: 'link' }, { key: 'tenant_cn', width: 50 }, { key: 'region_cn', width: 50 }];
@@ -69736,27 +69736,27 @@
 
 	  Tops.prototype.render = function render() {
 	    return _react2['default'].createElement(
-	      _p2charts.Panel,
+	      _p2widgets.Panel,
 	      null,
 	      _react2['default'].createElement(
 	        Item,
 	        null,
-	        _react2['default'].createElement(_p2charts.RankList, { title: 'CPU\u4F7F\u7528\u7387Top10', data: this.state.data1, cols: cols1 })
+	        _react2['default'].createElement(_p2widgets.RankList, { title: 'CPU\u4F7F\u7528\u7387Top10', data: this.state.data1, cols: cols1 })
 	      ),
 	      _react2['default'].createElement(
 	        Item,
 	        null,
-	        _react2['default'].createElement(_p2charts.RankList, { title: '\u5185\u5B58\u4F7F\u7528\u7387Top10', data: this.state.data2, cols: cols2 })
+	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u5185\u5B58\u4F7F\u7528\u7387Top10', data: this.state.data2, cols: cols2 })
 	      ),
 	      _react2['default'].createElement(
 	        Item,
 	        null,
-	        _react2['default'].createElement(_p2charts.RankList, { title: '\u7F51\u7EDC\u5E26\u5BBD\u4F7F\u7528\u91CFTop10', data: this.state.data3, cols: cols3 })
+	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u7F51\u7EDC\u5E26\u5BBD\u4F7F\u7528\u91CFTop10', data: this.state.data3, cols: cols3 })
 	      ),
 	      _react2['default'].createElement(
 	        Item,
 	        null,
-	        _react2['default'].createElement(_p2charts.RankList, { title: 'IOPS\u4F7F\u7528\u91CFTop10', data: this.state.data4, cols: cols4 })
+	        _react2['default'].createElement(_p2widgets.RankList, { title: 'IOPS\u4F7F\u7528\u91CFTop10', data: this.state.data4, cols: cols4 })
 	      )
 	    );
 	  };
