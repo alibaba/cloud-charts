@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { Grid } from '@alife/aisc/build/aisc';
+import { Grid } from '@alife/aisc';
 import classNames from 'classnames';
 import './index.scss';
 
