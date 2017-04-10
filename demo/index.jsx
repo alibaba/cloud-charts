@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink, HealthyStatus, UsageRateRing} from '@alife/p2widgets';
+import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink, HealthyStatus, UsageRateRing, LoadProgress} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
@@ -59,12 +59,12 @@ class App extends React.Component {
         <Row>
           <Col span="9">
             <Panel>
-              <HealthyStatus/>
+              <UsageRateRing/>
             </Panel>
           </Col>
           <Col span="9">
             <Panel>
-              <UsageRateRing/>
+              <LoadProgress/>
             </Panel>
           </Col>
         </Row>

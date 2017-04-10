@@ -8,4 +8,5 @@ export TableList from '../components/tableList/index';
 export RectLink from '../components/rectLink/index';
 export HealthyStatus from '../components/healthyStatus/index';
 export UsageRateRing from '../components/usageRateRing/index';
+export LoadProgress from '../components/loadProgress/index';
 
