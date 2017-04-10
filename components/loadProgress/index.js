@@ -1,9 +1,8 @@
 /*
- * @description Load 带进度条的 使用率
+ * @description Load 带进度条的使用率挂件
  * @param titles object 标题以及对应值  
- * @param titlesData object 标题、副标题对应值  标题值可点击
  * @param details array 详情：包含文案、数据、阈值
- * 超过
+ * 阈值： 橙色阈值、红色阈值
  * 默认值见defaultProps
  * */
 'use strict';
