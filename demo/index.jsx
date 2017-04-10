@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink} from '@alife/p2widgets';
+import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink, HealthyStatus, UsageRateRing, LoadProgress} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
@@ -49,6 +49,23 @@ class App extends React.Component {
         <Row>
           <Col span="4">
             <RectLink title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
+          </Col>
+          <Col span="9">
+            <Panel>
+              <HealthyStatus/>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="9">
+            <Panel>
+              <UsageRateRing/>
+            </Panel>
+          </Col>
+          <Col span="9">
+            <Panel>
+              <LoadProgress/>
+            </Panel>
           </Col>
         </Row>
         <Row>

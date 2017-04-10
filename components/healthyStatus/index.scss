@@ -1,29 +1,63 @@
-.react-link{
-  height: 94px;
-  min-width: 94px;
-  position: relative;
-  .react-link-left{
-    position: absolute;
-    left: 0;
-    .react-link-icon{
-      margin: 20px;
-      background-color: #0580F2;
-      border-radius: 54px;
+.healthy-status {
+  width: 100%;
+  text-align: center;
+  color: #333333;
+  .weight {
+    font-weight: bold;
+  }
+  .ma {
+    margin: auto;
+  }
+  .ml12 {
+    margin-left: 12px;
+  }
+  .healthy-status-title {
+    padding-top: 11px;
+    margin: auto;
+    font-size: 24px;
+  }
+  .healthy-status-sub-title {
+    margin-top: 8px;
+    font-size: 20px;
+    .healthy-status-sub-title-data {
+      font-size: 24px;
     }
   }
-  .react-link-right{
-    font-size: 14px;
-    position: absolute;
-    left: 94px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space:nowrap;
-    margin: 26px 20px 28px 0;
-    .react-link-title{
-      color: #333333;
-    }
-    .react-link-sub-title{
-      color: #999999;
+  .healthy-status-title-data {
+    color: #EF5350;
+    cursor: pointer;
+  }
+  .healthy {
+    color: #0580F2;
+  }
+  .healthy-status-details {
+    margin-top: 27px;
+    display: flex;
+    .healthy-status-details-detail {
+      flex: 1;
+      border-left: 1px solid #D8D8D8;
+      text-align: left;
+      padding: 0 20px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+      &:first-child {
+        border-left: 0;
+        padding-left: 0;
+      }
+      &:last-child{
+        padding-right: 0px;
+      }
+      .healthy-status-details-detail-data {
+        font-size: 20px;
+        color: #0580F2;
+      }
+      .over-threshold{
+        color: #EF5350;
+      }
+      .healthy-status-details-detail-text {
+        font-size: 14px;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@
  * @param icon     icon html eg:<i class="next-icon next-icon-server"></i>
  * @param title    标题
  * @param subTitle 副标题
+ * 注意：由于整块卡片可点击，故该组件使用时无需放入任何Panel、Item
  * */
 'use strict';
 
