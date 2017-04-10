@@ -1,11 +1,14 @@
 .rect-link{
-  height: 54px;
-  min-width: 54px;
+  height: 94px;
+  min-width: 94px;
   width: 100%;
   position: relative;
+  cursor: pointer;
+  padding: 20px;
+  background-color: #FFFFFF;
   .rect-link-left{
     position: absolute;
-    left: 0;
+    left: 20px;
     width: 54px;
     height: 54px;
     background-color: #0580F2;

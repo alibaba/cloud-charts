@@ -48,9 +48,7 @@ class App extends React.Component {
         <h3>示例</h3>
         <Row>
           <Col span="4">
-          <Panel>
-              <RectLink title="OSD" subTitle="db.zhangbei.na61.1"/>
-          </Panel>
+            <RectLink title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
           </Col>
         </Row>
         <Row>
