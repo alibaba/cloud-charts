@@ -11,7 +11,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import './index.scss';
-import { Icon } from '@alife/aisc/build/aisc';
+import { Icon } from '@alife/aisc';
 
 class RectLink extends React.Component {
   static propTypes = {
