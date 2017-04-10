@@ -1,0 +1,29 @@
+.react-link{
+  height: 94px;
+  min-width: 94px;
+  position: relative;
+  .react-link-left{
+    position: absolute;
+    left: 0;
+    .react-link-icon{
+      margin: 20px;
+      background-color: #0580F2;
+      border-radius: 54px;
+    }
+  }
+  .react-link-right{
+    font-size: 14px;
+    position: absolute;
+    left: 94px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+    margin: 26px 20px 28px 0;
+    .react-link-title{
+      color: #333333;
+    }
+    .react-link-sub-title{
+      color: #999999;
+    }
+  }
+}
