@@ -6,6 +6,7 @@ const { Item, TitleSub } = Panel;
 
 import Tops from './mods/tops';
 import Clusters from './mods/clusters';
+import TopList from './mods/topList';
 const data = {
   data0: {
     ratio: 0,
@@ -75,6 +76,19 @@ class App extends React.Component {
         <Row>
           <Col span="24">
             <Tops />
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
+            <Panel>
+              <Item>
+                <TopList />
+              </Item>
+              <Item>
+              </Item>
+              <Item>
+              </Item>
+            </Panel>
           </Col>
         </Row>
         <Row>

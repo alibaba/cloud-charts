@@ -40,7 +40,9 @@
   "tnpm": {
     "mode": "npminstall"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@alife/aisc": "^2.2.11"
+  },
   "devDependencies": {
     "glob": "^7.0.3",
     "lodash": "^4.12.0",
