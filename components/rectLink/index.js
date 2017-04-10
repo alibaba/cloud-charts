@@ -35,19 +35,19 @@ class RectLink extends React.Component {
   render() {
     let title = this.props.title || 'title';
     let subTitle = this.props.subTitle || 'subTitle';
-    let icon = this.props.icon || (<Icon type="ais" />);
+    let icon = this.props.icon || (<Icon type="ais" size="large"/>);
     return (
-      <div className="react-link" onClick={this.onClick}>
-        <div className="react-link-left">
-          <div className="react-link-icon">
+      <div className="rect-link" onClick={this.onClick}>
+        <div className="rect-link-left">
+          <div className="rect-link-icon">
             {icon}
           </div>
         </div>
-        <div className="react-link-right">
-          <div className="react-link-title">
+        <div className="rect-link-right">
+          <div className="rect-link-title overflow-ellipsis">
             {title}
           </div>
-          <div className="react-link-sub-title">
+          <div className="rect-link-sub-title overflow-ellipsis">
             {subTitle}
           </div>
         </div>

@@ -5,3 +5,4 @@ export StateIndex from '../components/stateIndex/index';
 export RankList from '../components/rankList/index';
 export TopList from '../components/topList/index';
 export TableList from '../components/tableList/index';
+export RectLink from '../components/rectLink/index';

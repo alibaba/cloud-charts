@@ -1,29 +1,37 @@
-.react-link{
-  height: 94px;
-  min-width: 94px;
+.rect-link{
+  height: 54px;
+  min-width: 54px;
+  width: 100%;
   position: relative;
-  .react-link-left{
+  .rect-link-left{
     position: absolute;
     left: 0;
-    .react-link-icon{
-      margin: 20px;
-      background-color: #0580F2;
-      border-radius: 54px;
+    width: 54px;
+    height: 54px;
+    background-color: #0580F2;
+    border-radius: 54px;
+    .rect-link-icon{
+      color: #FFFFFF;
+      text-align: center;
+      height: 54px;
+      line-height: 54px;
     }
   }
-  .react-link-right{
+  .rect-link-right{
+    width: 100%;
+    padding-left: 74px;
     font-size: 14px;
-    position: absolute;
-    left: 94px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space:nowrap;
-    margin: 26px 20px 28px 0;
-    .react-link-title{
+    margin: 6px 0 8px 0;
+    .rect-link-title{
       color: #333333;
     }
-    .react-link-sub-title{
+    .rect-link-sub-title{
       color: #999999;
+    }
+    .overflow-ellipsis{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
     }
   }
 }

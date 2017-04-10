@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList } from '@alife/p2widgets';
+import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
 import Tops from './mods/tops';
 import Clusters from './mods/clusters';
 import TopList from './mods/topList';
+
 const data = {
   data0: {
     ratio: 0,
@@ -45,6 +46,13 @@ class App extends React.Component {
     return (
       <div className="p2-chart-demo">
         <h3>示例</h3>
+        <Row>
+          <Col span="4">
+          <Panel>
+              <RectLink title="OSD" subTitle="db.zhangbei.na61.1"/>
+          </Panel>
+          </Col>
+        </Row>
         <Row>
           <Col span="10">
             <Panel title="机器数据指标">
