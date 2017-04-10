@@ -1,9 +1,10 @@
 /*
- * @description    健康状态
- * @param monitorTitle array 标题、副标题  default ["Status", "Monitors in Quorum"]
- * @param monitorData array 标题、副标题对应值 default ["Healthy", 0]
- * @param detailsTitle array item个数以传入的文案数为准 default ["OSD in","OSD out", "OSD up", "OSD down"]
- * @param detailsData array default ["-", "-", "-", "-"]
+ * @description 健康状态 
+ * @param titles object 标题、副标题  
+ * @param titlesData object 标题、副标题对应值  标题值可点击
+ * @param details array 详情：包含文案、数据
+ * @param healthy func 点击标题值
+ * 默认值见defaultProps
  * */
 'use strict';
 
@@ -11,49 +12,99 @@ import React from 'react';
 import classNames from 'classnames';
 import './index.scss';
 
-//默认值
-const monitorTitle = ["Status", "Monitors in Quorum"];
-const monitorData = ["Healthy", 0];
-const detailsTitle = ["OSD in","OSD out", "OSD up", "OSD down"];
-const detailsData = ["-", "-", "-", "-"];
-
 class HealthyStatus extends React.Component {
   static propTypes = {
-    monitorTitle: React.PropTypes.array,
-    monitorData: React.PropTypes.array,
-    detailsTitle: React.PropTypes.array,
-    detailsData: React.PropTypes.array
+    titles: React.PropTypes.shape({
+      title: React.PropTypes.string,
+      subTitle: React.PropTypes.string
+    }),
+    titlesData: React.PropTypes.shape({
+      title: React.PropTypes.string,
+      subTitle: React.PropTypes.number
+    }),
+    details: React.PropTypes.arrayOf(React.PropTypes.shape({
+      title: React.PropTypes.string,
+      data: React.PropTypes.number,
+      threshold: React.PropTypes.number
+    })),
+    healthy: React.PropTypes.func
   };
+  
+  static defaultProps = {
+    //默认值
+    titles: {
+      title: "Status",
+      subTitle: "Monitors in Quorum",
+    },
+    // Healthy\Unhealthy
+    titlesData: {
+      title: "Healthy",
+      subTitle: 0
+    },
+    details: [{
+      title: "OSD in",
+      data: 0
+    }, {
+      title: "OSD out",
+      data: 0
+    }, {
+      title: "OSD up",
+      data: 0
+    }, {
+      title: "OSD down",
+      data: 110,
+      threshold: 10,
+    }]
+  }
   
   constructor(props){
     super(props);
+    this.healthy=this.healthy.bind(this);
   }
   
-  onClick(){
-    if(this.props.url){
-      let win = window.open(this.props.url, '_blank');
-      win.focus();
-    }
+  healthy(){
+    this.props.healthy && this.props.healthy();
   }
   
-  render() {
-    let title = this.props.title || 'title';
-    let subTitle = this.props.subTitle || 'subTitle';
-    let icon = this.props.icon || (<Icon type="ais" />);
+  render() {  
+    let titles = this.props.titles;
+    let titlesData = this.props.titlesData;
+    let details = this.props.details;
+
+    let healthyStatus = classNames("healthy-status-title-data", "weight", "ml12", {
+      'healthy': titlesData.title == 'Healthy',
+    });
+    let thresholds = details.map((item) => {
+      let thresholdsClassName = classNames("healthy-status-details-detail-data", {
+        'over-threshold': item.data > item.threshold ? true : false
+      });
+      return thresholdsClassName;
+    })
     return (
-      <div className="react-link" onClick={this.onClick}>
-        <div className="react-link-left">
-          <div className="react-link-icon">
-            {icon}
-          </div>
+      <div className="healthy-status">
+        <div className="healthy-status-title">
+          <span className="healthy-status-title-text" onClick={this.healthy}>{titles.title}</span>
+          <span className={healthyStatus}>{titlesData.title}</span>
         </div>
-        <div className="react-link-right">
-          <div className="react-link-title">
-            {title}
-          </div>
-          <div className="react-link-sub-title">
-            {subTitle}
-          </div>
+        <div className="healthy-status-sub-title">
+          <span className="healthy-status-sub-title-text">{titles.subTitle}</span>
+          <span className="healthy-status-sub-title-data weight ml12 healthy">{titlesData.subTitle}</span>
+        </div>
+        <div className="healthy-status-details">
+          { 
+            details.map((detail, index)=>{
+              return (
+                <div className="healthy-status-details-detail" key={index}>
+                  <div className={thresholds[index]}>
+                  {detail.data}
+                  </div>
+                  <div className="healthy-status-details-detail-text">
+                  {detail.title}
+                  </div>
+                </div>
+              );
+            })
+          }
         </div>
       </div>
     );
