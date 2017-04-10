@@ -103,18 +103,18 @@ class List extends React.Component {
         <div className="title">{this.props.title}</div>
         <div className="content">
           {
-            this.state.domData.map((item, itemIndex) => {
+            this.state.domData.map((group, groupIndex) => {
               return (
-                <div className="top-list-item" key={itemIndex}>
+                <div className="top-list-group" key={groupIndex}>
                   {
-                    item.columns.map((column, colIndex) => {
+                    group.columns.map((column, colIndex) => {
                       const sortCls =
-                        (column.sortable && column.dataIndex === item.sortIndex) ?
+                        (column.sortable && column.dataIndex === group.sortIndex) ?
                           'top-list-column-sort' : '';
                       return (
                         <div className={`top-list-column ${sortCls}`} key={colIndex}>
                           <div className="top-list-column-title">{column.title}</div>
-                          {this.renderCell(column, item.dataSource)}
+                          {this.renderCell(column, group.dataSource)}
                         </div>
                       );
                     })
@@ -129,54 +129,20 @@ class List extends React.Component {
   }
 }
 
-class Item extends React.Component {
+class Group extends React.Component {
   render() {
-    return (
-      <div className="top-list-item">
-        {
-          React.Children.map(this.props.children, (child) => {
-            child.props.dataSource = this.props.dataSource;
-            return child;
-          })
-        }
-      </div>
-    );
+    return null;
   }
 }
 
 class Column extends React.Component {
-  renderContent() {
-    let data = this.props.dataSource || [];
-    if (this.props.sortable) {
-      data.sort(this.props.sort || undefined);
-    }
-
-    const topLimit = this.props.topLimit || 10;
-    data = data.slice(0, topLimit);
-
-    return data.map((d, i) => {
-      const value = this.props.dataIndex ? d[this.props.dataIndex] : d;
-      return (
-        <div className="top-list-item-column-cell" key={i}>
-          {this.props.cell(value, i, d) || emptyRender(value)}
-        </div>
-      );
-    });
-  }
-
   render() {
-    return (
-      <div className="top-list-item-column">
-        <div className="title">{this.props.title}</div>
-        {this.renderContent()}
-        <div className="content"></div>
-      </div>
-    );
+    return null;
   }
 }
 
-Item.Column = Column;
+Group.Column = Column;
 
-List.Item = Item;
+List.Group = Group;
 
 export default List;

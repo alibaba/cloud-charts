@@ -10,21 +10,21 @@ for (let i = 0; i < 20; i++) {
   });
 }
 
-class TopList extends React.Component {
+class TwinTopList extends React.Component {
   render() {
     return (
       <TopList title="带宽 TOP10" dataSource={data}>
-        <TopList.Item>
-          <TopList.Item.Column title="Send" dataIndex="send" sortable />
-          <TopList.Item.Column title="机器名" dataIndex="ip" />
-        </TopList.Item>
-        <TopList.Item>
-          <TopList.Item.Column title="Receive" dataIndex="receive" sortable />
-          <TopList.Item.Column title="机器名" dataIndex="ip" />
-        </TopList.Item>
+        <TopList.Group>
+          <TopList.Group.Column title="Send" dataIndex="send" sortable />
+          <TopList.Group.Column title="机器名" dataIndex="ip" />
+        </TopList.Group>
+        <TopList.Group>
+          <TopList.Group.Column title="Receive" dataIndex="receive" sortable />
+          <TopList.Group.Column title="机器名" dataIndex="ip" />
+        </TopList.Group>
       </TopList>
     );
   }
 }
 
-export default TopList;
+export default TwinTopList;
