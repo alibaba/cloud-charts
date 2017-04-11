@@ -1,6 +1,10 @@
 # Changelog 
 
 
+## 0.1.2 / 2017-04-11 
+
+  * [[265644f](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/265644f256b75e821cbbc38e25bff78707853303)] - `feat` 去除tnpm引用的scss编译 
+
 ## 0.1.1 / 2017-04-11 
 
   * [[21f69e2](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/21f69e2083cbcb365dc73774a6b52db2256012d1)] - `feat` build 0.1.1 
