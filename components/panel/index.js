@@ -24,14 +24,17 @@ class Pannel extends React.Component {
         realChildren.push(child);
       }
     });
-    
+
     let nodeTitle = null;
     if(title) nodeTitle = (<h4>{title}{nodeTitleSub}</h4>);
-    
+
+    let containerCls = 'p2-pannel-container';
+    if(realChildren.length) containerCls += ' p2-pannel-share-' + realChildren.length;
+
     return (
       <div className={classes}>
         {nodeTitle}
-        <div className="p2-pannel-container">
+        <div className={containerCls}>
           {realChildren}
         </div>
       </div>
