@@ -101,19 +101,7 @@ class App extends React.Component {
             <Tops />
           </Col>
         </Row>
-        <Row>
-          <Col span="24">
-            <Panel>
-              <Item>
-                <TopList />
-              </Item>
-              <Item>
-              </Item>
-              <Item>
-              </Item>
-            </Panel>
-          </Col>
-        </Row>
+        <TopList />
         <Row>
           <Col span="24">
             <Clusters />

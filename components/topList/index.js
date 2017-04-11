@@ -1,25 +1,51 @@
 'use strict';
 
 import React from 'react';
+import classnames from 'classnames';
 import './index.scss';
 
 function emptyRender(v) {
   return v;
 }
 
+const alignTypes = {
+  left: true,
+  center: true,
+  right: true
+};
+
 class List extends React.Component {
-  state = {
-    domData: []
-  };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      domData: [],
+      activeKey: props.activeKey || ''
+    };
+  }
+
+  //点击顶部tab
+  handleTabClick(group, isActive, e) {
+    if (isActive) {
+      return;
+    }
+
+    this.setState({
+      activeKey: group.tabKey
+    });
+  }
+
+  //计算组件所需要的数据
   normalizeChildren(props) {
-
     const domData = React.Children.map(props.children, (child) => {
       const result = {
+        title: child.props.title || '',
+        width: child.props.width,
+        align: child.props.align,
+        tabKey: child.props.tabKey || child.props.title || '',
         columns: [],
         // sortIndex: null
       };
-      console.log(child)
 
       const keys = [];
       let sortIndex;
@@ -56,8 +82,9 @@ class List extends React.Component {
       //排序
       if (sortIndex) {
         if (!sortFunc) {
+          //默认降序排列
           sortFunc = (a, b) => {
-            return a[sortIndex] - b[sortIndex]
+            return b[sortIndex] - a[sortIndex]
           }
         }
         newData.sort(sortFunc);
@@ -73,7 +100,6 @@ class List extends React.Component {
       return result;
     });
 
-    console.log(domData);
     this.setState({
       domData: domData || []
     });
@@ -83,49 +109,110 @@ class List extends React.Component {
     this.normalizeChildren(this.props);
   }
 
-  renderCell(column, data) {
+  componentWillReceiveProps(nextProps) {
+    this.normalizeChildren(nextProps);
+  }
+
+  //渲染单元格
+  renderCell(column, data, sortable) {
     const cell = column.cell || emptyRender;
 
     return data.map((d, i) => {
       const value = column.dataIndex ? d[column.dataIndex] : d;
-      const cellCls = i < 3 ? 'top-list-column-cell-color' : '';
+      const cellCls = classnames('top-list-column-cell', {
+        'top-list-column-cell-color': i < 3 && sortable
+      });
       return (
-        <div className={`top-list-column-cell ${cellCls}`} key={i}>
+        <div className={cellCls} key={i}>
           {cell(value, i, d)}
         </div>
       );
     });
   }
 
-  render() {
+  //渲染组
+  renderGroup = (group, groupIndex) => {
+    const groupAlignCls = (group.align && alignTypes[group.align]) ? `top-list-align-${group.align}` : '';
+    const groupStyle = {};
+    if (group.width) {
+      groupStyle.width = group.width;
+    }
+    const groupCls = classnames('top-list-group', {
+      'top-list-fix-width': group.width,
+    }, groupAlignCls);
     return (
-      <div className="top-list">
-        <div className="title">{this.props.title}</div>
-        <div className="content">
-          {
-            this.state.domData.map((group, groupIndex) => {
-              return (
-                <div className="top-list-group" key={groupIndex}>
-                  {
-                    group.columns.map((column, colIndex) => {
-                      const sortCls =
-                        (column.sortable && column.dataIndex === group.sortIndex) ?
-                          'top-list-column-sort' : '';
-                      return (
-                        <div className={`top-list-column ${sortCls}`} key={colIndex}>
-                          <div className="top-list-column-title">{column.title}</div>
-                          {this.renderCell(column, group.dataSource)}
-                        </div>
-                      );
-                    })
-                  }
-                </div>
-              );
-            })
-          }
-        </div>
+      <div className={groupCls} style={groupStyle} key={groupIndex}>
+        {
+          group.columns.map((column, colIndex) => {
+            const isSort = column.sortable && column.dataIndex === group.sortIndex;
+            const columnAlignCls = (column.align && alignTypes[column.align]) ? `top-list-align-${column.align}` : '';
+            const columnStyle = {};
+            if (column.width) {
+              columnStyle.width = column.width;
+            }
+            const columnCls = classnames('top-list-column', {
+              'top-list-fix-width': column.width,
+              'top-list-column-sort': isSort
+            }, columnAlignCls);
+            return (
+              <div className={columnCls} style={columnStyle} key={colIndex}>
+                <div className="top-list-column-title">{column.title}</div>
+                {this.renderCell(column, group.dataSource, isSort)}
+              </div>
+            );
+          })
+        }
       </div>
     );
+  };
+
+  render() {
+    //顶部标题样式
+    const alignCls = (this.props.titleAlign && alignTypes[this.props.titleAlign]) ? `top-list-align-${this.props.titleAlign}` : '';
+    const titleCls = classnames('top-list-title', alignCls);
+
+    if (this.props.tabMode) {
+      //Tab模式
+      return (
+        <div className="top-list">
+          <div className="top-list-header">
+            <div className={titleCls}>{this.props.title}</div>
+            {
+              this.state.domData.map((group, i) => {
+                const isActive = group.tabKey === this.state.activeKey || !this.state.activeKey && i === 0;
+                const tabCls = classnames('top-list-tab-key', {
+                  'active': isActive
+                });
+                return (
+                  <div className={tabCls} key={i} onClick={this.handleTabClick.bind(this, group, isActive)}>{group.title}</div>
+                );
+              })
+            }
+          </div>
+          <div className="top-list-content">
+            {
+              this.state.domData.filter((group, i) => {
+                return group.tabKey === this.state.activeKey || !this.state.activeKey && i === 0;
+              }).map(this.renderGroup)
+            }
+          </div>
+        </div>
+      );
+    } else {
+      //平铺模式
+      return (
+        <div className="top-list">
+          <div className="top-list-header">
+            <div className={titleCls}>{this.props.title}</div>
+          </div>
+          <div className="top-list-content">
+            {
+              this.state.domData.map(this.renderGroup)
+            }
+          </div>
+        </div>
+      );
+    }
   }
 }
 
