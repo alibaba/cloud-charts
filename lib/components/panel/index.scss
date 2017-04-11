@@ -1,0 +1,36 @@
+.p2-pannel{
+  background: #fff;
+  padding: 20px 15px;
+  height: 100%;
+
+  h4{
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    margin: 0 5px 15px;
+    border-bottom: 1px solid #DCDEE3;
+    line-height: 25px;
+
+    .p2-pannel-titlesub{
+      float: right;
+      height: 35px;
+    }
+  }
+
+  .p2-pannel-container{
+    display: flex;
+    position: relative;
+
+    .p2-pannel-item{
+      flex: 1 1 auto;
+      padding: 0 5px;
+    }
+
+    &.p2-pannel-share-1 .p2-pannel-item{width: 100%}
+    &.p2-pannel-share-2 .p2-pannel-item{width: 50%}
+    &.p2-pannel-share-3 .p2-pannel-item{width: 33.333%}
+    &.p2-pannel-share-4 .p2-pannel-item{width: 25%}
+    &.p2-pannel-share-5 .p2-pannel-item{width: 20%}
+    &.p2-pannel-share-6 .p2-pannel-item{width: 16.666%}
+  }
+}

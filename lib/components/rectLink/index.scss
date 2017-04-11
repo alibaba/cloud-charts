@@ -1,0 +1,40 @@
+.rect-link{
+  height: 94px;
+  min-width: 94px;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  padding: 20px;
+  background-color: #FFFFFF;
+  .rect-link-left{
+    position: absolute;
+    left: 20px;
+    width: 54px;
+    height: 54px;
+    background-color: #0580F2;
+    border-radius: 54px;
+    .rect-link-icon{
+      color: #FFFFFF;
+      text-align: center;
+      height: 54px;
+      line-height: 54px;
+    }
+  }
+  .rect-link-right{
+    width: 100%;
+    padding-left: 74px;
+    font-size: 14px;
+    margin: 6px 0 8px 0;
+    .rect-link-title{
+      color: #333333;
+    }
+    .rect-link-sub-title{
+      color: #999999;
+    }
+    .overflow-ellipsis{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+    }
+  }
+}

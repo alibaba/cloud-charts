@@ -1,0 +1,37 @@
+.table-list{
+
+  width: 100%;
+  table-layout: fixed;
+
+  thead{
+    th{
+      background-color: #EBECF0;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 15px 10px;
+      text-align: left;
+    }
+  }
+  tbody{
+    tr{
+      td{
+        font-size: 12px;
+        padding: 15px 10px;
+
+        a,span{
+          font-size: 12px;
+
+          &.table-list-warn{
+            color: #E93A3A;
+          }
+        }
+      }
+      &:nth-child(2n){
+        background-color: #f7f8fa;
+      }
+    }
+  }
+  .table-list-num{
+    text-align: right;
+  }
+}

@@ -1,0 +1,121 @@
+.top-list {
+  line-height: 44px;
+
+  //标题部分
+  .top-list-header {
+    display: flex;
+
+    height: 44px;
+    //text-align: center;
+    font-size: 14px;
+    color: #333;
+    background: #edf3fe;
+  }
+  .top-list-title {
+    flex: 1;
+    padding: 0 12px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .top-list-tab-key {
+    flex: none;
+    padding: 0 8px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition-property: color, border-bottom-color;
+    transition-duration: 0.25s;
+    transition-timing-function: linear;
+
+    &:hover {
+      color: #0580f2;
+    }
+    &.active {
+      color: #0580f2;
+      border-bottom-color: #0580f2;
+    }
+  }
+
+  //大布局
+  .top-list-content {
+    display: flex;
+  }
+
+  .top-list-group {
+    display: flex;
+    flex: 1;
+    padding: 0 4px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .top-list-column {
+    flex: 1;
+    //text-align: right;
+
+    &:first-child {
+      //text-align: left;
+
+      .top-list-column-title,
+      .top-list-column-cell {
+        padding-left: 12px;
+      }
+    }
+
+    &:last-child {
+      .top-list-column-title,
+      .top-list-column-cell {
+        padding-right: 12px;
+      }
+    }
+  }
+
+  .top-list-fix-width {
+    flex: 0 0 auto;
+  }
+  .top-list-column-sort {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0580f2;
+  }
+  .top-list-align-left {
+    text-align: left;
+  }
+  .top-list-align-center {
+    text-align: center;
+  }
+  .top-list-align-right {
+    text-align: right;
+  }
+
+  .top-list-column-title {
+    height: 44px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .top-list-column-cell {
+    height: 44px;
+    padding: 0 6px;
+    //color: #0580f2;
+
+    &:nth-child(even) {
+      background: #f6f8fc;
+    }
+  }
+
+  .top-list-column-cell-color {
+    color: #ef5350;
+  }
+
+}
+
+
+
