@@ -1,0 +1,33 @@
+.rank-list h5 {
+  background-color: #EBECF0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 0;
+  height: 44px;
+  line-height: 42px; }
+
+.rank-list .rank-list-ol .rank-list-li {
+  display: flex;
+  position: relative;
+  padding: 0 7px; }
+  .rank-list .rank-list-ol .rank-list-li .rank-list-li-col {
+    padding: 15px 7px;
+    flex-grow: 1;
+    font-size: 12px;
+    line-height: 18px; }
+    .rank-list .rank-list-ol .rank-list-li .rank-list-li-col a, .rank-list .rank-list-ol .rank-list-li .rank-list-li-col span {
+      font-size: 12px; }
+    .rank-list .rank-list-ol .rank-list-li .rank-list-li-col .rank-list-li-bigger {
+      font-family: "Helvetica Nene", "Helvetica";
+      font-weight: bold;
+      font-size: 14px;
+      color: #0580F2; }
+  .rank-list .rank-list-ol .rank-list-li:nth-child(2n) {
+    background-color: #f7f8fa; }
+  .rank-list .rank-list-ol .rank-list-li .rank-list-li-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #ffffff, #0580F2);
+    height: 2px; }

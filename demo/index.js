@@ -67,8 +67,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(107);
-	module.exports = __webpack_require__(198);
+	__webpack_require__(96);
+	module.exports = __webpack_require__(187);
 
 
 /***/ },
@@ -3677,47 +3677,47 @@
 	});
 	exports.LoadProgress = exports.UsageRateRing = exports.HealthyStatus = exports.RectLink = exports.TableList = exports.TopList = exports.RankList = exports.StateIndex = exports.CapacityIndex = exports.Panel = exports.Grid = undefined;
 
-	var _index = __webpack_require__(188);
+	var _index = __webpack_require__(192);
 
 	var _index2 = _interopRequireDefault(_index);
 
-	var _index3 = __webpack_require__(191);
+	var _index3 = __webpack_require__(195);
 
 	var _index4 = _interopRequireDefault(_index3);
 
-	var _index5 = __webpack_require__(187);
+	var _index5 = __webpack_require__(191);
 
 	var _index6 = _interopRequireDefault(_index5);
 
-	var _index7 = __webpack_require__(194);
+	var _index7 = __webpack_require__(198);
 
 	var _index8 = _interopRequireDefault(_index7);
 
-	var _index9 = __webpack_require__(192);
+	var _index9 = __webpack_require__(196);
 
 	var _index10 = _interopRequireDefault(_index9);
 
-	var _index11 = __webpack_require__(196);
+	var _index11 = __webpack_require__(200);
 
 	var _index12 = _interopRequireDefault(_index11);
 
-	var _index13 = __webpack_require__(195);
+	var _index13 = __webpack_require__(199);
 
 	var _index14 = _interopRequireDefault(_index13);
 
-	var _index15 = __webpack_require__(193);
+	var _index15 = __webpack_require__(197);
 
 	var _index16 = _interopRequireDefault(_index15);
 
-	var _index17 = __webpack_require__(189);
+	var _index17 = __webpack_require__(193);
 
 	var _index18 = _interopRequireDefault(_index17);
 
-	var _index19 = __webpack_require__(197);
+	var _index19 = __webpack_require__(201);
 
 	var _index20 = _interopRequireDefault(_index19);
 
-	var _index21 = __webpack_require__(190);
+	var _index21 = __webpack_require__(194);
 
 	var _index22 = _interopRequireDefault(_index21);
 
@@ -68684,6 +68684,808 @@
 
 	'use strict';
 
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(57);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _p2widgets = __webpack_require__(31);
+
+	var _tops = __webpack_require__(190);
+
+	var _tops2 = _interopRequireDefault(_tops);
+
+	var _clusters = __webpack_require__(188);
+
+	var _clusters2 = _interopRequireDefault(_clusters);
+
+	var _topList = __webpack_require__(189);
+
+	var _topList2 = _interopRequireDefault(_topList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var Row = _p2widgets.Grid.Row,
+	    Col = _p2widgets.Grid.Col;
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
+
+
+	var data = {
+	  data0: {
+	    ratio: 0,
+	    quantity: 0,
+	    capacity: 0
+	  },
+	  data1: {
+	    ratio: 0.46,
+	    quantity: 20,
+	    capacity: 32
+	  },
+	  data2: {
+	    ratio: 0.85,
+	    quantity: 200,
+	    capacity: 128
+	  },
+	  data3: {
+	    total: 512,
+	    down: 23,
+	    out: 0
+	  },
+	  data4: {
+	    total: 128,
+	    down: 0,
+	    out: 10
+	  },
+	  data5: {
+	    total: 1024,
+	    down: 0,
+	    out: 0
+	  }
+	};
+
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+
+	  function App() {
+	    _classCallCheck(this, App);
+
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	  }
+
+	  App.prototype.render = function render() {
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: 'p2-chart-demo' },
+	      _react2['default'].createElement(
+	        'h3',
+	        null,
+	        '\u793A\u4F8B'
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '4' },
+	          _react2['default'].createElement(_p2widgets.RectLink, { title: 'OSD', subTitle: 'db.zhangbei.na61.1', url: 'http://aisc.alibaba.net/docs/components/icon/' })
+	        ),
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '9' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            null,
+	            _react2['default'].createElement(_p2widgets.HealthyStatus, null)
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '9' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            null,
+	            _react2['default'].createElement(_p2widgets.UsageRateRing, null)
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '9' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            null,
+	            _react2['default'].createElement(_p2widgets.LoadProgress, null)
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '10' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            { title: '\u673A\u5668\u6570\u636E\u6307\u6807' },
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u6570\u636E\u5E93', data: data.data1 })
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data2 })
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u8682\u8681', data: data.data0 })
+	            )
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '14' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            { title: 'OSD\u6307\u6807' },
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u6570\u636E\u5E93', data: data.data3 })
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data4 })
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u8682\u8681', data: data.data5 })
+	            )
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '24' },
+	          _react2['default'].createElement(_tops2['default'], null)
+	        )
+	      ),
+	      _react2['default'].createElement(_topList2['default'], null),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '24' },
+	          _react2['default'].createElement(_clusters2['default'], null)
+	        )
+	      )
+	    );
+	  };
+
+	  return App;
+	}(_react2['default'].Component);
+
+	_reactDom2['default'].render(_react2['default'].createElement(App, null), document.getElementById('container'));
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\index.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\index.jsx"); } } })();
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _p2widgets = __webpack_require__(31);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
+
+
+	var data = [{
+	  "tenant": "db",
+	  "region": "shanghai",
+	  "site": "et2",
+	  "id": 1,
+	  "pool": 6,
+	  "pg": 24576,
+	  "total_space": 86,
+	  "used_space": 24.6,
+	  "ceph_osd_in_count": 216,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 216,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.9,
+	  "mem_usage": 0.21,
+	  "load": 0.2,
+	  "iops": 0,
+	  "net_receive": 379772,
+	  "net_send": 399600
+	}, {
+	  "tenant": "db",
+	  "region": "zhangbei",
+	  "site": "na61",
+	  "id": 1,
+	  "pool": 1,
+	  "pg": 6144,
+	  "total_space": 365,
+	  "used_space": 180,
+	  "ceph_osd_in_count": 63,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 63,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.4,
+	  "mem_usage": 0.18,
+	  "load": 0.8,
+	  "iops": 0,
+	  "net_receive": 77737,
+	  "net_send": 938930
+	}, {
+	  "tenant": "db",
+	  "region": "shanghai",
+	  "site": "eu13",
+	  "id": 1,
+	  "pool": 1,
+	  "pg": 192,
+	  "total_space": 85,
+	  "used_space": 12,
+	  "ceph_osd_in_count": 216,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 216,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.12,
+	  "mem_usage": 0.80,
+	  "load": 0,
+	  "iops": 0,
+	  "net_receive": 512000,
+	  "net_send": 128000
+	}];
+
+	var cols = [{ name: '集群名', key: 'site', link: 'http://106.11.160.79/dashboard/db/ceph-cluster-summary?var-Cluster=', linkKey: 'link' }, { name: '业务', key: 'tenant_cn', width: 80 }, { name: '地域', key: 'region_cn', width: 80 },
+	//{name: '机器数', key: 'machine', width: 60},
+	{ name: '总存储容量', key: 'total_space', suffix: 'T', width: 100 }, { name: '存储使用率', key: 'percent_space', morethan: 0.8, percent: true, width: 100 }, { name: 'OSD总数(个)', key: 'ceph_osd_total', width: 90 }, { name: 'OSD Down数', key: 'ceph_osd_down_count', width: 100 }, { name: 'OSD Out数', key: 'ceph_osd_out_count', width: 100 }, { name: 'IOPS', key: 'iops', suffix: 'M/s', width: 90 }, { name: '存储池数', key: 'pool', width: 80 }, { name: 'pg数', key: 'pg', width: 80 }, { name: '集群load', key: 'load', width: 80 }];
+
+	var dictionary = {
+	  'middleware': '中间件',
+	  'db': '数据库',
+	  'zhangbei': '张北',
+	  'shanghai': '上海'
+	};
+
+	var tickDur = window._REFRESH || 10;
+
+	var Clusters = function (_React$Component) {
+	  _inherits(Clusters, _React$Component);
+
+	  function Clusters() {
+	    _classCallCheck(this, Clusters);
+
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
+
+	    _this.state = {
+	      data: []
+	    };
+	    return _this;
+	  }
+
+	  Clusters.prototype.componentWillMount = function componentWillMount() {
+	    this.setState({
+	      data: dataHandler(data)
+	    });
+	  };
+
+	  Clusters.prototype.render = function render() {
+	    return _react2['default'].createElement(
+	      _p2widgets.Panel,
+	      null,
+	      _react2['default'].createElement(
+	        Item,
+	        null,
+	        _react2['default'].createElement(_p2widgets.TableList, { cols: cols, data: this.state.data })
+	      )
+	    );
+	  };
+
+	  return Clusters;
+	}(_react2['default'].Component);
+
+	function dataHandler(data) {
+	  var ret = [];
+	  if (Array.isArray(data)) {
+	    ret = data.map(function (d) {
+	      d['percent_space'] = d.total_space ? d.used_space / d.total_space : 0;
+	      d['ceph_osd_total'] = d.ceph_osd_in_count + d.ceph_osd_out_count;
+	      d['load'] = Number(d.load.toFixed(2));
+	      d['tenant_cn'] = dictionary[d['tenant']] || d['tenant'];
+	      d['region_cn'] = dictionary[d['region']] || d['region'];
+	      d['link'] = d.tenant + '.' + d.region + '.' + d.site + '.1';
+	      return d;
+	    });
+	    ret.sort(function (a, b) {
+	      return a.site < b.site ? -1 : 1;
+	    });
+	  }
+	  return ret;
+	}
+
+	exports['default'] = Clusters;
+	module.exports = exports['default'];
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\clusters.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\clusters.jsx"); } } })();
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _p2widgets = __webpack_require__(31);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var Row = _p2widgets.Grid.Row,
+	    Col = _p2widgets.Grid.Col;
+	var Item = _p2widgets.Panel.Item;
+
+
+	var data = [];
+	for (var i = 0; i < 20; i++) {
+	  data.push({
+	    ip: '192.168.101.200',
+	    send: i + 1,
+	    receive: 100 - i,
+	    read: Math.round(Math.random() * 100) + i,
+	    write: Math.round(Math.random() * (100 + i))
+	  });
+	}
+
+	var TwinTopList = function (_React$Component) {
+	  _inherits(TwinTopList, _React$Component);
+
+	  function TwinTopList() {
+	    _classCallCheck(this, TwinTopList);
+
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	  }
+
+	  TwinTopList.prototype.render = function render() {
+	    return _react2['default'].createElement(
+	      'div',
+	      null,
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '24' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            null,
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(
+	                _p2widgets.TopList,
+	                { title: '\u5E26\u5BBD TOP10', dataSource: data },
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  null,
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Send', dataIndex: 'send', sortable: true, cell: function cell(v) {
+	                      return v + 'M/s';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
+	                ),
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  null,
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Receive', dataIndex: 'receive', sortable: true }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
+	                )
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(
+	                _p2widgets.TopList,
+	                { title: 'IOPS TOP10', dataSource: data },
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  null,
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Read', dataIndex: 'read', sortable: true }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip' })
+	                ),
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  null,
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Write', dataIndex: 'write', sortable: true }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
+	                )
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(
+	                _p2widgets.TopList,
+	                { title: '\u541E\u5410 TOP10', dataSource: data },
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { width: 'auto' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Send', dataIndex: 'send', sortable: true, align: 'right' }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'left' })
+	                ),
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { align: 'right' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Receive', dataIndex: 'receive', sortable: true }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip' })
+	                )
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
+	        _react2['default'].createElement(
+	          Col,
+	          { span: '24' },
+	          _react2['default'].createElement(
+	            _p2widgets.Panel,
+	            null,
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(
+	                _p2widgets.TopList,
+	                { title: '\u6162\u76D8 TOP10', dataSource: data, titleAlign: 'left' },
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { title: '\u6162\u76D8' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u6162\u76D8', dataIndex: 'read', sortable: true, cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } })
+	                )
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              Item,
+	              null,
+	              _react2['default'].createElement(
+	                _p2widgets.TopList,
+	                { title: '\u6162\u76D8 TOP10', dataSource: data, tabMode: true, titleAlign: 'left' },
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { title: 'OP latency' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OP latency', dataIndex: 'read', sortable: true, cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } })
+	                ),
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { title: 'Apply latency' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Apply latency', dataIndex: 'write', sortable: true, cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } })
+	                ),
+	                _react2['default'].createElement(
+	                  _p2widgets.TopList.Group,
+	                  { title: 'Journal latency' },
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Journal latency', dataIndex: 'send', sortable: true, cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } }),
+	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
+	                      return v + 'ms';
+	                    } })
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    );
+	  };
+
+	  return TwinTopList;
+	}(_react2['default'].Component);
+
+	exports['default'] = TwinTopList;
+	module.exports = exports['default'];
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\topList.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\topList.jsx"); } } })();
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _p2widgets = __webpack_require__(31);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var Item = _p2widgets.Panel.Item,
+	    TitleSub = _p2widgets.Panel.TitleSub;
+
+
+	var cols = [{ key: 'value', cls: 'bigger', isIndex: true, width: 60 }, { key: 'site', link: 'http://106.11.160.79/dashboard/db/ceph-cluster-summary?var-Cluster=', linkKey: 'link' }, { key: 'tenant_cn', width: 50 }, { key: 'region_cn', width: 50 }];
+	var cols1 = mergeArr(cols, [{ key: 'cpu', percent: true }]);
+	var cols2 = mergeArr(cols, [{ key: 'memory', percent: true }]);
+	var cols3 = mergeArr(cols, [{ key: 'net', suffix: 'MB', width: 80 }]);
+	var cols4 = mergeArr(cols, [{ key: 'io' }]);
+
+	var dictionary = {
+	  'middleware': '中间件',
+	  'db': '数据库',
+	  'zhangbei': '张北',
+	  'shanghai': '上海'
+	};
+
+	var data = [{
+	  "tenant": "db",
+	  "region": "shanghai",
+	  "site": "et2",
+	  "id": 1,
+	  "pool": 6,
+	  "pg": 24576,
+	  "total_space": 86,
+	  "used_space": 24.6,
+	  "ceph_osd_in_count": 216,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 216,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.9,
+	  "mem_usage": 0.21,
+	  "load": 0.2,
+	  "iops": 0,
+	  "net_receive": 379772,
+	  "net_send": 399600
+	}, {
+	  "tenant": "db",
+	  "region": "zhangbei",
+	  "site": "na61",
+	  "id": 1,
+	  "pool": 1,
+	  "pg": 6144,
+	  "total_space": 365,
+	  "used_space": 180,
+	  "ceph_osd_in_count": 63,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 63,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.4,
+	  "mem_usage": 0.18,
+	  "load": 0.8,
+	  "iops": 0,
+	  "net_receive": 77737,
+	  "net_send": 938930
+	}, {
+	  "tenant": "db",
+	  "region": "shanghai",
+	  "site": "eu13",
+	  "id": 1,
+	  "pool": 1,
+	  "pg": 192,
+	  "total_space": 85,
+	  "used_space": 12,
+	  "ceph_osd_in_count": 216,
+	  "ceph_osd_out_count": 0,
+	  "ceph_osd_up_count": 216,
+	  "ceph_osd_down_count": 0,
+	  "cpu_usage": 0.12,
+	  "mem_usage": 0.80,
+	  "load": 0,
+	  "iops": 0,
+	  "net_receive": 512000,
+	  "net_send": 128000
+	}];
+
+	var Tops = function (_React$Component) {
+	  _inherits(Tops, _React$Component);
+
+	  function Tops() {
+	    _classCallCheck(this, Tops);
+
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
+
+	    _this.state = {
+	      data1: [],
+	      data2: [],
+	      data3: [],
+	      data4: []
+	    };
+	    return _this;
+	  }
+
+	  Tops.prototype.componentWillMount = function componentWillMount() {
+	    var newData = dataHandler(data);
+	    this.setState({
+	      data1: dataSort(data, cols1),
+	      data2: dataSort(data, cols2),
+	      data3: dataSort(data, cols3),
+	      data4: dataSort(data, cols4)
+	    });
+	  };
+
+	  Tops.prototype.render = function render() {
+	    return _react2['default'].createElement(
+	      _p2widgets.Panel,
+	      null,
+	      _react2['default'].createElement(
+	        Item,
+	        null,
+	        _react2['default'].createElement(_p2widgets.RankList, { title: 'CPU\u4F7F\u7528\u7387Top10', data: this.state.data1, cols: cols1 })
+	      ),
+	      _react2['default'].createElement(
+	        Item,
+	        null,
+	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u5185\u5B58\u4F7F\u7528\u7387Top10', data: this.state.data2, cols: cols2 })
+	      ),
+	      _react2['default'].createElement(
+	        Item,
+	        null,
+	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u7F51\u7EDC\u5E26\u5BBD\u4F7F\u7528\u91CFTop10', data: this.state.data3, cols: cols3 })
+	      ),
+	      _react2['default'].createElement(
+	        Item,
+	        null,
+	        _react2['default'].createElement(_p2widgets.RankList, { title: 'IOPS\u4F7F\u7528\u91CFTop10', data: this.state.data4, cols: cols4 })
+	      )
+	    );
+	  };
+
+	  return Tops;
+	}(_react2['default'].Component);
+
+	function dataHandler(data) {
+	  var ret = [];
+	  if (Array.isArray(data)) {
+	    ret = data.map(function (d) {
+	      d['cpu'] = d.cpu_usage;
+	      d['memory'] = d.mem_usage;
+	      d['net'] = Math.round((d.net_receive + d.net_send) / 1024);
+	      d['io'] = d.iops;
+	      d['tenant_cn'] = dictionary[d['tenant']] || d['tenant'];
+	      d['region_cn'] = dictionary[d['region']] || d['region'];
+	      d['link'] = d.tenant + '.' + d.region + '.' + d.site + '.1';
+	    });
+	  }
+	  return ret;
+	}
+
+	function dataSort(data, cols) {
+	  var dt = JSON.parse(JSON.stringify(data)); //纯值类型数组拷贝
+	  var key = '';
+	  cols.forEach(function (item) {
+	    if (item.isIndex) key = item.key;
+	  });
+	  if (!key) return dt;
+	  dt.sort(function (a, b) {
+	    return a[key] > b[key] ? -1 : 1;
+	  });
+	  return dt;
+	}
+
+	function mergeArr(oriArr, newArr) {
+	  var arr = JSON.parse(JSON.stringify(oriArr)); //纯值类型数组拷贝
+	  newArr.forEach(function (item, i) {
+	    if (item) arr[i] = _extends(arr[i], item);
+	  });
+	  return arr;
+	}
+
+	exports['default'] = Tops;
+	module.exports = exports['default'];
+
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\tops.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\tops.jsx"); } } })();
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -68696,7 +69498,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(96);
+	__webpack_require__(97);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -68827,10 +69629,10 @@
 	exports['default'] = CapacityIndex;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\capacityIndex\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\capacityIndex\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\capacityIndex\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\capacityIndex\\index.js"); } } })();
 
 /***/ },
-/* 188 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -68851,7 +69653,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(97);
+	__webpack_require__(98);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -68932,10 +69734,10 @@
 	};
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\grid\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\grid\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\grid\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\grid\\index.js"); } } })();
 
 /***/ },
-/* 189 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -68960,7 +69762,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(98);
+	__webpack_require__(99);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69105,10 +69907,10 @@
 	exports['default'] = HealthyStatus;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\healthyStatus\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\healthyStatus\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\healthyStatus\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\healthyStatus\\index.js"); } } })();
 
 /***/ },
-/* 190 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -69132,7 +69934,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(99);
+	__webpack_require__(100);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69255,10 +70057,10 @@
 	exports['default'] = LoadProgress;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\loadProgress\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\loadProgress\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\loadProgress\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\loadProgress\\index.js"); } } })();
 
 /***/ },
-/* 191 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69277,7 +70079,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(100);
+	__webpack_require__(101);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69413,10 +70215,10 @@
 	exports['default'] = Pannel;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\panel\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\panel\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\panel\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\panel\\index.js"); } } })();
 
 /***/ },
-/* 192 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69433,7 +70235,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(101);
+	__webpack_require__(102);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69562,10 +70364,10 @@
 	exports['default'] = RankList;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\rankList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\rankList\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\rankList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\rankList\\index.js"); } } })();
 
 /***/ },
-/* 193 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -69590,7 +70392,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(102);
+	__webpack_require__(103);
 
 	var _aisc = __webpack_require__(83);
 
@@ -69668,10 +70470,10 @@
 	exports['default'] = RectLink;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\rectLink\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\rectLink\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\rectLink\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\rectLink\\index.js"); } } })();
 
 /***/ },
-/* 194 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69688,7 +70490,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(103);
+	__webpack_require__(104);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69824,10 +70626,10 @@
 	exports['default'] = StateIndex;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\stateIndex\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\stateIndex\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\stateIndex\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\stateIndex\\index.js"); } } })();
 
 /***/ },
-/* 195 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69844,7 +70646,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(104);
+	__webpack_require__(105);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -69969,10 +70771,10 @@
 	exports['default'] = TableList;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\tableList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\tableList\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\tableList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\tableList\\index.js"); } } })();
 
 /***/ },
-/* 196 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -69991,7 +70793,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(105);
+	__webpack_require__(106);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -70284,10 +71086,10 @@
 	exports['default'] = List;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\topList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\topList\\index.js"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\topList\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\topList\\index.js"); } } })();
 
 /***/ },
-/* 197 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -70311,7 +71113,7 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	__webpack_require__(106);
+	__webpack_require__(107);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -70506,809 +71308,7 @@
 	exports['default'] = UsageRateRing;
 	module.exports = exports['default'];
 
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\components\\usageRateRing\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\usageRateRing\\index.js"); } } })();
-
-/***/ },
-/* 198 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(57);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _p2widgets = __webpack_require__(31);
-
-	var _tops = __webpack_require__(201);
-
-	var _tops2 = _interopRequireDefault(_tops);
-
-	var _clusters = __webpack_require__(199);
-
-	var _clusters2 = _interopRequireDefault(_clusters);
-
-	var _topList = __webpack_require__(200);
-
-	var _topList2 = _interopRequireDefault(_topList);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var Row = _p2widgets.Grid.Row,
-	    Col = _p2widgets.Grid.Col;
-	var Item = _p2widgets.Panel.Item,
-	    TitleSub = _p2widgets.Panel.TitleSub;
-
-
-	var data = {
-	  data0: {
-	    ratio: 0,
-	    quantity: 0,
-	    capacity: 0
-	  },
-	  data1: {
-	    ratio: 0.46,
-	    quantity: 20,
-	    capacity: 32
-	  },
-	  data2: {
-	    ratio: 0.85,
-	    quantity: 200,
-	    capacity: 128
-	  },
-	  data3: {
-	    total: 512,
-	    down: 23,
-	    out: 0
-	  },
-	  data4: {
-	    total: 128,
-	    down: 0,
-	    out: 10
-	  },
-	  data5: {
-	    total: 1024,
-	    down: 0,
-	    out: 0
-	  }
-	};
-
-	var App = function (_React$Component) {
-	  _inherits(App, _React$Component);
-
-	  function App() {
-	    _classCallCheck(this, App);
-
-	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
-	  }
-
-	  App.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      'div',
-	      { className: 'p2-chart-demo' },
-	      _react2['default'].createElement(
-	        'h3',
-	        null,
-	        '\u793A\u4F8B'
-	      ),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '4' },
-	          _react2['default'].createElement(_p2widgets.RectLink, { title: 'OSD', subTitle: 'db.zhangbei.na61.1', url: 'http://aisc.alibaba.net/docs/components/icon/' })
-	        ),
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '9' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            null,
-	            _react2['default'].createElement(_p2widgets.HealthyStatus, null)
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '9' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            null,
-	            _react2['default'].createElement(_p2widgets.UsageRateRing, null)
-	          )
-	        ),
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '9' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            null,
-	            _react2['default'].createElement(_p2widgets.LoadProgress, null)
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '10' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            { title: '\u673A\u5668\u6570\u636E\u6307\u6807' },
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u6570\u636E\u5E93', data: data.data1 })
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data2 })
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u8682\u8681', data: data.data0 })
-	            )
-	          )
-	        ),
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '14' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            { title: 'OSD\u6307\u6807' },
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u6570\u636E\u5E93', data: data.data3 })
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u4E2D\u95F4\u4EF6', data: data.data4 })
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(_p2widgets.StateIndex, { title: '\u8682\u8681', data: data.data5 })
-	            )
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '24' },
-	          _react2['default'].createElement(_tops2['default'], null)
-	        )
-	      ),
-	      _react2['default'].createElement(_topList2['default'], null),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '24' },
-	          _react2['default'].createElement(_clusters2['default'], null)
-	        )
-	      )
-	    );
-	  };
-
-	  return App;
-	}(_react2['default'].Component);
-
-	_reactDom2['default'].render(_react2['default'].createElement(App, null), document.getElementById('container'));
-
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\index.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\index.jsx"); } } })();
-
-/***/ },
-/* 199 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _p2widgets = __webpack_require__(31);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var Item = _p2widgets.Panel.Item,
-	    TitleSub = _p2widgets.Panel.TitleSub;
-
-
-	var data = [{
-	  "tenant": "db",
-	  "region": "shanghai",
-	  "site": "et2",
-	  "id": 1,
-	  "pool": 6,
-	  "pg": 24576,
-	  "total_space": 86,
-	  "used_space": 24.6,
-	  "ceph_osd_in_count": 216,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 216,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.9,
-	  "mem_usage": 0.21,
-	  "load": 0.2,
-	  "iops": 0,
-	  "net_receive": 379772,
-	  "net_send": 399600
-	}, {
-	  "tenant": "db",
-	  "region": "zhangbei",
-	  "site": "na61",
-	  "id": 1,
-	  "pool": 1,
-	  "pg": 6144,
-	  "total_space": 365,
-	  "used_space": 180,
-	  "ceph_osd_in_count": 63,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 63,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.4,
-	  "mem_usage": 0.18,
-	  "load": 0.8,
-	  "iops": 0,
-	  "net_receive": 77737,
-	  "net_send": 938930
-	}, {
-	  "tenant": "db",
-	  "region": "shanghai",
-	  "site": "eu13",
-	  "id": 1,
-	  "pool": 1,
-	  "pg": 192,
-	  "total_space": 85,
-	  "used_space": 12,
-	  "ceph_osd_in_count": 216,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 216,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.12,
-	  "mem_usage": 0.80,
-	  "load": 0,
-	  "iops": 0,
-	  "net_receive": 512000,
-	  "net_send": 128000
-	}];
-
-	var cols = [{ name: '集群名', key: 'site', link: 'http://106.11.160.79/dashboard/db/ceph-cluster-summary?var-Cluster=', linkKey: 'link' }, { name: '业务', key: 'tenant_cn', width: 80 }, { name: '地域', key: 'region_cn', width: 80 },
-	//{name: '机器数', key: 'machine', width: 60},
-	{ name: '总存储容量', key: 'total_space', suffix: 'T', width: 100 }, { name: '存储使用率', key: 'percent_space', morethan: 0.8, percent: true, width: 100 }, { name: 'OSD总数(个)', key: 'ceph_osd_total', width: 90 }, { name: 'OSD Down数', key: 'ceph_osd_down_count', width: 100 }, { name: 'OSD Out数', key: 'ceph_osd_out_count', width: 100 }, { name: 'IOPS', key: 'iops', suffix: 'M/s', width: 90 }, { name: '存储池数', key: 'pool', width: 80 }, { name: 'pg数', key: 'pg', width: 80 }, { name: '集群load', key: 'load', width: 80 }];
-
-	var dictionary = {
-	  'middleware': '中间件',
-	  'db': '数据库',
-	  'zhangbei': '张北',
-	  'shanghai': '上海'
-	};
-
-	var tickDur = window._REFRESH || 10;
-
-	var Clusters = function (_React$Component) {
-	  _inherits(Clusters, _React$Component);
-
-	  function Clusters() {
-	    _classCallCheck(this, Clusters);
-
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
-
-	    _this.state = {
-	      data: []
-	    };
-	    return _this;
-	  }
-
-	  Clusters.prototype.componentWillMount = function componentWillMount() {
-	    this.setState({
-	      data: dataHandler(data)
-	    });
-	  };
-
-	  Clusters.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      _p2widgets.Panel,
-	      null,
-	      _react2['default'].createElement(
-	        Item,
-	        null,
-	        _react2['default'].createElement(_p2widgets.TableList, { cols: cols, data: this.state.data })
-	      )
-	    );
-	  };
-
-	  return Clusters;
-	}(_react2['default'].Component);
-
-	function dataHandler(data) {
-	  var ret = [];
-	  if (Array.isArray(data)) {
-	    ret = data.map(function (d) {
-	      d['percent_space'] = d.total_space ? d.used_space / d.total_space : 0;
-	      d['ceph_osd_total'] = d.ceph_osd_in_count + d.ceph_osd_out_count;
-	      d['load'] = Number(d.load.toFixed(2));
-	      d['tenant_cn'] = dictionary[d['tenant']] || d['tenant'];
-	      d['region_cn'] = dictionary[d['region']] || d['region'];
-	      d['link'] = d.tenant + '.' + d.region + '.' + d.site + '.1';
-	      return d;
-	    });
-	    ret.sort(function (a, b) {
-	      return a.site < b.site ? -1 : 1;
-	    });
-	  }
-	  return ret;
-	}
-
-	exports['default'] = Clusters;
-	module.exports = exports['default'];
-
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\clusters.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\clusters.jsx"); } } })();
-
-/***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _p2widgets = __webpack_require__(31);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var Row = _p2widgets.Grid.Row,
-	    Col = _p2widgets.Grid.Col;
-	var Item = _p2widgets.Panel.Item;
-
-
-	var data = [];
-	for (var i = 0; i < 20; i++) {
-	  data.push({
-	    ip: '192.168.101.200',
-	    send: i + 1,
-	    receive: 100 - i,
-	    read: Math.round(Math.random() * 100) + i,
-	    write: Math.round(Math.random() * (100 + i))
-	  });
-	}
-
-	var TwinTopList = function (_React$Component) {
-	  _inherits(TwinTopList, _React$Component);
-
-	  function TwinTopList() {
-	    _classCallCheck(this, TwinTopList);
-
-	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
-	  }
-
-	  TwinTopList.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      'div',
-	      null,
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '24' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            null,
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(
-	                _p2widgets.TopList,
-	                { title: '\u5E26\u5BBD TOP10', dataSource: data },
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  null,
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Send', dataIndex: 'send', sortable: true, cell: function cell(v) {
-	                      return v + 'M/s';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
-	                ),
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  null,
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Receive', dataIndex: 'receive', sortable: true }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
-	                )
-	              )
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(
-	                _p2widgets.TopList,
-	                { title: 'IOPS TOP10', dataSource: data },
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  null,
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Read', dataIndex: 'read', sortable: true }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip' })
-	                ),
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  null,
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Write', dataIndex: 'write', sortable: true }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'right' })
-	                )
-	              )
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(
-	                _p2widgets.TopList,
-	                { title: '\u541E\u5410 TOP10', dataSource: data },
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { width: 'auto' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Send', dataIndex: 'send', sortable: true, align: 'right' }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip', align: 'left' })
-	                ),
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { align: 'right' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Receive', dataIndex: 'receive', sortable: true }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u673A\u5668\u540D', dataIndex: 'ip' })
-	                )
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      _react2['default'].createElement(
-	        Row,
-	        null,
-	        _react2['default'].createElement(
-	          Col,
-	          { span: '24' },
-	          _react2['default'].createElement(
-	            _p2widgets.Panel,
-	            null,
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(
-	                _p2widgets.TopList,
-	                { title: '\u6162\u76D8 TOP10', dataSource: data, titleAlign: 'left' },
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { title: '\u6162\u76D8' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: '\u6162\u76D8', dataIndex: 'read', sortable: true, cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } })
-	                )
-	              )
-	            ),
-	            _react2['default'].createElement(
-	              Item,
-	              null,
-	              _react2['default'].createElement(
-	                _p2widgets.TopList,
-	                { title: '\u6162\u76D8 TOP10', dataSource: data, tabMode: true, titleAlign: 'left' },
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { title: 'OP latency' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OP latency', dataIndex: 'read', sortable: true, cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } })
-	                ),
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { title: 'Apply latency' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Apply latency', dataIndex: 'write', sortable: true, cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } })
-	                ),
-	                _react2['default'].createElement(
-	                  _p2widgets.TopList.Group,
-	                  { title: 'Journal latency' },
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'Journal latency', dataIndex: 'send', sortable: true, cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'OSD\u53F7', dataIndex: 'ip', align: 'right', width: 'auto' }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'commit\u5EF6\u65F6', dataIndex: 'receive', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } }),
-	                  _react2['default'].createElement(_p2widgets.TopList.Group.Column, { title: 'apply', dataIndex: 'send', align: 'right', width: 'auto', cell: function cell(v) {
-	                      return v + 'ms';
-	                    } })
-	                )
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
-	  };
-
-	  return TwinTopList;
-	}(_react2['default'].Component);
-
-	exports['default'] = TwinTopList;
-	module.exports = exports['default'];
-
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\topList.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\topList.jsx"); } } })();
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _p2widgets = __webpack_require__(31);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var Item = _p2widgets.Panel.Item,
-	    TitleSub = _p2widgets.Panel.TitleSub;
-
-
-	var cols = [{ key: 'value', cls: 'bigger', isIndex: true, width: 60 }, { key: 'site', link: 'http://106.11.160.79/dashboard/db/ceph-cluster-summary?var-Cluster=', linkKey: 'link' }, { key: 'tenant_cn', width: 50 }, { key: 'region_cn', width: 50 }];
-	var cols1 = mergeArr(cols, [{ key: 'cpu', percent: true }]);
-	var cols2 = mergeArr(cols, [{ key: 'memory', percent: true }]);
-	var cols3 = mergeArr(cols, [{ key: 'net', suffix: 'MB', width: 80 }]);
-	var cols4 = mergeArr(cols, [{ key: 'io' }]);
-
-	var dictionary = {
-	  'middleware': '中间件',
-	  'db': '数据库',
-	  'zhangbei': '张北',
-	  'shanghai': '上海'
-	};
-
-	var data = [{
-	  "tenant": "db",
-	  "region": "shanghai",
-	  "site": "et2",
-	  "id": 1,
-	  "pool": 6,
-	  "pg": 24576,
-	  "total_space": 86,
-	  "used_space": 24.6,
-	  "ceph_osd_in_count": 216,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 216,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.9,
-	  "mem_usage": 0.21,
-	  "load": 0.2,
-	  "iops": 0,
-	  "net_receive": 379772,
-	  "net_send": 399600
-	}, {
-	  "tenant": "db",
-	  "region": "zhangbei",
-	  "site": "na61",
-	  "id": 1,
-	  "pool": 1,
-	  "pg": 6144,
-	  "total_space": 365,
-	  "used_space": 180,
-	  "ceph_osd_in_count": 63,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 63,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.4,
-	  "mem_usage": 0.18,
-	  "load": 0.8,
-	  "iops": 0,
-	  "net_receive": 77737,
-	  "net_send": 938930
-	}, {
-	  "tenant": "db",
-	  "region": "shanghai",
-	  "site": "eu13",
-	  "id": 1,
-	  "pool": 1,
-	  "pg": 192,
-	  "total_space": 85,
-	  "used_space": 12,
-	  "ceph_osd_in_count": 216,
-	  "ceph_osd_out_count": 0,
-	  "ceph_osd_up_count": 216,
-	  "ceph_osd_down_count": 0,
-	  "cpu_usage": 0.12,
-	  "mem_usage": 0.80,
-	  "load": 0,
-	  "iops": 0,
-	  "net_receive": 512000,
-	  "net_send": 128000
-	}];
-
-	var Tops = function (_React$Component) {
-	  _inherits(Tops, _React$Component);
-
-	  function Tops() {
-	    _classCallCheck(this, Tops);
-
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this));
-
-	    _this.state = {
-	      data1: [],
-	      data2: [],
-	      data3: [],
-	      data4: []
-	    };
-	    return _this;
-	  }
-
-	  Tops.prototype.componentWillMount = function componentWillMount() {
-	    var newData = dataHandler(data);
-	    this.setState({
-	      data1: dataSort(data, cols1),
-	      data2: dataSort(data, cols2),
-	      data3: dataSort(data, cols3),
-	      data4: dataSort(data, cols4)
-	    });
-	  };
-
-	  Tops.prototype.render = function render() {
-	    return _react2['default'].createElement(
-	      _p2widgets.Panel,
-	      null,
-	      _react2['default'].createElement(
-	        Item,
-	        null,
-	        _react2['default'].createElement(_p2widgets.RankList, { title: 'CPU\u4F7F\u7528\u7387Top10', data: this.state.data1, cols: cols1 })
-	      ),
-	      _react2['default'].createElement(
-	        Item,
-	        null,
-	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u5185\u5B58\u4F7F\u7528\u7387Top10', data: this.state.data2, cols: cols2 })
-	      ),
-	      _react2['default'].createElement(
-	        Item,
-	        null,
-	        _react2['default'].createElement(_p2widgets.RankList, { title: '\u7F51\u7EDC\u5E26\u5BBD\u4F7F\u7528\u91CFTop10', data: this.state.data3, cols: cols3 })
-	      ),
-	      _react2['default'].createElement(
-	        Item,
-	        null,
-	        _react2['default'].createElement(_p2widgets.RankList, { title: 'IOPS\u4F7F\u7528\u91CFTop10', data: this.state.data4, cols: cols4 })
-	      )
-	    );
-	  };
-
-	  return Tops;
-	}(_react2['default'].Component);
-
-	function dataHandler(data) {
-	  var ret = [];
-	  if (Array.isArray(data)) {
-	    ret = data.map(function (d) {
-	      d['cpu'] = d.cpu_usage;
-	      d['memory'] = d.mem_usage;
-	      d['net'] = Math.round((d.net_receive + d.net_send) / 1024);
-	      d['io'] = d.iops;
-	      d['tenant_cn'] = dictionary[d['tenant']] || d['tenant'];
-	      d['region_cn'] = dictionary[d['region']] || d['region'];
-	      d['link'] = d.tenant + '.' + d.region + '.' + d.site + '.1';
-	    });
-	  }
-	  return ret;
-	}
-
-	function dataSort(data, cols) {
-	  var dt = JSON.parse(JSON.stringify(data)); //纯值类型数组拷贝
-	  var key = '';
-	  cols.forEach(function (item) {
-	    if (item.isIndex) key = item.key;
-	  });
-	  if (!key) return dt;
-	  dt.sort(function (a, b) {
-	    return a[key] > b[key] ? -1 : 1;
-	  });
-	  return dt;
-	}
-
-	function mergeArr(oriArr, newArr) {
-	  var arr = JSON.parse(JSON.stringify(oriArr)); //纯值类型数组拷贝
-	  newArr.forEach(function (item, i) {
-	    if (item) arr[i] = _extends(arr[i], item);
-	  });
-	  return arr;
-	}
-
-	exports['default'] = Tops;
-	module.exports = exports['default'];
-
-	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\demo\\mods\\tops.jsx"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\demo\\mods\\tops.jsx"); } } })();
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } if (typeof module.exports === 'function') { __REACT_HOT_LOADER__.register(module.exports, 'module.exports', "D:\\Git\\p2widgets\\src\\components\\usageRateRing\\index.js"); return; } for (var key in module.exports) { if (!Object.prototype.hasOwnProperty.call(module.exports, key)) { continue; } var namedExport = void 0; try { namedExport = module.exports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\src\\components\\usageRateRing\\index.js"); } } })();
 
 /***/ },
 /* 202 */

@@ -1,0 +1,20 @@
+.table-list {
+  width: 100%;
+  table-layout: fixed; }
+  .table-list thead th {
+    background-color: #EBECF0;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 15px 10px;
+    text-align: left; }
+  .table-list tbody tr td {
+    font-size: 12px;
+    padding: 15px 10px; }
+    .table-list tbody tr td a, .table-list tbody tr td span {
+      font-size: 12px; }
+      .table-list tbody tr td a.table-list-warn, .table-list tbody tr td span.table-list-warn {
+        color: #E93A3A; }
+  .table-list tbody tr:nth-child(2n) {
+    background-color: #f7f8fa; }
+  .table-list .table-list-num {
+    text-align: right; }

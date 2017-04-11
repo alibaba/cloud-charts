@@ -1,0 +1,69 @@
+.top-list {
+  line-height: 44px; }
+  .top-list .top-list-header {
+    display: flex;
+    height: 44px;
+    font-size: 14px;
+    color: #333;
+    background: #edf3fe; }
+  .top-list .top-list-title {
+    flex: 1;
+    padding: 0 12px;
+    font-weight: bold;
+    text-align: center; }
+  .top-list .top-list-tab-key {
+    flex: none;
+    padding: 0 8px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition-property: color, border-bottom-color;
+    transition-duration: 0.25s;
+    transition-timing-function: linear; }
+    .top-list .top-list-tab-key:hover {
+      color: #0580f2; }
+    .top-list .top-list-tab-key.active {
+      color: #0580f2;
+      border-bottom-color: #0580f2; }
+  .top-list .top-list-content {
+    display: flex; }
+  .top-list .top-list-group {
+    display: flex;
+    flex: 1;
+    padding: 0 4px; }
+    .top-list .top-list-group:first-child {
+      padding-left: 0; }
+    .top-list .top-list-group:last-child {
+      padding-right: 0; }
+  .top-list .top-list-column {
+    flex: 1; }
+    .top-list .top-list-column:first-child .top-list-column-title,
+    .top-list .top-list-column:first-child .top-list-column-cell {
+      padding-left: 12px; }
+    .top-list .top-list-column:last-child .top-list-column-title,
+    .top-list .top-list-column:last-child .top-list-column-cell {
+      padding-right: 12px; }
+  .top-list .top-list-fix-width {
+    flex: 0 0 auto; }
+  .top-list .top-list-column-sort {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0580f2; }
+  .top-list .top-list-align-left {
+    text-align: left; }
+  .top-list .top-list-align-center {
+    text-align: center; }
+  .top-list .top-list-align-right {
+    text-align: right; }
+  .top-list .top-list-column-title {
+    height: 44px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333; }
+  .top-list .top-list-column-cell {
+    height: 44px;
+    padding: 0 6px; }
+    .top-list .top-list-column-cell:nth-child(even) {
+      background: #f6f8fc; }
+  .top-list .top-list-column-cell-color {
+    color: #ef5350; }
