@@ -1,6 +1,11 @@
 # Changelog 
 
 
+## 0.1.1 / 2017-04-11 
+
+  * [[21f69e2](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/21f69e2083cbcb365dc73774a6b52db2256012d1)] - `feat` build 0.1.1 
+  * [[39ced59](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/39ced59916320824065ba396cde4c59ed9f8b2f1)] - `fix` 修复引用报错的问题 
+
 ## 0.1.0 / 2017-04-11 
 
   * [[f4e899e](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/f4e899e98d2ef964a390d84e220447672978e7f6)] - `feat` daily 0.1.0 
@@ -23,5 +28,8 @@
   * [[e6da2ab](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e6da2aba7f55238f176185c636d8d1fe63ae7f93)] - `feat` 链接跳转卡片 
   * [[f45c7c7](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/f45c7c7ae684d2495eddd49d5486e3c9b1189953)] - `feat` 初步添加topList组件 
   * [[e41319a](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e41319a81045745a7e99af82f4f1b744cff9acfa)] - `feat` 添加aisc依赖 
+  * [[e30140d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e30140d539e70ec9e8296e9b38c557cb265c6ed4)] - `feat` daily 0.1.0 
+  * [[9986bbd](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/9986bbd815a573f8fee3bcd77a2e85aae69abdaa)] - `feat` 修改库名称 
+  * [[15def20](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/15def208a751f2520800fd840d4c0265ab67005a)] - `feat` daily 0.1.0 
   * [[fd01e99](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/fd01e99d25938cab162df0c7e1ad4563330e3031)] - `feat` 完善初始demo 
   * [[8aac50b](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8aac50b1ade5510351b53b4a7793d6ed486c6247)] - `feat` project init 
