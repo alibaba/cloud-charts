@@ -2,6 +2,7 @@
 
 const path = require('path');
 const gulp = require('gulp');
+const sass = require('gulp-sass');
 const gutil = require('gulp-util');
 const webpack = require('webpack');
 const babel = require('gulp-babel');
@@ -95,7 +96,9 @@ gulp.task('build:demo', ['clean'], (cb) => {
 });
 
 gulp.task('build:lib', ['clean'], () => {
+    gutil.log('编译lib...');
     gulp.src(['src/**/*.less', 'src/**/*.scss', 'src/**/*.scssm', 'src/**/*.lessm', 'src/**/*.cssm'])
+        .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('lib'));
 
     return gulp.src('src/**/*.js?(x)')

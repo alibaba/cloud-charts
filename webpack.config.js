@@ -21,7 +21,7 @@ const srcPath = path.resolve(__dirname, './src');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
 
-const cssModules = 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]';
+// const cssModules = 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]';
 
 const config = {
 
@@ -70,10 +70,10 @@ const config = {
         }
     }, {
       '@alife/aisc': {
-        root: 'aisc',
-        commonjs2: 'aisc',
-        commonjs: 'aisc',
-        amd: 'aisc'
+        root: 'Aisc',
+        commonjs2: 'Aisc',
+        commonjs: 'Aisc',
+        amd: 'Aisc'
       }
     }],
 
@@ -89,15 +89,15 @@ const config = {
         }, {
             test: /\.scss$/,
             loader: ExtractTextPlugin.extract('style', 'raw!postcss!@ali/sass-loader')
-        }, {
-            test: /\.scssm$/,
-            loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!@ali/sass-loader`)
-        }, {
-            test: /\.lessm$/,
-            loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!less`)
-        }, {
-            test: /\.cssm$/,
-            loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss`)
+        // }, {
+        //     test: /\.scssm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!@ali/sass-loader`)
+        // }, {
+        //     test: /\.lessm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!less`)
+        // }, {
+        //     test: /\.cssm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss`)
         }]
     },
 
