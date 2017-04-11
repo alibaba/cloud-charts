@@ -22,6 +22,9 @@
     padding: 0 8px;
     border-bottom: 2px solid transparent;
     cursor: pointer;
+    transition-property: color, border-bottom-color;
+    transition-duration: 0.25s;
+    transition-timing-function: linear;
 
     &:hover {
       color: #0580f2;
@@ -93,7 +96,7 @@
     height: 44px;
     padding: 0 6px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: normal;
   }
 
   .top-list-column-cell {
