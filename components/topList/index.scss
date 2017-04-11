@@ -8,13 +8,13 @@
     height: 44px;
     //text-align: center;
     font-size: 14px;
-    font-weight: bold;
     color: #333;
     background: #edf3fe;
   }
   .top-list-title {
     flex: 1;
     padding: 0 12px;
+    font-weight: bold;
     text-align: center;
   }
   .top-list-tab-key {
@@ -81,6 +81,7 @@
   .top-list-column-sort {
     font-size: 14px;
     font-weight: bold;
+    color: #0580f2;
   }
   .top-list-align-left {
     text-align: left;
@@ -95,14 +96,15 @@
   .top-list-column-title {
     height: 44px;
     padding: 0 6px;
-    font-size: 14px;
-    font-weight: normal;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
   }
 
   .top-list-column-cell {
     height: 44px;
     padding: 0 6px;
-    color: #0580f2;
+    //color: #0580f2;
 
     &:nth-child(even) {
       background: #f6f8fc;
