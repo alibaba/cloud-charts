@@ -41,9 +41,21 @@ body {
     position: relative; }
     .p2-pannel .p2-pannel-container .p2-pannel-item {
       -webkit-box-flex: 1;
-          -ms-flex: 1;
-              flex: 1;
+          -ms-flex: 1 1 auto;
+              flex: 1 1 auto;
       padding: 0 5px; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-1 .p2-pannel-item {
+      width: 100%; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-2 .p2-pannel-item {
+      width: 50%; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-3 .p2-pannel-item {
+      width: 33.333%; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-4 .p2-pannel-item {
+      width: 25%; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-5 .p2-pannel-item {
+      width: 20%; }
+    .p2-pannel .p2-pannel-container.p2-pannel-share-6 .p2-pannel-item {
+      width: 16.666%; }
 .capacity-index h5 {
   font-size: 14px;
   font-weight: bold;
@@ -204,7 +216,6 @@ body {
     display: flex;
     height: 44px;
     font-size: 14px;
-    font-weight: bold;
     color: #333;
     background: #edf3fe; }
   .top-list .top-list-title {
@@ -212,6 +223,7 @@ body {
         -ms-flex: 1;
             flex: 1;
     padding: 0 12px;
+    font-weight: bold;
     text-align: center; }
   .top-list .top-list-tab-key {
     -webkit-box-flex: 0;
@@ -219,7 +231,13 @@ body {
             flex: none;
     padding: 0 8px;
     border-bottom: 2px solid transparent;
-    cursor: pointer; }
+    cursor: pointer;
+    -webkit-transition-property: color, border-bottom-color;
+    transition-property: color, border-bottom-color;
+    -webkit-transition-duration: 0.25s;
+            transition-duration: 0.25s;
+    -webkit-transition-timing-function: linear;
+            transition-timing-function: linear; }
     .top-list .top-list-tab-key:hover {
       color: #0580f2; }
     .top-list .top-list-tab-key.active {
@@ -255,7 +273,8 @@ body {
             flex: 0 0 auto; }
   .top-list .top-list-column-sort {
     font-size: 14px;
-    font-weight: bold; }
+    font-weight: bold;
+    color: #0580f2; }
   .top-list .top-list-align-left {
     text-align: left; }
   .top-list .top-list-align-center {
@@ -265,12 +284,12 @@ body {
   .top-list .top-list-column-title {
     height: 44px;
     padding: 0 6px;
-    font-size: 14px;
-    font-weight: bold; }
+    font-size: 12px;
+    font-weight: bold;
+    color: #333; }
   .top-list .top-list-column-cell {
     height: 44px;
-    padding: 0 6px;
-    color: #0580f2; }
+    padding: 0 6px; }
     .top-list .top-list-column-cell:nth-child(even) {
       background: #f6f8fc; }
   .top-list .top-list-column-cell-color {
@@ -338,6 +357,8 @@ body {
     margin: auto; }
   .healthy-status .ml12 {
     margin-left: 12px; }
+  .healthy-status .cursor-p {
+    cursor: pointer; }
   .healthy-status .healthy-status-title {
     padding-top: 11px;
     margin: auto;
@@ -349,7 +370,8 @@ body {
       font-size: 24px; }
   .healthy-status .healthy-status-title-data {
     color: #EF5350;
-    cursor: pointer; }
+    -webkit-transition: color 0.8s;
+    transition: color 0.8s; }
   .healthy-status .healthy {
     color: #0580F2; }
   .healthy-status .healthy-status-details {
@@ -374,7 +396,9 @@ body {
         padding-right: 0px; }
       .healthy-status .healthy-status-details .healthy-status-details-detail .healthy-status-details-detail-data {
         font-size: 20px;
-        color: #0580F2; }
+        color: #0580F2;
+        -webkit-transition: color 0.8s;
+        transition: color 0.8s; }
       .healthy-status .healthy-status-details .healthy-status-details-detail .over-threshold {
         color: #EF5350; }
       .healthy-status .healthy-status-details .healthy-status-details-detail .healthy-status-details-detail-text {
@@ -418,7 +442,9 @@ body {
         margin-top: 4px; }
   .usage-rate-ring .usage-rate-ring-divi-data {
     font-size: 20px;
-    color: #0580F2; }
+    color: #0580F2;
+    -webkit-transition: color 0.8s;
+    transition: color 0.8s; }
   .usage-rate-ring .usage-rate-ring-details {
     margin-top: 27px;
     display: -webkit-box;
@@ -441,7 +467,9 @@ body {
         padding-right: 0px; }
       .usage-rate-ring .usage-rate-ring-details .usage-rate-ring-details-detail .usage-rate-ring-details-detail-data {
         font-size: 20px;
-        color: #0580F2; }
+        color: #0580F2;
+        -webkit-transition: color 0.8s;
+        transition: color 0.8s; }
       .usage-rate-ring .usage-rate-ring-details .usage-rate-ring-details-detail .over-threshold {
         color: #EF5350; }
       .usage-rate-ring .usage-rate-ring-details .usage-rate-ring-details-detail .usage-rate-ring-details-detail-text {
@@ -527,8 +555,13 @@ body {
         margin-top: 4px; }
         .load-progress .load-progress-details .load-progress-details-detail-left .load-progress-details-detail-pro-bg .load-progress-details-detail-pro {
           height: 6px;
+          width: 100%;
           border-radius: 3px;
-          background-color: #0580F2; }
+          background-color: #0580F2;
+          -webkit-transition-property: width, background-color;
+          transition-property: width, background-color;
+          -webkit-transition-duration: 0.8s, 0.8s;
+                  transition-duration: 0.8s, 0.8s; }
         .load-progress .load-progress-details .load-progress-details-detail-left .load-progress-details-detail-pro-bg .over-threshold-orange {
           background-color: #faa732; }
         .load-progress .load-progress-details .load-progress-details-detail-left .load-progress-details-detail-pro-bg .over-threshold-red {
@@ -536,4 +569,6 @@ body {
     .load-progress .load-progress-details .load-progress-details-detail-data {
       position: absolute;
       right: 21px;
-      top: 1px; }
+      top: 1px;
+      -webkit-transition: color 0.8s;
+      transition: color 0.8s; }

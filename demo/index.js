@@ -68943,7 +68943,7 @@
 	 * @param titles object 标题、副标题  
 	 * @param titlesData object 标题、副标题对应值  标题值可点击
 	 * @param details array 详情：包含文案、数据
-	 * @param healthy func 点击标题值
+	 * @param onClickHealthy func 点击标题值
 	 * 默认值见defaultProps
 	 * */
 	'use strict';
@@ -68980,12 +68980,12 @@
 
 	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
-	    _this.healthy = _this.healthy.bind(_this);
+	    _this.onClickHealthy = _this.onClickHealthy.bind(_this);
 	    return _this;
 	  }
 
-	  HealthyStatus.prototype.healthy = function healthy() {
-	    this.props.healthy && this.props.healthy();
+	  HealthyStatus.prototype.onClickHealthy = function onClickHealthy() {
+	    this.props.onClickHealthy && this.props.onClickHealthy();
 	  };
 
 	  HealthyStatus.prototype.render = function render() {
@@ -68994,7 +68994,8 @@
 	    var details = this.props.details;
 
 	    var healthyStatus = (0, _classnames2['default'])("healthy-status-title-data", "weight", "ml12", {
-	      'healthy': titlesData.title == 'Healthy'
+	      'healthy': titlesData.title === 'Healthy',
+	      'cursor-p': this.props.onClickHealthy !== undefined
 	    });
 	    var thresholds = details.map(function (item) {
 	      var thresholdsClassName = (0, _classnames2['default'])("healthy-status-details-detail-data", {
@@ -69010,12 +69011,12 @@
 	        { className: 'healthy-status-title' },
 	        _react2['default'].createElement(
 	          'span',
-	          { className: 'healthy-status-title-text', onClick: this.healthy },
+	          { className: 'healthy-status-title-text' },
 	          titles.title
 	        ),
 	        _react2['default'].createElement(
 	          'span',
-	          { className: healthyStatus },
+	          { className: healthyStatus, onClick: this.onClickHealthy },
 	          titlesData.title
 	        )
 	      ),
@@ -69073,7 +69074,7 @@
 	    data: _react2['default'].PropTypes.number,
 	    threshold: _react2['default'].PropTypes.number
 	  })),
-	  healthy: _react2['default'].PropTypes.func
+	  onClickHealthy: _react2['default'].PropTypes.func
 	};
 	HealthyStatus.defaultProps = {
 	  //默认值
@@ -69332,13 +69333,16 @@
 	      nodeTitleSub
 	    );
 
+	    var containerCls = 'p2-pannel-container';
+	    if (realChildren.length) containerCls += ' p2-pannel-share-' + realChildren.length;
+
 	    return _react2['default'].createElement(
 	      'div',
 	      { className: classes },
 	      nodeTitle,
 	      _react2['default'].createElement(
 	        'div',
-	        { className: 'p2-pannel-container' },
+	        { className: containerCls },
 	        realChildren
 	      )
 	    );
@@ -70343,14 +70347,7 @@
 	    var ratio = titlesData.dividend !== undefined && titlesData.dividend !== null && titlesData.dividend !== 0 ? Number((titlesData.divisor / titlesData.dividend).toFixed(2)) : 0;
 	    var strokeDasharray = ratio * circumference + ' ' + circumference;
 
-	    var clsSvg = (0, _classnames2['default'])({
-	      'usage-rate-ring-svg': true,
-	      'usage-rate-ring-orange': ratio >= (titles.orangeThreshold ? titles.orangeThreshold : 1),
-	      'usage-rate-ring-red': ratio >= (titles.redThreshold ? titles.redThreshold : 1)
-	    });
-
-	    var diviData = (0, _classnames2['default'])({
-	      'usage-rate-ring-divi': true,
+	    var svgThreshold = (0, _classnames2['default'])({
 	      'usage-rate-ring-orange': ratio >= (titles.orangeThreshold ? titles.orangeThreshold : 1),
 	      'usage-rate-ring-red': ratio >= (titles.redThreshold ? titles.redThreshold : 1)
 	    });
@@ -70366,7 +70363,7 @@
 	          { className: 'usage-rate-ring-ratio-svg' },
 	          _react2['default'].createElement(
 	            'svg',
-	            { width: '100%', height: '100%', viewBox: '0 0 80 80', xmlns: 'http://www.w3.org/2000/svg', version: '1.1', className: clsSvg },
+	            { width: '100%', height: '100%', viewBox: '0 0 80 80', xmlns: 'http://www.w3.org/2000/svg', version: '1.1', className: 'usage-rate-ring-svg ' + svgThreshold },
 	            _react2['default'].createElement('circle', { r: '38', cx: '40', cy: '40', className: 'usage-rate-ring-svg-bg' }),
 	            _react2['default'].createElement('circle', { r: '38', cx: '40', cy: '40', className: 'usage-rate-ring-svg-ring', strokeDasharray: strokeDasharray, transform: 'rotate(-90, 40 40)' })
 	          ),
@@ -70387,7 +70384,7 @@
 	        ),
 	        _react2['default'].createElement(
 	          'div',
-	          { className: diviData },
+	          { className: 'usage-rate-ring-divi ' + svgThreshold },
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'usage-rate-ring-divi-data' },
