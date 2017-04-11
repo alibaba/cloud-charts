@@ -11,6 +11,9 @@
   .ml12 {
     margin-left: 12px;
   }
+  .cursor-p{
+    cursor: pointer;
+  }
   .healthy-status-title {
     padding-top: 11px;
     margin: auto;
@@ -25,7 +28,7 @@
   }
   .healthy-status-title-data {
     color: #EF5350;
-    cursor: pointer;
+    transition: color 0.8s;
   }
   .healthy {
     color: #0580F2;
@@ -51,6 +54,7 @@
       .healthy-status-details-detail-data {
         font-size: 20px;
         color: #0580F2;
+        transition: color 0.8s;
       }
       .over-threshold{
         color: #EF5350;

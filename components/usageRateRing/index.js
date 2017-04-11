@@ -81,14 +81,7 @@ class UsageRateRing extends React.Component {
     let ratio = (titlesData.dividend !== undefined && titlesData.dividend !== null && titlesData.dividend !== 0)? Number((titlesData.divisor/titlesData.dividend).toFixed(2)) : 0;
     let strokeDasharray = ratio * circumference + ' ' + circumference;
     
-    let clsSvg = classNames({
-      'usage-rate-ring-svg': true,
-      'usage-rate-ring-orange': ratio >= (titles.orangeThreshold ? titles.orangeThreshold : 1),
-      'usage-rate-ring-red': ratio >= (titles.redThreshold ? titles.redThreshold : 1),
-    });
-    
-    let diviData = classNames({
-      'usage-rate-ring-divi': true,
+    let svgThreshold = classNames({
       'usage-rate-ring-orange': ratio >= (titles.orangeThreshold ? titles.orangeThreshold : 1),
       'usage-rate-ring-red': ratio >= (titles.redThreshold ? titles.redThreshold : 1),
     });
@@ -97,7 +90,7 @@ class UsageRateRing extends React.Component {
       <div className="usage-rate-ring">
         <div className="usage-rate-ring-title">
           <div className="usage-rate-ring-ratio-svg">
-            <svg width="100%" height="100%" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" version="1.1" className={clsSvg}>
+            <svg width="100%" height="100%" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" version="1.1" className={`usage-rate-ring-svg ${svgThreshold}`}>
               <circle r="38" cx="40" cy="40" className="usage-rate-ring-svg-bg"></circle>
               <circle r="38" cx="40" cy="40" className="usage-rate-ring-svg-ring" strokeDasharray={strokeDasharray} transform="rotate(-90, 40 40)"></circle>
             </svg>
@@ -106,7 +99,7 @@ class UsageRateRing extends React.Component {
               <p>{titles.ring}</p>
             </div>
           </div>
-          <div className={diviData}>
+          <div className={`usage-rate-ring-divi ${svgThreshold}`}>
             <div className="usage-rate-ring-divi-data">
               <span className="usage-rate-ring-divisor">
               {titlesData.divisor}
