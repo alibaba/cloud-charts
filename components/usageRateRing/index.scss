@@ -45,6 +45,7 @@
   .usage-rate-ring-divi-data {
     font-size: 20px;
     color: #0580F2;
+    transition: color 0.8s;
   }
   .usage-rate-ring-details {
     margin-top: 27px;
@@ -67,6 +68,7 @@
       .usage-rate-ring-details-detail-data {
         font-size: 20px;
         color: #0580F2;
+        transition: color 0.8s;
       }
       .over-threshold {
         color: #EF5350;
