@@ -3,7 +3,7 @@
  * @param titles object 标题、副标题  
  * @param titlesData object 标题、副标题对应值  标题值可点击
  * @param details array 详情：包含文案、数据
- * @param healthy func 点击标题值
+ * @param onClickHealthy func 点击标题值
  * 默认值见defaultProps
  * */
 'use strict';
@@ -27,7 +27,7 @@ class HealthyStatus extends React.Component {
       data: React.PropTypes.number,
       threshold: React.PropTypes.number
     })),
-    healthy: React.PropTypes.func
+    onClickHealthy: React.PropTypes.func
   };
   
   static defaultProps = {
@@ -59,20 +59,21 @@ class HealthyStatus extends React.Component {
   
   constructor(props){
     super(props);
-    this.healthy=this.healthy.bind(this);
+    this.onClickHealthy=this.onClickHealthy.bind(this);
   }
   
-  healthy(){
-    this.props.healthy && this.props.healthy();
+  onClickHealthy(){
+    this.props.onClickHealthy && this.props.onClickHealthy();
   }
   
   render() {  
     let titles = this.props.titles;
     let titlesData = this.props.titlesData;
     let details = this.props.details;
-
+    
     let healthyStatus = classNames("healthy-status-title-data", "weight", "ml12", {
-      'healthy': titlesData.title == 'Healthy',
+      'healthy': titlesData.title === 'Healthy',
+      'cursor-p': this.props.onClickHealthy !==undefined
     });
     let thresholds = details.map((item) => {
       let thresholdsClassName = classNames("healthy-status-details-detail-data", {
@@ -83,8 +84,8 @@ class HealthyStatus extends React.Component {
     return (
       <div className="healthy-status">
         <div className="healthy-status-title">
-          <span className="healthy-status-title-text" onClick={this.healthy}>{titles.title}</span>
-          <span className={healthyStatus}>{titlesData.title}</span>
+          <span className="healthy-status-title-text">{titles.title}</span>
+          <span className={healthyStatus} onClick={this.onClickHealthy}>{titlesData.title}</span>
         </div>
         <div className="healthy-status-sub-title">
           <span className="healthy-status-sub-title-text">{titles.subTitle}</span>

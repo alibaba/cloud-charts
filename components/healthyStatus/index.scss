@@ -11,6 +11,9 @@
   .ml12 {
     margin-left: 12px;
   }
+  .cursor-p{
+    cursor: pointer;
+  }
   .healthy-status-title {
     padding-top: 11px;
     margin: auto;
@@ -25,7 +28,6 @@
   }
   .healthy-status-title-data {
     color: #EF5350;
-    cursor: pointer;
   }
   .healthy {
     color: #0580F2;
