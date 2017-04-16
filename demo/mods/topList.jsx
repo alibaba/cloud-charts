@@ -22,12 +22,12 @@ class TwinTopList extends React.Component {
           <Col span="24">
             <Panel>
               <Item>
-                <TopList title="带宽 TOP10" dataSource={data}>
-                  <TopList.Group>
+                <TopList title="带宽 TOP10">
+                  <TopList.Group dataSource={data}>
                     <TopList.Group.Column title="Send" dataIndex="send" sortable cell={(v) => `${v}M/s`} />
                     <TopList.Group.Column title="机器名" dataIndex="ip" align="right" />
                   </TopList.Group>
-                  <TopList.Group>
+                  <TopList.Group dataSource={data}>
                     <TopList.Group.Column title="Receive" dataIndex="receive" sortable />
                     <TopList.Group.Column title="机器名" dataIndex="ip" align="right" />
                   </TopList.Group>

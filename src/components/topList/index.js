@@ -47,6 +47,8 @@ class List extends React.Component {
         // sortIndex: null
       };
 
+      const dataSource = child.props.dataSource || props.dataSource || [];
+
       const keys = [];
       let sortIndex;
       let sortFunc;
@@ -71,7 +73,7 @@ class List extends React.Component {
       });
 
       {/*复制数据*/}
-      let newData = props.dataSource.map((d) => {
+      let newData = dataSource.map((d) => {
         const res = {};
         keys.forEach((key) => {
           res[key] = d[key];
