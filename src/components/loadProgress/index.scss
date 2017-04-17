@@ -11,8 +11,13 @@
   }
   .load-progress-title-data {
     color: #0580F2;
-/*    cursor: pointer;*/
     margin-left: 12px;
+  }
+  .orange-threshold {
+    color: #faa732;
+  }
+  .red-threshold {
+    color: #EF5350;
   }
   .load-progress-details {
     margin-top: 51px;
@@ -24,15 +29,15 @@
       padding: 0 20px;
       text-overflow: ellipsis;
       overflow: hidden;
-      white-space:nowrap;
+      white-space: nowrap;
       position: relative;
       &:first-child {
         border-left: 0;
         padding-left: 0;
       }
-      &:last-child{
+      &:last-child {
         padding-right: 0px;
-        .load-progress-details-detail-data{
+        .load-progress-details-detail-data {
           right: 1px;
         }
       }
@@ -40,23 +45,23 @@
         font-size: 20px;
         color: #0580F2;
       }
-      .over-threshold-orange{
+      .orange-threshold {
         color: #faa732;
       }
-      .over-threshold-red{
+      .red-threshold {
         color: #EF5350;
       }
     }
-    .load-progress-details-detail-left{
+    .load-progress-details-detail-left {
       padding-right: 60px;
       height: 45px;
-      .load-progress-details-detail-pro-bg{
+      .load-progress-details-detail-pro-bg {
         height: 6px;
         width: 100%;
         background-color: #F2F3F7;
         border-radius: 3px;
         margin-top: 4px;
-        .load-progress-details-detail-pro{
+        .load-progress-details-detail-pro {
           height: 6px;
           width: 100%;
           border-radius: 3px;
@@ -64,20 +69,19 @@
           transition-property: width, background-color;
           transition-duration: 0.8s, 0.8s;
         }
-        .over-threshold-orange{
+        .orange-threshold {
           background-color: #faa732;
         }
-        .over-threshold-red{
+        .red-threshold {
           background-color: #EF5350;
         }
       }
     }
-    .load-progress-details-detail-data{
+    .load-progress-details-detail-data {
       position: absolute;
       right: 21px;
       top: 1px;
       transition: color 0.8s;
     }
-    
   }
 }

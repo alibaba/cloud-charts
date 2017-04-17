@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList, RectLink, HealthyStatus, UsageRateRing, LoadProgress} from '@alife/p2widgets';
+import { Grid, Panel, CapacityIndex, StateIndex, RankList, IconLink, HealthyStatus, RingRroportion, LoadProgress} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
@@ -40,6 +40,29 @@ const data = {
     out: 0
   }
 };
+const healthyStatusData={
+  "title":"Healthy",
+  "subTitle":3,
+  "a": 199,
+  "b": 199,
+  "c": 233,
+  "d": 199,
+}
+
+const ringRroportionData={
+  "divisor": 75,
+  "dividend": 100,
+  "a": 12,
+  "b": 1990,
+  "c": 23300,
+  "d": 1.23,
+}
+
+const loadProgressData={
+  "title":12345678,
+  "a": 0.35,
+  "b": 0.75,
+}
 
 class App extends React.Component {
   render() {
@@ -48,23 +71,23 @@ class App extends React.Component {
         <h3>示例</h3>
         <Row>
           <Col span="4">
-            <RectLink title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
+            <IconLink title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
           </Col>
           <Col span="9">
             <Panel>
-              <HealthyStatus/>
+              <HealthyStatus dataSource={healthyStatusData}/>
             </Panel>
           </Col>
         </Row>
         <Row>
           <Col span="9">
             <Panel>
-              <UsageRateRing/>
+              <RingRroportion dataSource={ringRroportionData}/>
             </Panel>
           </Col>
           <Col span="9">
             <Panel>
-              <LoadProgress/>
+              <LoadProgress dataSource={loadProgressData}/>
             </Panel>
           </Col>
         </Row>

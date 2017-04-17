@@ -5,8 +5,8 @@ export StateIndex from './components/stateIndex/index';
 export RankList from './components/rankList/index';
 export TopList from './components/topList/index';
 export TableList from './components/tableList/index';
-export RectLink from './components/rectLink/index';
+export IconLink from './components/iconLink/index';
 export HealthyStatus from './components/healthyStatus/index';
-export UsageRateRing from './components/usageRateRing/index';
+export RingRroportion from './components/ringRroportion/index';
 export LoadProgress from './components/loadProgress/index';
 

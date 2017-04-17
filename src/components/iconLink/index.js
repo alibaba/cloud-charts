@@ -1,11 +1,3 @@
-/*
- * @description    具有icon的跳转卡片
- * @param url      跳转地址
- * @param icon     icon html eg:<i class="next-icon next-icon-server"></i>
- * @param title    标题
- * @param subTitle 副标题
- * 注意：由于整块卡片可点击，故该组件使用时无需放入任何Panel、Item
- * */
 'use strict';
 
 import React from 'react';
@@ -13,7 +5,7 @@ import classNames from 'classnames';
 import './index.scss';
 import { Icon } from '@alife/aisc';
 
-class RectLink extends React.Component {
+class IconLink extends React.Component {
   static propTypes = {
     url: React.PropTypes.string,
     icon: React.PropTypes.string,
@@ -34,11 +26,14 @@ class RectLink extends React.Component {
   }
   
   render() {
-    let title = this.props.title || 'title';
-    let subTitle = this.props.subTitle || 'subTitle';
+    let title = this.props.title || '';
+    let subTitle = this.props.subTitle || '';
     let icon = this.props.icon || (<Icon type="ais" size="large"/>);
+    let urlClass = classNames({
+      "cursor-p": this.props.url !==undefined
+    })
     return (
-      <div className="rect-link" onClick={this.onClick}>
+      <div className={`rect-link ${urlClass}`} onClick={this.onClick} >
         <div className="rect-link-left">
           <div className="rect-link-icon">
             {icon}
@@ -57,4 +52,4 @@ class RectLink extends React.Component {
   }
 }
 
-export default RectLink;
+export default IconLink;

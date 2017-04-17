@@ -3,9 +3,11 @@
   min-width: 94px;
   width: 100%;
   position: relative;
-  cursor: pointer;
   padding: 20px;
   background-color: #FFFFFF;
+  &.cursor-p{
+    cursor: pointer;
+  }
   .rect-link-left{
     position: absolute;
     left: 20px;
