@@ -1,6 +1,6 @@
-# IconLink
+# iconLinkButtonMini
 ## 简介：
-具有icon的跳转Widget。
+具有icon的跳转mini Widget。
 主要包括：标题、副标题、icon、跳转url
 
 ## API：

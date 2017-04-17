@@ -5,8 +5,8 @@ export StateIndex from './components/stateIndex/index';
 export RankList from './components/rankList/index';
 export TopList from './components/topList/index';
 export TableList from './components/tableList/index';
-export IconLink from './components/iconLink/index';
-export HealthyStatus from './components/healthyStatus/index';
-export RingRroportion from './components/ringRroportion/index';
-export LoadProgress from './components/loadProgress/index';
+export IconLinkButtonMini from './components/iconLinkButtonMini/index';
+export OnlyLiteralMini from './components/onlyLiteralMini/index';
+export PieChartTitleMini from './components/PieChartTitleMini/index';
+export BarChartDetailsMini from './components/barChartDetailsMini/index';
 

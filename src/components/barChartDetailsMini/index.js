@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import './index.scss';
 import {compareComputed} from '../utils/common';
 
-class LoadProgress extends React.Component {
+class BarChartDetailsMini extends React.Component {
   static propTypes = {
     title: React.PropTypes.shape({
       label: React.PropTypes.string,
@@ -99,4 +99,4 @@ class LoadProgress extends React.Component {
   }
 }
 
-export default LoadProgress;
+export default BarChartDetailsMini;

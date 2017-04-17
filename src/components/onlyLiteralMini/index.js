@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import './index.scss';
 import {compareComputed} from '../utils/common';
 
-class HealthyStatus extends React.Component {
+class OnlyLiteralMini extends React.Component {
   static propTypes = {
     title: React.PropTypes.shape({
       label: React.PropTypes.string,
@@ -134,4 +134,4 @@ class HealthyStatus extends React.Component {
   }
 }
 
-export default HealthyStatus;
+export default OnlyLiteralMini;

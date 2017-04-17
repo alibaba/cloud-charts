@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList, IconLink, HealthyStatus, RingRroportion, LoadProgress} from '@alife/p2widgets';
+import { Grid, Panel, CapacityIndex, StateIndex, RankList, IconLinkButtonMini, OnlyLiteralMini, PieChartTitleMini, BarChartDetailsMini} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
@@ -71,23 +71,23 @@ class App extends React.Component {
         <h3>示例</h3>
         <Row>
           <Col span="4">
-            <IconLink title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
+            <IconLinkButtonMini title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
           </Col>
           <Col span="9">
             <Panel>
-              <HealthyStatus dataSource={healthyStatusData}/>
+              <OnlyLiteralMini dataSource={healthyStatusData}/>
             </Panel>
           </Col>
         </Row>
         <Row>
           <Col span="9">
             <Panel>
-              <RingRroportion dataSource={ringRroportionData}/>
+              <PieChartTitleMini dataSource={ringRroportionData}/>
             </Panel>
           </Col>
           <Col span="9">
             <Panel>
-              <LoadProgress dataSource={loadProgressData}/>
+              <BarChartDetailsMini dataSource={loadProgressData}/>
             </Panel>
           </Col>
         </Row>

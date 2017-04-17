@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import './index.scss';
 import {compareComputed} from '../utils/common';
 
-class RingRroportion extends React.Component {
+class PieChartTitleMini extends React.Component {
   static propTypes = {
     title: React.PropTypes.shape({
       //环文案
@@ -145,4 +145,4 @@ class RingRroportion extends React.Component {
   }
 }
 
-export default RingRroportion;
+export default PieChartTitleMini;

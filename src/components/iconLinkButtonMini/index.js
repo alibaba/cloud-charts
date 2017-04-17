@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import './index.scss';
 import { Icon } from '@alife/aisc';
 
-class IconLink extends React.Component {
+class IconLinkButtonMini extends React.Component {
   static propTypes = {
     url: React.PropTypes.string,
     icon: React.PropTypes.string,
@@ -52,4 +52,4 @@ class IconLink extends React.Component {
   }
 }
 
-export default IconLink;
+export default IconLinkButtonMini;
