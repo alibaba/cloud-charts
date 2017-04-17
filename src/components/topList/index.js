@@ -93,7 +93,7 @@ class List extends React.Component {
       }
 
       //截取固定长度
-      const topLimit = this.props.topLimit || 10;
+      const topLimit = props.topLimit || 10;
       newData = newData.slice(0, topLimit);
 
       result.dataSource = newData;
