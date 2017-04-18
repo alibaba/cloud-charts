@@ -2,6 +2,15 @@
   width: 100%;
   text-align: center;
   color: #333333;
+  .healthy {
+    color: #0580F2;
+  }
+  .orange-threshold{
+    color: #faa732;
+  }
+  .red-threshold{
+    color: #EF5350;
+  }
   .weight {
     font-weight: bold;
   }
@@ -27,12 +36,9 @@
     }
   }
   .healthy-status-title-data {
-    color: #EF5350;
     transition: color 0.8s;
   }
-  .healthy {
-    color: #0580F2;
-  }
+
   .healthy-status-details {
     margin-top: 27px;
     display: flex;
@@ -53,11 +59,7 @@
       }
       .healthy-status-details-detail-data {
         font-size: 20px;
-        color: #0580F2;
         transition: color 0.8s;
-      }
-      .over-threshold{
-        color: #EF5350;
       }
       .healthy-status-details-detail-text {
         font-size: 14px;

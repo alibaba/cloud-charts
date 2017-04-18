@@ -39,6 +39,7 @@
       vertical-align: top;
       .usage-rate-ring-divi-text {
         margin-top: 4px;
+        color: #333333;
       }
     }
   }
@@ -67,11 +68,7 @@
       }
       .usage-rate-ring-details-detail-data {
         font-size: 20px;
-        color: #0580F2;
         transition: color 0.8s;
-      }
-      .over-threshold {
-        color: #EF5350;
       }
       .usage-rate-ring-details-detail-text {
         font-size: 14px;
@@ -94,7 +91,7 @@
       transition-duration: 0.8s, 0.8s;
     }
   }
-  .usage-rate-ring-orange {
+  .orange-threshold {
     .usage-rate-ring-svg-bg {
       stroke: rgba(250, 167, 50, 0.2);
     }
@@ -105,7 +102,7 @@
       color: rgba(250, 167, 50, 1);
     }
   }
-  .usage-rate-ring-red {
+  .red-threshold {
     .usage-rate-ring-svg-bg {
       stroke: rgba(239, 83, 80, 0.2);
     }
@@ -115,5 +112,14 @@
     .usage-rate-ring-divi-data {
       color: rgba(239, 83, 80, 1);
     }
+  }
+  .healthy {
+    color: #0580F2;
+  }
+  .orange-threshold{
+    color: #faa732;
+  }
+  .red-threshold{
+    color: #EF5350;
   }
 }
