@@ -1,6 +1,12 @@
 # Changelog 
 
 
+## 0.2.0 / 2017-04-18 
+
+  * [[8fbc5aa](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8fbc5aa16b0222944e415b8c42e183ffb68b330f)] - `docs` 添加topList文档 
+  * [[67f51f4](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/67f51f497f8a89f0db44dc29d4fe47c52bb12632)] - `feat` widget命名规范化 
+  * [[e623f89](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e623f89a2688d6d06b48a950dcb267bf237e82b6)] - `feat` topList 允许在group上传递数据 
+
 ## 0.1.2 / 2017-04-11 
 
   * [[265644f](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/265644f256b75e821cbbc38e25bff78707853303)] - `feat` 去除tnpm引用的scss编译 
