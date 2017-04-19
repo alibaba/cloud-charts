@@ -1,6 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, CapacityIndex, StateIndex, RankList, IconLinkButtonMini, OnlyLiteralMini, PieChartTitleMini, BarChartDetailsMini} from '@alife/p2widgets';
+import {
+  Grid,
+  Panel,
+  CapacityIndex,
+  StateIndex,
+  RankList,
+  IconLinkButtonMini,
+  OnlyLiteralMini,
+  PieChartTitleMini,
+  BarChartDetailsMini,
+  OnlyDetailsLiteralLattice
+} from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
@@ -64,6 +75,13 @@ const loadProgressData={
   "b": 0.75,
 }
 
+const onlyDetailsLiteralLatticeData={
+  "a": 0,
+  "b": 1990,
+  "c": 23300,
+  "d": 1.23,
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -83,6 +101,18 @@ class App extends React.Component {
           <Col span="9">
             <Panel>
               <PieChartTitleMini dataSource={ringRroportionData}/>
+            </Panel>
+          </Col>
+          <Col span="9">
+            <Panel>
+              <BarChartDetailsMini dataSource={loadProgressData}/>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="9">
+            <Panel title="Device IO">
+              <OnlyDetailsLiteralLattice dataSource={onlyDetailsLiteralLatticeData}/>
             </Panel>
           </Col>
           <Col span="9">
