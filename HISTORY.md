@@ -1,6 +1,12 @@
 # Changelog 
 
 
+## 0.2.1 / 2017-04-19 
+
+  * [[75ecf94](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/75ecf9433c854bbce83431b939177122b3869df5)] - `feat` 扩展icon链接跳转widget的icon参数 
+  * [[16a29a4](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/16a29a48970f83fc42ed33936f62155d87379d1f)] - `feat` 初步完成只有信息详情展示为栅格块的widget 
+  * [[45ff644](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/45ff644e4a4f9d79525bcc47da436cb21d8f3a28)] - `fix` 修复小卡片数据为0 显示'-'问题 
+
 ## 0.2.0 / 2017-04-18 
 
   * [[8fbc5aa](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8fbc5aa16b0222944e415b8c42e183ffb68b330f)] - `docs` 添加topList文档 
