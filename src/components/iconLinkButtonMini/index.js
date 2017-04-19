@@ -12,7 +12,9 @@ class IconLinkButtonMini extends React.Component {
     title: React.PropTypes.string,
     subTitle: React.PropTypes.string
   };
-  
+  static defaultProps = {
+    iconHtml:  (<Icon type="ais" size="large"/>)
+  }
   constructor(props){
     super(props);
     this.onClick=this.onClick.bind(this);
@@ -28,7 +30,16 @@ class IconLinkButtonMini extends React.Component {
   render() {
     let title = this.props.title || '';
     let subTitle = this.props.subTitle || '';
-    let icon = this.props.icon || (<Icon type="ais" size="large"/>);
+    let iconType = this.props.iconType;
+    let iconUrl = this.props.iconUrl;
+    let icon;
+    if(iconType !== undefined){
+      icon =  <Icon type={iconType} size="large" />
+    }else if(iconUrl !== undefined){
+      icon = <img src={iconUrl} width="22" height="22" className='vam'/>
+    }else{
+      icon = this.props.iconHtml
+    }
     let urlClass = classNames({
       "cursor-p": this.props.url !==undefined
     })

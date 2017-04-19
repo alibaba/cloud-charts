@@ -89,7 +89,9 @@ class App extends React.Component {
         <h3>示例</h3>
         <Row>
           <Col span="4">
-            <IconLinkButtonMini title="OSD" subTitle="db.zhangbei.na61.1" url="http://aisc.alibaba.net/docs/components/icon/"/>
+            <IconLinkButtonMini title="OSD" 
+            subTitle="db.zhangbei.na61.1" 
+            url="http://aisc.alibaba.net/docs/components/icon/"/>
           </Col>
           <Col span="9">
             <Panel>
