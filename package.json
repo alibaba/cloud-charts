@@ -2,7 +2,7 @@
   "name": "@alife/p2widgets",
   "main": "./lib/index.js",
   "description": "屏方定制图表",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "alife",
     "react",
