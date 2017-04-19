@@ -65,7 +65,7 @@ class BarChartDetailsMini extends React.Component {
       return {width: (dataSource[item.key] || 0) * 100 + '%'};
     })
     
-    let titleData = dataSource[title.key] || '-';
+    let titleData = dataSource[title.key] === undefined ?  '-' : dataSource[title.key];
     return (
       <div className="load-progress">
         <div className="load-progress-title">
@@ -75,6 +75,8 @@ class BarChartDetailsMini extends React.Component {
         <div className="load-progress-details">
           { 
             details.map((detail, index)=>{
+              let data = (Number(dataSource[detail.key]).toFixed(2) * 100);
+              data = isNaN(data) ? '-' : data;
               return (
                 <div className="load-progress-details-detail" key={index}>
                   <div className="load-progress-details-detail-left">
@@ -87,7 +89,7 @@ class BarChartDetailsMini extends React.Component {
                     </div>
                   </div>
                   <div className={`load-progress-details-detail-data ${thresholds[index]}`}>
-                  {((Number(dataSource[detail.key]).toFixed(2) * 100) || '-') + '%'}
+                  {data + '%'}
                   </div>
                 </div>
               );

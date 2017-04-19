@@ -111,7 +111,7 @@ class OnlyLiteralMini extends React.Component {
         </div>
         <div className="healthy-status-sub-title">
           <span className="healthy-status-sub-title-text">{subTitle.label}</span>
-          <span className={`healthy-status-sub-title-data weight ml12 healthy ${subTitleStatus}`}>{dataSource[subTitle.key] || '-'}</span>
+          <span className={`healthy-status-sub-title-data weight ml12 healthy ${subTitleStatus}`}>{dataSource[subTitle.key] === undefined ?  '-' : dataSource[subTitle.key]}</span>
         </div>
         <div className="healthy-status-details">
           { 
@@ -119,7 +119,7 @@ class OnlyLiteralMini extends React.Component {
               return (
                 <div className="healthy-status-details-detail" key={index}>
                   <div className={thresholds[index]}>
-                  {dataSource[detail.key] || '-'}
+                  {dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]}
                   </div>
                   <div className="healthy-status-details-detail-text">
                   {detail.label}

@@ -42,25 +42,25 @@ const data = {
 };
 const healthyStatusData={
   "title":"Healthy",
-  "subTitle":3,
-  "a": 199,
+  "subTitle":0,
+  "a": 0,
   "b": 199,
   "c": 233,
   "d": 199,
 }
 
 const ringRroportionData={
-  "divisor": 75,
+  "divisor": 0,
   "dividend": 100,
-  "a": 12,
+  "a": 0,
   "b": 1990,
   "c": 23300,
   "d": 1.23,
 }
 
 const loadProgressData={
-  "title":12345678,
-  "a": 0.35,
+  "title":0,
+  "a": 0,
   "b": 0.75,
 }
 

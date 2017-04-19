@@ -101,13 +101,13 @@ class PieChartTitleMini extends React.Component {
           <div className={`usage-rate-ring-divi ${titleStatus}`}>
             <div className="usage-rate-ring-divi-data">
               <span className="usage-rate-ring-divisor">
-              {dataSource[title.divisorKey] || '-'}
+              {dataSource[title.divisorKey] === undefined ?  '-' : dataSource[title.divisorKey]}
               </span>
               <span>
               ／
               </span>
               <span className="usage-rate-ring-dividend">
-              {dataSource[title.dividendKey] || '-'}
+              {dataSource[title.dividendKey] === undefined ?  '-' : dataSource[title.dividendKey]}
               </span>
             </div>
             <div className="usage-rate-ring-divi-text">
@@ -130,7 +130,7 @@ class PieChartTitleMini extends React.Component {
               return (
                 <div className="usage-rate-ring-details-detail" key={index}>
                   <div className={thresholds[index]}>
-                  {dataSource[detail.key] || '-'}
+                  {dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]}
                   </div>
                   <div className="usage-rate-ring-details-detail-text">
                   {detail.label}
