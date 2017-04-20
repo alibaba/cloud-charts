@@ -1,6 +1,18 @@
 # Changelog 
 
 
+## 0.3.0 / 2017-04-20 
+
+  * [[abe9aec](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/abe9aec7fb713647feff6e66bb3931bd1d549038)] - `docs` 添加Panel文档 
+  * [[861bd56](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/861bd5643486ac65dedbad9257939a72f64429bf)] - `docs` 最外层文档添加组件文档链接 
+  * [[b7dc6fe](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/b7dc6fe9162d280a1a4d22acac937f5fe2bc36f5)] - `feat` 调整topList的tab样式和panel统一 
+  * [[f1b2009](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/f1b2009cb79f6bdd64041a8001b745993d493b44)] - `feat` Panel添加tab模式，优化变量名称 
+  * [[262f05f](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/262f05fd548f5903d752ef3206a3db6db40b2a7a)] - `feat` 信息详情展示为栅格块的widget 样式调整 
+  * [[20f04b8](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/20f04b8d5a6256ca52d09c3279f87028892e3170)] - `feat` 具有icon和title的mini Widget 去掉测试代码 
+  * [[24b1d7d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/24b1d7d4801d6d6cf8a90e93cb2c08de131e2986)] - `feat` 具有icon和title的mini Widget 
+  * [[52c06d7](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/52c06d79e5e39317f6a65c89f838312db7652748)] - `feat` 调整panel标题样式，修复item多余padding问题 
+  * [[ec70618](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/ec70618acc515f0a014fcffb76f8e3e71dfeb8eb)] - `feat` 信息详情展示为栅格块的widget 
+
 ## 0.2.1 / 2017-04-19 
 
   * [[75ecf94](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/75ecf9433c854bbce83431b939177122b3869df5)] - `feat` 扩展icon链接跳转widget的icon参数 
