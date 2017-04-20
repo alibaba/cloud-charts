@@ -1,15 +1,16 @@
 .p2-pannel{
   background: #fff;
-  padding: 20px 15px;
+  padding: 20px;
   height: 100%;
 
   h4{
     font-size: 14px;
     font-weight: bold;
-    padding-bottom: 10px;
-    margin: 0 5px 15px;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    //margin: 0 5px 16px;
     border-bottom: 1px solid #DCDEE3;
-    line-height: 25px;
+    line-height: 16px;
 
     .p2-pannel-titlesub{
       float: right;
@@ -24,6 +25,14 @@
     .p2-pannel-item{
       flex: 1 1 auto;
       padding: 0 5px;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
     }
 
     &.p2-pannel-share-1 .p2-pannel-item{width: 100%}
