@@ -42,7 +42,7 @@ class App extends React.Component {
 ## 组件文档
 
 - Grid (暂无)
-- Panel (暂无)
+- [Panel](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/panel)
 - CapacityIndex (暂无)
 - StateIndex (暂无)
 - RankList (暂无)
