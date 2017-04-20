@@ -39,6 +39,21 @@ class App extends React.Component {
 }
 ```
 
+## 组件文档
+
+- Grid (暂无)
+- Panel (暂无)
+- CapacityIndex (暂无)
+- StateIndex (暂无)
+- RankList (暂无)
+- [TopList](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/topList)
+- TableList (暂无)
+- [IconLinkButtonMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconLinkButtonMini)
+- [OnlyLiteralMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyLiteralMini)
+- [PieChartTitleMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/pieChartTitleMini)
+- [BarChartDetailsMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/barChartDetailsMini)
+- [OnlyDetailsLiteralLattice](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralLattice)
+
 ## 开发
 
 ```
