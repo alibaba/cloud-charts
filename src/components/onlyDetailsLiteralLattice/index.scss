@@ -3,6 +3,7 @@
   height: 100%;
   text-align: left;
   color: #999999;
+  padding-top: 1px;
   .healthy {
     color: #0580F2;
   }
@@ -34,18 +35,18 @@
         flex: 1;
         border-bottom: 1px solid #F7F8FA;
         border-right: 1px solid #F7F8FA;
-        padding: 0 12px;
+        padding: 10px 12px;
         &:last-child{
           border-right:0;
         }
         .only-details-literal-lattice-details-detail-data {
           font-size: 24px;
+          line-height: 24px;
           transition: color 0.8s;
-          padding-top: 13px;
         }
         .only-details-literal-lattice-details-detail-text {
           font-size: 12px;
-          padding-top: 7px;
+          padding-top: 4px;
         }
       }
     }
