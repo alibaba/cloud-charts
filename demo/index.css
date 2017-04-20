@@ -17,41 +17,74 @@ body {
 
 .p2-col {
   padding: 0 10px; }
-.p2-pannel {
+.p2-panel {
   background: #fff;
-  padding: 20px 15px;
+  padding: 20px;
   height: 100%; }
-  .p2-pannel h4 {
+  .p2-panel h4 {
     font-size: 14px;
     font-weight: bold;
-    padding-bottom: 10px;
-    margin: 0 5px 15px;
+    margin-bottom: 16px;
     border-bottom: 1px solid #DCDEE3;
-    line-height: 25px; }
-    .p2-pannel h4 .p2-pannel-titlesub {
+    line-height: 16px; }
+    .p2-panel h4 .p2-panel-title {
+      display: inline-block;
+      padding-bottom: 8px; }
+    .p2-panel h4 .p2-panel-titlesub {
       float: right;
-      height: 35px; }
-  .p2-pannel .p2-pannel-container {
+      height: 24px;
+      margin-right: 8px; }
+    .p2-panel h4 .p2-panel-tab {
+      float: right;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      height: 25px; }
+      .p2-panel h4 .p2-panel-tab .p2-panel-tab-key {
+        -webkit-box-flex: 0;
+            -ms-flex: none;
+                flex: none;
+        padding: 0 20px;
+        font-weight: normal;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        -webkit-transition-property: color, border-bottom-color;
+        transition-property: color, border-bottom-color;
+        -webkit-transition-duration: 0.25s;
+                transition-duration: 0.25s;
+        -webkit-transition-timing-function: linear;
+                transition-timing-function: linear; }
+        .p2-panel h4 .p2-panel-tab .p2-panel-tab-key:hover {
+          color: #0580f2; }
+        .p2-panel h4 .p2-panel-tab .p2-panel-tab-key.active {
+          font-weight: bold;
+          color: #0580f2;
+          border-bottom-color: #0580f2; }
+  .p2-panel .p2-panel-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     position: relative; }
-    .p2-pannel .p2-pannel-container .p2-pannel-item {
+    .p2-panel .p2-panel-container .p2-panel-item {
       -webkit-box-flex: 1;
           -ms-flex: 1 1 auto;
               flex: 1 1 auto;
       padding: 0 5px; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-1 .p2-pannel-item {
+      .p2-panel .p2-panel-container .p2-panel-item:first-child {
+        padding-left: 0; }
+      .p2-panel .p2-panel-container .p2-panel-item:last-child {
+        padding-right: 0; }
+    .p2-panel .p2-panel-container.p2-panel-share-1 .p2-panel-item {
       width: 100%; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-2 .p2-pannel-item {
+    .p2-panel .p2-panel-container.p2-panel-share-2 .p2-panel-item {
       width: 50%; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-3 .p2-pannel-item {
+    .p2-panel .p2-panel-container.p2-panel-share-3 .p2-panel-item {
       width: 33.333%; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-4 .p2-pannel-item {
+    .p2-panel .p2-panel-container.p2-panel-share-4 .p2-panel-item {
       width: 25%; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-5 .p2-pannel-item {
+    .p2-panel .p2-panel-container.p2-panel-share-5 .p2-panel-item {
       width: 20%; }
-    .p2-pannel .p2-pannel-container.p2-pannel-share-6 .p2-pannel-item {
+    .p2-panel .p2-panel-container.p2-panel-share-6 .p2-panel-item {
       width: 16.666%; }
 .capacity-index h5 {
   font-size: 14px;
@@ -226,7 +259,8 @@ body {
     -webkit-box-flex: 0;
         -ms-flex: none;
             flex: none;
-    padding: 0 8px;
+    padding: 0 20px;
+    font-weight: normal;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     -webkit-transition-property: color, border-bottom-color;
@@ -238,6 +272,7 @@ body {
     .top-list .top-list-tab-key:hover {
       color: #0580f2; }
     .top-list .top-list-tab-key.active {
+      font-weight: bold;
       color: #0580f2;
       border-bottom-color: #0580f2; }
   .top-list .top-list-content {
@@ -583,7 +618,8 @@ body {
   width: 100%;
   height: 100%;
   text-align: left;
-  color: #999999; }
+  color: #999999;
+  padding-top: 1px; }
   .only-details-literal-lattice .healthy {
     color: #0580F2; }
   .only-details-literal-lattice .orange-threshold {
@@ -608,17 +644,18 @@ body {
               flex: 1;
       border-bottom: 1px solid #F7F8FA;
       border-right: 1px solid #F7F8FA;
-      padding: 0 12px; }
+      padding: 8px 12px; }
       .only-details-literal-lattice .only-details-literal-lattice-details .only-details-literal-lattice-details-row .only-details-literal-lattice-details-detail:last-child {
         border-right: 0; }
       .only-details-literal-lattice .only-details-literal-lattice-details .only-details-literal-lattice-details-row .only-details-literal-lattice-details-detail .only-details-literal-lattice-details-detail-data {
         font-size: 24px;
+        line-height: 24px;
         -webkit-transition: color 0.8s;
-        transition: color 0.8s;
-        padding-top: 13px; }
+        transition: color 0.8s; }
       .only-details-literal-lattice .only-details-literal-lattice-details .only-details-literal-lattice-details-row .only-details-literal-lattice-details-detail .only-details-literal-lattice-details-detail-text {
         font-size: 12px;
-        padding-top: 7px; }
+        line-height: 12px;
+        padding-top: 4px; }
   .only-details-literal-lattice .healthy-status-details {
     margin-top: 27px;
     display: -webkit-box;
@@ -639,3 +676,76 @@ body {
         padding-left: 0; }
       .only-details-literal-lattice .healthy-status-details .healthy-status-details-detail:last-child {
         padding-right: 0px; }
+.icon-title-mini {
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  text-align: center;
+  color: #333333;
+  font-size: 12px;
+  padding-top: 18px; }
+  .icon-title-mini .vam {
+    vertical-align: middle; }
+  .icon-title-mini .icon-title-mini-icon-bg {
+    width: 46px;
+    height: 46px;
+    background-color: #0580F2;
+    border-radius: 46px;
+    margin: auto; }
+    .icon-title-mini .icon-title-mini-icon-bg .icon-title-mini-icon {
+      color: #FFFFFF;
+      text-align: center;
+      height: 46px;
+      line-height: 46px; }
+  .icon-title-mini .icon-title-mini-title {
+    width: 100%;
+    margin-top: 26px; }
+    .icon-title-mini .icon-title-mini-title .icon-title-mini-title-data {
+      font-size: 28px;
+      line-height: 28px; }
+    .icon-title-mini .icon-title-mini-title .overflow-ellipsis {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap; }
+  .icon-title-mini .healthy {
+    color: #0580F2; }
+  .icon-title-mini .orange-threshold {
+    color: #faa732; }
+  .icon-title-mini .red-threshold {
+    color: #EF5350; }
+.only-details-literal-rows-mini {
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  text-align: center;
+  margin: auto;
+  color: #333333;
+  font-size: 12px;
+  padding-top: 18px; }
+  .only-details-literal-rows-mini .healthy {
+    color: #0580F2; }
+  .only-details-literal-rows-mini .orange-threshold {
+    color: #faa732; }
+  .only-details-literal-rows-mini .red-threshold {
+    color: #EF5350; }
+  .only-details-literal-rows-mini .weight {
+    font-weight: bold; }
+  .only-details-literal-rows-mini .only-details-literal-rows-mini-details .only-details-literal-rows-mini-details-detail {
+    padding-top: 28px; }
+    .only-details-literal-rows-mini .only-details-literal-rows-mini-details .only-details-literal-rows-mini-details-detail:first-child {
+      padding-top: 0; }
+    .only-details-literal-rows-mini .only-details-literal-rows-mini-details .only-details-literal-rows-mini-details-detail .only-details-literal-rows-mini-details-detail-data {
+      font-size: 24px;
+      line-height: 24px;
+      -webkit-transition: color 0.8s;
+      transition: color 0.8s; }
+    .only-details-literal-rows-mini .only-details-literal-rows-mini-details .only-details-literal-rows-mini-details-detail .only-details-literal-rows-mini-details-detail-unit {
+      display: inline-block;
+      margin-left: 2px;
+      font-size: 12px;
+      line-height: 12px;
+      color: #333333; }
+    .only-details-literal-rows-mini .only-details-literal-rows-mini-details .only-details-literal-rows-mini-details-detail .only-details-literal-rows-mini-details-detail-text {
+      font-size: 12px;
+      line-height: 12px;
+      padding-top: 8px; }

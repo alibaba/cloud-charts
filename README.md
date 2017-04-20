@@ -53,6 +53,8 @@ class App extends React.Component {
 - [PieChartTitleMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/pieChartTitleMini)
 - [BarChartDetailsMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/barChartDetailsMini)
 - [OnlyDetailsLiteralLattice](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralLattice)
+- [IconTitleMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconTitleMini)
+- [OnlyDetailsLiteralRowsMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralRowsMini)
 
 ## 开发
 

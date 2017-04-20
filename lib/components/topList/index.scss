@@ -19,7 +19,8 @@
   }
   .top-list-tab-key {
     flex: none;
-    padding: 0 8px;
+    padding: 0 20px;
+    font-weight: normal;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     transition-property: color, border-bottom-color;
@@ -30,6 +31,7 @@
       color: #0580f2;
     }
     &.active {
+      font-weight: bold;
       color: #0580f2;
       border-bottom-color: #0580f2;
     }
