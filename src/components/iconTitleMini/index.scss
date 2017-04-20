@@ -1,0 +1,50 @@
+.icon-title-mini{
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  text-align: center;
+  color: #333333;
+  font-size: 12px;
+  padding-top: 18px;
+  .vam{
+    vertical-align: middle;
+  }
+  .icon-title-mini-icon-bg{
+    width: 46px;
+    height: 46px;
+    background-color: #0580F2;
+    border-radius: 46px;
+    margin: auto;
+    .icon-title-mini-icon{
+      color: #FFFFFF;
+      text-align: center;
+      height: 46px;
+      line-height: 46px;
+    }
+  }
+  .icon-title-mini-title{
+    width: 100%;
+    margin-top: 26px;
+    .icon-title-mini-title-data{
+      font-size: 28px;
+      line-height: 28px;
+    }
+    .icon-title-mini-title-text{
+
+    }
+    .overflow-ellipsis{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
+    }
+  }
+  .healthy {
+    color: #0580F2;
+  }
+  .orange-threshold{
+    color: #faa732;
+  }
+  .red-threshold{
+    color: #EF5350;
+  }
+}

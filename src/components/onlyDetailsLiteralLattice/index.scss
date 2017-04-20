@@ -35,7 +35,7 @@
         flex: 1;
         border-bottom: 1px solid #F7F8FA;
         border-right: 1px solid #F7F8FA;
-        padding: 10px 12px;
+        padding: 8px 12px;
         &:last-child{
           border-right:0;
         }
@@ -46,6 +46,7 @@
         }
         .only-details-literal-lattice-details-detail-text {
           font-size: 12px;
+          line-height: 12px;
           padding-top: 4px;
         }
       }

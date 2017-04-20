@@ -8,7 +8,9 @@ import { Icon } from '@alife/aisc';
 class IconLinkButtonMini extends React.Component {
   static propTypes = {
     url: React.PropTypes.string,
-    icon: React.PropTypes.string,
+    iconType: React.PropTypes.string,
+    iconUrl: React.PropTypes.string,
+    iconHtml: React.PropTypes.element,
     title: React.PropTypes.string,
     subTitle: React.PropTypes.string
   };
