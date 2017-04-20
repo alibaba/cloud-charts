@@ -25,10 +25,7 @@ class IconTitleMini extends React.Component {
     dataSource: {},
     title: {
       "label": "Load",
-      "key": "title",
-            orangeThreshold : 0.6,
-      redThreshold : 888888888,
-      compare:">",
+      "key": "title"
     },
     iconHtml:  (<Icon type="ais" size="large"/>),
   }
