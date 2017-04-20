@@ -10,4 +10,5 @@ export OnlyLiteralMini from './components/onlyLiteralMini/index';
 export PieChartTitleMini from './components/pieChartTitleMini/index';
 export BarChartDetailsMini from './components/barChartDetailsMini/index';
 export OnlyDetailsLiteralLattice from './components/onlyDetailsLiteralLattice/index';
+export IconTitleMini from './components/iconTitleMini/index';
 

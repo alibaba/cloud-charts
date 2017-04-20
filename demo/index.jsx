@@ -10,7 +10,8 @@ import {
   OnlyLiteralMini,
   PieChartTitleMini,
   BarChartDetailsMini,
-  OnlyDetailsLiteralLattice
+  OnlyDetailsLiteralLattice,
+  IconTitleMini
 } from '@alife/p2widgets';
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
@@ -81,6 +82,9 @@ const onlyDetailsLiteralLatticeData={
   "c": 23300,
   "d": 1.23,
 }
+const iconTitleMiniData={
+  "title": 40782
+}
 
 class App extends React.Component {
   render() {
@@ -119,7 +123,7 @@ class App extends React.Component {
           </Col>
           <Col span="9">
             <Panel>
-              <BarChartDetailsMini dataSource={loadProgressData}/>
+              <IconTitleMini dataSource={iconTitleMiniData}/>
             </Panel>
           </Col>
         </Row>
