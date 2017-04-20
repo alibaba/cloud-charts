@@ -125,14 +125,14 @@ class App extends React.Component {
         </Row>
         <Row>
           <Col span="10">
-            <Panel title="机器数据指标">
-              <Item>
+            <Panel title="机器数据指标" tabMode>
+              <Item title="数据库">
                 <CapacityIndex title="数据库" data={data.data1}  />
               </Item>
-              <Item>
+              <Item title="中间件">
                 <CapacityIndex title="中间件" data={data.data2} />
               </Item>
-              <Item>
+              <Item title="蚂蚁">
                 <CapacityIndex title="蚂蚁" data={data.data0} />
               </Item>
             </Panel>
