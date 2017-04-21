@@ -69746,14 +69746,14 @@
 	BarChartDetailsMini.defaultProps = {
 	  //默认值
 	  title: {
-	    "label": "Load",
+	    "label": "Title",
 	    "key": "title"
 	  },
 	  details: [{
-	    "label": "CPU使用率",
+	    "label": "Text",
 	    "key": 'a'
 	  }, {
-	    "label": "内存使用率",
+	    "label": "Text",
 	    "key": 'b'
 	  }],
 	  dataSource: {}
@@ -70064,8 +70064,9 @@
 	  }
 
 	  IconLinkButtonMini.prototype.onClick = function onClick() {
+	    var view = this.props.isBlank ? '_blank' : '_self';
 	    if (this.props.url) {
-	      var win = window.open(this.props.url, '_blank');
+	      var win = window.open(this.props.url, view);
 	      win.focus();
 	    }
 	  };
@@ -70127,7 +70128,8 @@
 	  subTitle: _react2['default'].PropTypes.string
 	};
 	IconLinkButtonMini.defaultProps = {
-	  iconHtml: _react2['default'].createElement(_aisc.Icon, { type: 'ais', size: 'large' })
+	  iconHtml: _react2['default'].createElement(_aisc.Icon, { type: 'ais', size: 'large' }),
+	  isBlank: true
 	};
 	exports['default'] = IconLinkButtonMini;
 	module.exports = exports['default'];
@@ -70250,7 +70252,7 @@
 
 	  dataSource: {},
 	  title: {
-	    "label": "Load",
+	    "label": "Title",
 	    "key": "title"
 	  },
 	  iconHtml: _react2['default'].createElement(_aisc.Icon, { type: 'ais', size: 'large' })
@@ -70343,7 +70345,12 @@
 	              _react2['default'].createElement(
 	                'div',
 	                { className: thresholdsClassName },
-	                dataSource[detail.key] === undefined ? '-' : dataSource[detail.key]
+	                (dataSource[detail.key] === undefined ? '-' : dataSource[detail.key]).toLocaleString(),
+	                _react2['default'].createElement(
+	                  'span',
+	                  { className: 'only-details-literal-lattice-details-detail-unit' },
+	                  detail.unit || ''
+	                )
 	              ),
 	              _react2['default'].createElement(
 	                'div',
@@ -70384,6 +70391,7 @@
 	  col: _react2['default'].PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
 	  details: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.shape({
 	    label: _react2['default'].PropTypes.string,
+	    unit: _react2['default'].PropTypes.string,
 	    orangeThreshold: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.number]),
 	    redThreshold: _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.number]),
 	    compare: _react2['default'].PropTypes.oneOf(['<', '<=', '>', '>=', '==', '===', '!=', '!==']),
@@ -70397,16 +70405,16 @@
 	  row: 2,
 	  col: 2,
 	  details: [{
-	    "label": "OSD in",
+	    "label": "Text",
 	    "key": "a"
 	  }, {
-	    "label": "OSD out",
+	    "label": "Text",
 	    "key": "b"
 	  }, {
-	    "label": "OSD up",
+	    "label": "Text",
 	    "key": "c"
 	  }, {
-	    "label": "OSD down",
+	    "label": "Text",
 	    "key": "d"
 	  }],
 	  dataSource: {}
@@ -70513,12 +70521,12 @@
 	};
 	OnlyDetailsLiteralRowsMini.defaultProps = {
 	  details: [{
-	    "label": "Send网络带宽",
-	    "unit": "M",
+	    "label": "Text",
+	    "unit": "unit",
 	    "key": "a"
 	  }, {
-	    "label": "Receive网络带宽",
-	    "unit": "M",
+	    "label": "Text",
+	    "unit": "unit",
 	    "key": "b"
 	  }],
 	  dataSource: {}
@@ -70697,24 +70705,24 @@
 	OnlyLiteralMini.defaultProps = {
 	  //默认值
 	  title: {
-	    "label": "Status",
+	    "label": "Title",
 	    "key": "title"
 	  },
 	  subTitle: {
-	    "label": "Monitors in Quorum",
+	    "label": "subTitle",
 	    "key": "subTitle"
 	  },
 	  details: [{
-	    "label": "OSD in",
+	    "label": "Text",
 	    "key": "a"
 	  }, {
-	    "label": "OSD out",
+	    "label": "Text",
 	    "key": "b"
 	  }, {
-	    "label": "OSD up",
+	    "label": "Text",
 	    "key": "c"
 	  }, {
-	    "label": "OSD down",
+	    "label": "Text",
 	    "key": "d"
 	  }],
 	  dataSource: {}
@@ -71168,16 +71176,16 @@
 	    dividendKey: "dividend"
 	  },
 	  details: [{
-	    "label": "Pools",
+	    "label": "Text",
 	    "key": "a"
 	  }, {
-	    "label": "rbd",
+	    "label": "Text",
 	    "key": "b"
 	  }, {
-	    "label": "总PG数",
+	    "label": "Text",
 	    "key": "c"
 	  }, {
-	    "label": "PG分布标准差",
+	    "label": "Text",
 	    "key": "d"
 	  }],
 	  dataSource: {}

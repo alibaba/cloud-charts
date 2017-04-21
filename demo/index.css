@@ -437,7 +437,7 @@ body {
         -webkit-transition: color 0.8s;
         transition: color 0.8s; }
       .healthy-status .healthy-status-details .healthy-status-details-detail .healthy-status-details-detail-text {
-        font-size: 14px; }
+        font-size: 12px; }
 .usage-rate-ring {
   width: 100%;
   text-align: center;
@@ -506,7 +506,7 @@ body {
         -webkit-transition: color 0.8s;
         transition: color 0.8s; }
       .usage-rate-ring .usage-rate-ring-details .usage-rate-ring-details-detail .usage-rate-ring-details-detail-text {
-        font-size: 14px; }
+        font-size: 12px; }
   .usage-rate-ring .usage-rate-ring-svg .usage-rate-ring-svg-bg {
     stroke-width: 4;
     stroke: rgba(0, 178, 254, 0.2);
@@ -652,6 +652,12 @@ body {
         line-height: 24px;
         -webkit-transition: color 0.8s;
         transition: color 0.8s; }
+      .only-details-literal-lattice .only-details-literal-lattice-details .only-details-literal-lattice-details-row .only-details-literal-lattice-details-detail .only-details-literal-lattice-details-detail-unit {
+        display: inline-block;
+        margin-left: 2px;
+        font-size: 12px;
+        line-height: 12px;
+        color: #333333; }
       .only-details-literal-lattice .only-details-literal-lattice-details .only-details-literal-lattice-details-row .only-details-literal-lattice-details-detail .only-details-literal-lattice-details-detail-text {
         font-size: 12px;
         line-height: 12px;
