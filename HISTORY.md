@@ -1,6 +1,11 @@
 # Changelog 
 
 
+## 0.3.1 / 2017-04-21 
+
+  * [[8a2b5d5](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8a2b5d5fe46a5bc6d78fde79fce5d84693d16ce5)] - `fix` 修复OnlyDetailsLiteralRowsMini插件文件夹名称错误问题 
+  * [[848682d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/848682d7f3b1132074eb8fb7eec6320e7eaa8651)] - `feat` 规范默认值、打开链接方式扩展 
+
 ## 0.3.0 / 2017-04-20 
 
   * [[abe9aec](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/abe9aec7fb713647feff6e66bb3931bd1d549038)] - `docs` 添加Panel文档 
