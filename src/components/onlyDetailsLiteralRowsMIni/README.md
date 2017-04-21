@@ -8,7 +8,7 @@
 
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
-details | 详情的配置，包涵文案、单位、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "Send网络带宽",“key”:"a", "unit":"M"}, {"label": "Receive网络带宽",“key”:"b", "unit":"M"}]
+details | 详情的配置，包涵文案、单位、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "Text",“key”:"a", "unit":"unit"}, {"label": "Text",“key”:"b", "unit":"unit"}]
 dataSource| 数据源| Object| {}
 
 ### details

@@ -15,7 +15,8 @@ class IconLinkButtonMini extends React.Component {
     subTitle: React.PropTypes.string
   };
   static defaultProps = {
-    iconHtml:  (<Icon type="ais" size="large"/>)
+    iconHtml:  (<Icon type="ais" size="large"/>),
+    isBlank: true
   }
   constructor(props){
     super(props);
@@ -23,8 +24,9 @@ class IconLinkButtonMini extends React.Component {
   }
   
   onClick(){
+    let view = this.props.isBlank ? '_blank' : '_self';
     if(this.props.url){
-      let win = window.open(this.props.url, '_blank');
+      let win = window.open(this.props.url, view);
       win.focus();
     }
   }

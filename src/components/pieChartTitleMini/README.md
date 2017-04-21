@@ -8,7 +8,7 @@
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
 title | 环占比的配置，包涵环文案、除数分子文案、被除数分母文案、橙色阈值、红色阈值、阈值对比方式、除数对应数据源的键、被除数对应数据源的键| Object | {"ring":"使用率","divisor":"已使用容量","dividend":"总容量","orangeThreshold":0.6,"redThreshold":0.8,"compare":">","divisorKey":"divisor","dividendKey":"dividend"}
-details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label":"Pools","key":"a"},{"label":"rbd","key":"b"},{"label":"总PG数","key":"c"},{"label":"PG分布标准差","key":"d"}]
+details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label":"Text","key":"a"},{"label":"Text","key":"b"},{"label":"Text","key":"c"},{"label":"Text","key":"d"}]
 dataSource| 数据源,键匹配配置中的key| Object| {}
 
 

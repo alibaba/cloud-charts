@@ -7,7 +7,7 @@
 
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
-title | 标题的配置，文案、橙色阈值、红色阈值、阈值对比方式、数据源的键| Object | {"label":"Load","key":"title"}
+title | 标题的配置，文案、橙色阈值、红色阈值、阈值对比方式、数据源的键| Object | {"label":"Title","key":"title"}
 iconType | 使用aisc组件的icon库指定显示哪种图标| string| "ais"
 iconUrl | 使用网页图像的url| string| 
 iconHtml| 使用icon的html| html| <Icon type="ais" size="large"/>

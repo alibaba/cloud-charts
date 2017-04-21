@@ -10,7 +10,7 @@
 
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
-details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "OSD in",“key”:"a"}, {"label": "OSD out",“key”:"b"}, {"label": "OSD up",“key”:"c"}, {"label": "OSD down",“key”:"d"}]
+details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "Text",“key”:"a"}, {"label": "Text",“key”:"b"}, {"label": "Text",“key”:"c"}, {"label": "Text",“key”:"d"}]
 dataSource| 数据源| Object| {}
 row| 行数,可选值：1、2、3、4、5、6| Number| 2
 col| 列数，可选1、2、3、4、5、6| Number| 2

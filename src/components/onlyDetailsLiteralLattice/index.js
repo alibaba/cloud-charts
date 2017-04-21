@@ -25,6 +25,7 @@ class OnlyDetailsLiteralLattice extends React.Component {
     col: React.PropTypes.oneOf([1,2,3,4,5,6]),
     details: React.PropTypes.arrayOf(React.PropTypes.shape({
       label: React.PropTypes.string,
+      unit: React.PropTypes.string,
       orangeThreshold: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
       redThreshold: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
       compare: React.PropTypes.oneOf(['<', '<=', '>', '>=', '==', '===', '!=', '!==']),
@@ -39,16 +40,16 @@ class OnlyDetailsLiteralLattice extends React.Component {
     row: 2,
     col: 2,
     details: [{
-      "label": "OSD in",
+      "label": "Text",
       "key": "a",
     }, {
-      "label": "OSD out",
+      "label": "Text",
       "key": "b",
     }, {
-      "label": "OSD up",
+      "label": "Text",
       "key": "c",
     }, {
-      "label": "OSD down",
+      "label": "Text",
       "key": "d",
     }],
     dataSource: {}  
@@ -93,7 +94,10 @@ class OnlyDetailsLiteralLattice extends React.Component {
                 return (
                   <div className="only-details-literal-lattice-details-detail" key={detail.key}>
                     <div className={thresholdsClassName}>
-                    {dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]}
+                      {(dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]).toLocaleString()}
+                      <span className="only-details-literal-lattice-details-detail-unit">
+                        {detail.unit || ''}
+                      </span>
                     </div>
                     <div className="only-details-literal-lattice-details-detail-text">
                     {detail.label}

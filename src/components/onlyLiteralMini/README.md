@@ -7,9 +7,9 @@
 
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
-title | 标题的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Object | {"label":"Status","redThreshold":"Unhealthy","compare":" === ","key":"title"}
-subTitle | 副标题的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Object| {"label":"Monitors in Quorum","key":"subTitle"}
-details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "OSD in",“key”:"a"}, {"label": "OSD out",“key”:"b"}, {"label": "OSD up",“key”:"c"}, {"label": "OSD down",“key”:"d"}]
+title | 标题的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Object | {"label":"Title","key":"title"}
+subTitle | 副标题的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Object| {"label":"subTitle","key":"subTitle"}
+details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label": "Text",“key”:"a"}, {"label": "Text",“key”:"b"}, {"label": "Text",“key”:"c"}, {"label": "Text",“key”:"d"}]
 dataSource| 数据源| Object| {}
 onClickHealthy | 标题对应值的点击事件| function| 
 

@@ -43,16 +43,16 @@ class PieChartTitleMini extends React.Component {
       dividendKey: "dividend"
     },
     details: [{
-      "label": "Pools",
+      "label": "Text",
       "key": "a"
     }, {
-      "label": "rbd",
+      "label": "Text",
       "key": "b"
     }, {
-      "label": "总PG数",
+      "label": "Text",
       "key": "c"
     }, {
-      "label": "PG分布标准差",
+      "label": "Text",
       "key": "d"
     }],
     dataSource:{}

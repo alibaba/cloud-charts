@@ -35,24 +35,24 @@ class OnlyLiteralMini extends React.Component {
   static defaultProps = {
     //默认值
     title: {
-      "label": "Status",
+      "label": "Title",
       "key": "title"
     },
     subTitle: {
-      "label": "Monitors in Quorum",
+      "label": "subTitle",
       "key": "subTitle"
     },    
     details: [{
-      "label": "OSD in",
+      "label": "Text",
       "key": "a",
     }, {
-      "label": "OSD out",
+      "label": "Text",
       "key": "b"
     }, {
-      "label": "OSD up",
+      "label": "Text",
       "key": "c"
     }, {
-      "label": "OSD down",
+      "label": "Text",
       "key": "d"
     }],
     dataSource: {}  

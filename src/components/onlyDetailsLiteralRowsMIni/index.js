@@ -20,12 +20,12 @@ class OnlyDetailsLiteralRowsMini extends React.Component {
   
   static defaultProps = {
     details: [{
-      "label": "Send网络带宽",
-      "unit":"M",
+      "label": "Text",
+      "unit":"unit",
       "key": "a",
     }, {
-      "label": "Receive网络带宽",
-      "unit":"M",
+      "label": "Text",
+      "unit":"unit",
       "key": "b",
     }],
     dataSource: {}  

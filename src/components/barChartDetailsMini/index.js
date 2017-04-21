@@ -27,14 +27,14 @@ class BarChartDetailsMini extends React.Component {
   static defaultProps = {
     //默认值
     title: {
-      "label": "Load",
+      "label": "Title",
       "key": "title",
     },
     details: [{
-      "label": "CPU使用率",
+      "label": "Text",
       "key": 'a',
     }, {
-      "label": "内存使用率",
+      "label": "Text",
       "key": 'b'
     }],
     dataSource:{}

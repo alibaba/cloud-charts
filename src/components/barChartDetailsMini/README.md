@@ -7,8 +7,8 @@
 
 属性 | 说明 | 类型 | 默认值
 --------- | -------------| -------------| -------------
-title | 标题的配置，文案、橙色阈值、红色阈值、阈值对比方式、数据源的键| Object | {"label":"Load","key":"title"}
-details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label":"CPU使用率","key":"a"},{"label":"内存使用率","key":"b"}]
+title | 标题的配置，文案、橙色阈值、红色阈值、阈值对比方式、数据源的键| Object | {"label":"Title","key":"title"}
+details | 详情的配置，包涵文案、橙色阈值、红色阈值、阈值对比方式| Array| [{"label":"Text","key":"a"},{"label":"Text","key":"b"}]
 dataSource| 数据源,键匹配配置中的key| Object| {}
 
 
