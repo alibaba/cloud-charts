@@ -6,6 +6,7 @@
   color: #333333;
   font-size: 12px;
   padding-top: 18px;
+  padding-bottom: 18px;
   .vam{
     vertical-align: middle;
   }
@@ -30,7 +31,9 @@
       line-height: 28px;
     }
     .icon-title-mini-title-text{
-
+      font-size: 12px;
+      line-height: 12px;
+      margin-top: 4px;
     }
     .overflow-ellipsis{
       text-overflow: ellipsis;
