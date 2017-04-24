@@ -689,7 +689,8 @@ body {
   text-align: center;
   color: #333333;
   font-size: 12px;
-  padding-top: 18px; }
+  padding-top: 18px;
+  padding-bottom: 18px; }
   .icon-title-mini .vam {
     vertical-align: middle; }
   .icon-title-mini .icon-title-mini-icon-bg {
@@ -709,6 +710,10 @@ body {
     .icon-title-mini .icon-title-mini-title .icon-title-mini-title-data {
       font-size: 28px;
       line-height: 28px; }
+    .icon-title-mini .icon-title-mini-title .icon-title-mini-title-text {
+      font-size: 12px;
+      line-height: 12px;
+      margin-top: 4px; }
     .icon-title-mini .icon-title-mini-title .overflow-ellipsis {
       text-overflow: ellipsis;
       overflow: hidden;
@@ -727,7 +732,8 @@ body {
   margin: auto;
   color: #333333;
   font-size: 12px;
-  padding-top: 18px; }
+  padding-top: 18px;
+  padding-bottom: 18px; }
   .only-details-literal-rows-mini .healthy {
     color: #0580F2; }
   .only-details-literal-rows-mini .orange-threshold {

@@ -68846,6 +68846,22 @@
 	  "a": 12,
 	  "b": 9679
 	};
+	var onlyDetailsLiteralLatticeDetails = [{
+	  "label": "Text",
+	  "key": "a"
+	}, {
+	  "label": "Text",
+	  "key": "b"
+	}, {
+	  "label": "Text",
+	  "key": "c"
+	}, {
+	  "label": "Text",
+	  "key": "d"
+	}, {
+	  "label": "Text",
+	  "key": "e"
+	}];
 
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
@@ -68916,7 +68932,7 @@
 	          _react2['default'].createElement(
 	            _p2widgets.Panel,
 	            { title: 'Device IO' },
-	            _react2['default'].createElement(_p2widgets.OnlyDetailsLiteralLattice, { dataSource: onlyDetailsLiteralLatticeData })
+	            _react2['default'].createElement(_p2widgets.OnlyDetailsLiteralLattice, { dataSource: onlyDetailsLiteralLatticeData, row: 2, col: 3, details: onlyDetailsLiteralLatticeDetails })
 	          )
 	        ),
 	        _react2['default'].createElement(
@@ -70309,9 +70325,17 @@
 	    for (var i = 0, len = details.length; i < len; i += col) {
 	      result.push(details.slice(i, i + col));
 	    }
+	    var rows = Array.apply(null, Array(row)).map(function (item, i) {
+	      return i;
+	    });
+	    var cols = Array.apply(null, Array(col)).map(function (item, i) {
+	      return i;
+	    });
 
 	    _this.state = {
-	      details: result
+	      details: result,
+	      rows: rows,
+	      cols: cols
 	    };
 	    return _this;
 	  }
@@ -70320,32 +70344,33 @@
 	    var details = this.state.details;
 	    var dataSource = this.props.dataSource;
 
-	    var thresholds = details.map(function (item) {
-	      var thresholdsClassName = (0, _classnames2['default'])("healthy-status-details-detail-data healthy", {
-	        'orange-threshold': item.orangeThreshold !== undefined && (0, _common.compareComputed)(item.compare, dataSource[item.key], item.orangeThreshold) ? true : false,
-	        "red-threshold": item.redThreshold !== undefined && (0, _common.compareComputed)(item.compare, dataSource[item.key], item.redThreshold) ? true : false
-	      });
-	      return thresholdsClassName;
-	    });
+	    var rows = this.state.rows;
+	    var cols = this.state.cols;
+
 	    return _react2['default'].createElement(
 	      'div',
 	      { className: 'only-details-literal-lattice' },
 	      _react2['default'].createElement(
 	        'div',
 	        { className: 'only-details-literal-lattice-details' },
-	        details.map(function (row, i) {
-	          var rowHtml = row.map(function (detail, j) {
-	            var thresholdsClassName = (0, _classnames2['default'])("only-details-literal-lattice-details-detail-data healthy", {
-	              'orange-threshold': detail.orangeThreshold !== undefined && (0, _common.compareComputed)(detail.compare, dataSource[detail.key], detail.orangeThreshold) ? true : false,
-	              "red-threshold": detail.redThreshold !== undefined && (0, _common.compareComputed)(detail.compare, dataSource[detail.key], detail.redThreshold) ? true : false
-	            });
+	        rows.map(function (row, i) {
+	          var rowHtml = cols.map(function (col, j) {
+	            var detail = details[row][col] || {};
+	            var thresholdsClassName = "only-details-literal-lattice-details-detail-data healthy";
+	            if (detail && detail.key) {
+	              thresholdsClassName = (0, _classnames2['default'])("only-details-literal-lattice-details-detail-data healthy", {
+	                'orange-threshold': detail.orangeThreshold !== undefined && (0, _common.compareComputed)(detail.compare, dataSource[detail.key], detail.orangeThreshold) ? true : false,
+	                "red-threshold": detail.redThreshold !== undefined && (0, _common.compareComputed)(detail.compare, dataSource[detail.key], detail.redThreshold) ? true : false
+	              });
+	            }
+	            var data = detail.label === undefined ? '' : (dataSource[detail.key] === undefined ? '-' : dataSource[detail.key]).toLocaleString();
 	            return _react2['default'].createElement(
 	              'div',
-	              { className: 'only-details-literal-lattice-details-detail', key: detail.key },
+	              { className: 'only-details-literal-lattice-details-detail', key: j },
 	              _react2['default'].createElement(
 	                'div',
 	                { className: thresholdsClassName },
-	                (dataSource[detail.key] === undefined ? '-' : dataSource[detail.key]).toLocaleString(),
+	                data,
 	                _react2['default'].createElement(
 	                  'span',
 	                  { className: 'only-details-literal-lattice-details-detail-unit' },
@@ -70355,7 +70380,7 @@
 	              _react2['default'].createElement(
 	                'div',
 	                { className: 'only-details-literal-lattice-details-detail-text' },
-	                detail.label
+	                detail.label || ''
 	              )
 	            );
 	          });
