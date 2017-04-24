@@ -64,43 +64,52 @@ class OnlyDetailsLiteralLattice extends React.Component {
     for(let i=0,len=details.length;i<len;i+=col){
        result.push(details.slice(i,i+col));
     }
+    let rows = Array.apply(null, Array(row)).map(function(item, i) {
+        return i;
+    });
+    let cols = Array.apply(null, Array(col)).map(function(item, i) {
+        return i;
+    });
 
     this.state={
-      details: result
+      details: result,
+      rows: rows,
+      cols: cols
     }
   }
 
   render() {  
     let details = this.state.details;
     let dataSource = this.props.dataSource;
+    
+    let rows = this.state.rows;
+    let cols = this.state.cols;
 
-    let thresholds = details.map((item) => {
-      let thresholdsClassName = classNames("healthy-status-details-detail-data healthy", {
-        'orange-threshold': (item.orangeThreshold !== undefined && compareComputed(item.compare, dataSource[item.key], item.orangeThreshold)) ? true : false,
-        "red-threshold": (item.redThreshold !== undefined  && compareComputed(item.compare, dataSource[item.key], item.redThreshold)) ? true : false
-      });
-      return thresholdsClassName;
-    })
     return (
       <div className="only-details-literal-lattice">
         <div className="only-details-literal-lattice-details">
           { 
-            details.map((row, i)=>{
-              let rowHtml =  row.map((detail, j)=>{
-                let thresholdsClassName = classNames("only-details-literal-lattice-details-detail-data healthy", {
-                  'orange-threshold': (detail.orangeThreshold !== undefined && compareComputed(detail.compare, dataSource[detail.key], detail.orangeThreshold)) ? true : false,
-                  "red-threshold": (detail.redThreshold !== undefined  && compareComputed(detail.compare, dataSource[detail.key], detail.redThreshold)) ? true : false
-                });
+            rows.map((row, i)=>{
+              let rowHtml =  cols.map((col, j)=>{
+                let detail = details[row][col] || {};
+                let thresholdsClassName = "only-details-literal-lattice-details-detail-data healthy";
+                if(detail && detail.key){
+                  thresholdsClassName = classNames("only-details-literal-lattice-details-detail-data healthy", {
+                    'orange-threshold': (detail.orangeThreshold !== undefined && compareComputed(detail.compare, dataSource[detail.key], detail.orangeThreshold)) ? true : false,
+                    "red-threshold": (detail.redThreshold !== undefined  && compareComputed(detail.compare, dataSource[detail.key], detail.redThreshold)) ? true : false
+                  });
+                }
+                let data = detail.label===undefined ? '' : ((dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]).toLocaleString());
                 return (
-                  <div className="only-details-literal-lattice-details-detail" key={detail.key}>
+                  <div className="only-details-literal-lattice-details-detail" key={j}>
                     <div className={thresholdsClassName}>
-                      {(dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]).toLocaleString()}
+                      {data}
                       <span className="only-details-literal-lattice-details-detail-unit">
                         {detail.unit || ''}
                       </span>
                     </div>
                     <div className="only-details-literal-lattice-details-detail-text">
-                    {detail.label}
+                    {detail.label || ''}
                     </div>
                   </div>
                 );

@@ -90,6 +90,22 @@ const onlyDetailsLiteralRowsMiniData={
   "a":12,
   "b": 9679
 }
+const onlyDetailsLiteralLatticeDetails = [{
+  "label": "Text",
+  "key": "a",
+}, {
+  "label": "Text",
+  "key": "b",
+}, {
+  "label": "Text",
+  "key": "c",
+}, {
+  "label": "Text",
+  "key": "d",
+}, {
+  "label": "Text",
+  "key": "e",
+}];
 
 class App extends React.Component {
   render() {
@@ -123,7 +139,7 @@ class App extends React.Component {
         <Row>
           <Col span="9">
             <Panel title="Device IO">
-              <OnlyDetailsLiteralLattice dataSource={onlyDetailsLiteralLatticeData}/>
+              <OnlyDetailsLiteralLattice dataSource={onlyDetailsLiteralLatticeData} row={2} col={3} details={onlyDetailsLiteralLatticeDetails}/>
             </Panel>
           </Col>
           <Col span="6">
