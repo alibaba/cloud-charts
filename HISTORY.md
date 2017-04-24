@@ -1,6 +1,11 @@
 # Changelog 
 
 
+## 0.3.2 / 2017-04-24 
+
+  * [[9b73452](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/9b73452cb79aed2898554777b932eee13d0dcd6e)] - `fix` 只有详情信息且全部为文字的栅格样式 Widget 格子数与传入详情个数不相登时候的表现 
+  * [[cc148b6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/cc148b69f594607a3052715798dd0c501903424f)] - `feat` 小卡片padding问题 
+
 ## 0.3.1 / 2017-04-21 
 
   * [[8a2b5d5](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8a2b5d5fe46a5bc6d78fde79fce5d84693d16ce5)] - `fix` 修复OnlyDetailsLiteralRowsMini插件文件夹名称错误问题 
