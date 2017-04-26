@@ -1,6 +1,11 @@
 # Changelog 
 
 
+## 0.4.0 / 2017-04-26 
+
+  * [[d11b59e](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/d11b59eb5228461e53d30b8c720c0c50f97d290e)] - `feat` 整体调整字体，添加数字专用字体 
+  * [[2ab6700](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/2ab67001556fb62d88e3f83fda63c769b9e9f116)] - `docs` 添加demo页面文档链接，方便查看 
+
 ## 0.3.2 / 2017-04-24 
 
   * [[9b73452](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/9b73452cb79aed2898554777b932eee13d0dcd6e)] - `fix` 只有详情信息且全部为文字的栅格样式 Widget 格子数与传入详情个数不相登时候的表现 
