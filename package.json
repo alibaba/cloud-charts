@@ -58,6 +58,7 @@
     "del": "^2.2.0",
     "extract-text-webpack-plugin": "~1.0.1",
     "fallback-port": "^0.1.7",
+    "fontmin": "^0.9.6",
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
