@@ -68882,6 +68882,16 @@
 	        '\u793A\u4F8B'
 	      ),
 	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'IconLinkButtonMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconLinkButtonMini' },
+	          '\u6587\u6863'
+	        )
+	      ),
+	      _react2['default'].createElement(
 	        Row,
 	        null,
 	        _react2['default'].createElement(
@@ -68890,7 +68900,21 @@
 	          _react2['default'].createElement(_p2widgets.IconLinkButtonMini, { title: 'OSD',
 	            subTitle: 'db.zhangbei.na61.1',
 	            url: 'http://aisc.alibaba.net/docs/components/icon/' })
-	        ),
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'OnlyLiteralMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyLiteralMini' },
+	          '\u6587\u6863'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
 	        _react2['default'].createElement(
 	          Col,
 	          { span: '9' },
@@ -68899,6 +68923,16 @@
 	            null,
 	            _react2['default'].createElement(_p2widgets.OnlyLiteralMini, { dataSource: healthyStatusData })
 	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'PieChartTitleMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/pieChartTitleMini' },
+	          '\u6587\u6863'
 	        )
 	      ),
 	      _react2['default'].createElement(
@@ -68912,7 +68946,21 @@
 	            null,
 	            _react2['default'].createElement(_p2widgets.PieChartTitleMini, { dataSource: ringRroportionData })
 	          )
-	        ),
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'BarChartDetailsMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/barChartDetailsMini' },
+	          '\u6587\u6863'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
 	        _react2['default'].createElement(
 	          Col,
 	          { span: '9' },
@@ -68921,6 +68969,16 @@
 	            null,
 	            _react2['default'].createElement(_p2widgets.BarChartDetailsMini, { dataSource: loadProgressData })
 	          )
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'OnlyDetailsLiteralLattice - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralLattice' },
+	          '\u6587\u6863'
 	        )
 	      ),
 	      _react2['default'].createElement(
@@ -68934,7 +68992,21 @@
 	            { title: 'Device IO' },
 	            _react2['default'].createElement(_p2widgets.OnlyDetailsLiteralLattice, { dataSource: onlyDetailsLiteralLatticeData, row: 2, col: 3, details: onlyDetailsLiteralLatticeDetails })
 	          )
-	        ),
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'IconTitleMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconTitleMini' },
+	          '\u6587\u6863'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
 	        _react2['default'].createElement(
 	          Col,
 	          { span: '6' },
@@ -68943,7 +69015,21 @@
 	            null,
 	            _react2['default'].createElement(_p2widgets.IconTitleMini, { dataSource: iconTitleMiniData })
 	          )
-	        ),
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'OnlyDetailsLiteralRowsMini - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralRowsMini' },
+	          '\u6587\u6863'
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
 	        _react2['default'].createElement(
 	          Col,
 	          { span: '6' },
@@ -68953,6 +69039,11 @@
 	            _react2['default'].createElement(_p2widgets.OnlyDetailsLiteralRowsMini, { dataSource: onlyDetailsLiteralRowsMiniData })
 	          )
 	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'CapacityIndex'
 	      ),
 	      _react2['default'].createElement(
 	        Row,
@@ -68979,7 +69070,16 @@
 	              _react2['default'].createElement(_p2widgets.CapacityIndex, { title: '\u8682\u8681', data: data.data0 })
 	            )
 	          )
-	        ),
+	        )
+	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'StateIndex'
+	      ),
+	      _react2['default'].createElement(
+	        Row,
+	        null,
 	        _react2['default'].createElement(
 	          Col,
 	          { span: '14' },
@@ -69005,6 +69105,11 @@
 	        )
 	      ),
 	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'RankList'
+	      ),
+	      _react2['default'].createElement(
 	        Row,
 	        null,
 	        _react2['default'].createElement(
@@ -69013,7 +69118,22 @@
 	          _react2['default'].createElement(_tops2['default'], null)
 	        )
 	      ),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'TopList - ',
+	        _react2['default'].createElement(
+	          'a',
+	          { target: '_blank', href: 'http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/topList' },
+	          '\u6587\u6863'
+	        )
+	      ),
 	      _react2['default'].createElement(_topList2['default'], null),
+	      _react2['default'].createElement(
+	        'h4',
+	        null,
+	        'TableList'
+	      ),
 	      _react2['default'].createElement(
 	        Row,
 	        null,
