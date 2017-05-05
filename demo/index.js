@@ -68863,6 +68863,10 @@
 	  "key": "e"
 	}];
 
+	var cell = function cell(v) {
+	  return v + 'M';
+	};
+
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
 
@@ -68944,7 +68948,7 @@
 	          _react2['default'].createElement(
 	            _p2widgets.Panel,
 	            null,
-	            _react2['default'].createElement(_p2widgets.PieChartTitleMini, { dataSource: ringRroportionData })
+	            _react2['default'].createElement(_p2widgets.PieChartTitleMini, { dataSource: ringRroportionData, cell: cell })
 	          )
 	        )
 	      ),
@@ -71159,6 +71163,14 @@
 	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
 	  }
 
+	  PieChartTitleMini.prototype.renderCell = function renderCell(value) {
+	    if (this.props.cell) {
+	      return this.props.cell(value);
+	    } else {
+	      return value === undefined ? '-' : value;
+	    }
+	  };
+
 	  PieChartTitleMini.prototype.render = function render() {
 	    var title = this.props.title;
 	    var details = this.props.details;
@@ -71225,7 +71237,7 @@
 	            _react2['default'].createElement(
 	              'span',
 	              { className: 'usage-rate-ring-divisor' },
-	              dataSource[title.divisorKey] === undefined ? '-' : dataSource[title.divisorKey]
+	              this.renderCell(dataSource[title.divisorKey])
 	            ),
 	            _react2['default'].createElement(
 	              'span',
@@ -71235,7 +71247,7 @@
 	            _react2['default'].createElement(
 	              'span',
 	              { className: 'usage-rate-ring-dividend' },
-	              dataSource[title.dividendKey] === undefined ? '-' : dataSource[title.dividendKey]
+	              this.renderCell(dataSource[title.dividendKey])
 	            )
 	          ),
 	          _react2['default'].createElement(
@@ -71306,7 +71318,8 @@
 	    compare: _react2['default'].PropTypes.oneOf(['<', '<=', '>', '>=', '==', '===', '!=', '!==']),
 	    key: _react2['default'].PropTypes.string.isRequired
 	  })),
-	  dataSource: _react2['default'].PropTypes.object
+	  dataSource: _react2['default'].PropTypes.object,
+	  cell: _react2['default'].PropTypes.func
 	};
 	PieChartTitleMini.defaultProps = {
 	  //默认值

@@ -60,7 +60,6 @@ class PieChartTitleMini extends React.Component {
   }
   
   renderCell(value){
-    debugger
     if(this.props.cell){
       return this.props.cell(value);
     }else{
