@@ -1,6 +1,10 @@
 # Changelog 
 
 
+## 0.4.1 / 2017-05-05 
+
+  * [[8b55f4d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8b55f4d41f3767ff6323353c10b2f870290b0569)] - `feat` 标题为显示环占比的mini Widget 增加自定义渲染函数 
+
 ## 0.4.0 / 2017-04-26 
 
   * [[d11b59e](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/d11b59eb5228461e53d30b8c720c0c50f97d290e)] - `feat` 整体调整字体，添加数字专用字体 
