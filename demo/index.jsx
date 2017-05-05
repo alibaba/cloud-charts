@@ -107,6 +107,10 @@ const onlyDetailsLiteralLatticeDetails = [{
   "key": "e",
 }];
 
+const cell = function(v){
+  return v+'M';
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -132,7 +136,7 @@ class App extends React.Component {
         <Row>
           <Col span="9">
             <Panel>
-              <PieChartTitleMini dataSource={ringRroportionData}/>
+              <PieChartTitleMini dataSource={ringRroportionData} cell={cell}/>
             </Panel>
           </Col>
         </Row>

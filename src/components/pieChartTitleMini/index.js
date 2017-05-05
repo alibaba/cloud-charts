@@ -28,6 +28,7 @@ class PieChartTitleMini extends React.Component {
       key: React.PropTypes.string.isRequired,
     })),
     dataSource: React.PropTypes.object,
+    cell: React.PropTypes.func
   };
   
   static defaultProps = {
@@ -56,6 +57,15 @@ class PieChartTitleMini extends React.Component {
       "key": "d"
     }],
     dataSource:{}
+  }
+  
+  renderCell(value){
+    debugger
+    if(this.props.cell){
+      return this.props.cell(value);
+    }else{
+      return value === undefined ? '-' : value;
+    }
   }
   
   render() {  
@@ -101,13 +111,13 @@ class PieChartTitleMini extends React.Component {
           <div className={`usage-rate-ring-divi ${titleStatus}`}>
             <div className="usage-rate-ring-divi-data">
               <span className="usage-rate-ring-divisor">
-              {dataSource[title.divisorKey] === undefined ?  '-' : dataSource[title.divisorKey]}
+              {this.renderCell(dataSource[title.divisorKey])}
               </span>
               <span>
               ／
               </span>
               <span className="usage-rate-ring-dividend">
-              {dataSource[title.dividendKey] === undefined ?  '-' : dataSource[title.dividendKey]}
+              {this.renderCell(dataSource[title.dividendKey])}
               </span>
             </div>
             <div className="usage-rate-ring-divi-text">
