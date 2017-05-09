@@ -1,0 +1,109 @@
+@font-face {
+  font-family: FZXiYuan-M01;
+  src: url("http://g-assets.daily.taobao.net/aisc-react/node-react-portal/1.0.0/font/FZY1B.TTF");
+}
+
+table {
+  width: 100%;
+}
+
+a:active, a:focus, a:visited, a:hover {
+  text-decoration: none !important;
+}
+
+.designer-text {
+  padding-left: 30px;
+}
+
+pre {
+  margin: 0px;
+  border-top: 1px dashed #ccc;
+}
+
+/*$font-face {
+  font-family:Hiragino Sans GB;
+  src: url("http://g-assets.daily.taobao.net/aisc-react/node-react-portal/1.0.0/font/HiraginoSansGBW6.ttc");
+}*/
+@font-face {
+  font-family: Avenir Book;
+  src: url("http://g-assets.daily.taobao.net/aisc-react/node-react-portal/1.0.0/font/Avenir.ttc");
+}
+
+body {
+  padding-bottom: 30px;
+  overflow-x: hidden;
+  background: #fff;
+  margin: 0;
+  font-size: 13px;
+  padding: 0 !important;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  font-family: "PingFang SC", "Microsoft YaHei";
+}
+
+//a{
+//  text-decoration:none;
+//  color: #FFF;
+//}
+ul {
+  list-style: none;
+}
+
+.main-wrapper {
+  width: 92%;
+  border-radius: $border-radius-base;
+  position: relative;
+  margin: 30px auto 0;
+}
+
+.main-container-component {
+  padding-right: 180px;
+  article {
+    padding: 30px;
+  }
+}
+div.main-container {
+  padding-bottom: 120px;
+  background: #fff;
+  min-height: 500px;
+  // overflow: hidden;
+  position: relative;
+  margin-left: -4px;
+}
+
+.outside-link {
+  display: inline-block;
+}
+
+.outside-link:after {
+  content: '\e691';
+  font-family: 'anticon';
+  margin-left: 5px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.outside-link.internal {
+  display: none;
+}
+
+.page-wrapper {
+  background: #ECECEC;
+}
+
+.siderbar {
+  .next-icon-select {
+    display: none !important;
+  }
+  .next-menu-item .selected a {
+    color: #2889ec;
+  }
+}
+
+#react-content{
+  height:100%;
+}
+.center{
+  margin:120px auto;
+}

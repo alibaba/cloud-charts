@@ -1,0 +1,63 @@
+.rank-list{
+  h5{
+    background-color: #EBECF0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 0;
+    height: 44px;
+    line-height: 42px;
+  }
+  .rank-list-ol{
+    .rank-list-li{
+      display: flex;
+      position: relative;
+      padding: 0 7px;
+
+      .rank-list-li-col{
+        padding: 15px 7px;
+        flex-grow: 1;
+        font-size: 12px;
+        line-height: 18px;
+        a,span{
+          font-size: 12px;
+        }
+        .rank-list-li-bigger{
+          //font-family: "Helvetica Nene", "Helvetica";
+          font-weight: bold;
+          font-size: 14px;
+          color: #0580F2;
+        }
+        // &:nth-child(1){
+        //   color: #0580F2;
+        //   flex-grow: 0;
+        //   width: 60px;
+        //   font-weight: bold;
+        // }
+        // &:nth-child(2){
+        //   color: #0580F2;
+        // }
+        // &:nth-child(3){
+        //   flex-grow: 0;
+        //   width: 50px;
+        // }
+        // &:nth-child(4){
+        //   flex-grow: 0;
+        //   width: 50px;
+        // }
+      }
+
+      &:nth-child(2n){
+        background-color: #f7f8fa;
+      }
+
+      .rank-list-li-bar{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to right, #ffffff, #0580F2);
+        height: 2px;
+      }
+    }
+  }
+}

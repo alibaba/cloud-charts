@@ -1,0 +1,84 @@
+.capacity-index{
+  h5{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .capacity-index-ratio{
+    text-align: center;
+    position: relative;
+
+    .capacity-index-ratio-svg{
+      width: 106px;
+      height: 106px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .state-index-count-num{
+      width: 100%;
+      position: absolute;
+      top: 28px;
+      left: 0;
+      text-align: center;
+
+      span{
+        font-size: 24px;
+        //font-family: "Helvetica Nene", "Helvetica";
+      }
+      p{
+        font-size: 12px;
+        margin: 0;
+        line-height: 1;
+      }
+    }
+  }
+
+  .capacity-index-sub{
+
+    margin-top: 5px;
+
+    .capacity-index-sub-item{
+      text-align: center;
+      b{
+        font-size: 14px;
+        font-weight: normal;
+        width: 50%;
+        display: inline-block;
+        text-align: right;
+        padding: 5px;
+      }
+      span{
+        font-size: 16px;
+        width: 50%;
+        display: inline-block;
+        text-align: left;
+        padding: 4px;
+      }
+    }
+  }
+
+  .capacity-index-svg{
+    .capacity-index-svg-bg{
+      stroke-width: 6;
+      stroke: rgba(0,178,254,0.2);
+      fill: none;
+    }
+    .capacity-index-svg-ring{
+      stroke-width: 6;
+      stroke: #0580F2;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+      fill: none;
+      transition-property: stroke-dasharray, stroke;
+      transition-duration: 0.8s, 0.8s;
+    }
+  }
+  .capacity-index-warn{
+    .capacity-index-svg-bg{
+      stroke: rgba(239,83,80,0.2);
+    }
+    .capacity-index-svg-ring{
+      stroke: rgba(239,83,80,1);
+    }
+  }
+}

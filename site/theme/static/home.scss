@@ -1,0 +1,136 @@
+.page{
+  text-align: center;
+  height: 680px;
+  padding-top: 440px;
+}
+.three-page{
+  padding-top: 40px;
+}
+.page h3{
+  color:#fff;
+
+  font-size: 30px;
+}
+.page p{
+  color:#fff;
+  font-size: 20px;
+}
+.one-page{
+  background: #1f7cf7 url("https://img.alicdn.com/tps/TB1S.VbPpXXXXb7XpXXXXXXXXXX-1100-532.png") center center no-repeat;
+}
+.two-page{
+  background: #1f7cf7 url("https://img.alicdn.com/tps/TB1_VQVPXXXXXcTXVXXXXXXXXXX-1100-532.png") center center no-repeat;
+}
+.three-page{
+  background:#1f7cf7;
+  padding-top: 50px;
+}
+.three-page-text{
+  padding-top: 180px;
+  padding-left: 50px;
+  text-align: left;
+}
+.three-page-text p{
+  margin-bottom: 20px;
+  line-height:26px;
+}
+.min-slide-out{
+  position: relative;
+}
+.min-slide{
+  /*margin-top: 40px;*/
+  position:absolute;
+  width:770px;
+  padding: 10px;
+  background: #eeeeee;
+  border-radius: 3px;
+  height: 470px;
+}
+
+
+/*index*/
+.layout{
+  overflow: hidden;
+  margin: auto;
+  position: relative;
+  height: 680px;
+  width: 100%;
+}
+
+/*-----*/
+.slider {
+  width: 100%;
+  height: 100%;
+}
+.slider-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+
+.slider ul {
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  left: 0;
+  transition: left 1s ease;
+}
+
+.slider-item {
+  display: inline-block;
+  height: auto;
+}
+
+.slider img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.slider-arrow {
+  color: #fff;
+  font-size:17px;
+  position: absolute;
+  top: 50%;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  z-index: 100;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 19px;
+}
+.slider-arrow:hover{
+  background: rgba(255,255,255,0.2);
+}
+.slider-arrow-right {
+  right: -35px;
+}
+.slider-arrow-left {
+  left: -35px;
+}
+
+.slider-dots-wrap {
+  z-index: 99;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.slider-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border: 3px solid #ccc;
+  margin: 6px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.slider-dot-selected {
+  background: #ccc;
+}
