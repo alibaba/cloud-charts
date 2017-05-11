@@ -255,6 +255,8 @@ module.exports = {
 
     demo,
 
-    prod
+    prod,
+
+    srcPath
 
 };

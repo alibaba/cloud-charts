@@ -4,6 +4,7 @@
  * Authors:
  *   云朔 <yunshuo.zk@alibaba-inc.com>>
  */
+const customWebpackConfig = require('./webpack.config');
 module.exports = {
   toolkit: 'fie-toolkit-docs',
   toolkitConfig: {
@@ -15,6 +16,11 @@ module.exports = {
     liveload: false,
     //
     webpackConfig(config){
+      const alias = config.resolve.alias;
+      const srcPath = customWebpackConfig.srcPath;
+
+      alias['@alife/p2widgets'] = srcPath;
+      alias['@alife/p2widgets/lib'] = srcPath;
       return config;
     }
   },
@@ -58,7 +64,7 @@ module.exports = {
   ci: {
     // 返回项目中的webpack配置
     getWebpackConfig() {
-      return require('./webpack.config').dev();
+      return customWebpackConfig.dev();
     }
   }
 };

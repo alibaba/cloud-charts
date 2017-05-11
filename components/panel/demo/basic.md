@@ -13,10 +13,12 @@ title:
 
 
 ````jsx
+import { Panel } from '@alife/p2widgets';
+const { Item, TitleSub } = Panel;
 
 ReactDOM.render(
-    <div>
+    <Panel title="卡片标题">
         组件样例
-    </div>,
+    </Panel>,
 mountNode);
 ````
