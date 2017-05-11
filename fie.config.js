@@ -6,7 +6,7 @@
  */
 module.exports = {
   toolkit: 'fie-toolkit-docs',
-   toolkitConfig: {
+  toolkitConfig: {
     //fie start时打开本地服务器的端口号
     port: 9000,
     //fie start时，是否自动打开浏览器
@@ -15,7 +15,42 @@ module.exports = {
     liveload: false,
     //
     webpackConfig(config){
-        return config;
+      return config;
     }
+  },
+  tasks: {
+    build: [
+      {
+        // 同步版本号
+        command: 'fie git sync'
+      },
+      {
+        // 检测dependencies中的版本依赖
+        command: 'fie check'
+      },
+      {
+        // console检测
+        command: 'fie console detect --force'
+      },
+      {
+        // 执行一下 gulp的build任务
+        command: 'node_modules/.bin/gulp build'
+      }
+    ],
+
+    publish: [
+      {
+        // 生成history.md 文件
+        command: 'fie commit out'
+      },
+      // {
+      //   // 调用套件中的发布命令
+      //   command: '__toolkitCommand__'
+      // },
+      // {
+      //   // 将demo目录发布至demo平台
+      //   command: 'fie git publishDemo'
+      // }
+    ]
   }
 };

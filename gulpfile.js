@@ -106,4 +106,5 @@ gulp.task('build:lib', ['clean'], () => {
 });
 
 gulp.task('default', ['start']);
-gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
+// gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
+gulp.task('build', ['build:dist', 'build:lib']);
