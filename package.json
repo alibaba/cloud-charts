@@ -1,7 +1,7 @@
 {
-  "name": "",
-  "version": "0.0.1",
-  "main": "src/app.js",
+  "name": "@alife/p2widgets",
+  "version": "0.4.1",
+  "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
     "babel-site": "babel ./site/theme/template --out-dir ./site/theme/template",
