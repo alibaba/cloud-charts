@@ -31,6 +31,6 @@ module.exports = {
     guide: './guide'
   },
   link: [{to: `/`, children: "首页"},
-    {to: `/components/component/`, children: "组件"},
+    {to: `/components/panel/`, children: "组件"},
     {to: `/guide/start/`, children: "指引"}]
 };
