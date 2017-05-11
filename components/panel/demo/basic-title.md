@@ -1,8 +1,8 @@
 ---
-order: 0
+order: 1
 title:
-  zh-CN: 基本-无标题
-  en-US: Basic
+  zh-CN: 基本-带标题
+  en-US: Basic-Title
 ---
 
 ## zh-CN
@@ -24,7 +24,7 @@ class PanelDemo extends React.Component {
   render() {
     return (
       <div style={demoStyle}>
-        <Panel>
+        <Panel title="卡片标题">
           卡片内容
         </Panel>
       </div>
