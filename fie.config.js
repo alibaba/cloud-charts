@@ -19,7 +19,7 @@ module.exports = {
     }
   },
   tasks: {
-    build: [
+    build2: [
       {
         // 同步版本号
         command: 'fie git sync'
@@ -52,5 +52,13 @@ module.exports = {
       //   command: 'fie git publishDemo'
       // }
     ]
+  },
+
+  // ci 插件所需的配置
+  ci: {
+    // 返回项目中的webpack配置
+    getWebpackConfig() {
+      return require('./webpack.config').dev();
+    }
   }
 };

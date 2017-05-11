@@ -17,7 +17,7 @@ const FallbackPort = require('fallback-port');
 const fallbackPort = new FallbackPort(3000);
 
 const componentName = 'P2widgets';
-const srcPath = path.resolve(__dirname, './src');
+const srcPath = path.resolve(__dirname, './components');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
 

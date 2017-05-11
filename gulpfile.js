@@ -10,7 +10,7 @@ const del = require('del');
 const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
-
+const srcPath = 'components';
 
 gulp.task('clean', (cb) => {
     del(['build', 'lib']).then(() => {
@@ -96,11 +96,11 @@ gulp.task('build:demo', ['clean'], (cb) => {
 });
 
 gulp.task('build:lib', ['clean'], () => {
-    gulp.src(['src/**/*.less', 'src/**/*.scss', 'src/**/*.scssm', 'src/**/*.lessm', 'src/**/*.cssm'])
+    gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss'])
         // .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('lib'));
 
-    return gulp.src('src/**/*.js?(x)')
+    return gulp.src(srcPath + '/**/*.js?(x)')
         .pipe(babel())
         .pipe(gulp.dest('lib'));
 });
