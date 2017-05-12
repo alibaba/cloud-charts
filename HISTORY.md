@@ -1,6 +1,31 @@
 # Changelog 
 
 
+## 0.5.2 / 2017-05-12 
+
+  * [[bc100b6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/bc100b68322bcbd683deb9ca472be49d25bed1b6)] - `fix` pie-chart-title 报错 
+
+## 0.5.1 / 2017-05-12 
+
+  * [[0d9c0cd](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/0d9c0cd47d118ef8db8aff48a3a8e103adbecf99)] - `chore` 调整npm发布文件 
+  * [[299853a](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/299853af425ba05c8a44851f9d6509eb5afa2408)] - `fix` 浮点数问题 
+  * [[01ecabe](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/01ecabe3ddbd9b3b9c955b6acc561fbf3eea6f96)] - `fix` 浮点数问题 
+
+## 0.5.0 / 2017-05-12 
+
+  * [[5414f72](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/5414f725f14d5dbe0e5fe5c8f2eb2aa17061ee36)] - `fix` 暴力修复Safari下不支持100%高度的问题 
+  * [[4f43990](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/4f43990382536369cc3c4f7574d3f48c44dd18e8)] - `docs` OnlyDetailsLiteralLattice添加demo 
+  * [[e6396f6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e6396f6f224115e08752969c62572f5f36628046)] - `docs` 调整文档 
+  * [[f5499d8](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/f5499d847d76ca4dc4b062c30dc1df425de5ef6c)] - `feat` 添加charts组件 
+  * [[407d914](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/407d914e20a3bccd6f849557c5ca3d8393487303)] - `chore` 去除无用文件 
+  * [[3d5adee](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/3d5adeebef3a87aa5111be990aafa2dfd881b1e2)] - `chore` 调整依赖 
+  * [[7040777](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/7040777b158d4ee6da45acd16570280441de23a0)] - `fix` Panel在无css reset时标题过高的问题 
+  * [[e269c97](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e269c97039163753cd9fca8f06a2c1adfb60f36d)] - `feat`  增加 全文字栅格信息widget 数字显示自定义函数接口 
+  * [[6902cbd](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/6902cbd281073e621918074a2b74ad06ba5795c8)] - `feat` 调整打包逻辑 
+  * [[cf32bed](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/cf32bed3a6fddf708de024091c9a15d6fb69595f)] - `feat` 调整依赖，尝试整合build功能 
+  * [[780e22b](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/780e22bc90f6875918ccb418f7c4116f2b481647)] - `feat` 添加文档 
+  * [[ff5cbb4](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/ff5cbb448aada4080397bfd5424d774128e6a206)] - `feat` 更改项目架构，初步添加文档网站 
+
 ## 0.4.1 / 2017-05-05 
 
   * [[8b55f4d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8b55f4d41f3767ff6323353c10b2f870290b0569)] - `feat` 标题为显示环占比的mini Widget 增加自定义渲染函数 
