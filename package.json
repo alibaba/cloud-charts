@@ -1,6 +1,6 @@
 {
   "name": "@alife/p2widgets",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
