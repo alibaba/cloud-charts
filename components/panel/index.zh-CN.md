@@ -1,8 +1,8 @@
 ---
 category: 组件
-subtitle: Panel
-type: 信息展示
-title: 卡片
+subtitle: 卡片
+type: 基础组件
+title: Panel
 cols: 1
 ---
 
