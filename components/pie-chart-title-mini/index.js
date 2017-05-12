@@ -78,7 +78,7 @@ class PieChartTitleMini extends React.Component {
     if(title.compare !== undefined && title.divisorKey !== undefined && title.dividendKey !== undefined && dataSource[title.divisorKey] !== undefined && dataSource[title.dividendKey] !== undefined && dataSource[title.dividendKey] !== 0) {
       let divisor = dataSource[title.divisorKey];
       let dividend = dataSource[title.dividendKey];
-      ratio = Number((divisor/dividend).toFixed(2));
+      ratio = divisor / dividend;
       titleStatus = classNames({
         "orange-threshold": (title.orangeThreshold !== undefined && compareComputed(title.compare, ratio, title.orangeThreshold)) ? true : false,
         "red-threshold": (title.redThreshold !== undefined && compareComputed(title.compare, ratio, title.redThreshold)) ? true : false,
@@ -103,7 +103,7 @@ class PieChartTitleMini extends React.Component {
               <circle r="38" cx="40" cy="40" className="usage-rate-ring-svg-ring" strokeDasharray={strokeDasharray} transform="rotate(-90, 40 40)"></circle>
             </svg>
             <div className="usage-rate-ring-count-num">
-              <span>{(Math.round(divisor/dividend) * 1000 / 10) + '%'}</span>
+              <span>{ Math.round(1000 * ratio) / 10 + '%'}</span>
               <p>{title.ring}</p>
             </div>
           </div>
