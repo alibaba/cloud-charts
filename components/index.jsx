@@ -1,3 +1,4 @@
+export Charts from './charts/index';
 export Grid from './grid/index';
 export Panel from './panel/index';
 export CapacityIndex from './capacity-index/index';
