@@ -30,6 +30,7 @@ class OnlyDetailsLiteralLattice extends React.Component {
       redThreshold: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
       compare: React.PropTypes.oneOf(['<', '<=', '>', '>=', '==', '===', '!=', '!==']),
       key: React.PropTypes.string.isRequired,
+      cell: React.PropTypes.func
     })),
     dataSource: React.PropTypes.object,
     onClickHealthy: React.PropTypes.func
@@ -53,6 +54,14 @@ class OnlyDetailsLiteralLattice extends React.Component {
       "key": "d",
     }],
     dataSource: {}  
+  }
+
+  renderCell(value, i, j){
+    if(this.state.details[i][j] && this.state.details[i][j].cell){
+      return this.state.details[i][j].cell(value);
+    }else{
+      return value === undefined ? '-' : value.toLocaleString();
+    }
   }
   
   constructor(props){
@@ -99,11 +108,11 @@ class OnlyDetailsLiteralLattice extends React.Component {
                     "red-threshold": (detail.redThreshold !== undefined  && compareComputed(detail.compare, dataSource[detail.key], detail.redThreshold)) ? true : false
                   });
                 }
-                let data = detail.label===undefined ? '' : ((dataSource[detail.key] === undefined ?  '-' : dataSource[detail.key]).toLocaleString());
+                let data = detail.label===undefined ? '' : dataSource[detail.key];
                 return (
                   <div className="only-details-literal-lattice-details-detail" key={j}>
                     <div className={thresholdsClassName}>
-                      {data}
+                      {this.renderCell(data, i, j)}
                       <span className="only-details-literal-lattice-details-detail-unit">
                         {detail.unit || ''}
                       </span>

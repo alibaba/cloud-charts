@@ -23,6 +23,7 @@ orangeThreshold | 橙色阈值| String|
 redThreshold | 红色阈值| String| 
 compare | 阈值对比方式| String| 
 key | 与数据中的key一一对应，用于获取相应数据| String|
+cell | 自定义数据渲染函数| Function(value) |
 ### dataSource
 属性 | 说明 | 类型 
 --------- | -------------| -------------
