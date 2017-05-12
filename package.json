@@ -16,15 +16,14 @@
   "publishConfig": {
     "registry": "http://registry.npm.alibaba-inc.com"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ali/ci-log": "*",
     "@ali/git-commit": "^1.2.3",
     "@ali/happypack": "^2.3.0",
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc": "^2.2.15",
+    "@alife/aisc-p2charts": "^0.14.2",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
     "autoprefixer": "^6.3.6",
@@ -51,16 +50,16 @@
     "eslint-plugin-import": "*",
     "eslint-plugin-jsx-a11y": "*",
     "extract-text-webpack-plugin": "~1.0.1",
+    "fallback-port": "^0.1.7",
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
     "gulp-sass": "^3.1.0",
     "gulp-util": "~3.0.7",
+    "jsonml.js": "^0.1.0",
     "less": "~2.6.1",
     "less-loader": "~2.2.3",
-    "jsonml.js": "^0.1.0",
     "node-sass": "^4.5.2",
-    "style-loader": "~0.13.1",
     "openbrowser": "^1.0.2",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
@@ -69,9 +68,10 @@
     "react-addons-test-utils": "^15.4.2",
     "react-document-title": "^2.0.1",
     "react-dom": "*",
-    "react-intl": "^2.2.3",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-intl": "^2.2.3",
     "react-router": "^3.0.0",
+    "style-loader": "~0.13.1",
     "webpack": "~1.12.14",
     "webpack-dev-server": "~1.14.1"
   }
