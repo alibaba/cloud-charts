@@ -103,7 +103,7 @@ class PieChartTitleMini extends React.Component {
               <circle r="38" cx="40" cy="40" className="usage-rate-ring-svg-ring" strokeDasharray={strokeDasharray} transform="rotate(-90, 40 40)"></circle>
             </svg>
             <div className="usage-rate-ring-count-num">
-              <span>{(ratio * 100) + '%'}</span>
+              <span>{(Math.floor(divisor/dividend) * 1000 / 10) + '%'}</span>
               <p>{title.ring}</p>
             </div>
           </div>
