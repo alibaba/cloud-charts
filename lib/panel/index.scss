@@ -1,7 +1,12 @@
 .p2-panel{
-  background: #fff;
-  padding: 20px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+
   height: 100%;
+  padding: 20px;
+  background: #fff;
   font-family: "DIN For Widgets", "PingFang SC", "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei";
 
   h4{
