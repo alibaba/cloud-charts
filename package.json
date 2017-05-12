@@ -16,6 +16,13 @@
   "publishConfig": {
     "registry": "http://registry.npm.alibaba-inc.com"
   },
+  "files": [
+    "package.json",
+    "README.md",
+    "HISTORY.md",
+    "lib",
+    "components"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@ali/ci-log": "*",
