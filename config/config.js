@@ -78,8 +78,7 @@ module.exports = function (output, root) {
         loader: ExtractTextPlugin.extract('style', 'raw!postcss!@ali/sass-loader')
       });
 
-      config.plugins.push(new ExtractTextPlugin('[name].css'));
-
+      config.plugins.push(new ExtractTextPlugin('[name].css',{allChunks:true}));
 
       config.externals = {
         react: 'React',

@@ -58,8 +58,8 @@ export default class Layout extends React.Component {
   }
   getCurrentLink(){
     let pathname=location.pathname,current="";
-    routerCof.link.map((item)=>{
-      if(pathname.replace(/\//g,"").replace(routerCof.routes.prefix,'')==item.to.replace(/\//g,"")){
+    routerCof.link.forEach((item)=>{
+      if(pathname.replace('/'+routerCof.routes.prefix,'').split('/')[1]==item.to.split('/')[1]){
         current=item.to;
       }
     })
