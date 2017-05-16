@@ -75,7 +75,7 @@ class BarChartDetailsMini extends React.Component {
         <div className="load-progress-details">
           { 
             details.map((detail, index)=>{
-              let data = (Number(dataSource[detail.key]).toFixed(2) * 100);
+              let data = Math.round(dataSource[detail.key] * 1000) /10 ;
               data = isNaN(data) ? '-' : data;
               return (
                 <div className="load-progress-details-detail" key={index}>
