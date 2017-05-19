@@ -6,6 +6,9 @@ title: Top列表
 cols: 1
 ---
 
+用于展示一组或多组Top N数据，自带标题。
+包括 TopList、TopList.Group、TopList.Group.Column
+
 ## API
 
 ### TopList
