@@ -35,6 +35,15 @@ class List extends React.Component {
     });
   }
 
+  handleRowHover(record, index, groupIndex, isEnter) {
+    const domData = this.state.domData;
+    record['isHover'] = !!isEnter;
+    domData[groupIndex].dataSource[index] = record;
+    this.setState({
+      domData: domData || []
+    });
+  }
+
   //计算组件所需要的数据
   normalizeChildren(props) {
     const domData = React.Children.map(props.children, (child) => {
@@ -116,16 +125,19 @@ class List extends React.Component {
   }
 
   //渲染单元格
-  renderCell(column, data, sortable) {
+  renderCell(column, data, sortable, groupIndex) {
     const cell = column.cell || emptyRender;
 
     return data.map((d, i) => {
       const value = column.dataIndex ? d[column.dataIndex] : d;
       const cellCls = classnames('top-list-column-cell', {
-        'top-list-column-cell-color': i < 3 && sortable
+        'top-list-column-cell-color': i < 3 && sortable,
+        'top-list-column-cell-hover': d.isHover
       });
       return (
-        <div className={cellCls} key={i}>
+        <div className={cellCls} key={i}
+             onMouseEnter={this.handleRowHover.bind(this, d, i, groupIndex, true)}
+             onMouseLeave={this.handleRowHover.bind(this, d, i, groupIndex, false)}>
           {cell(value, i, d)}
         </div>
       );
@@ -159,7 +171,7 @@ class List extends React.Component {
             return (
               <div className={columnCls} style={columnStyle} key={colIndex}>
                 <div className="top-list-column-title">{column.title}</div>
-                {this.renderCell(column, group.dataSource, isSort)}
+                {this.renderCell(column, group.dataSource, isSort, groupIndex)}
               </div>
             );
           })
