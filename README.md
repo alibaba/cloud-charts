@@ -39,23 +39,6 @@ class App extends React.Component {
 }
 ```
 
-## 组件文档
-
-- Grid (暂无)
-- [Panel](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/panel)
-- CapacityIndex (暂无)
-- StateIndex (暂无)
-- RankList (暂无)
-- [TopList](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/topList)
-- TableList (暂无)
-- [IconLinkButtonMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconLinkButtonMini)
-- [OnlyLiteralMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyLiteralMini)
-- [PieChartTitleMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/pieChartTitleMini)
-- [BarChartDetailsMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/barChartDetailsMini)
-- [OnlyDetailsLiteralLattice](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralLattice)
-- [IconTitleMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/iconTitleMini)
-- [OnlyDetailsLiteralRowsMini](http://gitlab.alibaba-inc.com/ls/p2widgets/tree/master/src/components/onlyDetailsLiteralRowsMini)
-
 ## 开发
 
 ```
@@ -64,3 +47,12 @@ class App extends React.Component {
 3. fie start
 ```
 
+### 组件命名规范
+
+组件分为两类：迷你卡片和普通卡片
+
+迷你卡片名称为 {类型}Mini_{编号}
+
+普通卡片名称为 描述该卡片的名词组合（尽量在两个词以内），如有重复的后面加 "_{编号}"
+
+注：编号为英文字母，从A到Z
