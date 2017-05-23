@@ -13,10 +13,11 @@ title:
 
 
 ````jsx
+import {RankList} from '@alife/p2widgets';
 
 ReactDOM.render(
     <div>
-        组件样例
+      <RankList/>
     </div>,
 mountNode);
 ````
