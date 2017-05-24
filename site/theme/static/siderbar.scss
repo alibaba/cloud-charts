@@ -2,27 +2,33 @@
   display: inline-block;
   width: 100%;
   font-size: 14px;
-  position: relative;
-  border-right: 1px solid #ddd;
   background: #fff;
   padding-right: 20px;
   background-clip: content-box;
   h4 {
     font-size: 14px;
     color: #666;
+    display: none;
   }
-  .next-menu-submenu-title{
+  .next-menu-submenu-title {
     margin-left: 12px;
+    font-size: 12px;
   }
 }
 
 .next-menu-group-title {
   padding: 0 20px;
+  line-height: 40px;
+  font-size: 12px;
 }
 
 .next-menu-item a {
   color: rgba(0, 0, 0, 0.43);
   font-size: 13px;
+}
+
+.next-menu-item {
+  border-left: 2px solid transparent;
 }
 
 .next-menu-item:hover {
@@ -39,15 +45,22 @@
   padding: 10px;
   border-bottom: 1px solid #f9f9f9;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   span.themeText {
-    position: relative;
-    top: -5px;
-    right: 10px;
+    margin-right: 5px;
   }
 }
 
-.next-menu-item a .chinese {
-  color: #666;
+.next-menu-item a span {
+  font-size: 12px;
+  color: #999;
+  &.chinese {
+    color: #666;
+    font-size: 14px;
+    margin-right: 10px;
+  }
 }
 
 .next-menu.menu .next-icon {
@@ -57,6 +70,7 @@
 .next-menu.menu .next-menu-item {
   padding: 0px 18px !important;
   margin: 5px 0;
+  line-height: 40px;
   border-left: 2px solid transparent;
   &.selected {
     border-left: 2px solid #2889EC;
@@ -68,4 +82,10 @@
 
 .next-menu .next-menu-submenu-item .next-menu .selected .next-icon-select {
   display: none;
+}
+
+@media (max-width: 480px) {
+  .siderbar {
+    width: 100%;
+  }
 }

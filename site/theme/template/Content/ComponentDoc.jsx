@@ -115,7 +115,7 @@ export default class ComponentDoc extends React.Component {
                />*/}
             </h2>
           </section>
-          <Row className="code-container">
+          <Row className="code-container" type="no-padding" isMobile={true}>
             <Col span={isSingleCol ? '24' : '12'}
                  className={isSingleCol ?
                    'code-boxes-col-1-1' :

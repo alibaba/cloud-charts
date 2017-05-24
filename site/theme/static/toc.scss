@@ -2,7 +2,6 @@
   font-size: 14px;
   margin: 24px 0;
   background: #fbfbfb;
-  border-left: 2px solid #eee;
   list-style: none;
 }
 
@@ -23,7 +22,6 @@
 
 .toc a {
   padding-left: 16px;
-  border-left: 2px solid #eee;
   margin-left: -2px;
   display: block;
   transition: all 0.3s ease;
@@ -45,9 +43,11 @@
 .toc-affix {
   position: sticky;
   float: right;
-  margin-right: -120px;
-  margin-top: 10px;
-  top:10px;
+  margin-top: -20px;
+  margin-right: -188px;
+  padding: 20px;
+  background: #fff;
+  top: 20px;
 }
 
 .demos-anchor {
@@ -61,6 +61,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 90px;
+    width: 150px;
   }
 }

@@ -51,16 +51,20 @@ ul {
 }
 
 .main-wrapper {
-  width: 92%;
+  width: 100%;
   border-radius: $border-radius-base;
   position: relative;
   margin: 30px auto 0;
+  padding:0 50px;
 }
 
 .main-container-component {
-  padding-right: 180px;
+  padding-right:0px;
   article {
-    padding: 30px;
+    padding: 20px 188px 20px 20px;
+    &>.markdown{
+      padding: 0;
+    }
   }
 }
 div.main-container {

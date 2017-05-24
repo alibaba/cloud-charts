@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Grid, Menu } from '@alife/aisc';
 import Article from './Article';
+import ToggleTheme from './ToggleTheme';
 import ComponentDoc from './ComponentDoc';
 import * as utils from '../utils';
 import config from '../../';
@@ -193,9 +194,14 @@ export default class MainContent extends React.Component {
     const localizedPageData = props.localizedPageData;
     return (
       <div className="main-wrapper">
-        <Row isMobile={true}>
+        <Row isMobile={true} type="no-padding">
           <Col span="4">
             <div className="siderbar">
+            {
+              props.location.pathname.match(/^components/) ?
+                <ToggleTheme></ToggleTheme> :
+                null
+            }
             <Menu 
               className="menu"
               mode="inline"
@@ -216,7 +222,7 @@ export default class MainContent extends React.Component {
           </Col>
         </Row>
         
-        <Row  isMobile={true} className="prev-row">
+        <Row type="no-padding" isMobile={true} className="prev-row">
           <Col
             span="20"
             offset="4"
