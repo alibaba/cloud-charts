@@ -84,7 +84,7 @@ class NumberMiniC extends React.Component {
               });
 
               return (
-                <div className={cls}>
+                <div className={cls} key={i}>
                   <div className="state-index-sub-item-box">
                     <b>{detail.label}</b>
                     <span>{data}</span>
