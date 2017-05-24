@@ -12,7 +12,7 @@ cols: 1
 | ---------- | ---------------------------------------- | ------ | ------ |
 | title      | 标题文案                                     | String | ''     |
 | ringTitle  | 圆环标题                                     | String | ''     |
-| ringKey    | 环数据的Key                                  | String | 'ring' |
+| ringKey    | 环数据的Key                                  | String | 'ratio |
 | details    | 详情的配置，包涵文案、数据Key、渲染方式。形如 [{"label":"Text","key":"a"},{"label":"Text","key":"b"}] | Array  | []     |
 | dataSource | 展示的数据源。形如 { ringKey: 0.8, a: 10, b: 20}  | Object | {}     |
 

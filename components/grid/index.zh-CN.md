@@ -6,6 +6,8 @@ title: Grid
 cols: 1
 ---
 
+效果与API和AISC的栅格相同
+
 ## API
 
-### Grid
+[AISC - 栅格](http://aisc.alibaba-inc.com/aisc/components/grid/)
