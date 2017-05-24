@@ -1,0 +1,1 @@
+webpackJsonp([39,47],{283:function(e,i){e.exports={content:["section"],meta:{category:"\u7ec4\u4ef6",subtitle:"CircleMiniA",type:"\u73af\u8ff7\u4f60\u5361\u7247",title:"A",cols:1,filename:"components/circle-mini-a/index.zh-CN.md?v=0.5.228"},toc:["ul",["li",["a",{className:"brush-toc-h2",href:"#API",title:"API"},"API"]]],api:["section",["h2","API"],["h3","CircleMiniA"]]}}});

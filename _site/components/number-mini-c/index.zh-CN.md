@@ -1,0 +1,1 @@
+webpackJsonp([33,47],{292:function(e,t){e.exports={content:["section"],meta:{category:"\u7ec4\u4ef6",subtitle:"NumberMiniC",type:"\u6570\u503c\u8ff7\u4f60\u5361\u7247",title:"C",cols:1,filename:"components/number-mini-c/index.zh-CN.md?v=0.5.228"},toc:["ul",["li",["a",{className:"brush-toc-h2",href:"#API",title:"API"},"API"]]],api:["section",["h2","API"],["h3","NumberMiniC"]]}}});
