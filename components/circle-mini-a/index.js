@@ -4,7 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './index.scss';
 
-class CapacityIndex extends React.Component {
+class CircleMiniA extends React.Component {
 
   constructor(props){
     super(props);
@@ -71,4 +71,4 @@ class CapacityIndex extends React.Component {
   }
 }
 
-export default CapacityIndex;
+export default CircleMiniA;

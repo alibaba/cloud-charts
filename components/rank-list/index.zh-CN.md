@@ -1,7 +1,7 @@
 ---
 category: 组件
 subtitle: RankList
-type: 信息展示
+type: 表格型卡片
 title: 比率列表
 cols: 1
 ---

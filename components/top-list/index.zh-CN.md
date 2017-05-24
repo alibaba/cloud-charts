@@ -1,7 +1,7 @@
 ---
 category: 组件
 subtitle: TopList
-type: 信息展示
+type: 表格型卡片
 title: Top列表
 cols: 1
 ---

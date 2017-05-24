@@ -16,7 +16,7 @@ title:
 import {
   Grid,
   Panel,
-  StateIndex,
+  NumberMiniC,
 } from '@alife/p2widgets';
 
 const { Row, Col } = Grid;
@@ -61,13 +61,13 @@ ReactDOM.render(
         <Col span="24">
           <Panel title="OSD指标">
             <Item>
-              <StateIndex title="数据库" data={data.data3}  />
+              <NumberMiniC title="数据库" data={data.data3}  />
             </Item>
             <Item>
-              <StateIndex title="中间件" data={data.data4} />
+              <NumberMiniC title="中间件" data={data.data4} />
             </Item>
             <Item>
-              <StateIndex title="蚂蚁" data={data.data5} />
+              <NumberMiniC title="蚂蚁" data={data.data5} />
             </Item>
           </Panel>
         </Col>

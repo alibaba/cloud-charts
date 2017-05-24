@@ -1,8 +1,8 @@
 ---
 category: 组件
 subtitle: TableList
-type: 信息展示
-title: Table列表
+type: 表格型卡片
+title: 表格
 cols: 1
 ---
 

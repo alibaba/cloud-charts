@@ -3,7 +3,12 @@ const contentTmpl = './template/Content/index';
 
 module.exports = {
   typeOrder: {
-    '信息展示': 0,
+    '基础组件': 0,
+    '表格型卡片': 1,
+    '按钮迷你卡片': 2,
+    '柱图迷你卡片': 3,
+    '环迷你卡片': 4,
+    '数值迷你卡片': 5
   },
   categoryOrder: {
     '指引': 0,

@@ -16,7 +16,7 @@ title:
 import {
   Grid,
   Panel,
-  CapacityIndex,
+  CircleMiniA,
 } from '@alife/p2widgets';
 
 const { Row, Col } = Grid;
@@ -61,13 +61,13 @@ ReactDOM.render(
         <Col span="24">
           <Panel title="机器数据指标" tabMode>
             <Item title="数据库">
-              <CapacityIndex title="数据库" data={data.data1}  />
+              <CircleMiniA title="数据库" data={data.data1}  />
             </Item>
             <Item title="中间件">
-              <CapacityIndex title="中间件" data={data.data2} />
+              <CircleMiniA title="中间件" data={data.data2} />
             </Item>
             <Item title="蚂蚁">
-              <CapacityIndex title="蚂蚁" data={data.data0} />
+              <CircleMiniA title="蚂蚁" data={data.data0} />
             </Item>
           </Panel>
         </Col>

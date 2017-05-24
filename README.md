@@ -56,3 +56,8 @@ class App extends React.Component {
 普通卡片名称为 描述该卡片的名词组合（尽量在两个词以内），如有重复的后面加 "_{编号}"
 
 注：编号为英文字母，从A到Z
+
+### 脚手架文件修改记录
+site/theme/index.js 修改路由和排序规则
+package.json
+fie.config.js

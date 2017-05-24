@@ -4,7 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import './index.scss';
 
-class StateIndex extends React.Component {
+class NumberMiniC extends React.Component {
 
   constructor(props){
     super(props);
@@ -72,4 +72,4 @@ class StateIndex extends React.Component {
   }
 }
 
-export default StateIndex;
+export default NumberMiniC;
