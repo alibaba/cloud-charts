@@ -88,7 +88,7 @@ class CircleMiniA extends React.Component {
               }
 
               return (
-                <div className="capacity-index-sub-item">
+                <div className="capacity-index-sub-item" key={i}>
                   <b>{detail.label}</b>
                   <span>{data}</span>
                 </div>
