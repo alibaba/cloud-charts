@@ -37,37 +37,33 @@ const data = {
     ratio: 0.85,
     quantity: 200,
     capacity: 128
-  },
-  data3: {
-    total: 512,
-    down: 23,
-    out: 0
-  },
-  data4: {
-    total: 128,
-    down: 0,
-    out: 10
-  },
-  data5: {
-    total: 1024,
-    down: 0,
-    out: 0
   }
 };
+
+const details = [
+  {
+    label: "Text1",
+    key: "quantity"
+  },
+  {
+    label: "Text2",
+    key: "capacity"
+  }
+];
 
 ReactDOM.render(
     <div>
       <Row>
         <Col span="24">
-          <Panel title="机器数据指标" tabMode>
+          <Panel title="数据指标" tabMode>
             <Item title="数据库">
-              <CircleMiniA title="数据库" data={data.data1}  />
+              <CircleMiniA title="数据库" ringTitle="使用率1" details={details} dataSource={data.data1}  />
             </Item>
             <Item title="中间件">
-              <CircleMiniA title="中间件" data={data.data2} />
+              <CircleMiniA title="中间件" ringTitle="使用率2" details={details} dataSource={data.data2} />
             </Item>
             <Item title="蚂蚁">
-              <CircleMiniA title="蚂蚁" data={data.data0} />
+              <CircleMiniA title="蚂蚁" ringTitle="使用率3" details={details} dataSource={data.data0} />
             </Item>
           </Panel>
         </Col>
