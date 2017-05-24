@@ -15,7 +15,7 @@ module.exports = {
   },
   routes: {
     path: '/',
-    prefix: 'aisc',
+    prefix: 'p2widgets',
     component: './template/Layout/index',
     indexRoute: {component: homeTmpl},
     dataPath: '/',

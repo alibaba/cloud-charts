@@ -9,3 +9,12 @@
 @import './demo';
 @import './colors';
 @import './siderbar';
+
+//样式覆盖
+.themeSelect {
+  display: none;
+}
+
+.header-bg .lan-version {
+  display: none;
+}
