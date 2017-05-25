@@ -9,7 +9,7 @@
     //text-align: center;
     font-size: 14px;
     color: #333;
-    background: #edf3fe;
+    background: #ecf4ff;
   }
   .top-list-title {
     flex: 1;
@@ -109,7 +109,15 @@
     //color: #0580f2;
 
     &:nth-child(even) {
-      background: #f6f8fc;
+      background: #f8fbfe;
+    }
+  }
+
+  .top-list-column-cell-hover {
+    background: #e3eefd;
+
+    &:nth-child(even) {
+      background: #e3eefd;
     }
   }
 
