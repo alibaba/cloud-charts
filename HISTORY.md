@@ -1,6 +1,25 @@
 # Changelog 
 
 
+## 0.6.0 / 2017-05-25 
+
+  * [[194bc64](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/194bc64af996f02e1f91a73124f4ca78100ec764)] - `chore` 添加缺少的开发依赖 
+  * [[318dcab](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/318dcabe0152cac64411a1eb707804619a16f851)] - `fix` number-mini-c 缺少key 
+  * [[1d1e8c8](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/1d1e8c81cd1b8e5f00f65593f00e544141e1d3ff)] - `docs` 补充文档 
+  * [[8b28e50](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/8b28e508899db21cbd17802ecb934bed3515579b)] - `chore` 调整网站配置 
+  * [[5df1d48](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/5df1d48626bc4bac5804dc005fb5bdb14c2fe3a5)] - `feat` 完善 number-mini-c 逻辑，补全文档 
+  * [[a723ded](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/a723dedf87fe7748e923d91df9ec7ac04816ba6c)] - `feat` 调整circle-mini-a逻辑，补充文档 
+  * [[a3e350c](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/a3e350c961ed859aea88788ed72b8a7b206ad858)] - `chore` 升级网站脚手架 
+  * [[acd2de5](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/acd2de54ebecb14a92837afa3b7d9163715015b1)] - `feat` 完善名称修改已经组件排序 
+  * [[43d2c59](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/43d2c598d9fdb5d0df93b44f62a7c2bced5e0d93)] - `feat` 官网API文档表格内容溢出问题 
+  * [[ce8cdb1](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/ce8cdb17fb7ae5b1d4644b1894a8eed0c0f76220)] - `feat` 添加使用事例以及相关文档说明、规范化widget名 
+  * [[e6374fb](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/e6374fb8862ba74b40477400c4b39fca9b058f4c)] - `docs` 调整文档 
+  * [[a977a92](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/a977a925f336cf387b17b3bcb1261e0930041ff8)] - `fix` 修复panel tab模式下样式错误问题 
+  * [[7617d65](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/7617d65c79ec76f0a37c8e1890efdc2d8fb69797)] - `feat` top-list 添加hover效果，微调颜色 
+  * [[0c26cbe](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/0c26cbe5c47145eca1f23ececc6dba089c2d336e)] - `docs` top-list 补充demo 
+  * [[ab6f4b6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/ab6f4b610807feb41d0eeca64d1c7e01b7eb672d)] - `fix` 清除所有小挂件浮点数问题 
+  * [[3deb88e](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/3deb88e1984c52a5931083fff9fc54aad917238a)] - `chore` 更新脚手架，修复运行报错问题 
+
 ## 0.5.2 / 2017-05-12 
 
   * [[bc100b6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/bc100b68322bcbd683deb9ca472be49d25bed1b6)] - `fix` pie-chart-title 报错 
