@@ -1,6 +1,12 @@
 # Changelog 
 
 
+## 0.6.1 / 2017-05-26 
+
+  * [[edeae9d](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/edeae9d93da916824044e5a46e8f647bfbb7dc60)] - `fix` 调整依赖 
+  * [[2dc185a](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/2dc185a2fcf55d3603295f7ee6da328b59977004)] - `fix` panel样式错误和charts引用文件 
+  * [[bd0b2c6](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/bd0b2c65e2778e1f032674f1e2ed99c0a6e0e014)] - `docs` 补充panel和charts文档 
+
 ## 0.6.0 / 2017-05-25 
 
   * [[194bc64](http://gitlab.alibaba-inc.com/ls/p2widgets/commit/194bc64af996f02e1f91a73124f4ca78100ec764)] - `chore` 添加缺少的开发依赖 
