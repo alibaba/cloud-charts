@@ -26,7 +26,6 @@
     .p2-panel-titlesub{
       float: right;
       height: 24px;
-      margin-right: 8px;
     }
 
     .p2-panel-tab {
@@ -34,6 +33,7 @@
       display: flex;
       //高度+1像素
       height: 25px;
+      margin-left: 8px;
 
       .p2-panel-tab-key {
         flex: none;
