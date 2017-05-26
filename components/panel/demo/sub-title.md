@@ -1,0 +1,37 @@
+---
+order: 1
+title:
+  zh-CN: 副标题
+  en-US: Sub-Title
+---
+
+## zh-CN
+
+卡片包含了一些固定的样式，用于包裹可视化组件，形成统一的视觉表现。
+
+## en-US
+
+
+````jsx
+import { Panel } from '@alife/p2widgets';
+const { Item, TitleSub } = Panel;
+
+const demoStyle = {
+  padding: 20,
+  background: '#f8f8f8'
+};
+class PanelDemo extends React.Component {
+  render() {
+    return (
+      <div style={demoStyle}>
+        <Panel title="卡片标题">
+          <TitleSub>副标题区域</TitleSub>
+          卡片内容
+        </Panel>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<PanelDemo />, mountNode);
+````
