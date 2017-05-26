@@ -23,14 +23,15 @@
     "lib",
     "components"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@alife/aisc": "^2.2.15",
+    "@alife/aisc-p2charts": "^0.14.2"
+  },
   "devDependencies": {
     "@ali/ci-log": "*",
     "@ali/git-commit": "^1.2.3",
     "@ali/happypack": "^2.3.0",
     "@ali/sass-loader": "^3.2.1",
-    "@alife/aisc": "^2.2.15",
-    "@alife/aisc-p2charts": "^0.14.2",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
     "autoprefixer": "^6.3.6",
