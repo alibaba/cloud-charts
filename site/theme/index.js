@@ -29,11 +29,15 @@ module.exports = {
     }, {
       path: 'guide/:children/',
       component: contentTmpl
+    }, {
+      path: 'spec/:children/',
+      component: contentTmpl
     }],
   },
   source: {
     components: './components',
-    guide: './guide'
+    guide: './guide',
+    spec: './spec'
   },
   link: [{to: `/`, children: "首页"},
     {to: `/components/panel/`, children: "组件"},
