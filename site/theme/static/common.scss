@@ -61,19 +61,19 @@ ul {
 .main-container-component {
   padding-right:0px;
   article {
-    padding: 20px 188px 20px 20px;
+    padding: 20px 188px 20px 30px;
     &>.markdown{
       padding: 0;
     }
   }
 }
 div.main-container {
-  padding-bottom: 120px;
+  padding-bottom: 120px!important;
   background: #fff;
   min-height: 500px;
-  // overflow: hidden;
   position: relative;
   margin-left: -4px;
+  border-radius: 4px;
 }
 
 .outside-link {

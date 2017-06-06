@@ -6,7 +6,7 @@
 }
 
 .toc > ul {
-  padding: 8px 0;
+  padding: 8px 0 16px 0px;
   list-style: none;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .toc a {
-  padding-left: 16px;
+  padding-left: 6px;
   margin-left: -2px;
   display: block;
   transition: all 0.3s ease;
@@ -46,7 +46,6 @@
   margin-top: -20px;
   margin-right: -188px;
   padding: 20px;
-  background: #fff;
   top: 20px;
 }
 

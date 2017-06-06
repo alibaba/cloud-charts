@@ -68,7 +68,7 @@
 
 .code-box .code-box-demo {
   border-bottom: 1px solid $border-color-split;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
 }
 
 .code-box .code-box-demo p{
@@ -167,7 +167,7 @@ section.code-box-meta p {
   max-height: 0;
   overflow: auto;
   border-radius: 0 0 6px 6px;
-  transition: 0.5s max-height ease-in-out;
+  transition: 0.3s max-height ease-in-out;
 }
 .code-box .highlight-wrapper-expand {
   //display: block;

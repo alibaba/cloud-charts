@@ -81,8 +81,8 @@ export default class Layout extends React.Component {
         const subtitle = meta.subtitle || "";
         const title = meta.title || "";
         return {
-          title: title,
-          subtitle: subtitle,
+          title: subtitle,
+          subtitle: title,
           value: url,
         }
       });

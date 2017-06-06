@@ -168,6 +168,7 @@
   .main-wrapper,.header-bg {
     width: 100%;
     border-radius: 0;
+    margin:0px;
   }
   .search-components,.header-nav,.lang{
     display: none!important;
@@ -191,8 +192,8 @@
   .main-container{
     margin-left: 0px!important; 
   }
-  html{
-    overflow: hidden;
+  body{
+    overflow-x: hidden;
   }
   .main-container-component article{
     padding:10px!important;

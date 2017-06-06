@@ -85,11 +85,11 @@ export default class ComponentDoc extends React.Component {
           </div>
           <section className="markdown left">
             <h1>
-              {title[locale] || title}
-              {
-                !subtitle ? null :
-                  <span className="subtitle">{subtitle}</span>
-              }
+               <span className="subtitle">{subtitle}</span>
+               {
+                  !title || locale === 'en-US' ? null :
+                    <span className="title">{title[locale] || title}</span>
+               }
             </h1>
             <div>
               {
@@ -109,10 +109,9 @@ export default class ComponentDoc extends React.Component {
                   .concat(getChildren(content))
               )
             }
-            <h2>
-              {/*<Icon type="view" className={expandTriggerClass}
-               title="展开全部代码" onClick={this.handleExpandToggle}
-               />*/}
+            <h2 id="代码演示">
+              <span>代码演示</span>
+              <a href="#代码演示" className="anchor">#</a>
             </h2>
           </section>
           <Row className="code-container" type="no-padding" isMobile={true}>

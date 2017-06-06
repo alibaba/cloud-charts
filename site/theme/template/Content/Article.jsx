@@ -45,11 +45,11 @@ export default class Article extends React.Component {
       <DocumentTitle title={`${title[locale] || title} - AISC`}>
         <article className="markdown">
           <h1>
-            {title[locale] || title}
-            {
-              !subtitle || locale === 'en-US' ? null :
-                <span className="subtitle">{subtitle}</span>
-            }
+             <span className="subtitle">{subtitle}</span>
+             {
+                !title || locale === 'en-US' ? null :
+                  <span className="title">{title[locale] || title}</span>
+             }
           </h1>
           {
             !description ? null :

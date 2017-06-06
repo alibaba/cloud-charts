@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import { Grid, Menu } from '@alife/aisc';
+import { Grid, Menu, Icon } from '@alife/aisc';
 import Article from './Article';
-import ToggleTheme from './ToggleTheme';
 import ComponentDoc from './ComponentDoc';
 import * as utils from '../utils';
 import config from '../../';
@@ -24,8 +23,10 @@ function getModuleData(props) {
   const moduleName = /^\/?components/.test(pathname) ?
           'components' : pathname.split('/').filter(item => item).slice(0, 1).join('/');
   
-  const moduleData = moduleName === 'components'  ?
-          [...props.picked.components]  : props.picked[moduleName];
+  const moduleData = moduleName === 'components' || moduleName === 'spec' ?
+          [...props.picked.components, ...props.picked['spec']] :
+          props.picked[moduleName];
+
   const suffix = utils.isEnUS(props.location.pathname) ? 'en-US.md' : 'zh-CN.md';
   return moduleData.filter(({ meta }) => {return meta.filename.endsWith(suffix)});
 }
@@ -42,10 +43,17 @@ export default class MainContent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { openKeys: this.getSideBarOpenKeys(props) || [] };
+    this.state = { 
+      mode: '',
+      open: false,
+      openKeys: this.getSideBarOpenKeys(props) || [] };
   }
 
   componentDidMount() {
+    window.onresize = () => {
+      this.resize();
+    };
+    this.resize();
     this.componentDidUpdate();
   }
 
@@ -54,6 +62,18 @@ export default class MainContent extends React.Component {
     if (openKeys) {
       this.setState({ openKeys });
     }
+    this.setState({
+      open: false
+    })
+  }
+
+  resize() {
+    const width = window.innerWidth;
+    const mode = width > 768 ? 'pc' : 'mobile';
+    this.setState({
+      mode:mode,
+      open: false
+    })
   }
 
   componentDidUpdate() {
@@ -186,22 +206,30 @@ export default class MainContent extends React.Component {
     return { prev, next };
   }
 
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    })
+  }
+
   render() {
     const props = this.props;
     const activeMenuItem = getActiveMenuItem(props);
     const menuItems = this.getMenuItems();
     const { prev, next } = this.getFooterNav(menuItems, activeMenuItem);
     const localizedPageData = props.localizedPageData;
+    const { mode ,open } = this.state;
+    const sidebarDis = mode == 'mobile' ? open ? 'block' : 'none' : 'block';
+    const contentDis = mode == 'mobile' ? open ? 'none' : 'block' : 'block';
+
     return (
       <div className="main-wrapper">
         <Row isMobile={true} type="no-padding">
           <Col span="4">
-            <div className="siderbar">
             {
-              props.location.pathname.match(/^components/) ?
-                <ToggleTheme></ToggleTheme> :
-                null
+              mode == 'mobile' ? <div className="select" onClick={this.toggle.bind(this)} ><Icon type={open ? "arrow-up" : "arrow-down"} /></div> :null
             }
+            <div className="siderbar" style={{display:sidebarDis}}>
             <Menu 
               className="menu"
               mode="inline"
@@ -213,7 +241,7 @@ export default class MainContent extends React.Component {
             </Menu>
             </div>
           </Col>
-          <Col span="20" className={'main-container' + (props.demos ? ' main-container-component' :'')}>
+          <Col style={{display:contentDis}} span="20" className={'main-container' + (props.demos ? ' main-container-component' :'')}>
             {
               props.demos ?
                 <ComponentDoc {...props} doc={localizedPageData} demos={props.demos} /> :
@@ -222,7 +250,7 @@ export default class MainContent extends React.Component {
           </Col>
         </Row>
         
-        <Row type="no-padding" isMobile={true} className="prev-row">
+        <Row style={{display:contentDis}} type="no-padding" isMobile={true} className="prev-row">
           <Col
             span="20"
             offset="4"
