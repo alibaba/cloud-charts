@@ -116,6 +116,11 @@ class Demo extends React.Component{
         <div className="demo-item">
             <Charts ref="chart7" type="line" config={options7} data={data} width="600" height="400" />
         </div>
+        <div className="demo-item">
+            <h4>额外功能</h4>
+            <a href="http://riddle.alibaba-inc.com/riddles/f7de4004/iframe">事件联动</a><br />
+            <a href="http://riddle.alibaba-inc.com/riddles/54dbe297/iframe">点击事件</a><br />
+        </div>
       </div>
     );
   }

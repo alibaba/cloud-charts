@@ -3,7 +3,7 @@ category: 组件
 subtitle: 基础图表
 type: 基础组件
 title: Charts
-cols: 1
+cols: 2
 ---
 
 ## API
