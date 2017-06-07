@@ -3,9 +3,7 @@ export Charts from './charts/index';
 export Grid from './grid/index';
 export Panel from './panel/index';
 //表格类卡片
-export RankList from './rank-list/index';
 export TopList from './top-list/index';
-export TableList from './table-list/index';
 //按钮卡片
 export ButtonMiniA from './button-mini-a/index';
 //柱图卡片
