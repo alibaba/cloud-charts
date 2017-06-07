@@ -84,22 +84,22 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Charts ref="chart1" type="bar" config={options1} data={data} width="600" height="400" />
+            <Charts ref="chart1" type="bar" config={options1} data={data} height="400" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart2" type="bar" config={options2} data={data} width="600" height="400" />
+            <Charts ref="chart2" type="bar" config={options2} data={data} height="400" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart3" type="bar" config={options3} data={data} width="600" height="400" />
+            <Charts ref="chart3" type="bar" config={options3} data={data} height="400" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart4" type="bar" config={options4} data={data} width="600" height="400" />
+            <Charts ref="chart4" type="bar" config={options4} data={data} height="400" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart4" type="bar" config={options5} data={data} width="600" height="400" />
+            <Charts ref="chart4" type="bar" config={options5} data={data} height="400" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart4" type="bar" config={options6} data={data} width="600" height="400" />
+            <Charts ref="chart4" type="bar" config={options6} data={data} height="400" />
         </div>
       </div>
     );

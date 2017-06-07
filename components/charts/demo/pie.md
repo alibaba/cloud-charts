@@ -67,16 +67,16 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Charts ref="chart1" type="pie" config={options1} data={data} width="600" height="400" />
+            <Charts ref="chart1" type="pie" config={options1} data={data} height="300" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart2" type="pie" config={options2} data={data} width="600" height="400" />
+            <Charts ref="chart2" type="pie" config={options2} data={data} height="300" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart3" type="pie" config={options3} data={data} width="600" height="400" />
+            <Charts ref="chart3" type="pie" config={options3} data={data} height="300" />
         </div>
         <div className="demo-item">
-            <Charts ref="chart4" type="pie" config={options4} data={data} width="600" height="400" />
+            <Charts ref="chart4" type="pie" config={options4} data={data} height="300" />
         </div>
       </div>
     );
