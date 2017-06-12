@@ -28,7 +28,7 @@ cols: 2
     title: '折线图', //标题内容，默认为“折线图”
     subTitle: '', //副标题内容，一般用来放单位说明，默认为空
     xAxis: {
-      type: 'linear', //X轴类型，默认为线性“linear”，还可以设置为时间“datatime”
+      type: 'linear', //X轴类型，默认为线性“linear”，还可以设置为时间“datetime”
       dateFormatter: '%m-%d', //时间格式化，当X轴类型为“datetime”时，此字段生效
       labelFormatter: null //自定义格式化，默认为null。设置值后dateFormatter失效
     },
