@@ -25,6 +25,7 @@
   ],
   "dependencies": {
     "@alife/aisc": "^2.2.15",
+    "@alife/aisc-core": "^0.3.1",
     "@alife/aisc-p2charts": "^0.14.2"
   },
   "devDependencies": {
