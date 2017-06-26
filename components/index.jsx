@@ -18,3 +18,4 @@ export NumberMiniE from './number-mini-e/index';
 export NumberMiniF from './number-mini-f/index';
 export NumberMiniG from './number-mini-g/index';
 
+export Wnumber from './wnumber/index';
