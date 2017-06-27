@@ -1,0 +1,6 @@
+@import "./scss/mixin.scss";
+@import "./scss/variable.scss";
+
+#{$wcontainer-prefix} {
+  @include wcontainer-font;
+}
