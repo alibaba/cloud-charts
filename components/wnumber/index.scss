@@ -1,0 +1,15 @@
+@import "./scss/mixin.scss";
+@import "./scss/variable.scss";
+
+#{$wnumber-prefix} {
+  @include wnumber-font;
+
+  #{$wnumber-prefix}-main {
+    #{$wnumber-prefix}-unit {
+      font-size: 12px;
+    }
+  }
+  #{$wnumber-prefix}-subTitle {
+    font-size: 10px;
+  }
+}
