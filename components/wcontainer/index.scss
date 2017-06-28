@@ -2,5 +2,19 @@
 @import "./scss/variable.scss";
 
 #{$wcontainer-prefix} {
+  @include wcontainer-box;
   @include wcontainer-font;
+
+  #{$wcontainer-prefix}-title {
+    padding-bottom: 12px;
+    color: #333;
+    line-height: px;
+    border-bottom: 1px solid #E6E7EB;
+  }
+
+  #{$wcontainer-prefix}-main {
+    padding-top: 12px;
+  }
+
 }
+

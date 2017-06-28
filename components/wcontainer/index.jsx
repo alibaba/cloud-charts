@@ -12,11 +12,20 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
+    let { width="100%", height="100%", theme="white" } = this.props;
+    const styleObj = {
+      width: width,
+      height: height,
+      background: theme
+    };
+
     return (
-      <div className={`${prefix}`}>
+      <div className={`${prefix}`} style={styleObj}>
+        <div className={`${prefix}-title`}>
+          {this.props.title}
+        </div>
         <div className={`${prefix}-main`} >
-          <span>{this.props.children}</span>
-          <span>hahaha</span>
+          {this.props.children}
         </div>
       </div>
     );
@@ -24,6 +33,9 @@ export default class Wcontainer extends React.Component {
 }
 
 Wcontainer.propTypes = {
-  size: PropTypes.number
+  title: PropTypes.string,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  theme: PropTypes.string
 }
 

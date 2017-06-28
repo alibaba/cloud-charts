@@ -14,12 +14,15 @@ title:
 
 ````jsx
 import {
-  Wcontainer
+  Wcontainer, Wnumber
 } from '@alife/p2widgets'
+
 
 ReactDOM.render(
     <div>
-      test
+        <Wcontainer title={'数据库机器数指标'} width={'400px'} height={'200px'}>
+            <Wnumber subTitle="副标题" unit="个">2222</Wnumber>
+        </Wcontainer>
     </div>,
 mountNode);
 ````

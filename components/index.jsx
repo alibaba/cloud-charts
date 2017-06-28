@@ -19,4 +19,4 @@ export NumberMiniF from './number-mini-f/index';
 export NumberMiniG from './number-mini-g/index';
 
 export Wnumber from './wnumber/index';
-export WContainer from './wcontainer/index';
+export Wcontainer from './wcontainer/index';
