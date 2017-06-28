@@ -25,7 +25,6 @@ export default class Wcontainer extends React.Component {
         <div className={`${prefix}-title`}>
           {this.props.title}
           <span className={`${prefix}-time`}>
-            {this.props.time ? '': 'no'} 
           </span>
         </div>
 
@@ -41,6 +40,5 @@ export default class Wcontainer extends React.Component {
 Wcontainer.propTypes = {
   title: PropTypes.string,
   height: PropTypes.number,
-  time: PropTypes.bool,
 }
 

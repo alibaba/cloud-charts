@@ -52,7 +52,7 @@ let optionsline = {
 
 ReactDOM.render(
     <div>
-        <Wcontainer title={'数据库机器数指标'} height={500} time={true}>
+        <Wcontainer title={'数据库机器数指标'} height={500}>
             <Charts ref="chart1" type="line" config={options1} data={data} height="400" />
             <Charts ref="chart2" type="bar" config={optionsline} data={dataline} height="400" />
         </Wcontainer>
