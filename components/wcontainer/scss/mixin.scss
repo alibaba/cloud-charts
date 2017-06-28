@@ -11,3 +11,8 @@
   border: 1px solid #DCDEE3;
 }
 
+@mixin fullscreen {
+  width: 100%;
+  height: 100%;
+}
+

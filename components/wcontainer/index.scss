@@ -13,7 +13,25 @@
 
   #{$wcontainer-prefix}-main {
     padding-top: 12px;
+    display: flex;
+    // flex-direction: row;
+    // flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
   }
+
+  #{$wcontainer-prefix}-main > div {
+    display: flex;
+  }
+
+  #{$wcontainer-prefix}-chart {
+    // @include fullscreen;
+    // padding-top: 12px;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: flex-start;
+  }
+
 
 }
 
