@@ -14,14 +14,13 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wnumber
+  Wcontainer, Wicon
 } from '@alife/p2widgets'
-
 
 ReactDOM.render(
     <div>
-        <Wcontainer title={'数据库机器数指标'} width={'400px'} height={'200px'}>
-            <Wnumber subTitle="副标题" unit="个">2222</Wnumber>
+        <Wcontainer title={'数据库机器数指标'} height={'200px'}>
+            <Wicon iconClass="next-icon next-icon-ais">数据池</Wicon>
         </Wcontainer>
     </div>,
 mountNode);

@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './index.scss';
 
+import Wicon from '../wicon/index';
+
 const prefix = 'aisc-wcontainer'
 
 export default class Wcontainer extends React.Component {
@@ -12,11 +14,9 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    let { width="100%", height="100%", theme="white" } = this.props;
+    let { height="100%" } = this.props;
     const styleObj = {
-      width: width,
       height: height,
-      background: theme
     };
 
     return (
@@ -26,6 +26,7 @@ export default class Wcontainer extends React.Component {
         </div>
         <div className={`${prefix}-main`} >
           {this.props.children}
+          
         </div>
       </div>
     );
@@ -34,8 +35,6 @@ export default class Wcontainer extends React.Component {
 
 Wcontainer.propTypes = {
   title: PropTypes.string,
-  width: PropTypes.string,
   height: PropTypes.string,
-  theme: PropTypes.string
 }
 

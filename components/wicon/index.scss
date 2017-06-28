@@ -1,0 +1,28 @@
+@import "./scss/mixin.scss";
+@import "./scss/variable.scss";
+
+#{$wcontainer-prefix} {
+  @include wcontainer-box;
+  @include wcontainer-font;
+
+  #{$wcontainer-prefix}-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    // box-shadow: 0 0 3px #aaa;
+    text-align: center;
+    background-color: #2a8eec;
+  }
+
+  #{$wcontainer-prefix}-title {
+    display: inline-block;
+    padding: 0 8px;
+    color: #aaa;
+    line-height: 40px;
+    vertical-align: top;
+  }
+
+}
+
