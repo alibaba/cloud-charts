@@ -20,19 +20,24 @@ export default class Wnumber extends React.Component {
     }
   }
 
+  renderMain() {
+    return(
+      <div className={`${prefix}-main`}>
+        <span className={`${prefix}-number`}>
+          {this.props.children}
+        </span>
+        <span className={`${prefix}-unit`}>
+            {this.props.unit}
+        </span>
+        <span className={`${prefix}-trend`}>+27%</span>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={`${prefix}`}>
-        <div className={`${prefix}-main`}>
-          <span className={`${prefix}-number`}>
-            {this.props.children}
-          </span>
-          <span className={`${prefix}-unit`}>
-              {this.props.unit}
-          </span>
-          <span className={`${prefix}-trend`}>+27%</span>
-        </div>
-
+        {this.renderMain()}
         {this.renderSubTitle()}
       </div>
     );
