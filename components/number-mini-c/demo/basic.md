@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 基本
@@ -17,7 +17,7 @@ import {
   Grid,
   Panel,
   NumberMiniC,
-} from '@alife/p2widgets';
+} from '@alife/aisc-widgets';
 
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;

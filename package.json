@@ -1,5 +1,5 @@
 {
-  "name": "@alife/p2widgets",
+  "name": "@alife/aisc-widgets",
   "version": "0.6.2",
   "main": "./lib/index.js",
   "scripts": {

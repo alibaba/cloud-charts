@@ -27,9 +27,11 @@ export default class Wnumber extends React.Component {
           {this.props.children}
         </span>
         <span className={`${prefix}-unit`}>
-            {this.props.unit}
+          {this.props.unit}
         </span>
-        <span className={`${prefix}-trend`}>+27%</span>
+        <span className={`${prefix}-trend`}>
+          {this.props.trend()}
+        </span>
       </div>
     );
   }
@@ -46,5 +48,6 @@ export default class Wnumber extends React.Component {
 
 Wnumber.propTypes = {
   subTitle: PropTypes.string,
-  unit: PropTypes.string
+  unit: PropTypes.string,
+  trend: PropTypes.func
 }

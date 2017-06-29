@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 折线图
@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { Charts } from '@alife/p2widgets';
+import { Charts } from '@alife/aisc-widgets';
 
 let data = [
   {

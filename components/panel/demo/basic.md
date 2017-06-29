@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 基本-无标题
@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { Panel } from '@alife/p2widgets';
+import { Panel } from '@alife/aisc-widgets';
 const { Item, TitleSub } = Panel;
 
 const demoStyle = {

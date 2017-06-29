@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Copyright(c) Alibaba Group Holding Limited.
  *
  * Authors:
@@ -19,8 +19,8 @@ module.exports = {
       const alias = config.resolve.alias;
       const srcPath = customWebpackConfig.srcPath;
 
-      alias['@alife/p2widgets'] = srcPath;
-      alias['@alife/p2widgets/lib'] = srcPath;
+      alias['@alife/aisc-widgets'] = srcPath;
+      alias['@alife/aisc-widgets/lib'] = srcPath;
       return config;
     }
   },

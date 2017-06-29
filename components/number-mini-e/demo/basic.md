@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 基本
@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { NumberMiniE} from '@alife/p2widgets';
+import { NumberMiniE} from '@alife/aisc-widgets';
 
 const dataSource={
   "title": 40782

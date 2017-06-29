@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 基本
@@ -15,7 +15,7 @@ title:
 ````jsx
 import {
   Wnumber
-} from '@alife/p2widgets'
+} from '@alife/aisc-widgets'
 
 ReactDOM.render(
     <div>

@@ -1,4 +1,4 @@
----
+﻿---
 order: 0
 title:
   zh-CN: 基本
@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { NumberMiniF} from '@alife/p2widgets';
+import { NumberMiniF} from '@alife/aisc-widgets';
 
 const demoStyle = {
   padding: 20
