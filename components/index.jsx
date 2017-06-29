@@ -20,3 +20,4 @@ export NumberMiniG from './number-mini-g/index';
 
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
+export Wicon from './wicon/index';

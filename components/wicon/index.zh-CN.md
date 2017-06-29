@@ -1,8 +1,8 @@
 ---
 category: 组件
-subtitle: 容器
+subtitle: icon组件
 type: 基础组件
-title: Wcontainer
+title: Wicon
 cols: 1
 ---
 
@@ -10,5 +10,4 @@ cols: 1
 
 | 属性        | 说明                                       | 类型     | 默认值    |
 | ---------- | ---------------------------------------- | ------ | ------ |
-| title   | 标题                                    | String | ''     |
-| height   | 高度                                          | String | '100px'     |
+| iconClass   | icon的样式类                                    | String | ''     |

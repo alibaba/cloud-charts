@@ -1,0 +1,12 @@
+@mixin wcontainer-font {
+  font-family: 'Din Alternate';
+  font-weight: 'medium';
+  font-size: 12px;
+  color: #fff;
+}
+@mixin wcontainer-box {
+  display: inline-block;
+  padding: 5px;
+  // min-height: 50px;
+}
+
