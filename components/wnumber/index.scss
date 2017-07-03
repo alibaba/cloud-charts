@@ -1,3 +1,4 @@
+@import "~@alife/aisc-core/scss/aisc.scss";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
@@ -6,10 +7,18 @@
 
   #{$wnumber-prefix}-main {
     #{$wnumber-prefix}-unit {
+      margin-left: $s1;
       font-size: 12px;
     }
+
+    #{$wnumber-prefix}-trend {
+      margin-left: $s2;
+    }
   }
-  #{$wnumber-prefix}-subTitle {
+  #{$wnumber-prefix}-bottomTitle {
     font-size: 10px;
+    &.bottom {
+      margin-top: $s1;
+    }
   }
 }

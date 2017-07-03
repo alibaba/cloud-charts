@@ -2,6 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './index.scss';
 
 const prefix = 'aisc-wnumber'
@@ -11,11 +12,15 @@ export default class Wnumber extends React.Component {
     super(props);
   }
 
-  renderSubTitle() {
-    const subTitle = this.props.subTitle;
-    if (!!subTitle) {
+  renderBottomTitle() {
+    const bottomTitle = this.props.bottomTitle;
+    const bottomTitleClasses = classNames({
+      [`${prefix}-bottomTitle`]: true,
+      bottom: true
+    })
+    if (!!bottomTitle) {
       return(
-        <div className={`${prefix}-subTitle`}>{subTitle}</div>
+        <div className={bottomTitleClasses}>{bottomTitle}</div>
       )
     }
   }
@@ -40,14 +45,14 @@ export default class Wnumber extends React.Component {
     return (
       <div className={`${prefix}`}>
         {this.renderMain()}
-        {this.renderSubTitle()}
+        {this.renderBottomTitle()}
       </div>
     );
   }
 }
 
 Wnumber.propTypes = {
-  subTitle: PropTypes.string,
+  bottomTitle: PropTypes.string,
   unit: PropTypes.string,
   trend: PropTypes.func
 }
