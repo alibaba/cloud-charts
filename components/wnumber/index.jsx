@@ -34,9 +34,11 @@ export default class Wnumber extends React.Component {
         <span className={`${prefix}-unit`}>
           {this.props.unit}
         </span>
-        <span className={`${prefix}-trend`}>
-          {this.props.trend()}
-        </span>
+        { this.props.trend &&
+          <span className={`${prefix}-trend`}>
+            {this.props.trend()}
+          </span>
+        }
       </div>
     );
   }
@@ -45,7 +47,7 @@ export default class Wnumber extends React.Component {
     return (
       <div className={`${prefix}`}>
         {this.renderMain()}
-        {this.renderBottomTitle()}
+        {this.props.bottomTitle && this.renderBottomTitle()}
       </div>
     );
   }

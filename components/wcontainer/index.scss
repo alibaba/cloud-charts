@@ -3,7 +3,6 @@
 
 #{$wcontainer-prefix} {
   @include wcontainer-box;
-  @include wcontainer-font;
 
   #{$wcontainer-prefix}-title {
     padding-bottom: 12px;
@@ -12,16 +11,19 @@
   }
 
   #{$wcontainer-prefix}-main {
-    padding-top: 12px;
-    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    // padding-top: 12px;
+    // display: flex;
     // flex-direction: row;
     // flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    // justify-content: space-between;
+    // align-items: flex-start;
   }
 
   #{$wcontainer-prefix}-main > div {
-    display: flex;
+    // display: flex;
   }
 
   #{$wcontainer-prefix}-chart {

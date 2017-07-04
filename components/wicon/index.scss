@@ -1,19 +1,12 @@
+@import "~@alife/aisc-core/scss/aisc.scss";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wcontainer-prefix} {
-  @include wcontainer-box;
-  @include wcontainer-font;
 
   #{$wcontainer-prefix}-icon {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    // box-shadow: 0 0 3px #aaa;
-    text-align: center;
     background-color: #2a8eec;
+    @include icon-handler(38px);
   }
 
   #{$wcontainer-prefix}-title {
@@ -23,6 +16,5 @@
     line-height: 40px;
     vertical-align: top;
   }
-
 }
 

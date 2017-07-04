@@ -16,7 +16,9 @@
     }
   }
   #{$wnumber-prefix}-bottomTitle {
-    font-size: 10px;
+    font-size: 12px;
+    font-family: "Microsoft YaHei";
+    color: #666;
     &.bottom {
       margin-top: $s1;
     }

@@ -2,15 +2,25 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from '@alife/aisc';
 import './index.scss';
 
-import Wicon from '../wicon/index';
-
+const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer'
 
 export default class Wcontainer extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  renderTitle() {
+    return (
+      <div className={`${prefix}-title`}>
+          {this.props.title}
+          <span className={`${prefix}-time`}>
+          </span>
+      </div>
+    );
   }
 
   render() {
@@ -22,16 +32,18 @@ export default class Wcontainer extends React.Component {
 
     return (
       <div className={`${prefix}`} style={styleObj}>
-        <div className={`${prefix}-title`}>
-          {this.props.title}
-          <span className={`${prefix}-time`}>
-          </span>
-        </div>
-
+        {this.props.title && this.renderTitle()}
         <div className={`${prefix}-main`}>
-           {this.props.children}
+           <Row align="center">
+            {
+              React.Children.map(this.props.children, (child, i) => {
+                return (
+                  <Col>{child}</Col>
+                )
+              })
+            }
+           </Row>
         </div>
-
       </div>
     );
   }

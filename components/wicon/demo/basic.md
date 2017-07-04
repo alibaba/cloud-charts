@@ -19,9 +19,7 @@ import {
 
 ReactDOM.render(
     <div>
-        <Wicon iconClass="next-icon next-icon-ais ">
-          数据池
-        </Wicon>
+        <Wicon type="ais" size="xxl" />
     </div>,
 mountNode);
 ````
