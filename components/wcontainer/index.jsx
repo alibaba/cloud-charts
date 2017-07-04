@@ -37,6 +37,9 @@ export default class Wcontainer extends React.Component {
            <Row align="center">
             {
               React.Children.map(this.props.children, (child, i) => {
+                if (child.type.name === 'Wicon') {
+                  return <Col fixedSpan="3">{child}</Col>
+                }
                 return (
                   <Col>{child}</Col>
                 )

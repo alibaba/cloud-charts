@@ -6,6 +6,7 @@
 #{$wicon-prefix} {
   >.next-icon {
     @include icon-handler(38px);
+    color: $color-b1-6;
   }
   #{$wicon-prefix}-icon {
     background-color: #2a8eec;

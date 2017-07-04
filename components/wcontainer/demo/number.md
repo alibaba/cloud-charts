@@ -27,7 +27,7 @@ ReactDOM.render(
     <Row>
       <Col span="4">
         <Wcontainer title={false} height={86}>
-          <Wnumber bottomTitle="CPU" >1,024</Wnumber>
+          <Wnumber bottomTitle="CPU" >1,0240</Wnumber>
           <Wicon type="monitor" size="xl" />
         </Wcontainer>
       </Col>

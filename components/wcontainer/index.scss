@@ -1,8 +1,12 @@
+@import "~@alife/aisc-core/scss/aisc.scss";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wcontainer-prefix} {
   @include wcontainer-box;
+  -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
 
   #{$wcontainer-prefix}-title {
     padding-bottom: 12px;
@@ -13,17 +17,7 @@
   #{$wcontainer-prefix}-main {
     padding-top: 20px;
     padding-bottom: 20px;
-    text-align: center;
-    // padding-top: 12px;
-    // display: flex;
-    // flex-direction: row;
-    // flex-wrap: wrap;
-    // justify-content: space-between;
-    // align-items: flex-start;
-  }
-
-  #{$wcontainer-prefix}-main > div {
-    // display: flex;
+    // text-align: center;
   }
 
   #{$wcontainer-prefix}-chart {
@@ -33,7 +27,5 @@
     // justify-content: space-between;
     // align-items: flex-start;
   }
-
-
 }
 
