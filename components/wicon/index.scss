@@ -1,15 +1,17 @@
 @import "~@alife/aisc-core/scss/aisc.scss";
+@import "~@alife/aisc/lib/icon/style/index.scss";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
-#{$wcontainer-prefix} {
-
-  #{$wcontainer-prefix}-icon {
-    background-color: #2a8eec;
+#{$wicon-prefix} {
+  >.next-icon {
     @include icon-handler(38px);
   }
+  #{$wicon-prefix}-icon {
+    background-color: #2a8eec;
+  }
 
-  #{$wcontainer-prefix}-title {
+  #{$wicon-prefix}-title {
     display: inline-block;
     padding: 0 8px;
     color: #aaa;

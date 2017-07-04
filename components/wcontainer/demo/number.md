@@ -1,5 +1,5 @@
 ---
-order: 1
+order: 0
 title:
   zh-CN: 数字widget
   en-US: Basic
@@ -27,7 +27,7 @@ ReactDOM.render(
     <Row>
       <Col span="4">
         <Wcontainer title={false} height={86}>
-          <Wnumber bottomTitle="CPU" >1024</Wnumber>
+          <Wnumber bottomTitle="CPU" >1,024</Wnumber>
           <Wicon type="monitor" size="xl" />
         </Wcontainer>
       </Col>
