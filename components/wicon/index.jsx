@@ -14,7 +14,8 @@ export default class Wicon extends React.Component {
   }
 
   static defaultProps = {
-    size: 'big'
+    size: 'big',
+    type: 'monitor'
   };
 
   render() {

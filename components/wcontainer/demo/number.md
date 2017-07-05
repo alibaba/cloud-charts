@@ -48,7 +48,7 @@ ReactDOM.render(
           <Wnumber rightTitle="物理机总量" >123</Wnumber>
           <Wcontainer.divider />
           <Wnumber rightTitle="本月数量" >123</Wnumber>
-          <Wnumber rightTitle="较去年同期" numberTrend="raise">123</Wnumber>
+          <Wnumber rightTitle="较去年同期" numberTrend="raise">1,234</Wnumber>
         </Wcontainer>
       </Col>
     </Row>,
