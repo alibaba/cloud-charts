@@ -5,3 +5,8 @@
   line-height: 1;
   color: #333;
 }
+
+@mixin subTitle-font {
+  font-family: "Microsoft YaHei";
+  color: #666;
+}

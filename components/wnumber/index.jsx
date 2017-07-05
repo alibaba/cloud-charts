@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Wicon from '../wicon';
 import './index.scss';
 
 const prefix = 'aisc-wnumber'
@@ -12,11 +13,14 @@ export default class Wnumber extends React.Component {
     super(props);
   }
 
+  static defaultProps = {
+    numberTrend: ''
+  }
+
   renderBottomTitle() {
     const bottomTitle = this.props.bottomTitle;
     const bottomTitleClasses = classNames({
-      [`${prefix}-bottomTitle`]: true,
-      bottom: true
+      [`${prefix}-bottomTitle`]: true
     })
     if (!!bottomTitle) {
       return(
@@ -26,14 +30,39 @@ export default class Wnumber extends React.Component {
   }
 
   renderMain() {
+    let numberTrendIcon;
+    let numberClasses = `${prefix}-number`;
+    if (this.props.numberTrend === 'raise') {
+      numberClasses += ' raise';
+      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
+    } else if (this.props.numberTrend === 'drop') {
+      numberClasses += ' drop';
+      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+    }
+
     return(
       <div className={`${prefix}-main`}>
-        <span className={`${prefix}-number`}>
+        {
+          this.props.numberTrend &&
+          <span className={`${prefix}-leftIcon`}>
+            {numberTrendIcon}
+          </span>
+        }
+        <span className={numberClasses}>
           {this.props.children}
         </span>
-        <span className={`${prefix}-unit`}>
-          {this.props.unit}
-        </span>
+        {
+          this.props.unit &&
+          <span className={`${prefix}-unit`}>
+            {this.props.unit}
+          </span>
+        }
+        {
+          this.props.rightTitle &&
+          <span className={`${prefix}-rightTitle`}>
+            {this.props.rightTitle}
+          </span>
+        }
         { this.props.trend &&
           <span className={`${prefix}-trend`}>
             {this.props.trend()}

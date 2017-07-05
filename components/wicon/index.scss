@@ -4,20 +4,17 @@
 @import "./scss/variable.scss";
 
 #{$wicon-prefix} {
-  >.next-icon {
-    @include icon-handler(38px);
+  &.next-icon {
+    &#{$wicon-prefix}-big {
+      @include icon-handler(38px);
+    }
+    &#{$wicon-prefix}-small {
+      position: absolute;
+      top: 16px;
+      left: -10px;
+      @include icon-handler(6px);
+    }
     color: $color-b1-6;
-  }
-  #{$wicon-prefix}-icon {
-    background-color: #2a8eec;
-  }
-
-  #{$wicon-prefix}-title {
-    display: inline-block;
-    padding: 0 8px;
-    color: #aaa;
-    line-height: 40px;
-    vertical-align: top;
   }
 }
 

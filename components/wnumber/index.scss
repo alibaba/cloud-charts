@@ -6,9 +6,35 @@
   @include wnumber-font;
 
   #{$wnumber-prefix}-main {
+    #{$wnumber-prefix}-number {
+      &.drop {
+        color: #e1575d;
+      }
+      &.raise {
+        color: #2889ec;
+      }
+    }
+
+    #{$wnumber-prefix}-leftIcon {
+      position:relative;
+      // height:6px;
+      // width: 6px;
+      >.drop {
+        color: #e1575d;
+      }
+      >.raise {
+        color: #2889ec;
+      }
+    }
     #{$wnumber-prefix}-unit {
       margin-left: $s1;
       font-size: 12px;
+    }
+
+    #{$wnumber-prefix}-rightTitle {
+      @include subTitle-font;
+      margin-left: $s1;
+      font-size: 14px;
     }
 
     #{$wnumber-prefix}-trend {
@@ -16,12 +42,9 @@
     }
   }
   #{$wnumber-prefix}-bottomTitle {
+    @include subTitle-font;
     font-size: 12px;
-    font-family: "Microsoft YaHei";
-    color: #666;
-    &.bottom {
-      margin-left: $s1;
-      margin-top: $s1;
-    }
+    margin-left: $s1;
+    margin-top: $s1;
   }
 }
