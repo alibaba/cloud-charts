@@ -17,7 +17,12 @@
 // export NumberMiniE from './number-mini-e/index';
 // export NumberMiniF from './number-mini-f/index';
 // export NumberMiniG from './number-mini-g/index';
+import './index.scss';
 
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
 export Wicon from './wicon/index';
+export Wline from './wline/index';
+export Wbar from './wbar/index';
+export Wpie from './wpie/index';
+export Wminiline from './wminiline/index';

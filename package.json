@@ -66,6 +66,7 @@
     "gulp-babel": "~6.1.2",
     "gulp-sass": "^3.1.0",
     "gulp-util": "~3.0.7",
+    "highcharts": "^v5.0.12",
     "jsonml.js": "^0.1.0",
     "less": "~2.6.1",
     "less-loader": "~2.2.3",
