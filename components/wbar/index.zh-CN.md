@@ -2,7 +2,7 @@
 category: 组件
 subtitle: 柱图
 type: 图表组件
-title: WBar
+title: Wbar
 cols: 1
 ---
 

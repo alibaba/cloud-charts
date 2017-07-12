@@ -2,7 +2,7 @@
 category: 组件
 subtitle: 饼图
 type: 图表组件
-title: WPie
+title: Wpie
 cols: 1
 ---
 

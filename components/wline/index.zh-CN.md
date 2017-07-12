@@ -2,7 +2,7 @@
 category: 组件
 subtitle: 线图
 type: 图表组件
-title: WLine
+title: Wline
 cols: 1
 ---
 

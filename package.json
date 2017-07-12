@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "0.6.2",
+  "version": "1.0.1",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@alife/aisc": "^2.2.15",
     "@alife/aisc-core": "^0.3.1",
-    "@alife/aisc-p2charts": "^0.14.2",
+    "highcharts": "^v5.0.12",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {
