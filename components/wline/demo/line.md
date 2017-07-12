@@ -95,8 +95,8 @@ class Demo extends React.Component{
   render(){
     return (
       <div className="demos">
-        <div className="demo-item">
-            <Wline ref="chart1" config={options1} data={data} height="400" />
+        <div className="demo-item" style={{height: "400px"}}>
+            <Wline ref="chart1" config={options1} data={data}/>
         </div>
         <div className="demo-item">
             <Wline ref="chart2" config={options2} data={data} height="400" />
