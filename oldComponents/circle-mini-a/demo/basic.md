@@ -14,13 +14,14 @@ title:
 
 ````jsx
 import {
-  Grid,
-  Panel,
   CircleMiniA,
 } from '@alife/aisc-widgets';
 
+import {
+  Grid
+} from '@alife/aisc';
+
 const { Row, Col } = Grid;
-const { Item, TitleSub } = Panel;
 
 const data = {
   data0: {
@@ -55,17 +56,9 @@ ReactDOM.render(
     <div>
       <Row>
         <Col span="24">
-          <Panel title="数据指标" tabMode>
-            <Item title="数据库">
-              <CircleMiniA title="数据库" ringTitle="使用率1" details={details} dataSource={data.data1}  />
-            </Item>
-            <Item title="中间件">
-              <CircleMiniA title="中间件" ringTitle="使用率2" details={details} dataSource={data.data2} />
-            </Item>
-            <Item title="蚂蚁">
-              <CircleMiniA title="蚂蚁" ringTitle="使用率3" details={details} dataSource={data.data0} />
-            </Item>
-          </Panel>
+            <CircleMiniA title="数据库" ringTitle="使用率1" details={details} dataSource={data.data1}  />
+            <CircleMiniA title="中间件" ringTitle="使用率2" details={details} dataSource={data.data2} />
+            <CircleMiniA title="蚂蚁" ringTitle="使用率3" details={details} dataSource={data.data0} />
         </Col>
       </Row>
     </div>,
