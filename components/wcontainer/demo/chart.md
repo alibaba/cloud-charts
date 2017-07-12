@@ -24,9 +24,9 @@ import {
 const { Row, Col } = Grid;
 
 let options1 = {
-  //title: '常规用法',
+  title: '',
+  padding: 10,
   //subTitle: '副标题或单位',
-  single: false,
   xAxis: {type: 'datetime'}
 };
 
@@ -45,12 +45,12 @@ ReactDOM.render(
       <Row>
         <Col span="12">
           <Wcontainer title={"柱状图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} height="273"/>
+            <Wline ref="chart1" config={options1} data={data} height="250"/>
           </Wcontainer>
         </Col>
         <Col span="12">
           <Wcontainer title={"柱状图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} height="273"/>
+            <Wline ref="chart1" config={options1} data={data} height="250"/>
           </Wcontainer>
         </Col>
       </Row>

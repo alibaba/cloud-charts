@@ -23,7 +23,7 @@ class Line extends Base{
       spline: false,
       grid: false,
       //以上不支持热更新
-      colors: COLORS,      
+      colors: COLORS,
       title: '折线图',
       subTitle: '',
       padding: 20,
@@ -135,7 +135,7 @@ class Line extends Base{
           });
         });
         this.chart = Highcharts.chart(boxNode,options);
-        
+
         //加入事件绑定，初始化时全局绑定
         this.on('hover', this.hoverHandler);
         this.on('select', this.selectHandler);
@@ -196,7 +196,7 @@ class Line extends Base{
         });
       }
     }
-    
+
     //检查图表容器是否变化，是否需要调整大小
     if(this._size){
       if(this._size[0] !== boxNode.offsetWidth || this._size[1] !== boxNode.offsetHeight) this.chart && this.chart.reflow();
