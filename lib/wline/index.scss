@@ -54,7 +54,7 @@
       display: inline-block;
     }
 
-  }  
+  }
   .p2c-legend{
     position: absolute;
     // left: 0;
@@ -62,9 +62,10 @@
     // width: 100%;
     right: 0;
     top: 0;
-    
+
     ul{
       display: block;
+      line-height: initial;
       //text-align: center;
     }
 
