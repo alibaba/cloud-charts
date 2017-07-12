@@ -45,12 +45,12 @@ ReactDOM.render(
       <Row>
         <Col span="12">
           <Wcontainer title={"柱状图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} height="250"/>
+            <Wline ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>
         <Col span="12">
           <Wcontainer title={"柱状图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} height="250"/>
+            <Wline ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>
       </Row>

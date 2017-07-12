@@ -36,7 +36,7 @@ export default class Wcontainer extends React.Component {
     let rowHeight = height;
     if ( this.props.title ) {
       //标题字体14px ,距下面有10px宽度
-      rowHeight = rowHeight - 14 - 10;
+      rowHeight = rowHeight - 18 - 2 - 10 - 20;
     }
 
     const containerClasses = classNames({
@@ -72,9 +72,10 @@ export default class Wcontainer extends React.Component {
 
     let rowHeight = height;
     if ( this.props.title ) {
-      //标题字体14px ,距下面有10px宽度
-      rowHeight = rowHeight - 14 - 10 - 20;
+      //标题字体18px ,距下面有10px宽度
+      rowHeight = rowHeight - 18 - 2 - 10 - 20;
     }
+    console.log(rowHeight)
     const rowStyle = {
       lineHeight: rowHeight + 'px',
       height: rowHeight + 'px'
