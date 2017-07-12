@@ -7,7 +7,7 @@
 1. 首先通过tnpm安装
 
 ```bash
-$ tnpm i @alife/p2widgets
+$ tnpm i @alife/aisc-widgets
 ```
 
 2. 安装成功即可使用
@@ -15,7 +15,7 @@ $ tnpm i @alife/p2widgets
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Panel, RankList, RectLink } from '@alife/p2widgets'
+import { Grid, Panel, RankList, RectLink } from '@alife/aisc-widgets'
 const { Row, Col } = Grid;
 const { Item, TitleSub } = Panel;
 
