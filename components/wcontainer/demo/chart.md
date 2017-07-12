@@ -43,13 +43,17 @@ let data = [
 ReactDOM.render(
     <div>
       <Row>
-        <Col span="24">
+        <Col span="12">
           <Wcontainer title={"柱状图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} />
+            <Wline ref="chart1" config={options1} data={data} height="273"/>
+          </Wcontainer>
+        </Col>
+        <Col span="12">
+          <Wcontainer title={"柱状图"} height={298}>
+            <Wline ref="chart1" config={options1} data={data} height="273"/>
           </Wcontainer>
         </Col>
       </Row>
     </div>,
 mountNode);
-
 ````
