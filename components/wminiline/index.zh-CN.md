@@ -3,7 +3,7 @@ category: 组件
 subtitle: 迷你线图
 type: 图表组件
 title: WminiLine
-cols: 1
+cols: 2
 ---
 
 

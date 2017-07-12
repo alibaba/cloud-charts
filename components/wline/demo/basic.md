@@ -32,13 +32,6 @@ let options1 = {
 };
 
 class Demo extends React.Component{
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   render(){
     return (
       <div className="demos">
