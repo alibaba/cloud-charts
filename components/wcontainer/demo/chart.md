@@ -30,6 +30,14 @@ let options1 = {
   xAxis: {type: 'datetime'}
 };
 
+let options2 = {
+  title: '',
+  padding: 10,
+  //subTitle: '副标题或单位',
+  xAxis: {type: 'datetime'},
+  spline: true
+};
+
 let data = [
   {
     "name":"机房1",
@@ -67,6 +75,13 @@ ReactDOM.render(
         <Col span="12">
           <Wcontainer title={"多折线图图例折行"} height={298}>
             <Wline ref="chart1" config={options1} data={data2} height="250"/>
+          </Wcontainer>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="24">
+          <Wcontainer title={"圆滑曲线图"} height={298}>
+            <Wline ref="chart1" config={options2} data={data} height="250"/>
           </Wcontainer>
         </Col>
       </Row>
