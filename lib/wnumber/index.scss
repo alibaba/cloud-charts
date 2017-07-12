@@ -1,0 +1,50 @@
+@import "~@alife/aisc-core/scss/aisc.scss";
+@import "./scss/mixin.scss";
+@import "./scss/variable.scss";
+
+#{$wnumber-prefix} {
+  @include wnumber-font;
+
+  #{$wnumber-prefix}-main {
+    #{$wnumber-prefix}-number {
+      &.drop {
+        color: #e1575d;
+      }
+      &.raise {
+        color: #2889ec;
+      }
+    }
+
+    #{$wnumber-prefix}-leftIcon {
+      position:relative;
+      // height:6px;
+      // width: 6px;
+      >.drop {
+        color: #e1575d;
+      }
+      >.raise {
+        color: #2889ec;
+      }
+    }
+    #{$wnumber-prefix}-unit {
+      margin-left: $s1;
+      font-size: 12px;
+    }
+
+    #{$wnumber-prefix}-rightTitle {
+      @include subTitle-font;
+      margin-left: $s1;
+      font-size: 14px;
+    }
+
+    #{$wnumber-prefix}-trend {
+      margin-left: $s2;
+    }
+  }
+  #{$wnumber-prefix}-bottomTitle {
+    @include subTitle-font;
+    font-size: 12px;
+    margin-left: $s1;
+    margin-top: $s1;
+  }
+}
