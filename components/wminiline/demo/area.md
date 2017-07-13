@@ -25,7 +25,7 @@ let data = [
 let options = {
   area: true
 };
-
+debugger;
 class Demo extends React.Component{
   render(){
     return (

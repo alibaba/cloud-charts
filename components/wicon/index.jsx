@@ -11,7 +11,9 @@ const prefix = 'aisc-wicon'
 export default class Wicon extends React.Component {
   constructor(props) {
     super(props);
-  }
+  };
+
+  static displayName = 'Wicon';
 
   static defaultProps = {
     size: 'big',
