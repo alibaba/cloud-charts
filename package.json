@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
