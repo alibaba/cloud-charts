@@ -17,15 +17,9 @@ import {
   Wnumber
 } from '@alife/aisc-widgets'
 
-const trend = function() {
-  return (
-    <span style={{fontSize: '14px'}}>+27%</span>
-  )
-}
-
 ReactDOM.render(
     <div>
-      <Wnumber bottomTitle="副标题" unit="个" trend={trend}>2222</Wnumber>
+      <Wnumber bottomTitle="副标题" numberTrend="raise" unit="个">2222</Wnumber>
     </div>,
 mountNode);
 ````

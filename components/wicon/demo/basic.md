@@ -19,7 +19,7 @@ import {
 
 ReactDOM.render(
     <div>
-        <Wicon type="ais" size="xxl" />
+        <Wicon type="ais" size="big" />
     </div>,
 mountNode);
 ````
