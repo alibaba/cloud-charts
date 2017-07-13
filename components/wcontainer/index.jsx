@@ -91,7 +91,7 @@ export default class Wcontainer extends React.Component {
     let currentColPerRow = 0;
     // 计算栅格的ColSpan
     React.Children.forEach(this.props.children, (child, i) => {
-      if (child.type.name !== 'Divider') {
+      if (child.type.displayName !== 'Divider') {
         currentColPerRow += 1;
       } else {
         if (currentColPerRow > maxColPerRow) {
@@ -104,7 +104,7 @@ export default class Wcontainer extends React.Component {
       const rs = [];
       let oneRow = [];
       React.Children.forEach(arr, (child, i) => {
-        if(child.type.name === 'Divider') {
+        if(child.type.displayName === 'Divider') {
           rs.push(<Row align="center">{oneRow}</Row>);
           oneRow = [];
         } else if (i === arr.length - 1) {
