@@ -20,6 +20,9 @@ class MiniLine extends Base{
     this.options = merge({}, defaultOptions, this.options);
     this.init();
   }
+
+  static displayName = 'Wminiline';
+
   init(){
     let dom = '<div class="p2c-box"></div>';
     this.element.classList.add('p2c');

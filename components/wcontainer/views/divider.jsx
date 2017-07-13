@@ -10,6 +10,8 @@ export default class Divider extends React.Component {
     super(props);
   }
 
+  static displayName = 'Divider';
+
   render() {
     return (
       <div className={`${prefix}-divider`}></div>
