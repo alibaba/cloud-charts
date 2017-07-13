@@ -1,7 +1,7 @@
 ---
 order: 1
 title:
-  zh-CN: 带图标的widget
+  zh-CN: 带折线的widget
   en-US: Basic
 ---
 
