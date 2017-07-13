@@ -51,8 +51,11 @@ export default class Wcontainer extends React.Component {
           }}>
           {
             React.Children.map(this.props.children, (child, i) => {
-              if (child.type.displayName === 'Wicon' || child.type.Chart && child.type.Chart.displayName === 'Wminiline') {
+              if (child.type.displayName === 'Wicon') {
                 return <Col fixedSpan="2">{child}</Col>
+              }
+              if (child.type.Chart && child.type.Chart.displayName === 'Wminiline') {
+                return <Col fixedSpan="4">{child}</Col>
               }
               if (child.type.displayName === 'Divider') {
                 return <Col fixedSpan="1">{child}</Col>
