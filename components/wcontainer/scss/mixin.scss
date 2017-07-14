@@ -1,9 +1,9 @@
 @mixin wcontainer-box {
   // padding: 20px;
-  // border: 1px solid #DCDEE3;
-  -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
-  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  border: 1px solid #DCDEE3;
+  // -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  // -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  // box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
 }
 
 @mixin fullscreen {
