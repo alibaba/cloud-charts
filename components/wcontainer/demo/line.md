@@ -24,18 +24,16 @@ import {
 const { Row, Col } = Grid;
 
 let options1 = {
-  title: '',
-  padding: 10,
-  //subTitle: '副标题或单位',
-  xAxis: {type: 'datetime'}
+  padding:[10, 0, 10, 0],
+  xAxis: {type: 'datetime'},
+  legend: false
 };
 
 let options2 = {
-  title: '',
-  padding: 10,
-  //subTitle: '副标题或单位',
+  padding:[10, 0, 10, 0],
   xAxis: {type: 'datetime'},
-  spline: true
+  spline: true,
+  legend: true
 };
 
 let data = [

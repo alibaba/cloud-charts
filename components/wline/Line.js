@@ -16,17 +16,18 @@ class Line extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      single: false,
+      legend: true,
       tooltip: true,
       zoom: false,
       clickable: false,
       spline: false,
       grid: false,
+      symbol:false,
       //以上不支持热更新
       colors: COLORS,
       title: '折线图',
       subTitle: '',
-      padding: 20,
+      padding: [0, 0, 0, 0],
       xAxis: {
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
@@ -34,14 +35,16 @@ class Line extends Base{
         tooltipFormatter: null, //手动设置tooltip上X值的格式
         categories: null,
         max: null,
-        min: null
+        min: null,
+        lineWidth: 1
       },
       yAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
         tooltipFormatter: null, //手动设置tooltip上Y值的格式
         max: null,
         min: null,
-        bgArea: []
+        bgArea: [],
+        lineWidth: 0
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -49,14 +52,13 @@ class Line extends Base{
   }
   init (){
     var dom = '';
-    if(this.options.single){
-      dom = '<div class="p2c-box"></div>';
-    }else{
+    if(this.options.legend){
       dom = `
-        <div class="p2c-title"><h4></h4><h5></h5></div>
         <div class="p2c-legend"></div>
         <div class="p2c-box"></div>
       `;
+    }else{
+      dom = '<div class="p2c-box"></div>';
     }
     this.element.classList.add('p2c');
     this.element.classList.add('p2c-line');
@@ -75,23 +77,23 @@ class Line extends Base{
     let legendNode = this.element.querySelector('.p2c-legend');
 
     //位置计算
-    this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding + (titleNode ? titleNode.offsetHeight : 0 ) + 20 + 'px'; //此处没有计算margin，默认为20
-    boxNode.style.left = this.options.padding + 'px';
-    boxNode.style.right = this.options.padding + 'px';
-    boxNode.style.bottom = this.options.padding + 'px';
+    // this.element.style.padding = this.options.padding + 'px';
+    boxNode.style.top = this.options.padding[0] + (legendNode ? 30 : 0 ) + 'px'; //此处没有计算margin，默认为30
+    boxNode.style.left = this.options.padding[3] + 'px';
+    boxNode.style.right = this.options.padding[1] + 'px';
+    boxNode.style.bottom = this.options.padding[2] + 'px';
     //boxNode.style.bottom = this.options.padding + (legendNode ? legendNode.offsetHeight : 0 ) + 20 + 'px'; //此处没有计算margin,默认为20
     //legendNode.style.bottom = this.options.padding + 'px';
     if(legendNode){
-      legendNode.style.top = this.options.padding + 'px';
-      legendNode.style.right = this.options.padding + 'px';
+      legendNode.style.top = this.options.padding[0] + 'px';
+      legendNode.style.left = this.options.padding[3] + 'px';
     }
 
     //标题
-    if(titleNode){
-      titleNode.querySelector('h4').innerHTML = this.options.title;
-      titleNode.querySelector('h5').innerHTML = this.options.subTitle;
-    }
+    // if(titleNode){
+    //   titleNode.querySelector('h4').innerHTML = this.options.title;
+    //   titleNode.querySelector('h5').innerHTML = this.options.subTitle;
+    // }
 
     //图表
     if(this.data.length){
@@ -261,7 +263,7 @@ class Line extends Base{
 
   visibleHandler(e) {
     if(e.target === this) return; //防止循环触发
-    if(!this.options.single) return; //无图例模式下可用
+    if(this.options.legend) return; //无图例模式下可用
     let series = e.series;
     if(!series) return;
     series.forEach((s,i)=>{
@@ -371,9 +373,11 @@ function getHCOptions(options, data){
       //   color: '#dddddd',
       //   width: 1//
       // },
+      lineWidth: options.xAxis.lineWidth,
       type: options.xAxis.type, //此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
       gridLineColor: '#F2F3F7',
+      tickPixelInterval:80,
       lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
@@ -396,10 +400,11 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
-      lineWidth: 1,
+      lineWidth: options.yAxis.lineWidth,
       lineColor: '#DCDEE3',
       gridLineWidth: 1,
       gridLineColor: '#F2F3F7',
+      tickPixelInterval:50,
       labels: {
         x: -8,
         formatter: function () {
@@ -419,19 +424,19 @@ function getHCOptions(options, data){
       line: {
         //animation: false,
         //stacking: 'normal',
-        lineWidth: 1,
+        lineWidth: 2,
         marker: {
           enabled: true,
           symbol: 'circle',
-          radius: 3,
+          radius: options.symbol? 2 : 0,
           lineColor: null,
           states: {
             hover: {
               lineWidthPlus: 0,
               radiusPlus: 0,
               fillColor: 'rgba(255,255,255,1)',
-              lineWidth: 2,
-              radius: 5,
+              lineWidth: 3,
+              radius: 4,
               enabled: options.clickable || options.tooltip
             },
             select: {
@@ -439,8 +444,8 @@ function getHCOptions(options, data){
               radiusPlus: 0,
               fillColor: null,
               lineColor: null,
-              lineWidth: 2,
-              radius: 5,
+              lineWidth: 3,
+              radius: 4,
               enabled: options.clickable
             }
           }
@@ -466,8 +471,8 @@ function getHCOptions(options, data){
               lineWidthPlus: 0,
               radiusPlus: 0,
               fillColor: 'rgba(255,255,255,1)',
-              lineWidth: 2,
-              radius: 5,
+              lineWidth: 3,
+              radius: 4,
               enabled: options.clickable || options.tooltip
             },
             select: {
@@ -475,8 +480,8 @@ function getHCOptions(options, data){
               radiusPlus: 5,
               fillColor: null,
               lineColor: null,
-              lineWidth: 2,
-              radius: 5,
+              lineWidth: 3,
+              radius: 4,
               enabled: options.clickable
             }
           }

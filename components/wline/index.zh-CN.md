@@ -24,27 +24,28 @@ cols: 1
 
 ```javascript
   {
-    title: '折线图', //标题内容，默认为“折线图”
-    subTitle: '', //副标题内容，一般用来放单位说明，默认为空
     xAxis: {
       type: 'linear', //X轴类型，默认为线性“linear”，还可以设置为时间“datetime”
       dateFormatter: '%m-%d', //时间格式化，当X轴类型为“datetime”时，此字段生效
-      labelFormatter: null //自定义格式化，默认为null。设置值后dateFormatter失效
+      labelFormatter: null, //自定义格式化，默认为null。设置值后dateFormatter失效
+      lineWidth:1 //X轴线宽度，默认为1
     },
     yAxis: {
       labelFormatter: null, //自定义格式化，默认为null
       tooltipFormatter: null, //设置tooltip上Y值的格式，默认为null
       max: null, //Y轴可见最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关
       min: null,  //Y轴可见最小值，默认为自动计算，一般为0
-      bgArea: [] //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
+      bgArea: [], //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
+      lineWidth:0, //Y轴线宽度，默认为0，表示不显示
     },
     clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
     spline: false, //是否为平滑曲线，默认为false，表示为折线。仅初次设置有效
     grid: false, //参考线是否显示为网格，默认为false，仅有横向参考线。仅初次设置有效
-    single: false, //是否为纯图表模式，默认为false，表示带标题和图例。仅初次设置有效。不建议修改
+    legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
     tooltip: true, //是否需要提示标签，默认为true，表示显示。仅初次设置有效。不建议修改
     colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
-    padding: 20 //容器内边距，默认为20，单位是像素。不建议修改
+    padding: [0, 0, 0, 0], //容器内边距，默认都为0，单位是像素。不建议修改
+    symbol: false, //曲线上是否有点，默认为false。仅初次设置有效
   }
 
   /*
