@@ -1,13 +1,13 @@
-﻿---
-order: 0
+---
+order: 1
 title:
-  zh-CN: 基本
+  zh-CN: 右侧标题
   en-US: Basic
 ---
 
 ## zh-CN
 
-基础用法，演示了数据和标题的用法。
+基础用法
 
 ## en-US
 
@@ -21,7 +21,8 @@ import {
 
 ReactDOM.render(
     <div>
-      <Wnumber bottomTitle="副标题" unit="个">2222</Wnumber>
+      <Wnumber rightTitle="副标题" unit="个">2222</Wnumber>
     </div>,
 mountNode);
 ````
+
