@@ -20,9 +20,10 @@ class Line extends Base{
       tooltip: true,
       zoom: false,
       clickable: false,
-      spline: false,
+      type: 'line',
       grid: false,
       symbol:false,
+      stacking:false,
       //以上不支持热更新
       colors: COLORS,
       title: '折线图',
@@ -86,7 +87,11 @@ class Line extends Base{
     //legendNode.style.bottom = this.options.padding + 'px';
     if(legendNode){
       legendNode.style.top = this.options.padding[0] + 'px';
-      legendNode.style.left = this.options.padding[3] + 'px';
+      if(this.options.legend.align === 'right'){
+        legendNode.style.right = this.options.padding[1] + 'px';
+      }else{
+        legendNode.style.left = this.options.padding[3] + 'px';
+      }
     }
 
     //标题
@@ -129,7 +134,7 @@ class Line extends Base{
       if(!this.chart){
         this.data.forEach((item,index)=>{
           options.series.push({
-            type: this.options.spline ? 'spline' : 'line',
+            type: this.options.type ? this.options.type : 'line',
             data: item.data,
             color: this.options.colors[index],
             lineColor: this.options.colors[index],
@@ -156,7 +161,7 @@ class Line extends Base{
             this.chart.series[index].name = item.name;
           }else{
             this.chart.addSeries({
-              type: this.options.spline ? 'spline' : 'line',
+              type: this.options.type ? this.options.type : 'line',
               data: item.data,
               color: this.options.colors[index],
               lineColor: this.options.colors[index],
@@ -333,7 +338,7 @@ function getHCOptions(options, data){
       plotBorderWidth: null,
       plotShadow: false,
       marginTop: 10,
-      marginRight: 15,
+      // marginRight: 15,
       spacing: [0,0,0,0],
       backgroundColor: false,
       zoomType: options.zoom ? 'x' : false,
@@ -377,7 +382,7 @@ function getHCOptions(options, data){
       type: options.xAxis.type, //此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
       gridLineColor: '#F2F3F7',
-      tickPixelInterval:80,
+      tickPixelInterval:70,
       lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
@@ -404,7 +409,7 @@ function getHCOptions(options, data){
       lineColor: '#DCDEE3',
       gridLineWidth: 1,
       gridLineColor: '#F2F3F7',
-      tickPixelInterval:50,
+      tickPixelInterval:40,
       labels: {
         x: -8,
         formatter: function () {
@@ -478,6 +483,46 @@ function getHCOptions(options, data){
             select: {
               lineWidthPlus: 0,
               radiusPlus: 5,
+              fillColor: null,
+              lineColor: null,
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable
+            }
+          }
+        },
+        states: {
+          hover: {
+            lineWidthPlus: 0,
+            halo: {
+              size: 0
+            }
+          }
+        }
+      },
+      area: {
+        //animation: false,
+        //stacking: 'normal',
+        lineWidth: 2,
+        fillOpacity: 0.1,
+        stacking: options.stacking ? 'normal' : null,
+        marker: {
+          enabled: true,
+          symbol: 'circle',
+          radius: options.symbol? 2 : 0,
+          lineColor: null,
+          states: {
+            hover: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
+              fillColor: 'rgba(255,255,255,1)',
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable || options.tooltip
+            },
+            select: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
               fillColor: null,
               lineColor: null,
               lineWidth: 3,

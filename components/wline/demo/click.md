@@ -1,5 +1,5 @@
 ﻿---
-order: 7
+order: 8
 title:
   zh-CN: 点击事件
   en-US: Click
@@ -16,7 +16,6 @@ title:
 import { Wline } from '@alife/aisc-widgets';
 
 let options = {
-  title: '图表',
   xAxis: {type: 'datetime'},
   zoom: true,
   tooltip: false,
@@ -64,7 +63,7 @@ class Demo extends React.Component{
   render(){
     return (
       <div>
-        <Wline config={options} data={data} onClick={this.clickEventHandler.bind(this)} action={this.state.action}  height="500" />
+        <Wline config={options} data={data} onClick={this.clickEventHandler.bind(this)} action={this.state.action}  height="250" />
         <div className="info">{this.state.info.name}: [{this.state.info.x},{this.state.info.y}]</div>
       </div>
     );

@@ -1,5 +1,5 @@
 ﻿---
-order: 5
+order: 6
 title:
   zh-CN: 网格
   en-US: Grid
@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options6 = {
-  title: '带网格',
-  subTitle: '',
   xAxis: {type: 'datetime'},
   grid: true
 };
@@ -37,7 +35,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline config={options6} data={data} height="400" />
+            <Wline config={options6} data={data} height="250" />
         </div>
       </div>
     );

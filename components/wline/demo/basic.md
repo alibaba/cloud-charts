@@ -26,16 +26,14 @@ let data = [
 ];
 
 let options1 = {
-  title: '常规用法',
-  subTitle: '副标题或单位',
-  xAxis: {type: 'datetime'}
+  xAxis: {type: 'datetime'},
 };
 
 class Demo extends React.Component{
   render(){
     return (
       <div className="demos">
-        <div className="demo-item" style={{height: "400px"}}>
+        <div className="demo-item" style={{height: "298px"}}>
             <Wline config={options1} data={data}/>
         </div>
       </div>
