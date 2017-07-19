@@ -1,13 +1,13 @@
 ﻿---
-order: 2
+order: 10
 title:
-  zh-CN: 不带提示
-  en-US: NoTooltip
+  zh-CN: 图例位置
+  en-US: Basic
 ---
 
 ## zh-CN
 
-设置 tooltip 为 false ，无提示窗。
+通过legend设置图例位置。
 
 ## en-US
 
@@ -25,18 +25,19 @@ let data = [
   }
 ];
 
-let options3 = {
+let options1 = {
   xAxis: {type: 'datetime'},
-  tooltip: false,
-  clickable: true
+  legend:{
+    align: 'right'
+  }
 };
 
 class Demo extends React.Component{
   render(){
     return (
       <div className="demos">
-        <div className="demo-item">
-            <Wline config={options3} data={data} height="250" />
+        <div className="demo-item" style={{height: "250px"}}>
+            <Wline config={options1} data={data}/>
         </div>
       </div>
     );

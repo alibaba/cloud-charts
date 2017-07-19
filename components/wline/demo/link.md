@@ -1,5 +1,5 @@
 ﻿---
-order: 8
+order: 9
 title:
   zh-CN: 图表联动
   en-US: Link
@@ -16,13 +16,11 @@ title:
 import { Wline } from '@alife/aisc-widgets';
 
 let options1 = {
-  title: '图表1',
   xAxis: {type: 'datetime'},
   zoom: true
 };
 
 let options2 = {
-  title: '图表2',
   xAxis: {type: 'datetime'},
   zoom: true
 };
@@ -76,8 +74,8 @@ class Demo extends React.Component{
   render(){
     return (
       <div>
-        <Wline config={options1} data={data1} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="400" />
-        <Wline config={options2} data={data2} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="400" />
+        <Wline config={options1} data={data1} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="250" />
+        <Wline config={options2} data={data2} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="250" />
       </div>
     );
   }
