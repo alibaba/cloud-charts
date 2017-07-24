@@ -13,14 +13,12 @@ class Pie extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      single: false,
+      legend: true,
       cycle: false,
       tooltip: true,
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
-      title: '饼图',
-      subTitle: '',
       padding: 20,
       labelFormatter: null
     };
@@ -29,14 +27,13 @@ class Pie extends Base{
   }
   init (){
     var dom = '';
-    if(this.options.single){
-      dom = '<div class="p2c-box"></div>';
-    }else{
+    if(this.options.legend){
       dom = `
-        <div class="p2c-title"><h4></h4><h5></h5></div>
-        <div class="p2c-legend"><ul></ul></div>
+        <div class="p2c-legend"></div>
         <div class="p2c-box"></div>
       `;
+    }else{
+      dom = '<div class="p2c-box"></div>';
     }
     this.element.classList.add('p2c');
     this.element.classList.add('p2c-pie');
@@ -50,13 +47,13 @@ class Pie extends Base{
     this.chart.destroy();
   }
   render() {
-    let titleNode = this.element.querySelector('.p2c-title');
+    // let titleNode = this.element.querySelector('.p2c-title');
     let boxNode = this.element.querySelector('.p2c-box');
     let legendNode = this.element.querySelector('.p2c-legend');
 
     //位置计算
-    let titleHeight = titleNode ? titleNode.offsetHeight : 0;
-    let boxHeight = this.element.offsetHeight - this.options.padding * 2 - titleHeight - 20; //此处没有计算margin，默认为20
+    // let titleHeight = titleNode ? titleNode.offsetHeight : 0;
+    let boxHeight = this.element.offsetHeight - this.options.padding * 2 - 20; //此处没有计算margin，默认为20
     let boxWidth = this.element.offsetWidth - this.options.padding * 2;
     let diameter = boxHeight < boxWidth ? boxHeight * 0.84 : boxWidth * 0.84;
 
@@ -70,21 +67,21 @@ class Pie extends Base{
     }else{
       boxNode.style.width = diameter + 'px';
       boxNode.style.height = diameter + 'px';
-      boxNode.style.top = this.options.padding + titleHeight + 20 + boxHeight * 0.08 + 'px';
+      boxNode.style.top = this.options.padding + 20 + boxHeight * 0.08 + 'px';
       boxNode.style.left = this.options.padding + boxWidth * 0.04 + 'px';
     }
 
     if(legendNode){
-      legendNode.style.top = this.options.padding + titleHeight + diameter * 0.08 + 20 + 'px';
+      legendNode.style.top = this.options.padding + diameter * 0.08 + 20 + 'px';
       legendNode.style.left = this.options.padding + diameter + boxWidth * 0.04 * 2 + 'px';
       if(legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = diameter + 'px';
     }
 
     //标题
-    if(titleNode){
-      titleNode.querySelector('h4').innerHTML = this.options.title;
-      titleNode.querySelector('h5').innerHTML = this.options.subTitle;
-    }
+    // if(titleNode){
+    //   titleNode.querySelector('h4').innerHTML = this.options.title;
+    //   titleNode.querySelector('h5').innerHTML = this.options.subTitle;
+    // }
 
     //图表
     let data = this.data;

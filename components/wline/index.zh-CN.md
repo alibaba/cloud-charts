@@ -39,7 +39,6 @@ cols: 1
       lineWidth:0, //Y轴线宽度，默认为0，表示不显示
     },
     clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
-    spline: false, //是否为平滑曲线，默认为false，表示为折线。仅初次设置有效
     grid: false, //参考线是否显示为网格，默认为false，仅有横向参考线。仅初次设置有效
     legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
     tooltip: true, //是否需要提示标签，默认为true，表示显示。仅初次设置有效。不建议修改

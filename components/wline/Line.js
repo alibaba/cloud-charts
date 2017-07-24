@@ -26,8 +26,6 @@ class Line extends Base{
       stacking:false,
       //以上不支持热更新
       colors: COLORS,
-      title: '折线图',
-      subTitle: '',
       padding: [0, 0, 0, 0],
       xAxis: {
         type: 'linear', //默认为线性
@@ -73,7 +71,7 @@ class Line extends Base{
     this.chart.destroy();
   }
   render (){
-    let titleNode = this.element.querySelector('.p2c-title');
+    // let titleNode = this.element.querySelector('.p2c-title');
     let boxNode = this.element.querySelector('.p2c-box');
     let legendNode = this.element.querySelector('.p2c-legend');
 
