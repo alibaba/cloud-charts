@@ -26,3 +26,5 @@ export Wline from './wline/index';
 export Wbar from './wbar/index';
 export Wpie from './wpie/index';
 export Wminiline from './wminiline/index';
+
+export WLineG2 from './wline/G2Line';
