@@ -1,13 +1,12 @@
 ﻿---
-order: 2
+order: 12
 title:
-  zh-CN: 不带提示
-  en-US: NoTooltip
+  zh-CN: 面积堆叠曲线
+  en-US: stacking
 ---
 
 ## zh-CN
-
-设置 tooltip 为 false ，无提示窗。
+设置 type 为 area，且设置 stacking 为 true 展示为面积堆叠曲线。
 
 ## en-US
 
@@ -25,10 +24,11 @@ let data = [
   }
 ];
 
-let options3 = {
+let options = {
   xAxis: {type: 'datetime'},
-  tooltip: false,
-  clickable: true
+  type: 'area',
+  symbol: true,
+  stacking: true
 };
 
 class Demo extends React.Component{
@@ -36,7 +36,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline config={options3} data={data} height="250" />
+            <Wline config={options} data={data} height="250" />
         </div>
       </div>
     );

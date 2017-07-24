@@ -1,5 +1,5 @@
 ﻿---
-order: 6
+order: 7
 title:
   zh-CN: 背景
   en-US: Background
@@ -25,8 +25,6 @@ let data = [
 ];
 
 let options7 = {
-  title: '带背景',
-  subTitle: 'y轴方向的区域背景',
   xAxis: {type: 'datetime'},
   yAxis: {
     bgArea: [5000,10000]
@@ -38,7 +36,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline ref="chart7" config={options7} data={data} height="400" />
+            <Wline ref="chart7" config={options7} data={data} height="250" />
         </div>
       </div>
     );

@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options2 = {
-  title: '轴格式设置',
-  subTitle: '',
   xAxis: {
     type: 'datetime',
     dateFormatter: '%m/%d/%y'
@@ -45,7 +43,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline config={options2} data={data} height="400" />
+            <Wline config={options2} data={data} height="250" />
         </div>
       </div>
     );
