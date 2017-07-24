@@ -13,7 +13,7 @@ class Bar extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      single: false,
+      legend: true,
       column: true,
       grid: true,
       tooltip: true,
@@ -21,8 +21,8 @@ class Bar extends Base{
       //以上不支持热更新
       colors: COLORS,
       stacking: false,
-      title: '柱状图',
-      subTitle: '',
+      // title: '柱状图',
+      // subTitle: '',
       padding: 20,
       labels: null,
       xAxis: {
@@ -43,14 +43,13 @@ class Bar extends Base{
   }
   init (){
     var dom = '';
-    if(this.options.single){
-      dom = '<div class="p2c-box"></div>';
-    }else{
+    if(this.options.legend){
       dom = `
-        <div class="p2c-title"><h4></h4><h5></h5></div>
         <div class="p2c-legend"></div>
         <div class="p2c-box"></div>
       `;
+    }else{
+      dom = '<div class="p2c-box"></div>';
     }
     this.element.classList.add('p2c');
     this.element.classList.add('p2c-bar');
@@ -70,13 +69,13 @@ class Bar extends Base{
   //   if(sync) this.render();
   // }
   render (){
-    let titleNode = this.element.querySelector('.p2c-title');
+    // let titleNode = this.element.querySelector('.p2c-title');
     let boxNode = this.element.querySelector('.p2c-box');
     let legendNode = this.element.querySelector('.p2c-legend');
 
     //位置计算
     this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding + (titleNode ? titleNode.offsetHeight : 0 ) + 20 + 'px'; //此处没有计算margin，默认为20
+    boxNode.style.top = this.options.padding + 20 + 'px'; //此处没有计算margin，默认为20
     boxNode.style.left = this.options.padding + 'px';
     boxNode.style.right = this.options.padding + 'px';
     boxNode.style.bottom = this.options.padding + 'px';
@@ -88,10 +87,10 @@ class Bar extends Base{
     }
 
     //标题
-    if(titleNode){
-      titleNode.querySelector('h4').innerHTML = this.options.title;
-      titleNode.querySelector('h5').innerHTML = this.options.subTitle;
-    }
+    // if(titleNode){
+    //   titleNode.querySelector('h4').innerHTML = this.options.title;
+    //   titleNode.querySelector('h5').innerHTML = this.options.subTitle;
+    // }
 
     //图表
     let data = this.data.concat();//复制一个数组，浅复制

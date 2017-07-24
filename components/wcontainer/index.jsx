@@ -127,10 +127,14 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { height = 0, arrange, title } = this.props;
+    const { height = 0, arrange, title, className } = this.props;
+    const mainClasses = classNames({
+      [`${prefix}`]: true,
+      [className]: !!className
+    });
 
     return (
-      <div className={`${prefix}`} style={{
+      <div className={mainClasses} style={{
         minHeight: height + 'px',
         height: height + 'px'
       }}>
