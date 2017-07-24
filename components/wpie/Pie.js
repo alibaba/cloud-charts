@@ -29,7 +29,7 @@ class Pie extends Base{
     var dom = '';
     if(this.options.legend){
       dom = `
-        <div class="p2c-legend"></div>
+        <div class="p2c-legend"><ul></ul></div>
         <div class="p2c-box"></div>
       `;
     }else{
