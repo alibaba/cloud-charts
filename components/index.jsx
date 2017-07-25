@@ -27,4 +27,5 @@ export Wbar from './wbar/index';
 export Wpie from './wpie/index';
 export Wminiline from './wminiline/index';
 
-export WLineG2 from './wline/G2Line';
+import { G2Line } from './wline/index';
+export const WLineG2 = G2Line;
