@@ -1,8 +1,8 @@
 'use strict';
 
-import chartFactory from '../chartCommon/chartFactory';
-import Line from './Line';
+import highFactory from '../chartCommon/highFactory';
+import HighLine from './HighLine';
 import G2Line from './G2Line';
 
 export { G2Line };
-export default chartFactory('Line', Line);
+export default highFactory('HighLine', HighLine);

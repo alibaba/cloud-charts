@@ -12,11 +12,11 @@ const events = ['MouseOver','Selection','Click'];
 let requestAnimationFrame = ( window && window.requestAnimationFrame ) || function(){};
 
 /*
-* chartFactory 函数
+* highFactory 函数
 *
 * 将非React版的图表类转化为React版
 * */
-function chartFactory(name, Chart) {
+function highFactory(name, Chart) {
   class AiscChart extends React.Component {
     static propTypes = {
       // type: React.PropTypes.oneOf(Object.keys(ChartsMap)).isRequired,
@@ -158,4 +158,4 @@ function chartFactory(name, Chart) {
 
 
 
-export default chartFactory;
+export default highFactory;

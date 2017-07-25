@@ -1,6 +1,6 @@
 'use strict';
 
-import Base from '../chartCommon/base';
+import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import Highcharts from 'highcharts';//暂时使用highcharts

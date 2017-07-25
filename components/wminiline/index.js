@@ -1,6 +1,6 @@
 'use strict';
 
-import chartFactory from '../chartCommon/chartFactory';
+import highFactory from '../chartCommon/highFactory';
 import MiniLine from './MiniLine';
 
-export default chartFactory('MiniLine', MiniLine);
+export default highFactory('MiniLine', MiniLine);

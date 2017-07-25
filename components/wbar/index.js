@@ -1,6 +1,6 @@
 'use strict';
 
-import chartFactory from '../chartCommon/chartFactory';
-import Bar from './Bar';
+import highFactory from '../chartCommon/highFactory';
+import HighBar from './HighBar';
 
-export default chartFactory('Bar', Bar);
+export default highFactory('HighBar', HighBar);

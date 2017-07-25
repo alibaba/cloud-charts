@@ -1,6 +1,6 @@
 'use strict';
 
-import Base from '../chartCommon/base';
+import Base from '../chartCommon/highBase';
 import merge from '../utils/merge';
 import Draw from './draw';
 
