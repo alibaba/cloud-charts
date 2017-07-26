@@ -49,7 +49,9 @@ function g2Factory(name, Chart) {
 
     static defaultProps = {
       forceFit: false,
-      plotCfg: {},
+      plotCfg: {
+        margin: [50,10,30,60],
+      },
       config: {},
     };
 
