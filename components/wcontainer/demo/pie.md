@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wpie
+  Wcontainer, Wicon, Wnumber, Wpie, WPieG2
 } from '@alife/aisc-widgets';
 
 import {
@@ -46,6 +46,15 @@ let options2 = {
   cycle: true
 };
 
+let options3 = {
+  dataType: 'Highcharts'
+};
+
+let options4 = {
+  dataType: 'Highcharts',
+  cycle: true
+};
+
 ReactDOM.render(
     <div>
       <Row>
@@ -57,6 +66,18 @@ ReactDOM.render(
         <Col span="12">
           <Wcontainer title={"环图"} height={298}>
             <Wpie ref="chart2" config={options2} data={data} height="250"/>
+          </Wcontainer>
+        </Col>
+      </Row>
+      <Row>
+        <Col span="12">
+          <Wcontainer title={"G2版本 柱图"} height={298}>
+            <WPieG2 ref="chart3" config={options3} data={data} height="250"/>
+          </Wcontainer>
+        </Col>
+        <Col span="12">
+          <Wcontainer title={"G2版本 环图"} height={298}>
+            <WPieG2 ref="chart4" config={options4} data={data} height="250"/>
           </Wcontainer>
         </Col>
       </Row>

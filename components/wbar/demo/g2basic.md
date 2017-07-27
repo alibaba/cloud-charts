@@ -14,7 +14,7 @@ G2 版 基础柱状图
 
 ````jsx
 import { WBarG2 } from '@alife/aisc-widgets';
-  //dataType: 'Highcharts'
+
 let options = {
   dataType: 'Highcharts'
 };
