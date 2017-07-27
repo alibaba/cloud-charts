@@ -29,3 +29,6 @@ export Wminiline from './wminiline/index';
 
 import { G2Line } from './wline/index';
 export const WLineG2 = G2Line;
+
+import { G2Bar } from './wbar/index';
+export const WBarG2 = G2Bar;
