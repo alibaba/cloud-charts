@@ -70,7 +70,7 @@ let defaultConfig = {
   area: false,
   stack: false,//仅Area有效
   spline: true,
-  grid: false,
+  grid: true,
   symbol:true,
   zoom: false,
   // colors: COLORS,
@@ -86,7 +86,9 @@ export default {
         type: "time"
       },
       value: {
-        type: 'linear'
+        type: 'linear',
+        max: config.yAxis.max, // 自定义最大值
+        min: config.yAxis.min // 自定义最小值
       },
       type: {
         type: 'cat'
@@ -99,10 +101,10 @@ export default {
         }
       } : {});
     }
-    console.log(defs);
+
     chart.source(data, defs);
 
-    chart.axis('value', {
+    let valueAxis = {
       title: null, // 不展示 xDim 对应坐标轴的标题
       line: {
         lineWidth: 0, // 设置线的宽度
@@ -123,8 +125,8 @@ export default {
           fill: '#989898',
         }
       }
-    });
-    chart.axis('name', {
+    };
+    let nameAxis = {
       title: null, // 不展示 xDim 对应坐标轴的标题
       tickLine: {
         lineWidth: 0
@@ -138,7 +140,28 @@ export default {
           fill: '#989898',
         }
       }
-    });
+    };
+
+    // 网格线
+    if (config.grid) {
+      valueAxis = merge({}, valueAxis, {
+        line: {
+          lineWidth: 1, // 设置线的宽度
+          stroke: '#DCDEE3',
+        }
+      })
+      nameAxis = merge({}, nameAxis, {
+        grid: {
+          line: {
+            stroke: '#DCDEE3',
+            lineWidth: 1,
+            lineDash: [4, 0]
+          }
+        },
+      });
+    }
+    chart.axis('value', valueAxis);
+    chart.axis('name', nameAxis);
 
 
 
@@ -162,8 +185,7 @@ export default {
       chart.legend({
         position: config.legend.position,
         title: null,
-        spacingX: 8,
-        dx: -200
+        spacingX: 8
       });
     } else {
       chart.legend(false);
