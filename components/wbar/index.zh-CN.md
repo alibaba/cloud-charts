@@ -24,8 +24,6 @@ cols: 1
 
 ```javascript
   {
-    title: '柱状图', //标题内容，默认为“柱状图”
-    subTitle: '', //副标题内容，一般用来放单位说明，默认为空
     xAxis: {
       labelFormatter: null //自定义格式化，默认为null。
     },
