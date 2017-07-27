@@ -32,3 +32,6 @@ export const WLineG2 = G2Line;
 
 import { G2Bar } from './wbar/index';
 export const WBarG2 = G2Bar;
+
+import { G2Pie } from './wpie/index';
+export const WPieG2 = G2Pie;
