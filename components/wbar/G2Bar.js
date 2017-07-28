@@ -28,7 +28,9 @@ let defaultConfig = {
   // type: 'line',
   stack: false,
   grid: false,
-  column: false
+  column: false,
+  polar: false,
+  max: null
 };
 
 export default {
@@ -43,6 +45,9 @@ export default {
         max: config.yAxis.max, // 自定义最大值
         min: config.yAxis.min // 自定义最小值
       },
+      count: {
+        max: config.max
+      }
     };
 
     chart.source(data, defs);
@@ -109,28 +114,49 @@ export default {
     chart.axis('name', nameAxis);
 
 
-    // 横向柱状图
-    if (config.column) {
-      chart.coord('rect').transpose();
-    }
-
-    // 堆叠
-    if (config.stack) {
-      chart.intervalStack().position('name*value').color('type');
-    } else {
-      chart.intervalDodge().position('name*value').color('type');
-    }
-
-    // 设置图例
-    if (config.legend) {
-      chart.legend({
-        position: config.legend.position,
-        title: null,
-        spacingX: 8
+    if (config.polar) {
+      chart.coord('theta', {
+        inner: 0.6
       });
-    } else {
+      chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
+      chart.point().position('name*value').color('name').shape('circle');
+      chart.point().position('name*0').color('name').shape('circle');
       chart.legend(false);
+      // for (let i = 0, l = data.length; i < l; i++) {
+      //   let obj = data[i];
+      //   chart.guide().text([obj.name, 0], obj.name, {
+      //     textAlign: 'right'
+      //   });
+      // }
+      // chart.guide().text([0, 0], 'Music', {
+      //   textAlign: 'center',
+      //   fontSize: 24,
+      // });
+    } else {
+      // 横向柱状图
+      if (config.column) {
+        chart.coord('rect').transpose();
+      }
+      // 堆叠
+      if (config.stack) {
+        chart.intervalStack().position('name*value').color('type');
+      } else {
+        chart.intervalDodge().position('name*value').color('type');
+      }
+      // 设置图例
+      if (config.legend) {
+        chart.legend({
+          position: config.legend.position,
+          title: null,
+          spacingX: 8
+        });
+      } else {
+        chart.legend(false);
+      }
     }
+
+
+
 
 
     chart.render();
