@@ -118,9 +118,11 @@ export default {
       chart.coord('theta', {
         inner: 0.6
       });
+      
+      chart.point().position('name*0').color('name').shape('circle');
       chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
       chart.point().position('name*value').color('name').shape('circle');
-      chart.point().position('name*0').color('name').shape('circle');
+
       chart.legend(false);
       // for (let i = 0, l = data.length; i < l; i++) {
       //   let obj = data[i];
