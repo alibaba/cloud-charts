@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wline
+  Wcontainer, Wicon, Wnumber, Wline, WLineG2
 } from '@alife/aisc-widgets';
 
 import {
@@ -35,6 +35,14 @@ let options2 = {
 let options3 = {
   xAxis: {type: 'datetime'},
   type: 'spline'
+};
+
+let options4 = {
+  xAxis: {
+    type: 'datetime',
+    dateFormatter: 'HH:MM:ss'
+  },
+  dataType: 'Highcharts'
 };
 
 let data = [
@@ -61,6 +69,7 @@ ReactDOM.render(
           </Wcontainer>
         </Col>
       </Row>
+      <p></p>
       <Row>
         <Col span="24">
           <Wcontainer title={"圆滑曲线图"} height={298}>
@@ -68,6 +77,16 @@ ReactDOM.render(
           </Wcontainer>
         </Col>
       </Row>
+      <p></p>
+      {/* 
+      <Row>
+        <Col span="24">
+          <Wcontainer title={"G2曲线图"} height={298}>
+            <WLineG2 ref="chart1" config={options4} data={data} height="250"/>
+          </Wcontainer>
+        </Col>
+      </Row>
+      */}
     </div>,
 mountNode);
 ````

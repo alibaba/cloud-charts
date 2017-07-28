@@ -69,8 +69,8 @@ let defaultConfig = {
   // type: 'line',
   area: false,
   stack: false,//仅Area有效
-  spline: true,
-  grid: true,
+  spline: false,
+  grid: false,
   symbol:true,
   zoom: false,
   // colors: COLORS,
