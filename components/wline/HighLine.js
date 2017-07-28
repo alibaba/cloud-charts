@@ -26,7 +26,7 @@ class Line extends Base{
       stacking:false,
       //以上不支持热更新
       colors: COLORS,
-      padding: [0, 0, 0, 0],
+      padding: [12, 0, 12, 0],
       xAxis: {
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
@@ -77,7 +77,7 @@ class Line extends Base{
 
     //位置计算
     // this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding[0] + (legendNode ? 30 : 0 ) + 'px'; //此处没有计算margin，默认为30
+    boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为30
     boxNode.style.left = this.options.padding[3] + 'px';
     boxNode.style.right = this.options.padding[1] + 'px';
     boxNode.style.bottom = this.options.padding[2] + 'px';
@@ -361,7 +361,7 @@ function getHCOptions(options, data){
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
         ret += '<ul>';
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y) + '</li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' <span>' + ttFormat(item.y) + '</span></li>';
         });
         ret += '</ul>';
         return ret;
@@ -376,7 +376,7 @@ function getHCOptions(options, data){
       //   color: '#dddddd',
       //   width: 1//
       // },
-      lineWidth: options.xAxis.lineWidth,
+      lineWidth: 1,
       type: options.xAxis.type, //此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
       gridLineColor: '#F2F3F7',
@@ -384,7 +384,7 @@ function getHCOptions(options, data){
       lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
-        y: 22,
+        y: 20,
         formatter: function () {
           return xFormat(this.value);
         },
@@ -403,7 +403,7 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
-      lineWidth: options.yAxis.lineWidth,
+      lineWidth: 0,
       lineColor: '#DCDEE3',
       gridLineWidth: 1,
       gridLineColor: '#F2F3F7',
@@ -438,8 +438,8 @@ function getHCOptions(options, data){
               lineWidthPlus: 0,
               radiusPlus: 0,
               fillColor: 'rgba(255,255,255,1)',
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable || options.tooltip
             },
             select: {
@@ -447,8 +447,8 @@ function getHCOptions(options, data){
               radiusPlus: 0,
               fillColor: null,
               lineColor: null,
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable
             }
           }
@@ -474,8 +474,8 @@ function getHCOptions(options, data){
               lineWidthPlus: 0,
               radiusPlus: 0,
               fillColor: 'rgba(255,255,255,1)',
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable || options.tooltip
             },
             select: {
@@ -483,8 +483,8 @@ function getHCOptions(options, data){
               radiusPlus: 5,
               fillColor: null,
               lineColor: null,
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable
             }
           }
@@ -514,8 +514,8 @@ function getHCOptions(options, data){
               lineWidthPlus: 0,
               radiusPlus: 0,
               fillColor: 'rgba(255,255,255,1)',
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable || options.tooltip
             },
             select: {
@@ -523,8 +523,8 @@ function getHCOptions(options, data){
               radiusPlus: 0,
               fillColor: null,
               lineColor: null,
-              lineWidth: 3,
-              radius: 4,
+              lineWidth: 2,
+              radius: 3.5,
               enabled: options.clickable
             }
           }

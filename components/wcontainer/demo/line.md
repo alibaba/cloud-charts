@@ -24,18 +24,15 @@ import {
 const { Row, Col } = Grid;
 
 let options1 = {
-  padding:[10, 0, 10, 0],
   xAxis: {type: 'datetime'}
 };
 
 let options2 = {
-  padding:[10, 0, 10, 0],
   xAxis: {type: 'datetime'},
   legend: false
 };
 
 let options3 = {
-  padding:[10, 0, 10, 0],
   xAxis: {type: 'datetime'},
   type: 'spline'
 };

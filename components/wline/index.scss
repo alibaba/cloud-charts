@@ -8,26 +8,28 @@
   }
   .highcharts-tooltip h5{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
-    color: #2d3035;
-    margin-bottom: 5px;
-    padding: 0 5px;
+    color: #999;
+    line-height: normal;
   }
   .highcharts-tooltip ul{
-    padding: 0 5px;
     list-style: none;
   }
   .highcharts-tooltip li{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     color: #333;
+    span{
+      margin-left: 8px;
+    }
+    margin-top: 4px;
   }
   .highcharts-tooltip li i{
     width: 6px;
     height: 6px;
     display: inline-block;
-    margin-right: 8px;
+    margin-right: 4px;
     vertical-align: middle;
     border-radius: 50%;
   }
@@ -35,7 +37,6 @@
   .p2c-title{
     font-size: 16px;
     font-family: "PingFang SC", "Microsoft Yahei";
-    line-height: 26px;
     // margin-bottom: 8px;
     height: 26px;
 
@@ -66,18 +67,21 @@
     ul{
       display: block;
       line-height: initial;
+      //margin-bottom: 8px;
       //text-align: center;
     }
 
     li{
       list-style: none;
       display: inline-block;
-      margin:0 6px;
-      line-height: 26px;
+      margin-right: 12px;
       font-size: 12px;
       font-family: "PingFang SC", "Microsoft Yahei";
       cursor: pointer;
       color: #333;
+      &:last-child{
+        margin-right: 0px;
+      }
     }
     li>i{
       display: inline-block;
