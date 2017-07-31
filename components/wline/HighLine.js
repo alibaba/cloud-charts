@@ -183,18 +183,18 @@ class Line extends Base{
     }
 
     //图例 TODO性能优化
-    if(this.data.length){
-      if(legendNode){
-        legendNode.innerHTML = getLegend(legendNode,this.options, this.data);
-        Array.prototype.forEach.call(legendNode.querySelectorAll('li'), (item)=>{
-          item.addEventListener('click',(e)=>{
+    if (this.data.length) {
+      if (legendNode) {
+        legendNode.innerHTML = getLegend(legendNode, this.options, this.data);
+        Array.prototype.forEach.call(legendNode.querySelectorAll('li'), (item) => {
+          item.addEventListener('click', (e) => {
             let node = getLegendNode(e.target);
-            if(isLastVisbleLegendNode(legendNode) && !node.classList.contains('p2c-legend-hidden')) return;
+            if (isLastVisbleLegendNode(legendNode) && !node.classList.contains('p2c-legend-hidden')) return;
             let id = node.getAttribute('data-id');
-            if(node.classList.toggle('p2c-legend-hidden')){
-              if(this.chart.series[id]) this.chart.series[id].setVisible(false,false);
-            }else{
-              if(this.chart.series[id]) this.chart.series[id].setVisible(true,false);
+            if (node.classList.toggle('p2c-legend-hidden')) {
+              if (this.chart.series[id]) this.chart.series[id].setVisible(false, false);
+            } else {
+              if (this.chart.series[id]) this.chart.series[id].setVisible(true, false);
             }
             this.chart.redraw(false);
           });

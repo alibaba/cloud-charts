@@ -49,10 +49,9 @@ function g2Factory(name, Chart) {
 
     static defaultProps = {
       forceFit: false,
-      plotCfg: {
-        margin: [50,10,30,60],
+      plotCfg: {},
+      config: {
       },
-      config: {},
     };
 
     static displayName = 'AiscWidgets' + name;
@@ -68,8 +67,8 @@ function g2Factory(name, Chart) {
     componentDidMount () {
 
       // this.setSize();
-
-      const { width, height = 400, data: initData, plotCfg, forceFit, config } = this.props;
+      const props = Chart.beforeInit ? Chart.beforeInit(this.props) : this.props;
+      const { width, height = 400, data: initData, plotCfg, forceFit, config } = props;
       const chart = new G2.Chart({
         id: this.chartId,
         width,
