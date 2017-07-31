@@ -30,6 +30,7 @@ cols: 1
       labelFormatter: null, //自定义格式化，默认为null。设置值后dateFormatter失效
       lineWidth:1 //X轴线宽度，默认为1
     },
+    // yAxis 设置为数组形式可变为双轴模式
     yAxis: {
       labelFormatter: null, //自定义格式化，默认为null
       tooltipFormatter: null, //设置tooltip上Y值的格式，默认为null

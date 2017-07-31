@@ -136,7 +136,8 @@ class Line extends Base{
             data: item.data,
             color: this.options.colors[index],
             lineColor: this.options.colors[index],
-            name: item.name
+            name: item.name,
+            yAxis: item.yAxis || 0
           });
         });
         this.chart = Highcharts.chart(boxNode,options);
@@ -157,13 +158,15 @@ class Line extends Base{
             this.chart.series[index].color = this.options.colors[index];
             this.chart.series[index].lineColor = this.options.colors[index];
             this.chart.series[index].name = item.name;
+            this.chart.series[index].yAxis = item.yAxis || 0;
           }else{
             this.chart.addSeries({
               type: this.options.type ? this.options.type : 'line',
               data: item.data,
               color: this.options.colors[index],
               lineColor: this.options.colors[index],
-              name: item.name
+              name: item.name,
+              yAxis: item.yAxis || 0
             });
           }
         });
@@ -315,22 +318,18 @@ function getHCOptions(options, data){
       return value;
     }
   }
-  function yFormat(value){
-    //自定义处理逻辑优先
-    if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
-    return value;
-  }
+  // function yFormat(value){
+  //   //自定义处理逻辑优先
+  //   if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
+  //   return value;
+  // }
   function thFormat(value){
     //自定义处理逻辑优先
     if(options.xAxis.tooltipFormatter) return options.xAxis.tooltipFormatter(value, dateFormat);
     return xFormat(value);
   }
-  function ttFormat(value){
-    //自定义处理逻辑优先
-    if(options.yAxis.tooltipFormatter) return options.yAxis.tooltipFormatter(value, dateFormat);
-    return yFormat(value);
-  }
-  return {
+
+  const config = {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
@@ -355,17 +354,7 @@ function getHCOptions(options, data){
       useHTML: true,
       backgroundColor: 'rgba(255, 255, 255, 0)',
       borderColor: 'rgba(255, 255, 255, 0)',
-      shadow: false,
-      formatter: function(){
-        let p = this.points;
-        let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
-        ret += '<ul>';
-        p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y) + '</li>';
-        });
-        ret += '</ul>';
-        return ret;
-      }
+      shadow: false
     },
     legend: false,
     xAxis: {
@@ -398,30 +387,6 @@ function getHCOptions(options, data){
       max: options.xAxis.max,
       min: options.xAxis.min,
       events: {}
-    },
-    yAxis: {
-      title: {
-        enabled: false
-      },
-      lineWidth: options.yAxis.lineWidth,
-      lineColor: '#DCDEE3',
-      gridLineWidth: 1,
-      gridLineColor: '#F2F3F7',
-      tickPixelInterval:40,
-      labels: {
-        x: -8,
-        formatter: function () {
-          return yFormat(this.value);
-        },
-        style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
-      },
-      max: options.yAxis.max,
-      min: options.yAxis.min,
-      plotBands: options.yAxis.bgArea.length === 2 ? {
-        from: options.yAxis.bgArea[0],
-        to: options.yAxis.bgArea[1],
-        color: 'rgba(5,128,242,0.1)',
-      } : null
     },
     plotOptions: {
       line: {
@@ -547,7 +512,74 @@ function getHCOptions(options, data){
       }
     },
     series: []
+  };
+
+  let ttFormat = null;
+
+  if (Array.isArray(options.yAxis)) {
+    config.yAxis = options.yAxis.map(getYAxis);
+    ttFormat = (value, index) => {
+      const y = options.yAxis[index];
+      if (y.tooltipFormatter) return y.tooltipFormatter(value, dateFormat);
+      if (y.labelFormatter) return y.labelFormatter(value, dateFormat);
+      return value;
+    }
+  } else {
+    config.yAxis = getYAxis(options.yAxis);
+    ttFormat = (value) => {
+      //自定义处理逻辑优先
+      if(options.yAxis.tooltipFormatter) return options.yAxis.tooltipFormatter(value, dateFormat);
+      if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
+      return value;
+    }
   }
+
+  config.tooltip.formatter = function(){
+    let p = this.points;
+    let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
+    ret += '<ul>';
+    p.forEach((item,i)=>{
+      ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y, i) + '</li>';
+    });
+    ret += '</ul>';
+    return ret;
+  };
+
+  return config;
+}
+
+function getYAxis(yAxis, index) {
+  function yFormat(value){
+    //自定义处理逻辑优先
+    if(yAxis.labelFormatter) return yAxis.labelFormatter(value, dateFormat);
+    return value;
+  }
+
+  return {
+    title: {
+      enabled: false
+    },
+    lineWidth: yAxis.lineWidth,
+    lineColor: '#DCDEE3',
+    gridLineWidth: 1,
+    gridLineColor: '#F2F3F7',
+    tickPixelInterval:40,
+    opposite: !!index,
+    labels: {
+      x: index ? 8 : -8,
+      formatter: function () {
+        return yFormat(this.value);
+      },
+      style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
+    },
+    max: yAxis.max,
+    min: yAxis.min,
+    plotBands: (yAxis.bgArea && yAxis.bgArea.length === 2) ? {
+      from: yAxis.bgArea[0],
+      to: yAxis.bgArea[1],
+      color: 'rgba(5,128,242,0.1)',
+    } : null
+  };
 }
 
 export default Line;
