@@ -17,13 +17,17 @@ class Line extends Base{
     super(selector, options);
     let defaultOptions = {
       legend: true,
-      tooltip: true,
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
       zoom: false,
       clickable: false,
       type: 'line',
       grid: false,
-      symbol:false,
-      stacking:false,
+      symbol: false,
+      stack: false,
       //以上不支持热更新
       colors: COLORS,
       padding: [0, 0, 0, 0],
@@ -31,7 +35,7 @@ class Line extends Base{
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上X值的格式
+        // tooltipFormatter: null, //手动设置tooltip上X值的格式
         categories: null,
         max: null,
         min: null,
@@ -39,7 +43,7 @@ class Line extends Base{
       },
       yAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上Y值的格式
+        // tooltipFormatter: null, //手动设置tooltip上Y值的格式
         max: null,
         min: null,
         bgArea: [],
@@ -333,15 +337,20 @@ function getHCOptions(options, data){
       return value;
     }
   }
-  // function yFormat(value){
-  //   //自定义处理逻辑优先
-  //   if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
-  //   return value;
-  // }
   function thFormat(value){
     //自定义处理逻辑优先
-    if(options.xAxis.tooltipFormatter) return options.xAxis.tooltipFormatter(value, dateFormat);
+    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value, dateFormat);
     return xFormat(value);
+  }
+  function tNameFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    return value;
+  }
+  function tValueFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    return value;
   }
 
   const config = {
@@ -360,11 +369,21 @@ function getHCOptions(options, data){
     exporting: false,
     title: false,
     tooltip: {
-      enabled: options.tooltip,
+      enabled: !!options.tooltip,
       shared: true,
       crosshairs: {
         color: '#dddddd',
-        width: options.tooltip ? 1 : 0
+        width: !!options.tooltip ? 1 : 0
+      },
+      formatter: function(){
+        let p = this.points;
+        let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
+        ret += '<ul>';
+        p.forEach((item,i)=>{
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name) + ' ' + tValueFormat(item.y, i) + '</li>';
+        });
+        ret += '</ul>';
+        return ret;
       },
       useHTML: true,
       backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -483,7 +502,7 @@ function getHCOptions(options, data){
         //stacking: 'normal',
         lineWidth: 2,
         fillOpacity: 0.1,
-        stacking: options.stacking ? 'normal' : null,
+        stacking: options.stack ? 'normal' : null,
         marker: {
           enabled: true,
           symbol: 'circle',
@@ -529,36 +548,13 @@ function getHCOptions(options, data){
     series: []
   };
 
-  let ttFormat = null;
+  // let ttFormat = null;
 
   if (Array.isArray(options.yAxis)) {
     config.yAxis = options.yAxis.map(getYAxis);
-    ttFormat = (value, index) => {
-      const y = options.yAxis[index];
-      if (y.tooltipFormatter) return y.tooltipFormatter(value, dateFormat);
-      if (y.labelFormatter) return y.labelFormatter(value, dateFormat);
-      return value;
-    }
   } else {
     config.yAxis = getYAxis(options.yAxis);
-    ttFormat = (value) => {
-      //自定义处理逻辑优先
-      if(options.yAxis.tooltipFormatter) return options.yAxis.tooltipFormatter(value, dateFormat);
-      if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
-      return value;
-    }
   }
-
-  config.tooltip.formatter = function(){
-    let p = this.points;
-    let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
-    ret += '<ul>';
-    p.forEach((item,i)=>{
-      ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y, i) + '</li>';
-    });
-    ret += '</ul>';
-    return ret;
-  };
 
   return config;
 }

@@ -1,12 +1,13 @@
 ﻿---
-order: 12
+order: 14
 title:
-  zh-CN: 面积堆叠曲线
-  en-US: stacking
+  zh-CN: 自定义提示
+  en-US: Tooltip
 ---
 
 ## zh-CN
-设置 type 为 area，且设置 stack 为 true 展示为面积堆叠曲线。
+
+设置 tooltip 自定义提示。
 
 ## en-US
 
@@ -24,11 +25,19 @@ let data = [
   }
 ];
 
-let options = {
+let options3 = {
   xAxis: {type: 'datetime'},
-  type: 'area',
-  symbol: true,
-  stack: true
+  tooltip: {
+    titleFormatter: function(v) {
+      return 'title: ' + v;
+    },
+    nameFormatter: function(v) {
+      return 'name: ' + v;
+    },
+    valueFormatter: function(v) {
+      return 'value: ' + v;
+    },
+  }
 };
 
 class Demo extends React.Component{
@@ -36,7 +45,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline config={options} data={data} height="250" />
+            <Wline config={options3} data={data} height="250" />
         </div>
       </div>
     );

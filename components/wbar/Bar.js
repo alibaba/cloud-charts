@@ -20,7 +20,7 @@ class Bar extends Base{
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
-      stacking: false,
+      stack: false,
       // title: '柱状图',
       // subTitle: '',
       padding: 20,
@@ -321,7 +321,7 @@ function getHCOptions(options, data){
       },
       column: {
         //animation: false,
-        stacking: options.stacking ? 'normal' : '',
+        stacking: options.stack ? 'normal' : '',
         borderWidth: 0,
         //pointPadding: 0.2,
         states: {
@@ -333,7 +333,7 @@ function getHCOptions(options, data){
       },
       bar: {
         //animation: false,
-        stacking: options.stacking ? 'normal' : '',
+        stacking: options.stack ? 'normal' : '',
         borderWidth: 0,
         //pointPadding: 0.2,
         states: {

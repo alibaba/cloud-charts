@@ -28,7 +28,7 @@ let data = [
 let options = {
   title: '多组堆叠',
   subTitle: '',
-  stacking: true
+  stack: true
 };
 
 class Demo extends React.Component{
