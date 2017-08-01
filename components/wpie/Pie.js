@@ -15,7 +15,10 @@ class Pie extends Base{
     let defaultOptions = {
       legend: true,
       cycle: false,
-      tooltip: true,
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
@@ -170,6 +173,17 @@ function getHCOptions(options, data){
     else return value;
   }
 
+  function tNameFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    return value;
+  }
+  function tValueFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    return value;
+  }
+
   return {
     chart: {
       plotBackgroundColor: null,
@@ -183,7 +197,7 @@ function getHCOptions(options, data){
     exporting: false,
     title: false,
     tooltip: {
-      enabled: options.tooltip,
+      enabled: !!options.tooltip,
       //followPointer: false,
       useHTML: true,
       backgroundColor: 'rgba(255, 255, 255, 0)',
@@ -191,7 +205,7 @@ function getHCOptions(options, data){
       shadow: false,
       formatter: function(){
         let ret = '<ul>';
-          ret += '<li><i style="background:'+this.color+'"></i><b>'+this.key+'</b>  '+labelFormatter(this.y)+'</li>';
+          ret += '<li><i style="background:'+this.color+'"></i><b>'+tNameFormat(this.key)+'</b>  '+tValueFormat(this.y)+'</li>';
         ret += '</ul>';
         return ret;
       }

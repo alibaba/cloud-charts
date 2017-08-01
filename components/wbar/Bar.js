@@ -16,7 +16,11 @@ class Bar extends Base{
       legend: true,
       column: true,
       grid: true,
-      tooltip: true,
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
@@ -27,13 +31,13 @@ class Bar extends Base{
       labels: null,
       xAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上X值的格式
+        // tooltipFormatter: null, //手动设置tooltip上X值的格式
         min: null,
         max: null
       },
       yAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上Y值的格式
+        // tooltipFormatter: null, //手动设置tooltip上Y值的格式
         min: null,
         max: null
       }
@@ -223,15 +227,19 @@ function getHCOptions(options, data){
   }
   function thFormat(value){
     //自定义处理逻辑优先
-    if(options.xAxis.tooltipFormatter) return options.xAxis.tooltipFormatter(value, dateFormat);
+    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value, dateFormat);
     return xFormat(value);
   }
-  function ttFormat(value){
+  function tNameFormat(value) {
     //自定义处理逻辑优先
-    if(options.yAxis.tooltipFormatter) return options.yAxis.tooltipFormatter(value, dateFormat);
-    return yFormat(value);
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    return value;
   }
-
+  function tValueFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    return value;
+  }
   let categories = getLabels(options, data);
   
   return {
@@ -247,7 +255,7 @@ function getHCOptions(options, data){
     exporting: false,
     title: false,
     tooltip: {
-      enabled: options.tooltip,
+      enabled: !!options.tooltip,
       shared: true,
       followPointer: true,
       useHTML: true,
@@ -265,7 +273,7 @@ function getHCOptions(options, data){
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
         ret += '<ul>'
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y) + '</li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name) + ' ' + tValueFormat(item.y) + '</li>';
         });
         ret += '</ul>';
         return ret;

@@ -1,13 +1,13 @@
 ﻿---
-order: 3
+order: 2
 title:
-  zh-CN: 无标题
-  en-US: Single
+  zh-CN: 无Tooltip
+  en-US: Tooltip
 ---
 
 ## zh-CN
 
-通过设置 single 为 true，不显示标题和图例。
+通过设置 tooltip 为 false，不显示Tooltip。
 
 ## en-US
 
@@ -30,9 +30,7 @@ let data = [
 ];
 
 let options = {
-  title: '不带标题',
-  subTitle: '标题不会显示',
-  single: true
+  tooltip: false
 };
 
 class Demo extends React.Component{
