@@ -559,7 +559,7 @@ function getYAxis(yAxis, index) {
     title: {
       enabled: false
     },
-    lineWidth: yAxis.lineWidth,
+    lineWidth: index === undefined ? yAxis.lineWidth : (yAxis.lineWidth || 1),
     lineColor: '#DCDEE3',
     gridLineWidth: 1,
     gridLineColor: '#F2F3F7',
@@ -580,6 +580,10 @@ function getYAxis(yAxis, index) {
       color: 'rgba(5,128,242,0.1)',
     } : null
   };
+}
+
+function getYAxisColor() {
+
 }
 
 export default Line;
