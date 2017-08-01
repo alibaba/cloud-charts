@@ -179,7 +179,22 @@ class Line extends Base{
 
         //更新轴信息
         if(this.chart.xAxis[0]) this.chart.xAxis[0].update(options.xAxis, false);
-        if(this.chart.yAxis[0]) this.chart.yAxis[0].update(options.yAxis, false);
+        if (Array.isArray(options.yAxis)) {
+          options.yAxis.forEach((y, index) => {
+            if (this.chart.yAxis[index]) {
+              this.chart.yAxis[index].update(y, false);
+            } else {
+              this.chart.addAxis(getYAxis(y, index));
+            }
+          });
+          for (let i = this.chart.yAxis.length - 1; i > 0; i--) {
+            if (!options.yAxis[i]) {
+              this.chart.yAxis[i].remove(false);
+            }
+          }
+        } else {
+          if(this.chart.yAxis[0]) this.chart.yAxis[0].update(options.yAxis, false);
+        }
 
         this.chart.redraw(false);
       }
