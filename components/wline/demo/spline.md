@@ -26,7 +26,7 @@ let data = [
 
 let options5 = {
   xAxis: {type: 'datetime'},
-  type: 'spline'
+  spline: true
 };
 
 class Demo extends React.Component{

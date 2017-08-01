@@ -24,7 +24,9 @@ class Line extends Base{
       },
       zoom: false,
       clickable: false,
-      type: 'line',
+      // type: 'line',
+      spline: false,
+      area: false,
       grid: false,
       symbol: false,
       stack: false,
@@ -133,10 +135,21 @@ class Line extends Base{
         }
       };
 
+      let lineType = 'line';
+      if (this.options.area) {
+        lineType = 'area';
+      }
+      if (this.options.spline) {
+        lineType = 'spline';
+      }
+      if (this.options.area && this.options.spline) {
+        lineType = 'areaspline';
+      }
+
       if(!this.chart){
         this.data.forEach((item,index)=>{
           options.series.push({
-            type: this.options.type ? this.options.type : 'line',
+            type: lineType,
             data: item.data,
             color: this.options.colors[index],
             lineColor: this.options.colors[index],
@@ -165,7 +178,7 @@ class Line extends Base{
             this.chart.series[index].yAxis = item.yAxis || 0;
           }else{
             this.chart.addSeries({
-              type: this.options.type ? this.options.type : 'line',
+              type: lineType,
               data: item.data,
               color: this.options.colors[index],
               lineColor: this.options.colors[index],
@@ -500,6 +513,44 @@ function getHCOptions(options, data){
       area: {
         //animation: false,
         //stacking: 'normal',
+        lineWidth: 2,
+        fillOpacity: 0.1,
+        stacking: options.stack ? 'normal' : null,
+        marker: {
+          enabled: true,
+          symbol: 'circle',
+          radius: options.symbol? 2 : 0,
+          lineColor: null,
+          states: {
+            hover: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
+              fillColor: 'rgba(255,255,255,1)',
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable || options.tooltip
+            },
+            select: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
+              fillColor: null,
+              lineColor: null,
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable
+            }
+          }
+        },
+        states: {
+          hover: {
+            lineWidthPlus: 0,
+            halo: {
+              size: 0
+            }
+          }
+        }
+      },
+      areaspline: {
         lineWidth: 2,
         fillOpacity: 0.1,
         stacking: options.stack ? 'normal' : null,
