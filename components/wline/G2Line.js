@@ -271,12 +271,12 @@ export default {
               dotDom[v.index].style.background = '#999';
             }
           });
-          chart.filter('name', filterNames);
+
+          chart.filter('type', filterNames);
           chart.repaint();
         }
       }
     }
-
   }
 };
 
