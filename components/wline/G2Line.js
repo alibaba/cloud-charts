@@ -243,38 +243,38 @@ export default {
         let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + type + '</span></li>';
         ulNode.innerHTML += liHtml;
         chartNode.appendChild(ulNode);
-        let dotDom = chartNode.getElementsByClassName('dot');
+
         stash[type] = {
-          dotDom: dotDom[i],
           item: item,
           color: color,
           name: type,
           isChecked: true,
           index: i
         };
-        Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
-          item.addEventListener('click', (e) => {
-            let node = getLegendNode(e.target);
-            let type = node.getAttribute('data-id');
-            filter(type);
-          });
+      }
+      let dotDom = chartNode.getElementsByClassName('dot');
+      Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
+        item.addEventListener('click', (e) => {
+          let node = getLegendNode(e.target);
+          let type = node.getAttribute('data-id');
+          filter(type);
         });
-        function filter(name) {
-          let obj = stash[name];
-          let filterNames = [];
-          obj.isChecked = obj.isChecked ? false : true;
-          Util.each(stash, function (v) {
-            if (v.isChecked) {
-              dotDom[v.index].style.background = v.color;
-              filterNames.push(v.name);
-            } else {
-              dotDom[v.index].style.background = '#999';
-            }
-          });
+      });
+      function filter(name) {
+        let obj = stash[name];
+        let filterNames = [];
+        obj.isChecked = obj.isChecked ? false : true;
+        Util.each(stash, function (v) {
+          if (v.isChecked) {
+            dotDom[v.index].style.background = v.color;
+            filterNames.push(v.name);
+          } else {
+            dotDom[v.index].style.background = '#999';
+          }
+        });
 
-          chart.filter('type', filterNames);
-          chart.repaint();
-        }
+        chart.filter('type', filterNames);
+        chart.repaint();
       }
     }
   }
