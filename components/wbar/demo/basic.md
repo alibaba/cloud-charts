@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options1 = {
-  title: '常规用法',
-  subTitle: '副标题或单位'
 };
 
 class Demo extends React.Component{

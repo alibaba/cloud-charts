@@ -27,8 +27,6 @@ let data = [
 ];
 
 let options2 = {
-  title: '轴格式设置',
-  subTitle: '',
   xAxis: {
     labelFormatter: function(value){
       return value + '月';

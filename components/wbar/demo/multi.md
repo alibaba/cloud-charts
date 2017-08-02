@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options = {
-  title: '多组堆叠',
-  subTitle: '',
   stacking: true
 };
 

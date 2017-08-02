@@ -1,95 +1,99 @@
-.p2c-bar{
-  /* highchart hack */
-  .highcharts-tooltip>span{
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.4);
-    padding: 8px;
-    border-radius: 2px;
+/* highchart hack */
+.p2c-bar .highcharts-tooltip>span{
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 4px;
+}
+.p2c-bar .highcharts-tooltip h5{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+  line-height: normal;
+  margin-top: 0;
+}
+.p2c-bar .highcharts-tooltip ul{
+  list-style: none;
+}
+.p2c-bar .highcharts-tooltip li{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #333;
+  span{
+    margin-left: 8px;
   }
-  .highcharts-tooltip h5{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    color: #2d3035;
-    margin-bottom: 5px;
-    padding: 0 5px;
-  }
-  .highcharts-tooltip ul{
-    padding: 0 5px;
-    list-style: none;
-  }
-  .highcharts-tooltip li{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    color: #2d3035;
-  }
-  .highcharts-tooltip li i{
-    width: 6px;
-    height: 6px;
+  margin-top: 4px;
+}
+.p2c-bar .highcharts-tooltip li i{
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.p2c-bar .p2c-title{
+  font-size: 16px;
+  font-family: "PingFang SC", "Microsoft Yahei";
+  line-height: 26px;
+  // margin-bottom: 8px;
+  height: 26px;
+
+  h4{
+    font-weight: normal;
+    font-size: 16px;
+    color: #333;
     display: inline-block;
     margin-right: 8px;
-    vertical-align: middle;
+  }
+
+  h5{
+    font-weight: normal;
+    font-size: 12px;
+    color: #989898;
+    display: inline-block;
+  }
+}
+.p2c-bar .p2c-legend{
+  position: absolute;
+  // left: 0;
+  // bottom: 0;
+  // width: 100%;
+  right: 0;
+  top: 0;
+
+  ul{
+    display: block;
+    //text-align: center;
+    line-height: initial;
+  }
+
+  li{
+    list-style: none;
+    display: inline-block;
+    margin-right: 12px;
+    font-size: 12px;
+    font-family: "PingFang SC", "Microsoft Yahei";
+    cursor: pointer;
+    color: #333;
+    &:last-child{
+      margin-right: 0px;
+    }
+  }
+  li>i{
+    display: inline-block;
+    vertical-align: baseline;
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
     border-radius: 50%;
   }
-
-  .p2c-title{
-    font-size: 16px;
-    font-family: "PingFang SC", "Microsoft Yahei";
-    line-height: 26px;
-    // margin-bottom: 8px;
-    height: 26px;
-
-    h4{
-      font-weight: normal;
-      font-size: 16px;
-      color: #333;
-      display: inline-block;
-      margin-right: 8px;
-    }
-
-    h5{
-      font-weight: normal;
-      font-size: 12px;
-      color: #989898;
-      display: inline-block;
-    }
+  li.p2c-legend-hidden i{
+    background-color:  #DDDDDD!important;
   }
-  .p2c-legend{
-    position: absolute;
-    // left: 0;
-    // bottom: 0;
-    // width: 100%;
-    right: 0;
-    top: 0;
-
-    ul{
-      display: block;
-      //text-align: center;
-      line-height: initial;
-    }
-
-    li{
-      list-style: none;
-      display: inline-block;
-      margin:0 6px;
-      line-height: 26px;
-      font-size: 12px;
-      font-family: "PingFang SC", "Microsoft Yahei";
-      cursor: pointer;
-      color: #333;
-    }
-    li>i{
-      display: inline-block;
-      vertical-align: baseline;
-      width: 10px;
-      height: 10px;
-      margin-right: 5px;
-      border-radius: 50%;
-    }
-    li.p2c-legend-hidden i{
-      background-color:  #DDDDDD!important;
-    }
-    li.p2c-legend-hidden span{
-      color: #DDDDDD!important;
-    }
+  li.p2c-legend-hidden span{
+    color: #DDDDDD!important;
   }
 }

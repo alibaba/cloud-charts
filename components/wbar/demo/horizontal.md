@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options = {
-  title: '横向柱状图',
-  subTitle: '',
   column: false
 };
 

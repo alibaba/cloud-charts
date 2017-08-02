@@ -1,13 +1,13 @@
 ---
 order: 6
 title:
-  zh-CN: 不带标题
+  zh-CN: 带网格
   en-US: Bar
 ---
 
 ## zh-CN
 
-不带标题
+带网格
 
 ## en-US
 
@@ -26,9 +26,7 @@ let data = [
 ];
 
 let options = {
-  title: '不带标题',
-  subTitle: '标题不会显示',
-  single: true
+  grid: true
 };
 
 class Demo extends React.Component{

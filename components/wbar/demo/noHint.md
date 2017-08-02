@@ -26,8 +26,6 @@ let data = [
 ];
 
 let options = {
-  title: '不带提示',
-  subTitle: '也不带网格',
   tooltip: false,
   grid: false
 };

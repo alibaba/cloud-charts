@@ -15,7 +15,7 @@ class Bar extends Base{
     let defaultOptions = {
       legend: true,
       column: true,
-      grid: true,
+      grid: false,
       tooltip: true,
       clickable: false,
       //以上不支持热更新
@@ -23,7 +23,7 @@ class Bar extends Base{
       stacking: false,
       // title: '柱状图',
       // subTitle: '',
-      padding: 20,
+      padding: [12, 0, 12, 0],
       labels: null,
       xAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
@@ -75,15 +75,19 @@ class Bar extends Base{
 
     //位置计算
     this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding + 20 + 'px'; //此处没有计算margin，默认为20
-    boxNode.style.left = this.options.padding + 'px';
-    boxNode.style.right = this.options.padding + 'px';
-    boxNode.style.bottom = this.options.padding + 'px';
+    boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为20
+    boxNode.style.left = this.options.padding[3] + 'px';
+    boxNode.style.right = this.options.padding[1] + 'px';
+    boxNode.style.bottom = this.options.padding[2] + 'px';
     //boxNode.style.bottom = this.options.padding + (legendNode ? legendNode.offsetHeight : 0 ) + 20 + 'px'; //此处没有计算margin,默认为20
     //legendNode.style.bottom = this.options.padding + 'px';
     if(legendNode){
-      legendNode.style.top = this.options.padding + 'px';
-      legendNode.style.right = this.options.padding + 'px';
+      legendNode.style.top = this.options.padding[0] + 'px';
+      if(this.options.legend.align === 'right'){
+        legendNode.style.right = this.options.padding[1] + 'px';
+      }else{
+        legendNode.style.left = this.options.padding[3] + 'px';
+      }
     }
 
     //标题
@@ -233,7 +237,7 @@ function getHCOptions(options, data){
   }
 
   let categories = getLabels(options, data);
-  
+
   return {
     chart: {
       plotBackgroundColor: null,
@@ -241,7 +245,9 @@ function getHCOptions(options, data){
       plotShadow: false,
       marginTop: 10,
       spacing: [0,0,0,0],
-      backgroundColor: false
+      backgroundColor: false,
+      zoomType: options.zoom ? 'x' : false,
+      events: {}
     },
     credits: false,
     exporting: false,
@@ -249,23 +255,20 @@ function getHCOptions(options, data){
     tooltip: {
       enabled: options.tooltip,
       shared: true,
-      followPointer: true,
+      crosshairs: {
+        color: '#dddddd',
+        width: options.tooltip ? 1 : 0
+      },
       useHTML: true,
       backgroundColor: 'rgba(255, 255, 255, 0)',
       borderColor: 'rgba(255, 255, 255, 0)',
       shadow: false,
-      // formatter: function(){
-      //   let ret = '<ul>';
-      //     ret += '<li><i style="background:'+this.series.color+'"></i><b>'+xFormat(this.key)+'</b>  '+this.y+'</li>';
-      //   ret += '</ul>';
-      //   return ret;
-      // }
       formatter: function(){
         let p = this.points;
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
-        ret += '<ul>'
+        ret += '<ul>';
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' ' + ttFormat(item.y) + '</li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' <span>' + ttFormat(item.y) + '</span></li>';
         });
         ret += '</ul>';
         return ret;
@@ -276,9 +279,12 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
-      gridLineWidth: 0,
       lineWidth: 1,
-      lineColor: '#dddddd',
+      type: options.xAxis.type, //此处依赖options设置
+      gridLineWidth: options.grid ? 1 : 0,
+      gridLineColor: '#F2F3F7',
+      tickPixelInterval:70,
+      lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
         formatter: function () {
@@ -298,10 +304,10 @@ function getHCOptions(options, data){
       title: {
           enabled: false
       },
-      lineWidth: 1,
-      lineColor: '#dddddd',
-      gridLineWidth: options.grid ? 1 : 0,
-      gridLineColor: '#dddddd',
+      lineWidth: 0,
+      lineColor: '#DCDEE3',
+      gridLineWidth: 1,
+      gridLineColor: '#F2F3F7',
       labels: {
         formatter: function () {
           return yFormat(this.value);
