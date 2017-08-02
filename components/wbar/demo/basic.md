@@ -26,6 +26,9 @@ let data = [
 ];
 
 let options1 = {
+  legend:{
+    align: 'right'
+  }
 };
 
 class Demo extends React.Component{
