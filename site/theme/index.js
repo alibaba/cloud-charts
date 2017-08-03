@@ -39,6 +39,7 @@ module.exports = {
     guide: './guide',
     spec: './spec'
   },
+  version:"1.1.0",
   link: [{to: `/components/wnumber/`, children: "基础组件"},
     {to: `/guide/start/`, children: "指引"}]
 };

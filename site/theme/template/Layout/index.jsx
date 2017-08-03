@@ -89,7 +89,7 @@ export default class Layout extends React.Component {
      // console.log(options,appLocale,children, restProps)
     return (
       <IntlProvider locale={appLocale.locale} messages={appLocale.messages}>
-        <AiscPortalLayout navLink={routerCof.link} locale={appLocale.locale} searchOptions={options}
+        <AiscPortalLayout version={routerCof.version} navLink={routerCof.link} locale={appLocale.locale} searchOptions={options}
                           currentLink={this.getCurrentLink()} messages={appLocale.messages} { ...restProps}>
           {children}
         </AiscPortalLayout>
