@@ -22,15 +22,16 @@ class Pie extends Base{
       //以上不支持热更新
       colors: COLORS,
       padding: 40,
-      labelFormatter: null,
-      single: false
+      legend: {
+        labelFormatter: null, //可以强制覆盖，手动设置label
+      }
     };
     this.options = merge({}, defaultOptions, this.options);
     this.init();
   }
   init (){
     var dom = '';
-    if(!this.options.single){
+    if(this.options.legend){
       dom = `
         <div class="p2c-legend"><ul></ul></div>
         <div class="p2c-box"></div>
@@ -62,7 +63,7 @@ class Pie extends Base{
 
     this.element.style.padding = this.options.padding + 'px';
 
-    if(this.options.single){//单图不计算位置
+    if(!this.options.legend){//单图不计算位置
       boxNode.style.top = this.options.padding + 'px';
       boxNode.style.bottom = this.options.padding + 'px';
       boxNode.style.left = this.options.padding + 'px';
@@ -148,7 +149,7 @@ function getLegend(dom, options, data){
 
   function labelFormatter(value){
     //自定义处理逻辑优先
-    if(options.labelFormatter) return options.labelFormatter(value, dateFormat);
+    if(options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value, dateFormat);
     //默认处理逻辑
     else return value;
   }
@@ -168,19 +169,19 @@ function getHCOptions(options, data){
 
   function labelFormatter(value){
     //自定义处理逻辑优先
-    if(options.labelFormatter) return options.labelFormatter(value, dateFormat);
+    if( options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value, dateFormat);
     //默认处理逻辑
     else return value;
   }
 
   function tNameFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
     return value;
   }
   function tValueFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    if(options.tooltip && options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
     return value;
   }
 

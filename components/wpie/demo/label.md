@@ -31,9 +31,12 @@ let data = [
 
 let options = {
   cycle: true,
-  labelFormatter: function(value){
-    return value + '%';
+  legend: {
+      labelFormatter: function(value){
+        return value + '%';
+      }
   }
+
 };
 
 class Demo extends React.Component{

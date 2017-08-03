@@ -27,7 +27,7 @@ cols: 1
     labelFormatter: null, //自定义格式化，默认为null。
     cycle: false, //是否为环图，默认为false，表示显示为饼图，仅初次设置有效
     clickable: false, //是否可点击，默认为false，表示不可点击。仅初次设置有效
-    single: false, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
+    legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
     tooltip: true, //是否需要提示标签，默认为true，表示显示。仅初次设置有效。不建议修改
     colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
     padding: 20 //容器内边距，默认为20，单位是像素。不建议修改
