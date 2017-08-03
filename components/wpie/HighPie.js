@@ -13,7 +13,6 @@ class Pie extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      legend: true,
       cycle: false,
       tooltip: {
         nameFormatter: null,
@@ -22,15 +21,16 @@ class Pie extends Base{
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
-      padding: 20,
-      labelFormatter: null
+      padding: 40,
+      labelFormatter: null,
+      single: false
     };
     this.options = merge({}, defaultOptions, this.options);
     this.init();
   }
   init (){
     var dom = '';
-    if(this.options.legend){
+    if(!this.options.single){
       dom = `
         <div class="p2c-legend"><ul></ul></div>
         <div class="p2c-box"></div>
@@ -56,7 +56,7 @@ class Pie extends Base{
 
     //位置计算
     // let titleHeight = titleNode ? titleNode.offsetHeight : 0;
-    let boxHeight = this.element.offsetHeight - this.options.padding * 2 - 20; //此处没有计算margin，默认为20
+    let boxHeight = this.element.offsetHeight - this.options.padding * 2 - 40; //此处没有计算margin，默认为40
     let boxWidth = this.element.offsetWidth - this.options.padding * 2;
     let diameter = boxHeight < boxWidth ? boxHeight * 0.84 : boxWidth * 0.84;
 
@@ -70,13 +70,13 @@ class Pie extends Base{
     }else{
       boxNode.style.width = diameter + 'px';
       boxNode.style.height = diameter + 'px';
-      boxNode.style.top = this.options.padding + 20 + boxHeight * 0.08 + 'px';
-      boxNode.style.left = this.options.padding + boxWidth * 0.04 + 'px';
+      boxNode.style.top = this.options.padding + 40 + boxHeight * 0.1 + 'px';
+      boxNode.style.left = this.options.padding + boxWidth * 0.05 + 'px';
     }
 
     if(legendNode){
-      legendNode.style.top = this.options.padding + diameter * 0.08 + 20 + 'px';
-      legendNode.style.left = this.options.padding + diameter + boxWidth * 0.04 * 2 + 'px';
+      legendNode.style.top = this.options.padding + diameter * 0.1 + 40 + 'px';
+      legendNode.style.left = this.options.padding + diameter + boxWidth * 0.05 * 2 + 'px';
       if(legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = diameter + 'px';
     }
 
@@ -98,7 +98,7 @@ class Pie extends Base{
         self.fire('click', {target: self, point: {x: this.x, y: this.y, xName: this.name}, name: this.series.name}); //抛出外部处理
       };
 
-      if(!this.chart){  
+      if(!this.chart){
         data.forEach((item,index)=>{
           options.series.push({
             type: 'pie',
@@ -223,7 +223,7 @@ function getHCOptions(options, data){
         dataLabels: false,
         slicedOffset: 0,
         size: '100%',
-        innerSize: options.cycle ? '62%' : 0,
+        innerSize: options.cycle ? '66%' : 0,
         states: {
           hover: {enabled:false}
         },
