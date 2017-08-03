@@ -3,9 +3,11 @@
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from 'g2';
+const Util = G2.Util;
 import './index.scss';
 
 let defaultConfig = {
+  padding: [32, 5, 32, 45],
   xAxis: {
     labelFormatter: null //可以强制覆盖，手动设置label
   },
@@ -16,7 +18,7 @@ let defaultConfig = {
     // bgArea: [], // TODO 辅助区域后期需要加上
   },
   legend: {
-    position: 'top',
+    align: 'left',
     labelFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
@@ -34,6 +36,11 @@ let defaultConfig = {
 };
 
 export default {
+  beforeInit(props) {
+    const {config, plotCfg} = props;
+    plotCfg.margin = config.padding || defaultConfig.padding;
+    return props;
+  },
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
 
@@ -118,7 +125,7 @@ export default {
       chart.coord('theta', {
         inner: 0.6
       });
-      
+
       chart.point().position('name*0').color('name').shape('circle');
       chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
       chart.point().position('name*value').color('name').shape('circle');
@@ -135,6 +142,35 @@ export default {
       //   fontSize: 24,
       // });
     } else {
+      // 设置图例
+      chart.legend(false);
+
+      // tooltip
+      let tooltipCfg = {
+        custom: true,
+        offset: 8,
+        crosshairs: {
+          type: 'y' // 启用水平方向的辅助线
+        },
+        crossLine: {
+          stroke: '#dddddd',
+          lineWidth: 1,
+        },
+        padding: [12, 12, 12, 12],
+        html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
+        itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
+      };
+      chart.tooltip(true, tooltipCfg);
+      if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+        chart.on('tooltipchange', function (ev) {
+          ev.items.forEach((item) => {
+            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
+            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
+            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
+          });
+        });
+      }
+
       // 横向柱状图
       if (config.column) {
         chart.coord('rect').transpose();
@@ -145,22 +181,84 @@ export default {
       } else {
         chart.intervalDodge().position('name*value').color('type');
       }
-      // 设置图例
-      if (config.legend) {
-        chart.legend({
-          position: config.legend.position,
-          title: null,
-          spacingX: 8
-        });
-      } else {
-        chart.legend(false);
-      }
     }
 
-
-
-
-
     chart.render();
+
+    // 自定义图例html
+    if (config.legend) {
+      let id = chart._attrs.id;
+      let chartNode = document.getElementById(id);
+      chartNode.style.position = 'relative';
+      let geom = chart.getAllGeoms()[0]; // 获取所有的图形
+      let items = geom.get('frames'); // 获取图形对应的数据
+      let stash = {};
+
+      let ulNode = document.createElement('ul');
+      ulNode.classList.add('ac-legend');
+      // ulNode.style.top = config.padding[0] + 'px';
+      if(config.legend.align === 'right'){
+        ulNode.style.right = config.padding[1] + 'px';
+      }else{
+        ulNode.style.left = 5 + 'px';
+      }
+      ulNode.innerHTML = '';
+
+      for (let i = 0, l = items.length; i < l; i++) {
+        let item = items[i];
+        let itemData = item.data[0];
+        if (!itemData) {
+          return;
+        };
+        let color = itemData.color;
+        if(!itemData._origin){
+          return;
+        }
+        let type = itemData._origin.type;
+        let name = itemData._origin.name;
+        let value = itemData._origin.value;
+
+        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + type + '</span></li>';
+        ulNode.innerHTML += liHtml;
+        chartNode.appendChild(ulNode);
+
+        stash[type] = {
+          item: item,
+          color: color,
+          name: type,
+          isChecked: true,
+          index: i
+        };
+      }
+      let dotDom = chartNode.getElementsByClassName('dot');
+      Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
+        item.addEventListener('click', (e) => {
+          let node = getLegendNode(e.target);
+          let type = node.getAttribute('data-id');
+          filter(type);
+        });
+      });
+      function filter(name) {
+        let obj = stash[name];
+        let filterNames = [];
+        obj.isChecked = obj.isChecked ? false : true;
+        Util.each(stash, function (v) {
+          if (v.isChecked) {
+            dotDom[v.index].style.background = v.color;
+            filterNames.push(v.name);
+          } else {
+            dotDom[v.index].style.background = '#999';
+          }
+        });
+
+        chart.filter('type', filterNames);
+        chart.repaint();
+      }
+    }
   }
 };
+
+function getLegendNode(target){
+  if(target.tagName === 'LI') return target;
+  else return target.parentNode;
+}
