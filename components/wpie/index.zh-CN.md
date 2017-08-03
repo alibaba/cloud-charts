@@ -24,8 +24,6 @@ cols: 1
 
 ```javascript
   {
-    title: '饼图', //标题内容，默认为“饼图”
-    subTitle: '', //副标题内容，一般用来放单位说明，默认为空
     labelFormatter: null, //自定义格式化，默认为null。
     cycle: false, //是否为环图，默认为false，表示显示为饼图，仅初次设置有效
     clickable: false, //是否可点击，默认为false，表示不可点击。仅初次设置有效

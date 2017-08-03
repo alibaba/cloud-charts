@@ -33,7 +33,7 @@ cols: 1
       min: null  //Y轴可见的最小值，默认为自动计算，一般为0
     },
     clickable: false, //柱是否可点击，默认为false，表示不可点击。仅初次设置有效
-    stacking: false,//多组数据时是否堆叠，默认为false，表示并列对比，不堆叠
+    stack: false,//多组数据时是否堆叠，默认为false，表示并列对比，不堆叠
     column: true, //是否为纵向柱图，默认为true，表示纵向，仅初次设置有效
     grid: false, //是否显示网格，默认为false，表示显示。仅初次设置有效。不建议修改
     legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改

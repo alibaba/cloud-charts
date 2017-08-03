@@ -17,13 +17,19 @@ class Line extends Base{
     super(selector, options);
     let defaultOptions = {
       legend: true,
-      tooltip: true,
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
       zoom: false,
       clickable: false,
-      type: 'line',
+      // type: 'line',
+      spline: false,
+      area: false,
       grid: false,
-      symbol:false,
-      stacking:false,
+      symbol: false,
+      stack: false,
       //以上不支持热更新
       colors: COLORS,
       padding: [12, 0, 12, 0],
@@ -31,7 +37,7 @@ class Line extends Base{
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上X值的格式
+        // tooltipFormatter: null, //手动设置tooltip上X值的格式
         categories: null,
         max: null,
         min: null,
@@ -39,7 +45,7 @@ class Line extends Base{
       },
       yAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
-        tooltipFormatter: null, //手动设置tooltip上Y值的格式
+        // tooltipFormatter: null, //手动设置tooltip上Y值的格式
         max: null,
         min: null,
         bgArea: [],
@@ -129,14 +135,26 @@ class Line extends Base{
         }
       };
 
+      let lineType = 'line';
+      if (this.options.area) {
+        lineType = 'area';
+      }
+      if (this.options.spline) {
+        lineType = 'spline';
+      }
+      if (this.options.area && this.options.spline) {
+        lineType = 'areaspline';
+      }
+
       if(!this.chart){
         this.data.forEach((item,index)=>{
           options.series.push({
-            type: this.options.type ? this.options.type : 'line',
+            type: lineType,
             data: item.data,
             color: this.options.colors[index],
             lineColor: this.options.colors[index],
-            name: item.name
+            name: item.name,
+            yAxis: item.yAxis || 0
           });
         });
         this.chart = Highcharts.chart(boxNode,options);
@@ -157,13 +175,15 @@ class Line extends Base{
             this.chart.series[index].color = this.options.colors[index];
             this.chart.series[index].lineColor = this.options.colors[index];
             this.chart.series[index].name = item.name;
+            this.chart.series[index].yAxis = item.yAxis || 0;
           }else{
             this.chart.addSeries({
-              type: this.options.type ? this.options.type : 'line',
+              type: lineType,
               data: item.data,
               color: this.options.colors[index],
               lineColor: this.options.colors[index],
-              name: item.name
+              name: item.name,
+              yAxis: item.yAxis || 0
             });
           }
         });
@@ -176,7 +196,22 @@ class Line extends Base{
 
         //更新轴信息
         if(this.chart.xAxis[0]) this.chart.xAxis[0].update(options.xAxis, false);
-        if(this.chart.yAxis[0]) this.chart.yAxis[0].update(options.yAxis, false);
+        if (Array.isArray(options.yAxis)) {
+          options.yAxis.forEach((y, index) => {
+            if (this.chart.yAxis[index]) {
+              this.chart.yAxis[index].update(y, false);
+            } else {
+              this.chart.addAxis(getYAxis(y, index));
+            }
+          });
+          for (let i = this.chart.yAxis.length - 1; i > 0; i--) {
+            if (!options.yAxis[i]) {
+              this.chart.yAxis[i].remove(false);
+            }
+          }
+        } else {
+          if(this.chart.yAxis[0]) this.chart.yAxis[0].update(options.yAxis, false);
+        }
 
         this.chart.redraw(false);
       }
@@ -315,22 +350,23 @@ function getHCOptions(options, data){
       return value;
     }
   }
-  function yFormat(value){
-    //自定义处理逻辑优先
-    if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
-    return value;
-  }
   function thFormat(value){
     //自定义处理逻辑优先
-    if(options.xAxis.tooltipFormatter) return options.xAxis.tooltipFormatter(value, dateFormat);
+    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value, dateFormat);
     return xFormat(value);
   }
-  function ttFormat(value){
+  function tNameFormat(value) {
     //自定义处理逻辑优先
-    if(options.yAxis.tooltipFormatter) return options.yAxis.tooltipFormatter(value, dateFormat);
-    return yFormat(value);
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    return value;
   }
-  return {
+  function tValueFormat(value) {
+    //自定义处理逻辑优先
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    return value;
+  }
+
+  const config = {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
@@ -346,26 +382,26 @@ function getHCOptions(options, data){
     exporting: false,
     title: false,
     tooltip: {
-      enabled: options.tooltip,
+      enabled: !!options.tooltip,
       shared: true,
       crosshairs: {
         color: '#dddddd',
-        width: options.tooltip ? 1 : 0
+        width: !!options.tooltip ? 1 : 0
       },
-      useHTML: true,
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      borderColor: 'rgba(255, 255, 255, 0)',
-      shadow: false,
       formatter: function(){
         let p = this.points;
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
         ret += '<ul>';
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ item.series.name + ' <span>' + ttFormat(item.y) + '</span></li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name) + ' <span>' + tValueFormat(item.y, i) + '</span></li>';
         });
         ret += '</ul>';
         return ret;
-      }
+      },
+      useHTML: true,
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      borderColor: 'rgba(255, 255, 255, 0)',
+      shadow: false
     },
     legend: false,
     xAxis: {
@@ -399,30 +435,30 @@ function getHCOptions(options, data){
       min: options.xAxis.min,
       events: {}
     },
-    yAxis: {
-      title: {
-        enabled: false
-      },
-      lineWidth: 0,
-      lineColor: '#DCDEE3',
-      gridLineWidth: 1,
-      gridLineColor: '#F2F3F7',
-      tickPixelInterval:40,
-      labels: {
-        x: -8,
-        formatter: function () {
-          return yFormat(this.value);
-        },
-        style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
-      },
-      max: options.yAxis.max,
-      min: options.yAxis.min,
-      plotBands: options.yAxis.bgArea.length === 2 ? {
-        from: options.yAxis.bgArea[0],
-        to: options.yAxis.bgArea[1],
-        color: 'rgba(5,128,242,0.1)',
-      } : null
-    },
+    // yAxis: {
+    //   title: {
+    //     enabled: false
+    //   },
+    //   lineWidth: 0,
+    //   lineColor: '#DCDEE3',
+    //   gridLineWidth: 1,
+    //   gridLineColor: '#F2F3F7',
+    //   tickPixelInterval:40,
+    //   labels: {
+    //     x: -8,
+    //     formatter: function () {
+    //       return yFormat(this.value);
+    //     },
+    //     style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
+    //   },
+    //   max: options.yAxis.max,
+    //   min: options.yAxis.min,
+    //   plotBands: options.yAxis.bgArea.length === 2 ? {
+    //     from: options.yAxis.bgArea[0],
+    //     to: options.yAxis.bgArea[1],
+    //     color: 'rgba(5,128,242,0.1)',
+    //   } : null
+    // },
     plotOptions: {
       line: {
         //animation: false,
@@ -503,7 +539,45 @@ function getHCOptions(options, data){
         //stacking: 'normal',
         lineWidth: 2,
         fillOpacity: 0.1,
-        stacking: options.stacking ? 'normal' : null,
+        stacking: options.stack ? 'normal' : null,
+        marker: {
+          enabled: true,
+          symbol: 'circle',
+          radius: options.symbol? 2 : 0,
+          lineColor: null,
+          states: {
+            hover: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
+              fillColor: 'rgba(255,255,255,1)',
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable || options.tooltip
+            },
+            select: {
+              lineWidthPlus: 0,
+              radiusPlus: 0,
+              fillColor: null,
+              lineColor: null,
+              lineWidth: 3,
+              radius: 4,
+              enabled: options.clickable
+            }
+          }
+        },
+        states: {
+          hover: {
+            lineWidthPlus: 0,
+            halo: {
+              size: 0
+            }
+          }
+        }
+      },
+      areaspline: {
+        lineWidth: 2,
+        fillOpacity: 0.1,
+        stacking: options.stack ? 'normal' : null,
         marker: {
           enabled: true,
           symbol: 'circle',
@@ -547,7 +621,55 @@ function getHCOptions(options, data){
       }
     },
     series: []
+  };
+
+  // let ttFormat = null;
+
+  if (Array.isArray(options.yAxis)) {
+    config.yAxis = options.yAxis.map(getYAxis);
+  } else {
+    config.yAxis = getYAxis(options.yAxis);
   }
+
+  return config;
+}
+
+function getYAxis(yAxis, index) {
+  function yFormat(value){
+    //自定义处理逻辑优先
+    if(yAxis.labelFormatter) return yAxis.labelFormatter(value, dateFormat);
+    return value;
+  }
+
+  return {
+    title: {
+      enabled: false
+    },
+    lineWidth: index === undefined ? yAxis.lineWidth : (yAxis.lineWidth || 1),
+    lineColor: '#DCDEE3',
+    gridLineWidth: 1,
+    gridLineColor: '#F2F3F7',
+    tickPixelInterval:40,
+    opposite: !!index,
+    labels: {
+      x: index ? 8 : -8,
+      formatter: function () {
+        return yFormat(this.value);
+      },
+      style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
+    },
+    max: yAxis.max,
+    min: yAxis.min,
+    plotBands: (yAxis.bgArea && yAxis.bgArea.length === 2) ? {
+      from: yAxis.bgArea[0],
+      to: yAxis.bgArea[1],
+      color: 'rgba(5,128,242,0.1)',
+    } : null
+  };
+}
+
+function getYAxisColor() {
+
 }
 
 export default Line;

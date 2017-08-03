@@ -1,13 +1,13 @@
 ﻿---
-order: 2
+order: 3
 title:
-  zh-CN: 无Tooltip
+  zh-CN: 自定义提示
   en-US: Tooltip
 ---
 
 ## zh-CN
 
-通过设置 tooltip 为 false，不显示Tooltip。
+设置 tooltip 自定义提示。
 
 ## en-US
 
@@ -30,9 +30,14 @@ let data = [
 ];
 
 let options = {
-  title: '不带提示',
-  subTitle: '',
-  tooltip: false
+  tooltip: {
+    nameFormatter: function(v) {
+      return 'name: ' + v;
+    },
+    valueFormatter: function(v) {
+      return 'value: ' + v;
+    },
+  }
 };
 
 class Demo extends React.Component{

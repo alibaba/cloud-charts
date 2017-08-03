@@ -1,12 +1,13 @@
 ﻿---
-order: 4
+order: 14
 title:
-  zh-CN: 平滑曲线
-  en-US: Spline
+  zh-CN: 自定义提示
+  en-US: Tooltip
 ---
 
 ## zh-CN
-设置 type 为 spline，展示为平滑曲线。
+
+设置 tooltip 自定义提示。
 
 ## en-US
 
@@ -24,9 +25,19 @@ let data = [
   }
 ];
 
-let options5 = {
+let options3 = {
   xAxis: {type: 'datetime'},
-  spline: true
+  tooltip: {
+    titleFormatter: function(v) {
+      return 'title: ' + v;
+    },
+    nameFormatter: function(v) {
+      return 'name: ' + v;
+    },
+    valueFormatter: function(v) {
+      return 'value: ' + v;
+    },
+  }
 };
 
 class Demo extends React.Component{
@@ -34,7 +45,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wline config={options5} data={data} height="250" />
+            <Wline config={options3} data={data} height="250" />
         </div>
       </div>
     );

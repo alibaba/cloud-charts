@@ -1,13 +1,13 @@
 ---
-order: 4
+order: 7
 title:
-  zh-CN: 多组堆叠
-  en-US: Basic
+  zh-CN: 自定义提示
+  en-US: Tooltip
 ---
 
 ## zh-CN
 
-多组堆叠
+设置 tooltip 自定义提示。
 
 ## en-US
 
@@ -26,7 +26,17 @@ let data = [
 ];
 
 let options = {
-  stack: true
+  tooltip: {
+    titleFormatter: function(v) {
+      return 'title: ' + v;
+    },
+    nameFormatter: function(v) {
+      return 'name: ' + v;
+    },
+    valueFormatter: function(v) {
+      return 'value: ' + v;
+    },
+  }
 };
 
 class Demo extends React.Component{
@@ -41,7 +51,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wbar ref="chart1" config={options} data={data} height="400" />
+            <Wbar ref="chart4" config={options} data={data} height="400" />
         </div>
       </div>
     );

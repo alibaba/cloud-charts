@@ -43,10 +43,10 @@ class Base {
           data: d
         });
       }else{
-        this.data.push({
-          name: d.name || 'data' + i,
-          data: d.data
-        });
+        if (!d.name) {
+          d.name = 'data' + i;
+        }
+        this.data.push(d);
       }
     });
     if(sync) this.render();

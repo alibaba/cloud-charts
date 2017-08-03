@@ -29,9 +29,9 @@ cols: 1
       dateFormatter: '%m-%d', //时间格式化，当X轴类型为“datetime”时，此字段生效
       labelFormatter: null, //自定义格式化，默认为null。设置值后dateFormatter失效
     },
+    // yAxis 设置为数组形式可变为双轴模式
     yAxis: {
       labelFormatter: null, //自定义格式化，默认为null
-      tooltipFormatter: null, //设置tooltip上Y值的格式，默认为null
       max: null, //Y轴可见最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关
       min: null,  //Y轴可见最小值，默认为自动计算，一般为0
       bgArea: [], //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
@@ -43,7 +43,7 @@ cols: 1
     colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
     symbol: false, //曲线上是否有点，默认为false。仅初次设置有效
     type: 'line', //曲线类型，默认为折线，还可为'spline'展示平滑曲线以及'area'展示面积曲线。
-    stacking: false, //曲线是否堆叠，默认为false，表示不堆叠。仅初次设置有效
+    stack: false, //曲线是否堆叠，默认为false，表示不堆叠。仅初次设置有效
   }
 
   /*

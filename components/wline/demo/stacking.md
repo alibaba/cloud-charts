@@ -6,7 +6,7 @@ title:
 ---
 
 ## zh-CN
-设置 type 为 area，且设置 stacking 为 true 展示为面积堆叠曲线。
+设置 type 为 area，且设置 stack 为 true 展示为面积堆叠曲线。
 
 ## en-US
 
@@ -28,7 +28,7 @@ let options = {
   xAxis: {type: 'datetime'},
   type: 'area',
   symbol: true,
-  stacking: true
+  stack: true
 };
 
 class Demo extends React.Component{

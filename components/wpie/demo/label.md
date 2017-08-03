@@ -30,8 +30,6 @@ let data = [
 ];
 
 let options = {
-  title: '环图',
-  subTitle: '图例自定义',
   cycle: true,
   labelFormatter: function(value){
     return value + '%';

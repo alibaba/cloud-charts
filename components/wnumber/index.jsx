@@ -73,10 +73,17 @@ export default class Wnumber extends React.Component {
   }
 
   render() {
+    const { className, bottomTitle } = this.props;
+
+    const mainClasses = classNames({
+      [`${prefix}`]: true,
+      [className]: !!className
+    })
+
     return (
-      <div className={`${prefix}`}>
+      <div className={mainClasses}>
         {this.renderMain()}
-        {this.props.bottomTitle && this.renderBottomTitle()}
+        {bottomTitle && this.renderBottomTitle()}
       </div>
     );
   }
