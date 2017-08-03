@@ -57,7 +57,7 @@ class Pie extends Base{
 
     //位置计算
     // let titleHeight = titleNode ? titleNode.offsetHeight : 0;
-    let boxHeight = this.element.offsetHeight - this.options.padding * 2 - 40; //此处没有计算margin，默认为40
+    let boxHeight = this.element.offsetHeight - this.options.padding * 2;
     let boxWidth = this.element.offsetWidth - this.options.padding * 2;
     let diameter = boxHeight < boxWidth ? boxHeight * 0.84 : boxWidth * 0.84;
 
@@ -71,12 +71,12 @@ class Pie extends Base{
     }else{
       boxNode.style.width = diameter + 'px';
       boxNode.style.height = diameter + 'px';
-      boxNode.style.top = this.options.padding + 40 + boxHeight * 0.1 + 'px';
+      boxNode.style.top = this.options.padding + 'px';
       boxNode.style.left = this.options.padding + boxWidth * 0.05 + 'px';
     }
 
     if(legendNode){
-      legendNode.style.top = this.options.padding + diameter * 0.1 + 40 + 'px';
+      legendNode.style.top = this.options.padding + 'px';
       legendNode.style.left = this.options.padding + diameter + boxWidth * 0.05 * 2 + 'px';
       if(legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = diameter + 'px';
     }

@@ -56,7 +56,7 @@
   }
 
 }
-.p2c-pie .p2c-legend{
+.p2c-pie .p2c-legend, .ac-legend{
   position: absolute;
   left: 0;
   // bottom: 0;
@@ -94,5 +94,14 @@
     margin-right: 8px;
     font-weight: normal;
   }
+}
+
+.ac-legend {
+  display: flex;
+  //text-align: center;
+  //align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  line-height: initial;
 }
 

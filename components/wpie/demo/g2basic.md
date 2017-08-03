@@ -16,7 +16,8 @@ G2 版 基础饼图
 import { WPieG2 } from '@alife/aisc-widgets';
 
 let options = {
-  dataType: 'Highcharts'
+  dataType: 'Highcharts',
+  legend: false
 };
 
 let data = [
