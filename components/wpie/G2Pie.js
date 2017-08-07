@@ -16,7 +16,7 @@ let defaultConfig = {
     valueFormatter: null,
   },
   cycle: false,
-  padding: [40, 40, 40, 40],
+  padding: [0, 0, 0, 0],
 };
 
 export default {
@@ -38,7 +38,7 @@ export default {
     chart.source(data, defs);
     // 重要：绘制饼图时，必须声明 theta 坐标系
     let thetaConfig = {
-      radius: 0.84 // 设置饼图的大小
+      radius: 0.6 // 设置饼图的大小
     }
     if (config.cycle) {
       thetaConfig = merge({}, thetaConfig, {
@@ -88,8 +88,8 @@ export default {
       let chartNode = document.getElementById(id);
       chartNode.style.position = 'relative';
       let boxHeight = chartNode.offsetHeight - config.padding[0] - config.padding[2];
-      let boxWidth = chartNode.offsetWidth  - config.padding[1] - config.padding[3] - boxHeight * 0.84;
-      let diameter = boxHeight < boxWidth ? boxHeight * 0.84 : boxWidth * 0.84;
+      let boxWidth = chartNode.offsetWidth  - config.padding[1] - config.padding[3] - boxHeight * 0.6;
+      let diameter = boxHeight < boxWidth ? boxHeight * 0.6 : boxWidth * 0.6;
 
       let geom = chart.getAllGeoms()[0]; // 获取所有的图形
       let items = geom.get('frames'); // 获取图形对应的数据
@@ -97,7 +97,7 @@ export default {
 
       let ulNode = document.createElement('ul');
       ulNode.classList.add('ac-pie-legend');
-      ulNode.style.top = config.padding[0] + boxHeight * 0.1 + 'px';
+      ulNode.style.top = config.padding[0] + + diameter* 0.3 + 'px';
       ulNode.style.left = config.padding[3] + diameter + boxWidth * 0.55  + 'px';
       ulNode.style.height = diameter + 'px';
       // if(config.legend.align === 'right'){

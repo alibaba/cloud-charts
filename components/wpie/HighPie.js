@@ -21,7 +21,7 @@ class Pie extends Base{
       clickable: false,
       //以上不支持热更新
       colors: COLORS,
-      padding: 40,
+      padding: [0,0,0,0],
       legend: {
         labelFormatter: null, //可以强制覆盖，手动设置label
       }
@@ -57,27 +57,30 @@ class Pie extends Base{
 
     //位置计算
     // let titleHeight = titleNode ? titleNode.offsetHeight : 0;
-    let boxHeight = this.element.offsetHeight - this.options.padding * 2;
-    let boxWidth = this.element.offsetWidth - this.options.padding * 2;
-    let diameter = boxHeight < boxWidth ? boxHeight * 0.84 : boxWidth * 0.84;
+    let boxHeight = this.element.offsetHeight - this.options.padding[0] - this.options.padding[2];
+    let boxWidth = this.element.offsetWidth - this.options.padding[1] - this.options.padding[3];
+    let diameter = boxHeight < boxWidth ? boxHeight * 0.6 : boxWidth * 0.6;
 
-    this.element.style.padding = this.options.padding + 'px';
+    this.element.style.top = this.options.padding[0] + 'px';
+    this.element.style.right = this.options.padding[1] + 'px';
+    this.element.style.bottom = this.options.padding[2] + 'px';
+    this.element.style.left = this.options.padding[3] + 'px';
 
     if(!this.options.legend){//单图不计算位置
-      boxNode.style.top = this.options.padding + 'px';
-      boxNode.style.bottom = this.options.padding + 'px';
-      boxNode.style.left = this.options.padding + 'px';
-      boxNode.style.right = this.options.padding + 'px';
+      boxNode.style.top = this.options.padding[0]  + diameter* 0.3 + 'px';
+      boxNode.style.bottom = this.options.padding[2] + 'px';
+      boxNode.style.left = this.options.padding[3] + 'px';
+      boxNode.style.right = this.options.padding[1] + 'px';
     }else{
       boxNode.style.width = diameter + 'px';
       boxNode.style.height = diameter + 'px';
-      boxNode.style.top = this.options.padding + 'px';
-      boxNode.style.left = this.options.padding + boxWidth * 0.05 + 'px';
+      boxNode.style.top = this.options.padding[0]  + diameter* 0.3 + 'px';
+      boxNode.style.left = this.options.padding[3] + boxWidth * 0.05 + 'px';
     }
 
     if(legendNode){
-      legendNode.style.top = this.options.padding + 'px';
-      legendNode.style.left = this.options.padding + diameter + boxWidth * 0.05 * 2 + 'px';
+      legendNode.style.top = this.options.padding[0] + diameter* 0.3 + 'px';
+      legendNode.style.left = this.options.padding[3] + diameter + boxWidth * 0.05 * 2 + 'px';
       if(legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = diameter + 'px';
     }
 
