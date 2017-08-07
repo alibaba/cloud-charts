@@ -206,7 +206,7 @@ function getHCOptions(options, data){
       shadow: false,
       formatter: function(){
         let ret = '<ul>';
-          ret += '<li><i style="background:'+this.color+'"></i><b>'+tNameFormat(this.key)+'</b>  '+tValueFormat(this.y)+'</li>';
+          ret += '<li><i style="background:'+this.color+'"></i>'+tNameFormat(this.key)+'<span>'+tValueFormat(this.y)+'</span></li>';
         ret += '</ul>';
         return ret;
       }
