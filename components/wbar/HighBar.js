@@ -335,6 +335,9 @@ function getHCOptions(options, data){
         animation: {
           duration: 500
         },
+        pointPadding: 0,
+        // groupPadding: 0.2,
+        maxPointWidth: 74
       },
       column: {
         //animation: false,
