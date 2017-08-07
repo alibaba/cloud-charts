@@ -96,7 +96,7 @@ export default {
       let stash = {};
 
       let ulNode = document.createElement('ul');
-      ulNode.classList.add('ac-legend');
+      ulNode.classList.add('ac-pie-legend');
       ulNode.style.top = config.padding[0] + boxHeight * 0.1 + 'px';
       ulNode.style.left = config.padding[3] + diameter + boxWidth * 0.55  + 'px';
       ulNode.style.height = diameter + 'px';

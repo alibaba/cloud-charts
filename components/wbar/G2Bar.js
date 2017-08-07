@@ -195,7 +195,7 @@ export default {
       let stash = {};
 
       let ulNode = document.createElement('ul');
-      ulNode.classList.add('ac-legend');
+      ulNode.classList.add('ac-bar-legend');
       // ulNode.style.top = config.padding[0] + 'px';
       if(config.legend.align === 'right'){
         ulNode.style.right = config.padding[1] + 'px';
