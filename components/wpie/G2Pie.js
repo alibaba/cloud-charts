@@ -54,9 +54,9 @@ export default {
 
     //labelFormatter
     if (config.labelFormatter) {
-      chart.intervalStack().position(Stat.summary.percent('value')).color('name').label('name*..percent', config.labelFormatter);
+      chart.intervalStack().position(Stat.summary.percent('value')).color('name').label('name*..percent', config.labelFormatter).selected(false);
     } else {
-      chart.intervalStack().position(Stat.summary.percent('value')).color('name');
+      chart.intervalStack().position(Stat.summary.percent('value')).color('name').selected(false);
     }
 
     chart.legend(false);
