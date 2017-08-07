@@ -464,6 +464,9 @@ function getHCOptions(options, data){
         //animation: false,
         //stacking: 'normal',
         lineWidth: 2,
+        animation: {
+          duration: 500
+        },
         marker: {
           enabled: true,
           symbol: 'circle',

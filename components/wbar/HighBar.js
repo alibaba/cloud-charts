@@ -331,7 +331,10 @@ function getHCOptions(options, data){
         events: {},
         point: {
           events: {}
-        }
+        },
+        animation: {
+          duration: 500
+        },
       },
       column: {
         //animation: false,
