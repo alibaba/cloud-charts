@@ -218,7 +218,9 @@ export default {
         let name = itemData._origin.name;
         let value = itemData._origin.value;
 
-        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + type + '</span></li>';
+        let typeFormatter = config.legend.labelFormatter ? config.legend.labelFormatter(type) : type ;
+
+        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
         ulNode.innerHTML += liHtml;
         chartNode.appendChild(ulNode);
 

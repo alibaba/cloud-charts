@@ -9,7 +9,8 @@ const Util = G2.Util;
 let defaultConfig = {
   legend: {
     position: 'right',
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, //可以强制覆盖，手动设置label
+    valueFormatter: null
   },
   tooltip: {
     nameFormatter: null,
@@ -121,7 +122,10 @@ export default {
         let name = itemData._origin.name;
         let value = itemData._origin.value;
 
-        let liHtml = '<li class="item" data-id="' + name + '"><i class="dot" style="background:' + color + ';"></i><b>' + name + '</b><span>' + value + '</span></li>';
+        let nameFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(name) : name ;
+        let valueFormatter = config.legend.valueFormatter ? config.legend.valueFormatter(value) : value ;
+
+        let liHtml = '<li class="item" data-id="' + name + '"><i class="dot" style="background:' + color + ';"></i><b>' + nameFormatter + '</b><span>' + valueFormatter + '</span></li>';
         ulNode.innerHTML += liHtml;
         chartNode.appendChild(ulNode);
 
