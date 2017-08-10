@@ -169,14 +169,6 @@ function getLegend(dom, options, data){
 
 //highcharts 配置
 function getHCOptions(options, data){
-
-  function labelFormatter(value){
-    //自定义处理逻辑优先
-    if( options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value, dateFormat);
-    //默认处理逻辑
-    else return value;
-  }
-
   function tNameFormat(value) {
     //自定义处理逻辑优先
     if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
