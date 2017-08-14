@@ -58,7 +58,7 @@ export default class Demo extends React.Component {
       highlightedStyle,
       expand,
     } = props;
-    console.log(preview + '')
+    // console.log(preview + '')
     const codeExpand = this.state.codeExpand || expand;
     const codeBoxClass = classNames({
       'code-box': true,
