@@ -10,9 +10,9 @@
     }
     &#{$wicon-prefix}-small {
       position: absolute;
-      top: 16px;
-      left: -10px;
-      @include icon-handler(6px);
+      top: 14px;
+      left: -12px;
+      @include icon-handler(8px);
     }
     color: $color-b1-6;
   }
