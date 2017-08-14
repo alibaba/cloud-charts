@@ -78,17 +78,20 @@ function chartFactory(name, Chart) {
     }
 
     shouldComponentUpdate (nextProps) {
-      if(this.props.data !== nextProps.data){
-        this.chart.setData(nextProps.data);
+      const { data: newData, width: newWidth, height: newHeight, config: newConfig, orignalOptions: newOrignalOptions } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, config: oldConfig, orignalOptions: oldOrignalOptions } = this.props;
+
+      if(newData !== oldData || newData.length !== oldData.length || (newData.data && oldData.data && newData.data !== oldData.data)) {
+        this.chart.setData(newData);
       }
-      if(this.props.config !== nextProps.config){
-        this.chart.setOption(nextProps.config);
+      if(newConfig !== oldConfig) {
+        this.chart.setOption(newConfig);
       }
-      if(this.props.orignalOptions !== nextProps.orignalOptions){
-        this.chart.chart && this.chart.chart.update(orignalOptions);
+      if(newOrignalOptions !== oldOrignalOptions) {
+        this.chart.chart && this.chart.chart.update(newOrignalOptions);
       }
-      if(this.props.width !== nextProps.width || this.props.height !== nextProps.height){
-        this.setSize();
+      if(newWidth !== oldWidth || newHeight !== oldHeight) {
+        this.setSize(newWidth, newHeight);
       }
       //action判断
       for(let i in nextProps.action){
@@ -112,20 +115,22 @@ function chartFactory(name, Chart) {
       return this.chart;
     }
 
-    setSize() {
+    setSize(width, height) {
+      const propsWidth = width || this.props.width;
+      const propsHeight = height || this.props.height;
       let w, h;
       let node = this.refs.chart;
       //设置宽度
-      if(this.props.width){
-        w = this.props.width + 'px';
+      if(propsWidth){
+        w = propsWidth + 'px';
       }else{
         if(node.parentNode) w = node.parentNode.clientWidth + 'px';
         else w = '';
       }
       this.refs.chart.style.width = w;
       //设置高度
-      if(this.props.height){
-        h = this.props.height + 'px';
+      if(propsHeight){
+        h = propsHeight + 'px';
       }else{
         if(node.parentNode) h = node.parentNode.clientHeight + 'px';
         else h = '';
