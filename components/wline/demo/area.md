@@ -6,7 +6,7 @@ title:
 ---
 
 ## zh-CN
-设置 type 为 area，展示为面积曲线。
+设置 area 为 true，展示为面积曲线。
 
 ## en-US
 

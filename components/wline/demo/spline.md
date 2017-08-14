@@ -6,7 +6,7 @@ title:
 ---
 
 ## zh-CN
-设置 type 为 spline，展示为平滑曲线。
+设置 spline 为 true，展示为平滑曲线。
 
 ## en-US
 
