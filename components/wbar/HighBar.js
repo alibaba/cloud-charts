@@ -13,15 +13,17 @@ class Bar extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      legend: true,
-      column: true,
-      grid: false,
+      legend: {
+        nameFormatter: null, //可以强制覆盖，手动设置label
+      },
       tooltip: {
         titleFormatter: null,
         nameFormatter: null,
         valueFormatter: null,
       },
       clickable: false,
+      column: true,
+      grid: false,
       //以上不支持热更新
       colors: COLORS,
       stack: false,
@@ -189,6 +191,9 @@ function getLegend(node, options, data){
     let style = (item.data && item.data.length) ? '' : 'display:none;';
     let clsName = (legends[i] && legends[i].classList.contains('p2c-legend-hidden')) ? 'p2c-legend-hidden' : '';
     let name = (item.name && !item.name.match(/data\d+/)) ? item.name : '柱'+(i+1);
+    if (options.legend.nameFormatter) {
+      name = options.legend.nameFormatter(name, { ...item, color: options.colors[i] }, i);
+    }
     ret.push('<li data-id="'+i+'" style="'+style+'" class="'+clsName+'"><i style="background-color:'+options.colors[i]+'"></i><span>' + name + '</span></li>');
   });
   return '<ul>' + ret.join('') + '</ul>';

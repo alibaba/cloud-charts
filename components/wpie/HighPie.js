@@ -23,7 +23,8 @@ class Pie extends Base{
       colors: COLORS,
       padding: [0,0,0,0],
       legend: {
-        labelFormatter: null, //可以强制覆盖，手动设置label
+        nameFormatter: null, //可以强制覆盖，手动设置label
+        valueFormatter: null, //可以强制覆盖，手动设置label
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -150,18 +151,24 @@ class Pie extends Base{
 
 function getLegend(dom, options, data){
 
-  function labelFormatter(value){
-    //自定义处理逻辑优先
-    if(options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value);
-    //默认处理逻辑
-    else return value;
-  }
+  // function labelFormatter(value){
+  //   //自定义处理逻辑优先
+  //   if(options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value);
+  //   //默认处理逻辑
+  //   else return value;
+  // }
 
   let ret = [];
-  let legends = dom.querySelectorAll('li');
+  // let legends = dom.querySelectorAll('li');
   data[0].data.forEach((item, i)=>{
     let name = Array.isArray(item) ? item[0] : '区域'+(i+1);
-    let value = labelFormatter(Array.isArray(item) ? item[1] : item);
+    let value = Array.isArray(item) ? item[1] : item;
+    if (options.legend.nameFormatter) {
+      name = options.legend.nameFormatter(name, { ...item, color: options.colors[i] }, i);
+    }
+    if (options.legend.valueFormatter) {
+      value = options.legend.valueFormatter(value, { ...item, color: options.colors[i] }, i);
+    }
     ret.push('<li data-id="'+i+'"><i style="background-color:'+options.colors[i]+'"></i><b>' + name + '</b><span>' + value + '</span></li>');
   });
   return ret.join('');

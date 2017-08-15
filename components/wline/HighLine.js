@@ -16,7 +16,9 @@ class Line extends Base{
   constructor (selector, options){
     super(selector, options);
     let defaultOptions = {
-      legend: true,
+      legend: {
+        nameFormatter: null, //可以强制覆盖，手动设置label
+      },
       tooltip: {
         titleFormatter: null,
         nameFormatter: null,
@@ -330,6 +332,9 @@ function getLegend(node, options, data){
     let style = (item.data && item.data.length) ? '' : 'display:none;';
     let clsName = (legends[i] && legends[i].classList.contains('p2c-legend-hidden')) ? 'p2c-legend-hidden' : '';
     let name = (item.name && !item.name.match(/data\d+/)) ? item.name : '线'+(i+1);
+    if (options.legend.nameFormatter) {
+      name = options.legend.nameFormatter(name, { ...item, color: options.colors[i] }, i);
+    }
     ret.push('<li data-id="'+i+'" style="'+style+'" class="'+clsName+'"><i style="background-color:'+options.colors[i]+'"></i><span>' + name + '</span></li>');
   });
   return '<ul>' + ret.join('') + '</ul>';

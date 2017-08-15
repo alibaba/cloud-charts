@@ -36,11 +36,13 @@ cols: 1
       min: null,  //Y轴可见最小值，默认为自动计算，一般为0
       bgArea: [], //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
     },
-    legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
+    legend: { //默认显示，设置为false时，表示不显示
+      nameFormatter: null, // 图例文字格式化函数。参数：name, data, index
+    },
     tooltip: { //默认显示，设置为false时，表示不显示
-      titleFormatter: null, // 标题格式化函数。参数：title
-      nameFormatter: null, // 标题格式化函数。参数：name, data, index, record
-      valueFormatter: null, // 标题格式化函数。参数：value, data, index, record
+      titleFormatter: null, // tooltip标题格式化函数。参数：title
+      nameFormatter: null, // tooltip name格式化函数。参数：name, data, index, record
+      valueFormatter: null, // tooltip value格式化函数。参数：value, data, index, record
     },
     zoom: false, //图上是否支持拖拽选择放大，默认为false，表示不缩放。仅初次设置有效
     clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
