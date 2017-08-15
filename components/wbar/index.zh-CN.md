@@ -32,12 +32,16 @@ cols: 1
       max: null, //Y轴可见的最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关。
       min: null  //Y轴可见的最小值，默认为自动计算，一般为0
     },
+    legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
+    tooltip: { //默认显示，设置为false时，表示不显示
+      titleFormatter: null, // 标题格式化函数。参数：title
+      nameFormatter: null, // 标题格式化函数。参数：name, data, index, record
+      valueFormatter: null, // 标题格式化函数。参数：value, data, index, record
+    },
     clickable: false, //柱是否可点击，默认为false，表示不可点击。仅初次设置有效
     stack: false,//多组数据时是否堆叠，默认为false，表示并列对比，不堆叠
     column: true, //是否为纵向柱图，默认为true，表示纵向，仅初次设置有效
     grid: false, //是否显示网格，默认为false，表示显示。仅初次设置有效。不建议修改
-    legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
-    tooltip: true, //是否需要提示标签，默认为true，表示显示。仅初次设置有效。不建议修改
     colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
     padding: [12, 0, 12, 0] //容器内边距，单位是像素。不建议修改
   }

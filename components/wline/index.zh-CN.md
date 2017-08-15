@@ -36,14 +36,21 @@ cols: 1
       min: null,  //Y轴可见最小值，默认为自动计算，一般为0
       bgArea: [], //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
     },
-    clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
-    grid: false, //参考线是否显示为网格，默认为false，仅有横向参考线。仅初次设置有效
     legend: true, //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
-    tooltip: true, //是否需要提示标签，默认为true，表示显示。仅初次设置有效。不建议修改
-    colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
+    tooltip: { //默认显示，设置为false时，表示不显示
+      titleFormatter: null, // 标题格式化函数。参数：title
+      nameFormatter: null, // 标题格式化函数。参数：name, data, index, record
+      valueFormatter: null, // 标题格式化函数。参数：value, data, index, record
+    },
+    zoom: false, //图上是否支持拖拽选择放大，默认为false，表示不缩放。仅初次设置有效
+    clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
+    spline: false, //设置图上的线是否为平滑曲线，默认为false。表示为折线。仅初次设置有效
+    area: false, //设置图上的线是否为面积曲线，默认为false。仅初次设置有效
+    grid: false, //参考线是否显示为网格，默认为false，仅有横向参考线。仅初次设置有效
     symbol: false, //曲线上是否有点，默认为false。仅初次设置有效
-    type: 'line', //曲线类型，默认为折线，还可为'spline'展示平滑曲线以及'area'展示面积曲线。
-    stack: false, //曲线是否堆叠，默认为false，表示不堆叠。仅初次设置有效
+    stack: false, //曲线是否堆叠，默认为false，表示不堆叠。仅初次设置且 area 为 true 时有效
+    colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
+    padding: [12, 0, 12, 0], //图表内边距
   }
 
   /*
