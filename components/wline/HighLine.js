@@ -172,10 +172,18 @@ class Line extends Base{
         this.data.forEach((item,index)=>{
           if(this.chart.series[index]){
             this.chart.series[index].setData(item.data,false);
-            this.chart.series[index].color = this.options.colors[index];
-            this.chart.series[index].lineColor = this.options.colors[index];
-            this.chart.series[index].name = item.name;
-            this.chart.series[index].yAxis = item.yAxis || 0;
+            this.chart.series[index].update({
+              type: lineType,
+              // data: item.data,
+              color: this.options.colors[index],
+              lineColor: this.options.colors[index],
+              name: item.name,
+              yAxis: item.yAxis || 0
+            }, false);
+            // this.chart.series[index].color = this.options.colors[index];
+            // this.chart.series[index].lineColor = this.options.colors[index];
+            // this.chart.series[index].name = item.name;
+            // this.chart.series[index].yAxis = item.yAxis || 0;
           }else{
             this.chart.addSeries({
               type: lineType,

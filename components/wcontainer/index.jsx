@@ -99,6 +99,7 @@ export default class Wcontainer extends React.Component {
         if (currentColPerRow > maxColPerRow) {
           maxColPerRow = currentColPerRow;
         }
+        currentColPerRow = 0;
       }
     });
     const ColPerRow = ~~(24 / maxColPerRow);
