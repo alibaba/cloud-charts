@@ -6,18 +6,18 @@ export Wicon from './wicon/index';
 export Wminiline from './wminiline/index';
 
 //基础图表
-import { WG2Line, WHighLine } from './wline/index';
-import { WG2Bar, WHighBar } from './wbar/index';
-import { WG2Pie, WHighPie } from './wpie/index';
+import { WHighLine } from './wline/index';
+import { WHighBar } from './wbar/index';
+import { WHighPie } from './wpie/index';
 
 //暴露所有包含的基础图表
 export {
   WHighLine,
   WHighBar,
   WHighPie,
-  WG2Line,
-  WG2Bar,
-  WG2Pie
+  // WG2Line,
+  // WG2Bar,
+  // WG2Pie
 };
 
 //根据设置的library名字暴露默认的图表组件
@@ -28,11 +28,11 @@ const chartMap = {
     bar: WHighBar,
     pie: WHighPie,
   },
-  G2: {
-    line: WG2Line,
-    bar: WG2Bar,
-    pie: WG2Pie
-  }
+  // G2: {
+  //   line: WG2Line,
+  //   bar: WG2Bar,
+  //   pie: WG2Pie
+  // }
 };
 export const Wline = chartMap[chartLibraryName].line;
 export const Wbar = chartMap[chartLibraryName].bar;
