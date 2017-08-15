@@ -4,6 +4,7 @@ export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
 export Wicon from './wicon/index';
 export Wminiline from './wminiline/index';
+export Wcircle from './wcircle/index';
 
 //基础图表
 import { WHighLine } from './wline/index';

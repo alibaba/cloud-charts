@@ -17,7 +17,7 @@ export default class Wnumber extends React.Component {
     numberTrend: ''
   }
 
-  renderBottomTitle() {
+  renderBottom() {
     const bottomTitle = this.props.bottomTitle;
     const bottomTitleClasses = classNames({
       [`${prefix}-bottomTitle`]: true
@@ -73,7 +73,7 @@ export default class Wnumber extends React.Component {
   }
 
   render() {
-    const { className, bottomTitle } = this.props;
+    const { className} = this.props;
 
     const mainClasses = classNames({
       [`${prefix}`]: true,
@@ -83,7 +83,7 @@ export default class Wnumber extends React.Component {
     return (
       <div className={mainClasses}>
         {this.renderMain()}
-        {bottomTitle && this.renderBottomTitle()}
+        {this.renderBottom()}
       </div>
     );
   }
