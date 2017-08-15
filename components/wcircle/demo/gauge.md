@@ -1,5 +1,5 @@
 ﻿---
-order: 0
+order: 1
 title:
   zh-CN: 基本
   en-US: Basic
@@ -21,9 +21,13 @@ import {
 
 ReactDOM.render(
     <div>
-      <Wcircle 
+      <Wcircle type="gauge" 
       title="本周未达标指标"
-      percent={0.45}>7</Wcircle>
+      status="red"
+      bottomTitle="较上周" 
+      bottomNumber={2} 
+      percent={0.45}
+      bottomTrend="raise">7</Wcircle>
     </div>,
 mountNode);
 ````
