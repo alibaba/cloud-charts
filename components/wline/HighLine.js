@@ -350,7 +350,7 @@ function isLastVisbleLegendNode(node){
 function getHCOptions(options, data){
   function xFormat(value){
     //自定义处理逻辑优先
-    if(options.xAxis.labelFormatter) return options.xAxis.labelFormatter(value, dateFormat);
+    if(options.xAxis.labelFormatter) return options.xAxis.labelFormatter(value);
     //默认处理逻辑
     if(options.xAxis.type === 'datetime'){
       return dateFormat(options.xAxis.dateFormatter, value);
@@ -360,17 +360,17 @@ function getHCOptions(options, data){
   }
   function thFormat(value){
     //自定义处理逻辑优先
-    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value, dateFormat);
+    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value);
     return xFormat(value);
   }
-  function tNameFormat(value) {
+  function tNameFormat(value, data, index, record) {
     //自定义处理逻辑优先
-    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, data, index, record);
     return value;
   }
-  function tValueFormat(value) {
+  function tValueFormat(value, data, index, record) {
     //自定义处理逻辑优先
-    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, data, index, record);
     return value;
   }
 
@@ -401,7 +401,7 @@ function getHCOptions(options, data){
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
         ret += '<ul>';
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name) + ' <span>' + tValueFormat(item.y, i) + '</span></li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name, item.series, i, item) + ' <span>' + tValueFormat(item.y, item.series, i, item) + '</span></li>';
         });
         ret += '</ul>';
         return ret;
@@ -650,7 +650,7 @@ function getHCOptions(options, data){
 function getYAxis(options, data, yAxis, index) {
   function yFormat(value){
     //自定义处理逻辑优先
-    if(yAxis.labelFormatter) return yAxis.labelFormatter(value, dateFormat);
+    if(yAxis.labelFormatter) return yAxis.labelFormatter(value);
     return value;
   }
 

@@ -220,28 +220,28 @@ function getLabels(options, data){
 function getHCOptions(options, data){
   function xFormat(value){
     //自定义处理逻辑优先
-    if(options.xAxis.labelFormatter) return options.xAxis.labelFormatter(value, dateFormat);
+    if(options.xAxis.labelFormatter) return options.xAxis.labelFormatter(value);
     //默认处理逻辑
     else return value;
   }
   function yFormat(value){
-    if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value, dateFormat);
+    if(options.yAxis.labelFormatter) return options.yAxis.labelFormatter(value);
     //默认处理逻辑
     else return value;
   }
   function thFormat(value){
     //自定义处理逻辑优先
-    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value, dateFormat);
+    if(options.tooltip.titleFormatter) return options.tooltip.titleFormatter(value);
     return xFormat(value);
   }
-  function tNameFormat(value) {
+  function tNameFormat(value, data, index, record) {
     //自定义处理逻辑优先
-    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    if(options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, data, index, record);
     return value;
   }
-  function tValueFormat(value) {
+  function tValueFormat(value, data, index, record) {
     //自定义处理逻辑优先
-    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, data, index, record);
     return value;
   }
   let categories = getLabels(options, data);
@@ -276,7 +276,7 @@ function getHCOptions(options, data){
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
         ret += '<ul>';
         p.forEach((item,i)=>{
-          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name) + ' <span>' + tValueFormat(item.y) + '</span></li>';
+          ret += '<li><i style="background:'+item.series.color+'"></i>'+ tNameFormat(item.series.name, item.series, i, item) + ' <span>' + tValueFormat(item.y, item.series, i, item) + '</span></li>';
         });
         ret += '</ul>';
         return ret;

@@ -152,7 +152,7 @@ function getLegend(dom, options, data){
 
   function labelFormatter(value){
     //自定义处理逻辑优先
-    if(options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value, dateFormat);
+    if(options.legend && options.legend.labelFormatter) return options.legend.labelFormatter(value);
     //默认处理逻辑
     else return value;
   }
@@ -171,12 +171,12 @@ function getLegend(dom, options, data){
 function getHCOptions(options, data){
   function tNameFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, dateFormat);
+    if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value);
     return value;
   }
   function tValueFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip && options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, dateFormat);
+    if(options.tooltip && options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value);
     return value;
   }
 
