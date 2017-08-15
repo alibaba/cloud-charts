@@ -209,7 +209,7 @@ class Line extends Base{
             if (this.chart.yAxis[index]) {
               this.chart.yAxis[index].update(y, false);
             } else {
-              this.chart.addAxis(getYAxis(y, index));
+              this.chart.addAxis(getYAxis(this.options, y, index));
             }
           });
           for (let i = this.chart.yAxis.length - 1; i > 0; i--) {
@@ -637,15 +637,17 @@ function getHCOptions(options, data){
   // let ttFormat = null;
 
   if (Array.isArray(options.yAxis)) {
-    config.yAxis = options.yAxis.map(getYAxis);
+    config.yAxis = options.yAxis.map(getYAxis.bind(null, options, data));
+    config.xAxis.endOnTick = true;
+    config.xAxis.maxPadding = 0;
   } else {
-    config.yAxis = getYAxis(options.yAxis);
+    config.yAxis = getYAxis(options, data, options.yAxis);
   }
 
   return config;
 }
 
-function getYAxis(yAxis, index) {
+function getYAxis(options, data, yAxis, index) {
   function yFormat(value){
     //自定义处理逻辑优先
     if(yAxis.labelFormatter) return yAxis.labelFormatter(value, dateFormat);
@@ -657,7 +659,7 @@ function getYAxis(yAxis, index) {
       enabled: false
     },
     lineWidth: index === undefined ? yAxis.lineWidth : (yAxis.lineWidth || 1),
-    lineColor: '#DCDEE3',
+    lineColor: index === undefined ? '#DCDEE3' : getYAxisColor(options, data, index),
     gridLineWidth: 1,
     gridLineColor: '#F2F3F7',
     tickPixelInterval:40,
@@ -679,8 +681,22 @@ function getYAxis(yAxis, index) {
   };
 }
 
-function getYAxisColor() {
+function getYAxisColor(options, data, index) {
+  let colorIndex = null;
+  //找到第一个顺序值和数据中yAxis值匹配的index
+  data.some((d, i) => {
+    const dataYAxisIndex = d.yAxis || 0;
+    if (dataYAxisIndex === index) {
+      colorIndex = i;
+      return true;
+    }
+  });
 
+  if (colorIndex !== null) {
+    return options.colors[colorIndex];
+  } else {
+    return '#DCDEE3'
+  }
 }
 
 export default Line;
