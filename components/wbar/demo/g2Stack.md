@@ -13,7 +13,7 @@ G2 版 堆叠柱状图
 
 
 ````jsx
-import { WBarG2 } from '@alife/aisc-widgets';
+import { WG2Bar } from '@alife/aisc-widgets';
   //dataType: 'Highcharts'
 let options = {
   dataType: 'Highcharts',
@@ -36,7 +36,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WBarG2 height={300} config={options} data={data}/>
+            <WG2Bar height={300} config={options} data={data}/>
         </div>
       </div>
     );

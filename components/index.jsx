@@ -10,13 +10,30 @@ import { WG2Line, WHighLine } from './wline/index';
 import { WG2Bar, WHighBar } from './wbar/index';
 import { WG2Pie, WHighPie } from './wpie/index';
 
+//暴露所有包含的基础图表
 export {
-  WHighLine as Wline,
-  WG2Line as WLineG2,
-  WHighBar as Wbar,
-  WG2Bar as WBarG2,
-  WHighPie as Wpie,
-  WG2Pie as WPieG2
+  WHighLine,
+  WHighBar,
+  WHighPie,
+  WG2Line,
+  WG2Bar,
+  WG2Pie
 };
 
-// let chartLibrary = 'G2';
+//根据设置的library名字暴露默认的图表组件
+const chartLibraryName = 'Highcharts';
+const chartMap = {
+  Highcharts: {
+    line: WHighLine,
+    bar: WHighBar,
+    pie: WHighPie,
+  },
+  G2: {
+    line: WG2Line,
+    bar: WG2Bar,
+    pie: WG2Pie
+  }
+};
+export const Wline = chartMap[chartLibraryName].line;
+export const Wbar = chartMap[chartLibraryName].bar;
+export const Wpie = chartMap[chartLibraryName].pie;

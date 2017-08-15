@@ -13,7 +13,7 @@ G2 版 基础饼图
 
 
 ````jsx
-import { WPieG2 } from '@alife/aisc-widgets';
+import { WG2Pie } from '@alife/aisc-widgets';
 
 let options = {
   dataType: 'Highcharts',
@@ -41,7 +41,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WPieG2 height={300} config={options} data={data}/>
+            <WG2Pie height={300} config={options} data={data}/>
         </div>
       </div>
     );
