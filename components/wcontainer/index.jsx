@@ -148,7 +148,7 @@ export default class Wcontainer extends React.Component {
 }
 
 Wcontainer.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   height: PropTypes.number,
 }
 
