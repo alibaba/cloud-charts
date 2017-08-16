@@ -19,6 +19,10 @@ const theme = G2.Util.mix(true, {}, G2.Theme, {
   }
   // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
 });
+//设置屏幕dpi缩放（如果有效的话）
+if (window && window.devicePixelRatio) {
+  theme.pixelRatio = window.devicePixelRatio;
+}
 G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
 
 // 图表唯一id
