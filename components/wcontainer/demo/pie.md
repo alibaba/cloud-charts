@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wpie, WG2Pie
+  Wcontainer, Wicon, Wnumber, Wpie
 } from '@alife/aisc-widgets';
 
 import {
@@ -66,18 +66,6 @@ ReactDOM.render(
         <Col span="12">
           <Wcontainer title={"环图"} height={298}>
             <Wpie ref="chart2" config={options2} data={data} height="250"/>
-          </Wcontainer>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="12">
-          <Wcontainer title={"G2版本 柱图"} height={298}>
-            <WG2Pie ref="chart3" config={options3} data={data} height="250"/>
-          </Wcontainer>
-        </Col>
-        <Col span="12">
-          <Wcontainer title={"G2版本 环图"} height={298}>
-            <WG2Pie ref="chart4" config={options4} data={data} height="250"/>
           </Wcontainer>
         </Col>
       </Row>

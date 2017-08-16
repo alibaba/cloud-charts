@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wline, WG2Line
+  Wcontainer, Wicon, Wnumber, Wline
 } from '@alife/aisc-widgets';
 
 import {
@@ -78,15 +78,6 @@ ReactDOM.render(
         </Col>
       </Row>
       <p></p>
-      {/* 
-      <Row>
-        <Col span="24">
-          <Wcontainer title={"G2曲线图"} height={298}>
-            <WG2Line ref="chart1" config={options4} data={data} height="250"/>
-          </Wcontainer>
-        </Col>
-      </Row>
-      */}
     </div>,
 mountNode);
 ````
