@@ -1,13 +1,13 @@
 ﻿---
 order: 1
 title:
-  zh-CN: 基本
+  zh-CN: 仪表盘
   en-US: Basic
 ---
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+基础用法，演示了仪表盘用法。
 
 ## en-US
 
