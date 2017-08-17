@@ -1,7 +1,7 @@
 ---
 order: 0
 title:
-  zh-CN: 数字widget配合迷你曲线
+  zh-CN: 迷你widget配合迷你曲线
   en-US: Basic
 ---
 
@@ -36,8 +36,7 @@ let options1 = {
     padding: [0, 0, 0, 0],
   },
   mini: true,
-  area: true,
-  legend: false
+  area: true
 };
 
 ReactDOM.render(
