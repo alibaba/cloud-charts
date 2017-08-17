@@ -35,6 +35,7 @@ class Line extends Base{
       //以上不支持热更新
       colors: COLORS,
       padding: [12, 0, 12, 0],
+      mini: false,
       xAxis: {
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
@@ -446,6 +447,7 @@ function getHCOptions(options, data){
       allowDecimals: true,
       max: options.xAxis.max,
       min: options.xAxis.min,
+      visible: !options.mini,
       events: {}
     },
     // yAxis: {
@@ -658,8 +660,8 @@ function getYAxis(options, data, yAxis, index) {
     if(yAxis.labelFormatter) return yAxis.labelFormatter(value);
     return value;
   }
-
   return {
+    visible: !options.mini,
     title: {
       enabled: false
     },
