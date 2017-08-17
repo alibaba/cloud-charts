@@ -82,11 +82,14 @@ class Line extends Base{
   render (){
     // let titleNode = this.element.querySelector('.p2c-title');
     let boxNode = this.element.querySelector('.p2c-box');
-    let legendNode = this.element.querySelector('.p2c-legend');
-
+    let legendNode = !!this.options.legend && this.element.querySelector('.p2c-legend');
+    if(this.options.mini){
+      this.options.padding = [-8, -1, 1, -1];
+      this.options.legend = false;
+    }
     //位置计算
     // this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为30
+    boxNode.style.top = this.options.padding[0] + 8 + (legendNode ? 12 : 0 ) + 'px'; //此处没有计算margin，默认为30
     boxNode.style.left = this.options.padding[3] + 'px';
     boxNode.style.right = this.options.padding[1] + 'px';
     boxNode.style.bottom = this.options.padding[2] + 'px';
