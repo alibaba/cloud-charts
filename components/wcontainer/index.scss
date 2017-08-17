@@ -27,12 +27,12 @@
           flex: 1;
           padding-top: $s2;
           padding-bottom: $s2;
-          border-bottom: 1px solid red;
+          border-bottom: 1px solid #f7f8fa;
           .next-col {
             margin-right: $s1;
             margin-left: $s1;
             padding-left: $s3;
-            border-left: 1px solid red;
+            border-left: 1px solid #f7f8fa;
             &:first-child{
               border-left-color: transparent;
               padding-left: 0px;
