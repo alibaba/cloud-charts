@@ -14,7 +14,7 @@ export default class Wminicontainer extends React.Component {
   }
 
   static defaultProps = {
-    status: 'red'
+    status: 'blue'
   }
 
   render() {
