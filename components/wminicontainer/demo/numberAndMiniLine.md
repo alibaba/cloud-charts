@@ -1,5 +1,5 @@
 ---
-order: 0
+order: 1
 title:
   zh-CN: 迷你widget配合迷你曲线
   en-US: Basic
@@ -43,9 +43,9 @@ ReactDOM.render(
     <div>
       <Row>
         <Col span="8">
-          <Wminicontainer height={178}>
+          <Wminicontainer height={192}>
             <Wnumber >10001</Wnumber>
-            <Wline ref="chart1" config={options1} data={data} height="150"/>
+            <Wline ref="chart1" config={options1} data={data} height="143"/>
           </Wminicontainer>
         </Col>
       </Row>
