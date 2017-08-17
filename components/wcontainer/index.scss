@@ -27,12 +27,16 @@
           flex: 1;
           padding-top: $s2;
           padding-bottom: $s2;
-          border-bottom: 1px solid #f7f8fa;
+          border-bottom: 1px solid red;
           .next-col {
+            margin-right: $s1;
             margin-left: $s1;
-            margin-right: $s2;
-            padding: 0;
-            border-right: 1px solid #f7f8fa;
+            padding-left: $s3;
+            border-left: 1px solid red;
+            &:first-child{
+              border-left-color: transparent;
+              padding-left: 0px;
+            }
           }
         }
       }
