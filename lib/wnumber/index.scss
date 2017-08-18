@@ -6,16 +6,15 @@
   @include wnumber-font;
 
   #{$wnumber-prefix}-main {
-    #{$wnumber-prefix}-number {
-      &.drop {
-        color: #e1575d;
-      }
-      &.raise {
-        color: #2889ec;
-      }
+    position: relative;
+    &.drop {
+      color: #e1575d;
+    }
+    &.raise {
+      color: #2889ec;
     }
 
-    #{$wnumber-prefix}-leftIcon {
+    #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
       // height:6px;
       // width: 6px;
@@ -35,6 +34,21 @@
       @include subTitle-font;
       margin-left: $s1;
       font-size: 14px;
+    }
+
+    #{$wnumber-prefix}-rightRatio {
+      @include subTitle-font;
+      position: absolute;
+      right: 0;
+      top: 12px;
+      font-size: 16px;
+
+      &.drop {
+        color: #e1575d;
+      }
+      &.raise {
+        color: #2889ec;
+      }
     }
 
     #{$wnumber-prefix}-trend {
