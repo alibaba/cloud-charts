@@ -19,7 +19,7 @@ let defaultConfig = {
   },
   legend: {
     align: 'left',
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
     titleFormatter: null,
@@ -218,7 +218,7 @@ export default {
         let name = itemData._origin.name;
         let value = itemData._origin.value;
 
-        let typeFormatter = config.legend.labelFormatter ? config.legend.labelFormatter(type) : type ;
+        let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
 
         let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
         ulNode.innerHTML += liHtml;
