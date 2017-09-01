@@ -173,29 +173,33 @@ export default {
     chart.legend(false);
 
     // tooltip
-    let tooltipCfg = {
-      custom: true,
-      offset: 8,
-      crosshairs: {
-        type: 'y' // 启用水平方向的辅助线
-      },
-      crossLine: {
-        stroke: '#dddddd',
-        lineWidth: 1,
-      },
-      padding: [12, 12, 12, 12],
-      html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
-      itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
-    };
-    chart.tooltip(true, tooltipCfg);
-    if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-      chart.on('tooltipchange', function (ev) {
-        ev.items.forEach((item) => {
-          item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
-          item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
-          item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
+    if (config.tooltip) {
+      let tooltipCfg = {
+        custom: true,
+        offset: 8,
+        crosshairs: {
+          type: 'y' // 启用水平方向的辅助线
+        },
+        crossLine: {
+          stroke: '#dddddd',
+          lineWidth: 1,
+        },
+        padding: [12, 12, 12, 12],
+        html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
+        itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
+      };
+      chart.tooltip(true, tooltipCfg);
+      if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+        chart.on('tooltipchange', function (ev) {
+          ev.items.forEach((item) => {
+            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
+            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
+            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
+          });
         });
-      });
+      }
+    } else {
+      chart.tooltip(false);
     }
 
     // 区域、堆叠、平滑曲线
