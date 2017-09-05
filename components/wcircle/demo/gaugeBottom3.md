@@ -1,5 +1,5 @@
 ﻿---
-order: 6
+order: 9
 title:
   zh-CN: 仪表盘
   en-US: Basic
@@ -23,8 +23,11 @@ ReactDOM.render(
     <div>
       <Wcircle type="gauge" 
       title="标题"
+      status="orange"
+      bottomTitle="底部标题" 
       bottomNumber={2} 
-      percent={0.45}>7</Wcircle>
+      percent={0.45}
+      bottomTrend="raise">7</Wcircle>
     </div>,
 mountNode);
 ````

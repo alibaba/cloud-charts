@@ -1,13 +1,13 @@
 ﻿---
-order: 0
+order: 7
 title:
-  zh-CN: 基本
+  zh-CN: 仪表盘
   en-US: Basic
 ---
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+基础用法，演示了仪表盘用法。
 
 ## en-US
 
@@ -21,9 +21,11 @@ import {
 
 ReactDOM.render(
     <div>
-      <Wcircle 
+      <Wcircle type="gauge" 
       title="标题"
-      percent={0.1}>1000</Wcircle>
+      bottomTitle="底部标题" 
+      bottomNumber={2} 
+      percent={0.45}>7</Wcircle>
     </div>,
 mountNode);
 ````

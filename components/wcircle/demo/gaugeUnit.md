@@ -1,5 +1,5 @@
 ﻿---
-order: 6
+order: 8
 title:
   zh-CN: 仪表盘
   en-US: Basic
@@ -23,6 +23,8 @@ ReactDOM.render(
     <div>
       <Wcircle type="gauge" 
       title="标题"
+      unit="单位"
+      bottomTitle="底部标题" 
       bottomNumber={2} 
       percent={0.45}>7</Wcircle>
     </div>,

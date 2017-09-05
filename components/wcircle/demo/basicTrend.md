@@ -1,5 +1,5 @@
 ﻿---
-order: 0
+order: 3
 title:
   zh-CN: 基本
   en-US: Basic
@@ -7,7 +7,7 @@ title:
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+基础用法，演示了数值有趋势的用法。
 
 ## en-US
 
@@ -23,7 +23,9 @@ ReactDOM.render(
     <div>
       <Wcircle 
       title="标题"
-      percent={0.1}>1000</Wcircle>
+      status="orange"
+      trend="raise"
+      percent={0.3}>7</Wcircle>
     </div>,
 mountNode);
 ````

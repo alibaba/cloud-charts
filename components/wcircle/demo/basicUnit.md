@@ -1,5 +1,5 @@
 ﻿---
-order: 0
+order: 1
 title:
   zh-CN: 基本
   en-US: Basic
@@ -7,7 +7,7 @@ title:
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+基础用法，演示了标题后有单位的用法。
 
 ## en-US
 
@@ -22,8 +22,9 @@ import {
 ReactDOM.render(
     <div>
       <Wcircle 
-      title="标题"
-      percent={0.1}>1000</Wcircle>
+      title="标题可以长一点"
+      unit="单位"
+      percent={0.2}>7</Wcircle>
     </div>,
 mountNode);
 ````
