@@ -82,7 +82,7 @@ class Line extends Base{
   }
   render (){
     if(this.options.mini){
-      this.options.padding = [-8, -1, 1, -1];
+      this.options.padding = [-8, -1, 2, -1];
       this.options.legend = false;
     }
     // let titleNode = this.element.querySelector('.p2c-title');
