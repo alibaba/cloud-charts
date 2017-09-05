@@ -31,7 +31,11 @@ export default class Wnumber extends React.Component {
   }
 
   trendIconFunc(trend){
-    return <Wicon type="arrow-up-filling" size="small" classname={`${trend}`} />
+    if(trend === 'raise'){
+      return <Wicon type="arrow-up-filling" size="small" classname={`${trend}`} />
+    }else if( trend === 'drop'){
+      return <Wicon type="arrow-down-filling" size="small" classname={`${trend}`} />
+    }
   }
 
   renderMain() {
