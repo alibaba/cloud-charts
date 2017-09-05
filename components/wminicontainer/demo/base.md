@@ -34,6 +34,22 @@ ReactDOM.render(
           </Wminicontainer>
         </Col>
         <Col span="6">
+          <Wminicontainer height={192}>
+            <Wcircle 
+            title="本周未达标指标"
+            status="orange"
+            percent={0.45}>7</Wcircle>
+          </Wminicontainer>
+        </Col>
+        <Col span="6">
+          <Wminicontainer height={192} status="orange">
+            <Wcircle 
+            title="本周未达标指标"
+            status="orange"
+            percent={0.45}>7</Wcircle>
+          </Wminicontainer>
+        </Col>
+        <Col span="6">
           <Wminicontainer height={192} status="red">
             <Wcircle type="gauge" 
             title="本周未达标指标"

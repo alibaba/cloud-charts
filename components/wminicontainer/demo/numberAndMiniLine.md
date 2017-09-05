@@ -48,9 +48,27 @@ ReactDOM.render(
     <div>
       <Row>
         <Col span="8">
+          <Wminicontainer height={177}>
+            <div style={demoStyle}>
+              <Wnumber unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
+            </div>
+            
+            <Wline ref="chart1" config={options1} data={data} height="128"/>
+          </Wminicontainer>
+        </Col>
+        <Col span="8">
           <Wminicontainer height={192}>
             <div style={demoStyle}>
-              <Wnumber bottomTitle="OS交付整体1小时完成率" unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
+              <Wnumber bottomTitle="底部标题" unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
+            </div>
+            
+            <Wline ref="chart1" config={options1} data={data} height="128"/>
+          </Wminicontainer>
+        </Col>
+        <Col span="8">
+          <Wminicontainer height={192}>
+            <div style={demoStyle}>
+              <Wnumber bottomTitle="底部标题底部标题底部标题" unit="个" rightRatio="1%" status="raise" rightRatioTrend="drop">2222</Wnumber>
             </div>
             
             <Wline ref="chart1" config={options1} data={data} height="128"/>
