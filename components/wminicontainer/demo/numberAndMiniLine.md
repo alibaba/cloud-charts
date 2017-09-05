@@ -35,6 +35,11 @@ let options1 = {
     type: 'datetime',
     padding: [0, 0, 0, 0],
   },
+  yAxis:{
+    guideLine:[{
+      value: 5000
+    }]
+  },
   mini: true,
   area: true
 };

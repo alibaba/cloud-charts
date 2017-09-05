@@ -52,7 +52,8 @@ class Line extends Base{
         max: null,
         min: null,
         bgArea: [],
-        lineWidth: 0
+        lineWidth: 0,
+        guideLine: false
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -80,13 +81,14 @@ class Line extends Base{
     this.chart.destroy();
   }
   render (){
-    // let titleNode = this.element.querySelector('.p2c-title');
-    let boxNode = this.element.querySelector('.p2c-box');
-    let legendNode = !!this.options.legend && this.element.querySelector('.p2c-legend');
     if(this.options.mini){
       this.options.padding = [-8, -1, 1, -1];
       this.options.legend = false;
     }
+    // let titleNode = this.element.querySelector('.p2c-title');
+    let boxNode = this.element.querySelector('.p2c-box');
+    let legendNode = !!this.options.legend && this.element.querySelector('.p2c-legend');
+
     //位置计算
     // this.element.style.padding = this.options.padding + 'px';
     boxNode.style.top = this.options.padding[0] + 8 + (legendNode ? 12 : 0 ) + 'px'; //此处没有计算margin，默认为30
@@ -431,12 +433,13 @@ function getHCOptions(options, data){
       // },
       lineWidth: 1,
       type: options.xAxis.type, //此处依赖options设置
-      gridLineWidth: options.grid ? 1 : 0,
+      gridLineWidth: options.mini ? 0 : (options.grid ? 1 : 0),
       gridLineColor: '#F2F3F7',
       tickPixelInterval:70,
       lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
+        enabled: !options.mini,
         y: 20,
         formatter: function () {
           return xFormat(this.value);
@@ -450,7 +453,7 @@ function getHCOptions(options, data){
       allowDecimals: true,
       max: options.xAxis.max,
       min: options.xAxis.min,
-      visible: !options.mini,
+      // visible: !options.mini,
       events: {}
     },
     // yAxis: {
@@ -664,17 +667,18 @@ function getYAxis(options, data, yAxis, index) {
     return value;
   }
   return {
-    visible: !options.mini,
+    // visible: !options.mini,
     title: {
       enabled: false
     },
     lineWidth: index === undefined ? yAxis.lineWidth : (yAxis.lineWidth || 1),
     lineColor: index === undefined ? '#DCDEE3' : getYAxisColor(options, data, index),
-    gridLineWidth: 1,
+    gridLineWidth: options.mini ? 0 : 1,
     gridLineColor: '#F2F3F7',
     tickPixelInterval:40,
     opposite: !!index,
     labels: {
+      enabled: !options.mini,
       x: index ? 8 : -8,
       formatter: function () {
         return yFormat(this.value);
@@ -687,7 +691,8 @@ function getYAxis(options, data, yAxis, index) {
       from: yAxis.bgArea[0],
       to: yAxis.bgArea[1],
       color: 'rgba(5,128,242,0.1)',
-    } : null
+    } : null,
+    plotLines: yAxis.guideLine && plotLinesFormat(yAxis.guideLine)
   };
 }
 
@@ -710,3 +715,17 @@ function getYAxisColor(options, data, index) {
 }
 
 export default Line;
+
+
+function plotLinesFormat(plotLines) {
+  if(plotLines && Array.isArray(plotLines)){
+    return plotLines.map((item)=>{
+      return {
+        color: item.color || '#1390DC',
+        dashStyle:'dash',
+        value:item.value,
+        width: item.width || 1
+      }
+    })
+  }
+}
