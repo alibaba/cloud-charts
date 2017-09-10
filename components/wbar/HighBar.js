@@ -27,8 +27,6 @@ class Bar extends Base{
       //以上不支持热更新
       colors: COLORS,
       stack: false,
-      // title: '柱状图',
-      // subTitle: '',
       padding: [12, 0, 12, 0],
       labels: null,
       xAxis: {
@@ -80,7 +78,7 @@ class Bar extends Base{
     let legendNode = this.element.querySelector('.p2c-legend');
 
     //位置计算
-    this.element.style.padding = this.options.padding + 'px';
+    // this.element.style.padding = this.options.padding + 'px';
     boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为20
     boxNode.style.left = this.options.padding[3] + 'px';
     boxNode.style.right = this.options.padding[1] + 'px';
