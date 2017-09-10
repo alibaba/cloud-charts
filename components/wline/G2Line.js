@@ -6,6 +6,8 @@ import G2 from 'g2';
 import './index.scss';
 const Util = G2.Util;
 
+import {g2LegendFilter} from '../common';
+
 // const G2Line = createG2((chart, configs, data) => {
 //   let frame = new G2.Frame(data);
 //   frame = G2.Frame.combineColumns(frame, configs.keys, 'value', 'type', ['time']);
@@ -263,25 +265,9 @@ export default {
         item.addEventListener('click', (e) => {
           let node = getLegendNode(e.target);
           let type = node.getAttribute('data-id');
-          filter(type);
+          g2LegendFilter(type, stash, Util, dotDom, chart);
         });
       });
-      function filter(name) {
-        let obj = stash[name];
-        let filterNames = [];
-        obj.isChecked = obj.isChecked ? false : true;
-        Util.each(stash, function (v) {
-          if (v.isChecked) {
-            dotDom[v.index].style.background = v.color;
-            filterNames.push(v.name);
-          } else {
-            dotDom[v.index].style.background = '#999';
-          }
-        });
-
-        chart.filter('type', filterNames);
-        chart.repaint();
-      }
     }
   }
 };

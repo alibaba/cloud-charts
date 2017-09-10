@@ -5,6 +5,7 @@ import merge from '../utils/merge';
 import G2 from 'g2';
 import './index.scss';
 const Util = G2.Util;
+import {g2LegendFilter} from '../common';
 
 let defaultConfig = {
   legend: {
@@ -146,25 +147,26 @@ export default {
         item.addEventListener('click', (e) => {
           let node = getLegendNode(e.target);
           let name = node.getAttribute('data-id');
-          filter(name);
+          // filter(name);
+          g2LegendFilter(name, stash, Util, dotDom, chart, 'name');
         });
       });
-      function filter(name) {
-        let obj = stash[name];
-        let filterNames = [];
-        obj.isChecked = obj.isChecked ? false : true;
-        Util.each(stash, function (v) {
-          if (v.isChecked) {
-            dotDom[v.index].style.background = v.color;
-            filterNames.push(v.name);
-          } else {
-            dotDom[v.index].style.background = '#999';
-          }
-        });
-
-        chart.filter('name', filterNames);
-        chart.repaint();
-      }
+      // function filter(name) {
+      //   let obj = stash[name];
+      //   let filterNames = [];
+      //   obj.isChecked = obj.isChecked ? false : true;
+      //   Util.each(stash, function (v) {
+      //     if (v.isChecked) {
+      //       dotDom[v.index].style.background = v.color;
+      //       filterNames.push(v.name);
+      //     } else {
+      //       dotDom[v.index].style.background = '#999';
+      //     }
+      //   });
+      //
+      //   chart.filter('name', filterNames);
+      //   chart.repaint();
+      // }
     }
 
   }
