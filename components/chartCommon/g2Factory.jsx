@@ -78,11 +78,9 @@ function g2Factory(name, Chart) {
         width,
         height,
         plotCfg,
-        forceFit: width === undefined || forceFit,
-        // data: config.dataType === 'Highcharts' ? highchartsDataToG2Data(data) : data,
-        // config
+        forceFit: width === undefined || forceFit
       });
-      const data = config.dataType === 'Highcharts' ? highchartsDataToG2Data(initData) : initData;
+      const data = config.dataType !== 'Highcharts' ? initData : highchartsDataToG2Data(initData);
       Chart.init(chart, config, data);
       // this.chart.setData(this.props.data);
 
@@ -149,7 +147,7 @@ function g2Factory(name, Chart) {
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
-        const data = newConfig.dataType === 'Highcharts' ? highchartsDataToG2Data(newData) : newData;
+        const data = newConfig.dataType !== 'Highcharts' ? newData : highchartsDataToG2Data(newData);
         this.chart.changeData(data);
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
