@@ -11,12 +11,14 @@ export Wminicontainer from './wminicontainer/index';
 import { WHighLine } from './wline/index';
 import { WHighBar } from './wbar/index';
 import { WHighPie } from './wpie/index';
+import { WHighLineBar } from './wlinebar/index';
 
 //暴露所有包含的基础图表
 export {
   WHighLine,
   WHighBar,
   WHighPie,
+  WHighLineBar,
   // WG2Line,
   // WG2Bar,
   // WG2Pie
@@ -29,6 +31,7 @@ const chartMap = {
     line: WHighLine,
     bar: WHighBar,
     pie: WHighPie,
+    linebar: WHighLineBar
   },
   // G2: {
   //   line: WG2Line,
@@ -39,3 +42,4 @@ const chartMap = {
 export const Wline = chartMap[chartLibraryName].line;
 export const Wbar = chartMap[chartLibraryName].bar;
 export const Wpie = chartMap[chartLibraryName].pie;
+export const Wlinebar = chartMap[chartLibraryName].linebar;
