@@ -39,7 +39,8 @@ class Bar extends Base{
         labelFormatter: null, //可以强制覆盖，手动设置label
         // tooltipFormatter: null, //手动设置tooltip上Y值的格式
         min: null,
-        max: null
+        max: null,
+        guideLine: false
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -326,7 +327,8 @@ function getHCOptions(options, data){
         style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'14px','color':'#989898'}
       },
       max: options.yAxis.max,
-      min: options.yAxis.min
+      min: options.yAxis.min,
+      plotLines: options.yAxis.guideLine && plotLinesFormat(options.yAxis.guideLine)
     },
     plotOptions: {
       series:{
@@ -372,3 +374,17 @@ function getHCOptions(options, data){
 }
 
 export default Bar;
+
+function plotLinesFormat(plotLines) {
+  if(plotLines && Array.isArray(plotLines)){
+    return plotLines.map((item)=>{
+      return {
+        color: item.color || '#1390DC',
+        dashStyle:'dash',
+        value:item.value,
+        width: item.width || 1,
+        zIndex: 5
+      }
+    })
+  }
+}
