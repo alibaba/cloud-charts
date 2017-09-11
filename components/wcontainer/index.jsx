@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Grid } from '@alife/aisc';
+import Grid from '@alife/aisc/lib/grid/index';
 
 import Divider from './views/divider';
 import './index.scss';
