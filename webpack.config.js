@@ -16,7 +16,7 @@ const FallbackPort = require('fallback-port');
 // 默认开启3000端口,若被占用,则开启其他端口
 const fallbackPort = new FallbackPort(3000);
 
-const componentName = 'aisc-widgets';
+const componentName = 'AiscWidgets';
 const srcPath = path.resolve(__dirname, './components');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
