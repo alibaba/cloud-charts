@@ -12,6 +12,7 @@ import { WHighLine, WG2Line } from './wline/index';
 import { WHighBar, WG2Bar } from './wbar/index';
 import { WHighPie, WG2Pie } from './wpie/index';
 import { WHighLineBar } from './wlinebar/index';
+import { WG2Map } from './wmap/index';
 
 //暴露所有包含的基础图表
 export {
@@ -21,7 +22,8 @@ export {
   WHighLineBar,
   WG2Line,
   WG2Bar,
-  WG2Pie
+  WG2Pie,
+  WG2Map
 };
 
 //根据设置的library名字暴露默认的图表组件
@@ -31,15 +33,19 @@ const chartMap = {
     line: WHighLine,
     bar: WHighBar,
     pie: WHighPie,
-    linebar: WHighLineBar
+    linebar: WHighLineBar,
+    map: WG2Map
   },
   G2: {
     line: WG2Line,
     bar: WG2Bar,
-    pie: WG2Pie
+    pie: WG2Pie,
+    linebar: WHighLineBar,
+    map: WG2Map
   }
 };
 export const Wline = chartMap[chartLibraryName].line;
 export const Wbar = chartMap[chartLibraryName].bar;
 export const Wpie = chartMap[chartLibraryName].pie;
 export const Wlinebar = chartMap[chartLibraryName].linebar;
+export const Wmap = chartMap[chartLibraryName].map;

@@ -39,14 +39,19 @@ let requestAnimationFrame = ( window && window.requestAnimationFrame ) || functi
 * g2Factory 函数
 *
 * 将非React版的图表类转化为React版
+*
+* convertData 控制是否转化数据
 * */
-function g2Factory(name, Chart) {
+function g2Factory(name, Chart, convertData = true) {
   class AiscChart extends React.Component {
     static propTypes = {
       width: PropTypes.number,
       height: PropTypes.number,
       config: PropTypes.object,
-      data: PropTypes.arrayOf(PropTypes.object).isRequired,
+      data: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.object),
+        PropTypes.object
+      ]).isRequired,
       plotCfg: PropTypes.object,
       forceFit: PropTypes.bool
     };
@@ -80,7 +85,7 @@ function g2Factory(name, Chart) {
         plotCfg,
         forceFit: width === undefined || forceFit
       });
-      const data = config.dataType !== 'Highcharts' ? initData : highchartsDataToG2Data(initData);
+      const data = convertData ? (config.dataType !== 'Highcharts' ? initData : highchartsDataToG2Data(initData)) : initData;
       Chart.init(chart, config, data);
       // this.chart.setData(this.props.data);
 
@@ -147,7 +152,7 @@ function g2Factory(name, Chart) {
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
-        const data = newConfig.dataType !== 'Highcharts' ? newData : highchartsDataToG2Data(newData);
+        const data = convertData ? (newConfig.dataType !== 'Highcharts' ? newData : highchartsDataToG2Data(newData)) : newData;
         this.chart.changeData(data);
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
