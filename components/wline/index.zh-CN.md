@@ -35,6 +35,7 @@ cols: 1
       max: null, //Y轴可见最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关
       min: null,  //Y轴可见最小值，默认为自动计算，一般为0
       bgArea: [], //Y轴背景区域，默认为空数组，表示不显示；设置为[100,200]表示从Y轴坐标100至200的区域带背景
+      guideLine: []  //Y轴辅助线，默认false，表示不显示；内部为对象，包含值以及颜色
     },
     legend: { //默认显示，设置为false时，表示不显示
       nameFormatter: null, // 图例文字格式化函数。参数：name, data, index

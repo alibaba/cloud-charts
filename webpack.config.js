@@ -226,6 +226,22 @@ function demo() {
 function prod() {
   const _config = _.cloneDeep(config);
   // build环境
+  _config.externals =  [{
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react'
+    }
+  }, {
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom'
+    }
+  }];
+
   _config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') },

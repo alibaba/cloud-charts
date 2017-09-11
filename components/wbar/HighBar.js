@@ -27,8 +27,6 @@ class Bar extends Base{
       //以上不支持热更新
       colors: COLORS,
       stack: false,
-      // title: '柱状图',
-      // subTitle: '',
       padding: [12, 0, 12, 0],
       labels: null,
       xAxis: {
@@ -41,7 +39,8 @@ class Bar extends Base{
         labelFormatter: null, //可以强制覆盖，手动设置label
         // tooltipFormatter: null, //手动设置tooltip上Y值的格式
         min: null,
-        max: null
+        max: null,
+        guideLine: false
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -80,7 +79,7 @@ class Bar extends Base{
     let legendNode = this.element.querySelector('.p2c-legend');
 
     //位置计算
-    this.element.style.padding = this.options.padding + 'px';
+    // this.element.style.padding = this.options.padding + 'px';
     boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为20
     boxNode.style.left = this.options.padding[3] + 'px';
     boxNode.style.right = this.options.padding[1] + 'px';
@@ -268,10 +267,6 @@ function getHCOptions(options, data){
     tooltip: {
       enabled: !!options.tooltip,
       shared: true,
-      crosshairs: {
-        color: '#dddddd',
-        width: options.tooltip ? 1 : 0
-      },
       useHTML: true,
       backgroundColor: 'rgba(255, 255, 255, 0)',
       borderColor: 'rgba(255, 255, 255, 0)',
@@ -292,6 +287,11 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
+      crosshair: options.tooltip ? {
+        color: '#dddddd',
+        width: 1,
+        zIndex: 6
+      } : false,
       lineWidth: 1,
       type: options.xAxis.type, //此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
@@ -328,7 +328,8 @@ function getHCOptions(options, data){
         style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'14px','color':'#989898'}
       },
       max: options.yAxis.max,
-      min: options.yAxis.min
+      min: options.yAxis.min,
+      plotLines: options.yAxis.guideLine && plotLinesFormat(options.yAxis.guideLine)
     },
     plotOptions: {
       series:{
@@ -374,3 +375,17 @@ function getHCOptions(options, data){
 }
 
 export default Bar;
+
+function plotLinesFormat(plotLines) {
+  if(plotLines && Array.isArray(plotLines)){
+    return plotLines.map((item)=>{
+      return {
+        color: item.color || '#1390DC',
+        dashStyle:'dash',
+        value:item.value,
+        width: item.width || 1,
+        zIndex: 5
+      }
+    })
+  }
+}

@@ -8,4 +8,4 @@ import G2Bar from './G2Bar';
 const WG2Bar = g2Factory('G2Bar', G2Bar);
 const WHighBar = highFactory('HighBar', HighBar);
 
-export { WG2Bar, WHighBar };
+export { WHighBar, WG2Bar };

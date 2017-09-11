@@ -1,0 +1,118 @@
+
+@import "./scss/mixin.scss";
+@import "./scss/variable.scss";
+
+#{$wcircle-prefix} {
+  @include wcircle-font;
+
+  #{$wcircle-prefix}-main {
+
+    #{$wcircle-prefix}-ratio {
+      text-align: center;
+      position: relative;
+      #{$wcircle-prefix}-ratio-svg {
+        display: inline-block;
+        vertical-align: top;
+        #{$wcircle-prefix}-svg-bg{
+          stroke: currentColor;
+          opacity: 0.1;
+          fill: none;
+        }
+        #{$wcircle-prefix}-svg-ring{
+          stroke: currentColor;
+          stroke-linejoin: round;
+          stroke-linecap: round;
+          fill: none;
+          transition-property: stroke-dasharray, stroke;
+          transition-duration: 0.8s, 0.8s;
+        }
+      }
+
+      #{$wcircle-prefix}-number-block{
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        margin-top: -25px;
+        text-align: center;
+
+        #{$wcircle-prefix}-number {
+          //margin-left: $s1;
+          //font-size: 12px;
+        }
+
+        #{$wcircle-prefix}-unit {
+          margin-left: $s1;
+          font-size: 12px;
+        }
+        #{$wcircle-prefix}-title {
+          font-size: 12px;
+          margin: 0;
+          line-height: 1;
+          color: #333333;
+        }
+      }
+
+    }
+
+  }
+
+  .blue{
+    color: $color-link-1;
+  }
+  .orange{
+    color: $color-warning-1;
+  }
+  .red{
+    color: $color-error-1;
+  }
+
+  #{$wcircle-prefix}-number, #{$wcircle-prefix}-bottom-number {
+    &.drop {
+      color: #e1575d;
+    }
+    &.raise {
+      color: #2889ec;
+    }
+  }
+
+  #{$wcircle-prefix}-trend {
+    margin-left: $s2;
+  }
+
+  #{$wcircle-prefix}-leftIcon{
+    position:relative;
+    //height:6px;
+    //width: 6px;
+    >.drop {
+      color: #e1575d;
+    }
+    >.raise {
+      color: #2889ec;
+    }
+  }
+
+  #{$wcircle-prefix}-bottom-block {
+    @include wcircle-font;
+    font-size: 20px;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    margin-top: -25px;
+    text-align: center;
+    #{$wcircle-prefix}-bottom-number {
+      //margin-left: $s1;
+      //font-size: 12px;
+    }
+    #{$wcircle-prefix}-bottom-unit {
+      margin-left: $s1;
+      font-size: 12px;
+    }
+    #{$wcircle-prefix}-title {
+      font-size: 12px;
+      margin: 0;
+      line-height: 1;
+      color: #333333;
+    }
+
+  }
+}

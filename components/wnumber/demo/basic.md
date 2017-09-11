@@ -21,7 +21,7 @@ import {
 
 ReactDOM.render(
     <div>
-      <Wnumber bottomTitle="副标题" unit="个">2222</Wnumber>
+      <Wnumber bottomTitle="副标题" unit="个" rightTitle="副标题">2222</Wnumber>
     </div>,
 mountNode);
 ````

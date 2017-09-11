@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Grid } from '@alife/aisc';
+import Grid from '@alife/aisc/lib/grid/index';
 
 import Divider from './views/divider';
 import './index.scss';
@@ -95,7 +95,7 @@ export default class Wcontainer extends React.Component {
     React.Children.forEach(this.props.children, (child, i) => {
       if (child.type.displayName !== 'Divider') {
         currentColPerRow += 1;
-      } else {
+      } else if(child.type && child.type !== 'combiner'){
         if (currentColPerRow > maxColPerRow) {
           maxColPerRow = currentColPerRow;
         }
@@ -107,9 +107,14 @@ export default class Wcontainer extends React.Component {
       const rs = [];
       let oneRow = [];
       React.Children.forEach(arr, (child, i) => {
-        if(child.type.displayName === 'Divider') {
+
+        if(child.type && child.type.displayName === 'Divider') {
           rs.push(<Row align="center">{oneRow}</Row>);
           oneRow = [];
+        } else if(child.type === 'combiner' && oneRow.length){
+          let lastChild = oneRow[oneRow.length - 1].props.children;
+          let lastSpan = oneRow[oneRow.length - 1].props.span;
+          oneRow[oneRow.length - 1] = <Col span={lastSpan + ColPerRow}>{lastChild}</Col>;
         } else if (i === arr.length - 1) {
           oneRow.push(<Col span={ColPerRow}>{child}</Col>);
           rs.push(<Row align="center">{oneRow}</Row>);
@@ -148,8 +153,9 @@ export default class Wcontainer extends React.Component {
 }
 
 Wcontainer.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   height: PropTypes.number,
 }
 
 Wcontainer.divider = Divider;
+Wcontainer.combiner = 'combiner';

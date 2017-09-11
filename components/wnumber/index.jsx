@@ -14,10 +14,11 @@ export default class Wnumber extends React.Component {
   }
 
   static defaultProps = {
-    numberTrend: ''
+    numberTrend: '',
+    rightRatioTrend: ''
   }
 
-  renderBottomTitle() {
+  renderBottom() {
     const bottomTitle = this.props.bottomTitle;
     const bottomTitleClasses = classNames({
       [`${prefix}-bottomTitle`]: true
@@ -29,19 +30,25 @@ export default class Wnumber extends React.Component {
     }
   }
 
-  renderMain() {
-    let numberTrendIcon;
-    let numberClasses = `${prefix}-number`;
-    if (this.props.numberTrend === 'raise') {
-      numberClasses += ' raise';
-      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
-    } else if (this.props.numberTrend === 'drop') {
-      numberClasses += ' drop';
-      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+  trendIconFunc(trend){
+    if(trend === 'raise'){
+      return <Wicon type="arrow-up-filling" size="small" classname={`${trend}`} />
+    }else if( trend === 'drop'){
+      return <Wicon type="arrow-down-filling" size="small" classname={`${trend}`} />
     }
+  }
 
+  renderMain() {
+
+    let numberTrendIcon = this.trendIconFunc(this.props.numberTrend);
+    let numberClasses = `${prefix}-number`;
+
+    let rightRatioTrendIcon = this.trendIconFunc(this.props.rightRatioTrend);
+    let rightRatioTrendClasses = `${prefix}-ratio ${this.props.rightRatioTrend}`;
+
+    // rightRatioTrend
     return(
-      <div className={`${prefix}-main`}>
+      <div className={`${prefix}-main ${this.props.numberTrend} ${this.props.status}`}>
         {
           this.props.numberTrend &&
           <span className={`${prefix}-leftIcon`}>
@@ -63,6 +70,18 @@ export default class Wnumber extends React.Component {
             {this.props.rightTitle}
           </span>
         }
+        {
+          this.props.rightRatio &&
+          <span className={`${prefix}-rightRatio ${this.props.rightRatioTrend}`}>
+            {
+              this.props.rightRatioTrend &&
+              <span className={`${prefix}-rightRatioIcon`}>
+                {rightRatioTrendIcon}
+              </span>
+            }
+            {this.props.rightRatio}
+          </span>
+        }
         { this.props.trend &&
           <span className={`${prefix}-trend`}>
             {this.props.trend()}
@@ -73,7 +92,7 @@ export default class Wnumber extends React.Component {
   }
 
   render() {
-    const { className, bottomTitle } = this.props;
+    const { className} = this.props;
 
     const mainClasses = classNames({
       [`${prefix}`]: true,
@@ -83,7 +102,7 @@ export default class Wnumber extends React.Component {
     return (
       <div className={mainClasses}>
         {this.renderMain()}
-        {bottomTitle && this.renderBottomTitle()}
+        {this.renderBottom()}
       </div>
     );
   }

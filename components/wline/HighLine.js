@@ -35,6 +35,7 @@ class Line extends Base{
       //以上不支持热更新
       colors: COLORS,
       padding: [12, 0, 12, 0],
+      mini: false,
       xAxis: {
         type: 'linear', //默认为线性
         dateFormatter: '%m-%d', //上述type为datetime时，此字段生效
@@ -51,7 +52,8 @@ class Line extends Base{
         max: null,
         min: null,
         bgArea: [],
-        lineWidth: 0
+        lineWidth: 0,
+        guideLine: false
       }
     };
     this.options = merge({}, defaultOptions, this.options);
@@ -79,13 +81,17 @@ class Line extends Base{
     this.chart.destroy();
   }
   render (){
+    if(this.options.mini){
+      this.options.padding = [-8, -1, 2, -1];
+      this.options.legend = false;
+    }
     // let titleNode = this.element.querySelector('.p2c-title');
     let boxNode = this.element.querySelector('.p2c-box');
-    let legendNode = this.element.querySelector('.p2c-legend');
+    let legendNode = !!this.options.legend && this.element.querySelector('.p2c-legend');
 
     //位置计算
     // this.element.style.padding = this.options.padding + 'px';
-    boxNode.style.top = this.options.padding[0] + (legendNode ? 20 : 8 ) + 'px'; //此处没有计算margin，默认为30
+    boxNode.style.top = this.options.padding[0] + 8 + (legendNode ? 12 : 0 ) + 'px'; //此处没有计算margin，默认为30
     boxNode.style.left = this.options.padding[3] + 'px';
     boxNode.style.right = this.options.padding[1] + 'px';
     boxNode.style.bottom = this.options.padding[2] + 'px';
@@ -397,10 +403,6 @@ function getHCOptions(options, data){
     tooltip: {
       enabled: !!options.tooltip,
       shared: true,
-      crosshairs: {
-        color: '#dddddd',
-        width: !!options.tooltip ? 1 : 0
-      },
       formatter: function(){
         let p = this.points;
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
@@ -421,18 +423,20 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
-      // crosshairs: {
-      //   color: '#dddddd',
-      //   width: 1//
-      // },
+      crosshair: options.tooltip ? {
+        color: '#dddddd',
+        width: 1,
+        zIndex: 6
+      } : false,
       lineWidth: 1,
       type: options.xAxis.type, //此处依赖options设置
-      gridLineWidth: options.grid ? 1 : 0,
+      gridLineWidth: options.mini ? 0 : (options.grid ? 1 : 0),
       gridLineColor: '#F2F3F7',
       tickPixelInterval:70,
       lineColor: '#DCDEE3',
       tickLength: 0,
       labels: {
+        enabled: !options.mini,
         y: 20,
         formatter: function () {
           return xFormat(this.value);
@@ -446,6 +450,7 @@ function getHCOptions(options, data){
       allowDecimals: true,
       max: options.xAxis.max,
       min: options.xAxis.min,
+      // visible: !options.mini,
       events: {}
     },
     // yAxis: {
@@ -658,18 +663,19 @@ function getYAxis(options, data, yAxis, index) {
     if(yAxis.labelFormatter) return yAxis.labelFormatter(value);
     return value;
   }
-
   return {
+    // visible: !options.mini,
     title: {
       enabled: false
     },
     lineWidth: index === undefined ? yAxis.lineWidth : (yAxis.lineWidth || 1),
     lineColor: index === undefined ? '#DCDEE3' : getYAxisColor(options, data, index),
-    gridLineWidth: 1,
+    gridLineWidth: options.mini ? 0 : 1,
     gridLineColor: '#F2F3F7',
     tickPixelInterval:40,
     opposite: !!index,
     labels: {
+      enabled: !options.mini,
       x: index ? 8 : -8,
       formatter: function () {
         return yFormat(this.value);
@@ -682,7 +688,8 @@ function getYAxis(options, data, yAxis, index) {
       from: yAxis.bgArea[0],
       to: yAxis.bgArea[1],
       color: 'rgba(5,128,242,0.1)',
-    } : null
+    } : null,
+    plotLines: yAxis.guideLine && plotLinesFormat(yAxis.guideLine)
   };
 }
 
@@ -705,3 +712,18 @@ function getYAxisColor(options, data, index) {
 }
 
 export default Line;
+
+
+function plotLinesFormat(plotLines) {
+  if(plotLines && Array.isArray(plotLines)){
+    return plotLines.map((item)=>{
+      return {
+        color: item.color || '#1390DC',
+        dashStyle:'dash',
+        value:item.value,
+        width: item.width || 1,
+        zIndex: 5
+      }
+    })
+  }
+}

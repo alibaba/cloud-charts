@@ -1,24 +1,20 @@
 ---
 order: 8
 title:
-  zh-CN: G2
-  en-US: G2
+  zh-CN: 辅助线
+  en-US: GuideLine
 ---
 
 ## zh-CN
 
-G2 版 堆叠柱状图
+设置yAxis.guideLine添加辅助线
 
 ## en-US
 
 
 ````jsx
-import { WG2Bar } from '@alife/aisc-widgets';
-  //dataType: 'Highcharts'
-let options = {
-  dataType: 'Highcharts',
-  stack: true
-};
+import { Wbar } from '@alife/aisc-widgets';
+
 let data = [
   {
     "name":"柱1",
@@ -29,14 +25,24 @@ let data = [
   }
 ];
 
+let options1 = {
+  legend:{
+    align: 'right'
+  },
+  yAxis:{
+    guideLine:[{
+      color: '#cc0000',
+      value: 55
+    }]
+  }
+};
 
 class Demo extends React.Component{
-
   render(){
     return (
       <div className="demos">
         <div className="demo-item">
-            <WG2Bar height={300} config={options} data={data}/>
+            <Wbar ref="chart1" config={options1} data={data} height="400" />
         </div>
       </div>
     );
