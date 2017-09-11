@@ -386,10 +386,6 @@ function getHCOptions(options, data){
     tooltip: {
       enabled: !!options.tooltip,
       shared: true,
-      crosshairs: {
-        color: '#dddddd',
-        width: options.tooltip ? 1 : 0
-      },
       formatter: function(){
         let p = this.points;
         let ret = '<h5>' + thFormat(p[0].key) + '</h5>';
@@ -410,6 +406,11 @@ function getHCOptions(options, data){
       title: {
         enabled: false
       },
+      crosshair: options.tooltip ? {
+        color: '#dddddd',
+        width: 1,
+        zIndex: 6
+      } : false,
       lineWidth: 1,
       type: options.xAxis.type, //此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
