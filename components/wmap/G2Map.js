@@ -17,6 +17,8 @@ let defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
+  labels: false,
+  geoData: null
 };
 
 export default {
@@ -25,7 +27,7 @@ export default {
     // plotCfg.margin = config.padding || defaultConfig.padding;
     return props;
   },
-  init(chart, userConfig, geoData) {
+  init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
     // let defs = {
     //   name: {
@@ -50,7 +52,12 @@ export default {
     //
     // chart.source(data, defs);
 
-    const mapData = geoData.features.map((feature) => {
+    if (!config.geoData) {
+      console.warn('config.geoData is required!');
+      return;
+    }
+
+    const mapData = config.geoData.features.map((feature) => {
       return {
         name: feature.properties.name
       }
@@ -155,13 +162,15 @@ export default {
       chart.tooltip(false);
     }
 
-    chart.polygon().position(Stat.map.region('name', geoData)).color('Population','#e5f5e0-#31a354').style({
+    chart.polygon().position(Stat.map.region('name', config.geoData)).color('Population','#e5f5e0-#31a354').style({
       fill: 'rgba(49, 157, 255, 0.8)',
       stroke: '#999',
       lineWidth: 1
     });
 
-    chart.point().position(Stat.map.center('name', geoData)).size(0).label('name', {offset: 0});
+    if (config.labels) {
+      chart.point().position(Stat.map.center('name', geoData)).size(0).label('name', {offset: 0});
+    }
 
     chart.render();
 
