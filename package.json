@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
@@ -21,7 +21,8 @@
     "README.md",
     "HISTORY.md",
     "lib",
-    "components"
+    "components",
+    "build"
   ],
   "dependencies": {
     "@alife/aisc": "^2.2.15",

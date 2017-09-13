@@ -227,7 +227,12 @@ function prod() {
   const _config = _.cloneDeep(config);
   // build环境
   _config.externals = {
-    react: 'React',
+    react: { // UMD
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "react",
+      root: "React"
+    },
     'react-dom': 'ReactDOM'
   };
 
