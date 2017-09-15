@@ -23,7 +23,7 @@ ReactDOM.render(
     <div>
       <Wcircle 
       title="标题"
-      percent={0.1}>1000</Wcircle>
+      percent={0.9}>1000</Wcircle>
     </div>,
 mountNode);
 ````
