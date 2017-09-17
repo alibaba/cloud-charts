@@ -1,5 +1,5 @@
 ﻿---
-order: 16
+order: 6
 title:
   zh-CN: 动态数据
   en-US: Dynamic

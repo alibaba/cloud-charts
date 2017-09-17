@@ -80,24 +80,28 @@ export default class Wcircle extends React.Component {
      a ${radiusInner},${radiusInner} 0 1 1 0,${2 * radiusInner}`;
     const circleLengh = Math.PI * 2 * radiusInner;
 
-    let openWidth, pathDashoffset, strokeDashoffset;
+    let openWidth, pathDashoffset, strokeDashoffset, strokePathStyle;
     if(this.props.type === 'circle'){
       openWidth = 0;
       pathDashoffset = '0px';
       strokeDashoffset = `-${circleLengh / 2}px`;
+      strokePathStyle = {
+        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${(1-this.props.percent) * (circleLengh - openWidth)}px`,
+        strokeDashoffset: strokeDashoffset
+      };
     }else if(this.props.type === 'gauge'){
       openWidth = Math.PI * 0.4 * radiusInner;
       pathDashoffset = `-${openWidth / 2}px`;
       strokeDashoffset = `-${openWidth / 2}px`;
+      strokePathStyle = {
+        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${(circleLengh - openWidth)}px`,
+        strokeDashoffset: strokeDashoffset
+      };
     }
 
     const pathStyle = {
       strokeDasharray: `${circleLengh-openWidth}px ${circleLengh}px`,
       strokeDashoffset: pathDashoffset
-    };
-    const strokePathStyle = {
-      strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${circleLengh}px`,
-      strokeDashoffset: strokeDashoffset
     };
 
     const svgStyle = {

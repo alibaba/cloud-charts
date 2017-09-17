@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
@@ -21,11 +21,13 @@
     "README.md",
     "HISTORY.md",
     "lib",
-    "components"
+    "components",
+    "build"
   ],
   "dependencies": {
     "@alife/aisc": "^2.2.15",
     "@alife/aisc-core": "^0.3.1",
+    "g2": "^2.3.10",
     "highcharts": "^v5.0.12",
     "prop-types": "^15.5.10"
   },
@@ -61,7 +63,6 @@
     "eslint-plugin-jsx-a11y": "*",
     "extract-text-webpack-plugin": "~1.0.1",
     "fallback-port": "^0.1.7",
-    "g2": "^2.3.10",
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
