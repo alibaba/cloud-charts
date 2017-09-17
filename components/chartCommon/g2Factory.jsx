@@ -74,6 +74,9 @@ function g2Factory(name, Chart, convertData = true) {
     // componentWillMount () {}
 
     componentDidMount () {
+      if (this.props.customChart) {
+        Chart = Object.assign({}, Chart, this.props.customChart);
+      }
 
       // this.setSize();
       const props = Chart.beforeInit ? Chart.beforeInit(this.props) : this.props;
