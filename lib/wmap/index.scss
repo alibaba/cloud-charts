@@ -1,11 +1,12 @@
+
 /* highchart hack */
-.p2c-pie .highcharts-tooltip>span{
+.p2c-line .highcharts-tooltip>span, .ac-tooltip{
   background: rgba(255,255,255,0.9);
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
   padding: 12px;
   border-radius: 4px;
 }
-.p2c-pie .highcharts-tooltip h5{
+.p2c-line .highcharts-tooltip h5, .ac-tooltip .ac-title{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   font-weight: normal;
@@ -13,18 +14,19 @@
   line-height: normal;
   margin-top: 0;
 }
-.p2c-pie .highcharts-tooltip ul{
+.p2c-line .highcharts-tooltip ul,.ac-tooltip .ac-list {
   list-style: none;
 }
-.p2c-pie .highcharts-tooltip li{
+.p2c-line .highcharts-tooltip li, .ac-tooltip .ac-list li{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
   color: #333;
   span{
     margin-left: 8px;
   }
+  margin-top: 4px;
 }
-.p2c-pie .highcharts-tooltip li i{
+.p2c-line .highcharts-tooltip li i, .ac-tooltip .ac-list li i{
   width: 6px;
   height: 6px;
   display: inline-block;
@@ -33,10 +35,9 @@
   border-radius: 50%;
 }
 
-.p2c-pie .p2c-title{
+.p2c-line .p2c-title{
   font-size: 16px;
   font-family: "PingFang SC", "Microsoft Yahei";
-  line-height: 26px;
   // margin-bottom: 8px;
   height: 26px;
 
@@ -56,32 +57,32 @@
   }
 
 }
-.p2c-pie .p2c-legend, .ac-pie-legend{
+
+.p2c-line .p2c-legend, .ac-line-legend{
   position: absolute;
-  left: 0;
+  // left: 0;
   // bottom: 0;
   // width: 100%;
-  // right: 0;
+  right: 0;
   top: 0;
-
   ul{
-    display: flex;
-    //text-align: center;
-    //align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    display: block;
     line-height: initial;
+    //margin-bottom: 8px;
+    //text-align: center;
   }
 
   li{
     list-style: none;
-    margin: 4px;
-    // line-height: 26px;
+    display: inline-block;
+    margin-right: 12px;
     font-size: 12px;
     font-family: "PingFang SC", "Microsoft Yahei";
-    color: #333;
-    // flex: 1;
     cursor: pointer;
+    color: #333;
+    &:last-child{
+      margin-right: 0px;
+    }
   }
   li>i{
     display: inline-block;
@@ -91,18 +92,11 @@
     margin-right: 4px;
     border-radius: 50%;
   }
-  li>b{
-    margin-right: 8px;
-    font-weight: normal;
+  li.p2c-legend-hidden i{
+    background-color:  #DDDDDD!important;
   }
-}
-
-.ac-pie-legend {
-  display: flex;
-  //text-align: center;
-  //align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  line-height: initial;
+  li.p2c-legend-hidden span{
+    color: #DDDDDD!important;
+  }
 }
 
