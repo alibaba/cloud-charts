@@ -88,7 +88,7 @@ function g2Factory(name, Chart, convertData = true) {
         plotCfg,
         forceFit: width === undefined || forceFit
       });
-      const data = convertData ? (config.dataType !== 'Highcharts' ? initData : highchartsDataToG2Data(initData)) : initData;
+      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData)) : initData;
       Chart.init(chart, config, data);
       // this.chart.setData(this.props.data);
 
@@ -155,7 +155,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
-        const data = convertData ? (newConfig.dataType !== 'Highcharts' ? newData : highchartsDataToG2Data(newData)) : newData;
+        const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData)) : newData;
         this.chart.changeData(data);
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {

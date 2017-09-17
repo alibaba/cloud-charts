@@ -169,7 +169,7 @@ export default {
     });
 
     if (config.labels) {
-      chart.point().position(Stat.map.center('name', geoData)).size(0).label('name', {offset: 0});
+      chart.point().position(Stat.map.center('name', config.geoData)).size(0).label('name', {offset: 0});
     }
 
     chart.render();

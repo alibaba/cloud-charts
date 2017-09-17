@@ -1,4 +1,6 @@
 import './index.scss';
+import G2 from 'g2';
+import Highcharts from 'highcharts';
 
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
@@ -14,6 +16,9 @@ import { WHighPie, WG2Pie } from './wpie/index';
 import { WHighLineBar } from './wlinebar/index';
 import { WG2Map } from './wmap/index';
 import { WG2Custom } from './wcustom/index';
+
+//暴露基础图表库
+export { G2, Highcharts }
 
 //暴露所有包含的基础图表
 export {
