@@ -81,13 +81,14 @@ function g2Factory(name, Chart, convertData = true) {
 
       // this.setSize();
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit(this.props) : this.props;
-      const { width, height = 400, data: initData, plotCfg, forceFit, config } = props;
+      const { width, height = 400, data: initData, plotCfg, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
         id: this.chartId,
         width,
         height,
         plotCfg,
-        forceFit: width === undefined || forceFit
+        forceFit: width === undefined || forceFit,
+        ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData)) : initData;
       ChartProcess.init(chart, config, data);
