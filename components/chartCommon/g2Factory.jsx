@@ -43,6 +43,7 @@ let requestAnimationFrame = ( window && window.requestAnimationFrame ) || functi
 * convertData 控制是否转化数据
 * */
 function g2Factory(name, Chart, convertData = true) {
+  let ChartProcess = Chart;
   class AiscChart extends React.Component {
     static propTypes = {
       width: PropTypes.number,
@@ -75,11 +76,11 @@ function g2Factory(name, Chart, convertData = true) {
 
     componentDidMount () {
       if (this.props.customChart) {
-        Chart = Object.assign({}, Chart, this.props.customChart);
+        ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       }
 
       // this.setSize();
-      const props = Chart.beforeInit ? Chart.beforeInit(this.props) : this.props;
+      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit(this.props) : this.props;
       const { width, height = 400, data: initData, plotCfg, forceFit, config } = props;
       const chart = new G2.Chart({
         id: this.chartId,
@@ -89,7 +90,7 @@ function g2Factory(name, Chart, convertData = true) {
         forceFit: width === undefined || forceFit
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData)) : initData;
-      Chart.init(chart, config, data);
+      ChartProcess.init(chart, config, data);
       // this.chart.setData(this.props.data);
 
       //绑定事件
@@ -156,10 +157,18 @@ function g2Factory(name, Chart, convertData = true) {
 
       if (newData !== oldData || newData.length !== oldData.length) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData)) : newData;
-        this.chart.changeData(data);
+        if (ChartProcess.changeData) {
+          ChartProcess.changeData(this.chart, newConfig, data);
+        } else {
+          this.chart.changeData(data);
+        }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
-        this.chart.changeSize(newWidth, newHeight);
+        if (ChartProcess.changeSize) {
+          ChartProcess.changeSize(this.chart, newConfig, newWidth, newHeight);
+        } else {
+          this.chart.changeSize(newWidth, newHeight);
+        }
       }
     }
 
