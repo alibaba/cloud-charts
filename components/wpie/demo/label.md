@@ -32,7 +32,7 @@ let data = [
 let options = {
   cycle: true,
   legend: {
-      labelFormatter: function(value){
+      valueFormatter: function(value){
         return value + '%';
       }
   }
