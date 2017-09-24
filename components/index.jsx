@@ -10,6 +10,17 @@ export Wminicontainer from './wminicontainer/index';
 import * as g2Map from './g2Map';
 import * as highchartsMap from './highchartsMap';
 
+export const WG2Line = g2Map.WG2Line;
+export const WG2Bar = g2Map.WG2Bar;
+export const WG2Pie = g2Map.WG2Pie;
+export const WG2Map = g2Map.WG2Map;
+export const WG2Custom = g2Map.WG2Custom;
+
+export const WHighLine = highchartsMap.WHighLine;
+export const WHighBar = highchartsMap.WHighBar;
+export const WHighPie = highchartsMap.WHighPie;
+export const WHighLineBar = highchartsMap.WHighLineBar;
+
 //根据设置的library名字暴露默认的图表组件
 const chartLibraryName = 'Highcharts';
 const chartMap = {

@@ -112,7 +112,7 @@ function g2Factory(name, Chart, convertData = true) {
       ];
 
       Object.keys(config).forEach(item => {
-        events.includes(item) && chart.on(item, config[item]);
+        (events.indexOf(item) > -1) && chart.on(item, config[item]);
       });
 
       this.chart = chart;
