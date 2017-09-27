@@ -89,6 +89,12 @@ export default {
   },
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
+
+    if (config.zoom) {
+      chart.setMode('select'); // 开启框选模式
+      chart.select('rangeX'); // 选择框选交互形式
+    }
+
     let defs = {
       name: {
         type: "time"
@@ -157,7 +163,7 @@ export default {
           lineWidth: 1, // 设置线的宽度
           stroke: '#DCDEE3',
         }
-      })
+      });
       nameAxis = merge({}, nameAxis, {
         grid: {
           line: {
