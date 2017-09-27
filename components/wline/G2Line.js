@@ -79,6 +79,12 @@ let defaultConfig = {
   zoom: false,
   // colors: COLORS,
   // padding: [0, 0, 0, 0],
+  dataConfig: {
+    nameKey: 'name',
+    valueKey: 'value',
+    // valueKey: ['value1', 'value2'],
+    typeKey: 'type'
+  }
 };
 
 export default {
@@ -97,6 +103,7 @@ export default {
 
     let defs = {
       name: {
+        //TODO 这里居然写死了类型。。
         type: "time"
       },
       value: {
@@ -109,7 +116,7 @@ export default {
       }
     };
     if (config.xAxis.type === 'datetime') {
-      defs = merge({}, defs, !config.xAxis.labelFormatter ? {
+      defs = merge({}, defs, config.xAxis.dateFormatter ? {
         name: {
           mask: config.xAxis.dateFormatter
         }
@@ -199,10 +206,10 @@ export default {
       chart.tooltip(true, tooltipCfg);
       if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltipchange', function (ev) {
-          ev.items.forEach((item) => {
-            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
-            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
-            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
+          ev.items.forEach((item, index) => {
+            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title, ev.items, index, item.point._origin) : item.title;
+            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin) : item.value;
+            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin) : item.name;
           });
         });
       }

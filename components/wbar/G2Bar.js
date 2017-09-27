@@ -173,10 +173,10 @@ export default {
       chart.tooltip(true, tooltipCfg);
       if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltipchange', function (ev) {
-          ev.items.forEach((item, i) => {
-            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
-            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value, items, i, item) : item.value;
-            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name, items, i, item) : item.name;
+          ev.items.forEach((item, index) => {
+            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title, ev.items, index, item.point._origin) : item.title;
+            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin) : item.value;
+            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin) : item.name;
           });
         });
       }

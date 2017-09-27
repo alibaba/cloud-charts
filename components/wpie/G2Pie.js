@@ -76,9 +76,9 @@ export default {
       chart.tooltip(true, tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltipchange', function (ev) {
-          ev.items.forEach((item) => {
-            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
-            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
+          ev.items.forEach((item, index) => {
+            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin) : item.value;
+            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin) : item.name;
           });
         });
       }
