@@ -201,6 +201,10 @@ function g2Factory(name, Chart, convertData = true) {
     // componentWillUpdate (nextProps) {}
 
     componentWillUnmount () {
+      if (ChartProcess.destroy) {
+        ChartProcess.destroy(this.chart);
+      }
+
       this.chart.destroy && this.chart.destroy();
       this.chart = null;
       this.chartId = null;
