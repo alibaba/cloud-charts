@@ -55,6 +55,7 @@
     "babel-preset-stage-0": "~6.5.0",
     "babel-preset-stage-1": "^6.22.0",
     "classnames": "^2.2.5",
+    "core-decorators": "^0.20.0",
     "css-split-webpack-plugin": "^0.2.1",
     "del": "^2.2.0",
     "dora-plugin-upload": "^0.3.1",
