@@ -14,8 +14,6 @@ title: Wcircle
 | percent    | 数值，0-1的数值，表示环比                  | Number | 0     |
 | unit       | 单位                                     | String | ''     |
 | status     | 数值状态, 填写blue(正常)、orange(二级告警)、red(一级告警) |"blue", "orange", "red" | "blue"     |
-| radius     | 圆外环半径 | Number，10-100之间 | 70     |
-| strokeWidth | 圆外环到圆内环值 | Number，2-10之间 | 6     |
 | trend      | 数值趋势, 填写raise或者drop自动处理数字    | "raise", "drop" | ''  |
 | bottomTitle| 底部标题                                   | String| ''  |
 | bottomUnit | 底部单位                                   | String| ''  |
