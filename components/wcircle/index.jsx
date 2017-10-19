@@ -92,7 +92,7 @@ export default class Wcircle extends React.Component {
         strokeDashoffset: strokeDashoffset
       };
     }else if(this.props.type === 'gauge'){
-      openWidth = Math.PI * 0.4 * radiusInner;
+      openWidth = Math.PI * 0.45 * radiusInner;
       pathDashoffset = `-${openWidth / 2}px`;
       strokeDashoffset = `-${openWidth / 2}px`;
       strokePathStyle = {

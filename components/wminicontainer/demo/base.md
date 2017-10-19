@@ -55,9 +55,9 @@ ReactDOM.render(
             title="本周未达标指标"
             status="red"
             bottomTitle="较上周" 
-            bottomNumber={2} 
+            bottomNumber={134} 
             percent={0.45}
-            bottomTrend="raise">7</Wcircle>
+            bottomTrend="raise">45</Wcircle>
           </Wminicontainer>
         </Col>
       </Row>

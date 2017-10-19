@@ -93,11 +93,11 @@
 
   #{$wcircle-prefix}-bottom-block {
     @include wcircle-font;
-    font-size: 20px;
+    font-size: 18px;
     width: 100%;
     position: absolute;
     top: 100%;
-    margin-top: -25px;
+    margin-top: -28px;
     text-align: center;
     #{$wcircle-prefix}-bottom-number {
       //margin-left: $s1;
@@ -112,6 +112,7 @@
       margin: 0;
       line-height: 1;
       color: #333333;
+      margin-top: 2px;
     }
 
   }
