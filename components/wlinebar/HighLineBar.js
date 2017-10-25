@@ -72,7 +72,7 @@ class LineBar extends Base{
   }
   destroy (){
     super.destroy();
-    this.chart.destroy();
+    this.chart && this.chart.destroy();
   }
   render (){
     // let titleNode = this.element.querySelector('.p2c-title');

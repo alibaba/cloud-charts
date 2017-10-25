@@ -65,7 +65,7 @@ class Bar extends Base{
   }
   destroy (){
     super.destroy();
-    this.chart.destroy();
+    this.chart && this.chart.destroy();
   }
   // setData (data, sync){
   //   super.setData(data, false);

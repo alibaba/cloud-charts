@@ -78,7 +78,7 @@ class Line extends Base{
   }
   destroy (){
     super.destroy();
-    this.chart.destroy();
+    this.chart && this.chart.destroy();
   }
   render (){
     if(this.options.mini){
