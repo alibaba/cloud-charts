@@ -164,10 +164,10 @@ function getLegend(dom, options, data){
     let name = Array.isArray(item) ? item[0] : '区域'+(i+1);
     let value = Array.isArray(item) ? item[1] : item;
     if (options.legend.nameFormatter) {
-      name = options.legend.nameFormatter(name, { ...item, color: options.colors[i] }, i);
+      name = options.legend.nameFormatter(name, { ...item, color: options.colors[i] }, i, data);
     }
     if (options.legend.valueFormatter) {
-      value = options.legend.valueFormatter(value, { ...item, color: options.colors[i] }, i);
+      value = options.legend.valueFormatter(value, { ...item, color: options.colors[i] }, i, data);
     }
     ret.push('<li data-id="'+i+'"><i style="background-color:'+options.colors[i]+'"></i><b>' + name + '</b><span>' + value + '</span></li>');
   });
@@ -178,12 +178,12 @@ function getLegend(dom, options, data){
 function getHCOptions(options, data){
   function tNameFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value);
+    if(options.tooltip && options.tooltip.nameFormatter) return options.tooltip.nameFormatter(value, data);
     return value;
   }
   function tValueFormat(value) {
     //自定义处理逻辑优先
-    if(options.tooltip && options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value);
+    if(options.tooltip && options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, data);
     return value;
   }
 

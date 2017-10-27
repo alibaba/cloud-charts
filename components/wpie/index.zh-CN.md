@@ -25,12 +25,12 @@ cols: 1
 ```javascript
   {
     legend: { //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
-      nameFormatter: null, // 图例 name格式化函数。参数：name, data, index
-      valueFormatter: null, // 图例 value格式化函数。参数：name, data, index
+      nameFormatter: null, // 图例 name格式化函数。参数：name, item, index, data
+      valueFormatter: null, // 图例 value格式化函数。参数：name, item, index, data
     },
     tooltip: { //默认显示，设置为false时，表示不显示
-      nameFormatter: null, // tooltip name格式化函数。参数：name
-      valueFormatter: null, // tooltip value格式化函数。参数：value
+      nameFormatter: null, // tooltip name格式化函数。参数：name, data
+      valueFormatter: null, // tooltip value格式化函数。参数：value, date
     },
     cycle: false, //是否为环图，默认为false，表示显示为饼图，仅初次设置有效
     clickable: false, //是否可点击，默认为false，表示不可点击。仅初次设置有效
