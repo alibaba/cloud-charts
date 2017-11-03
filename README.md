@@ -45,6 +45,8 @@ class App extends React.Component {
 1. git clone project
 2. $ tnpm i
 3. fie start
+//打包
+4. fie build2
 ```
 
 ### 组件命名规范
