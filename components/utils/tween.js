@@ -31,7 +31,11 @@ class Tween {
 
   refresh() {
     if (this._isPlay) {
-      setTimeout(this.refresh, 1000/60);
+      if(window.requestAnimationFrame) {
+        window.requestAnimationFrame(this.refresh);
+      } else {
+        setTimeout(this.refresh, 1000/60);
+      }
       this.update();
     }
   }
