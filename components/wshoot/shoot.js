@@ -10,6 +10,8 @@ function Shoot (canvas, map, config) {
   this.uuid = generateUniqueId();
   this.map = map;
   this.config = merge({
+    autoUpdate: true,
+    maxFps: 60,
     interval: 10000,//单次飞线总时间
     dTime: 4000,//单条飞线预计的时间
     // batch: false,
@@ -138,6 +140,8 @@ Shoot.prototype = {
       dTime = self.config.dTime,
       // 由于要保证interval时间内完成全部动画
       interval = self.config.interval,
+      autoUpdate = self.config.autoUpdate,
+      maxFps = self.config.maxFps,
       times = (interval / dTime) >> 0,
       indexMap = {},
       keys = self.config.keys,
@@ -224,7 +228,11 @@ Shoot.prototype = {
       }
     }
 
-    tween(this.uuid, interval, function (t) {
+    this.tween = tween(this.uuid, {
+      duration: interval,
+      autoUpdate,
+      maxFps
+    }, function (t) {
       self.clear(sCtx);
       shoots.forEach(function(s, i) {
         s(t * times - s.index);
@@ -640,6 +648,11 @@ Shoot.prototype = {
     // 隐藏overview canvas，显示shoot canvas
     // $(self.config.canvas).hide();
     // $(self.canvas).show();
+  },
+  update: function (time) {
+    if (this.tween && this.tween.update) {
+      this.tween.update(time);
+    }
   },
   destroy: function () {
     this.clear(this.sCtx);
