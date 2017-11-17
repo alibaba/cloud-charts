@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "@alife/aisc": "^2.2.15",
-    "@alife/aisc-core": "^0.3.1",
+    "@alife/aisc-core": "^0.5.5",
     "highcharts": "^v5.0.12",
     "prop-types": "^15.5.10"
   },
@@ -85,6 +85,7 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "react-intl": "^2.2.3",
     "react-router": "^3.0.0",
+    "sass-variable-loader": "^0.1.2",
     "style-loader": "~0.13.1",
     "webpack": "~1.12.14",
     "webpack-dev-server": "~1.14.1"
