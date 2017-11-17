@@ -28,7 +28,7 @@ class Bar extends Base{
       colors: COLORS,
       stack: false,
       padding: [12, 0, 12, 0],
-      labels: null,
+      labels: false,
       xAxis: {
         labelFormatter: null, //可以强制覆盖，手动设置label
         // tooltipFormatter: null, //手动设置tooltip上X值的格式
@@ -65,7 +65,7 @@ class Bar extends Base{
   }
   destroy (){
     super.destroy();
-    this.chart.destroy();
+    this.chart && this.chart.destroy();
   }
   // setData (data, sync){
   //   super.setData(data, false);
@@ -210,7 +210,7 @@ function isLastVisbleLegendNode(node){
 }
 
 function getLabels(options, data){
-  let ret = options.labels;
+  let ret = options.xAxis.categories;
   if(!ret && data[0] && data[0].data && Array.isArray(data[0].data[0])){
     ret = [];
     data[0].data.forEach((item)=>{
@@ -246,6 +246,10 @@ function getHCOptions(options, data){
   function tValueFormat(value, data, index, record) {
     //自定义处理逻辑优先
     if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, data, index, record);
+    return value;
+  }
+  function labelsFormatter(value) {
+    if(options.labels.labelFormatter) return options.labels.labelFormatter(value);
     return value;
   }
   let categories = getLabels(options, data);
@@ -334,6 +338,15 @@ function getHCOptions(options, data){
     plotOptions: {
       series:{
         cursor: options.clickable ? 'pointer' : null,
+        dataLabels: {
+          enabled: !!options.labels,
+          shadow: false,
+          // inside: false,
+          style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"', 'fontWeight': 'normal', 'fontSize':'12px', 'color':'#989898'},
+          formatter: function () {
+            return labelsFormatter(this.y);
+          }
+        },
         events: {},
         point: {
           events: {}

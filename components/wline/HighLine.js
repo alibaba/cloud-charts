@@ -26,7 +26,6 @@ class Line extends Base{
       },
       zoom: false,
       clickable: false,
-      // type: 'line',
       spline: false,
       area: false,
       grid: false,
@@ -35,6 +34,7 @@ class Line extends Base{
       //以上不支持热更新
       colors: COLORS,
       padding: [12, 0, 12, 0],
+      labels: false,
       mini: false,
       xAxis: {
         type: 'linear', //默认为线性
@@ -78,7 +78,7 @@ class Line extends Base{
   }
   destroy (){
     super.destroy();
-    this.chart.destroy();
+    this.chart && this.chart.destroy();
   }
   render (){
     if(this.options.mini){
@@ -384,6 +384,10 @@ function getHCOptions(options, data){
     if(options.tooltip.valueFormatter) return options.tooltip.valueFormatter(value, data, index, record);
     return value;
   }
+  function labelsFormatter(value) {
+    if(options.labels.labelFormatter) return options.labels.labelFormatter(value);
+    return value;
+  }
 
   const config = {
     chart: {
@@ -391,7 +395,7 @@ function getHCOptions(options, data){
       plotBorderWidth: null,
       plotShadow: false,
       marginTop: 10,
-      // marginRight: 15,
+      marginRight: 5,
       spacing: [0,0,0,0],
       backgroundColor: false,
       zoomType: options.zoom ? 'x' : false,
@@ -444,6 +448,7 @@ function getHCOptions(options, data){
         style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
       },
       minPadding: 0,
+      maxPadding: 0,
       categories: options.xAxis.categories,
       //endOnTick: true,
       //startOnTick: false,
@@ -635,6 +640,15 @@ function getHCOptions(options, data){
       },
       series: {
         cursor: options.clickable ? 'pointer' : null,
+        dataLabels: {
+          enabled: !!options.labels,
+          shadow: false,
+          // inside: false,
+          style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"', 'fontWeight': 'normal', 'fontSize':'12px', 'color':'#989898'},
+          formatter: function () {
+            return labelsFormatter(this.y);
+          }
+        },
         allowPointSelect: options.clickable,
         point: {
           events: {}

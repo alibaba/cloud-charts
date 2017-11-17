@@ -6,6 +6,7 @@ export Wicon from './wicon/index';
 export Wminiline from './wminiline/index';
 export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
+export Wshoot from './wshoot/index';
 
 import * as g2Map from './g2Map';
 import * as highchartsMap from './highchartsMap';

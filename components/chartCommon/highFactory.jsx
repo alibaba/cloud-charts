@@ -25,7 +25,7 @@ function highFactory(name, Chart) {
         React.PropTypes.object,
         React.PropTypes.array
       ]).isRequired,
-      orignalOptions: React.PropTypes.object
+      originalOptions: React.PropTypes.object
     };
 
     static displayName = 'AiscWidgets' + name;
@@ -78,8 +78,8 @@ function highFactory(name, Chart) {
     }
 
     shouldComponentUpdate (nextProps) {
-      const { data: newData, width: newWidth, height: newHeight, config: newConfig, orignalOptions: newOrignalOptions } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, config: oldConfig, orignalOptions: oldOrignalOptions } = this.props;
+      const { data: newData, width: newWidth, height: newHeight, config: newConfig, originalOptions: newOriginalOptions } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, config: oldConfig, originalOptions: oldOriginalOptions } = this.props;
 
       if(newData !== oldData || newData.length !== oldData.length || (newData.data && oldData.data && newData.data !== oldData.data)) {
         this.chart.setData(newData);
@@ -87,8 +87,8 @@ function highFactory(name, Chart) {
       if(newConfig !== oldConfig) {
         this.chart.setOption(newConfig);
       }
-      if(newOrignalOptions !== oldOrignalOptions) {
-        this.chart.chart && this.chart.chart.update(newOrignalOptions);
+      if(newOriginalOptions !== oldOriginalOptions) {
+        this.chart.chart && this.chart.chart.update(newOriginalOptions);
       }
       if(newWidth !== oldWidth || newHeight !== oldHeight) {
         this.setSize(newWidth, newHeight);

@@ -26,7 +26,8 @@ let data = [
 ];
 
 let options = {
-  stack: true
+  stack: true,
+  labels: true
 };
 
 class Demo extends React.Component{

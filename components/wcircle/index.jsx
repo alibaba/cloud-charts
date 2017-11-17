@@ -7,8 +7,6 @@ import Wicon from '../wicon';
 import './index.scss';
 
 const prefix = 'aisc-wcircle';
-const strokeWidth = 6;
-const radius =60;
 
 
 export default class Wcircle extends React.Component {
@@ -22,7 +20,8 @@ export default class Wcircle extends React.Component {
     percent: 0,
     unit: '',
     status: 'blue',
-    height: radius * 2
+    radius: 70,
+    strokeWidth: 6
   }
 
   renderBottom() {
@@ -66,6 +65,9 @@ export default class Wcircle extends React.Component {
   renderMain() {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
+    let radius = this.props.radius;
+    let strokeWidth = this.props.strokeWidth;
+
     if (this.props.trend === 'raise') {
       numberClasses += ' raise';
       numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
@@ -90,7 +92,7 @@ export default class Wcircle extends React.Component {
         strokeDashoffset: strokeDashoffset
       };
     }else if(this.props.type === 'gauge'){
-      openWidth = Math.PI * 0.4 * radiusInner;
+      openWidth = Math.PI * 0.45 * radiusInner;
       pathDashoffset = `-${openWidth / 2}px`;
       strokeDashoffset = `-${openWidth / 2}px`;
       strokePathStyle = {
@@ -173,6 +175,19 @@ Wcircle.propTypes = {
   },
   unit: PropTypes.string,
   status: React.PropTypes.oneOf(['blue', 'orange', 'red']),
+  // 半径
+  radius: function(props, propName, componentName){
+    if(!(props[propName] >= 10 && props[propName] <= 100)){
+      return new Error('Validation failed!');
+    }
+  },
+  // 粗细
+  strokeWidth: function(props, propName, componentName){
+    if(!(props[propName] >= 2 && props[propName] <= 10)){
+      return new Error('Validation failed!');
+    }
+  },
+  // 趋势
   trend: React.PropTypes.oneOf(['raise', 'drop']),
   bottomTitle: PropTypes.string,
   bottomUnit: PropTypes.string,
