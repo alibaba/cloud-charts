@@ -31,10 +31,6 @@ export default class Wcontainer extends React.Component {
   }
 
   renderMainNormal() {
-    const containerClasses = classNames({
-      [`${prefix}-main`]: true
-    });
-
     return (
       <div className={`${prefix}-main`}>
         <Row align="center">
@@ -56,11 +52,6 @@ export default class Wcontainer extends React.Component {
   }
 
   renderMainCross() {
-    const containerClasses = classNames({
-      [`${prefix}-main`]: true,
-      [`${prefix}-cross`]: true
-    });
-
     let maxColPerRow = 0;
     let currentColPerRow = 0;
     // 计算栅格的ColSpan
@@ -75,29 +66,8 @@ export default class Wcontainer extends React.Component {
       }
     });
     const ColPerRow = ~~(24 / maxColPerRow);
-    function chunks(arr, maxSpan) {
-      const rs = [];
-      let oneRow = [];
-      React.Children.forEach(arr, (child, i) => {
-        if (child.type && child.type.displayName === 'Divider') {
-          rs.push(<Row align="center">{oneRow}</Row>);
-          oneRow = [];
-        } else if (child.type === 'combiner' && oneRow.length) {
-          let lastChild = oneRow[oneRow.length - 1].props.children;
-          let lastSpan = oneRow[oneRow.length - 1].props.span;
-          oneRow[oneRow.length - 1] = <Col span={lastSpan + ColPerRow}>{lastChild}</Col>;
-        } else if (i === arr.length - 1) {
-          oneRow.push(<Col span={ColPerRow}>{child}</Col>);
-          rs.push(<Row align="center">{oneRow}</Row>);
-        } else {
-          oneRow.push(<Col span={ColPerRow}>{child}</Col>);
-        }
-      });
-      return rs;
-    }
-
     return (
-      <div className={containerClasses}>
+      <div className={`${prefix}-main ${prefix}-cross`}>
         <div className={`${prefix}-multi-row-container`}>{chunks(this.props.children, ColPerRow)}</div>
       </div>
     );
@@ -133,6 +103,27 @@ Wcontainer.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
+
+function chunks(arr, maxSpan) {
+  const rs = [];
+  let oneRow = [];
+  React.Children.forEach(arr, (child, i) => {
+    if (child.type && child.type.displayName === 'Divider') {
+      rs.push(<Row align="center">{oneRow}</Row>);
+      oneRow = [];
+    } else if (child.type === 'combiner' && oneRow.length) {
+      let lastChild = oneRow[oneRow.length - 1].props.children;
+      let lastSpan = oneRow[oneRow.length - 1].props.span;
+      oneRow[oneRow.length - 1] = <Col span={lastSpan + maxSpan}>{lastChild}</Col>;
+    } else if (i === arr.length - 1) {
+      oneRow.push(<Col span={maxSpan}>{child}</Col>);
+      rs.push(<Row align="center">{oneRow}</Row>);
+    } else {
+      oneRow.push(<Col span={maxSpan}>{child}</Col>);
+    }
+  });
+  return rs;
+}
 
 Wcontainer.divider = Divider;
 Wcontainer.combiner = 'combiner';
