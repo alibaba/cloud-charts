@@ -26,7 +26,7 @@ function highFactory(name, Chart) {
         PropTypes.object,
         PropTypes.array
       ]).isRequired,
-      originalOptions: PropTypes.object
+      originalOptions: React.PropTypes.object
     };
 
     static displayName = 'AiscWidgets' + name;

@@ -166,7 +166,7 @@ export default class Wcircle extends React.Component {
 }
 
 Wcircle.propTypes = {
-  type: React.PropTypes.oneOf(['gauge', 'circle']),
+  type: PropTypes.oneOf(['gauge', 'circle']),
   title: PropTypes.string,
   percent: function(props, propName, componentName){
     if(!(props[propName] >= 0 && props[propName] <= 1)){
@@ -174,7 +174,7 @@ Wcircle.propTypes = {
     }
   },
   unit: PropTypes.string,
-  status: React.PropTypes.oneOf(['blue', 'orange', 'red']),
+  status: PropTypes.oneOf(['blue', 'orange', 'red']),
   // 半径
   radius: function(props, propName, componentName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){
@@ -188,9 +188,9 @@ Wcircle.propTypes = {
     }
   },
   // 趋势
-  trend: React.PropTypes.oneOf(['raise', 'drop']),
+  trend: PropTypes.oneOf(['raise', 'drop']),
   bottomTitle: PropTypes.string,
   bottomUnit: PropTypes.string,
   bottomNumber: PropTypes.number,
-  bottomTrend: React.PropTypes.oneOf(['raise', 'drop'])
+  bottomTrend: PropTypes.oneOf(['raise', 'drop'])
 }
