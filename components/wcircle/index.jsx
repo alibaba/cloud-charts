@@ -8,7 +8,6 @@ import './index.scss';
 
 const prefix = 'aisc-wcircle';
 
-
 export default class Wcircle extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,7 @@ export default class Wcircle extends React.Component {
     status: 'blue',
     radius: 70,
     strokeWidth: 6
-  }
+  };
 
   renderBottom() {
     const bottomTitle = this.props.bottomTitle;
@@ -109,7 +108,7 @@ export default class Wcircle extends React.Component {
     const svgStyle = {
       height: (radius + strokeWidth / 2) * 2,
       width: (radius + strokeWidth / 2) * 2
-    }
+    };
 
     return(
       <div className={`${prefix}-main ${this.props.status}`}>
@@ -155,7 +154,7 @@ export default class Wcircle extends React.Component {
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [className]: !!className
-    })
+    });
 
     return (
       <div className={mainClasses}>
@@ -193,4 +192,4 @@ Wcircle.propTypes = {
   bottomUnit: PropTypes.string,
   bottomNumber: PropTypes.number,
   bottomTrend: PropTypes.oneOf(['raise', 'drop'])
-}
+};
