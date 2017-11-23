@@ -36,15 +36,15 @@ export default class Wcontainer extends React.Component {
         <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
             if (child.type.displayName === 'Wicon') {
-              return <Col fixedSpan="2">{child}</Col>;
+              return <Col fixedSpan="2" key={i}>{child}</Col>;
             }
             if (child.type.Chart && child.type.Chart.displayName === 'Wminiline') {
-              return <Col fixedSpan="4">{child}</Col>;
+              return <Col fixedSpan="4" key={i}>{child}</Col>;
             }
             if (child.type.displayName === 'Divider') {
-              return <Col fixedSpan="1">{child}</Col>;
+              return <Col fixedSpan="1" key={i}>{child}</Col>;
             }
-            return <Col>{child}</Col>;
+            return <Col key={i}>{child}</Col>;
           })}
         </Row>
       </div>
@@ -109,17 +109,17 @@ function chunks(arr, maxSpan) {
   let oneRow = [];
   React.Children.forEach(arr, (child, i) => {
     if (child.type && child.type.displayName === 'Divider') {
-      rs.push(<Row align="center">{oneRow}</Row>);
+      rs.push(<Row align="center" key={i}>{oneRow}</Row>);
       oneRow = [];
     } else if (child.type === 'combiner' && oneRow.length) {
       let lastChild = oneRow[oneRow.length - 1].props.children;
       let lastSpan = oneRow[oneRow.length - 1].props.span;
-      oneRow[oneRow.length - 1] = <Col span={lastSpan + maxSpan}>{lastChild}</Col>;
+      oneRow[oneRow.length - 1] = <Col span={lastSpan + maxSpan} key={i}>{lastChild}</Col>;
     } else if (i === arr.length - 1) {
-      oneRow.push(<Col span={maxSpan}>{child}</Col>);
-      rs.push(<Row align="center">{oneRow}</Row>);
+      oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
+      rs.push(<Row align="center" key={i}>{oneRow}</Row>);
     } else {
-      oneRow.push(<Col span={maxSpan}>{child}</Col>);
+      oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
     }
   });
   return rs;
