@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Wicon from '../wicon';
 import './index.scss';
 
-const prefix = 'aisc-wnumber'
+const prefix = 'aisc-wnumber';
 
 export default class Wnumber extends React.Component {
   constructor(props) {
@@ -15,18 +15,16 @@ export default class Wnumber extends React.Component {
 
   static defaultProps = {
     numberTrend: '',
-    rightRatioTrend: ''
-  }
+    rightRatioTrend: '',
+    status: ''
+  };
 
   renderBottom() {
     const bottomTitle = this.props.bottomTitle;
-    const bottomTitleClasses = classNames({
-      [`${prefix}-bottomTitle`]: true
-    })
     if (!!bottomTitle) {
       return(
-        <div className={bottomTitleClasses}>{bottomTitle}</div>
-      )
+        <div className={`${prefix}-bottomTitle`}>{bottomTitle}</div>
+      );
     }
   }
 
@@ -97,7 +95,7 @@ export default class Wnumber extends React.Component {
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [className]: !!className
-    })
+    });
 
     return (
       <div className={mainClasses}>
@@ -109,7 +107,7 @@ export default class Wnumber extends React.Component {
 }
 
 Wnumber.propTypes = {
-  bottomTitle: PropTypes.string,
-  unit: PropTypes.string,
+  bottomTitle: PropTypes.node,
+  unit: PropTypes.node,
   trend: PropTypes.func
-}
+};
