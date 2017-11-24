@@ -380,7 +380,6 @@ function getHCOptions(options, data){
       plotBorderWidth: null,
       plotShadow: false,
       marginTop: 10,
-      marginRight: 5,
       spacing: [0,0,0,0],
       backgroundColor: false,
       zoomType: options.zoom ? 'x' : false,
@@ -433,7 +432,6 @@ function getHCOptions(options, data){
         style: {'fontFamily': '"Helvetica Neue", Helvetica, Arial, sans-serif, "PingFang SC", "Microsoft Yahei"','fontSize':'12px','color':'#989898'}
       },
       minPadding: 0,
-      maxPadding: 0,
       categories: options.xAxis.categories,
       //endOnTick: true,
       //startOnTick: false,
