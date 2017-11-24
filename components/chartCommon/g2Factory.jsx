@@ -80,7 +80,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       // this.setSize();
-      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit(this.props) : this.props;
+      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
       const { width, height = 400, data: initData, plotCfg, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
         id: this.chartId,
@@ -91,7 +91,7 @@ function g2Factory(name, Chart, convertData = true) {
         ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData)) : initData;
-      ChartProcess.init(chart, config, data);
+      ChartProcess.init.call(this, chart, config, data);
       // this.chart.setData(this.props.data);
 
       //绑定事件
@@ -159,14 +159,14 @@ function g2Factory(name, Chart, convertData = true) {
       if (newData !== oldData || newData.length !== oldData.length) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData)) : newData;
         if (ChartProcess.changeData) {
-          ChartProcess.changeData(this.chart, newConfig, data);
+          ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {
           this.chart.changeData(data);
         }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
         if (ChartProcess.changeSize) {
-          ChartProcess.changeSize(this.chart, newConfig, newWidth, newHeight);
+          ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
         } else {
           this.chart.changeSize(newWidth, newHeight);
         }
@@ -202,7 +202,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     componentWillUnmount () {
       if (ChartProcess.destroy) {
-        ChartProcess.destroy(this.chart);
+        ChartProcess.destroy.call(this, this.chart);
       }
 
       this.chart.destroy && this.chart.destroy();
