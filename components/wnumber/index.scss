@@ -9,15 +9,15 @@
     position: relative;
     &.drop {
       color: #e1575d;
+      padding-left: $s2;
     }
     &.raise {
       color: #2889ec;
+      padding-left: $s2;
     }
 
     #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
-      // height:6px;
-      // width: 6px;
       >.drop {
         color: #e1575d;
       }
