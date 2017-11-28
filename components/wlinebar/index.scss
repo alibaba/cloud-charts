@@ -15,7 +15,7 @@
   font-weight: normal;
   color: $color-text1-2;
   line-height: normal;
-  margin-top: 0;
+  margin-top: $s0;
 }
 .p2c-line-bar .highcharts-tooltip ul,
 .ac-tooltip .ac-list {
@@ -51,7 +51,7 @@
 
   h4 {
     font-weight: normal;
-    font-size: 16px;
+    font-size: $s4;
     color: $color-text1-4;
     display: inline-block;
     margin-right: $s2;
@@ -71,8 +71,8 @@
   // left: 0;
   // bottom: 0;
   // width: 100%;
-  right: 0;
-  top: 0;
+  right: $s0;
+  top: $s0;
   ul {
     display: block;
     line-height: initial;
@@ -89,7 +89,7 @@
     cursor: pointer;
     color: $color-text1-4;
     &:last-child {
-      margin-right: 0px;
+      margin-right: $s0;
     }
   }
   li > i {

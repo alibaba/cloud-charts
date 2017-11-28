@@ -7,8 +7,6 @@ import merge from '../utils/merge';
 import './index.scss';
 import { colors, fonts } from '../variables';
 
-console.log(colors, fonts);
-
 Highcharts.setOptions({
   global: { useUTC: false }, // 不使用HC内置时区设置
   lang: { resetZoom: '重置缩放' } // 修改zoom文案

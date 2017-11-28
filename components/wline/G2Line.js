@@ -1,9 +1,9 @@
 'use strict';
 
 import G2 from 'g2';
-import './index.scss';
 import merge from '../utils/merge';
 import { colors } from '../variables';
+import './index.scss';
 
 const Util = G2.Util;
 
