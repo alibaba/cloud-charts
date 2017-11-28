@@ -5,7 +5,6 @@ import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import { colors, fonts } from '../variables';
-
 import './index.scss';
 
 Highcharts.setOptions({ global: { useUTC: false } }); // 不使用HC内置时区设置
