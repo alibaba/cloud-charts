@@ -1,9 +1,10 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
-import merge from '../utils/merge';
 import G2 from 'g2';
 import './index.scss';
+import merge from '../utils/merge';
+import { colors } from '../variables';
+
 const Util = G2.Util;
 
 // const G2Line = createG2((chart, configs, data) => {
@@ -44,44 +45,44 @@ const Util = G2.Util;
 //   return `react-g2-${uniqueId++}`;
 // }
 
-let defaultConfig = {
+const defaultConfig = {
   padding: [32, 5, 32, 45],
   xAxis: {
-    type: 'linear', //默认为线性
-    dateFormatter: 'HH:MM:ss', //上述type为datetime时，此字段生效
-    labelFormatter: null //可以强制覆盖，手动设置label
+    type: 'linear', // 默认为线性
+    dateFormatter: 'HH:MM:ss', // 上述type为datetime时，此字段生效
+    labelFormatter: null // 可以强制覆盖，手动设置label
   },
   yAxis: {
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     max: null,
-    min: null,
+    min: null
     // bgArea: [], // TODO 辅助区域后期需要加上
     // lineWidth: 0
   },
   legend: {
     align: 'left',
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null // 可以强制覆盖，手动设置label
   },
   tooltip: {
     titleFormatter: null,
     nameFormatter: null,
-    valueFormatter: null,
+    valueFormatter: null
   },
   // clickable: false,
   // type: 'line',
   area: false,
-  stack: false,//仅Area有效
+  stack: false, // 仅Area有效
   spline: false,
   grid: false,
-  symbol:true,
-  zoom: false,
+  symbol: true,
+  zoom: false
   // colors: COLORS,
   // padding: [0, 0, 0, 0],
 };
 
 export default {
   beforeInit(props) {
-    const {config, plotCfg} = props;
+    const { config, plotCfg } = props;
     plotCfg.margin = config.padding || defaultConfig.padding;
     return props;
   },
@@ -89,7 +90,7 @@ export default {
     const config = merge({}, defaultConfig, userConfig);
     let defs = {
       name: {
-        type: "time"
+        type: 'time'
       },
       value: {
         type: 'linear',
@@ -101,11 +102,17 @@ export default {
       }
     };
     if (config.xAxis.type === 'datetime') {
-      defs = merge({}, defs, !config.xAxis.labelFormatter ? {
-        name: {
-          mask: config.xAxis.dateFormatter
-        }
-      } : {});
+      defs = merge(
+        {},
+        defs,
+        !config.xAxis.labelFormatter
+          ? {
+            name: {
+              mask: config.xAxis.dateFormatter
+            }
+          }
+          : {}
+      );
     }
 
     chart.source(data, defs);
@@ -113,22 +120,22 @@ export default {
     let valueAxis = {
       title: null, // 不展示 xDim 对应坐标轴的标题
       line: {
-        lineWidth: 0, // 设置线的宽度
+        lineWidth: 0 // 设置线的宽度
       },
       tickLine: {
         lineWidth: 0
       },
-      formatter:config.yAxis.labelFormatter,
+      formatter: config.yAxis.labelFormatter,
       grid: {
         line: {
-          stroke: '#DCDEE3',
+          stroke: colors.colorLine12,
           lineWidth: 1,
           lineDash: [4, 0]
         }
       },
-      labels:{
+      labels: {
         label: {
-          fill: '#989898',
+          fill: '#989898'
         }
       }
     };
@@ -137,13 +144,13 @@ export default {
       tickLine: {
         lineWidth: 0
       },
-      line:{
-        stroke: '#DCDEE3',
+      line: {
+        stroke: colors.colorLine12
       },
-      formatter:config.xAxis.labelFormatter,
-      labels:{
+      formatter: config.xAxis.labelFormatter,
+      labels: {
         label: {
-          fill: '#989898',
+          fill: '#989898'
         }
       }
     };
@@ -153,17 +160,17 @@ export default {
       valueAxis = merge({}, valueAxis, {
         line: {
           lineWidth: 1, // 设置线的宽度
-          stroke: '#DCDEE3',
+          stroke: colors.colorLine12
         }
-      })
+      });
       nameAxis = merge({}, nameAxis, {
         grid: {
           line: {
-            stroke: '#DCDEE3',
+            stroke: colors.colorLine12,
             lineWidth: 1,
             lineDash: [4, 0]
           }
-        },
+        }
       });
     }
     chart.axis('value', valueAxis);
@@ -173,7 +180,7 @@ export default {
     chart.legend(false);
 
     // tooltip
-    let tooltipCfg = {
+    const tooltipCfg = {
       custom: true,
       offset: 8,
       crosshairs: {
@@ -181,15 +188,15 @@ export default {
       },
       crossLine: {
         stroke: '#dddddd',
-        lineWidth: 1,
+        lineWidth: 1
       },
       padding: [12, 12, 12, 12],
       html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
-      itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
+      itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>'
     };
     chart.tooltip(true, tooltipCfg);
     if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-      chart.on('tooltipchange', function (ev) {
+      chart.on('tooltipchange', (ev) => {
         ev.items.forEach((item) => {
           item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
           item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
@@ -200,78 +207,100 @@ export default {
 
     // 区域、堆叠、平滑曲线
     if (config.area && config.stack) {
-      chart.areaStack().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart
+        .areaStack()
+        .position('name*value')
+        .color('type')
+        .shape(config.spline ? 'smooth' : 'area');
     } else if (config.area && !config.stack) {
-      chart.area().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart
+        .area()
+        .position('name*value')
+        .color('type')
+        .shape(config.spline ? 'smooth' : 'area');
     } else {
-      chart.line().position('name*value').color('type').shape(config.spline ? 'smooth' : 'line');
+      chart
+        .line()
+        .position('name*value')
+        .color('type')
+        .shape(config.spline ? 'smooth' : 'line');
     }
     // 曲线默认点
     if (config.symbol && config.area && config.stack) {
-      chart.point('stack').position('name*value').color('type').shape('circle').size(3);
+      chart
+        .point('stack')
+        .position('name*value')
+        .color('type')
+        .shape('circle')
+        .size(3);
     } else if (config.symbol && !(config.area && config.stack)) {
-      chart.point().position('name*value').color('type').shape('circle').size(3);
+      chart
+        .point()
+        .position('name*value')
+        .color('type')
+        .shape('circle')
+        .size(3);
     }
     chart.render();
 
     // 自定义图例html
     if (config.legend) {
-      let id = chart._attrs.id;
-      let chartNode = document.getElementById(id);
+      const id = chart._attrs.id;
+      const chartNode = document.getElementById(id);
       chartNode.style.position = 'relative';
-      let geom = chart.getGeoms()[0]; // 获取所有的图形
-      let items = geom.getData(); // 获取图形对应的数据
-      let stash = {};
+      const geom = chart.getGeoms()[0]; // 获取所有的图形
+      const items = geom.getData(); // 获取图形对应的数据
+      const stash = {};
 
-      let ulNode = document.createElement('ul');
+      const ulNode = document.createElement('ul');
       ulNode.classList.add('ac-line-legend');
       // ulNode.style.top = config.padding[0] + 'px';
-      if(config.legend.align === 'right'){
-        ulNode.style.right = config.padding[1] + 'px';
-      }else{
-        ulNode.style.left = 5 + 'px';
+      if (config.legend.align === 'right') {
+        ulNode.style.right = `${config.padding[1]}px`;
+      } else {
+        ulNode.style.left = `${5}px`;
       }
       ulNode.innerHTML = '';
       for (let i = 0, l = items.length; i < l; i++) {
-        let item = items[i];
-        let itemData = item._origin;
-        let color = item.color;
-        let type = itemData[0].type;
-        let name = itemData.name;
-        let value = itemData.value;
+        const item = items[i];
+        const itemData = item._origin;
+        const color = item.color;
+        const type = itemData[0].type;
+        const name = itemData.name;
+        const value = itemData.value;
 
-        let typeFormatter = config.legend.labelFormatter ? config.legend.labelFormatter(type) : type ;
+        const typeFormatter = config.legend.labelFormatter ? config.legend.labelFormatter(type) : type;
 
-        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
+        const liHtml = `<li class="item" data-id="${type}"><i class="dot" style="background:${color};"></i><span>${typeFormatter}</span></li>`;
         ulNode.innerHTML += liHtml;
         chartNode.appendChild(ulNode);
 
         stash[type] = {
-          item: item,
-          color: color,
+          item,
+          color,
           name: type,
           isChecked: true,
           index: i
         };
       }
-      let dotDom = chartNode.getElementsByClassName('dot');
+      const dotDom = chartNode.getElementsByClassName('dot');
       Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
         item.addEventListener('click', (e) => {
-          let node = getLegendNode(e.target);
-          let type = node.getAttribute('data-id');
+          const node = getLegendNode(e.target);
+          const type = node.getAttribute('data-id');
           filter(type);
         });
       });
       function filter(name) {
-        let obj = stash[name];
-        let filterNames = [];
-        obj.isChecked = obj.isChecked ? false : true;
-        Util.each(stash, function (v) {
+        const obj = stash[name];
+        const filterNames = [];
+        obj.isChecked = !obj.isChecked;
+        Util.each(stash, (v) => {
           if (v.isChecked) {
             dotDom[v.index].style.background = v.color;
             filterNames.push(v.name);
           } else {
-            dotDom[v.index].style.background = '#999';
+            dotDom[v.index].style.background = colors.colorN22;
           }
         });
 
@@ -282,9 +311,7 @@ export default {
   }
 };
 
-function getLegendNode(target){
-  if(target.tagName === 'LI') return target;
-  else return target.parentNode;
+function getLegendNode(target) {
+  if (target.tagName === 'LI') return target;
+  return target.parentNode;
 }
-
-
