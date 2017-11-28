@@ -2,4 +2,3 @@ export colors from '!!sass-variable-loader!@alife/aisc-core/scss/variables/_colo
 import fonts from '!!sass-variable-loader!@alife/aisc-core/scss/variables/_font.scss';
 
 fonts['fontFamilyNumber'] = "DINMediumNumber, " + fonts.fontFamilyBase;
-console.log(fonts);
