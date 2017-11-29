@@ -7,7 +7,7 @@ title:
 
 ## zh-CN
 
-基础用法，演示了容器大小。
+基础用法，演示了迷你容器配合其他组件使用。
 
 ## en-US
 
@@ -24,44 +24,41 @@ import {
 const { Row, Col } = Grid;
 
 ReactDOM.render(
-    <div>
-      <Row>
-        <Col span="6">
-          <Wminicontainer height={192}>
-            <Wcircle 
-            title="本周未达标指标"
-            percent={0.45}>7</Wcircle>
-          </Wminicontainer>
-        </Col>
-        <Col span="6">
-          <Wminicontainer height={192}>
-            <Wcircle 
-            title="本周未达标指标"
-            status="orange"
-            percent={0.45}>7</Wcircle>
-          </Wminicontainer>
-        </Col>
-        <Col span="6">
-          <Wminicontainer height={192} status="orange">
-            <Wcircle 
-            title="本周未达标指标"
-            status="orange"
-            percent={0.45}>7</Wcircle>
-          </Wminicontainer>
-        </Col>
-        <Col span="6">
-          <Wminicontainer height={192} status="red">
-            <Wcircle type="gauge" 
-            title="本周未达标指标"
-            status="red"
-            bottomTitle="较上周" 
-            bottomNumber={134} 
-            percent={0.45}
-            bottomTrend="raise">45</Wcircle>
-          </Wminicontainer>
-        </Col>
-      </Row>
-      <p></p>
-    </div>,
+  <Row>
+    <Col span="6">
+      <Wminicontainer height={192} status="">
+        <Wcircle
+          title="本周未达标指标"
+          percent={0.45}>7</Wcircle>
+      </Wminicontainer>
+    </Col>
+    <Col span="6">
+      <Wminicontainer height={192}>
+        <Wcircle
+          title="本周未达标指标"
+          status="orange"
+          percent={0.45}>7</Wcircle>
+      </Wminicontainer>
+    </Col>
+    <Col span="6">
+      <Wminicontainer height={192} status="orange">
+        <Wcircle
+          title="本周未达标指标"
+          status="orange"
+          percent={0.45}>7</Wcircle>
+      </Wminicontainer>
+    </Col>
+    <Col span="6">
+      <Wminicontainer height={192} status="red">
+        <Wcircle type="gauge"
+          title="本周未达标指标"
+          status="red"
+          bottomTitle="较上周"
+          bottomNumber={134}
+          percent={0.45}
+          bottomTrend="raise">45</Wcircle>
+      </Wminicontainer>
+    </Col>
+  </Row>,
 mountNode);
 ````

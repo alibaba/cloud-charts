@@ -2,12 +2,12 @@
 order: 1
 title:
   zh-CN: 迷你widget配合迷你曲线
-  en-US: Basic
+  en-US: NumberAndMiniLine
 ---
 
 ## zh-CN
 
-基础用法，演示了容器大小。
+基础用法，迷你容器配合迷你曲线使用。
 
 ## en-US
 
@@ -81,9 +81,9 @@ ReactDOM.render(
     <div>
       <Row>
         <Col span="8">
-          <Wminicontainer height={177}>
+          <Wminicontainer height={192}>
             <div style={demoStyle}>
-              <Wnumber unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
+              <Wnumber bottomTitle="底部" unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
             </div>
             
             <Wline ref="chart1" config={options1} data={data} height="128"/>

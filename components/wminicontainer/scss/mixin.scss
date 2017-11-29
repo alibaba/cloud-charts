@@ -16,5 +16,7 @@
 @mixin wminicontainer-box-border-top ($wminicontainer-box-border-top){
   border-top-color: $wminicontainer-box-border-top;
   border-top-width: 2px;
+
+  padding-top: 19px;
 }
 
