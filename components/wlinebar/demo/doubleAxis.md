@@ -1,5 +1,5 @@
 ﻿---
-order: 5
+order: 3
 title:
   zh-CN: 双轴设置
   en-US: DoubleAxis

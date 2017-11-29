@@ -45,6 +45,9 @@ cols: 1
       nameFormatter: null, // tooltip name格式化函数。参数：name, data, index, record
       valueFormatter: null, // tooltip value格式化函数。参数：value, data, index, record
     },
+    labels: { //默认为false，表示不显示
+      labelFormatter: null, // 图例文字格式化函数。参数：value
+    },
     clickable: false, //图上的点是否可点击，默认为false，表示不可点击。仅初次设置有效
     spline: false, //设置图上的线是否为平滑曲线，默认为false。表示为折线。仅初次设置有效
     area: false, //设置图上的线是否为面积曲线，默认为false。仅初次设置有效

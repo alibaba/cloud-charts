@@ -28,11 +28,6 @@ let data = [
 let options1 = {
   legend:{
     align: 'right'
-  },
-  labels: {
-    labelFormatter(value) {
-      return value + '%';
-    }
   }
 };
 

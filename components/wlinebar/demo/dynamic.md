@@ -1,5 +1,5 @@
 ﻿---
-order: 6
+order: 4
 title:
   zh-CN: 动态数据
   en-US: Dynamic
@@ -7,7 +7,7 @@ title:
 
 ## zh-CN
 
-最简单的用法。
+动态加载数据。
 
 ## en-US
 
