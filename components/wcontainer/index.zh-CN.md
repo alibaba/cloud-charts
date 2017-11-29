@@ -8,11 +8,12 @@ cols: 1
 
 ## API
 
-| 属性    | 说明     | 类型              | 默认值   |
-| ------- | -------- | ----------------- | -------- |
-| title   | 标题     | String            | ''       |
-| arrange | 排列方式 | 'cross', 'normal' | 'normal' |
-| height  | 高度     | String or Number  | '100%'   |
+| 属性        | 说明     | 类型                | 默认值      |
+| --------- | ------ | ----------------- | -------- |
+| className | 自定义样式名 | String            | ''       |
+| title     | 标题     | String            | ''       |
+| arrange   | 排列方式   | 'cross', 'normal' | 'normal' |
+| height    | 高度     | String or Number  | '100%'   |
 
 ### Wcontainer.divider
 
