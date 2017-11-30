@@ -21,10 +21,21 @@ let data = [
     "data": [
       ['Firefox', 45.0],
       ['IE', 26.8],
+      ['Chrome_Firefox_Safari_Opera', 12.8],
+      ['Safari_Chrome_Firefox', 8.5],
+      ['Opera_Chrome_Firefox_Safari', 6.2],
+      ['Others', 0.7],
+      ['Firefox', 45.0],
+      ['IE', 26.8],
       ['Chrome', 12.8],
       ['Safari', 8.5],
       ['Opera', 6.2],
-      ['Others', 0.7]
+      ['Others', 0.7],
+      ['Chrome_Firefox_Safari_Opera', 12.8],
+      ['Safari_Chrome_Firefox', 8.5],
+      ['Opera_Chrome_Firefox_Safari', 6.2],
+      ['Others', 0.7],
+      ['Firefox', 45.0],
     ]
   }
 ];

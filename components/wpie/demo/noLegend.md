@@ -1,13 +1,13 @@
 ﻿---
-order: 2
+order: 1
 title:
-  zh-CN: 标签格式化
-  en-US: Label
+  zh-CN: 基本
+  en-US: Basic
 ---
 
 ## zh-CN
 
-通过设置 labelFormatter 对标签格式化。
+最简单的用法。
 
 ## en-US
 
@@ -30,13 +30,7 @@ let data = [
 ];
 
 let options = {
-  cycle: true,
-  legend: {
-      valueFormatter: function(value){
-        return value + '%';
-      }
-  }
-
+  legend: false
 };
 
 class Demo extends React.Component{

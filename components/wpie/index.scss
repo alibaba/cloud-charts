@@ -59,22 +59,33 @@
     display: inline-block;
   }
 }
+
+.p2c-pie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .p2c-box {
+    position: static;
+    flex: none;
+  }
+
+  .p2c-legend {
+    //flex: auto;
+    margin-left: 5%;
+    overflow: auto;
+  }
+}
+
 .p2c-pie .p2c-legend,
 .ac-pie-legend {
-  position: absolute;
-  left: $s0;
-  // bottom: 0;
-  // width: 100%;
-  // right: 0;
-  top: $s0;
-  overflow: auto;
-
   ul {
-    display: flex;
+    //display: flex;
     //text-align: center;
     //align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    //justify-content: center;
+    //flex-flow: column wrap;
+    //flex-direction: column;
     line-height: initial;
   }
 
@@ -89,7 +100,7 @@
   }
   li > i {
     display: inline-block;
-    vertical-align: baseline;
+    vertical-align: 1px;
     width: 6px;
     height: 6px;
     margin-right: $s1;
@@ -102,6 +113,11 @@
 }
 
 .ac-pie-legend {
+  position: absolute;
+  left: $s0;
+  top: $s0;
+  overflow: auto;
+
   display: flex;
   //text-align: center;
   //align-items: center;

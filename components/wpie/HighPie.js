@@ -35,8 +35,8 @@ class Pie extends Base {
     let dom = '';
     if (this.options.legend) {
       dom = `
-        <div class="p2c-legend"><ul></ul></div>
         <div class="p2c-box"></div>
+        <div class="p2c-legend"><ul></ul></div>
       `;
     } else {
       dom = '<div class="p2c-box"></div>';
@@ -68,24 +68,25 @@ class Pie extends Base {
     this.element.style.bottom = `${this.options.padding[2]}px`;
     this.element.style.left = `${this.options.padding[3]}px`;
 
-    if (!this.options.legend) {
-      // 单图不计算位置
-      boxNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
-      boxNode.style.bottom = `${this.options.padding[2]}px`;
-      boxNode.style.left = `${this.options.padding[3]}px`;
-      boxNode.style.right = `${this.options.padding[1]}px`;
-    } else {
-      boxNode.style.width = `${diameter}px`;
-      boxNode.style.height = `${diameter}px`;
-      boxNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
-      boxNode.style.left = `${this.options.padding[3] + boxWidth * 0.05}px`;
+    boxNode.style.width = `${diameter}px`;
+    boxNode.style.height = `${diameter}px`;
+    if (this.options.legend) {
+      if (legendNode.querySelector('ul')) legendNode.querySelector('ul').style.maxHeight = `${0.8 * diameter / 0.6}px`;
     }
 
-    if (legendNode) {
-      legendNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
-      legendNode.style.left = `${this.options.padding[3] + diameter + boxWidth * 0.05 * 2}px`;
-      if (legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = `${diameter}px`;
-    }
+    //   // 单图不计算位置
+    //   boxNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
+    //   boxNode.style.bottom = `${this.options.padding[2]}px`;
+    //   boxNode.style.left = `${this.options.padding[3]}px`;
+    //   boxNode.style.right = `${this.options.padding[1]}px`;
+    // } else {
+    //   boxNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
+    //   boxNode.style.left = `${this.options.padding[3] + boxWidth * 0.05}px`;
+    //
+    //   legendNode.style.top = `${this.options.padding[0] + diameter * 0.3}px`;
+    //   legendNode.style.left = `${this.options.padding[3] + diameter + boxWidth * 0.05 * 2}px`;
+    //   if (legendNode.querySelector('ul')) legendNode.querySelector('ul').style.height = `${diameter}px`;
+    // }
 
     // 标题
     // if(titleNode){

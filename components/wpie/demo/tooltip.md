@@ -1,5 +1,5 @@
 ﻿---
-order: 3
+order: 4
 title:
   zh-CN: 自定义提示
   en-US: Tooltip
