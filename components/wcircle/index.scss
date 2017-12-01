@@ -35,11 +35,6 @@
         margin-top: -25px;
         text-align: center;
 
-        #{$wcircle-prefix}-number {
-          //margin-left: $s1;
-          //font-size: 12px;
-        }
-
         #{$wcircle-prefix}-unit {
           margin-left: $s1;
           font-size: 12px;
@@ -48,7 +43,7 @@
           font-size: 12px;
           margin: 0;
           line-height: 1;
-          color: #333333;
+          color: $color-text1-4;
         }
       }
 
@@ -68,10 +63,10 @@
 
   #{$wcircle-prefix}-number, #{$wcircle-prefix}-bottom-number {
     &.drop {
-      color: #e1575d;
+      color: $color-error-3;
     }
     &.raise {
-      color: #2889ec;
+      color: $color-f6-1;
     }
   }
 
@@ -84,10 +79,10 @@
     //height:6px;
     //width: 6px;
     >.drop {
-      color: #e1575d;
+      color: $color-error-3;
     }
     >.raise {
-      color: #2889ec;
+      color: $color-f6-1;
     }
   }
 
@@ -111,7 +106,7 @@
       font-size: 12px;
       margin: 0;
       line-height: 1;
-      color: #333333;
+      color: $color-text1-4;
       margin-top: 2px;
     }
 

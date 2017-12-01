@@ -3,7 +3,7 @@
   font-weight: 'medium';
   font-size: 32px;
   line-height: 1;
-  color: #333;
+  color: $color-text1-4;
 }
 
 @mixin subTitle-font {
@@ -11,5 +11,5 @@
   font-weight: 'medium';
   font-size: 20px;
   line-height: 1;
-  color: #333;
+  color: $color-text1-4;
 }

@@ -8,21 +8,21 @@
   #{$wnumber-prefix}-main {
     position: relative;
     &.drop {
-      color: #e1575d;
+      color: $color-error-3;
       padding-left: $s2;
     }
     &.raise {
-      color: #2889ec;
+      color: $color-f6-1;
       padding-left: $s2;
     }
 
     #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
       >.drop {
-        color: #e1575d;
+        color: $color-error-3;
       }
       >.raise {
-        color: #2889ec;
+        color: $color-f6-1;
       }
     }
     #{$wnumber-prefix}-unit {
@@ -44,10 +44,10 @@
       font-size: 16px;
 
       &.drop {
-        color: #e1575d;
+        color: $color-error-3;
       }
       &.raise {
-        color: #2889ec;
+        color: $color-f6-1;
       }
     }
 
