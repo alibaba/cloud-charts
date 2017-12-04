@@ -29,11 +29,19 @@
       }
 
       #{$wcircle-prefix}-number-block{
-        width: 100%;
         position: absolute;
-        top: 50%;
-        margin-top: -25px;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        //top: 50%;
+        //margin-top: -25px;
         text-align: center;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        #{$wcircle-prefix}-number-middle {}
 
         #{$wcircle-prefix}-unit {
           margin-left: $s1;

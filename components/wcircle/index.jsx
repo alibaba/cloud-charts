@@ -106,8 +106,8 @@ export default class Wcircle extends React.Component {
     };
 
     const svgStyle = {
-      height: (radius + strokeWidth / 2) * 2,
-      width: (radius + strokeWidth / 2) * 2
+      height: radius * 2,
+      width: radius * 2
     };
 
     return(
@@ -131,16 +131,18 @@ export default class Wcircle extends React.Component {
             </svg>
           </div>
           <div className={`${prefix}-number-block`}>
-            {
-              this.props.trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
-            }
-            <span className={numberClasses}>
-              {this.props.children}
+            <div className={`${prefix}-number-middle`}>
               {
-                this.props.unit && <span className={`${prefix}-unit`}>{this.props.unit}</span>
+                this.props.trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
               }
-            </span>
-            <p className={`${prefix}-title`}>{this.props.title}</p>
+              <span className={numberClasses}>
+                {this.props.children}
+                {
+                  this.props.unit && <span className={`${prefix}-unit`}>{this.props.unit}</span>
+                }
+              </span>
+              <p className={`${prefix}-title`}>{this.props.title}</p>
+            </div>
           </div>
           {this.props.type === 'gauge' && this.renderBottom()}
         </div>
