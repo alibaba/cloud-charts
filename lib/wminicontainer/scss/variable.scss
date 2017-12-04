@@ -1,8 +1,8 @@
 @import "~@alife/aisc-core/scss/aisc.scss";
 $wminicontainer-prefix: '.aisc-wminicontainer';
 
-$wminicontainer-bg-color: #FFFFFF;
+$wminicontainer-bg-color: $color-white;
 
-$blue: $color-link-1;
-$orange: $color-warning-1;
-$red: $color-error-1;
+$blue: $color-f6-1;
+$orange: $color-warning-2;
+$red: $color-error-3;

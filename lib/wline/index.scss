@@ -1,102 +1,109 @@
-
 /* highchart hack */
-.p2c-line .highcharts-tooltip>span, .ac-tooltip{
-  background: rgba(255,255,255,0.9);
+@import '~@alife/aisc-core/scss/aisc.scss';
+
+.p2c-line .highcharts-tooltip > span,
+.ac-tooltip {
+  background: rgba(255, 255, 255, 0.9);
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px;
-  border-radius: 4px;
+  padding: $s3;
+  border-radius: $s1;
 }
-.p2c-line .highcharts-tooltip h5, .ac-tooltip .ac-title{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  font-weight: normal;
-  color: #999;
-  line-height: normal;
-  margin-top: 0;
+.p2c-line .highcharts-tooltip h5,
+.ac-tooltip .ac-title {
+  font-family: $font-family-base;
+  font-size: $s3;
+  font-weight: $font-weight-regular;
+  color: $color-text1-2;
+  line-height: $font-weight-regular;
+  margin-top: $s0;
 }
-.p2c-line .highcharts-tooltip ul,.ac-tooltip .ac-list {
+.p2c-line .highcharts-tooltip ul,
+.ac-tooltip .ac-list {
   list-style: none;
 }
-.p2c-line .highcharts-tooltip li, .ac-tooltip .ac-list li{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  color: #333;
-  span{
-    margin-left: 8px;
+.p2c-line .highcharts-tooltip li,
+.ac-tooltip .ac-list li {
+  font-family: $font-family-base;
+  font-size: $s3;
+  color: $color-text1-4;
+  word-break: break-all;
+
+  span {
+    margin-left: $s2;
   }
-  margin-top: 4px;
+  margin-top: $s1;
 }
-.p2c-line .highcharts-tooltip li i, .ac-tooltip .ac-list li i{
+.p2c-line .highcharts-tooltip li i,
+.ac-tooltip .ac-list li i {
   width: 6px;
   height: 6px;
   display: inline-block;
-  margin-right: 4px;
+  margin-right: $s1;
   vertical-align: middle;
   border-radius: 50%;
 }
 
-.p2c-line .p2c-title{
-  font-size: 16px;
-  font-family: "PingFang SC", "Microsoft Yahei";
+.p2c-line .p2c-title {
+  font-size: $s4;
+  font-family: $font-family-base;
   // margin-bottom: 8px;
   height: 26px;
 
-  h4{
+  h4 {
     font-weight: normal;
-    font-size: 16px;
-    color: #333;
+    font-size: $s4;
+    color: $color-text1-4;
     display: inline-block;
-    margin-right: 8px;
+    margin-right: $s2;
   }
 
-  h5{
+  h5 {
     font-weight: normal;
-    font-size: 12px;
+    font-size: $s3;
     color: #989898;
     display: inline-block;
   }
-
 }
 
-.p2c-line .p2c-legend, .ac-line-legend{
+.p2c-line .p2c-legend,
+.ac-line-legend {
   position: absolute;
   // left: 0;
   // bottom: 0;
   // width: 100%;
-  right: 0;
-  top: 0;
-  ul{
+  right: $s0;
+  top: $s0;
+  ul {
     display: block;
     line-height: initial;
     //margin-bottom: 8px;
     //text-align: center;
   }
 
-  li{
+  li {
     list-style: none;
     display: inline-block;
-    margin-right: 12px;
-    font-size: 12px;
-    font-family: "PingFang SC", "Microsoft Yahei";
+    margin-right: $s3;
+    font-size: $s3;
+    font-family: $font-family-base;
     cursor: pointer;
-    color: #333;
-    &:last-child{
-      margin-right: 0px;
+    color: $color-text1-4;
+    &:last-child {
+      margin-right: $s0;
     }
   }
-  li>i{
+  li > i {
     display: inline-block;
-    vertical-align: baseline;
+    vertical-align: 1px;
     width: 6px;
     height: 6px;
-    margin-right: 4px;
+    margin-right: $size-base;
     border-radius: 50%;
   }
-  li.p2c-legend-hidden i{
-    background-color:  #DDDDDD!important;
+  li.p2c-legend-hidden i {
+    background-color: #dddddd !important;
   }
-  li.p2c-legend-hidden span{
-    color: #DDDDDD!important;
+  li.p2c-legend-hidden span {
+    color: #dddddd !important;
   }
 }
-
