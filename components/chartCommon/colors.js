@@ -1,9 +1,14 @@
 'use strict';
+import { colors } from '../variables';
 
-const colors = [
-  '#2889EC',
-  '#F6A71F',
-  '#EF5350',
+
+export default [
+  colors.colorB16,
+  colors.colorF12,
+  colors.colorF23,
+  // '#2889EC',
+  // '#F6A71F',
+  // '#EF5350',
   '#4AD051',
   '#8B73CC',
   '#0F1BB3',
@@ -15,5 +20,3 @@ const colors = [
   '#65DBFF',
   '#5ABCD6'
 ];
-
-export default colors;
