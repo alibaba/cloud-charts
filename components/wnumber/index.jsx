@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Wicon from '../wicon';
+import Warrow from '../chartCommon/arrow';
 import './index.scss';
 
 const prefix = 'aisc-wnumber';
@@ -30,9 +30,9 @@ export default class Wnumber extends React.Component {
 
   trendIconFunc(trend){
     if(trend === 'raise'){
-      return <Wicon type="arrow-up-filling" size="small" classname={`${trend}`} />
+      return <Warrow type="up"/>
     }else if( trend === 'drop'){
-      return <Wicon type="arrow-down-filling" size="small" classname={`${trend}`} />
+      return <Warrow type="down"/>
     }
   }
 

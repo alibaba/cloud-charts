@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Wicon from '../wicon';
+import Warrow from '../chartCommon/arrow';
 import './index.scss';
 
 const prefix = 'aisc-wcircle';
@@ -33,10 +33,10 @@ export default class Wcircle extends React.Component {
     let numberClasses = `${prefix}-bottom-number`;
     if (bottomTrend === 'raise') {
       numberClasses += ' raise';
-      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
+      numberTrendIcon = <Warrow type="up"/>
     } else if (bottomTrend === 'drop') {
       numberClasses += ' drop';
-      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+      numberTrendIcon = <Warrow type="down"/>
     }
 
     if (!!bottomTitle || !!bottomUnit ||!!bottomNumber || !!bottomTrend) {
@@ -65,10 +65,10 @@ export default class Wcircle extends React.Component {
 
     if (this.props.trend === 'raise') {
       numberClasses += ' raise';
-      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
+      numberTrendIcon = <Warrow type="up"/>
     } else if (this.props.trend === 'drop') {
       numberClasses += ' drop';
-      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+      numberTrendIcon = <Warrow type="down"/>
     }
 
     const radiusInner = (radius - strokeWidth / 2);
@@ -150,7 +150,7 @@ export default class Wcircle extends React.Component {
     const { className} = this.props;
 
     const mainClasses = classNames({
-      [`${prefix}`]: true,
+      [prefix]: true,
       [className]: !!className
     });
 

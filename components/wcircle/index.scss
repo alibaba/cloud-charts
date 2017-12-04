@@ -84,8 +84,8 @@
 
   #{$wcircle-prefix}-leftIcon{
     position:relative;
-    //height:6px;
-    //width: 6px;
+    margin-right: $s1 / 2;
+
     >.drop {
       color: $red;
     }
