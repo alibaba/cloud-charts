@@ -10,7 +10,7 @@ const prefix = 'aisc-wminicontainer';
 
 export default class Wminicontainer extends React.Component {
   static defaultProps = {
-    status: 'blue'
+    status: ''
   };
 
   render() {

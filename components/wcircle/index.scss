@@ -60,21 +60,21 @@
   }
 
   .blue{
-    color: $color-link-1;
+    color: $blue;
   }
   .orange{
-    color: $color-warning-1;
+    color: $orange;
   }
   .red{
-    color: $color-error-1;
+    color: $red;
   }
 
   #{$wcircle-prefix}-number, #{$wcircle-prefix}-bottom-number {
     &.drop {
-      color: $color-error-3;
+      color: $red;
     }
     &.raise {
-      color: $color-f6-1;
+      color: $blue;
     }
   }
 
@@ -87,10 +87,10 @@
     //height:6px;
     //width: 6px;
     >.drop {
-      color: $color-error-3;
+      color: $red;
     }
     >.raise {
-      color: $color-f6-1;
+      color: $blue;
     }
   }
 
