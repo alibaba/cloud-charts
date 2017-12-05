@@ -17,6 +17,8 @@
 }
 .p2c-pie .highcharts-tooltip ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .p2c-pie .highcharts-tooltip li {
   font-family: $font-family-base;
@@ -80,12 +82,9 @@
 .p2c-pie .p2c-legend,
 .ac-pie-legend {
   ul {
-    //display: flex;
-    //text-align: center;
-    //align-items: center;
-    //justify-content: center;
-    //flex-flow: column wrap;
-    //flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
     line-height: initial;
   }
 
