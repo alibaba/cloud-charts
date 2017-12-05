@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // const ChartsMap = {
 //   'line': Line,
@@ -19,13 +20,13 @@ let requestAnimationFrame = ( window && window.requestAnimationFrame ) || functi
 function highFactory(name, Chart) {
   class AiscChart extends React.Component {
     static propTypes = {
-      // type: React.PropTypes.oneOf(Object.keys(ChartsMap)).isRequired,
-      config: React.PropTypes.object,
-      data: React.PropTypes.oneOfType([
-        React.PropTypes.object,
-        React.PropTypes.array
+      // type: PropTypes.oneOf(Object.keys(ChartsMap)).isRequired,
+      config: PropTypes.object,
+      data: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.array
       ]).isRequired,
-      originalOptions: React.PropTypes.object
+      originalOptions: PropTypes.object
     };
 
     static displayName = 'AiscWidgets' + name;

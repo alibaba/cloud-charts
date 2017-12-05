@@ -1,11 +1,13 @@
-@import "~@alife/aisc-core/scss/aisc.scss";
-@import "./scss/mixin.scss";
-@import "./scss/variable.scss";
+@import '~@alife/aisc-core/scss/aisc.scss';
+@import './scss/mixin.scss';
+@import './scss/variable.scss';
 
 #{$wcontainer-prefix} {
   @include wcontainer-box($wcontainer-bg-color);
   // padding-top:$s5;
   // padding-bottom: $s5;
+  display: flex;
+  flex-direction: column;
 
   #{$wcontainer-prefix}-title {
     margin-left: 20px;
@@ -13,13 +15,18 @@
     padding-top: 20px;
     padding-bottom: 10px;
     font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #E6E7EB;
+    color: $color-text1-4;
+    border-bottom: 1px solid $color-line1-1;
   }
 
   #{$wcontainer-prefix}-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     &#{$wcontainer-prefix}-cross {
-      >#{$wcontainer-prefix}-multi-row-container {
+      > #{$wcontainer-prefix}-multi-row-container {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
 
@@ -27,13 +34,13 @@
           flex: 1;
           padding-top: $s2;
           padding-bottom: $s2;
-          border-bottom: 1px solid #f7f8fa;
+          border-bottom: 1px solid $color-line1-2;
           .next-col {
             margin-right: $s1;
             margin-left: $s1;
             padding-left: $s3;
-            border-left: 1px solid #f7f8fa;
-            &:first-child{
+            border-left: 1px solid $color-line1-2;
+            &:first-child {
               border-left-color: transparent;
               padding-left: 0px;
             }
@@ -42,9 +49,9 @@
       }
     }
 
-    >.next-row {
+    > .next-row {
       padding: 0 $s5;
-      >.next-col {
+      > .next-col {
         padding: 0;
       }
     }
@@ -56,7 +63,6 @@
   #{$wcontainer-prefix}-divider {
     width: 1px;
     height: 30px;
-    background:#dcdee3;
+    background: $color-line1-2;
   }
 }
-

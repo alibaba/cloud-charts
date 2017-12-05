@@ -1,12 +1,12 @@
+@import "../../variables.scss";
 @mixin wnumber-font {
-  font-family: 'Din Alternate';
-  font-weight: 'medium';
-  font-size: 28px;
+  font-family: $font-family-number;
+  font-size: $font-size-large-number;
   line-height: 1;
-  color: #333;
+  color: $color-text1-4;
 }
 
 @mixin subTitle-font {
-  font-family: "Microsoft YaHei";
-  color: #666;
+  font-family: $font-family-number;
+  color: $color-text1-3;
 }

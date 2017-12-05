@@ -2,12 +2,12 @@
 order: 1
 title:
   zh-CN: 右侧标题
-  en-US: Basic
+  en-US: RightTitle
 ---
 
 ## zh-CN
 
-基础用法
+基础用法，添加右侧的标题。
 
 ## en-US
 

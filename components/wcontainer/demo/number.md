@@ -34,8 +34,7 @@ ReactDOM.render(
         </Col>
         <Col span="4">
           <Wcontainer title={false} height={86}>
-            <Wnumber bottomTitle="CPU" >12</Wnumber>
-            <Wicon type="monitor" size="big" />
+            <Wnumber bottomTitle="本周达标情况" rightRatio="20%" rightRatioTrend="raise">57321</Wnumber>
           </Wcontainer>
         </Col>
         <Col span="4">

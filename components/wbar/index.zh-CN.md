@@ -30,7 +30,8 @@ cols: 1
     yAxis: {
       labelFormatter: null, //自定义格式化，默认为null
       max: null, //Y轴可见的最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关。
-      min: null  //Y轴可见的最小值，默认为自动计算，一般为0
+      min: null,  //Y轴可见的最小值，默认为自动计算，一般为0
+      guideLine: []  //Y轴辅助线，默认false，表示不显示；内部为对象，包含值以及颜色
     },
     legend: { //默认显示，设置为false时，表示不显示
       nameFormatter: null, // 图例文字格式化函数。参数：name, data, index
@@ -39,6 +40,9 @@ cols: 1
       titleFormatter: null, // tooltip标题格式化函数。参数：title
       nameFormatter: null, // tooltip name格式化函数。参数：name, data, index, record
       valueFormatter: null, // tooltip value格式化函数。参数：value, data, index, record
+    },
+    labels: { //默认为false，表示不显示
+      labelFormatter: null, // 图例文字格式化函数。参数：value
     },
     clickable: false, //柱是否可点击，默认为false，表示不可点击。仅初次设置有效
     stack: false,//多组数据时是否堆叠，默认为false，表示并列对比，不堆叠

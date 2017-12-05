@@ -8,21 +8,21 @@
   #{$wnumber-prefix}-main {
     position: relative;
     &.drop {
-      color: #e1575d;
+      color: $red;
     }
     &.raise {
-      color: #2889ec;
+      color: $blue;
     }
 
     #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
-      // height:6px;
-      // width: 6px;
+      margin-right: $s1 / 2;
+
       >.drop {
-        color: #e1575d;
+        color: $red;
       }
       >.raise {
-        color: #2889ec;
+        color: $blue;
       }
     }
     #{$wnumber-prefix}-unit {
@@ -44,10 +44,10 @@
       font-size: 16px;
 
       &.drop {
-        color: #e1575d;
+        color: $red;
       }
       &.raise {
-        color: #2889ec;
+        color: $blue;
       }
     }
 
@@ -58,7 +58,6 @@
   #{$wnumber-prefix}-bottomTitle {
     @include subTitle-font;
     font-size: 12px;
-    margin-left: $s1;
     margin-top: $s1;
   }
 }

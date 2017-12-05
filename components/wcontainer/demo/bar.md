@@ -36,15 +36,12 @@ let data = [
 let options1 = {
   title: '',
   subTitle: '',
-  padding: 10
 };
 
 let options2 = {
   column: false,
   single: true,
-  padding: 10
 };
-
 
 ReactDOM.render(
     <div>
@@ -55,7 +52,7 @@ ReactDOM.render(
           </Wcontainer>
         </Col>
         <Col span="12">
-          <Wcontainer title={"环图"} height={298}>
+          <Wcontainer title={"横向柱图"} height={298}>
             <Wbar ref="chart2" config={options2} data={data} height="250"/>
           </Wcontainer>
         </Col>

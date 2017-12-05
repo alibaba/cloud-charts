@@ -1,22 +1,16 @@
-
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wminicontainer-prefix} {
   @include wminicontainer-box($wminicontainer-bg-color);
-
-  // padding-top:$s5;
-  // padding-bottom: $s5;
-
-
 }
 
 #{$wminicontainer-prefix}-blue{
-  @include wminicontainer-box-border-top($color-link-1);
+  @include wminicontainer-box-border-top($blue);
 }
 #{$wminicontainer-prefix}-orange{
-  @include wminicontainer-box-border-top($color-warning-1);
+  @include wminicontainer-box-border-top($orange);
 }
 #{$wminicontainer-prefix}-red{
-  @include wminicontainer-box-border-top($color-error-1);
+  @include wminicontainer-box-border-top($red);
 }

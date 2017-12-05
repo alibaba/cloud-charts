@@ -2,7 +2,7 @@
 order: 2
 title:
   zh-CN: 数值趋势
-  en-US: Basic
+  en-US: NumberTrend
 ---
 
 ## zh-CN

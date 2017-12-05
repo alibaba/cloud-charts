@@ -3,17 +3,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Wicon from '../wicon';
+import Warrow from '../chartCommon/arrow';
 import './index.scss';
 
 const prefix = 'aisc-wcircle';
 
-
 export default class Wcircle extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   static defaultProps = {
     type: 'circle',
     title: '',
@@ -22,7 +17,7 @@ export default class Wcircle extends React.Component {
     status: 'blue',
     radius: 70,
     strokeWidth: 6
-  }
+  };
 
   renderBottom() {
     const bottomTitle = this.props.bottomTitle;
@@ -38,10 +33,10 @@ export default class Wcircle extends React.Component {
     let numberClasses = `${prefix}-bottom-number`;
     if (bottomTrend === 'raise') {
       numberClasses += ' raise';
-      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
+      numberTrendIcon = <Warrow type="up"/>
     } else if (bottomTrend === 'drop') {
       numberClasses += ' drop';
-      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+      numberTrendIcon = <Warrow type="down"/>
     }
 
     if (!!bottomTitle || !!bottomUnit ||!!bottomNumber || !!bottomTrend) {
@@ -70,10 +65,10 @@ export default class Wcircle extends React.Component {
 
     if (this.props.trend === 'raise') {
       numberClasses += ' raise';
-      numberTrendIcon = <Wicon type="arrow-up-filling" size="small" classname="raise" />
+      numberTrendIcon = <Warrow type="up"/>
     } else if (this.props.trend === 'drop') {
       numberClasses += ' drop';
-      numberTrendIcon = <Wicon type="arrow-down-filling" size="small" classname="drop" />
+      numberTrendIcon = <Warrow type="down"/>
     }
 
     const radiusInner = (radius - strokeWidth / 2);
@@ -107,9 +102,9 @@ export default class Wcircle extends React.Component {
     };
 
     const svgStyle = {
-      height: (radius + strokeWidth / 2) * 2,
-      width: (radius + strokeWidth / 2) * 2
-    }
+      height: radius * 2,
+      width: radius * 2
+    };
 
     return(
       <div className={`${prefix}-main ${this.props.status}`}>
@@ -132,16 +127,18 @@ export default class Wcircle extends React.Component {
             </svg>
           </div>
           <div className={`${prefix}-number-block`}>
-            {
-              this.props.trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
-            }
-            <span className={numberClasses}>
-              {this.props.children}
+            <div className={`${prefix}-number-middle`}>
               {
-                this.props.unit && <span className={`${prefix}-unit`}>{this.props.unit}</span>
+                this.props.trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
               }
-            </span>
-            <p className={`${prefix}-title`}>{this.props.title}</p>
+              <span className={numberClasses}>
+                {this.props.children}
+                {
+                  this.props.unit && <span className={`${prefix}-unit`}>{this.props.unit}</span>
+                }
+              </span>
+              <p className={`${prefix}-title`}>{this.props.title}</p>
+            </div>
           </div>
           {this.props.type === 'gauge' && this.renderBottom()}
         </div>
@@ -153,9 +150,9 @@ export default class Wcircle extends React.Component {
     const { className} = this.props;
 
     const mainClasses = classNames({
-      [`${prefix}`]: true,
+      [prefix]: true,
       [className]: !!className
-    })
+    });
 
     return (
       <div className={mainClasses}>
@@ -166,15 +163,15 @@ export default class Wcircle extends React.Component {
 }
 
 Wcircle.propTypes = {
-  type: React.PropTypes.oneOf(['gauge', 'circle']),
-  title: PropTypes.string,
+  type: PropTypes.oneOf(['gauge', 'circle']),
+  title: PropTypes.node,
   percent: function(props, propName, componentName){
     if(!(props[propName] >= 0 && props[propName] <= 1)){
       return new Error('Validation failed!');
     }
   },
-  unit: PropTypes.string,
-  status: React.PropTypes.oneOf(['blue', 'orange', 'red']),
+  unit: PropTypes.node,
+  status: PropTypes.oneOf(['blue', 'orange', 'red']),
   // 半径
   radius: function(props, propName, componentName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){
@@ -188,9 +185,9 @@ Wcircle.propTypes = {
     }
   },
   // 趋势
-  trend: React.PropTypes.oneOf(['raise', 'drop']),
-  bottomTitle: PropTypes.string,
-  bottomUnit: PropTypes.string,
-  bottomNumber: PropTypes.number,
-  bottomTrend: React.PropTypes.oneOf(['raise', 'drop'])
-}
+  trend: PropTypes.oneOf(['raise', 'drop']),
+  bottomTitle: PropTypes.node,
+  bottomUnit: PropTypes.node,
+  bottomNumber: PropTypes.node,
+  bottomTrend: PropTypes.oneOf(['raise', 'drop'])
+};

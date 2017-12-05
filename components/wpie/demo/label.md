@@ -1,5 +1,5 @@
 ﻿---
-order: 1
+order: 2
 title:
   zh-CN: 标签格式化
   en-US: Label

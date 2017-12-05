@@ -6,29 +6,25 @@ import classNames from 'classnames';
 
 import './index.scss';
 
-const prefix = 'aisc-wminicontainer'
+const prefix = 'aisc-wminicontainer';
 
 export default class Wminicontainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   static defaultProps = {
-    status: 'blue'
-  }
+    status: ''
+  };
 
   render() {
-    const { height = 0, className, status } = this.props;
+    const { height = 80, className, status } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
-      [`${prefix}` + `-` + `${status}`]: true,
+      [`${prefix}-${status}`]: !!status,
       [className]: !!className
     });
 
     return (
       <div className={mainClasses} style={{
-        minHeight: height + 'px',
-        height: height + 'px'
+        minHeight: height,
+        height: height
       }}>
         {this.props.children}
       </div>
@@ -37,6 +33,6 @@ export default class Wminicontainer extends React.Component {
 }
 
 Wminicontainer.propTypes = {
-  height: PropTypes.number
-}
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
 
