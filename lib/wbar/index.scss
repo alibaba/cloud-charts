@@ -17,6 +17,8 @@
 }
 .p2c-bar .highcharts-tooltip ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .p2c-bar .highcharts-tooltip li {
   font-family: $font-family-base;
@@ -71,7 +73,9 @@
 
   ul {
     display: block;
-    //text-align: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
     line-height: initial;
   }
 

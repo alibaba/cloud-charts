@@ -6,6 +6,8 @@
     display: inline-block;
     width: 0;
     height: 0;
+    // 覆盖高版本aisc中对 :before 伪元素定义的全局样式
+    vertical-align: baseline;
 
     border: $warrow-height solid transparent;
     border-right-width: $warrow-width / 2;
