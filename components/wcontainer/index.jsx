@@ -31,6 +31,7 @@ export default class Wcontainer extends React.Component {
   }
 
   renderMainNormal() {
+    const oneChild = React.Children.count(this.props.children) === 1;
     return (
       <div className={`${prefix}-main`}>
         <Row align="center">
@@ -43,6 +44,9 @@ export default class Wcontainer extends React.Component {
             }
             if (child.type.displayName === 'Divider') {
               return <Col fixedSpan="1" key={i}>{child}</Col>;
+            }
+            if (oneChild) {
+              return <Col span="24" key={i}>{child}</Col>;
             }
             return <Col key={i}>{child}</Col>;
           })}
