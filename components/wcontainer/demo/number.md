@@ -24,7 +24,7 @@ import {
 const { Row, Col } = Grid;
 
 ReactDOM.render(
-    <div>
+    <div style={{background: '#f2f3f7', padding: '20px 0'}}>
       <Row>
         <Col span="4">
           <Wcontainer title={false} height={86}>

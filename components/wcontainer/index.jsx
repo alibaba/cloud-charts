@@ -91,9 +91,7 @@ export default class Wcontainer extends React.Component {
           minHeight: height,
           height: height
         }}
-        ref={o => {
-          this.container = o;
-        }}
+        ref={o => {this.container = o;}}
       >
         {title && this.renderTitle()}
         {arrange === 'normal' && this.renderMainNormal()}
@@ -113,7 +111,7 @@ function chunks(arr, maxSpan) {
   let oneRow = [];
   React.Children.forEach(arr, (child, i) => {
     if (child.type && child.type.displayName === 'Divider') {
-      rs.push(<Row align="center" key={i}>{oneRow}</Row>);
+      rs.push(<Row type="across" align="center" key={i}>{oneRow}</Row>);
       oneRow = [];
     } else if (child.type === 'combiner' && oneRow.length) {
       let lastChild = oneRow[oneRow.length - 1].props.children;
@@ -121,7 +119,7 @@ function chunks(arr, maxSpan) {
       oneRow[oneRow.length - 1] = <Col span={lastSpan + maxSpan} key={i}>{lastChild}</Col>;
     } else if (i === arr.length - 1) {
       oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
-      rs.push(<Row align="center" key={i}>{oneRow}</Row>);
+      rs.push(<Row type="across" align="center" key={i}>{oneRow}</Row>);
     } else {
       oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
     }
