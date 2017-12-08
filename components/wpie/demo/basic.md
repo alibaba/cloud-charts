@@ -41,13 +41,14 @@ let data = [
 ];
 
 let options = {
+  padding: [20, 20, 20, 20]
 };
 
 class Demo extends React.Component{
   render(){
     return (
       <div className="demos">
-        <div className="demo-item">
+        <div className="demo-item" style={{width: 300, height: 300}}>
             <Wpie config={options} data={data} height="300" />
         </div>
       </div>
