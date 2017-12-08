@@ -8,7 +8,7 @@ export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
 
-export * as g2Map from './g2Map';
+export * from './g2Map';
 // import * as highchartsMap from './highchartsMap';
 //
 // export const WG2Line = g2Map.WG2Line;
