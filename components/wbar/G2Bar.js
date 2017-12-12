@@ -4,7 +4,7 @@ import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from 'g2';
 const Util = G2.Util;
-import './index.scss';
+import './G2Bar.scss';
 import {g2LegendFilter} from '../common';
 
 let defaultConfig = {
@@ -31,7 +31,7 @@ let defaultConfig = {
   // type: 'line',
   stack: false,
   grid: false,
-  column: false,
+  column: true,
   polar: false,
   max: null
 };
@@ -143,7 +143,7 @@ export default {
       // });
     } else {
       // 横向柱状图
-      if (config.column) {
+      if (!config.column) {
         chart.coord('rect').transpose();
       }
       // 堆叠

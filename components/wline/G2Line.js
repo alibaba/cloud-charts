@@ -3,7 +3,7 @@
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from 'g2';
-import './index.scss';
+import './G2Line.scss';
 const Util = G2.Util;
 
 import {g2LegendFilter} from '../common';
@@ -75,7 +75,7 @@ let defaultConfig = {
   stack: false,//仅Area有效
   spline: false,
   grid: false,
-  symbol:true,
+  symbol:false,
   zoom: false,
   // colors: COLORS,
   // padding: [0, 0, 0, 0],
@@ -222,6 +222,7 @@ export default {
       chart.areaStack().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
     } else if (config.area && !config.stack) {
       chart.area().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart.line().position('name*value').color('type').shape(config.spline ? 'smooth' : 'line');
     } else {
       chart.line().position('name*value').color('type').shape(config.spline ? 'smooth' : 'line');
     }

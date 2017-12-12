@@ -3,7 +3,7 @@
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from 'g2';
-import './index.scss';
+import './G2Pie.scss';
 const Util = G2.Util;
 import {g2LegendFilter} from '../common';
 
