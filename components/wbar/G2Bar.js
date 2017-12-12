@@ -190,61 +190,60 @@ export default {
     chart.render();
 
     // 自定义图例html
-    if (config.legend) {
-      let id = chart._attrs.id;
-      let chartNode = document.getElementById(id);
-      chartNode.style.position = 'relative';
-      let geom = chart.getAllGeoms()[0]; // 获取所有的图形
-      let items = geom.get('frames'); // 获取图形对应的数据
-      let stash = {};
-
-      let ulNode = document.createElement('ul');
-      ulNode.classList.add('ac-bar-legend');
-      // ulNode.style.top = config.padding[0] + 'px';
-      if(config.legend.align === 'right'){
-        ulNode.style.right = config.padding[1] + 'px';
-      }else{
-        ulNode.style.left = 5 + 'px';
-      }
-      ulNode.innerHTML = '';
-
-      for (let i = 0, l = items.length; i < l; i++) {
-        let item = items[i];
-        let itemData = item.data[0];
-        if (!itemData) {
-          return;
-        };
-        let color = itemData.color;
-        if(!itemData._origin){
-          return;
-        }
-        let type = itemData._origin.type;
-        let name = itemData._origin.name;
-        let value = itemData._origin.value;
-
-        let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
-
-        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
-        ulNode.innerHTML += liHtml;
-        chartNode.appendChild(ulNode);
-
-        stash[type] = {
-          item: item,
-          color: color,
-          name: type,
-          isChecked: true,
-          index: i
-        };
-      }
-      let dotDom = chartNode.getElementsByClassName('dot');
-      Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
-        item.addEventListener('click', (e) => {
-          let node = getLegendNode(e.target);
-          let type = node.getAttribute('data-id');
-          g2LegendFilter(type, stash, Util, dotDom, chart);
-        });
-      });
-    }
+    // if (config.legend) {
+    //   let chartNode = this.chartDom;
+    //   chartNode.style.position = 'relative';
+    //   let geom = chart.getAllGeoms()[0]; // 获取所有的图形
+    //   let items = geom.get('frames'); // 获取图形对应的数据
+    //   let stash = {};
+    //
+    //   let ulNode = document.createElement('ul');
+    //   ulNode.classList.add('ac-bar-legend');
+    //   // ulNode.style.top = config.padding[0] + 'px';
+    //   if(config.legend.align === 'right'){
+    //     ulNode.style.right = config.padding[1] + 'px';
+    //   }else{
+    //     ulNode.style.left = 5 + 'px';
+    //   }
+    //   ulNode.innerHTML = '';
+    //
+    //   for (let i = 0, l = items.length; i < l; i++) {
+    //     let item = items[i];
+    //     let itemData = item.data[0];
+    //     if (!itemData) {
+    //       return;
+    //     };
+    //     let color = itemData.color;
+    //     if(!itemData._origin){
+    //       return;
+    //     }
+    //     let type = itemData._origin.type;
+    //     let name = itemData._origin.name;
+    //     let value = itemData._origin.value;
+    //
+    //     let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
+    //
+    //     let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
+    //     ulNode.innerHTML += liHtml;
+    //     chartNode.appendChild(ulNode);
+    //
+    //     stash[type] = {
+    //       item: item,
+    //       color: color,
+    //       name: type,
+    //       isChecked: true,
+    //       index: i
+    //     };
+    //   }
+    //   let dotDom = chartNode.getElementsByClassName('dot');
+    //   Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
+    //     item.addEventListener('click', (e) => {
+    //       let node = getLegendNode(e.target);
+    //       let type = node.getAttribute('data-id');
+    //       g2LegendFilter(type, stash, Util, dotDom, chart);
+    //     });
+    //   });
+    // }
   }
 };
 

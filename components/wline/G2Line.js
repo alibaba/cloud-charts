@@ -2,7 +2,7 @@
 
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import './G2Line.scss';
 const Util = G2.Util;
 
@@ -96,10 +96,11 @@ export default {
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
 
-    if (config.zoom) {
-      chart.setMode('select'); // 开启框选模式
-      chart.select('rangeX'); // 选择框选交互形式
-    }
+    // G2 3.0 暂不支持框选模式
+    // if (config.zoom) {
+    //   chart.setMode('select'); // 开启框选模式
+    //   chart.select('rangeX'); // 选择框选交互形式
+    // }
 
     let defs = {
       name: {
@@ -235,54 +236,53 @@ export default {
     chart.render();
 
     // 自定义图例html
-    if (config.legend) {
-      let id = chart._attrs.id;
-      let chartNode = document.getElementById(id);
-      chartNode.style.position = 'relative';
-      let geom = chart.getGeoms()[0]; // 获取所有的图形
-      let items = geom.getData(); // 获取图形对应的数据
-      let stash = {};
-
-      let ulNode = document.createElement('ul');
-      ulNode.classList.add('ac-line-legend');
-      // ulNode.style.top = config.padding[0] + 'px';
-      if(config.legend.align === 'right'){
-        ulNode.style.right = config.padding[1] + 'px';
-      }else{
-        ulNode.style.left = 5 + 'px';
-      }
-      ulNode.innerHTML = '';
-      for (let i = 0, l = items.length; i < l; i++) {
-        let item = items[i];
-        let itemData = item._origin;
-        let color = item.color;
-        let type = itemData[0].type;
-        let name = itemData.name;
-        let value = itemData.value;
-
-        let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
-
-        let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
-        ulNode.innerHTML += liHtml;
-        chartNode.appendChild(ulNode);
-
-        stash[type] = {
-          item: item,
-          color: color,
-          name: type,
-          isChecked: true,
-          index: i
-        };
-      }
-      let dotDom = chartNode.getElementsByClassName('dot');
-      Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
-        item.addEventListener('click', (e) => {
-          let node = getLegendNode(e.target);
-          let type = node.getAttribute('data-id');
-          g2LegendFilter(type, stash, Util, dotDom, chart);
-        });
-      });
-    }
+    // if (config.legend) {
+    //   let chartNode = this.chartDom;
+    //   chartNode.style.position = 'relative';
+    //   let geom = chart.getGeoms()[0]; // 获取所有的图形
+    //   let items = geom.getData(); // 获取图形对应的数据
+    //   let stash = {};
+    //
+    //   let ulNode = document.createElement('ul');
+    //   ulNode.classList.add('ac-line-legend');
+    //   // ulNode.style.top = config.padding[0] + 'px';
+    //   if(config.legend.align === 'right'){
+    //     ulNode.style.right = config.padding[1] + 'px';
+    //   }else{
+    //     ulNode.style.left = 5 + 'px';
+    //   }
+    //   ulNode.innerHTML = '';
+    //   for (let i = 0, l = items.length; i < l; i++) {
+    //     let item = items[i];
+    //     let itemData = item._origin;
+    //     let color = item.color;
+    //     let type = itemData[0].type;
+    //     let name = itemData.name;
+    //     let value = itemData.value;
+    //
+    //     let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
+    //
+    //     let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
+    //     ulNode.innerHTML += liHtml;
+    //     chartNode.appendChild(ulNode);
+    //
+    //     stash[type] = {
+    //       item: item,
+    //       color: color,
+    //       name: type,
+    //       isChecked: true,
+    //       index: i
+    //     };
+    //   }
+    //   let dotDom = chartNode.getElementsByClassName('dot');
+    //   Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
+    //     item.addEventListener('click', (e) => {
+    //       let node = getLegendNode(e.target);
+    //       let type = node.getAttribute('data-id');
+    //       g2LegendFilter(type, stash, Util, dotDom, chart);
+    //     });
+    //   });
+    // }
   }
 };
 

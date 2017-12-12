@@ -2,28 +2,28 @@
 
 import COLORS from '../chartCommon/colors';
 
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-//全局G2主题设置
-const theme = G2.Util.mix(true, {}, G2.Theme, {
-  // animate: false,
-  colors: {
-    'default': COLORS
-  },
-  shape: {
-    line: {
-      lineWidth: 2
-    }
-  }
-  // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
-});
-//设置屏幕dpi缩放（如果有效的话）
-if (window && window.devicePixelRatio) {
-  theme.pixelRatio = window.devicePixelRatio;
-}
-G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
+// //全局G2主题设置
+// const theme = G2.Util.mix(true, {}, G2.Theme, {
+//   // animate: false,
+//   colors: {
+//     'default': COLORS
+//   },
+//   shape: {
+//     line: {
+//       lineWidth: 2
+//     }
+//   }
+//   // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
+// });
+// //设置屏幕dpi缩放（如果有效的话）
+// if (window && window.devicePixelRatio) {
+//   theme.pixelRatio = window.devicePixelRatio;
+// }
+// G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
 
 // 图表唯一id
 let uniqueId = 0;
@@ -46,8 +46,8 @@ function g2Factory(name, Chart, convertData = true) {
   let ChartProcess = Chart;
   class AiscChart extends React.Component {
     static propTypes = {
-      width: PropTypes.number,
-      height: PropTypes.number,
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       config: PropTypes.object,
       data: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.object),
@@ -69,6 +69,7 @@ function g2Factory(name, Chart, convertData = true) {
     constructor(props, context) {
       super(props, context);
       this.chart = null;
+      this.chartDom = null;
       this.chartId = generateUniqueId();
     }
 
@@ -81,12 +82,12 @@ function g2Factory(name, Chart, convertData = true) {
 
       // this.setSize();
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width, height = 400, data: initData, plotCfg, forceFit, config, ...otherProps } = props;
+      const { width, height = 400, data: initData, padding, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
-        id: this.chartId,
+        container: this.chartDom,
         width,
         height,
-        plotCfg,
+        padding,
         forceFit: width === undefined || forceFit,
         ...otherProps
       });
@@ -94,26 +95,26 @@ function g2Factory(name, Chart, convertData = true) {
       ChartProcess.init.call(this, chart, config, data);
       // this.chart.setData(this.props.data);
 
-      //绑定事件
-      const events = [
-        'plotmove',
-        'plotenter',
-        'plotleave',
-        'plotclick',
-        'plotdblclick',
-        'rangeselectstart',
-        'rangeselectend',
-        'itemselected',
-        'itemunselected',
-        'itemselectedchange',
-        'tooltipchange',
-        'tooltipshow',
-        'tooltiphide'
-      ];
-
-      Object.keys(config).forEach(item => {
-        (events.indexOf(item) > -1) && chart.on(item, config[item]);
-      });
+      // //绑定事件
+      // const events = [
+      //   'plotmove',
+      //   'plotenter',
+      //   'plotleave',
+      //   'plotclick',
+      //   'plotdblclick',
+      //   'rangeselectstart',
+      //   'rangeselectend',
+      //   'itemselected',
+      //   'itemunselected',
+      //   'itemselectedchange',
+      //   'tooltipchange',
+      //   'tooltipshow',
+      //   'tooltiphide'
+      // ];
+      //
+      // Object.keys(config).forEach(item => {
+      //   (events.indexOf(item) > -1) && chart.on(item, config[item]);
+      // });
 
       this.chart = chart;
 
@@ -149,11 +150,11 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, plotCfg: newPlotCfg, config: newConfig } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, plotCfg: oldPlotCfg } = this.props;
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding } = this.props;
 
-      if (newPlotCfg !== oldPlotCfg) {
-        console.warn('plotCfg 不支持修改');
+      if (newPadding !== oldPadding) {
+        console.warn('padding 不支持修改');
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
@@ -207,6 +208,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.chart.destroy && this.chart.destroy();
       this.chart = null;
+      this.chartDom = null;
       this.chartId = null;
     }
 
@@ -246,7 +248,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     render() {
       return (
-        <div ref="chart" id={this.chartId} />
+        <div ref={dom => this.chartDom = dom} id={this.chartId} />
       );
     }
   }

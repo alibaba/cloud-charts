@@ -1,4 +1,4 @@
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import g2Factory from './chartCommon/g2Factory';
 
 import G2Line from './wline/G2Line';
