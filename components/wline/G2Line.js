@@ -158,26 +158,28 @@ export default {
     // tooltip
     if (config.tooltip) {
       let tooltipCfg = {
-        custom: true,
-        offset: 8,
-        crosshairs: {
-          type: 'y' // 启用水平方向的辅助线
-        },
-        crossLine: {
-          stroke: '#dddddd',
-          lineWidth: 1,
-        },
-        padding: [12, 12, 12, 12],
-        html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
-        itemTpl: '<li><i style="background-color:{color}"></i>{x}<span>{y}</span></li>',
+        // crossLine: {
+        //   type: 'y' // 启用水平方向的辅助线
+        //   stroke: '#dddddd',
+        //   // lineWidth: 1,
+        // },
+        // html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
+        // itemTpl: '<li><i style="background-color:{color}"></i>{x}<span>{y}</span></li>',
       };
-      chart.tooltip(true, tooltipCfg);
+      chart.tooltip(tooltipCfg);
       if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltipchange', function (ev) {
+        chart.on('tooltip:change', function (ev) {
+          if (config.tooltip.titleFormatter) {
+            ev.items[0].title = config.tooltip.titleFormatter(ev.items[0].title, ev.items);
+          }
+
           ev.items.forEach((item, index) => {
-            item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title, ev.items, index, item.point._origin) : item.title;
-            item.y = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.y, ev.items, index, item.point._origin) : item.y;
-            item.x = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.x, ev.items, index, item.point._origin) : item.x;
+            if (config.tooltip.valueFormatter) {
+              item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+            }
+            if (config.tooltip.nameFormatter) {
+              item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+            }
           });
         });
       }

@@ -6,7 +6,7 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { colors, fonts } from '../variables';
+import { size, colors, fonts } from '../variables';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -26,7 +26,8 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       },
       line: {
         stroke: colors.colorLine12
-      }
+      },
+      tickLine: null
     },
     left: {
       label: {
@@ -45,7 +46,29 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         textStyle: { fill: '#999'} // 右部标签文本的颜色
       }
     }
-  }
+  },
+  tooltip: {
+    offset: 8,
+    crossLine: {
+      stroke: '#dddddd',
+      // lineWidth: 1,
+    },
+    'g2-tooltip': {
+      backgroundColor: colors['widgets-tooltip-background'],
+      boxShadow: colors['widgets-tooltip-shadow'],
+      padding: size.s3,
+      borderRadius: size.s1,
+      fontFamily: fonts.fontFamilyBase,
+      fontSize: size.s3,
+      color: colors.colorText14,
+    },
+    'g2-tooltip-title': {
+      color: colors.colorText12
+    },
+    'g2-tooltip-list': {},
+    'g2-tooltip-list-item': {},
+    'g2-tooltip-marker': {},
+  },
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {
