@@ -6,24 +6,40 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// //全局G2主题设置
-// const theme = G2.Util.mix(true, {}, G2.Theme, {
-//   // animate: false,
-//   colors: {
-//     'default': COLORS
-//   },
-//   shape: {
-//     line: {
-//       lineWidth: 2
-//     }
-//   }
-//   // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
-// });
-// //设置屏幕dpi缩放（如果有效的话）
-// if (window && window.devicePixelRatio) {
-//   theme.pixelRatio = window.devicePixelRatio;
-// }
-// G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
+//全局G2主题设置
+const theme = G2.Util.deepMix({}, G2.Global, {
+  // animate: false,
+  // colors: {
+  //   'default': COLORS
+  // },
+  shape: {
+    line: {
+      lineWidth: 2
+    }
+  },
+  axis: {
+    bottom: {
+      label: {
+        textStyle: { fill: '#999'} // 底部标签文本的颜色
+      }
+    },
+    left: {
+      label: {
+        textStyle: { fill: '#999'} // 左部标签文本的颜色
+      }
+    },
+    right: {
+      label: {
+        textStyle: { fill: '#999'} // 右部标签文本的颜色
+      }
+    }
+  }
+});
+//设置屏幕dpi缩放（如果有效的话）
+if (window && window.devicePixelRatio) {
+  theme.pixelRatio = window.devicePixelRatio;
+}
+G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
 
 // 图表唯一id
 let uniqueId = 0;

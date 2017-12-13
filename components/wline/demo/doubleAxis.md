@@ -28,8 +28,8 @@ let data = [
 
 let options2 = {
   xAxis: {
-    type: 'datetime',
-    dateFormatter: '%m/%d/%y'
+    type: 'time',
+    dateFormatter: 'YYYY-MM-DD'
   },
   yAxis: [
     {

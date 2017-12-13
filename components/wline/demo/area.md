@@ -22,7 +22,7 @@ let data = [
 ];
 
 let options5 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   area: true,
   symbol: true
 };

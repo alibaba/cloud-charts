@@ -16,12 +16,12 @@ title:
 import { Wline } from '@alife/aisc-widgets';
 
 let options1 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   zoom: true
 };
 
 let options2 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   zoom: true
 };
 

@@ -27,8 +27,7 @@ for(var i = 0; i < 30; i++) {
 
 let options1 = {
   xAxis: {
-    type: 'datetime',
-    dateFormatter: '%H:%M:%S'
+    type: 'time',
   }
 };
 

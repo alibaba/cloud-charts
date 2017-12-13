@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options1 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
 };
 
 class Demo extends React.Component{

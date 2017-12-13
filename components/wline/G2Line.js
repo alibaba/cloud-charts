@@ -8,57 +8,28 @@ const Util = G2.Util;
 
 import {g2LegendFilter} from '../common';
 
-// const G2Line = createG2((chart, configs, data) => {
-//   let frame = new G2.Frame(data);
-//   frame = G2.Frame.combineColumns(frame, configs.keys, 'value', 'type', ['time']);
-//   chart.source(frame, {
-//     time: {
-//       type: "time",
-//       // mask: "mm-dd"
-//     },
-//     value: {
-//       type: 'linear'
-//     }
-//   });
-//
-//   chart.line().position('time*value').color('type').shape('line');
-//   chart.render();
-// });
+const propertyMap = {
+  xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
+  yAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
+};
 
-// //全局G2主题设置
-// const theme = G2.Util.mix(true, {}, G2.Theme, {
-//   // animate: false,
-//   colors: {
-//     'default': COLORS
-//   },
-//   shape: {
-//     line: {
-//       lineWidth: 2
-//     }
-//   }
-//   // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
-// });
-// G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
-
-// // 图表唯一id
-// let uniqueId = 0;
-// function generateUniqueId() {
-//   return `react-g2-${uniqueId++}`;
-// }
-
-let defaultConfig = {
+const defaultConfig = {
+  // colors: [],
   padding: [32, 5, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性
-    dateFormatter: 'HH:MM:ss', //上述type为datetime时，此字段生效
-    labelFormatter: null //可以强制覆盖，手动设置label
+    mask: 'HH:MM:ss', //上述type为datetime时，此字段生效
+    labelFormatter: null, //可以强制覆盖，手动设置label
+    categories: null,
+    max: null,
+    min: null,
   },
   yAxis: {
     labelFormatter: null, //可以强制覆盖，手动设置label
     max: null,
     min: null,
     // bgArea: [], // TODO 辅助区域后期需要加上
-    // lineWidth: 0
+    // guideLine: null
   },
   legend: {
     align: 'left',
@@ -69,16 +40,17 @@ let defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
+  // TODO 修改事件绑定规则
   // clickable: false,
-  // type: 'line',
   area: false,
   stack: false,//仅Area有效
   spline: false,
   grid: false,
   symbol:false,
-  zoom: false,
-  // colors: COLORS,
-  // padding: [0, 0, 0, 0],
+  // TODO
+  // zoom: false,
+  // labels: false,
+  // mini: false,
   dataConfig: {
     nameKey: 'name',
     valueKey: 'value',
@@ -90,7 +62,8 @@ let defaultConfig = {
 export default {
   beforeInit(props) {
     const {config, plotCfg} = props;
-    plotCfg.margin = config.padding || defaultConfig.padding;
+    // TODO 处理padding
+    // plotCfg.margin = config.padding || defaultConfig.padding;
     return props;
   },
   init(chart, userConfig, data) {
@@ -103,87 +76,84 @@ export default {
     // }
 
     let defs = {
-      name: {
-        //TODO 这里居然写死了类型。。
-        type: "time"
-      },
-      value: {
+      name: propertyAssign(propertyMap.xAxis, {
         type: 'linear',
-        max: config.yAxis.max, // 自定义最大值
-        min: config.yAxis.min // 自定义最小值
-      },
+      }, config.xAxis),
+      value: propertyAssign(propertyMap.yAxis, {
+        type: 'linear',
+      }, config.yAxis),
       type: {
         type: 'cat'
       }
     };
-    if (config.xAxis.type === 'datetime') {
-      defs = merge({}, defs, config.xAxis.dateFormatter ? {
-        name: {
-          mask: config.xAxis.dateFormatter
-        }
-      } : {});
-    }
+    // if (config.xAxis.type === 'datetime') {
+    //   defs = merge({}, defs, config.xAxis.dateFormatter ? {
+    //     name: {
+    //       mask: config.xAxis.dateFormatter
+    //     }
+    //   } : {});
+    // }
 
     chart.source(data, defs);
 
-    let valueAxis = {
-      title: null, // 不展示 xDim 对应坐标轴的标题
-      line: {
-        lineWidth: 0, // 设置线的宽度
-      },
-      tickLine: {
-        lineWidth: 0
-      },
-      formatter:config.yAxis.labelFormatter,
-      grid: {
-        line: {
-          stroke: '#DCDEE3',
-          lineWidth: 1,
-          lineDash: [4, 0]
-        }
-      },
-      labels:{
-        label: {
-          fill: '#989898',
-        }
-      }
-    };
-    let nameAxis = {
-      title: null, // 不展示 xDim 对应坐标轴的标题
-      tickLine: {
-        lineWidth: 0
-      },
-      line:{
-        stroke: '#DCDEE3',
-      },
-      formatter:config.xAxis.labelFormatter,
-      labels:{
-        label: {
-          fill: '#989898',
-        }
-      }
-    };
-
-    // 网格线
-    if (config.grid) {
-      valueAxis = merge({}, valueAxis, {
-        line: {
-          lineWidth: 1, // 设置线的宽度
-          stroke: '#DCDEE3',
-        }
-      });
-      nameAxis = merge({}, nameAxis, {
-        grid: {
-          line: {
-            stroke: '#DCDEE3',
-            lineWidth: 1,
-            lineDash: [4, 0]
-          }
-        },
-      });
-    }
-    chart.axis('value', valueAxis);
-    chart.axis('name', nameAxis);
+    // let valueAxis = {
+    //   title: null, // 不展示坐标轴的标题
+    //   line: {
+    //     lineWidth: 0, // 设置线的宽度
+    //   },
+    //   tickLine: {
+    //     lineWidth: 0
+    //   },
+    //   formatter:config.yAxis.labelFormatter,
+    //   grid: {
+    //     line: {
+    //       stroke: '#DCDEE3',
+    //       lineWidth: 1,
+    //       lineDash: [4, 0]
+    //     }
+    //   },
+    //   labels:{
+    //     label: {
+    //       fill: '#989898',
+    //     }
+    //   }
+    // };
+    // let nameAxis = {
+    //   title: null, // 不展示 xDim 对应坐标轴的标题
+    //   tickLine: {
+    //     lineWidth: 0
+    //   },
+    //   line:{
+    //     stroke: '#DCDEE3',
+    //   },
+    //   formatter:config.xAxis.labelFormatter,
+    //   labels:{
+    //     label: {
+    //       fill: '#989898',
+    //     }
+    //   }
+    // };
+    //
+    // // 网格线
+    // if (config.grid) {
+    //   valueAxis = merge({}, valueAxis, {
+    //     line: {
+    //       lineWidth: 1, // 设置线的宽度
+    //       stroke: '#DCDEE3',
+    //     }
+    //   });
+    //   nameAxis = merge({}, nameAxis, {
+    //     grid: {
+    //       line: {
+    //         stroke: '#DCDEE3',
+    //         lineWidth: 1,
+    //         lineDash: [4, 0]
+    //       }
+    //     },
+    //   });
+    // }
+    // chart.axis('value', valueAxis);
+    // chart.axis('name', nameAxis);
 
     // 设置图例
     chart.legend(false);
@@ -291,4 +261,12 @@ function getLegendNode(target){
   else return target.parentNode;
 }
 
+function propertyAssign (keys, target, source) {
+  keys.forEach((key) => {
+    if (source[key]) {
+      target[key] = source[key];
+    }
+  });
 
+  return target;
+}
