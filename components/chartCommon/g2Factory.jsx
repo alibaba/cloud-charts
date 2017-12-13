@@ -107,7 +107,7 @@ function g2Factory(name, Chart, convertData = true) {
         forceFit: width === undefined || forceFit,
         ...otherProps
       });
-      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData)) : initData;
+      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
       ChartProcess.init.call(this, chart, config, data);
       // this.chart.setData(this.props.data);
 
@@ -174,7 +174,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
-        const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData)) : newData;
+        const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
         if (ChartProcess.changeData) {
           ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {
@@ -275,47 +275,58 @@ function g2Factory(name, Chart, convertData = true) {
   return AiscChart;
 }
 
-function highchartsDataToG2Data(data) {
+function highchartsDataToG2Data(data, config) {
   const newData = [];
-  data.forEach((oneData) => {
-    const dataName = oneData.name;
-    oneData.data.forEach((d) => {
-      const [name, value] = d;
-      newData.push({
-        name,
-        value,
-        type: dataName
+  if (Array.isArray(config.yAxis)) {
+    data.forEach((oneData) => {
+      const { name: dataName, yAxis: yIndex = 0 } = oneData;
+
+      oneData.data.forEach((d) => {
+        if (Array.isArray(d)) {
+          const [x, y, ...extra] = d;
+          newData.push({
+            x,
+            ['y' + yIndex]: y,
+            extra,
+            type: dataName
+          });
+        } else {
+          const { x, y, ...extra } = d;
+          newData.push({
+            x,
+            ['y' + yIndex]: y,
+            extra,
+            type: dataName
+          });
+        }
       });
     });
-  });
-  return newData;
+  } else {
+    data.forEach((oneData) => {
+      const { name: dataName } = oneData;
 
-  // const newData = (() => {
-  //   const timeMap = {};
-  //   data.forEach((oneData) => {
-  //     const dataName = oneData.name;
-  //     oneData.data.forEach((d) => {
-  //       const [time, value] = d;
-  //       if (timeMap[time]) {
-  //         timeMap[time][dataName] = value;
-  //       } else {
-  //         timeMap[time] = {
-  //           [dataName]: value
-  //         };
-  //       }
-  //     });
-  //   });
-  //
-  //   return Object.keys(timeMap).map((time) => {
-  //     timeMap[time].time = Number(time);
-  //     return timeMap[time];
-  //   });
-  // })();
-  //
-  // let frame = new G2.Frame(newData);
-  // frame = G2.Frame.combineColumns(frame, configs.keys, 'value', 'type', ['time']);
-  //
-  // return frame;
+      oneData.data.forEach((d) => {
+        if (Array.isArray(d)) {
+          const [x, y, ...extra] = d;
+          newData.push({
+            x,
+            y,
+            extra,
+            type: dataName
+          });
+        } else {
+          const { x, y, ...extra } = d;
+          newData.push({
+            x,
+            y,
+            extra,
+            type: dataName
+          });
+        }
+      });
+    });
+  }
+  return newData;
 }
 
 export default g2Factory;
