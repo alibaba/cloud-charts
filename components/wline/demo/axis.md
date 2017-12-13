@@ -28,7 +28,7 @@ let data = [
 let options2 = {
   xAxis: {
     type: 'time',
-    dateFormatter: 'YYYY-MM-DD'
+    mask: 'YYYY-MM-DD'
   },
   yAxis: {
     labelFormatter: function(value){

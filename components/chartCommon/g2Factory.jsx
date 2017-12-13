@@ -6,6 +6,8 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { colors, fonts } from '../variables';
+
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
   // animate: false,
@@ -21,11 +23,21 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     bottom: {
       label: {
         textStyle: { fill: '#999'} // 底部标签文本的颜色
+      },
+      line: {
+        stroke: colors.colorLine12
       }
     },
     left: {
       label: {
         textStyle: { fill: '#999'} // 左部标签文本的颜色
+      },
+      grid: {
+        lineStyle: {
+          stroke: colors.colorFill12,
+          lineWidth: 1,
+          lineDash: null
+        },
       }
     },
     right: {

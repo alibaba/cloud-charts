@@ -7,6 +7,7 @@ import './G2Line.scss';
 const Util = G2.Util;
 
 import {g2LegendFilter} from '../common';
+import {colors} from "../variables";
 
 const propertyMap = {
   xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
@@ -18,7 +19,7 @@ const defaultConfig = {
   padding: [32, 5, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性
-    mask: 'HH:MM:ss', //上述type为datetime时，此字段生效
+    mask: 'YYYY-MM-DD HH:mm:ss', //上述type为datetime时，此字段生效
     labelFormatter: null, //可以强制覆盖，手动设置label
     categories: null,
     max: null,
@@ -51,20 +52,21 @@ const defaultConfig = {
   // zoom: false,
   // labels: false,
   // mini: false,
-  dataConfig: {
-    nameKey: 'name',
-    valueKey: 'value',
-    // valueKey: ['value1', 'value2'],
-    typeKey: 'type'
-  }
+  // dataConfig: {
+  //   nameKey: 'name',
+  //   valueKey: 'value',
+  //   // valueKey: ['value1', 'value2'],
+  //   typeKey: 'type'
+  // }
 };
 
 export default {
   beforeInit(props) {
-    const {config, plotCfg} = props;
+    const {config} = props;
     // TODO 处理padding
-    // plotCfg.margin = config.padding || defaultConfig.padding;
-    return props;
+    return Object.assign({}, props, {
+      padding: props.padding || config.padding || defaultConfig.padding
+    });
   },
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
@@ -76,10 +78,10 @@ export default {
     // }
 
     let defs = {
-      name: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.xAxis, {
         type: 'linear',
       }, config.xAxis),
-      value: propertyAssign(propertyMap.yAxis, {
+      y: propertyAssign(propertyMap.yAxis, {
         type: 'linear',
       }, config.yAxis),
       type: {
@@ -88,7 +90,7 @@ export default {
     };
     // if (config.xAxis.type === 'datetime') {
     //   defs = merge({}, defs, config.xAxis.dateFormatter ? {
-    //     name: {
+    //     x: {
     //       mask: config.xAxis.dateFormatter
     //     }
     //   } : {});
@@ -96,64 +98,59 @@ export default {
 
     chart.source(data, defs);
 
-    // let valueAxis = {
-    //   title: null, // 不展示坐标轴的标题
-    //   line: {
-    //     lineWidth: 0, // 设置线的宽度
-    //   },
-    //   tickLine: {
-    //     lineWidth: 0
-    //   },
-    //   formatter:config.yAxis.labelFormatter,
-    //   grid: {
-    //     line: {
-    //       stroke: '#DCDEE3',
-    //       lineWidth: 1,
-    //       lineDash: [4, 0]
-    //     }
-    //   },
-    //   labels:{
-    //     label: {
-    //       fill: '#989898',
-    //     }
-    //   }
-    // };
-    // let nameAxis = {
-    //   title: null, // 不展示 xDim 对应坐标轴的标题
-    //   tickLine: {
-    //     lineWidth: 0
-    //   },
-    //   line:{
-    //     stroke: '#DCDEE3',
-    //   },
-    //   formatter:config.xAxis.labelFormatter,
-    //   labels:{
-    //     label: {
-    //       fill: '#989898',
-    //     }
-    //   }
-    // };
-    //
-    // // 网格线
-    // if (config.grid) {
-    //   valueAxis = merge({}, valueAxis, {
-    //     line: {
-    //       lineWidth: 1, // 设置线的宽度
-    //       stroke: '#DCDEE3',
-    //     }
-    //   });
-    //   nameAxis = merge({}, nameAxis, {
-    //     grid: {
-    //       line: {
-    //         stroke: '#DCDEE3',
-    //         lineWidth: 1,
-    //         lineDash: [4, 0]
-    //       }
-    //     },
-    //   });
-    // }
-    // chart.axis('value', valueAxis);
-    // chart.axis('name', nameAxis);
+    let yAxis = {
+      // title: null, // 不展示坐标轴的标题
+      // line: {
+      //   lineWidth: 0, // 设置线的宽度
+      // },
+      // tickLine: {
+      //   lineWidth: 0
+      // },
+      // formatter:config.yAxis.labelFormatter,
+      // grid: {
+      //   line: {
+      //     stroke: '#DCDEE3',
+      //     lineWidth: 1,
+      //     lineDash: [4, 0]
+      //   }
+      // },
+      label:{
+        formatter:config.yAxis.labelFormatter,
+      }
+    };
+    let xAxis = {
+      // title: null, // 不展示 xDim 对应坐标轴的标题
+      // tickLine: {
+      //   lineWidth: 0
+      // },
+      // line:{
+      //   stroke: '#DCDEE3',
+      // },
+      label:{
+        formatter:config.xAxis.labelFormatter,
+      }
+    };
+
+    // 网格线
+    if (config.grid) {
+      // yAxis = merge({}, yAxis, {
+      //   line: {
+      //     lineWidth: 1, // 设置线的宽度
+      //     stroke: '#DCDEE3',
+      //   }
+      // });
+      xAxis.grid = {
+        lineStyle: {
+          stroke: colors.colorFill12,
+          // lineWidth: 1,
+          // lineDash: null
+        },
+        // TODO 双轴情况下，需要处理
+        // hideFirstLine: true
+      };
+    }
+    chart.axis('x', xAxis);
+    chart.axis('y', yAxis);
 
     // 设置图例
     chart.legend(false);
@@ -172,15 +169,15 @@ export default {
         },
         padding: [12, 12, 12, 12],
         html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
-        itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
+        itemTpl: '<li><i style="background-color:{color}"></i>{x}<span>{y}</span></li>',
       };
       chart.tooltip(true, tooltipCfg);
       if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltipchange', function (ev) {
           ev.items.forEach((item, index) => {
             item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title, ev.items, index, item.point._origin) : item.title;
-            item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin) : item.value;
-            item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin) : item.name;
+            item.y = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.y, ev.items, index, item.point._origin) : item.y;
+            item.x = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.x, ev.items, index, item.point._origin) : item.x;
           });
         });
       }
@@ -190,18 +187,18 @@ export default {
 
     // 区域、堆叠、平滑曲线
     if (config.area && config.stack) {
-      chart.areaStack().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart.areaStack().position('x*y').color('type').shape(config.spline ? 'smooth' : 'area');
     } else if (config.area && !config.stack) {
-      chart.area().position('name*value').color('type').shape(config.spline ? 'smooth' : 'area');
-      chart.line().position('name*value').color('type').shape(config.spline ? 'smooth' : 'line');
+      chart.area().position('x*y').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart.line().position('x*y').color('type').shape(config.spline ? 'smooth' : 'line');
     } else {
-      chart.line().position('name*value').color('type').shape(config.spline ? 'smooth' : 'line');
+      chart.line().position('x*y').color('type').shape(config.spline ? 'smooth' : 'line');
     }
     // 曲线默认点
     if (config.symbol && config.area && config.stack) {
-      chart.point('stack').position('name*value').color('type').shape('circle').size(3);
+      chart.point('stack').position('x*y').color('type').shape('circle').size(3);
     } else if (config.symbol && !(config.area && config.stack)) {
-      chart.point().position('name*value').color('type').shape('circle').size(3);
+      chart.point().position('x*y').color('type').shape('circle').size(3);
     }
     chart.render();
 
