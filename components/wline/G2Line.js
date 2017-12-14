@@ -7,7 +7,7 @@ import './G2Line.scss';
 const Util = G2.Util;
 
 import {g2LegendFilter} from '../common';
-import {colors} from "../variables";
+import {colors, fonts, size} from "../variables";
 
 const propertyMap = {
   xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
@@ -68,7 +68,7 @@ export default {
       padding: props.padding || config.padding || defaultConfig.padding
     });
   },
-  init(chart, userConfig, data) {
+  init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
 
     // G2 3.0 暂不支持框选模式
@@ -153,16 +153,62 @@ export default {
     chart.axis('y', yAxis);
 
     // 设置图例
-    chart.legend(false);
+    if (config.legend) {
+      chart.legend({
+        useHtml: true,
+        title: null,
+        position: 'top',
+        itemTpl: (value, color, checked, index) => {
+          const item = (rawData && rawData[index]) || {};
+          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+            ...item,
+            color,
+            checked
+          }, index) : value;
+          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+            '<span class="g2-legend-text">' + result + '</span></li>';
+        },
+        'g2-legend': {
+          overflow: 'auto',
+          fontFamily: fonts.fontFamilyBase,
+          fontSize: fonts.fontSizeBaseCaption,
+          lineHeight: fonts.fontSizeBaseCaption,
+          color: colors.colorText14
+        },
+        'g2-legend-list': {},
+        'g2-legend-list-item': {
+          marginBottom: size.s3,
+          marginRight: size.s3
+        },
+        'g2-legend-marker': {
+          width: '6px',
+          height: '6px',
+          marginRight: size.s1,
+        },
+      });
+
+      G2.DomUtil.requestAnimationFrame(() => {
+        const legendDom = this.chartDom.querySelector('.g2-legend');
+        if(config.legend.align === 'right'){
+          legendDom && legendDom.classList.add('legend-align-right');
+        }else{
+          legendDom && legendDom.classList.add('legend-align-left');
+        }
+      });
+    } else {
+      chart.legend(false);
+    }
+
 
     // tooltip
     if (config.tooltip) {
       let tooltipCfg = {
-        // crossLine: {
+        crosshairs: {
         //   type: 'y' // 启用水平方向的辅助线
         //   stroke: '#dddddd',
         //   // lineWidth: 1,
-        // },
+        },
         // html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
         // itemTpl: '<li><i style="background-color:{color}"></i>{x}<span>{y}</span></li>',
       };
@@ -188,18 +234,22 @@ export default {
     }
 
     // 区域、堆叠、平滑曲线
+    const lineShape = config.spline ? 'smooth' : 'line';
+    const areaShape = config.spline ? 'smooth' : 'area';
+
     if (config.area && config.stack) {
-      chart.areaStack().position('x*y').color('type').shape(config.spline ? 'smooth' : 'area');
+      chart.areaStack().position('x*y').color('type').shape(areaShape);
+      chart.lineStack().position('x*y').color('type').shape(lineShape);
     } else if (config.area && !config.stack) {
-      chart.area().position('x*y').color('type').shape(config.spline ? 'smooth' : 'area');
-      chart.line().position('x*y').color('type').shape(config.spline ? 'smooth' : 'line');
+      chart.area().position('x*y').color('type').shape(areaShape);
+      chart.line().position('x*y').color('type').shape(lineShape);
     } else {
-      chart.line().position('x*y').color('type').shape(config.spline ? 'smooth' : 'line');
+      chart.line().position('x*y').color('type').shape(lineShape);
     }
     // 曲线默认点
     if (config.symbol && config.area && config.stack) {
-      chart.point('stack').position('x*y').color('type').shape('circle').size(3);
-    } else if (config.symbol && !(config.area && config.stack)) {
+      chart.point().adjust('stack').position('x*y').color('type').shape('circle').size(3);
+    } else if (config.symbol) {
       chart.point().position('x*y').color('type').shape('circle').size(3);
     }
     chart.render();

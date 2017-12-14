@@ -59,16 +59,42 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       padding: size.s3,
       borderRadius: size.s1,
       fontFamily: fonts.fontFamilyBase,
-      fontSize: size.s3,
+      fontSize: fonts.fontSizeBaseCaption,
+      lineHeight: fonts.fontSizeBaseCaption,
       color: colors.colorText14,
     },
     'g2-tooltip-title': {
+      marginBottom: 0,
       color: colors.colorText12
     },
     'g2-tooltip-list': {},
-    'g2-tooltip-list-item': {},
+    'g2-tooltip-list-item': {
+      marginBottom: 0,
+      marginTop: size.s2
+    },
     'g2-tooltip-marker': {},
   },
+  // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
+  // legend: {
+  //   html: {
+  //     'g2-legend': {
+  //       overflow: 'auto',
+  //       fontFamily: fonts.fontFamilyBase,
+  //       fontSize: fonts.fontSizeBaseCaption,
+  //       lineHeight: fonts.fontSizeBaseCaption,
+  //       color: colors.colorText14
+  //     },
+  //     'g2-legend-list': {},
+  //     'g2-legend-list-item': {
+  //       marginRight: size.s3
+  //     },
+  //     'g2-legend-marker': {
+  //       width: '6px',
+  //       height: '6px',
+  //       marginRight: size.s1,
+  //     },
+  //   }
+  // },
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {
@@ -81,6 +107,8 @@ let uniqueId = 0;
 function generateUniqueId() {
   return `react-g2-${uniqueId++}`;
 }
+
+const rootClassName = 'aisc-widgets ';
 
 const events = ['MouseOver','Selection','Click'];
 
@@ -143,7 +171,7 @@ function g2Factory(name, Chart, convertData = true) {
         ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
-      ChartProcess.init.call(this, chart, config, data);
+      ChartProcess.init.call(this, chart, config, data, initData);
       // this.chart.setData(this.props.data);
 
       // //绑定事件
@@ -299,7 +327,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     render() {
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} />
+        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name} />
       );
     }
   }
