@@ -6,7 +6,7 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { size, colors, fonts } from '../variables';
+import { size, color, fonts } from '../variables';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -17,25 +17,28 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   shape: {
     line: {
       lineWidth: 2
-    }
+    },
+    area: {
+      fillOpacity: 0.1
+    },
   },
   axis: {
     bottom: {
       label: {
-        textStyle: { fill: '#999'} // 底部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
       line: {
-        stroke: colors.colorLine12
+        stroke: color.colorLine12
       },
       tickLine: null
     },
     left: {
       label: {
-        textStyle: { fill: '#999'} // 左部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 左部标签文本的颜色
       },
       grid: {
         lineStyle: {
-          stroke: colors.colorFill12,
+          stroke: color.colorFill12,
           lineWidth: 1,
           lineDash: null
         },
@@ -43,7 +46,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     right: {
       label: {
-        textStyle: { fill: '#999'} // 右部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 右部标签文本的颜色
       }
     }
   },
@@ -54,18 +57,18 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       // lineWidth: 1,
     },
     'g2-tooltip': {
-      backgroundColor: colors['widgets-tooltip-background'],
-      boxShadow: colors['widgets-tooltip-shadow'],
+      backgroundColor: color['widgets-tooltip-background'],
+      boxShadow: color['widgets-tooltip-shadow'],
       padding: size.s3,
       borderRadius: size.s1,
       fontFamily: fonts.fontFamilyBase,
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
-      color: colors.colorText14,
+      color: color.colorText14,
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: colors.colorText12
+      color: color.colorText12
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
@@ -82,7 +85,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   //       fontFamily: fonts.fontFamilyBase,
   //       fontSize: fonts.fontSizeBaseCaption,
   //       lineHeight: fonts.fontSizeBaseCaption,
-  //       color: colors.colorText14
+  //       color: color.colorText14
   //     },
   //     'g2-legend-list': {},
   //     'g2-legend-list-item': {

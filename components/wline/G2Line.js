@@ -1,13 +1,12 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from '@antv/g2';
 import './G2Line.scss';
 const Util = G2.Util;
 
 import {g2LegendFilter} from '../common';
-import {colors, fonts, size} from "../variables";
+import {color, fonts, size} from "../variables";
 
 const propertyMap = {
   xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
@@ -15,7 +14,7 @@ const propertyMap = {
 };
 
 const defaultConfig = {
-  // colors: [],
+  colors: color.colors_12,
   padding: [32, 5, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性
@@ -141,7 +140,7 @@ export default {
       // });
       xAxis.grid = {
         lineStyle: {
-          stroke: colors.colorFill12,
+          stroke: color.colorFill12,
           // lineWidth: 1,
           // lineDash: null
         },
@@ -174,7 +173,7 @@ export default {
           fontFamily: fonts.fontFamilyBase,
           fontSize: fonts.fontSizeBaseCaption,
           lineHeight: fonts.fontSizeBaseCaption,
-          color: colors.colorText14
+          color: color.colorText14
         },
         'g2-legend-list': {},
         'g2-legend-list-item': {
@@ -238,19 +237,19 @@ export default {
     const areaShape = config.spline ? 'smooth' : 'area';
 
     if (config.area && config.stack) {
-      chart.areaStack().position('x*y').color('type').shape(areaShape);
-      chart.lineStack().position('x*y').color('type').shape(lineShape);
+      chart.areaStack().position('x*y').color('type', config.colors).shape(areaShape);
+      chart.lineStack().position('x*y').color('type', config.colors).shape(lineShape);
     } else if (config.area && !config.stack) {
-      chart.area().position('x*y').color('type').shape(areaShape);
-      chart.line().position('x*y').color('type').shape(lineShape);
+      chart.area().position('x*y').color('type', config.colors).shape(areaShape);
+      chart.line().position('x*y').color('type', config.colors).shape(lineShape);
     } else {
-      chart.line().position('x*y').color('type').shape(lineShape);
+      chart.line().position('x*y').color('type', config.colors).shape(lineShape);
     }
     // 曲线默认点
     if (config.symbol && config.area && config.stack) {
-      chart.point().adjust('stack').position('x*y').color('type').shape('circle').size(3);
+      chart.point().adjust('stack').position('x*y').color('type', config.colors).shape('circle').size(3);
     } else if (config.symbol) {
-      chart.point().position('x*y').color('type').shape('circle').size(3);
+      chart.point().position('x*y').color('type', config.colors).shape('circle').size(3);
     }
     chart.render();
 
