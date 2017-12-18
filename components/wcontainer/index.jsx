@@ -31,22 +31,51 @@ export default class Wcontainer extends React.Component {
   }
 
   renderMainNormal() {
-    const oneChild = React.Children.count(this.props.children) === 1;
+    const propsChildren = this.props.children;
+    const oneChild = React.Children.count(propsChildren) === 1;
+    let rowClassName = '';
+    if (oneChild && propsChildren && propsChildren.type.displayName === 'AiscWidgetsHighBar') {
+      rowClassName = `${prefix}-main-row`;
+    }
+
     return (
       <div className={`${prefix}-main`}>
-        <Row align="center">
+        <Row align="center" className={rowClassName}>
           {React.Children.map(this.props.children, (child, i) => {
             if (child.type.displayName === 'Wicon') {
-              return <Col fixedSpan="2" key={i}>{child}</Col>;
+              return (
+                <Col fixedSpan="2" key={i}>
+                  {child}
+                </Col>
+              );
             }
             if (child.type.Chart && child.type.Chart.displayName === 'Wminiline') {
-              return <Col fixedSpan="4" key={i}>{child}</Col>;
+              return (
+                <Col fixedSpan="4" key={i}>
+                  {child}
+                </Col>
+              );
             }
             if (child.type.displayName === 'Divider') {
-              return <Col fixedSpan="1" key={i}>{child}</Col>;
+              return (
+                <Col fixedSpan="1" key={i}>
+                  {child}
+                </Col>
+              );
+            }
+            if (child.type.Chart && child.type.displayName === 'AiscWidgetsHighBar') {
+              return (
+                <Col span="24" key={i} className={`${prefix}-main-col`}>
+                  {child}
+                </Col>
+              );
             }
             if (oneChild) {
-              return <Col span="24" key={i}>{child}</Col>;
+              return (
+                <Col span="24" key={i}>
+                  {child}
+                </Col>
+              );
             }
             return <Col key={i}>{child}</Col>;
           })}
@@ -91,7 +120,9 @@ export default class Wcontainer extends React.Component {
           minHeight: height,
           height: height
         }}
-        ref={o => {this.container = o;}}
+        ref={o => {
+          this.container = o;
+        }}
       >
         {title && this.renderTitle()}
         {arrange === 'normal' && this.renderMainNormal()}
@@ -111,17 +142,37 @@ function chunks(arr, maxSpan) {
   let oneRow = [];
   React.Children.forEach(arr, (child, i) => {
     if (child.type && child.type.displayName === 'Divider') {
-      rs.push(<Row type="across" align="center" key={i}>{oneRow}</Row>);
+      rs.push(
+        <Row type="across" align="center" key={i}>
+          {oneRow}
+        </Row>
+      );
       oneRow = [];
     } else if (child.type === 'combiner' && oneRow.length) {
       let lastChild = oneRow[oneRow.length - 1].props.children;
       let lastSpan = oneRow[oneRow.length - 1].props.span;
-      oneRow[oneRow.length - 1] = <Col span={lastSpan + maxSpan} key={i}>{lastChild}</Col>;
+      oneRow[oneRow.length - 1] = (
+        <Col span={lastSpan + maxSpan} key={i}>
+          {lastChild}
+        </Col>
+      );
     } else if (i === arr.length - 1) {
-      oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
-      rs.push(<Row type="across" align="center" key={i}>{oneRow}</Row>);
+      oneRow.push(
+        <Col span={maxSpan} key={i}>
+          {child}
+        </Col>
+      );
+      rs.push(
+        <Row type="across" align="center" key={i}>
+          {oneRow}
+        </Row>
+      );
     } else {
-      oneRow.push(<Col span={maxSpan} key={i}>{child}</Col>);
+      oneRow.push(
+        <Col span={maxSpan} key={i}>
+          {child}
+        </Col>
+      );
     }
   });
   return rs;
