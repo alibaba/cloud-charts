@@ -19,6 +19,7 @@ let defaultConfig = {
     valueFormatter: null,
   },
   cycle: false,
+  innerRadius: 0.66, // 内环半径大小，仅cycle为true时可用
 };
 
 export default {
@@ -57,10 +58,10 @@ export default {
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
     let thetaConfig = {
-      radius: 0.6 // 设置饼图的大小
+      radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.6
     };
     if (config.cycle) {
-      thetaConfig.innerRadius = 0.66;
+      thetaConfig.innerRadius = config.innerRadius;
     }
     chart.coord('theta', thetaConfig);
 
@@ -93,6 +94,7 @@ export default {
         },
         'g2-legend-list': {},
         'g2-legend-list-item': {
+          wordBreak: 'break-all',
           marginBottom: size.s3,
           marginRight: size.s3
         },

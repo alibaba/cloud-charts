@@ -72,8 +72,12 @@
     flex: none;
   }
 
+  .g2-tooltip-list-item:first-child {
+    margin-top: 0 !important;
+  }
+
   .g2-legend-list-item:last-child {
-    margin-bottom: 0 !important;
+    margin-bottom: 1px !important;
   }
 }
 

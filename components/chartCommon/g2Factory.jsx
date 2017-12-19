@@ -110,26 +110,50 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     }
   },
   // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
-  // legend: {
-  //   html: {
-  //     'g2-legend': {
-  //       overflow: 'auto',
-  //       fontFamily: fonts.fontFamilyBase,
-  //       fontSize: fonts.fontSizeBaseCaption,
-  //       lineHeight: fonts.fontSizeBaseCaption,
-  //       color: color.colorText14
-  //     },
-  //     'g2-legend-list': {},
-  //     'g2-legend-list-item': {
-  //       marginRight: size.s3
-  //     },
-  //     'g2-legend-marker': {
-  //       width: '6px',
-  //       height: '6px',
-  //       marginRight: size.s1,
-  //     },
-  //   }
-  // },
+  legend: {
+    top: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    right: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    bottom: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    left: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    html: {
+      'g2-legend': {
+        overflow: 'auto',
+        fontFamily: fonts.fontFamilyBase,
+        fontSize: fonts.fontSizeBaseCaption,
+        lineHeight: fonts.fontSizeBaseCaption,
+        color: color.colorN24
+      },
+      'g2-legend-list': {},
+      'g2-legend-list-item': {
+        marginRight: size.s3
+      },
+      'g2-legend-marker': {
+        width: '6px',
+        height: '6px',
+        marginRight: size.s1,
+      },
+    }
+  },
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {
