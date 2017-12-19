@@ -6,7 +6,7 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { size, colors, fonts } from '../variables';
+import { size, color, fonts } from '../variables';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -17,25 +17,28 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   shape: {
     line: {
       lineWidth: 2
-    }
+    },
+    area: {
+      fillOpacity: 0.1
+    },
   },
   axis: {
     bottom: {
       label: {
-        textStyle: { fill: '#999'} // 底部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
       line: {
-        stroke: colors.colorLine12
+        stroke: color.colorLine12
       },
       tickLine: null
     },
     left: {
       label: {
-        textStyle: { fill: '#999'} // 左部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 左部标签文本的颜色
       },
       grid: {
         lineStyle: {
-          stroke: colors.colorFill12,
+          stroke: color.colorFill12,
           lineWidth: 1,
           lineDash: null
         },
@@ -43,7 +46,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     right: {
       label: {
-        textStyle: { fill: '#999'} // 右部标签文本的颜色
+        textStyle: { fill: color.colorN22} // 右部标签文本的颜色
       }
     }
   },
@@ -54,21 +57,47 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       // lineWidth: 1,
     },
     'g2-tooltip': {
-      backgroundColor: colors['widgets-tooltip-background'],
-      boxShadow: colors['widgets-tooltip-shadow'],
+      backgroundColor: color['widgets-tooltip-background'],
+      boxShadow: color['widgets-tooltip-shadow'],
       padding: size.s3,
       borderRadius: size.s1,
       fontFamily: fonts.fontFamilyBase,
-      fontSize: size.s3,
-      color: colors.colorText14,
+      fontSize: fonts.fontSizeBaseCaption,
+      lineHeight: fonts.fontSizeBaseCaption,
+      color: color.colorText14,
     },
     'g2-tooltip-title': {
-      color: colors.colorText12
+      marginBottom: 0,
+      color: color.colorText12
     },
     'g2-tooltip-list': {},
-    'g2-tooltip-list-item': {},
+    'g2-tooltip-list-item': {
+      marginBottom: 0,
+      marginTop: size.s2
+    },
     'g2-tooltip-marker': {},
   },
+  // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
+  // legend: {
+  //   html: {
+  //     'g2-legend': {
+  //       overflow: 'auto',
+  //       fontFamily: fonts.fontFamilyBase,
+  //       fontSize: fonts.fontSizeBaseCaption,
+  //       lineHeight: fonts.fontSizeBaseCaption,
+  //       color: color.colorText14
+  //     },
+  //     'g2-legend-list': {},
+  //     'g2-legend-list-item': {
+  //       marginRight: size.s3
+  //     },
+  //     'g2-legend-marker': {
+  //       width: '6px',
+  //       height: '6px',
+  //       marginRight: size.s1,
+  //     },
+  //   }
+  // },
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {
@@ -81,6 +110,8 @@ let uniqueId = 0;
 function generateUniqueId() {
   return `react-g2-${uniqueId++}`;
 }
+
+const rootClassName = 'aisc-widgets ';
 
 const events = ['MouseOver','Selection','Click'];
 
@@ -143,7 +174,7 @@ function g2Factory(name, Chart, convertData = true) {
         ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
-      ChartProcess.init.call(this, chart, config, data);
+      ChartProcess.init.call(this, chart, config, data, initData);
       // this.chart.setData(this.props.data);
 
       // //绑定事件
@@ -299,7 +330,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     render() {
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} />
+        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name} />
       );
     }
   }

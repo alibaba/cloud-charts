@@ -1,11 +1,11 @@
 'use strict';
-import { colors } from '../variables';
+import { color } from '../variables';
 
 
 export default [
-  colors.colorB16,
-  colors.colorF12,
-  colors.colorF23,
+  color.colorB16,
+  color.colorF12,
+  color.colorF23,
   // '#2889EC',
   // '#F6A71F',
   // '#EF5350',

@@ -4,7 +4,7 @@ import Highcharts from 'highcharts'; // 暂时使用highcharts
 import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
-import { colors, fonts } from '../variables';
+import { color, fonts } from '../variables';
 import './index.scss';
 
 Highcharts.setOptions({
@@ -412,8 +412,8 @@ function getHCOptions(options, data) {
         return ret;
       },
       useHTML: true,
-      backgroundColor: colors.colorTransparent,
-      borderColor: colors.colorTransparent,
+      backgroundColor: color.colorTransparent,
+      borderColor: color.colorTransparent,
       shadow: false
     },
     legend: false,
@@ -431,9 +431,9 @@ function getHCOptions(options, data) {
       lineWidth: 1,
       type: options.xAxis.type, // 此处依赖options设置
       gridLineWidth: options.mini ? 0 : options.grid ? 1 : 0,
-      gridLineColor: colors.colorFill12,
+      gridLineColor: color.colorFill12,
       tickPixelInterval: 70,
-      lineColor: colors.colorLine12,
+      lineColor: color.colorLine12,
       tickLength: 0,
       labels: {
         enabled: !options.mini,
@@ -494,7 +494,7 @@ function getHCOptions(options, data) {
             hover: {
               lineWidthPlus: 0,
               radiusPlus: 0,
-              fillColor: colors.colorWhite,
+              fillColor: color.colorWhite,
               lineWidth: 2,
               radius: 3.5,
               enabled: options.clickable || options.tooltip
@@ -530,7 +530,7 @@ function getHCOptions(options, data) {
             hover: {
               lineWidthPlus: 0,
               radiusPlus: 0,
-              fillColor: colors.colorWhite,
+              fillColor: color.colorWhite,
               lineWidth: 2,
               radius: 3.5,
               enabled: options.clickable || options.tooltip
@@ -570,7 +570,7 @@ function getHCOptions(options, data) {
             hover: {
               lineWidthPlus: 0,
               radiusPlus: 0,
-              fillColor: colors.colorWhite,
+              fillColor: color.colorWhite,
               lineWidth: 3,
               radius: 4,
               enabled: options.clickable || options.tooltip
@@ -608,7 +608,7 @@ function getHCOptions(options, data) {
             hover: {
               lineWidthPlus: 0,
               radiusPlus: 0,
-              fillColor: colors.colorWhite,
+              fillColor: color.colorWhite,
               lineWidth: 2,
               radius: 3.5,
               enabled: options.clickable || options.tooltip
@@ -678,9 +678,9 @@ function getYAxis(options, data, yAxis, index) {
       enabled: false
     },
     lineWidth: index === undefined ? yAxis.lineWidth : yAxis.lineWidth || 1,
-    lineColor: index === undefined ? colors.colorLine12 : getYAxisColor(options, data, index),
+    lineColor: index === undefined ? color.colorLine12 : getYAxisColor(options, data, index),
     gridLineWidth: options.mini ? 0 : 1,
-    gridLineColor: colors.colorFill12,
+    gridLineColor: color.colorFill12,
     tickPixelInterval: 40,
     opposite: !!index,
     labels: {
@@ -719,7 +719,7 @@ function getYAxisColor(options, data, index) {
   if (colorIndex !== null) {
     return options.colors[colorIndex];
   }
-  return colors.colorLine12;
+  return color.colorLine12;
 }
 
 export default Line;
@@ -727,7 +727,7 @@ export default Line;
 function plotLinesFormat(plotLines) {
   if (plotLines && Array.isArray(plotLines)) {
     return plotLines.map(item => ({
-      color: item.color || colors.colorF41,
+      color: item.color || color.colorF41,
       dashStyle: 'dash',
       value: item.value,
       width: item.width || 1,

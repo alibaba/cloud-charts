@@ -28,7 +28,10 @@ let data = [
 let options1 = {
   xAxis: {type: 'time'},
   legend:{
-    align: 'right'
+    align: 'right',
+    nameFormatter(value, data, index) {
+      return value + '数据';
+    }
   }
 };
 

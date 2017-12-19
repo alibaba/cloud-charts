@@ -41,7 +41,7 @@
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
-    "@antv/g2": "^3.0.2-beta.1",
+    "@antv/g2": "^3.0.2",
     "autoprefixer": "^6.3.6",
     "babel-cli": "~6.7.5",
     "babel-core": "~6.7.4",

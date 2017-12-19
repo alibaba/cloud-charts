@@ -7,7 +7,7 @@ export Wminiline from './wminiline/index';
 export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
-
+export Wscatter from './wscatter/index.js';
 export * from './g2Map';
 // import * as highchartsMap from './highchartsMap';
 //
