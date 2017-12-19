@@ -1,12 +1,11 @@
 'use strict';
 
-import merge from '../utils/merge';
 import G2 from '@antv/g2';
-const Util = G2.Util;
-import './G2Bar.scss';
-
-import { propertyAssign } from '../chartCommon/common';
+import merge from '../utils/merge';
 import {color, fonts, size} from "../variables";
+import { propertyAssign } from '../chartCommon/common';
+import './G2Bar.scss';
+const Util = G2.Util;
 
 const propertyMap = {
   xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],

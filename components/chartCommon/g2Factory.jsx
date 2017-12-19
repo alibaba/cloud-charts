@@ -21,6 +21,9 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     area: {
       fillOpacity: 0.1
     },
+    interval: {
+      fillOpacity: 1
+    },
   },
   axis: {
     bottom: {
