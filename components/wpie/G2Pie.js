@@ -5,7 +5,7 @@ import merge from '../utils/merge';
 import G2 from 'g2';
 import './G2Pie.scss';
 const Util = G2.Util;
-import {g2LegendFilter} from '../common';
+import {g2LegendFilter} from '../chartCommon/common';
 
 let defaultConfig = {
   legend: {

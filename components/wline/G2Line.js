@@ -2,10 +2,10 @@
 
 import merge from '../utils/merge';
 import G2 from '@antv/g2';
-import './G2Line.scss';
 const Util = G2.Util;
+import './G2Line.scss';
 
-import {g2LegendFilter} from '../common';
+import { propertyAssign } from '../chartCommon/common';
 import {color, fonts, size} from "../variables";
 
 const propertyMap = {
@@ -199,10 +199,10 @@ export default {
       chart.legend(false);
     }
 
-
     // tooltip
     if (config.tooltip) {
       let tooltipCfg = {
+        // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
         crosshairs: {
         //   type: 'y' // 启用水平方向的辅助线
         //   stroke: '#dddddd',
@@ -307,14 +307,4 @@ export default {
 function getLegendNode(target){
   if(target.tagName === 'LI') return target;
   else return target.parentNode;
-}
-
-function propertyAssign (keys, target, source) {
-  keys.forEach((key) => {
-    if (source[key]) {
-      target[key] = source[key];
-    }
-  });
-
-  return target;
 }

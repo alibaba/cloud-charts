@@ -42,3 +42,13 @@ export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='t
   chart.filter(filterString, filterNames);
   chart.repaint();
 }
+
+export function propertyAssign (keys, target, source) {
+  keys.forEach((key) => {
+    if (source[key]) {
+      target[key] = source[key];
+    }
+  });
+
+  return target;
+}

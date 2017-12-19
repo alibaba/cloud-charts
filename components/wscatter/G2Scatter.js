@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
-import { g2LegendFilter } from '../common';
+import { g2LegendFilter } from '../chartCommon/common';
 import './index.scss';
 
 const Util = G2.Util;
