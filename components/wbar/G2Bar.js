@@ -206,7 +206,7 @@ export default {
       chart.tooltip(false);
     }
 
-    if (config.polar) {
+    // if (config.polar) {
       // chart.coord('theta', {
       //   inner: 0.6
       // });
@@ -214,7 +214,7 @@ export default {
       // chart.point().position('name*0').color('name').shape('circle');
       // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
       // chart.point().position('name*value').color('name').shape('circle');
-    } else {
+    // } else {
       // 横向柱状图
       if (!config.column) {
         chart.coord().transpose();
@@ -223,9 +223,12 @@ export default {
       if (config.stack) {
         chart.intervalStack().position('x*y').color('type', config.colors);
       } else {
-        chart.interval().position('x*y').color('type', config.colors);
+        chart.interval().position('x*y').color('type', config.colors).adjust([{
+          type: 'dodge',
+          marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+        }]);
       }
-    }
+    // }
 
     // // tooltip
     // if (config.tooltip) {
