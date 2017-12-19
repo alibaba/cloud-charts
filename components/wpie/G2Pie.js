@@ -1,13 +1,16 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from 'g2';
-import './G2Pie.scss';
 const Util = G2.Util;
-import {g2LegendFilter} from '../chartCommon/common';
+import './G2Pie.scss';
+
+import { propertyAssign } from '../chartCommon/common';
+import {color, fonts, size} from "../variables";
 
 let defaultConfig = {
+  colors: color.colors_12,
+  padding: [0, 0, 0, 0],
   legend: {
     position: 'right',
     nameFormatter: null, //可以强制覆盖，手动设置label
@@ -18,7 +21,6 @@ let defaultConfig = {
     valueFormatter: null,
   },
   cycle: false,
-  padding: [0, 0, 0, 0],
 };
 
 export default {
