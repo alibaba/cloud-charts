@@ -77,6 +77,34 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     'g2-tooltip-marker': {},
   },
+  tooltipMarker: {
+    symbol: (x, y, r, ctx, marker) => {
+      ctx.fillStyle = color.colorWhite;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = marker.get('color');
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.stroke();
+
+      // ctx.save();
+      // ctx.beginPath();
+      // ctx.fillStyle = '#fff';
+      // ctx.strokeStyle = color;
+      // ctx.globalAlpha = 0.2;
+      // ctx.lineWidth = 3;
+      // ctx.arc(x, y, 6, 0, Math.PI * 2, false);
+      // ctx.stroke();
+      // ctx.restore();
+    },
+    radius: size.s1
+  },
+  tooltipCrosshairsLine: {
+    style: {
+      stroke: color.colorN17,
+      lineWidth: 1
+    }
+  },
   // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
   // legend: {
   //   html: {
