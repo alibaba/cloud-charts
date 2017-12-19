@@ -28,10 +28,11 @@
   "dependencies": {
     "@alife/aisc": "^2.2.15",
     "@alife/aisc-core": "^0.5.5",
+    "@antv/data-set": "^0.8.0",
     "g2": "^2.3.10",
-    "sass-variable-loader": "^0.1.2",
     "highcharts": "^v5.0.12",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "sass-variable-loader": "^0.1.2"
   },
   "devDependencies": {
     "@ali/ci-log": "*",
