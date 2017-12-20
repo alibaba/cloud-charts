@@ -28,7 +28,7 @@ export default {
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
 
-    const boxHeight = (element.offsetHeight || 400) - padding[0] - padding[2];
+    const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
     const diameter = boxHeight < boxWidth ? boxHeight * 0.6 : boxWidth * 0.6;
 

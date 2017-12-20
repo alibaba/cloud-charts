@@ -1,12 +1,10 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
-
 import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { size, color, fonts } from '../variables';
+import { getParentSize } from './common';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -198,8 +196,7 @@ function g2Factory(name, Chart, convertData = true) {
     static defaultProps = {
       forceFit: false,
       plotCfg: {},
-      config: {
-      },
+      config: {},
     };
 
     static displayName = 'AiscWidgets' + name;
@@ -209,6 +206,8 @@ function g2Factory(name, Chart, convertData = true) {
       this.chart = null;
       this.chartDom = null;
       this.chartId = generateUniqueId();
+
+      this.autoResize = this.autoResize.bind(this);
     }
 
     // componentWillMount () {}
@@ -218,9 +217,12 @@ function g2Factory(name, Chart, convertData = true) {
         ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       }
 
-      // this.setSize();
+      // 设置初始高宽
+      this.setSize();
+
+      // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width, height = 400, data: initData, padding, forceFit, config, ...otherProps } = props;
+      const { width, height = (this._size[1] || 200), data: initData, padding, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
         container: this.chartDom,
         width,
@@ -340,6 +342,8 @@ function g2Factory(name, Chart, convertData = true) {
     // componentWillUpdate (nextProps) {}
 
     componentWillUnmount () {
+      window.removeEventListener('resize', this.autoResize);
+
       if (ChartProcess.destroy) {
         ChartProcess.destroy.call(this, this.chart);
       }
@@ -354,26 +358,46 @@ function g2Factory(name, Chart, convertData = true) {
     //   return this.chart;
     // }
 
-    // setSize() {
-    //   let w = '', h = '';
-    //   let node = this.refs.chart;
-    //   //设置宽度
-    //   if (this.props.width) {
-    //     w = this.props.width + 'px';
-    //   } else if(node.parentNode) {
-    //      w = node.parentNode.clientWidth + 'px';
-    //   }
-    //   this.refs.chart.style.width = w;
-    //   //设置高度
-    //   if(this.props.height){
-    //     h = this.props.height + 'px';
-    //   }else{
-    //     if(node.parentNode) h = node.parentNode.clientHeight + 'px';
-    //     else h = '';
-    //   }
-    //   this.refs.chart.style.height = h;
-    // }
-    //
+    setSize() {
+      const element = this.chartDom;
+      const size = getParentSize(element, this.props.width, this.props.height);
+      this._size = size;
+
+      if (size[0]) {
+        element.style.width = size[0] + 'px';
+      }
+      if (size[1]) {
+        element.style.height = size[1] + 'px';
+      }
+
+      window.addEventListener('resize', this.autoResize);
+    }
+
+    resizeRuning = false;
+    autoResize() {
+      if (this.resizeRuning) {
+        return;
+      }
+
+      const { chartDom: element, props, _size } = this;
+      this.resizeRuning = true;
+
+      requestAnimationFrame(() => {
+        this.resizeRuning = false;
+
+        const size = getParentSize(element, props.width, props.height);
+        if(!(size[0] === _size[0] && size[1] === _size[1])){
+          if (size[0]) {
+            element.style.width = size[0] + 'px';
+          }
+          if (size[1]) {
+            element.style.height = size[1] + 'px';
+          }
+          this._size = size;
+        }
+      })
+    }
+
     // getSize() {
     //   let node = this.refs.chart,
     //     w = node.offsetWidth,

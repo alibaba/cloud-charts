@@ -52,3 +52,19 @@ export function propertyAssign (keys, target, source) {
 
   return target;
 }
+
+export function getParentSize(element, width, height) {
+  const parent = element && element.parentElement;
+  let w = '', h = '';
+  if (width) {
+    w = width;
+  } else if (parent) {
+    w = parent.clientWidth;
+  }
+  if (height) {
+    h = height;
+  } else if (parent) {
+    h = parent.clientHeight;
+  }
+  return [w, h];
+}
