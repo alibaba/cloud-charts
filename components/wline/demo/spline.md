@@ -25,7 +25,7 @@ let data = [
 ];
 
 let options5 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   spline: true
 };
 

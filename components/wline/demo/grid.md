@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options6 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   grid: true
 };
 

@@ -3,7 +3,7 @@
 import G2 from 'g2';
 import merge from '../utils/merge';
 import './index.scss';
-import { colors } from '../variables';
+import { color } from '../variables';
 
 const Util = G2.Util;
 
@@ -128,7 +128,7 @@ export default {
       formatter: config.yAxis.labelFormatter,
       grid: {
         line: {
-          stroke: colors.colorLine12,
+          stroke: color.colorLine12,
           lineWidth: 1,
           lineDash: [4, 0]
         }
@@ -145,7 +145,7 @@ export default {
         lineWidth: 0
       },
       line: {
-        stroke: colors.colorLine12
+        stroke: color.colorLine12
       },
       formatter: config.xAxis.labelFormatter,
       labels: {
@@ -160,13 +160,13 @@ export default {
       valueAxis = merge({}, valueAxis, {
         line: {
           lineWidth: 1, // 设置线的宽度
-          stroke: colors.colorLine12
+          stroke: color.colorLine12
         }
       });
       nameAxis = merge({}, nameAxis, {
         grid: {
           line: {
-            stroke: colors.colorLine12,
+            stroke: color.colorLine12,
             lineWidth: 1,
             lineDash: [4, 0]
           }
@@ -300,7 +300,7 @@ export default {
             dotDom[v.index].style.background = v.color;
             filterNames.push(v.name);
           } else {
-            dotDom[v.index].style.background = colors.colorN22;
+            dotDom[v.index].style.background = color.colorN22;
           }
         });
 

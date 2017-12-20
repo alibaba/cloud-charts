@@ -16,7 +16,7 @@ title:
 import { Wline } from '@alife/aisc-widgets';
 
 let options = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   zoom: true,
   tooltip: false,
   clickable: true

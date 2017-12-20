@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options3 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   tooltip: {
     titleFormatter: function(v) {
       return 'title: ' + v;

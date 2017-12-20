@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options4 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   legend: false
 };
 

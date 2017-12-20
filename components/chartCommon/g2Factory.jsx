@@ -2,23 +2,163 @@
 
 import COLORS from '../chartCommon/colors';
 
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { size, color, fonts } from '../variables';
+
 //全局G2主题设置
-const theme = G2.Util.mix(true, {}, G2.Theme, {
+const theme = G2.Util.deepMix({}, G2.Global, {
   // animate: false,
-  colors: {
-    'default': COLORS
-  },
+  // colors: {
+  //   'default': COLORS
+  // },
   shape: {
     line: {
       lineWidth: 2
+    },
+    area: {
+      fillOpacity: 0.1
+    },
+    interval: {
+      fillOpacity: 1
+    },
+  },
+  axis: {
+    bottom: {
+      label: {
+        textStyle: { fill: color.colorN22} // 底部标签文本的颜色
+      },
+      line: {
+        stroke: color.colorLine12
+      },
+      tickLine: null
+    },
+    left: {
+      label: {
+        textStyle: { fill: color.colorN22} // 左部标签文本的颜色
+      },
+      grid: {
+        lineStyle: {
+          stroke: color.colorFill12,
+          lineWidth: 1,
+          lineDash: null
+        },
+      }
+    },
+    right: {
+      label: {
+        textStyle: { fill: color.colorN22} // 右部标签文本的颜色
+      }
     }
-  }
-  // 具体的配置项详见 https://antv.alipay.com/g2/api/global.html
+  },
+  tooltip: {
+    offset: 8,
+    crossLine: {
+      stroke: '#dddddd',
+      // lineWidth: 1,
+    },
+    'g2-tooltip': {
+      backgroundColor: color['widgets-tooltip-background'],
+      boxShadow: color['widgets-tooltip-shadow'],
+      padding: size.s3,
+      borderRadius: size.s1,
+      fontFamily: fonts.fontFamilyBase,
+      fontSize: fonts.fontSizeBaseCaption,
+      lineHeight: fonts.fontSizeBaseCaption,
+      color: color.colorText14,
+    },
+    'g2-tooltip-title': {
+      marginBottom: 0,
+      color: color.colorText12
+    },
+    'g2-tooltip-list': {},
+    'g2-tooltip-list-item': {
+      marginBottom: 0,
+      marginTop: size.s2
+    },
+    'g2-tooltip-marker': {},
+  },
+  tooltipMarker: {
+    symbol: (x, y, r, ctx, marker) => {
+      ctx.fillStyle = color.colorWhite;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = marker.get('color');
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.stroke();
+
+      // ctx.save();
+      // ctx.beginPath();
+      // ctx.fillStyle = '#fff';
+      // ctx.strokeStyle = color;
+      // ctx.globalAlpha = 0.2;
+      // ctx.lineWidth = 3;
+      // ctx.arc(x, y, 6, 0, Math.PI * 2, false);
+      // ctx.stroke();
+      // ctx.restore();
+    },
+    // 这里必须传数字，所以不能直接引用
+    radius: 4
+  },
+  tooltipCrosshairsLine: {
+    style: {
+      stroke: color.colorN17,
+      lineWidth: 1
+    }
+  },
+  // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
+  legend: {
+    top: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    right: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    bottom: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    left: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    html: {
+      'g2-legend': {
+        overflow: 'auto',
+        fontFamily: fonts.fontFamilyBase,
+        fontSize: fonts.fontSizeBaseCaption,
+        lineHeight: fonts.fontSizeBaseCaption,
+        color: color.colorN24
+      },
+      'g2-legend-list': {},
+      'g2-legend-list-item': {
+        marginRight: size.s3
+      },
+      'g2-legend-marker': {
+        width: '6px',
+        height: '6px',
+        marginRight: size.s1,
+      },
+    }
+  },
 });
+//设置屏幕dpi缩放（如果有效的话）
+if (window && window.devicePixelRatio) {
+  theme.pixelRatio = window.devicePixelRatio;
+}
 G2.Global.setTheme(theme); // 将主题设置为用户自定义的主题
 
 // 图表唯一id
@@ -26,6 +166,8 @@ let uniqueId = 0;
 function generateUniqueId() {
   return `react-g2-${uniqueId++}`;
 }
+
+const rootClassName = 'aisc-widgets ';
 
 const events = ['MouseOver','Selection','Click'];
 
@@ -35,14 +177,20 @@ let requestAnimationFrame = ( window && window.requestAnimationFrame ) || functi
 * g2Factory 函数
 *
 * 将非React版的图表类转化为React版
+*
+* convertData 控制是否转化数据
 * */
-function g2Factory(name, Chart) {
+function g2Factory(name, Chart, convertData = true) {
+  let ChartProcess = Chart;
   class AiscChart extends React.Component {
     static propTypes = {
-      width: PropTypes.number,
-      height: PropTypes.number,
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       config: PropTypes.object,
-      data: PropTypes.arrayOf(PropTypes.object).isRequired,
+      data: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.object),
+        PropTypes.object
+      ]).isRequired,
       plotCfg: PropTypes.object,
       forceFit: PropTypes.bool
     };
@@ -59,49 +207,52 @@ function g2Factory(name, Chart) {
     constructor(props, context) {
       super(props, context);
       this.chart = null;
+      this.chartDom = null;
       this.chartId = generateUniqueId();
     }
 
     // componentWillMount () {}
 
     componentDidMount () {
+      if (this.props.customChart) {
+        ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
+      }
 
       // this.setSize();
-      const props = Chart.beforeInit ? Chart.beforeInit(this.props) : this.props;
-      const { width, height = 400, data: initData, plotCfg, forceFit, config } = props;
+      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
+      const { width, height = 400, data: initData, padding, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
-        id: this.chartId,
+        container: this.chartDom,
         width,
         height,
-        plotCfg,
+        padding,
         forceFit: width === undefined || forceFit,
-        // data: config.dataType === 'Highcharts' ? highchartsDataToG2Data(data) : data,
-        // config
+        ...otherProps
       });
-      const data = config.dataType === 'Highcharts' ? highchartsDataToG2Data(initData) : initData;
-      Chart.init(chart, config, data);
+      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
+      ChartProcess.init.call(this, chart, config, data, initData);
       // this.chart.setData(this.props.data);
 
-      //绑定事件
-      const events = [
-        'plotmove',
-        'plotenter',
-        'plotleave',
-        'plotclick',
-        'plotdblclick',
-        'rangeselectstart',
-        'rangeselectend',
-        'itemselected',
-        'itemunselected',
-        'itemselectedchange',
-        'tooltipchange',
-        'tooltipshow',
-        'tooltiphide'
-      ];
-
-      Object.keys(config).forEach(item => {
-        events.includes(item) && chart.on(item, config[item]);
-      });
+      // //绑定事件
+      // const events = [
+      //   'plotmove',
+      //   'plotenter',
+      //   'plotleave',
+      //   'plotclick',
+      //   'plotdblclick',
+      //   'rangeselectstart',
+      //   'rangeselectend',
+      //   'itemselected',
+      //   'itemunselected',
+      //   'itemselectedchange',
+      //   'tooltipchange',
+      //   'tooltipshow',
+      //   'tooltiphide'
+      // ];
+      //
+      // Object.keys(config).forEach(item => {
+      //   (events.indexOf(item) > -1) && chart.on(item, config[item]);
+      // });
 
       this.chart = chart;
 
@@ -137,19 +288,27 @@ function g2Factory(name, Chart) {
     }
 
     componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, plotCfg: newPlotCfg, config: newConfig } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, plotCfg: oldPlotCfg } = this.props;
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding } = this.props;
 
-      if (newPlotCfg !== oldPlotCfg) {
-        console.warn('plotCfg 不支持修改');
+      if (newPadding !== oldPadding) {
+        console.warn('padding 不支持修改');
       }
 
       if (newData !== oldData || newData.length !== oldData.length) {
-        const data = newConfig.dataType === 'Highcharts' ? highchartsDataToG2Data(newData) : newData;
-        this.chart.changeData(data);
+        const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
+        if (ChartProcess.changeData) {
+          ChartProcess.changeData.call(this, this.chart, newConfig, data);
+        } else {
+          this.chart.changeData(data);
+        }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
-        this.chart.changeSize(newWidth, newHeight);
+        if (ChartProcess.changeSize) {
+          ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
+        } else {
+          this.chart.changeSize(newWidth, newHeight);
+        }
       }
     }
 
@@ -181,8 +340,13 @@ function g2Factory(name, Chart) {
     // componentWillUpdate (nextProps) {}
 
     componentWillUnmount () {
+      if (ChartProcess.destroy) {
+        ChartProcess.destroy.call(this, this.chart);
+      }
+
       this.chart.destroy && this.chart.destroy();
       this.chart = null;
+      this.chartDom = null;
       this.chartId = null;
     }
 
@@ -222,7 +386,7 @@ function g2Factory(name, Chart) {
 
     render() {
       return (
-        <div ref="chart" id={this.chartId} />
+        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name} />
       );
     }
   }
@@ -233,47 +397,76 @@ function g2Factory(name, Chart) {
   return AiscChart;
 }
 
-function highchartsDataToG2Data(data) {
+function highchartsDataToG2Data(data, config) {
   const newData = [];
-  data.forEach((oneData) => {
-    const dataName = oneData.name;
-    oneData.data.forEach((d) => {
-      const [name, value] = d;
-      newData.push({
-        name,
-        value,
-        type: dataName
+  if (Array.isArray(config.yAxis)) {
+    data.forEach((oneData) => {
+      const { name: dataName, yAxis: yIndex = 0 } = oneData;
+
+      oneData.data.forEach((d, i) => {
+        if (Array.isArray(d)) {
+          const [x, y, ...extra] = d;
+          newData.push({
+            x,
+            ['y' + yIndex]: y,
+            extra,
+            type: dataName
+          });
+        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
+          const x = config.xAxis.categories[i];
+          const y = isNaN(d) ? d[0] : d;
+          newData.push({
+            x,
+            ['y' + yIndex]: y,
+            extra: [],
+            type: dataName
+          });
+        } else {
+          const { x, y, ...extra } = d;
+          newData.push({
+            x,
+            ['y' + yIndex]: y,
+            extra,
+            type: dataName
+          });
+        }
       });
     });
-  });
-  return newData;
+  } else {
+    data.forEach((oneData) => {
+      const { name: dataName } = oneData;
 
-  // const newData = (() => {
-  //   const timeMap = {};
-  //   data.forEach((oneData) => {
-  //     const dataName = oneData.name;
-  //     oneData.data.forEach((d) => {
-  //       const [time, value] = d;
-  //       if (timeMap[time]) {
-  //         timeMap[time][dataName] = value;
-  //       } else {
-  //         timeMap[time] = {
-  //           [dataName]: value
-  //         };
-  //       }
-  //     });
-  //   });
-  //
-  //   return Object.keys(timeMap).map((time) => {
-  //     timeMap[time].time = Number(time);
-  //     return timeMap[time];
-  //   });
-  // })();
-  //
-  // let frame = new G2.Frame(newData);
-  // frame = G2.Frame.combineColumns(frame, configs.keys, 'value', 'type', ['time']);
-  //
-  // return frame;
+      oneData.data.forEach((d, i) => {
+        if (Array.isArray(d)) {
+          const [x, y, ...extra] = d;
+          newData.push({
+            x,
+            y,
+            extra,
+            type: dataName
+          });
+        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
+          const x = config.xAxis.categories[i];
+          const y = isNaN(d) ? d[0] : d;
+          newData.push({
+            x,
+            y,
+            extra: [],
+            type: dataName
+          });
+        } else {
+          const { x, y, ...extra } = d;
+          newData.push({
+            x,
+            y,
+            extra,
+            type: dataName
+          });
+        }
+      });
+    });
+  }
+  return newData;
 }
 
 export default g2Factory;

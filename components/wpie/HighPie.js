@@ -4,7 +4,7 @@ import Highcharts from 'highcharts'; // 暂时使用highcharts
 import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
-import { colors } from '../variables';
+import { color } from '../variables';
 import './index.scss';
 
 Highcharts.setOptions({ global: { useUTC: false } }); // 不使用HC内置时区设置
@@ -203,8 +203,8 @@ function getHCOptions(options, data) {
       enabled: !!options.tooltip,
       // followPointer: false,
       useHTML: true,
-      backgroundColor: colors.colorTransparent,
-      borderColor: colors.colorTransparent,
+      backgroundColor: color.colorTransparent,
+      borderColor: color.colorTransparent,
       shadow: false,
       formatter() {
         let ret = '<ul>';

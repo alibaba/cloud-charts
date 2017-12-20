@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "1.8.9",
+  "version": "2.0.0-beta.1",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
@@ -20,6 +20,7 @@
     "package.json",
     "README.md",
     "HISTORY.md",
+    "src",
     "lib",
     "components",
     "build"
@@ -27,9 +28,11 @@
   "dependencies": {
     "@alife/aisc": "^2.2.15",
     "@alife/aisc-core": "^0.5.5",
-    "sass-variable-loader": "^0.1.2",
+    "@antv/data-set": "^0.8.0",
+    "g2": "^2.3.10",
     "highcharts": "^v5.0.12",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "sass-variable-loader": "^0.1.2"
   },
   "devDependencies": {
     "@ali/ci-log": "*",
@@ -38,6 +41,7 @@
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
+    "@antv/g2": "^3.0.2",
     "autoprefixer": "^6.3.6",
     "babel-cli": "~6.7.5",
     "babel-core": "~6.7.4",
@@ -54,6 +58,7 @@
     "babel-preset-stage-0": "~6.5.0",
     "babel-preset-stage-1": "^6.22.0",
     "classnames": "^2.2.5",
+    "core-decorators": "^0.20.0",
     "css-split-webpack-plugin": "^0.2.1",
     "del": "^2.2.0",
     "dora-plugin-upload": "^0.3.1",
@@ -63,7 +68,6 @@
     "eslint-plugin-jsx-a11y": "*",
     "extract-text-webpack-plugin": "~1.0.1",
     "fallback-port": "^0.1.7",
-    "g2": "^2.3.6",
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
@@ -86,6 +90,7 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "react-intl": "^2.2.3",
     "react-router": "^3.0.0",
+    "sass-variable-loader": "^0.1.2",
     "style-loader": "~0.13.1",
     "webpack": "~1.12.14",
     "webpack-dev-server": "~1.14.1"

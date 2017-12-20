@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options1 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   yAxis:{
     guideLine:[{
       value: 5555

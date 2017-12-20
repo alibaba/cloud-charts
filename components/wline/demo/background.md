@@ -25,7 +25,7 @@ let data = [
 ];
 
 let options7 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   yAxis: {
     bgArea: [5000,10000]
   }
