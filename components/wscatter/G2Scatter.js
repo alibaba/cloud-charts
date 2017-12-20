@@ -4,7 +4,7 @@
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import { g2LegendFilter } from '../chartCommon/common';
-import './index.scss';
+import './G2Scatter.scss';
 
 const Util = G2.Util;
 

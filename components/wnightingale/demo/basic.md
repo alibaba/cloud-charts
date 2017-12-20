@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { WNightingale } from '@alife/aisc-widgets';
+import { Wnightingale } from '@alife/aisc-widgets';
 
 const data = [
     {year: '2001', population: 41.8 },
@@ -55,7 +55,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WNightingale ref="chart1" config={options1} data={data} height="400" />
+            <Wnightingale ref="chart1" config={options1} data={data} height="400" />
         </div>
       </div>
     );
