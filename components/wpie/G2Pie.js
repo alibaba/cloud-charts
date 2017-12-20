@@ -20,6 +20,7 @@ let defaultConfig = {
   },
   cycle: false,
   innerRadius: 0.66, // 内环半径大小，仅cycle为true时可用
+  outerRadius: 0.6, // 饼图半径大小，初始化时可用
 };
 
 export default {
@@ -27,10 +28,11 @@ export default {
     const {config} = props;
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
+    const outerRadius = config.outerRadius || defaultConfig.outerRadius;
 
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
-    const diameter = boxHeight < boxWidth ? boxHeight * 0.6 : boxWidth * 0.6;
+    const diameter = boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius;
 
     element.style.paddingTop = `${padding[0]}px`;
     element.style.paddingRight = `${padding[1]}px`;
