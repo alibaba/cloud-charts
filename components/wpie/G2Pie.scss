@@ -62,10 +62,14 @@
 //  }
 //}
 
+.aisc-widgets.G2Pie {
+  text-align: center;
+}
 .aisc-widgets.G2Pie > div {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+  text-align: left;
 
   & > canvas {
     position: static;

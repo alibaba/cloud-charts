@@ -84,7 +84,7 @@ export default {
         'g2-legend': {
           // TODO 特殊场景不能去掉
           position: 'static',
-          marginLeft: '5%',
+          marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
 
           overflow: 'auto',
           fontFamily: fonts.fontFamilyBase,
