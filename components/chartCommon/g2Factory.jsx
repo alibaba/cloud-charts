@@ -302,14 +302,14 @@ function g2Factory(name, Chart, convertData = true) {
         if (ChartProcess.changeData) {
           ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {
-          this.chart.changeData(data);
+          this.chart && this.chart.changeData(data);
         }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
         if (ChartProcess.changeSize) {
           ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
         } else {
-          this.chart.changeSize(newWidth, newHeight);
+          this.chart && this.chart.changeSize(newWidth, newHeight);
         }
       }
     }
@@ -348,7 +348,7 @@ function g2Factory(name, Chart, convertData = true) {
         ChartProcess.destroy.call(this, this.chart);
       }
 
-      this.chart.destroy && this.chart.destroy();
+      this.chart && this.chart.destroy && this.chart.destroy();
       this.chart = null;
       this.chartDom = null;
       this.chartId = null;

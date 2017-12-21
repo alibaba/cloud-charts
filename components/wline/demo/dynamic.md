@@ -33,7 +33,15 @@ let options1 = {
 
 class Demo extends React.Component{
   state = {
-    data: []
+    data: [
+      {
+        "name":"机房1",
+        "data": data1
+      },{
+        "name":"机房2",
+        "data": data2
+      }
+    ]
   }
 
   componentWillMount() {
@@ -64,7 +72,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>
-            <Wline config={options1} data={this.state.data}/>
+          <Wline config={options1} data={this.state.data}/>
         </div>
       </div>
     );
