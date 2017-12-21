@@ -68,3 +68,45 @@ export function getParentSize(element, width, height) {
   }
   return [w, h];
 }
+
+/**
+ * 判断是否是有效数字
+ *
+ * @param v 输入值
+ *
+ * @return {boolean} 是否有效数字
+ * */
+export function isInvalidNumber(v) {
+  return isNaN(v) || !isFinite(v) || v === null;
+}
+
+/**
+ * 数字格式化小数位
+ *
+ * @param {number} num 输入数字
+ * @param {number} decimal 小数位数，默认两位
+ *
+ * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回设定小数位的字符串。
+ * */
+export function numberDecimal(num, decimal = 2) {
+  if (this.isInvalidNumber(num)) {
+    return '-';
+  }
+
+  return Math.round(Number(num) * Math.pow(10, decimal)) / Math.pow(10, decimal);
+}
+
+export function beautifyNumber(num) {
+  if (this.isInvalidNumber(num)) {
+    return '-';
+  }
+  let number = num.toString(), result = '';
+  while (number.length > 3) {
+    result = ' ' + number.slice(-3) + result;
+    number = number.slice(0, number.length - 3);
+  }
+  if (number) {
+    result = number + result;
+  }
+  return result;
+}
