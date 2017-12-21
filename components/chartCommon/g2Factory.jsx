@@ -38,6 +38,8 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         textStyle: { fill: color.colorN22} // 左部标签文本的颜色
       },
       grid: {
+        // 让grid在轴线的下方
+        zIndex: -1,
         lineStyle: {
           stroke: color.colorFill12,
           lineWidth: 1,
