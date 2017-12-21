@@ -24,7 +24,6 @@ const defaultConfig = {
 const colorMap = ['#2889EC', '#F6A71F', '#EF5350', '#4AD051', '#8B73CC'];
 
 const setAxis = (chart, config) => {
-  console.log(config, 'xxxxxxxxxx');
   const { xFormator } = config;
 
   chart.axis('x', {
