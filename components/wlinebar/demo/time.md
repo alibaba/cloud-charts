@@ -169,7 +169,7 @@ let options1 = {
     align: 'right'
   },
   xAxis: {
-    type: 'datetime',
+    type: 'time',
     labelFormatter: (name) => {
       console.log(new Date(name));
       return (new Date(name)).toLocaleString();

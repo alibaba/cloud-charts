@@ -30,7 +30,7 @@ let data = [
 
 let options1 = {
   xAxis: {
-    type: 'datetime'
+    type: 'time'
   }
 };
 

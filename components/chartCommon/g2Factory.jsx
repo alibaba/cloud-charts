@@ -427,7 +427,7 @@ function highchartsDataToG2Data(data, config) {
   const newData = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach((oneData) => {
-      const { name: dataName, yAxis: yIndex = 0 } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, type: chartType } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -460,7 +460,7 @@ function highchartsDataToG2Data(data, config) {
     });
   } else {
     data.forEach((oneData) => {
-      const { name: dataName } = oneData;
+      const { name: dataName, type: chartType } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
