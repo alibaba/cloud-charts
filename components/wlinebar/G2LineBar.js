@@ -12,9 +12,12 @@ const propertyMap = {
   yAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
 };
 
+const barKey = 'bar';
+const lineKey = 'line';
+
 const defaultConfig = {
   colors: color.colors_12,
-  padding: [32, 5, 32, 45],
+  padding: [32, 45, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
@@ -23,13 +26,19 @@ const defaultConfig = {
     max: null,
     min: null,
   },
-  yAxis: {
+  yAxis: [{
     labelFormatter: null, //可以强制覆盖，手动设置label
     max: null,
     min: null,
     // bgArea: [], // TODO 辅助区域后期需要加上
     // guideLine: null
-  },
+  }, {
+    labelFormatter: null, //可以强制覆盖，手动设置label
+    max: null,
+    min: null,
+    // bgArea: [], // TODO 辅助区域后期需要加上
+    // guideLine: null
+  }],
   legend: {
     align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label
@@ -63,15 +72,16 @@ export default {
     const {config} = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (Array.isArray(config.yAxis) ? [32, 45, 32, 45] : defaultConfig.padding)
+      padding: props.padding || config.padding || defaultConfig.padding,
+      config: merge({}, defaultConfig, config)
     });
   },
   init(chart, userConfig, data, rawData) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = userConfig;
 
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
-        type: 'linear',
+        type: 'cat',
       }, config.xAxis),
       type: {
         type: 'cat'
@@ -80,12 +90,18 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
+        defs['y' + yIndex + lineKey] = propertyAssign(propertyMap.yAxis, {
+          type: 'linear',
+        }, axis);
+        defs['y' + yIndex + barKey] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
         }, axis);
       });
     } else {
-      defs.y = propertyAssign(propertyMap.yAxis, {
+      defs['y' + lineKey] = propertyAssign(propertyMap.yAxis, {
+        type: 'linear',
+      }, config.yAxis);
+      defs['y' + barKey] = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
       }, config.yAxis);
     }
@@ -114,30 +130,55 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const yAxis = {
+        const axisColor = getYAxisColor(config.colors, rawData, yIndex) || color.colorLine12;
+        const yAxisLine = {
           title: null, // 不展示坐标轴的标题
           line: {
-            stroke: getYAxisColor(config.colors, rawData, yIndex) || color.colorLine12
+            stroke: axisColor
           },
           label:{
             formatter: axis.labelFormatter,
           }
         };
         if (yIndex !== 0) {
-          yAxis.grid = null;
+          yAxisLine.grid = null;
         }
 
-        chart.axis('y' + yIndex, yAxis);
+        chart.axis('y' + yIndex + lineKey, yAxisLine);
+
+        const yAxisBar = {
+          title: null, // 不展示坐标轴的标题
+          line: {
+            stroke: axisColor
+          },
+          label:{
+            formatter: axis.labelFormatter,
+          }
+        };
+        if (yIndex !== 0) {
+          yAxisBar.grid = null;
+        }
+
+        chart.axis('y' + yIndex + barKey, yAxisBar);
       });
     } else {
-      const yAxis = {
+      const yAxisLine = {
         title: null, // 不展示坐标轴的标题
         label:{
           formatter:config.yAxis.labelFormatter,
         }
       };
 
-      chart.axis('y', yAxis);
+      chart.axis('y' + lineKey, yAxisLine);
+
+      const yAxisBar = {
+        title: null, // 不展示坐标轴的标题
+        label:{
+          formatter:config.yAxis.labelFormatter,
+        }
+      };
+
+      chart.axis('y' + barKey, yAxisBar);
     }
 
     // 设置图例
@@ -281,20 +322,29 @@ export default {
 };
 
 function drawLinebar(chart, config, lineShape, areaShape, yAxisKey = 'y') {
-  if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
-  } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+  if (config.stack) {
+    chart.intervalStack().position(['x', yAxisKey + barKey]).color('type', config.colors);
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+    chart.interval().position(['x', yAxisKey + barKey]).color('type', config.colors).adjust([{
+      type: 'dodge',
+      marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+    }]);
+  }
+
+  if (config.area && config.stack) {
+    chart.areaStack().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape(areaShape);
+    chart.lineStack().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape(lineShape);
+  } else if (config.area && !config.stack) {
+    chart.area().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape(areaShape);
+    chart.line().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape(lineShape);
+  } else {
+    chart.line().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape(lineShape);
   }
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().adjust('stack').position(['x', yAxisKey + lineKey]).color('type', config.colors).shape('circle').size(3);
   } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().position(['x', yAxisKey + lineKey]).color('type', config.colors).shape('circle').size(3);
   }
 }
 

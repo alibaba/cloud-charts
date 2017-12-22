@@ -74,6 +74,8 @@ class Demo extends React.Component{
   }
 
   render(){
+    return null;
+
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>

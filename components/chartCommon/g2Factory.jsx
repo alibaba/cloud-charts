@@ -427,14 +427,14 @@ function highchartsDataToG2Data(data, config) {
   const newData = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach((oneData) => {
-      const { name: dataName, yAxis: yIndex = 0, type: chartType } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, type: chartType = '' } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
           const [x, y, ...extra] = d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            ['y' + yIndex + chartType]: y,
             extra,
             type: dataName
           });
@@ -443,7 +443,7 @@ function highchartsDataToG2Data(data, config) {
           const y = isNaN(d) ? d[0] : d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            ['y' + yIndex + chartType]: y,
             extra: [],
             type: dataName
           });
@@ -451,7 +451,7 @@ function highchartsDataToG2Data(data, config) {
           const { x, y, ...extra } = d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            ['y' + yIndex + chartType]: y,
             extra,
             type: dataName
           });
@@ -460,14 +460,14 @@ function highchartsDataToG2Data(data, config) {
     });
   } else {
     data.forEach((oneData) => {
-      const { name: dataName, type: chartType } = oneData;
+      const { name: dataName, type: chartType = '' } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
           const [x, y, ...extra] = d;
           newData.push({
             x,
-            y,
+            ['y' + chartType]: y,
             extra,
             type: dataName
           });
@@ -476,7 +476,7 @@ function highchartsDataToG2Data(data, config) {
           const y = isNaN(d) ? d[0] : d;
           newData.push({
             x,
-            y,
+            ['y' + chartType]: y,
             extra: [],
             type: dataName
           });
@@ -484,7 +484,7 @@ function highchartsDataToG2Data(data, config) {
           const { x, y, ...extra } = d;
           newData.push({
             x,
-            y,
+            ['y' + chartType]: y,
             extra,
             type: dataName
           });

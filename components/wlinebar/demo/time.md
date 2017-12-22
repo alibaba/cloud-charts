@@ -190,6 +190,8 @@ let options1 = {
 class Demo extends React.Component{
   render(){
     console.log(data);
+      return null;
+
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>
