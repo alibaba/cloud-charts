@@ -27,7 +27,7 @@ for(var i = 0; i < 10; i++) {
 
 let options1 = {
   xAxis: {
-    type: 'time',
+    type: 'timeCat',
     mask: 'HH:mm:ss'
   }
 };
@@ -74,8 +74,6 @@ class Demo extends React.Component{
   }
 
   render(){
-    return null;
-
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>

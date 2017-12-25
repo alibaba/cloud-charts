@@ -14,7 +14,7 @@ import G2Nightingale from './wnightingale/G2-base';
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
 export const WG2Bar = g2Factory('G2Bar', G2Bar);
-export const WG2LineBar = g2Factory('G2LineBar', G2LineBar);
+export const WG2LineBar = g2Factory('G2LineBar', G2LineBar, false);
 export const WG2Pie = g2Factory('G2Pie', G2Pie);
 export const WG2Scatter = g2Factory('G2Scatter', G2Scatter);
 export const WG2Map = g2Factory('G2Map', G2Map, false);

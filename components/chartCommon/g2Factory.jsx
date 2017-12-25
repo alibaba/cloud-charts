@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { size, color, fonts } from '../variables';
 import { getParentSize } from './common';
+import highchartsDataToG2Data from './dataAdapter';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -421,78 +422,6 @@ function g2Factory(name, Chart, convertData = true) {
   AiscChart.Chart = Chart;
 
   return AiscChart;
-}
-
-function highchartsDataToG2Data(data, config) {
-  const newData = [];
-  if (Array.isArray(config.yAxis)) {
-    data.forEach((oneData) => {
-      const { name: dataName, yAxis: yIndex = 0, type: chartType = '' } = oneData;
-
-      oneData.data.forEach((d, i) => {
-        if (Array.isArray(d)) {
-          const [x, y, ...extra] = d;
-          newData.push({
-            x,
-            ['y' + yIndex + chartType]: y,
-            extra,
-            type: dataName
-          });
-        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
-          const x = config.xAxis.categories[i];
-          const y = isNaN(d) ? d[0] : d;
-          newData.push({
-            x,
-            ['y' + yIndex + chartType]: y,
-            extra: [],
-            type: dataName
-          });
-        } else {
-          const { x, y, ...extra } = d;
-          newData.push({
-            x,
-            ['y' + yIndex + chartType]: y,
-            extra,
-            type: dataName
-          });
-        }
-      });
-    });
-  } else {
-    data.forEach((oneData) => {
-      const { name: dataName, type: chartType = '' } = oneData;
-
-      oneData.data.forEach((d, i) => {
-        if (Array.isArray(d)) {
-          const [x, y, ...extra] = d;
-          newData.push({
-            x,
-            ['y' + chartType]: y,
-            extra,
-            type: dataName
-          });
-        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
-          const x = config.xAxis.categories[i];
-          const y = isNaN(d) ? d[0] : d;
-          newData.push({
-            x,
-            ['y' + chartType]: y,
-            extra: [],
-            type: dataName
-          });
-        } else {
-          const { x, y, ...extra } = d;
-          newData.push({
-            x,
-            ['y' + chartType]: y,
-            extra,
-            type: dataName
-          });
-        }
-      });
-    });
-  }
-  return newData;
 }
 
 export default g2Factory;

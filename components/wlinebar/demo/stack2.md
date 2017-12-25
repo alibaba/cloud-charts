@@ -40,7 +40,7 @@ let data = [
 
 let options1 = {
   xAxis: {
-    type: 'time'
+    type: 'timeCat'
   },
   stack: true,
   area: true
@@ -48,8 +48,6 @@ let options1 = {
 
 class Demo extends React.Component{
   render(){
-    return null;
-
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>
