@@ -10,7 +10,7 @@ let defaultConfig = {
   colors: color.colors_12,
   padding: [20, 120, 20, 20],
   legend: {
-    position: 'right',
+    // position: 'right',
     nameFormatter: null, //可以强制覆盖，手动设置label
     valueFormatter: null
   },
@@ -73,15 +73,21 @@ export default {
         title: null,
         position: 'right',
         itemTpl: (value, color, checked, index) => {
-          const item = (rawData && rawData[index]) || {};
+          const item = (data && data[index]) || {};
+          const raw = (rawData && rawData[0]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-            ...item,
+            ...raw,
             color,
             checked
           }, index) : value;
+          const number = config.legend.valueFormatter ? config.legend.valueFormatter(item['y'], {
+            ...raw,
+            color,
+            checked
+          }, index) : item['y'];
           return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">' + result + '</span></li>';
+            '<span class="g2-legend-text">' + result + '</span>' + '<span class="g2-legend-value">' + number + '</span></li>';
         },
         'g2-legend': {
           // TODO 特殊场景不能去掉

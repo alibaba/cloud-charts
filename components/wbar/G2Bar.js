@@ -169,14 +169,14 @@ export default {
         },
       });
 
-      G2.DomUtil.requestAnimationFrame(() => {
-        const legendDom = this.chartDom.querySelector('.g2-legend');
-        if(config.legend.align === 'right'){
-          legendDom && legendDom.classList.add('legend-align-right');
-        }else{
-          legendDom && legendDom.classList.add('legend-align-left');
-        }
-      });
+      // G2.DomUtil.requestAnimationFrame(() => {
+      //   const legendDom = this.chartDom.querySelector('.g2-legend');
+      //   if(config.legend.align === 'right'){
+      //     legendDom && legendDom.classList.add('legend-align-right');
+      //   }else{
+      //     legendDom && legendDom.classList.add('legend-align-left');
+      //   }
+      // });
     } else {
       chart.legend(false);
     }

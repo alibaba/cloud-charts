@@ -77,7 +77,11 @@
     flex: none;
   }
 
-  .g2-tooltip-list-item:first-child {
+  .g2-legend-value {
+    margin-left: $s2;
+  }
+
+  .g2-tooltip-list > li:first-child {
     margin-top: 0 !important;
   }
 

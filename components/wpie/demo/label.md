@@ -2,12 +2,12 @@
 order: 2
 title:
   zh-CN: 标签格式化
-  en-US: Label
+  en-US: Legend
 ---
 
 ## zh-CN
 
-通过设置 labelFormatter 对标签格式化。
+通过设置 legend.nameFormatter 和 legend.valueFormatter 对标签格式化。
 
 ## en-US
 
@@ -32,9 +32,12 @@ let data = [
 let options = {
   cycle: true,
   legend: {
-      valueFormatter: function(value){
-        return value + '%';
-      }
+    nameFormatter: function(value){
+      return 'name: ' + value;
+    },
+    valueFormatter: function(value){
+      return value + '%';
+    },
   }
 
 };
