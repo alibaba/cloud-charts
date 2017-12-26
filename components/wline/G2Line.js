@@ -3,7 +3,7 @@
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import {color, fonts, size} from "../variables";
-import { propertyAssign } from '../chartCommon/common';
+import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
 import './G2Line.scss';
 const Util = G2.Util;
 
@@ -123,7 +123,7 @@ export default {
         const yAxis = {
           title: null, // 不展示坐标轴的标题
           line: {
-            stroke: getYAxisColor(config.colors, rawData, yIndex) || color.colorLine12
+            stroke: getDataIndexColor(config.colors, rawData, yIndex) || color.colorLine12
           },
           label:{
             formatter: axis.labelFormatter,
@@ -301,22 +301,6 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
   } else if (config.symbol) {
     chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
-  }
-}
-
-function getYAxisColor(colors, rawData, yIndex) {
-  let colorIndex = null;
-  // 找到第一个顺序值和数据中yAxis值匹配的index
-  rawData.some((d, i) => {
-    const dataYAxisIndex = d.yAxis || 0;
-    if (dataYAxisIndex === yIndex) {
-      colorIndex = i;
-      return true;
-    }
-  });
-
-  if (colorIndex !== null) {
-    return colors[colorIndex];
   }
 }
 

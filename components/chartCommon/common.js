@@ -70,6 +70,29 @@ export function getParentSize(element, width, height) {
 }
 
 /**
+ * 从Highcharts格式数据中找到对应index的颜色
+ *
+ * @param {array} colors 颜色数组
+ * @param {array} rawData Highcharts 格式的数据
+ * @param {number} dataIndex y轴对应的index
+ * */
+export function getDataIndexColor(colors, rawData, dataIndex) {
+  let colorIndex = null;
+  // 找到第一个顺序值和数据中yAxis值匹配的index
+  rawData.some((d, i) => {
+    const dataYAxisIndex = d.yAxis || 0;
+    if (dataYAxisIndex === dataIndex) {
+      colorIndex = i;
+      return true;
+    }
+  });
+
+  if (colorIndex !== null) {
+    return colors[colorIndex];
+  }
+}
+
+/**
  * 判断是否是有效数字
  *
  * @param v 输入值

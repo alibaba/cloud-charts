@@ -3,7 +3,7 @@
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import {color, fonts, size} from "../variables";
-import { propertyAssign } from '../chartCommon/common';
+import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
 import './G2LineBar.scss';
 const Util = G2.Util;
@@ -142,7 +142,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor = getYAxisColor(config.lineColors, rawLineData, yIndex) || getYAxisColor(config.barColors, rawBarData, yIndex) || color.colorLine12;
+        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.colorLine12;
         const yAxisLine = {
           title: null, // 不展示坐标轴的标题
           line: {
@@ -290,10 +290,10 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
-        if (getYAxisColor(config.barColors, rawBarData, yIndex)) {
+        if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
           drawBar(barView, config, 'y' + yIndex);
         }
-        if (getYAxisColor(config.lineColors, rawLineData, yIndex)) {
+        if (getDataIndexColor(config.lineColors, rawLineData, yIndex)) {
           drawLine(lineView, config, lineShape, areaShape, 'y' + yIndex);
         }
       });
@@ -398,22 +398,6 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3);
   } else if (config.symbol) {
     chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3);
-  }
-}
-
-function getYAxisColor(colors, rawData, yIndex) {
-  let colorIndex = null;
-  // 找到第一个顺序值和数据中yAxis值匹配的index
-  rawData.some((d, i) => {
-    const dataYAxisIndex = d.yAxis || 0;
-    if (dataYAxisIndex === yIndex) {
-      colorIndex = i;
-      return true;
-    }
-  });
-
-  if (colorIndex !== null) {
-    return colors[colorIndex];
   }
 }
 
