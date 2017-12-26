@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../utils/merge';
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import './index.scss';
 const Util = G2.Util;
 const Stat = G2.Stat;

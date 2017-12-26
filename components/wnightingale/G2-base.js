@@ -1,6 +1,6 @@
 // 引入所需要的库和样式
 import merge from '../utils/merge';
-import G2 from 'g2';
+import G2 from '@antv/g2';
 import './G2-base.scss';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -33,11 +33,5 @@ export default {
     });
     chart.render();
     // ...绘制流程
-  },
-  // 自定义更新数据函数，常用于多view的情况更新数据
-  changeData(chart, newConfig, newData) {},
-  // 自定义更新大小函数
-  changeSize(chart, newConfig, newWidth, newHeight) {},
-  // 自定义销毁函数
-  destroy(chart) {}
+  }
 };
