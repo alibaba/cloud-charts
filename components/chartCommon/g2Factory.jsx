@@ -155,6 +155,27 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       },
     }
   },
+  guide: {
+    line: {
+      lineStyle: {
+        stroke: color.colorB16,
+      },
+      text: {
+        autoRotate: false,
+        style: {
+          fill: color.colorB16,
+          fontSize: fonts.fontSizeBaseCaption,
+          fontFamily: fonts.fontFamilyBase,
+        }
+      }
+    },
+    region: {
+      style: {
+        fill: color.colorB16, // 辅助框填充的颜色
+        fillOpacity: 0.1 // 辅助框的背景透明度
+      } // 辅助框的图形样式属性
+    },
+  }
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {

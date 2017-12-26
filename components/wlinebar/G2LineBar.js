@@ -5,6 +5,7 @@ import merge from '../utils/merge';
 import {color, fonts, size} from "../variables";
 import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
+import guide from '../chartCommon/guide';
 import './G2LineBar.scss';
 const Util = G2.Util;
 
@@ -273,6 +274,9 @@ export default {
     } else {
       chart.tooltip(false);
     }
+
+    // 绘制辅助线，辅助背景区域
+    guide(chart, config);
 
     //正式开始绘图，创建两个不同的view
     const barView = chart.view();

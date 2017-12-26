@@ -1,3 +1,5 @@
+import {color} from "../variables";
+
 export const compareComputed = function (compare, value1, value2) {
   switch(compare){
     case '<':
@@ -90,6 +92,21 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
   if (colorIndex !== null) {
     return colors[colorIndex];
   }
+}
+
+const statusMap = {
+  error: color.colorF23,
+  red: color.colorF23,
+
+  warning: color.colorF12,
+  orange: color.colorF12,
+
+  normal: color.colorB16,
+  blue: color.colorB16
+};
+
+export function getStatusColor(status) {
+  return statusMap[status] || status || statusMap[normal];
 }
 
 /**

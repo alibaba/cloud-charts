@@ -4,6 +4,7 @@ import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import {color, fonts, size} from "../variables";
 import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
+import guide from '../chartCommon/guide';
 import './G2Line.scss';
 const Util = G2.Util;
 
@@ -220,6 +221,9 @@ export default {
     } else {
       chart.tooltip(false);
     }
+
+    // 绘制辅助线，辅助背景区域
+    guide(chart, config);
 
     // 区域、堆叠、平滑曲线
     const lineShape = config.spline ? 'smooth' : 'line';

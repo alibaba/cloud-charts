@@ -28,6 +28,20 @@ let options7 = {
   xAxis: {type: 'time'},
   yAxis: {
     bgArea: [5000,10000]
+  },
+  guide: {
+    area: [{
+      status: 'normal',
+      // 区域位置
+      axis: 'y',
+      value: [5000,10000],
+    },
+    {
+      status: 'error',
+      // 区域位置
+      axis: 'x',
+      value: [1483545600000,1483718400000],
+    }]
   }
 };
 

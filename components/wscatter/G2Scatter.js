@@ -4,6 +4,8 @@
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import { color, fonts, size } from '../variables';
+import { propertyAssign } from '../chartCommon/common';
+import guide from '../chartCommon/guide';
 import './G2Scatter.scss';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -108,6 +110,9 @@ export default {
     setToolTip(chart, config);
 
     setLegend(chart, config, rawData, this.chartDom);
+
+    // 绘制辅助线，辅助背景区域
+    guide(chart, config);
 
     chartRender(chart, config);
   }
