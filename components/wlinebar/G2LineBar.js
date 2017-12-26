@@ -103,6 +103,7 @@ export default {
       config.yAxis.forEach((axis, yIndex) => {
         defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
+          tickCount: 5
         }, axis);
         // defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
         //   type: 'linear',
@@ -111,6 +112,7 @@ export default {
     } else {
       defs['y'] = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
+        tickCount: 5,
         // 单轴时，必须同步度量，否则会两个度量叠加在一起
         sync: true
       }, config.yAxis);

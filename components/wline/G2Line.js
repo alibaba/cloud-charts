@@ -89,11 +89,13 @@ export default {
       config.yAxis.forEach((axis, yIndex) => {
         defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
+          tickCount: 5
         }, axis);
       });
     } else {
       defs.y = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
+        tickCount: 5
       }, config.yAxis);
     }
 
