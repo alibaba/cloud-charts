@@ -31,7 +31,8 @@ const config = {
 
   // webpack 编译的入口文件
   entry: {
-    index: ['./index.scss', './index.jsx']
+    index: ['./index.scss', './index.jsx'],
+    dark: ['./index.scss']
   },
 
   // 输出的文件配置
@@ -245,14 +246,14 @@ function prod() {
     new webpack.optimize.DedupePlugin(),
 
 
-    new ExtractTextPlugin('[name].css', { allChunks: true }),
+    new ExtractTextPlugin('[name].css', { allChunks: true })
 
     // 压缩代码
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: { warnings: false },
-      output: { comments: false }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    //   compress: { warnings: false },
+    //   output: { comments: false }
+    // })
   );
 
   return _config;
