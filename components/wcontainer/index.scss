@@ -1,9 +1,8 @@
-@import '../theme/normal';
 @import './scss/mixin.scss';
 @import './scss/variable.scss';
 
 #{$wcontainer-prefix} {
-  @include wcontainer-box($wcontainer-bg-color);
+  background: $wcontainer-bg-color;
   // padding-top:$s5;
   // padding-bottom: $s5;
   display: flex;
