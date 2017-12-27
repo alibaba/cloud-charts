@@ -221,24 +221,8 @@ export default {
           display: 'inline-block',
           position: 'relative',
           marginRight: size.s3,
-
-          overflow: 'auto',
-          fontFamily: fonts.fontFamilyBase,
-          fontSize: fonts.fontSizeBaseCaption,
-          lineHeight: fonts.fontSizeBaseCaption,
-          color: color.colorText14,
           top: '6px',
         }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
-        'g2-legend-list': {},
-        'g2-legend-list-item': {
-          marginBottom: size.s3,
-          marginRight: size.s3
-        },
-        'g2-legend-marker': {
-          width: '6px',
-          height: '6px',
-          marginRight: size.s1,
-        },
       });
     } else {
       chart.legend(false);

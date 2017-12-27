@@ -29,11 +29,20 @@ let options1 = {
   legend:{
     align: 'right'
   },
-  yAxis:{
-    guideLine:[{
-      color: '#cc0000',
-      value: 55
-    }]
+  guide: {
+    line: {
+      // 显示标题相关
+      text: {
+        title: '标注',
+        //position: 'start',
+        //align: 'end',
+        //rotate: false,
+      },
+      status: 'error',
+      // 线位置
+      axis: 'y',
+      value: 55,
+    }
   }
 };
 

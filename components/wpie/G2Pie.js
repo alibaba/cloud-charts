@@ -90,26 +90,8 @@ export default {
             '<span class="g2-legend-text">' + result + '</span>' + '<span class="g2-legend-value">' + number + '</span></li>';
         },
         'g2-legend': {
-          // TODO 特殊场景不能去掉
           position: 'static',
           marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
-
-          overflow: 'auto',
-          fontFamily: fonts.fontFamilyBase,
-          fontSize: fonts.fontSizeBaseCaption,
-          lineHeight: fonts.fontSizeBaseCaption,
-          color: color.colorText14
-        },
-        'g2-legend-list': {},
-        'g2-legend-list-item': {
-          wordBreak: 'break-all',
-          marginBottom: size.s3,
-          marginRight: size.s3
-        },
-        'g2-legend-marker': {
-          width: '6px',
-          height: '6px',
-          marginRight: size.s1,
         },
       });
 

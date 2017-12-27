@@ -146,6 +146,8 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       },
       'g2-legend-list': {},
       'g2-legend-list-item': {
+        wordBreak: 'break-all',
+        marginBottom: size.s3,
         marginRight: size.s3
       },
       'g2-legend-marker': {
