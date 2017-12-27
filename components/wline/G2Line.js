@@ -112,7 +112,7 @@ export default {
     if (config.grid) {
       xAxis.grid = {
         lineStyle: {
-          stroke: color.colorFill12,
+          stroke: color.colorN13,
           lineWidth: 1,
           // lineDash: null
         },
@@ -126,7 +126,7 @@ export default {
         const yAxis = {
           title: null, // 不展示坐标轴的标题
           line: {
-            stroke: getDataIndexColor(config.colors, rawData, yIndex) || color.colorLine12
+            stroke: getDataIndexColor(config.colors, rawData, yIndex) || color.colorN16
           },
           label:{
             formatter: axis.labelFormatter,

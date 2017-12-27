@@ -152,7 +152,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
         fontFamily: fonts.fontFamilyBase,
         fontSize: fonts.fontSizeBaseCaption,
         lineHeight: fonts.fontSizeBaseCaption,
-        color: color.colorText14,
+        color: color.colorN24,
         left: '20px',
         top: 0
       },

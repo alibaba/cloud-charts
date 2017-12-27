@@ -30,7 +30,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
       line: {
-        stroke: color.colorLine12
+        stroke: color.colorN16
       },
       tickLine: null
     },
@@ -42,7 +42,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         // 让grid在轴线的下方
         zIndex: -1,
         lineStyle: {
-          stroke: color.colorFill12,
+          stroke: color.colorN13,
           lineWidth: 1,
           lineDash: null
         },
@@ -57,7 +57,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   tooltip: {
     offset: 8,
     crossLine: {
-      stroke: '#dddddd',
+      stroke: color['widgets-tooltip-cross-line'],
       // lineWidth: 1,
     },
     'g2-tooltip': {
@@ -68,11 +68,11 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       fontFamily: fonts.fontFamilyBase,
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
-      color: color.colorText14,
+      color: color.colorN24,
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: color.colorText12
+      color: color.colorN22
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {

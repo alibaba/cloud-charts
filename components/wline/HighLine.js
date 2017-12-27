@@ -431,9 +431,9 @@ function getHCOptions(options, data) {
       lineWidth: 1,
       type: options.xAxis.type, // 此处依赖options设置
       gridLineWidth: options.mini ? 0 : options.grid ? 1 : 0,
-      gridLineColor: color.colorFill12,
+      gridLineColor: color.colorN13,
       tickPixelInterval: 70,
-      lineColor: color.colorLine12,
+      lineColor: color.colorN16,
       tickLength: 0,
       labels: {
         enabled: !options.mini,
@@ -678,9 +678,9 @@ function getYAxis(options, data, yAxis, index) {
       enabled: false
     },
     lineWidth: index === undefined ? yAxis.lineWidth : yAxis.lineWidth || 1,
-    lineColor: index === undefined ? color.colorLine12 : getYAxisColor(options, data, index),
+    lineColor: index === undefined ? color.colorN16 : getYAxisColor(options, data, index),
     gridLineWidth: options.mini ? 0 : 1,
-    gridLineColor: color.colorFill12,
+    gridLineColor: color.colorN13,
     tickPixelInterval: 40,
     opposite: !!index,
     labels: {
@@ -719,7 +719,7 @@ function getYAxisColor(options, data, index) {
   if (colorIndex !== null) {
     return options.colors[colorIndex];
   }
-  return color.colorLine12;
+  return color.colorN16;
 }
 
 export default Line;

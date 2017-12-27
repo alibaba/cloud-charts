@@ -134,7 +134,7 @@ export default {
     if (config.grid) {
       xAxis.grid = {
         lineStyle: {
-          stroke: color.colorFill12,
+          stroke: color.colorN13,
           lineWidth: 1,
           // lineDash: null
         },
@@ -145,7 +145,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.colorLine12;
+        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.colorN16;
         const yAxisLine = {
           title: null, // 不展示坐标轴的标题
           line: {

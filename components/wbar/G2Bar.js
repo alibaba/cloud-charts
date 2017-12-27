@@ -121,7 +121,7 @@ export default {
       // })
       xAxis.grid = {
         lineStyle: {
-          stroke: color.colorFill12,
+          stroke: color.colorN13,
           // lineWidth: 1,
           // lineDash: null
         },
