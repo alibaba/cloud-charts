@@ -1,0 +1,29 @@
+@import "../theme/normal";
+
+.aisc-widgets.G2Pie {
+  text-align: center;
+}
+.aisc-widgets.G2Pie > div {
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+
+  & > canvas {
+    position: static;
+    flex: none;
+  }
+
+  .g2-legend-value {
+    margin-left: $s2;
+  }
+
+  .g2-tooltip-list > li:first-child {
+    margin-top: 0 !important;
+  }
+
+  .g2-legend-list-item:last-child {
+    margin-bottom: 1px !important;
+  }
+}

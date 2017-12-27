@@ -3,6 +3,7 @@
   "version": "2.0.0-beta.1",
   "main": "./lib/index.js",
   "scripts": {
+    "test": "node_modules/.bin/gulp test",
     "dev": "brush start -c ./config/_dev.js",
     "babel-site": "babel ./site/theme/template --out-dir ./site/theme/template",
     "clean-site": "rm site/theme/template/**/*.js site/theme/template/*.js",
@@ -32,14 +33,14 @@
     "sass-variable-loader": "^0.1.2"
   },
   "devDependencies": {
-    "@antv/data-set": "^0.8.0",
-    "@antv/g2": "^3.0.3",
     "@ali/ci-log": "*",
     "@ali/git-commit": "^1.2.3",
     "@ali/happypack": "^2.3.0",
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
+    "@antv/data-set": "^0.8.0",
+    "@antv/g2": "^3.0.3",
     "autoprefixer": "^6.3.6",
     "babel-cli": "~6.7.5",
     "babel-core": "~6.7.4",
@@ -69,6 +70,7 @@
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-util": "~3.0.7",
     "highcharts": "^v5.0.12",

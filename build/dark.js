@@ -52042,9 +52042,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _color = __webpack_require__(85);
+	var _color_dark = __webpack_require__(85);
 
-	var _color2 = _interopRequireDefault(_color);
+	var _color_dark2 = _interopRequireDefault(_color_dark);
 
 	var _font = __webpack_require__(86);
 
@@ -52060,7 +52060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var prefix = 'widgets-';
 
-	_extends(_color2.default, (_extends2 = {}, _defineProperty(_extends2, prefix + 'tooltip-background', 'rgba(255, 255, 255, 0.9)'), _defineProperty(_extends2, prefix + 'tooltip-shadow', '0 1px 5px 0 rgba(0, 0, 0, 0.2)'), _defineProperty(_extends2, 'colors_12', [_color2.default.colorB16, _color2.default.colorF12, _color2.default.colorF23, _color2.default.colorF32,
+	_extends(_color_dark2.default, (_extends2 = {}, _defineProperty(_extends2, prefix + 'tooltip-background', 'rgba(255, 255, 255, 0.9)'), _defineProperty(_extends2, prefix + 'tooltip-shadow', '0 1px 5px 0 rgba(0, 0, 0, 0.2)'), _defineProperty(_extends2, 'colors_12', [_color_dark2.default.colorB16, _color_dark2.default.colorF12, _color_dark2.default.colorF23, _color_dark2.default.colorF32,
 	// '#2889EC',
 	// '#F6A71F',
 	// '#EF5350',
@@ -52070,7 +52070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	_font2.default['fontFamilyNumber'] = "DINMediumNumber, " + _font2.default.fontFamilyBase;
 
 	exports.size = _size2.default;
-	exports.color = _color2.default;
+	exports.color = _color_dark2.default;
 	exports.fonts = _font2.default;
 
 	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : module.exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', "D:\\Git\\p2widgets\\components\\theme\\normal.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\p2widgets\\components\\theme\\normal.js"); } } })();
@@ -106183,7 +106183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 85 */
 /***/ function(module, exports) {
 
-	module.exports = {"colorWhite":"#FFFFFF","colorBlack":"#000000","colorTransparent":"transparent","colorB11":"#42A5F5","colorB12":"#EAF6FE","colorB16":"#2889EC","colorB19":"#1976D2","colorB111":"#313b4c","colorB21":"#E8F6FF","colorB23":"#A6D3F0","colorB26":"#2683D4","colorB76":"#4F74B3","colorB79":"#2D559C","colorFill11":"#F7F8FA","colorN12":"#F7F8FA","colorFill12":"#F2F3F7","colorN13":"#F2F3F7","colorFill13":"#EBECF0","colorN14":"#EBECF0","colorLine11":"#E6E7EB","colorN15":"#E6E7EB","colorLine12":"#DCDEE3","colorN16":"#DCDEE3","colorLine13":"#C4C6CF","colorN17":"#C4C6CF","colorLine14":"#A0A2AD","colorN18":"#A0A2AD","colorText11":"#CCCCCC","colorN21":"#CCCCCC","colorText12":"#999999","colorN22":"#999999","colorText13":"#666666","colorN23":"#666666","colorText14":"#333333","colorN24":"#333333","colorText15":"#222222","colorN25":"#222222","colorWarning1":"#FB8C00","colorF11":"#FB8C00","colorWarning2":"#F6A71F","colorF12":"#F6A71F","colorWarning3":"#EB7C00","colorF13":"#EB7C00","colorWarning4":"#FFF7E9","colorF14":"#FFF7E9","colorSecondWarning1":"#FBC02D","colorF51":"#FBC02D","colorSecondWarning2":"#FFD751","colorF52":"#FFD751","colorSecondWarning3":"#F2B92C","colorF53":"#F2B92C","colorSecondWarning4":"#FFFDE7","colorF54":"#FFFDE7","colorError1":"#E93A3A","colorF21":"#E93A3A","colorError2":"#FFEBEE","colorF22":"#FFEBEE","colorError3":"#EF5350","colorF23":"#EF5350","colorError4":"#D32F2F","colorF24":"#D32F2F","colorSuccess1":"#3EBB44","colorF31":"#3EBB44","colorSuccess2":"#4AD151","colorF32":"#4AD151","colorSuccess3":"#37A43C","colorF33":"#37A43C","colorSuccess4":"#E8FEEA","colorF34":"#E8FEEA","colorLink1":"#1390DC","colorF41":"#1390DC","colorLink3":"#006FB1","colorF42":"#006FB1","colorLink2":"#4683DC","colorF43":"#4683DC","colorLink4":"#0E9DE9","colorF44":"#0E9DE9","colorF61":"#2889EC","colorF62":"#EAF6FE","colorS11":"#ECF4FF","colorS12":"#F5F9FE","colorS13":"#E3EEFD","colorS14":"#ECF4FF","colorS15":"#ECF4FF","colorS16":"#F5F9FE","colorS21":"#2D3035","colorS22":"#000000","colorS23":"#313B4B","colorS24":"#1f2227","colorS31":"#F8F8F8","colorS32":"#FFFFFF"};
+	module.exports = {"colorWhite":"#141830","colorBlack":"#FFFFFF","colorTransparent":"#141830","colorB11":"#4BB9FC","colorB12":"#112244","colorB16":"#42A5F5","colorB19":"#2889EC","colorB111":"#313b4c","colorB21":"#E8F6FF","colorB23":"#A6D3F0","colorB26":"#2683D4","colorB76":"#4F74B3","colorB79":"#2D559C","colorN15":"#3A3E63","colorN16":"#454A78","colorN17":"#4D5384","colorN18":"#575D92","colorN12":"#25294B","colorN13":"#2E335C","colorN14":"#353B6A","colorN21":"#3A3E56","colorN22":"#6A6E89","colorN23":"#A1A5C0","colorN24":"#FFFFFF","colorN25":"#141728","colorF11":"#FB8C00","colorF12":"#F6A71F","colorF13":"#EB7C00","colorF14":"#382C10","colorF51":"#FBC02D","colorF52":"#FFD751","colorF53":"#F2B92C","colorF54":"#3C210E","colorF21":"#E93A3A","colorF22":"#35141B","colorF23":"#EF5350","colorF24":"#D32F2F","colorF31":"#3EBB44","colorF32":"#4AD151","colorF33":"#37A43C","colorF34":"#122D1D","colorF41":"#1390DC","colorF42":"#006FB1","colorF43":"#4683DC","colorF44":"#0E9DE9","colorS11":"#162546","colorS12":"#141D39","colorS13":"#172C51","colorS14":"#162546","colorS15":"#162546","colorS16":"#172241","colorS21":"#1F233C","colorS22":"#141728","colorS23":"#2A2F4A","colorS31":"#080a13","colorS32":"#141830"};
 
 /***/ },
 /* 86 */
