@@ -3,7 +3,7 @@
 import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { size, color, fonts } from '../variables';
+import { size, color, fonts } from '../theme/normal';
 import { getParentSize } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 

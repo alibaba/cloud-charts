@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
-import { color, fonts, size } from '../variables';
+import { color, fonts, size } from '../theme/normal';
 import { propertyAssign } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import './G2Scatter.scss';

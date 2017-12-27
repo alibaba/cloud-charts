@@ -4,7 +4,7 @@ import Highcharts from 'highcharts'; // 暂时使用highcharts
 import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
-import { color } from '../variables';
+import { color } from '../theme/normal';
 import './index.scss';
 
 Highcharts.setOptions({ global: { useUTC: false } }); // 不使用HC内置时区设置

@@ -1,5 +1,5 @@
 'use strict';
-import { color } from '../variables';
+import { color } from '../theme/normal';
 
 
 export default [

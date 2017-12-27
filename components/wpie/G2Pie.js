@@ -2,7 +2,7 @@
 
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
-import {color, fonts, size} from "../variables";
+import {color, fonts, size} from "../theme/normal";
 import './G2Pie.scss';
 const Util = G2.Util;
 

@@ -1,4 +1,4 @@
-import {color} from "../variables";
+import {color} from "../theme/normal";
 
 export const compareComputed = function (compare, value1, value2) {
   switch(compare){
