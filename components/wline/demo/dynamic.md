@@ -28,6 +28,10 @@ for(var i = 0; i < 30; i++) {
 let options1 = {
   xAxis: {
     type: 'time',
+  },
+  yAxis: {
+    min: 0,
+    max: 1000
   }
 };
 

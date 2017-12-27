@@ -47,7 +47,8 @@ export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='t
 
 export function propertyAssign (keys, target, source) {
   keys.forEach((key) => {
-    if (source[key]) {
+    // 0也是假值，但是是有效值，所以需要排除
+    if (source[key] || source[key] === 0) {
       target[key] = source[key];
     }
   });
