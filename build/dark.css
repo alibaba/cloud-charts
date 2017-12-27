@@ -192,7 +192,7 @@
  *   }
  */
 .aisc-wcontainer {
-  background: #FFFFFF;
+  background: #141830;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -884,7 +884,7 @@
  *   }
  */
 .aisc-wminicontainer {
-  background: #FFFFFF;
+  background: #141830;
   padding-top: 20px; }
 
 .aisc-wminicontainer-blue {

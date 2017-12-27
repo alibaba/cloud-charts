@@ -149,26 +149,12 @@ gulp.task('build:theme', ['build:themeFile'], (cb) => {
         .pipe(gulp.dest(srcPath + '/theme'))
         .on('end', () => {
           // 清空备份
-          // del('__temp').then(() => {
-            cb && cb();
-          // });
-        });
-    });
-  });
-});
-
-gulp.task('test', [], (cb) => {
-    //返回备份档
-    del(srcPath + '/theme').then(() => {
-      gulp.src('__temp/*')
-        .pipe(gulp.dest(srcPath + '/theme'))
-        .on('end', () => {
-          // 清空备份
           del('__temp').then(() => {
             cb && cb();
           });
         });
     });
+  });
 });
 
 gulp.task('default', ['start']);

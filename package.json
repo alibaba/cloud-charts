@@ -3,7 +3,6 @@
   "version": "2.0.0-beta.1",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "node_modules/.bin/gulp test",
     "dev": "brush start -c ./config/_dev.js",
     "babel-site": "babel ./site/theme/template --out-dir ./site/theme/template",
     "clean-site": "rm site/theme/template/**/*.js site/theme/template/*.js",

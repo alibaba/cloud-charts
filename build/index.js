@@ -52144,7 +52144,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function propertyAssign(keys, target, source) {
 	  keys.forEach(function (key) {
-	    if (source[key]) {
+	    // 0也是假值，但是是有效值，所以需要排除
+	    if (source[key] || source[key] === 0) {
 	      target[key] = source[key];
 	    }
 	  });
@@ -106182,7 +106183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 85 */
 /***/ function(module, exports) {
 
-	module.exports = {"fontFamilyNumber":"DINMediumNumber, \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif","fontSizeLargeNumber":"28px","fontSizeXlargeNumber":"32px","widgetsColorBlue":"#2E85FF","widgetsColorOrange":"#FAB34F","widgetsColorRed":"#FF656B","widgetsColorGreen":"#4AD051","widgetsColorCategory1":"#2E85FF","widgetsColorCategory2":"#FAB34F","widgetsColorCategory3":"#FF656B","widgetsColorCategory4":"#4AD051","widgetsColorCategory5":"#9979F2","widgetsColorCategory6":"#006CD9","widgetsColorCategory7":"#5CCDBB","widgetsColorCategory8":"#5C60E6","widgetsColorCategory9":"#E65CCB","widgetsColorCategory10":"#52D7FF","widgetsColorCategory11":"#9B5CE6","widgetsColorCategory12":"#E65C5C"};
+	module.exports = {"fontFamilyNumber":"DINMediumNumber, \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif","fontSizeLargeNumber":"28px","fontSizeXlargeNumber":"32px","widgetsColorWhite":"#FFFFFF","widgetsColorBlack":"#000000","widgetsColorBlue":"#2E85FF","widgetsColorOrange":"#FAB34F","widgetsColorRed":"#FF656B","widgetsColorGreen":"#4AD051","widgetsColorCategory1":"#2E85FF","widgetsColorCategory2":"#FAB34F","widgetsColorCategory3":"#FF656B","widgetsColorCategory4":"#4AD051","widgetsColorCategory5":"#9979F2","widgetsColorCategory6":"#006CD9","widgetsColorCategory7":"#5CCDBB","widgetsColorCategory8":"#5C60E6","widgetsColorCategory9":"#E65CCB","widgetsColorCategory10":"#52D7FF","widgetsColorCategory11":"#9B5CE6","widgetsColorCategory12":"#E65C5C"};
 
 /***/ },
 /* 86 */
