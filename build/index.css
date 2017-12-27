@@ -139,16 +139,16 @@
   .aisc-wnumber .aisc-wnumber-main {
     position: relative; }
     .aisc-wnumber .aisc-wnumber-main.drop {
-      color: #EF5350; }
+      color: #FF656B; }
     .aisc-wnumber .aisc-wnumber-main.raise {
-      color: #2889EC; }
+      color: #2E85FF; }
     .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-leftIcon, .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-rightRatioIcon {
       position: relative;
       margin-right: 2px; }
       .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-leftIcon > .drop, .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-rightRatioIcon > .drop {
-        color: #EF5350; }
+        color: #FF656B; }
       .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-leftIcon > .raise, .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-rightRatioIcon > .raise {
-        color: #2889EC; }
+        color: #2E85FF; }
     .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-unit {
       margin-left: 4px;
       font-size: 12px; }
@@ -165,9 +165,9 @@
       top: 12px;
       font-size: 16px; }
       .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-rightRatio.drop {
-        color: #EF5350; }
+        color: #FF656B; }
       .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-rightRatio.raise {
-        color: #2889EC; }
+        color: #2E85FF; }
     .aisc-wnumber .aisc-wnumber-main .aisc-wnumber-trend {
       margin-left: 8px; }
   .aisc-wnumber .aisc-wnumber-bottomTitle {
@@ -829,24 +829,24 @@
         line-height: 1;
         color: #333333; }
   .aisc-wcircle .blue {
-    color: #2889EC; }
+    color: #2E85FF; }
   .aisc-wcircle .orange {
-    color: #F6A71F; }
+    color: #FAB34F; }
   .aisc-wcircle .red {
-    color: #EF5350; }
+    color: #FF656B; }
   .aisc-wcircle .aisc-wcircle-number.drop, .aisc-wcircle .aisc-wcircle-bottom-number.drop {
-    color: #EF5350; }
+    color: #FF656B; }
   .aisc-wcircle .aisc-wcircle-number.raise, .aisc-wcircle .aisc-wcircle-bottom-number.raise {
-    color: #2889EC; }
+    color: #2E85FF; }
   .aisc-wcircle .aisc-wcircle-trend {
     margin-left: 8px; }
   .aisc-wcircle .aisc-wcircle-leftIcon {
     position: relative;
     margin-right: 2px; }
     .aisc-wcircle .aisc-wcircle-leftIcon > .drop {
-      color: #EF5350; }
+      color: #FF656B; }
     .aisc-wcircle .aisc-wcircle-leftIcon > .raise {
-      color: #2889EC; }
+      color: #2E85FF; }
   .aisc-wcircle .aisc-wcircle-bottom-block {
     font-family: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
     font-size: 32px;
@@ -888,13 +888,13 @@
   padding-top: 20px; }
 
 .aisc-wminicontainer-blue {
-  border-top: 2px solid #2889EC;
+  border-top: 2px solid #2E85FF;
   padding-top: 18px; }
 
 .aisc-wminicontainer-orange {
-  border-top: 2px solid #F6A71F;
+  border-top: 2px solid #FAB34F;
   padding-top: 18px; }
 
 .aisc-wminicontainer-red {
-  border-top: 2px solid #EF5350;
+  border-top: 2px solid #FF656B;
   padding-top: 18px; }

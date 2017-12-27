@@ -52042,17 +52042,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _color = __webpack_require__(85);
+	var _color = __webpack_require__(86);
 
 	var _color2 = _interopRequireDefault(_color);
 
-	var _font = __webpack_require__(86);
+	var _font = __webpack_require__(87);
 
 	var _font2 = _interopRequireDefault(_font);
 
-	var _size = __webpack_require__(87);
+	var _size = __webpack_require__(88);
 
 	var _size2 = _interopRequireDefault(_size);
+
+	var _normal = __webpack_require__(85);
+
+	var _normal2 = _interopRequireDefault(_normal);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52060,14 +52064,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var prefix = 'widgets-';
 
-	_extends(_color2.default, (_extends2 = {}, _defineProperty(_extends2, prefix + 'tooltip-background', 'rgba(255, 255, 255, 0.9)'), _defineProperty(_extends2, prefix + 'tooltip-shadow', '0 1px 5px 0 rgba(0, 0, 0, 0.2)'), _defineProperty(_extends2, 'colors_12', [_color2.default.colorB16, _color2.default.colorF12, _color2.default.colorF23, _color2.default.colorF32,
-	// '#2889EC',
-	// '#F6A71F',
-	// '#EF5350',
-	// '#4AD051',
-	'#8B73CC', '#0F1BB3', '#429588', '#735546', '#D42762', '#673EBC', '#65DBFF', '#5ABCD6']), _extends2));
+	_extends(_color2.default, _normal2.default, (_extends2 = {}, _defineProperty(_extends2, prefix + 'tooltip-background', 'rgba(255, 255, 255, 0.9)'), _defineProperty(_extends2, prefix + 'tooltip-shadow', '0 1px 5px 0 rgba(0, 0, 0, 0.2)'), _defineProperty(_extends2, prefix + 'tooltip-cross-line', '#dddddd'), _defineProperty(_extends2, 'colors_12', [_normal2.default.widgetsColorCategory1, _normal2.default.widgetsColorCategory2, _normal2.default.widgetsColorCategory3, _normal2.default.widgetsColorCategory4, _normal2.default.widgetsColorCategory5, _normal2.default.widgetsColorCategory6, _normal2.default.widgetsColorCategory7, _normal2.default.widgetsColorCategory8, _normal2.default.widgetsColorCategory9, _normal2.default.widgetsColorCategory10, _normal2.default.widgetsColorCategory11, _normal2.default.widgetsColorCategory12]), _extends2));
 
-	_font2.default['fontFamilyNumber'] = "DINMediumNumber, " + _font2.default.fontFamilyBase;
+	_font2.default['fontFamilyNumber'] = _normal2.default.fontFamilyNumber;
 
 	exports.size = _size2.default;
 	exports.color = _color2.default;
@@ -93862,7 +93861,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        textStyle: { fill: _normal.color.colorN22 // 底部标签文本的颜色
 	        } },
 	      line: {
-	        stroke: _normal.color.colorLine12
+	        stroke: _normal.color.colorN16
 	      },
 	      tickLine: null
 	    },
@@ -93874,7 +93873,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // 让grid在轴线的下方
 	        zIndex: -1,
 	        lineStyle: {
-	          stroke: _normal.color.colorFill12,
+	          stroke: _normal.color.colorN13,
 	          lineWidth: 1,
 	          lineDash: null
 	        }
@@ -93889,7 +93888,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  tooltip: {
 	    offset: 8,
 	    crossLine: {
-	      stroke: '#dddddd'
+	      stroke: _normal.color['widgets-tooltip-cross-line']
 	      // lineWidth: 1,
 	    },
 	    'g2-tooltip': {
@@ -93900,11 +93899,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      fontFamily: _normal.fonts.fontFamilyBase,
 	      fontSize: _normal.fonts.fontSizeBaseCaption,
 	      lineHeight: _normal.fonts.fontSizeBaseCaption,
-	      color: _normal.color.colorText14
+	      color: _normal.color.colorN24
 	    },
 	    'g2-tooltip-title': {
 	      marginBottom: 0,
-	      color: _normal.color.colorText12
+	      color: _normal.color.colorN22
 	    },
 	    'g2-tooltip-list': {},
 	    'g2-tooltip-list-item': {
@@ -102137,7 +102136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // })
 	      xAxis.grid = {
 	        lineStyle: {
-	          stroke: _normal.color.colorFill12
+	          stroke: _normal.color.colorN13
 	          // lineWidth: 1,
 	          // lineDash: null
 	        }
@@ -103161,7 +103160,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (config.grid) {
 	      xAxis.grid = {
 	        lineStyle: {
-	          stroke: _normal.color.colorFill12,
+	          stroke: _normal.color.colorN13,
 	          lineWidth: 1
 	          // lineDash: null
 	        }
@@ -103175,7 +103174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var yAxis = {
 	          title: null, // 不展示坐标轴的标题
 	          line: {
-	            stroke: (0, _common.getDataIndexColor)(config.colors, rawData, yIndex) || _normal.color.colorLine12
+	            stroke: (0, _common.getDataIndexColor)(config.colors, rawData, yIndex) || _normal.color.colorN16
 	          },
 	          label: {
 	            formatter: axis.labelFormatter
@@ -103515,7 +103514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (config.grid) {
 	      xAxis.grid = {
 	        lineStyle: {
-	          stroke: _normal.color.colorFill12,
+	          stroke: _normal.color.colorN13,
 	          lineWidth: 1
 	          // lineDash: null
 	        }
@@ -103526,7 +103525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (Array.isArray(config.yAxis)) {
 	      config.yAxis.forEach(function (axis, yIndex) {
-	        var axisColor = (0, _common.getDataIndexColor)(config.lineColors, rawLineData, yIndex) || (0, _common.getDataIndexColor)(config.barColors, rawBarData, yIndex) || _normal.color.colorLine12;
+	        var axisColor = (0, _common.getDataIndexColor)(config.lineColors, rawLineData, yIndex) || (0, _common.getDataIndexColor)(config.barColors, rawBarData, yIndex) || _normal.color.colorN16;
 	        var yAxisLine = {
 	          title: null, // 不展示坐标轴的标题
 	          line: {
@@ -105254,7 +105253,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        fontFamily: _normal.fonts.fontFamilyBase,
 	        fontSize: _normal.fonts.fontSizeBaseCaption,
 	        lineHeight: _normal.fonts.fontSizeBaseCaption,
-	        color: _normal.color.colorText14,
+	        color: _normal.color.colorN24,
 	        left: '20px',
 	        top: 0
 	      },
@@ -106183,16 +106182,22 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 85 */
 /***/ function(module, exports) {
 
-	module.exports = {"colorWhite":"#FFFFFF","colorBlack":"#000000","colorTransparent":"transparent","colorB11":"#42A5F5","colorB12":"#EAF6FE","colorB16":"#2889EC","colorB19":"#1976D2","colorB111":"#313b4c","colorB21":"#E8F6FF","colorB23":"#A6D3F0","colorB26":"#2683D4","colorB76":"#4F74B3","colorB79":"#2D559C","colorFill11":"#F7F8FA","colorN12":"#F7F8FA","colorFill12":"#F2F3F7","colorN13":"#F2F3F7","colorFill13":"#EBECF0","colorN14":"#EBECF0","colorLine11":"#E6E7EB","colorN15":"#E6E7EB","colorLine12":"#DCDEE3","colorN16":"#DCDEE3","colorLine13":"#C4C6CF","colorN17":"#C4C6CF","colorLine14":"#A0A2AD","colorN18":"#A0A2AD","colorText11":"#CCCCCC","colorN21":"#CCCCCC","colorText12":"#999999","colorN22":"#999999","colorText13":"#666666","colorN23":"#666666","colorText14":"#333333","colorN24":"#333333","colorText15":"#222222","colorN25":"#222222","colorWarning1":"#FB8C00","colorF11":"#FB8C00","colorWarning2":"#F6A71F","colorF12":"#F6A71F","colorWarning3":"#EB7C00","colorF13":"#EB7C00","colorWarning4":"#FFF7E9","colorF14":"#FFF7E9","colorSecondWarning1":"#FBC02D","colorF51":"#FBC02D","colorSecondWarning2":"#FFD751","colorF52":"#FFD751","colorSecondWarning3":"#F2B92C","colorF53":"#F2B92C","colorSecondWarning4":"#FFFDE7","colorF54":"#FFFDE7","colorError1":"#E93A3A","colorF21":"#E93A3A","colorError2":"#FFEBEE","colorF22":"#FFEBEE","colorError3":"#EF5350","colorF23":"#EF5350","colorError4":"#D32F2F","colorF24":"#D32F2F","colorSuccess1":"#3EBB44","colorF31":"#3EBB44","colorSuccess2":"#4AD151","colorF32":"#4AD151","colorSuccess3":"#37A43C","colorF33":"#37A43C","colorSuccess4":"#E8FEEA","colorF34":"#E8FEEA","colorLink1":"#1390DC","colorF41":"#1390DC","colorLink3":"#006FB1","colorF42":"#006FB1","colorLink2":"#4683DC","colorF43":"#4683DC","colorLink4":"#0E9DE9","colorF44":"#0E9DE9","colorF61":"#2889EC","colorF62":"#EAF6FE","colorS11":"#ECF4FF","colorS12":"#F5F9FE","colorS13":"#E3EEFD","colorS14":"#ECF4FF","colorS15":"#ECF4FF","colorS16":"#F5F9FE","colorS21":"#2D3035","colorS22":"#000000","colorS23":"#313B4B","colorS24":"#1f2227","colorS31":"#F8F8F8","colorS32":"#FFFFFF"};
+	module.exports = {"fontFamilyNumber":"DINMediumNumber, \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif","fontSizeLargeNumber":"28px","fontSizeXlargeNumber":"32px","widgetsColorBlue":"#2E85FF","widgetsColorOrange":"#FAB34F","widgetsColorRed":"#FF656B","widgetsColorGreen":"#4AD051","widgetsColorCategory1":"#2E85FF","widgetsColorCategory2":"#FAB34F","widgetsColorCategory3":"#FF656B","widgetsColorCategory4":"#4AD051","widgetsColorCategory5":"#9979F2","widgetsColorCategory6":"#006CD9","widgetsColorCategory7":"#5CCDBB","widgetsColorCategory8":"#5C60E6","widgetsColorCategory9":"#E65CCB","widgetsColorCategory10":"#52D7FF","widgetsColorCategory11":"#9B5CE6","widgetsColorCategory12":"#E65C5C"};
 
 /***/ },
 /* 86 */
 /***/ function(module, exports) {
 
-	module.exports = {"fontLineheightBase":"1.2857142","fontFamilyBase":"\"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif","fontFamilyEn":"\"Helvetica Neue\", Helvetica, Arial","fontFamilyZh":"\"PingFang SC\", \"Microsoft YaHei\"","fontWeightLight":"lighter","fontWeightThin":"200","fontWeightRegular":"normal","fontWeightMedium":"500","fontWeightBold":"bold","fontWeightBolder":"bolder","fontSizeBaseDisplay3":"56px","fontSizeBaseDisplay2":"48px","fontSizeBaseDisplay1":"36px","fontSizeBaseHeadline":"24px","fontSizeBaseTitle":"20px","fontSizeBaseSubhead":"16px","fontSizeBaseBody2":"14px","fontSizeBaseBody1":"14px","fontSizeBaseCaption":"12px","fontLineheightBaseDisplay3":"84px","fontLineheightBaseDisplay2":"68px","fontLineheightBaseDisplay1":"54px","fontLineheightBaseHeadline":"36px","fontLineheightBaseTitle":"30px","fontLineheightBaseSubhead":"24px","fontLineheightBaseBody2":"20px","fontLineheightBaseBody1":"20px","fontLineheightBaseCaption":"18px"};
+	module.exports = {"colorWhite":"#FFFFFF","colorBlack":"#000000","colorTransparent":"transparent","colorB11":"#42A5F5","colorB12":"#EAF6FE","colorB16":"#2889EC","colorB19":"#1976D2","colorB111":"#313b4c","colorB21":"#E8F6FF","colorB23":"#A6D3F0","colorB26":"#2683D4","colorB76":"#4F74B3","colorB79":"#2D559C","colorFill11":"#F7F8FA","colorN12":"#F7F8FA","colorFill12":"#F2F3F7","colorN13":"#F2F3F7","colorFill13":"#EBECF0","colorN14":"#EBECF0","colorLine11":"#E6E7EB","colorN15":"#E6E7EB","colorLine12":"#DCDEE3","colorN16":"#DCDEE3","colorLine13":"#C4C6CF","colorN17":"#C4C6CF","colorLine14":"#A0A2AD","colorN18":"#A0A2AD","colorText11":"#CCCCCC","colorN21":"#CCCCCC","colorText12":"#999999","colorN22":"#999999","colorText13":"#666666","colorN23":"#666666","colorText14":"#333333","colorN24":"#333333","colorText15":"#222222","colorN25":"#222222","colorWarning1":"#FB8C00","colorF11":"#FB8C00","colorWarning2":"#F6A71F","colorF12":"#F6A71F","colorWarning3":"#EB7C00","colorF13":"#EB7C00","colorWarning4":"#FFF7E9","colorF14":"#FFF7E9","colorSecondWarning1":"#FBC02D","colorF51":"#FBC02D","colorSecondWarning2":"#FFD751","colorF52":"#FFD751","colorSecondWarning3":"#F2B92C","colorF53":"#F2B92C","colorSecondWarning4":"#FFFDE7","colorF54":"#FFFDE7","colorError1":"#E93A3A","colorF21":"#E93A3A","colorError2":"#FFEBEE","colorF22":"#FFEBEE","colorError3":"#EF5350","colorF23":"#EF5350","colorError4":"#D32F2F","colorF24":"#D32F2F","colorSuccess1":"#3EBB44","colorF31":"#3EBB44","colorSuccess2":"#4AD151","colorF32":"#4AD151","colorSuccess3":"#37A43C","colorF33":"#37A43C","colorSuccess4":"#E8FEEA","colorF34":"#E8FEEA","colorLink1":"#1390DC","colorF41":"#1390DC","colorLink3":"#006FB1","colorF42":"#006FB1","colorLink2":"#4683DC","colorF43":"#4683DC","colorLink4":"#0E9DE9","colorF44":"#0E9DE9","colorF61":"#2889EC","colorF62":"#EAF6FE","colorS11":"#ECF4FF","colorS12":"#F5F9FE","colorS13":"#E3EEFD","colorS14":"#ECF4FF","colorS15":"#ECF4FF","colorS16":"#F5F9FE","colorS21":"#2D3035","colorS22":"#000000","colorS23":"#313B4B","colorS24":"#1f2227","colorS31":"#F8F8F8","colorS32":"#FFFFFF"};
 
 /***/ },
 /* 87 */
+/***/ function(module, exports) {
+
+	module.exports = {"fontLineheightBase":"1.2857142","fontFamilyBase":"\"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Microsoft YaHei\", Arial, sans-serif","fontFamilyEn":"\"Helvetica Neue\", Helvetica, Arial","fontFamilyZh":"\"PingFang SC\", \"Microsoft YaHei\"","fontWeightLight":"lighter","fontWeightThin":"200","fontWeightRegular":"normal","fontWeightMedium":"500","fontWeightBold":"bold","fontWeightBolder":"bolder","fontSizeBaseDisplay3":"56px","fontSizeBaseDisplay2":"48px","fontSizeBaseDisplay1":"36px","fontSizeBaseHeadline":"24px","fontSizeBaseTitle":"20px","fontSizeBaseSubhead":"16px","fontSizeBaseBody2":"14px","fontSizeBaseBody1":"14px","fontSizeBaseCaption":"12px","fontLineheightBaseDisplay3":"84px","fontLineheightBaseDisplay2":"68px","fontLineheightBaseDisplay1":"54px","fontLineheightBaseHeadline":"36px","fontLineheightBaseTitle":"30px","fontLineheightBaseSubhead":"24px","fontLineheightBaseBody2":"20px","fontLineheightBaseBody1":"20px","fontLineheightBaseCaption":"18px"};
+
+/***/ },
+/* 88 */
 /***/ function(module, exports) {
 
 	module.exports = {"sizeBase":"4px","s0":"0","s1":"4px","s2":"8px","s3":"12px","s4":"16px","s5":"20px","s6":"24px","s7":"28px","s8":"32px","s9":"36px","s10":"40px","s11":"44px","s12":"48px","s13":"52px","s14":"56px","s15":"60px","s16":"64px","s17":"68px","s18":"72px","s19":"76px","s20":"80px","s21":"84px","s22":"88px","s23":"92px","s24":"96px","s25":"100px","s26":"104px","s27":"108px","s28":"112px","s29":"116px","s30":"120px","s31":"124px","s32":"128px","s33":"132px","s34":"136px","s35":"140px","s36":"144px","s37":"148px","s38":"152px","s39":"156px","s40":"160px","s41":"164px","s42":"168px","s43":"172px","s44":"176px","s45":"180px","s46":"184px","s47":"188px","s48":"192px","s49":"196px","s50":"200px"};
