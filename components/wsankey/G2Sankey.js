@@ -1,6 +1,5 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
 import G2 from '@antv/g2';
 import {DataSet} from '@antv/data-set';

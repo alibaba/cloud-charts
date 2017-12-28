@@ -2,7 +2,8 @@
 @import "./scss/variable.scss";
 
 #{$wminicontainer-prefix} {
-  @include wminicontainer-box($wminicontainer-bg-color);
+  background: $wminicontainer-bg-color;
+  padding-top: 20px;
 }
 
 #{$wminicontainer-prefix}-blue{

@@ -1,0 +1,26 @@
+@import "~@alife/aisc-core/scss/aisc";
+
+$font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$font-size-large-number: 28px;
+$font-size-xlarge-number: 32px;
+
+$widgets-color-white: #FFFFFF !default;
+$widgets-color-black: #000000 !default;
+
+$widgets-color-blue: #2E85FF !default;
+$widgets-color-orange: #FAB34F !default;
+$widgets-color-red: #FF656B !default;
+$widgets-color-green: #4AD051 !default;
+
+$widgets-color-category-1: $widgets-color-blue !default;
+$widgets-color-category-2: $widgets-color-orange !default;
+$widgets-color-category-3: $widgets-color-red !default;
+$widgets-color-category-4: $widgets-color-green !default;
+$widgets-color-category-5: #9979F2 !default;
+$widgets-color-category-6: #006CD9 !default;
+$widgets-color-category-7: #5CCDBB !default;
+$widgets-color-category-8: #5C60E6 !default;
+$widgets-color-category-9: #E65CCB !default;
+$widgets-color-category-10: #52D7FF !default;
+$widgets-color-category-11: #9B5CE6 !default;
+$widgets-color-category-12: #E65C5C !default;

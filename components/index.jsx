@@ -1,5 +1,6 @@
 import './index.scss';
 
+// 业务组件，组成没有依赖图表库
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
 export Wicon from './wicon/index';
@@ -7,7 +8,8 @@ export Wminiline from './wminiline/index';
 export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
-export Wscatter from './wscatter/index.js';
+
+//图表组件，这里底层依赖G2
 export * from './g2Map';
 // import * as highchartsMap from './highchartsMap';
 //

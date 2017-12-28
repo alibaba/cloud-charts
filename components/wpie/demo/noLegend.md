@@ -1,8 +1,8 @@
 ﻿---
 order: 1
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 无图例
+  en-US: NoLegend
 ---
 
 ## zh-CN

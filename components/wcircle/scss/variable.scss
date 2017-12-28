@@ -1,5 +1,5 @@
-@import "~@alife/aisc-core/scss/aisc.scss";
+@import "../../theme/normal";
 $wcircle-prefix: '.aisc-wcircle';
-$blue: $color-f6-1;
-$orange: $color-warning-2;
-$red: $color-error-3;
+$blue: $widgets-color-blue;
+$orange: $widgets-color-orange;
+$red: $widgets-color-red;

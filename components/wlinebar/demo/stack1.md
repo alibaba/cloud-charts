@@ -40,7 +40,7 @@ let data = [
 
 let options1 = {
   xAxis: {
-    type: 'datetime'
+    type: 'timeCat'
   },
   stack: true
 };

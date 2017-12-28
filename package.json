@@ -28,9 +28,6 @@
   "dependencies": {
     "@alife/aisc": "^2.2.15",
     "@alife/aisc-core": "^0.5.5",
-    "@antv/data-set": "^0.8.0",
-    "g2": "^2.3.10",
-    "highcharts": "^v5.0.12",
     "prop-types": "^15.5.10",
     "sass-variable-loader": "^0.1.2"
   },
@@ -41,7 +38,8 @@
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
-    "@antv/g2": "^3.0.2",
+    "@antv/data-set": "^0.8.0",
+    "@antv/g2": "^3.0.3",
     "autoprefixer": "^6.3.6",
     "babel-cli": "~6.7.5",
     "babel-core": "~6.7.4",
@@ -71,6 +69,7 @@
     "glob": "^7.0.3",
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-util": "~3.0.7",
     "highcharts": "^v5.0.12",

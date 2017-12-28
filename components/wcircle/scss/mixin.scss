@@ -1,14 +1,14 @@
-@import "../../variables.scss";
+@import "../../theme/normal";
 @mixin wcircle-font {
   font-family: $font-family-number;
   font-size: $font-size-xlarge-number;
   line-height: 1;
-  color: $color-text1-4;
+  color: $color-n2-4;
 }
 
 @mixin subTitle-font {
   font-family: $font-family-base;
   font-size: $font-size-base-title;
   line-height: 1;
-  color: $color-text1-4;
+  color: $color-n2-4;
 }

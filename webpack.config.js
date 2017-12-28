@@ -31,7 +31,7 @@ const config = {
 
   // webpack 编译的入口文件
   entry: {
-    index: ['./index.scss', './index.jsx']
+    index: ['./index.scss', './index.jsx'],
   },
 
   // 输出的文件配置
@@ -223,9 +223,15 @@ function demo() {
  * 发布到cdn及tnpm时的配置
  * @returns {*}
  */
-function prod() {
+function prod(themeName) {
   const _config = _.cloneDeep(config);
   // build环境
+  if (themeName) {
+    _config.entry = {
+      [themeName]: _config.entry.index
+    };
+  }
+
   _config.externals = {
     react: { // UMD
       commonjs: "react",
@@ -245,14 +251,14 @@ function prod() {
     new webpack.optimize.DedupePlugin(),
 
 
-    new ExtractTextPlugin('[name].css', { allChunks: true }),
+    new ExtractTextPlugin('[name].css', { allChunks: true })
 
     // 压缩代码
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: { warnings: false },
-      output: { comments: false }
-    })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    //   compress: { warnings: false },
+    //   output: { comments: false }
+    // })
   );
 
   return _config;

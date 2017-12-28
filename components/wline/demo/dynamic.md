@@ -28,12 +28,24 @@ for(var i = 0; i < 30; i++) {
 let options1 = {
   xAxis: {
     type: 'time',
+  },
+  yAxis: {
+    min: 0,
+    max: 1000
   }
 };
 
 class Demo extends React.Component{
   state = {
-    data: []
+    data: [
+      {
+        "name":"机房1",
+        "data": data1
+      },{
+        "name":"机房2",
+        "data": data2
+      }
+    ]
   }
 
   componentWillMount() {
@@ -64,7 +76,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item" style={{height: "298px"}}>
-            <Wline config={options1} data={this.state.data}/>
+          <Wline config={options1} data={this.state.data}/>
         </div>
       </div>
     );

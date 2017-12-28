@@ -1,0 +1,32 @@
+import color from '!!sass-variable-loader!@alife/aisc-core/scss/themes/_color_dark.scss';
+import fonts from '!!sass-variable-loader!@alife/aisc-core/scss/variables/_font.scss';
+import size from '!!sass-variable-loader!@alife/aisc-core/scss/variables/_size.scss';
+
+import widgetsVar from '!!sass-variable-loader!./dark.scss';
+
+const prefix = 'widgets-';
+
+Object.assign(color, widgetsVar, {
+  [prefix + 'tooltip-background']: '#20264A',
+  [prefix + 'tooltip-shadow']: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
+  [prefix + 'tooltip-cross-line']: '#dddddd',
+
+  colors_12: [
+    widgetsVar.widgetsColorCategory1,
+    widgetsVar.widgetsColorCategory2,
+    widgetsVar.widgetsColorCategory3,
+    widgetsVar.widgetsColorCategory4,
+    widgetsVar.widgetsColorCategory5,
+    widgetsVar.widgetsColorCategory6,
+    widgetsVar.widgetsColorCategory7,
+    widgetsVar.widgetsColorCategory8,
+    widgetsVar.widgetsColorCategory9,
+    widgetsVar.widgetsColorCategory10,
+    widgetsVar.widgetsColorCategory11,
+    widgetsVar.widgetsColorCategory12,
+  ]
+});
+
+fonts['fontFamilyNumber'] = widgetsVar.fontFamilyNumber;
+
+export { size, color, fonts };

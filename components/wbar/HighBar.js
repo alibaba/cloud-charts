@@ -4,7 +4,7 @@ import Highcharts from 'highcharts'; // 暂时使用highcharts
 import Base from '../chartCommon/highBase';
 import COLORS from '../chartCommon/colors';
 import merge from '../utils/merge';
-import { color, fonts } from '../variables';
+import { color, fonts } from '../theme/normal';
 import './index.scss';
 
 Highcharts.setOptions({ global: { useUTC: false } }); // 不使用HC内置时区设置
@@ -298,9 +298,9 @@ function getHCOptions(options, data) {
       lineWidth: 1,
       type: options.xAxis.type, // 此处依赖options设置
       gridLineWidth: options.grid ? 1 : 0,
-      gridLineColor: color.colorFill12,
+      gridLineColor: color.colorN13,
       tickPixelInterval: 70,
-      lineColor: color.colorLine12,
+      lineColor: color.colorN16,
       tickLength: 0,
       labels: {
         formatter() {
@@ -321,9 +321,9 @@ function getHCOptions(options, data) {
         enabled: false
       },
       lineWidth: 0,
-      lineColor: color.colorLine12,
+      lineColor: color.colorN16,
       gridLineWidth: 1,
-      gridLineColor: color.colorFill12,
+      gridLineColor: color.colorN13,
       labels: {
         formatter() {
           return yFormat(this.value);

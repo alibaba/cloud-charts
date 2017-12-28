@@ -27,9 +27,39 @@ let data = [
 
 let options1 = {
   xAxis: {type: 'time'},
-  yAxis:{
-    guideLine:[{
-      value: 5555
+  yAxis:{},
+  guide: {
+    line: [{
+      // 显示标题相关
+      text: {
+        title: '233',
+        //position: 'start',
+        //align: 'end',
+        //rotate: false,
+      },
+      status: 'error',
+      // 线位置
+      axis: 'x',
+      value: 1483545600000,
+      // 完全自定义线位置
+      start: null,
+      end: null
+    },
+    {
+      // 显示标题相关
+      text: {
+        title: 'y轴标注',
+        //position: 'start',
+        //align: 'end',
+        //rotate: false,
+      },
+      status: 'error',
+      // 线位置
+      axis: 'y',
+      value: 5500,
+      // 完全自定义线位置
+      start: null,
+      end: null
     }]
   }
 };

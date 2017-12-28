@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { WSankey } from '@alife/aisc-widgets';
+import { Wsankey } from '@alife/aisc-widgets';
 
 let data = {
   "nodes": [{"name": "Brazil"}, {"name": "Portugal"}, {"name": "France"}, {"name": "Spain"}, {"name": "England"}, {"name": "Canada"}, {"name": "Mexico"}, {"name": "USA"}, {"name": "Angola"}, {"name": "Senegal"}, {"name": "Morocco"}, {"name": "South Africa"}, {"name": "Mali"}, {"name": "China"}, {"name": "India"}, {"name": "Japan"}],
@@ -104,7 +104,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WSankey ref="chart1" config={options1} data={data} height="400" />
+            <Wsankey ref="chart1" config={options1} data={data} height="400" />
         </div>
       </div>
     );

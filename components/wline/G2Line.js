@@ -1,12 +1,12 @@
 'use strict';
 
-import merge from '../utils/merge';
 import G2 from '@antv/g2';
+import merge from '../utils/merge';
+import {color, fonts, size} from "../theme/normal";
+import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
+import guide from '../chartCommon/guide';
 import './G2Line.scss';
 const Util = G2.Util;
-
-import {g2LegendFilter} from '../common';
-import {color, fonts, size} from "../variables";
 
 const propertyMap = {
   xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
@@ -18,7 +18,7 @@ const defaultConfig = {
   padding: [32, 5, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性
-    mask: 'YYYY-MM-DD HH:mm:ss', //上述type为datetime时，此字段生效
+    mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
     labelFormatter: null, //可以强制覆盖，手动设置label
     categories: null,
     max: null,
@@ -64,7 +64,7 @@ export default {
     const {config} = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || (Array.isArray(config.yAxis) ? [32, 45, 32, 45] : defaultConfig.padding)
     });
   },
   init(chart, userConfig, data, rawData) {
@@ -76,55 +76,33 @@ export default {
     //   chart.select('rangeX'); // 选择框选交互形式
     // }
 
-    let defs = {
+    const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'linear',
       }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
-        type: 'linear',
-      }, config.yAxis),
       type: {
         type: 'cat'
       }
     };
-    // if (config.xAxis.type === 'datetime') {
-    //   defs = merge({}, defs, config.xAxis.dateFormatter ? {
-    //     x: {
-    //       mask: config.xAxis.dateFormatter
-    //     }
-    //   } : {});
-    // }
+
+    if (Array.isArray(config.yAxis)) {
+      config.yAxis.forEach((axis, yIndex) => {
+        defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
+          type: 'linear',
+          tickCount: 5
+        }, axis);
+      });
+    } else {
+      defs.y = propertyAssign(propertyMap.yAxis, {
+        type: 'linear',
+        tickCount: 5
+      }, config.yAxis);
+    }
 
     chart.source(data, defs);
 
-    let yAxis = {
-      // title: null, // 不展示坐标轴的标题
-      // line: {
-      //   lineWidth: 0, // 设置线的宽度
-      // },
-      // tickLine: {
-      //   lineWidth: 0
-      // },
-      // formatter:config.yAxis.labelFormatter,
-      // grid: {
-      //   line: {
-      //     stroke: '#DCDEE3',
-      //     lineWidth: 1,
-      //     lineDash: [4, 0]
-      //   }
-      // },
-      label:{
-        formatter:config.yAxis.labelFormatter,
-      }
-    };
-    let xAxis = {
-      // title: null, // 不展示 xDim 对应坐标轴的标题
-      // tickLine: {
-      //   lineWidth: 0
-      // },
-      // line:{
-      //   stroke: '#DCDEE3',
-      // },
+    const xAxis = {
+      title: null, // 不展示坐标轴的标题
       label:{
         formatter:config.xAxis.labelFormatter,
       }
@@ -132,24 +110,44 @@ export default {
 
     // 网格线
     if (config.grid) {
-      // yAxis = merge({}, yAxis, {
-      //   line: {
-      //     lineWidth: 1, // 设置线的宽度
-      //     stroke: '#DCDEE3',
-      //   }
-      // });
       xAxis.grid = {
         lineStyle: {
-          stroke: color.colorFill12,
-          // lineWidth: 1,
+          stroke: color.colorN13,
+          lineWidth: 1,
           // lineDash: null
         },
-        // TODO 双轴情况下，需要处理
         // hideFirstLine: true
       };
     }
     chart.axis('x', xAxis);
-    chart.axis('y', yAxis);
+
+    if (Array.isArray(config.yAxis)) {
+      config.yAxis.forEach((axis, yIndex) => {
+        const yAxis = {
+          title: null, // 不展示坐标轴的标题
+          line: {
+            stroke: getDataIndexColor(config.colors, rawData, yIndex) || color.colorN16
+          },
+          label:{
+            formatter: axis.labelFormatter,
+          }
+        };
+        if (yIndex !== 0) {
+          yAxis.grid = null;
+        }
+
+        chart.axis('y' + yIndex, yAxis);
+      });
+    } else {
+      const yAxis = {
+        title: null, // 不展示坐标轴的标题
+        label:{
+          formatter:config.yAxis.labelFormatter,
+        }
+      };
+
+      chart.axis('y', yAxis);
+    }
 
     // 设置图例
     if (config.legend) {
@@ -157,6 +155,8 @@ export default {
         useHtml: true,
         title: null,
         position: 'top',
+        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
+        autoPosition: false,
         itemTpl: (value, color, checked, index) => {
           const item = (rawData && rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
@@ -168,41 +168,18 @@ export default {
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
             '<span class="g2-legend-text">' + result + '</span></li>';
         },
-        'g2-legend': {
-          overflow: 'auto',
-          fontFamily: fonts.fontFamilyBase,
-          fontSize: fonts.fontSizeBaseCaption,
-          lineHeight: fonts.fontSizeBaseCaption,
-          color: color.colorText14
-        },
-        'g2-legend-list': {},
-        'g2-legend-list-item': {
-          marginBottom: size.s3,
-          marginRight: size.s3
-        },
-        'g2-legend-marker': {
-          width: '6px',
-          height: '6px',
-          marginRight: size.s1,
-        },
-      });
-
-      G2.DomUtil.requestAnimationFrame(() => {
-        const legendDom = this.chartDom.querySelector('.g2-legend');
-        if(config.legend.align === 'right'){
-          legendDom && legendDom.classList.add('legend-align-right');
-        }else{
-          legendDom && legendDom.classList.add('legend-align-left');
-        }
+        'g2-legend': Object.assign({
+          top: '6px',
+        }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
       });
     } else {
       chart.legend(false);
     }
 
-
     // tooltip
     if (config.tooltip) {
       let tooltipCfg = {
+        // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
         crosshairs: {
         //   type: 'y' // 启用水平方向的辅助线
         //   stroke: '#dddddd',
@@ -232,25 +209,21 @@ export default {
       chart.tooltip(false);
     }
 
+    // 绘制辅助线，辅助背景区域
+    guide(chart, config);
+
     // 区域、堆叠、平滑曲线
     const lineShape = config.spline ? 'smooth' : 'line';
     const areaShape = config.spline ? 'smooth' : 'area';
 
-    if (config.area && config.stack) {
-      chart.areaStack().position('x*y').color('type', config.colors).shape(areaShape);
-      chart.lineStack().position('x*y').color('type', config.colors).shape(lineShape);
-    } else if (config.area && !config.stack) {
-      chart.area().position('x*y').color('type', config.colors).shape(areaShape);
-      chart.line().position('x*y').color('type', config.colors).shape(lineShape);
+    if (Array.isArray(config.yAxis)) {
+      config.yAxis.forEach((asix, yIndex) => {
+        drawLine(chart, config, lineShape, areaShape, 'y' + yIndex);
+      });
     } else {
-      chart.line().position('x*y').color('type', config.colors).shape(lineShape);
+      drawLine(chart, config, lineShape, areaShape);
     }
-    // 曲线默认点
-    if (config.symbol && config.area && config.stack) {
-      chart.point().adjust('stack').position('x*y').color('type', config.colors).shape('circle').size(3);
-    } else if (config.symbol) {
-      chart.point().position('x*y').color('type', config.colors).shape('circle').size(3);
-    }
+
     chart.render();
 
     // 自定义图例html
@@ -304,17 +277,25 @@ export default {
   }
 };
 
+function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+  if (config.area && config.stack) {
+    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
+    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+  } else if (config.area && !config.stack) {
+    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
+    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+  } else {
+    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+  }
+  // 曲线默认点
+  if (config.symbol && config.area && config.stack) {
+    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+  } else if (config.symbol) {
+    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+  }
+}
+
 function getLegendNode(target){
   if(target.tagName === 'LI') return target;
   else return target.parentNode;
-}
-
-function propertyAssign (keys, target, source) {
-  keys.forEach((key) => {
-    if (source[key]) {
-      target[key] = source[key];
-    }
-  });
-
-  return target;
 }

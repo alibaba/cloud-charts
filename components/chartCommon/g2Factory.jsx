@@ -1,12 +1,11 @@
 'use strict';
 
-import COLORS from '../chartCommon/colors';
-
 import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { size, color, fonts } from '../variables';
+import { size, color, fonts } from '../theme/normal';
+import { getParentSize } from './common';
+import highchartsDataToG2Data from './dataAdapter';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
@@ -21,6 +20,9 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     area: {
       fillOpacity: 0.1
     },
+    interval: {
+      fillOpacity: 1
+    },
   },
   axis: {
     bottom: {
@@ -28,7 +30,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
       line: {
-        stroke: color.colorLine12
+        stroke: color.colorN16
       },
       tickLine: null
     },
@@ -37,8 +39,10 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         textStyle: { fill: color.colorN22} // 左部标签文本的颜色
       },
       grid: {
+        // 让grid在轴线的下方
+        zIndex: -1,
         lineStyle: {
-          stroke: color.colorFill12,
+          stroke: color.colorN13,
           lineWidth: 1,
           lineDash: null
         },
@@ -53,7 +57,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   tooltip: {
     offset: 8,
     crossLine: {
-      stroke: '#dddddd',
+      stroke: color['widgets-tooltip-cross-line'],
       // lineWidth: 1,
     },
     'g2-tooltip': {
@@ -64,11 +68,11 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       fontFamily: fonts.fontFamilyBase,
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
-      color: color.colorText14,
+      color: color.colorN24,
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: color.colorText12
+      color: color.colorN22
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
@@ -77,27 +81,103 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     'g2-tooltip-marker': {},
   },
+  tooltipMarker: {
+    symbol: (x, y, r, ctx, marker) => {
+      ctx.fillStyle = color.colorWhite;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = marker.get('color');
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.stroke();
+
+      // ctx.save();
+      // ctx.beginPath();
+      // ctx.fillStyle = '#fff';
+      // ctx.strokeStyle = color;
+      // ctx.globalAlpha = 0.2;
+      // ctx.lineWidth = 3;
+      // ctx.arc(x, y, 6, 0, Math.PI * 2, false);
+      // ctx.stroke();
+      // ctx.restore();
+    },
+    // 这里必须传数字，所以不能直接引用
+    radius: 4
+  },
+  tooltipCrosshairsLine: {
+    style: {
+      stroke: color.colorN17,
+      lineWidth: 1
+    }
+  },
   // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
-  // legend: {
-  //   html: {
-  //     'g2-legend': {
-  //       overflow: 'auto',
-  //       fontFamily: fonts.fontFamilyBase,
-  //       fontSize: fonts.fontSizeBaseCaption,
-  //       lineHeight: fonts.fontSizeBaseCaption,
-  //       color: color.colorText14
-  //     },
-  //     'g2-legend-list': {},
-  //     'g2-legend-list-item': {
-  //       marginRight: size.s3
-  //     },
-  //     'g2-legend-marker': {
-  //       width: '6px',
-  //       height: '6px',
-  //       marginRight: size.s1,
-  //     },
-  //   }
-  // },
+  legend: {
+    top: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    right: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    bottom: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    left: {
+      textStyle: {
+        fill: color.colorN24
+      },
+      unCheckColor: color.colorN21
+    },
+    html: {
+      'g2-legend': {
+        overflow: 'auto',
+        fontFamily: fonts.fontFamilyBase,
+        fontSize: fonts.fontSizeBaseCaption,
+        lineHeight: fonts.fontSizeBaseCaption,
+        color: color.colorN24
+      },
+      'g2-legend-list': {},
+      'g2-legend-list-item': {
+        wordBreak: 'break-all',
+        marginBottom: size.s3,
+        marginRight: size.s3
+      },
+      'g2-legend-marker': {
+        width: '6px',
+        height: '6px',
+        marginRight: size.s1,
+      },
+    }
+  },
+  guide: {
+    line: {
+      lineStyle: {
+        stroke: color.colorB16,
+      },
+      text: {
+        autoRotate: false,
+        style: {
+          fill: color.colorB16,
+          fontSize: fonts.fontSizeBaseCaption,
+          fontFamily: fonts.fontFamilyBase,
+        }
+      }
+    },
+    region: {
+      style: {
+        fill: color.colorB16, // 辅助框填充的颜色
+        fillOpacity: 0.1 // 辅助框的背景透明度
+      } // 辅助框的图形样式属性
+    },
+  }
 });
 //设置屏幕dpi缩放（如果有效的话）
 if (window && window.devicePixelRatio) {
@@ -142,8 +222,7 @@ function g2Factory(name, Chart, convertData = true) {
     static defaultProps = {
       forceFit: false,
       plotCfg: {},
-      config: {
-      },
+      config: {},
     };
 
     static displayName = 'AiscWidgets' + name;
@@ -153,6 +232,8 @@ function g2Factory(name, Chart, convertData = true) {
       this.chart = null;
       this.chartDom = null;
       this.chartId = generateUniqueId();
+
+      this.autoResize = this.autoResize.bind(this);
     }
 
     // componentWillMount () {}
@@ -162,9 +243,12 @@ function g2Factory(name, Chart, convertData = true) {
         ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       }
 
-      // this.setSize();
+      // 设置初始高宽
+      this.setSize();
+
+      // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width, height = 400, data: initData, padding, forceFit, config, ...otherProps } = props;
+      const { width, height = (this._size[1] || 200), data: initData, padding, forceFit, config, ...otherProps } = props;
       const chart = new G2.Chart({
         container: this.chartDom,
         width,
@@ -244,14 +328,14 @@ function g2Factory(name, Chart, convertData = true) {
         if (ChartProcess.changeData) {
           ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {
-          this.chart.changeData(data);
+          this.chart && this.chart.changeData(data);
         }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
         if (ChartProcess.changeSize) {
           ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
         } else {
-          this.chart.changeSize(newWidth, newHeight);
+          this.chart && this.chart.changeSize(newWidth, newHeight);
         }
       }
     }
@@ -284,11 +368,13 @@ function g2Factory(name, Chart, convertData = true) {
     // componentWillUpdate (nextProps) {}
 
     componentWillUnmount () {
+      window.removeEventListener('resize', this.autoResize);
+
       if (ChartProcess.destroy) {
         ChartProcess.destroy.call(this, this.chart);
       }
 
-      this.chart.destroy && this.chart.destroy();
+      this.chart && this.chart.destroy && this.chart.destroy();
       this.chart = null;
       this.chartDom = null;
       this.chartId = null;
@@ -298,26 +384,46 @@ function g2Factory(name, Chart, convertData = true) {
     //   return this.chart;
     // }
 
-    // setSize() {
-    //   let w = '', h = '';
-    //   let node = this.refs.chart;
-    //   //设置宽度
-    //   if (this.props.width) {
-    //     w = this.props.width + 'px';
-    //   } else if(node.parentNode) {
-    //      w = node.parentNode.clientWidth + 'px';
-    //   }
-    //   this.refs.chart.style.width = w;
-    //   //设置高度
-    //   if(this.props.height){
-    //     h = this.props.height + 'px';
-    //   }else{
-    //     if(node.parentNode) h = node.parentNode.clientHeight + 'px';
-    //     else h = '';
-    //   }
-    //   this.refs.chart.style.height = h;
-    // }
-    //
+    setSize() {
+      const element = this.chartDom;
+      const size = getParentSize(element, this.props.width, this.props.height);
+      this._size = size;
+
+      if (size[0]) {
+        element.style.width = size[0] + 'px';
+      }
+      if (size[1]) {
+        element.style.height = size[1] + 'px';
+      }
+
+      window.addEventListener('resize', this.autoResize);
+    }
+
+    resizeRuning = false;
+    autoResize() {
+      if (this.resizeRuning) {
+        return;
+      }
+
+      const { chartDom: element, props, _size } = this;
+      this.resizeRuning = true;
+
+      requestAnimationFrame(() => {
+        this.resizeRuning = false;
+
+        const size = getParentSize(element, props.width, props.height);
+        if(!(size[0] === _size[0] && size[1] === _size[1])){
+          if (size[0]) {
+            element.style.width = size[0] + 'px';
+          }
+          if (size[1]) {
+            element.style.height = size[1] + 'px';
+          }
+          this._size = size;
+        }
+      })
+    }
+
     // getSize() {
     //   let node = this.refs.chart,
     //     w = node.offsetWidth,
@@ -339,60 +445,6 @@ function g2Factory(name, Chart, convertData = true) {
   AiscChart.Chart = Chart;
 
   return AiscChart;
-}
-
-function highchartsDataToG2Data(data, config) {
-  const newData = [];
-  if (Array.isArray(config.yAxis)) {
-    data.forEach((oneData) => {
-      const { name: dataName, yAxis: yIndex = 0 } = oneData;
-
-      oneData.data.forEach((d) => {
-        if (Array.isArray(d)) {
-          const [x, y, ...extra] = d;
-          newData.push({
-            x,
-            ['y' + yIndex]: y,
-            extra,
-            type: dataName
-          });
-        } else {
-          const { x, y, ...extra } = d;
-          newData.push({
-            x,
-            ['y' + yIndex]: y,
-            extra,
-            type: dataName
-          });
-        }
-      });
-    });
-  } else {
-    data.forEach((oneData) => {
-      const { name: dataName } = oneData;
-
-      oneData.data.forEach((d) => {
-        if (Array.isArray(d)) {
-          const [x, y, ...extra] = d;
-          newData.push({
-            x,
-            y,
-            extra,
-            type: dataName
-          });
-        } else {
-          const { x, y, ...extra } = d;
-          newData.push({
-            x,
-            y,
-            extra,
-            type: dataName
-          });
-        }
-      });
-    });
-  }
-  return newData;
 }
 
 export default g2Factory;

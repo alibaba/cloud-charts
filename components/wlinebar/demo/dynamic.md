@@ -27,14 +27,24 @@ for(var i = 0; i < 10; i++) {
 
 let options1 = {
   xAxis: {
-    type: 'datetime',
-    dateFormatter: '%H:%M:%S'
+    type: 'timeCat',
+    mask: 'HH:mm:ss'
   }
 };
 
 class Demo extends React.Component{
   state = {
-    data: []
+    data: [
+      {
+        "name":"机房1",
+        type: 'bar',
+        "data": data1
+      },{
+        "name":"机房2",
+        type: 'line',
+        "data": data2
+      }
+    ]
   }
 
   componentWillMount() {

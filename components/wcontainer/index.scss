@@ -1,9 +1,8 @@
-@import '~@alife/aisc-core/scss/aisc.scss';
 @import './scss/mixin.scss';
 @import './scss/variable.scss';
 
 #{$wcontainer-prefix} {
-  @include wcontainer-box($wcontainer-bg-color);
+  background: $wcontainer-bg-color;
   // padding-top:$s5;
   // padding-bottom: $s5;
   display: flex;
@@ -15,8 +14,8 @@
     padding-top: 20px;
     padding-bottom: 10px;
     font-size: 14px;
-    color: $color-text1-4;
-    border-bottom: 1px solid $color-line1-1;
+    color: $color-n2-4;
+    border-bottom: 1px solid $color-n1-5;
   }
 
   #{$wcontainer-prefix}-main {
@@ -35,7 +34,7 @@
           flex: 1;
           //padding-top: $s2;
           //padding-bottom: $s2;
-          border-bottom: 1px solid $color-line1-2;
+          border-bottom: 1px solid $color-n1-6;
           &:last-child {
             border-bottom: none;
           }
@@ -44,7 +43,7 @@
             margin-right: $s1;
             margin-left: $s1;
             padding-left: $s3;
-            border-left: 1px solid $color-line1-2;
+            border-left: 1px solid $color-n1-6;
             &:first-child {
               border-left: none;
               margin-left: 0;
@@ -69,6 +68,6 @@
   #{$wcontainer-prefix}-divider {
     width: 1px;
     height: 30px;
-    background: $color-line1-2;
+    background: $color-n1-6;
   }
 }
