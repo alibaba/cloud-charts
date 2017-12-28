@@ -1,21 +1,11 @@
 'use strict';
 
-import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
-import { propertyAssign, getDataIndexColor } from '../chartCommon/common';
+import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
 import guide from '../chartCommon/guide';
 import './G2LineBar.scss';
-const Util = G2.Util;
-
-const propertyMap = {
-  xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
-  yAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
-};
-
-const barKey = 'bar';
-const lineKey = 'line';
 
 const defaultConfig = {
   lineColors: color.colors_12.slice(1),

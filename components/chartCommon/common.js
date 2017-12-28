@@ -45,6 +45,11 @@ export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='t
   chart.repaint();
 }
 
+export const propertyMap = {
+  xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'mask', 'base', 'exponent'],
+  yAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'mask', 'base', 'exponent'],
+};
+
 export function propertyAssign (keys, target, source) {
   keys.forEach((key) => {
     // 0也是假值，但是是有效值，所以需要排除
@@ -130,20 +135,20 @@ export function isInvalidNumber(v) {
  * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回设定小数位的字符串。
  * */
 export function numberDecimal(num, decimal = 2) {
-  if (this.isInvalidNumber(num)) {
+  if (isInvalidNumber(num)) {
     return '-';
   }
 
   return Math.round(Number(num) * Math.pow(10, decimal)) / Math.pow(10, decimal);
 }
 
-export function beautifyNumber(num) {
-  if (this.isInvalidNumber(num)) {
+export function beautifyNumber(num, char = ',') {
+  if (isInvalidNumber(num)) {
     return '-';
   }
-  let number = num.toString(), result = '';
+  let number = num.toString().split('.')[0], result = '';
   while (number.length > 3) {
-    result = ' ' + number.slice(-3) + result;
+    result = char + number.slice(-3) + result;
     number = number.slice(0, number.length - 3);
   }
   if (number) {

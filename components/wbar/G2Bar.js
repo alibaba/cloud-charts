@@ -1,17 +1,10 @@
 'use strict';
 
-import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
-import { propertyAssign } from '../chartCommon/common';
+import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import './G2Bar.scss';
-const Util = G2.Util;
-
-const propertyMap = {
-  xAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
-  yAxis: ['type', 'alias', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'mask'],
-};
 
 let defaultConfig = {
   colors: color.colors_12,
