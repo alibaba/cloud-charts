@@ -7,7 +7,7 @@ import guide from '../chartCommon/guide';
 import './G2Line.scss';
 
 const defaultConfig = {
-  colors: color.colors_12,
+  colors: color.category_12,
   padding: [32, 5, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性

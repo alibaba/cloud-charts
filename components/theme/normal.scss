@@ -1,8 +1,8 @@
 @import "~@alife/aisc-core/scss/aisc";
 
 $font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
-$font-size-large-number: 28px;
-$font-size-xlarge-number: 32px;
+$font-size-large-number: 28px !default;
+$font-size-xlarge-number: 32px !default;
 
 $widgets-color-white: #FFFFFF !default;
 $widgets-color-black: #000000 !default;
@@ -24,3 +24,14 @@ $widgets-color-category-9: #E65CCB !default;
 $widgets-color-category-10: #52D7FF !default;
 $widgets-color-category-11: #9B5CE6 !default;
 $widgets-color-category-12: #E65C5C !default;
+
+$widgets-color-linear-1: $widgets-color-blue !default;
+$widgets-color-linear-2: #4291FF !default;
+$widgets-color-linear-3: #589DFF !default;
+$widgets-color-linear-4: #6CA9FF !default;
+$widgets-color-linear-5: #82B6FF !default;
+$widgets-color-linear-6: #96C2FF !default;
+$widgets-color-linear-7: #ABCEFF !default;
+$widgets-color-linear-8: #C0DAFF !default;
+$widgets-color-linear-9: #D5E7FF !default;
+$widgets-color-linear-10: #EAF2FF !default;

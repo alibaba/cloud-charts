@@ -11,7 +11,7 @@ Object.assign(color, widgetsVar, {
   [prefix + 'tooltip-shadow']: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
   [prefix + 'tooltip-cross-line']: '#dddddd',
 
-  colors_12: [
+  category_12: [
     widgetsVar.widgetsColorCategory1,
     widgetsVar.widgetsColorCategory2,
     widgetsVar.widgetsColorCategory3,
@@ -24,7 +24,19 @@ Object.assign(color, widgetsVar, {
     widgetsVar.widgetsColorCategory10,
     widgetsVar.widgetsColorCategory11,
     widgetsVar.widgetsColorCategory12,
-  ]
+  ],
+  linear_10: [
+    widgetsVar.widgetsColorLinear1,
+    widgetsVar.widgetsColorLinear5,
+    widgetsVar.widgetsColorLinear9,
+    widgetsVar.widgetsColorLinear3,
+    widgetsVar.widgetsColorLinear7,
+    widgetsVar.widgetsColorLinear10,
+    widgetsVar.widgetsColorLinear2,
+    widgetsVar.widgetsColorLinear4,
+    widgetsVar.widgetsColorLinear6,
+    widgetsVar.widgetsColorLinear8,
+  ],
 });
 
 fonts['fontFamilyNumber'] = widgetsVar.fontFamilyNumber;

@@ -101,18 +101,18 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
 }
 
 const statusMap = {
-  error: color.colorF23,
-  red: color.colorF23,
+  error: color.widgetsColorRed,
+  red: color.widgetsColorRed,
 
-  warning: color.colorF12,
-  orange: color.colorF12,
+  warning: color.widgetsColorOrange,
+  orange: color.widgetsColorOrange,
 
-  normal: color.colorB16,
-  blue: color.colorB16
+  normal: color.widgetsColorBlue,
+  blue: color.widgetsColorBlue
 };
 
 export function getStatusColor(status) {
-  return statusMap[status] || status || statusMap[normal];
+  return statusMap[status] || status || statusMap['normal'];
 }
 
 /**

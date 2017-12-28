@@ -8,8 +8,8 @@ import guide from '../chartCommon/guide';
 import './G2LineBar.scss';
 
 const defaultConfig = {
-  lineColors: color.colors_12.slice(1),
-  barColors: color.colors_12,
+  lineColors: color.category_12.slice(1),
+  barColors: color.linear_10,
   padding: [32, 45, 32, 45],
   xAxis: {
     type: 'linear', //默认为线性

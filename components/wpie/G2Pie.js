@@ -7,7 +7,7 @@ import './G2Pie.scss';
 const Util = G2.Util;
 
 let defaultConfig = {
-  colors: color.colors_12,
+  colors: color.category_12,
   padding: [20, 120, 20, 20],
   legend: {
     // position: 'right',
