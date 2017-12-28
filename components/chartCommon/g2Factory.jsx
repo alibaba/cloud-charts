@@ -248,7 +248,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width, height = (this._size[1] || 200), data: initData, padding, forceFit, config, ...otherProps } = props;
+      const { width, height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
       const chart = new G2.Chart({
         container: this.chartDom,
         width,
@@ -261,6 +261,11 @@ function g2Factory(name, Chart, convertData = true) {
       ChartProcess.init.call(this, chart, config, data, initData);
       // this.chart.setData(this.props.data);
 
+      if (chart && event) {
+        Object.keys(event).forEach((name) => {
+          chart.on(name, event[name]);
+        });
+      }
       // //绑定事件
       // const events = [
       //   'plotmove',
@@ -374,6 +379,7 @@ function g2Factory(name, Chart, convertData = true) {
         ChartProcess.destroy.call(this, this.chart);
       }
 
+      this.chart && this.chart.off();
       this.chart && this.chart.destroy && this.chart.destroy();
       this.chart = null;
       this.chartDom = null;
