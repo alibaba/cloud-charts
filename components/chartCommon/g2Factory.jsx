@@ -442,8 +442,9 @@ function g2Factory(name, Chart, convertData = true) {
     // }
 
     render() {
+      const { className, style, ...otherProps } = this.props;
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name} />
+        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps} />
       );
     }
   }

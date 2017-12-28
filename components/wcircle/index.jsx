@@ -147,7 +147,7 @@ export default class Wcircle extends React.Component {
   }
 
   render() {
-    const { className} = this.props;
+    const { className, ...otherProps } = this.props;
 
     const mainClasses = classNames({
       [prefix]: true,
@@ -155,7 +155,7 @@ export default class Wcircle extends React.Component {
     });
 
     return (
-      <div className={mainClasses}>
+      <div className={mainClasses} {...otherProps}>
         {this.renderMain()}
       </div>
     );

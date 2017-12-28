@@ -78,7 +78,7 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { height, arrange, title, className } = this.props;
+    const { height, arrange, title, className, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [className]: !!className
@@ -89,8 +89,10 @@ export default class Wcontainer extends React.Component {
         className={mainClasses}
         style={{
           minHeight: height,
-          height: height
+          height: height,
+          ...style
         }}
+        {...otherProps}
         ref={o => {this.container = o;}}
       >
         {title && this.renderTitle()}

@@ -14,7 +14,7 @@ export default class Wminicontainer extends React.Component {
   };
 
   render() {
-    const { height = 80, className, status } = this.props;
+    const { height = 80, className, status, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [`${prefix}-${status}`]: !!status,
@@ -24,8 +24,11 @@ export default class Wminicontainer extends React.Component {
     return (
       <div className={mainClasses} style={{
         minHeight: height,
-        height: height
-      }}>
+        height: height,
+        ...style
+      }}
+         {...otherProps}
+      >
         {this.props.children}
       </div>
     );

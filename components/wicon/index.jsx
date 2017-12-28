@@ -31,7 +31,7 @@ export default class Wicon extends React.Component {
     });
 
     return (
-      <i className={classes}></i>
+      <i className={classes} {...other}></i>
     );
   }
 }

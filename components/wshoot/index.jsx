@@ -48,7 +48,7 @@ export default class Wshoot extends React.Component {
   }
 
   render() {
-    const { className } = this.props;
+    const { className, ...otherProps } = this.props;
 
     const mainClasses = classNames({
       [`${prefix}`]: true,
@@ -56,7 +56,7 @@ export default class Wshoot extends React.Component {
     });
 
     return (
-      <canvas className={mainClasses} ref={(c) => this.canvas = c} />
+      <canvas className={mainClasses} {...otherProps} ref={(c) => this.canvas = c} />
     );
   }
 }
