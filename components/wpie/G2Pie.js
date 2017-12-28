@@ -18,6 +18,7 @@ let defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
+  autoSort: true,
   cycle: false,
   innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
   outerRadius: 0.8, // 饼图半径大小，初始化时可用
@@ -55,6 +56,12 @@ export default {
         type: 'cat'
       },
     };
+
+    if (config.autoSort) {
+      data.sort((a, b) => {
+        return b.y - a.y;
+      });
+    }
 
     chart.source(data, defs);
 
