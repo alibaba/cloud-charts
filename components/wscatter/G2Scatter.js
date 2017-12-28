@@ -3,15 +3,13 @@
 // 引入所需要的库和样式
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
-import { color, fonts, size } from '../theme/normal';
-import { propertyAssign } from '../chartCommon/common';
+import { color, size } from '../theme/normal';
+import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
-import './G2Scatter.scss';
-
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
   padding: [32, 5, 32, 45],
-  colors: [],
+  colors: color.category_12,
   xAxis: {
     type: 'linear',
     mask: 'YYYY-MM-DD HH:mm:ss'
@@ -22,52 +20,78 @@ const defaultConfig = {
   tooltip: true,
   legend: true
 };
-
-const colorMap = ['#2889EC', '#F6A71F', '#EF5350', '#4AD051', '#8B73CC'];
-
+const colorMap = color.category_12;
 const setAxis = (chart, config) => {
-  const { xFormator } = config;
 
-  chart.axis('x', {
-    // 格式化坐标轴的显示
-    label: {
-      autoRotate: false
-    },
+  const xAxis = {
     textStyle: {
       textAlign: 'center', // 文本对齐方向，可取值为： start middle end
-      fill: '#999', // 文本的颜色
-      fontSize: '12' // 文本大小
+      fill: color.colorN22, // 文本的颜色
+      fontSize: size.s3 // 文本大小
     },
-    grid: null,
-    formatter: xFormator
-  });
+    title: null, // 不展示坐标轴的标题
+    label: {
+      autoRotate: false,
+      formatter: config.xAxis.labelFormatter
+    }
+  };
+
+  if (config.grid) {
+    xAxis.grid = {
+      lineStyle: {
+        stroke: color.colorN13,
+        lineWidth: 1
+      }
+    };
+  }
+
+  chart.axis('x', xAxis);
+
+
   chart.axis('y', {
     tickLine: null,
     title: null,
     line: null,
-    labels: {
-      autoRotate: false,
-      label: {
-        textAlign: 'center',
-        fill: '#333',
-        fontSize: 12
-      }
+    label: {
+      textAlign: 'center',
+      fill: color.colorN24,
+      fontSize: size.s3,
+      formatter: config.yAxis.labelFormatter
     },
     grid: {
       line: {
-        stroke: '#F2F3F7',
+        stroke: color.colorN13,
         lineWidth: 1,
         lineDash: [1, 0]
       }
     },
-    formatter(value) {
-      return xFormator ? xFormator(value) : value;
-    }
   });
 };
 
 const setSource = (chart, config, data) => {
-  chart.source(data, { x: config.xAxis, y: config.yAxis });
+  const defs = {
+    x: propertyAssign(
+      propertyMap.xAxis,
+      {
+        type: 'linear'
+      },
+      config.xAxis
+    ),
+    type: {
+      type: 'cat'
+    }
+  };
+
+  defs.y = propertyAssign(
+    propertyMap.yAxis,
+    {
+      type: 'linear',
+      tickCount: 5
+    },
+    config.yAxis
+  );
+
+  chart.source(data, defs);
 };
 
 const chartRender = (chart, config) => {
@@ -125,57 +149,31 @@ const setLegend = (chart, config, rawData, chartNode) => {
       useHtml: true,
       title: null,
       position: 'top',
-      containerTpl:
-        '<div class="g2-legend" style="position:absolute;top:0;right:60px;width:auto;">' +
-        '<h4 class="g2-legend-title"></h4>' +
-        '<ul class="g2-legend-list" style="list-style-type:none;margin:0;padding:0;"></ul>' +
-        '</div>',
+      // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
+      autoPosition: false,
       itemTpl: (value, color, checked, index) => {
         const item = (rawData && rawData[index]) || {};
         const result = config.legend.nameFormatter
           ? config.legend.nameFormatter(
-              value,
+            value,
             {
               ...item,
               color,
               checked
             },
-              index
-            )
+            index
+          )
           : value;
         return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
           '<span class="g2-legend-text">'}${result}</span></li>`;
       },
-      'g2-legend': {
-        position: 'absolute',
-        overflow: 'auto',
-        fontFamily: fonts.fontFamilyBase,
-        fontSize: fonts.fontSizeBaseCaption,
-        lineHeight: fonts.fontSizeBaseCaption,
-        color: color.colorN24,
-        left: '20px',
-        top: 0
-      },
-      'g2-legend-list': {},
-      'g2-legend-list-item': {
-        marginBottom: size.s3,
-        marginRight: size.s3
-      },
-      'g2-legend-marker': {
-        width: '6px',
-        height: '6px',
-        marginRight: size.s1
-      }
-    });
-
-    G2.DomUtil.requestAnimationFrame(() => {
-      const legendDom = chartNode.querySelector('.g2-legend');
-      if (config.legend.align === 'right') {
-        legendDom && legendDom.classList.add('legend-align-right');
-      } else {
-        legendDom && legendDom.classList.add('legend-align-left');
-      }
+      'g2-legend': Object.assign(
+        {
+          top: '6px'
+        },
+        config.legend.align === 'right' ? { right: 0 } : { left: 0 }
+      )
     });
   } else {
     chart.legend(false);
@@ -195,17 +193,17 @@ const setToolTip = (chart, config) => {
         visibility: 'hidden',
         border: '1px solid #efefef',
         backgroundColor: 'white',
-        padding: '12px',
+        padding: size.s3,
         transition: 'top 200ms,left 200ms',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        color: '#333'
+        color: color.colorN24
       }, // 设置 tooltip 的 css 样式
       'g2-tooltip-title': {
-        color: '#333',
-        marginRight: '12px',
-        fontSize: '12px'
+        color: color.colorN24,
+        marginRight: size.s3,
+        fontSize: size.s3
       },
       'g2-tooltip-list-item': {
         marginTop: 0
@@ -222,9 +220,9 @@ const setToolTip = (chart, config) => {
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
           }
-          if (config.tooltip.nameFormatter) {
-            item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
-          }
+          // if (config.tooltip.nameFormatter) {
+          //   item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+          // }
         });
       });
     }

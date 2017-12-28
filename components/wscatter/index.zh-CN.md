@@ -39,7 +39,6 @@ cols: 1
     },
     tooltip: { //默认显示，设置为false时，表示不显示
       titleFormatter: null, // tooltip标题格式化函数。参数：title
-      nameFormatter: null, // tooltip name格式化函数。参数：name, data, index, record
       valueFormatter: null, // tooltip value格式化函数。参数：value, data, index, record
     },
     labels: { //默认为false，表示不显示
