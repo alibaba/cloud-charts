@@ -2,7 +2,7 @@
 category: 组件
 subtitle: 桑基图
 type: 图表组件
-title: WSankey.scss
+title: WSankey
 cols: 1
 ---
 

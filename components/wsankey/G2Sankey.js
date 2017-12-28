@@ -16,7 +16,7 @@ let defaultConfig = {
   },
   tooltip: {
     showTitle: false,
-    formatter: null
+    nameFormatter: null
   },
   textStyle: {
     fill: '#545454',
@@ -58,7 +58,7 @@ export default {
       .shape('arc')
       .color('#bbb')
       .opacity(0.6)
-      .tooltip('target*source*value', config.tooltip.formatter);
+      .tooltip('target*source*value', config.tooltip.nameFormatter);
 
     // node view
     const nodeView = chart.view();
