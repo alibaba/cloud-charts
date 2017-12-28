@@ -195,15 +195,16 @@ const rootClassName = 'aisc-widgets ';
 
 const events = ['MouseOver','Selection','Click'];
 
-let requestAnimationFrame = ( window && window.requestAnimationFrame ) || function(){};
+let requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 
-/*
-* g2Factory 函数
-*
-* 将非React版的图表类转化为React版
-*
-* convertData 控制是否转化数据
-* */
+/**
+ * g2Factory 函数
+ * 将非React版的图表类转化为React版
+ *
+ * @param {string} name 组件名称
+ * @param Chart 组件原生代码组
+ * @param {boolean} convertData 控制是否转化数据
+ * */
 function g2Factory(name, Chart, convertData = true) {
   let ChartProcess = Chart;
   class AiscChart extends React.Component {
@@ -258,7 +259,7 @@ function g2Factory(name, Chart, convertData = true) {
         ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
-      ChartProcess.init.call(this, chart, config, data, initData);
+      chart && ChartProcess.init.call(this, chart, config, data, initData);
       // this.chart.setData(this.props.data);
 
       if (chart && event) {
@@ -331,14 +332,14 @@ function g2Factory(name, Chart, convertData = true) {
       if (newData !== oldData || newData.length !== oldData.length) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
         if (ChartProcess.changeData) {
-          ChartProcess.changeData.call(this, this.chart, newConfig, data);
+          this.chart && ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {
           this.chart && this.chart.changeData(data);
         }
       }
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
         if (ChartProcess.changeSize) {
-          ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
+          this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
         } else {
           this.chart && this.chart.changeSize(newWidth, newHeight);
         }
@@ -376,7 +377,7 @@ function g2Factory(name, Chart, convertData = true) {
       window.removeEventListener('resize', this.autoResize);
 
       if (ChartProcess.destroy) {
-        ChartProcess.destroy.call(this, this.chart);
+        this.chart && ChartProcess.destroy.call(this, this.chart);
       }
 
       this.chart && this.chart.off();
