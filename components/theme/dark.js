@@ -7,7 +7,7 @@ import widgetsVar from '!!sass-variable-loader!./dark.scss';
 const prefix = 'widgets-';
 
 Object.assign(color, widgetsVar, {
-  [prefix + 'tooltip-background']: 'rgba(255, 255, 255, 0.9)',
+  [prefix + 'tooltip-background']: '#20264A',
   [prefix + 'tooltip-shadow']: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
   [prefix + 'tooltip-cross-line']: '#dddddd',
 

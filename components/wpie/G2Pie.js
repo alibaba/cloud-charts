@@ -19,8 +19,8 @@ let defaultConfig = {
     valueFormatter: null,
   },
   cycle: false,
-  innerRadius: 0.66, // 内环半径大小，仅cycle为true时可用
-  outerRadius: 0.6, // 饼图半径大小，初始化时可用
+  innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
+  outerRadius: 0.8, // 饼图半径大小，初始化时可用
 };
 
 export default {
@@ -60,7 +60,7 @@ export default {
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
     let thetaConfig = {
-      radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.6
+      radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.8
     };
     if (config.cycle) {
       thetaConfig.innerRadius = config.innerRadius;
