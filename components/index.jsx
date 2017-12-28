@@ -1,3 +1,4 @@
+import { color } from './theme/normal';
 import './index.scss';
 
 // 业务组件，组成没有依赖图表库
@@ -9,7 +10,10 @@ export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
 
-//图表组件，这里底层依赖G2
+// 暴露颜色值
+export const COLORS = color;
+
+// 所有图表组件，这里底层依赖G2
 export * from './g2Map';
 // import * as highchartsMap from './highchartsMap';
 //

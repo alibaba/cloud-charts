@@ -1,4 +1,7 @@
 import G2 from '@antv/g2';
+import * as DataSet from '@antv/data-set';
+import * as common from './chartCommon/common';
+
 import g2Factory from './chartCommon/g2Factory';
 
 import G2Line from './wline/G2Line';
@@ -23,7 +26,20 @@ export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
 export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale, false);
 
 // 暴露基础图表库
-export { G2 };
+export { G2, DataSet };
+
+export const Util = Object.assign({}, G2.Util, {
+  propertyAssign: common.propertyAssign,
+  getParentSize: common.getParentSize,
+  getStatusColor: common.getStatusColor,
+  isInvalidNumber: common.isInvalidNumber,
+  numberDecimal: common.numberDecimal,
+  beautifyNumber: common.beautifyNumber,
+});
+
+export const DomUtil = G2.DomUtil;
+export const MatrixUtil = G2.MatrixUtil;
+export const PathUtil = G2.PathUtil;
 
 export const Wline = WG2Line;
 export const Wbar = WG2Bar;
