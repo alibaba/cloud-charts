@@ -25,7 +25,7 @@ cols: 1
 ```javascript
   {
     tooltip: { //默认显示，设置为false时，表示不显示
-      formatter: null, // tooltip value格式化函数。参数：target,source,value
+      nameFormatter: null, // tooltip value格式化函数。参数：target,source,value
     },
     textStyle: {
       fill: '#545454',

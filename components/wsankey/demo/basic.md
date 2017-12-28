@@ -83,7 +83,7 @@ let data = {
 let options1 = {
   tooltip: {
     showTitle: false,
-    formatter: (target, source, value) => {
+    nameFormatter: (target, source, value) => {
       return {
         name: source.name + ' to ' + target.name + '</span>',
         value
