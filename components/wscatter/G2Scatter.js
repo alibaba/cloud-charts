@@ -38,6 +38,7 @@ const setAxis = (chart, config) => {
       fill: '#999', // 文本的颜色
       fontSize: '12' // 文本大小
     },
+    grid: null,
     formatter: xFormator
   });
   chart.axis('y', {
@@ -230,9 +231,4 @@ const setToolTip = (chart, config) => {
   } else {
     chart.tooltip(false);
   }
-};
-
-const getLegendNode = (target) => {
-  if (target.tagName === 'LI') return target;
-  return target.parentNode;
 };
