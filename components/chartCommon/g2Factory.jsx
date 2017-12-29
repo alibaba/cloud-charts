@@ -349,27 +349,6 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     shouldComponentUpdate (nextProps) {
-      // if(this.props.data !== nextProps.data){
-      //   this.chart.setData(nextProps.data);
-      // }
-      // if(this.props.config !== nextProps.config){
-      //   this.chart.setOption(nextProps.config);
-      // }
-      // if(this.props.orignalOptions !== nextProps.orignalOptions){
-      //   this.chart.chart && this.chart.chart.update(orignalOptions);
-      // }
-      // if(this.props.width !== nextProps.width || this.props.height !== nextProps.height){
-      //   this.setSize();
-      // }
-      // //action判断
-      // for(let i in nextProps.action){
-      //   if(this.props.action[i] !== nextProps.action[i]){
-      //     let e = nextProps.action[i];
-      //     if(e.target !== this.chart){
-      //       this.chart.fire(i,e);
-      //     }
-      //   }
-      // }
       return false;
     }
 
@@ -388,10 +367,6 @@ function g2Factory(name, Chart, convertData = true) {
       this.chartDom = null;
       this.chartId = null;
     }
-
-    // getChart() {
-    //   return this.chart;
-    // }
 
     setSize() {
       const element = this.chartDom;
