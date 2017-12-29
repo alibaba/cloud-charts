@@ -64,7 +64,8 @@ gulp.task('build:dist', ['clean'], (cb) => {
 
         gutil.log(stats.toString({
             colors: true,
-            chunks: false
+            chunks: true,
+            modulesSort: 'size'
         }));
     });
     compiler.plugin('done', (stats) => {
