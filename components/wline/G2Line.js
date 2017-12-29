@@ -72,6 +72,8 @@ export default {
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'linear',
+        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+        range: [0, 1]
       }, config.xAxis),
       type: {
         type: 'cat'
