@@ -9,6 +9,7 @@ export Wminiline from './wminiline/index';
 export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
+export Wplaceholder from './wplaceholder/index';
 
 // 暴露颜色值
 export const COLORS = color;
