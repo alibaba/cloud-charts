@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "brush start -c ./config/_dev.js",
@@ -20,7 +20,6 @@
     "package.json",
     "README.md",
     "HISTORY.md",
-    "src",
     "lib",
     "components",
     "build"

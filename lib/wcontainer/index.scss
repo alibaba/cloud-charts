@@ -54,6 +54,17 @@
       }
     }
 
+    > #{$wcontainer-prefix}-main-row {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      > #{$wcontainer-prefix}-main-col {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
     > .next-row {
       padding: 0 $s5;
       > .next-col {

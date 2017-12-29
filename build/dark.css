@@ -79,9 +79,6 @@
     margin-top: 0 !important; }
   .aisc-widgets.G2Pie > div .g2-legend-list-item:last-child {
     margin-bottom: 1px !important; }
-.aisc-widgets.G2Scatter .legend-align-left {
-  left: 0 !important;
-  top: 0 !important; }
 @charset "UTF-8";
 /**
  * 尺寸 基础尺寸
@@ -250,6 +247,28 @@
             border-left: none;
             margin-left: 0;
             padding-left: 0; }
+    .aisc-wcontainer .aisc-wcontainer-main > .aisc-wcontainer-main-row {
+      -webkit-box-flex: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; }
+      .aisc-wcontainer .aisc-wcontainer-main > .aisc-wcontainer-main-row > .aisc-wcontainer-main-col {
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column; }
     .aisc-wcontainer .aisc-wcontainer-main > .next-row {
       padding: 0 20px; }
       .aisc-wcontainer .aisc-wcontainer-main > .next-row > .next-col {
