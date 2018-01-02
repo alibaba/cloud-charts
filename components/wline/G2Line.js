@@ -63,6 +63,10 @@ export default {
   init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
 
+    if (config.xAxis && config.xAxis.type === 'datetime') {
+      config.xAxis.type = 'time';
+    }
+
     // G2 3.0 暂不支持框选模式
     // if (config.zoom) {
     //   chart.setMode('select'); // 开启框选模式
@@ -71,7 +75,7 @@ export default {
 
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
-        type: 'linear',
+        type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
         range: [0, 1]
       }, config.xAxis),
