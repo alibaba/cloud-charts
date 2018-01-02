@@ -110,7 +110,6 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       lineWidth: 1
     }
   },
-  // 某个bug导致theme这里不可用，暂时在组件代码中设置图例样式
   legend: {
     top: {
       textStyle: {
@@ -192,10 +191,7 @@ function generateUniqueId() {
 }
 
 const rootClassName = 'aisc-widgets ';
-
-const events = ['MouseOver','Selection','Click'];
-
-let requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
+const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 
 /**
  * g2Factory 函数
@@ -216,13 +212,12 @@ function g2Factory(name, Chart, convertData = true) {
         PropTypes.arrayOf(PropTypes.object),
         PropTypes.object
       ]).isRequired,
-      plotCfg: PropTypes.object,
+      event: PropTypes.object,
       forceFit: PropTypes.bool
     };
 
     static defaultProps = {
       forceFit: false,
-      plotCfg: {},
       config: {},
     };
 
@@ -269,58 +264,8 @@ function g2Factory(name, Chart, convertData = true) {
           chart.on(name, event[name]);
         });
       }
-      // //绑定事件
-      // const events = [
-      //   'plotmove',
-      //   'plotenter',
-      //   'plotleave',
-      //   'plotclick',
-      //   'plotdblclick',
-      //   'rangeselectstart',
-      //   'rangeselectend',
-      //   'itemselected',
-      //   'itemunselected',
-      //   'itemselectedchange',
-      //   'tooltipchange',
-      //   'tooltipshow',
-      //   'tooltiphide'
-      // ];
-      //
-      // Object.keys(config).forEach(item => {
-      //   (events.indexOf(item) > -1) && chart.on(item, config[item]);
-      // });
 
       this.chart = chart;
-
-      // //触发事件以属性设置方式传入触发
-      // if(this.props.action){
-      //   for(let i in this.props.action){
-      //     this.chart.fire(i,this.props.action[i]);
-      //   }
-      // }
-      //
-      // //监听事件
-      // events.forEach((ev)=>{
-      //   this.chart.on(ev.toLocaleLowerCase(), (e)=>{
-      //     e = e || {}, e.target = this.chart;
-      //     this.props['on' + ev] && this.props['on' + ev](e);
-      //   });
-      // });
-
-      //自适应大小
-      // this._size = this.getSize();
-      // let autoResize = ()=>{
-      //   if(this.refs.chart){//如果组件已经销毁，则不再执行
-      //     let size = this.getSize();
-      //     if(!(size[0] === this._size[0] && size[1] === this._size[1])){
-      //       this.setSize();
-      //       this.chart.render();
-      //       this._size = this.getSize();
-      //     }
-      //     requestAnimationFrame(autoResize.bind(this));
-      //   }
-      // };
-      // requestAnimationFrame(autoResize.bind(this));
     }
 
     componentWillReceiveProps(nextProps){
@@ -407,16 +352,6 @@ function g2Factory(name, Chart, convertData = true) {
         }
       })
     }
-
-    // getSize() {
-    //   let node = this.refs.chart,
-    //     w = node.offsetWidth,
-    //     h = node.offsetHeight;
-    //   //如果是自动获取宽高的情况，则监听父级宽高
-    //   if(!this.props.width && node.parentNode) w = node.parentNode.clientWidth;
-    //   if(!this.props.height && node.parentNode) h = node.parentNode.clientHeight;
-    //   return [w, h];
-    // }
 
     render() {
       const { className, style, ...otherProps } = this.props;
