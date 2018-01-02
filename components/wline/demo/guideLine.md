@@ -53,7 +53,6 @@ let options1 = {
       // 显示标题相关
       text: {
         title: '警戒线',
-        offsetY: 6
       },
       status: 'error',
       // 线位置

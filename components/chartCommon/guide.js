@@ -30,7 +30,7 @@ export default function (chart, config) {
 
 function drawGuideLine(chart, guideLine) {
   const { top, text = {}, status, axis, value, start, end } = guideLine;
-  const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX = 0, offsetY = 0 } = text;
+  const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY } = text;
   const color = getStatusColor(status);
 
   const guideConfig = {
@@ -78,6 +78,7 @@ function drawGuideLine(chart, guideLine) {
           return { x: 'max', [axis]: value };
         }
       };
+      guideConfig.text.offsetY = offsetY === 0 ? offsetY : (offsetY || 6);
     }
   }
   if (start) {
