@@ -6,7 +6,7 @@ import './G2Pie.scss';
 
 let defaultConfig = {
   colors: color.category_12,
-  padding: [20, 120, 20, 20],
+  padding: [20, 20, 20, 20],
   legend: {
     // position: 'right',
     nameFormatter: null, //可以强制覆盖，手动设置label

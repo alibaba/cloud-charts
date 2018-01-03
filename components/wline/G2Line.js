@@ -10,7 +10,7 @@ const defaultConfig = {
   colors: color.category_12,
   padding: [32, 5, 32, 45],
   xAxis: {
-    type: 'linear', //默认为线性
+    type: 'time', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
     labelFormatter: null, //可以强制覆盖，手动设置label
     categories: null,
