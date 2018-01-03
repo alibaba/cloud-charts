@@ -95,9 +95,6 @@ export default {
           type: 'linear',
           tickCount: 5
         }, axis);
-        // defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
-        //   type: 'linear',
-        // }, axis);
       });
     } else {
       defs['y'] = propertyAssign(propertyMap.yAxis, {
@@ -106,9 +103,6 @@ export default {
         // 单轴时，必须同步度量，否则会两个度量叠加在一起
         sync: true
       }, config.yAxis);
-      // defs['y' + barKey] = propertyAssign(propertyMap.yAxis, {
-      //   type: 'linear',
-      // }, config.yAxis);
     }
 
     chart.scale(defs);
