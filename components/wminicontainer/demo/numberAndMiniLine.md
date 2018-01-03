@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wminicontainer, Wicon, Wnumber, Wline
+  Wminicontainer, Wicon, Wnumber, Wminiline
 } from '@alife/aisc-widgets';
 
 import {
@@ -31,45 +31,16 @@ let data = [
 ];
 
 let options1 = {
-  xAxis: {
-    type: 'datetime',
-    padding: [0, 0, 0, 0],
-  },
-  yAxis:{
-    guideLine:[{
-      value: 5000
-    }]
-  },
-  mini: true,
+  padding: [0, 0, 0, 0],
   area: true
 };
 
 let options2 = {
-  xAxis: {
-    type: 'datetime',
-    padding: [0, 0, 0, 0],
-  },
-  yAxis:{
-    guideLine:[{
-      value: 5000,
-      color: '#FB8C00'
-    }]
-  },
-  mini: true
+  padding: [0, 0, 0, 0],
 };
 
 let options3 = {
-  xAxis: {
-    type: 'datetime',
-    padding: [0, 0, 0, 0],
-  },
-  yAxis:{
-    guideLine:[{
-      value: 5000,
-      color: '#E93A3A'
-    }]
-  },
-  mini: true
+  padding: [0, 0, 0, 0],
 };
 
 const demoStyle = {
@@ -86,7 +57,7 @@ ReactDOM.render(
               <Wnumber bottomTitle="底部" unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
             </div>
             
-            <Wline ref="chart1" config={options1} data={data} height="128"/>
+            <Wminiline config={options1} data={data} height="128"/>
           </Wminicontainer>
         </Col>
         <Col span="8">
@@ -95,7 +66,7 @@ ReactDOM.render(
               <Wnumber bottomTitle="底部标题" unit="个" rightRatio="1%" status="drop" rightRatioTrend="raise">2222</Wnumber>
             </div>
             
-            <Wline ref="chart1" config={options2} data={data} height="128"/>
+            <Wminiline config={options2} data={data} height="128"/>
           </Wminicontainer>
         </Col>
         <Col span="8">
@@ -104,7 +75,7 @@ ReactDOM.render(
               <Wnumber bottomTitle="底部标题底部标题底部标题" unit="个" rightRatio="1%" status="raise" rightRatioTrend="drop">2222</Wnumber>
             </div>
             
-            <Wline ref="chart1" config={options3} data={data} height="128"/>
+            <Wminiline config={options3} data={data} height="128"/>
           </Wminicontainer>
         </Col>
       </Row>
