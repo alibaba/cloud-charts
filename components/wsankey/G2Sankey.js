@@ -25,12 +25,13 @@ let defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config, plotCfg} = props;
-    plotCfg.margin = config.padding || defaultConfig.padding;
-    return props;
+    const {config} = props;
+    // TODO 处理padding
+    return Object.assign({}, props, {
+      padding: props.padding || config.padding || defaultConfig.padding
+    });
   },
   init(chart, userConfig, data) {
-    // console.log(chart, userConfig, data)
     const config = merge({}, defaultConfig, userConfig);
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
