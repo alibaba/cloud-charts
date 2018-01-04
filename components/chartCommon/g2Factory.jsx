@@ -9,6 +9,9 @@ import highchartsDataToG2Data from './dataAdapter';
 
 //全局G2主题设置
 const theme = G2.Util.deepMix({}, G2.Global, {
+  snapArray: [ 0, 1, 2, 2.5, 4, 5, 10 ],
+  // 指定固定 tick 数的逼近值
+  snapCountArray: [ 0, 1, 1.2, 1.5, 1.6, 2, 2.2, 2.4, 2.5, 3, 4, 5, 6, 7.5, 8, 10 ],
   // animate: false,
   // colors: {
   //   'default': COLORS

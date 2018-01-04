@@ -36,10 +36,10 @@ let options2 = {
     labelFormatter: function(value){
       return value + '%';
     },
-    tickCount: 6,
+    //tickCount: 6,
     min: 0,
     max: 100,
-    maxLimit: 100
+    //maxLimit: 100
   }
 };
 
