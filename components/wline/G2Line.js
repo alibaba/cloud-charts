@@ -21,8 +21,6 @@ const defaultConfig = {
     labelFormatter: null, //可以强制覆盖，手动设置label
     max: null,
     min: null,
-    // bgArea: [], // TODO 辅助区域后期需要加上
-    // guideLine: null
   },
   legend: {
     align: 'left',
@@ -33,8 +31,6 @@ const defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
-  // TODO 修改事件绑定规则
-  // clickable: false,
   area: false,
   stack: false,//仅Area有效
   spline: false,
