@@ -16,12 +16,12 @@ basic use.
 
 ````jsx
 import {
-  Wplaceholder
+  Wcontainer, Wplaceholder
 } from '@alife/aisc-widgets'
 
 ReactDOM.render(
-    <div>
+    <Wcontainer height="300">
       <Wplaceholder />
-    </div>,
+    </Wcontainer>,
 mountNode);
 ````
