@@ -14,7 +14,19 @@
       left: -12px;
       @include icon-handler(12px);
     }
-    color: $color-b1-6;
+  }
+
+  &#{$wicon-prefix}-blue{
+    color: $blue;
+  }
+  &#{$wicon-prefix}-orange{
+    color: $orange;
+  }
+  &#{$wicon-prefix}-red{
+    color: $red;
+  }
+  &#{$wicon-prefix}-green{
+    color: $green;
   }
 }
 
