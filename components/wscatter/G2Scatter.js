@@ -203,6 +203,7 @@ const setToolTip = (chart, config) => {
       'g2-tooltip-title': {
         color: color.colorN24,
         marginRight: size.s3,
+        marginTop: 0,
         fontSize: size.s3
       },
       'g2-tooltip-list-item': {
