@@ -11,51 +11,45 @@ title:
 
 ## en-US
 
-
-````jsx
+```jsx
 import { Wnightingale } from '@alife/aisc-widgets';
 
-const data = [
-    {year: '2001', population: 41.8 },
-    {year: '2002', population: 38 },
-    {year: '2003', population: 33.7 },
-    {year: '2004', population: 30.7 },
-    {year: '2005', population: 25.8 },
-    {year: '2006', population: 31.7 },
-    {year: '2007', population: 33 },
-    {year: '2008', population: 46 },
-    {year: '2009', population: 38.3 },
-    {year: '2010', population: 28 },
-    {year: '2011', population: 42.5 },
-    {year: '2012', population: 30.3 }
-  ];
+const data = [{
+  name: '人口比例',
+  data: [
+    ['2001', 41.8],
+    ['2002', 38],
+    ['2003', 33.7],
+    ['2004', 30.7],
+    ['2005', 25.8],
+    ['2006', 31.7],
+    ['2007', 33],
+    ['2008', 46],
+    ['2009', 38.3],
+    ['2010', 28],
+    ['2011', 42.5],
+    ['2012', 30.3]
+  ]
+}];
 
-let options1 = {
-  position: 'year*population',
-  label: 'year',
-  tooltip: {
-    showTitle: false,
-    formatter: (target, source, value) => {
-      return {
-        name: source.year,
-        value
-      };
-    }
-  }
-};
+let options1 = {};
 
-class Demo extends React.Component{
+class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
-  render(){
+  render() {
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wnightingale ref="chart1" config={options1} data={data} height="400" />
+          <Wnightingale
+            ref="chart1"
+            config={options1}
+            data={data}
+            height="400"
+          />
         </div>
       </div>
     );
@@ -63,4 +57,4 @@ class Demo extends React.Component{
 }
 
 ReactDOM.render(<Demo />, mountNode);
-````
+```

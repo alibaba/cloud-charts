@@ -1,12 +1,14 @@
+'use strict';
+
 // 引入所需要的库和样式
 import merge from '../utils/merge';
-import G2 from '@antv/g2';
+import {color, fonts, size} from "../theme/normal";
 import './G2-base.scss';
 
 // 建议将默认配置放在外层，方便后续维护
 let defaultConfig = {
-  padding: [32, 5, 32, 45],
-  colors: []
+  padding: size.s5,
+  colors: color.category_12,
 };
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -23,13 +25,13 @@ export default {
     chart.coord('polar');
     chart.axis(false);
     chart.interval()
-    .position(config.position)
-    .label(config.label, {
+    .position('x*y')
+    .label('x', {
       offset: -15
     })
     .style({
       lineWidth: 1,
-      stroke: '#fff'
+      stroke: color.widgetsColorWhite
     });
     chart.render();
     // ...绘制流程

@@ -23,7 +23,7 @@ export const WG2Scatter = g2Factory('G2Scatter', G2Scatter);
 export const WG2Map = g2Factory('G2Map', G2Map, false);
 export const WG2Custom = g2Factory('G2Custom', G2Custom);
 export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
-export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale, false);
+export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
 
 // 暴露基础图表库
 export { G2, DataSet };

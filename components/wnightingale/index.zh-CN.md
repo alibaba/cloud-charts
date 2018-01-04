@@ -19,39 +19,24 @@ cols: 1
 | height | 容器高度 | Number | 自适应父元素高度 |
 
 ### 南丁格尔图配置及数据格式
-* config:
-
-```javascript
-{
-  position: 'year*population', //极坐标的显示字段
-  label: 'year', //极坐标标签字段
-  tooltip: { // 参考tooltip
-    showTitle: false,
-    formatter: (target, source, value) => {
-      return {
-        name: source.year,
-        value
-      };
-    }
-  }
-}
-```
-
 * data:
 
 ```javascript
-const data = [
-    {year: '2001', population: 41.8 },
-    {year: '2002', population: 38 },
-    {year: '2003', population: 33.7 },
-    {year: '2004', population: 30.7 },
-    {year: '2005', population: 25.8 },
-    {year: '2006', population: 31.7 },
-    {year: '2007', population: 33 },
-    {year: '2008', population: 46 },
-    {year: '2009', population: 38.3 },
-    {year: '2010', population: 28 },
-    {year: '2011', population: 42.5 },
-    {year: '2012', population: 30.3 }
-];
+const data = [{
+  name: '人口比例',
+  data: [
+    ['2001', 41.8],
+    ['2002', 38],
+    ['2003', 33.7],
+    ['2004', 30.7],
+    ['2005', 25.8],
+    ['2006', 31.7],
+    ['2007', 33],
+    ['2008', 46],
+    ['2009', 38.3],
+    ['2010', 28],
+    ['2011', 42.5],
+    ['2012', 30.3]
+  ]
+}];
 ```
