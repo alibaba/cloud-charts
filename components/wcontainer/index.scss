@@ -54,15 +54,9 @@
       }
     }
 
-    > #{$wcontainer-prefix}-main-row {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      > #{$wcontainer-prefix}-main-col {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-      }
+    &#{$wcontainer-prefix}-main-one-chart {
+      margin-left: 20px;
+      margin-right: 20px;
     }
 
     > .next-row {

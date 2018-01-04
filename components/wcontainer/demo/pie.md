@@ -47,11 +47,9 @@ let options2 = {
 };
 
 let options3 = {
-  dataType: 'Highcharts'
 };
 
 let options4 = {
-  dataType: 'Highcharts',
   cycle: true
 };
 
@@ -60,12 +58,12 @@ ReactDOM.render(
       <Row>
         <Col span="12">
           <Wcontainer title={"饼图"} height={298}>
-            <Wpie ref="chart1" config={options1} data={data} height="250"/>
+            <Wpie ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>
         <Col span="12">
           <Wcontainer title={"环图"} height={298}>
-            <Wpie ref="chart2" config={options2} data={data} height="250"/>
+            <Wpie ref="chart2" config={options2} data={data} />
           </Wcontainer>
         </Col>
       </Row>

@@ -222,6 +222,7 @@ function g2Factory(name, Chart, convertData = true) {
     };
 
     static displayName = 'AiscWidgets' + name;
+    static isG2Chart = true;
 
     constructor(props, context) {
       super(props, context);

@@ -24,25 +24,24 @@ import {
 const { Row, Col } = Grid;
 
 let options1 = {
-  xAxis: {type: 'datetime'}
+  xAxis: {type: 'time'}
 };
 
 let options2 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   legend: false
 };
 
 let options3 = {
-  xAxis: {type: 'datetime'},
+  xAxis: {type: 'time'},
   type: 'spline'
 };
 
 let options4 = {
   xAxis: {
-    type: 'datetime',
-    dateFormatter: 'HH:MM:ss'
-  },
-  dataType: 'Highcharts'
+    type: 'time',
+    mask: 'HH:mm:ss'
+  }
 };
 
 let data = [
@@ -60,12 +59,12 @@ ReactDOM.render(
       <Row>
         <Col span="12">
           <Wcontainer title={"多数据项折线图"} height={298}>
-            <Wline ref="chart1" config={options1} data={data} height="250"/>
+            <Wline ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>
         <Col span="12">
           <Wcontainer title={"多数据项无图例"} height={298}>
-            <Wline ref="chart1" config={options2} data={data} height="250"/>
+            <Wline ref="chart1" config={options2} data={data} />
           </Wcontainer>
         </Col>
       </Row>
@@ -73,7 +72,7 @@ ReactDOM.render(
       <Row>
         <Col span="24">
           <Wcontainer title={"圆滑曲线图"} height={298}>
-            <Wline ref="chart1" config={options3} data={data} height="250"/>
+            <Wline ref="chart1" config={options3} data={data} />
           </Wcontainer>
         </Col>
       </Row>

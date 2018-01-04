@@ -34,8 +34,6 @@ let data = [
 ];
 
 let options1 = {
-  title: '',
-  subTitle: '',
 };
 
 let options2 = {
@@ -48,12 +46,12 @@ ReactDOM.render(
       <Row>
         <Col span="12">
           <Wcontainer title={"柱图"} height={298}>
-            <Wbar ref="chart1" config={options1} data={data} height="250"/>
+            <Wbar ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>
         <Col span="12">
           <Wcontainer title={"横向柱图"} height={298}>
-            <Wbar ref="chart2" config={options2} data={data} height="250"/>
+            <Wbar ref="chart2" config={options2} data={data} />
           </Wcontainer>
         </Col>
       </Row>

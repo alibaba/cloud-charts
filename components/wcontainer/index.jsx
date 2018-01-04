@@ -33,14 +33,17 @@ export default class Wcontainer extends React.Component {
   renderMainNormal() {
     const propsChildren = this.props.children;
     const oneChild = React.Children.count(propsChildren) === 1;
-    let rowClassName = '';
-    if (oneChild && propsChildren && propsChildren.type.displayName === 'AiscWidgetsHighBar') {
-      rowClassName = `${prefix}-main-row`;
+    if (oneChild && propsChildren && propsChildren.type.isG2Chart) {
+      return (
+        <div className={`${prefix}-main ${prefix}-main-one-chart`}>
+          {propsChildren}
+        </div>
+      );
     }
 
     return (
       <div className={`${prefix}-main`}>
-        <Row align="center" className={rowClassName}>
+        <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
             if (child.type.displayName === 'Wicon') {
               return (
@@ -59,13 +62,6 @@ export default class Wcontainer extends React.Component {
             if (child.type.displayName === 'Divider') {
               return (
                 <Col fixedSpan="1" key={i}>
-                  {child}
-                </Col>
-              );
-            }
-            if (child.type.Chart && child.type.displayName === 'AiscWidgetsHighBar') {
-              return (
-                <Col span="24" key={i} className={`${prefix}-main-col`}>
                   {child}
                 </Col>
               );
