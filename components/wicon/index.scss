@@ -5,14 +5,42 @@
 
 #{$wicon-prefix} {
   &.next-icon {
+    line-height: 1;
     &#{$wicon-prefix}-big {
       @include icon-handler(38px);
     }
+    &#{$wicon-prefix}-xl {
+      @include icon-handler($font-size-xlarge-number);
+    }
+    &#{$wicon-prefix}-large {
+      @include icon-handler(24px);
+    }
+    &#{$wicon-prefix}-medium {
+      @include icon-handler(20px);
+    }
     &#{$wicon-prefix}-small {
-      position: absolute;
-      top: 10px;
-      left: -12px;
-      @include icon-handler(12px);
+      @include icon-handler(16px);
+    }
+  }
+
+  &#{$wicon-prefix}-reverse {
+    border-radius: 50%;
+
+    &#{$wicon-prefix}-blue{
+      color: $widgets-color-white;
+      background-color: $blue;
+    }
+    &#{$wicon-prefix}-orange{
+      color: $widgets-color-white;
+      background-color: $orange;
+    }
+    &#{$wicon-prefix}-red{
+      color: $widgets-color-white;
+      background-color: $red;
+    }
+    &#{$wicon-prefix}-green{
+      color: $widgets-color-white;
+      background-color: $green;
     }
   }
 
