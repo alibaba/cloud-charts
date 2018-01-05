@@ -9,6 +9,10 @@ import './G2-base.scss';
 let defaultConfig = {
   padding: [20, 20, 20, 20],
   colors: color.category_12,
+  tooltip: {
+    nameFormatter: null,
+    valueFormatter: null,
+  },
 };
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -28,6 +32,29 @@ export default {
     chart.source(data);
     chart.coord('polar');
     chart.axis(false);
+
+    // tooltip
+    if (config.tooltip) {
+      let tooltipCfg = {
+        showTitle: false,
+        // crosshairs: {},
+      };
+      chart.tooltip(tooltipCfg);
+      if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+        chart.on('tooltip:change', function (ev) {
+          ev.items.forEach((item, index) => {
+            if (config.tooltip.valueFormatter) {
+              item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+            }
+            if (config.tooltip.nameFormatter) {
+              item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+            }
+          });
+        });
+      }
+    } else {
+      chart.tooltip(false);
+    }
 
     chart.interval()
       .position('x*y')
