@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber
+  Wcontainer, Wicon, Wnumber, Wplaceholder
 } from '@alife/aisc-widgets';
 
 import {
@@ -74,6 +74,14 @@ ReactDOM.render(
             <Wcontainer.divider />
             <Wnumber rightTitle="较去年同期" numberTrend="drop">1</Wnumber>
             <Wnumber rightTitle="较去年同期" numberTrend="drop">1</Wnumber>
+          </Wcontainer>
+        </Col>
+      </Row>
+      <p></p>
+      <Row>
+        <Col span="24">
+          <Wcontainer title="占位图" height={192}>
+            <Wplaceholder />
           </Wcontainer>
         </Col>
       </Row>
