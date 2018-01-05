@@ -7,12 +7,12 @@ title:
 
 ## zh-CN
 
-基础
+单色南丁格尔图。
 
 ## en-US
 
 ```jsx
-import { Wnightingale } from '@alife/aisc-widgets';
+import { COLORS, Wnightingale } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -32,7 +32,9 @@ const data = [{
   ]
 }];
 
-let options1 = {};
+let options1 = {
+  colors: COLORS.widgetsColorBlue
+};
 
 class Demo extends React.Component {
   render() {

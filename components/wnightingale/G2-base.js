@@ -7,7 +7,7 @@ import './G2-base.scss';
 
 // 建议将默认配置放在外层，方便后续维护
 let defaultConfig = {
-  padding: size.s5,
+  padding: [20, 20, 20, 20],
   colors: color.category_12,
 };
 
@@ -16,7 +16,11 @@ let defaultConfig = {
 export default {
   // 初始化前对props的预处理函数
   beforeInit(props) {
-    return props;
+    const {config} = props;
+    // TODO 处理padding
+    return Object.assign({}, props, {
+      padding: props.padding || config.padding || defaultConfig.padding
+    });
   },
   // 图表绘制主函数，必选
   init(chart, userConfig, data) {
@@ -24,16 +28,18 @@ export default {
     chart.source(data);
     chart.coord('polar');
     chart.axis(false);
+
     chart.interval()
-    .position('x*y')
-    .label('x', {
-      offset: -15
-    })
-    .style({
-      lineWidth: 1,
-      stroke: color.widgetsColorWhite
-    });
+      .position('x*y')
+      .color('x', config.colors)
+      .label('x', {
+        offset: -15
+      })
+      .style({
+        lineWidth: 1,
+        stroke: color.widgetsColorWhite
+      });
+
     chart.render();
-    // ...绘制流程
   }
 };
