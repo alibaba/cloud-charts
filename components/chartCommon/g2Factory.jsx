@@ -80,7 +80,8 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
       marginBottom: 0,
-      marginTop: size.s2
+      marginTop: size.s2,
+      listStyle: 'none'
     },
     'g2-tooltip-marker': {},
   },
