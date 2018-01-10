@@ -55,8 +55,9 @@
     }
 
     &#{$wcontainer-prefix}-main-one-chart {
-      margin-left: 20px;
-      margin-right: 20px;
+      margin-left: $s5;
+      margin-right: $s5;
+      margin-bottom: $s5;
     }
 
     > .next-row {
