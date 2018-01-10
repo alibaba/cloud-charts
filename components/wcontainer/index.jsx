@@ -15,17 +15,22 @@ export default class Wcontainer extends React.Component {
   constructor(props) {
     super(props);
   }
-
   static defaultProps = {
     arrange: 'normal',
-    height: '100%'
+    height: '100%',
+    operation: ''
   };
 
   renderTitle() {
     return (
       <div className={`${prefix}-title`}>
         {this.props.title}
-        <span className={`${prefix}-time`} />
+        {
+          this.props.operation ?
+            <div className={`${prefix}-operation`}>
+              {this.props.operation}
+            </div> : null
+        }
       </div>
     );
   }
@@ -118,7 +123,7 @@ export default class Wcontainer extends React.Component {
           ...style
         }}
         {...otherProps}
-        ref={o => {this.container = o;}}
+        ref={o => { this.container = o; }}
       >
         {title && this.renderTitle()}
         {arrange === 'normal' && this.renderMainNormal()}
