@@ -40,12 +40,17 @@ let options2 = {
   column: false,
   single: true,
 };
+const renderDiv = () => {
+  return (<div>
+  <a target="_blank" onClick={()=>{alert('d')}}>更多</a>
+  </div>)
+}
 
 ReactDOM.render(
     <div>
       <Row>
         <Col span="12">
-          <Wcontainer title={"柱图"} height={298}>
+          <Wcontainer title={"柱图"} renderCell={renderDiv()}>
             <Wbar ref="chart1" config={options1} data={data} />
           </Wcontainer>
         </Col>

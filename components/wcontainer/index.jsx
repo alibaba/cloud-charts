@@ -15,10 +15,10 @@ export default class Wcontainer extends React.Component {
   constructor(props) {
     super(props);
   }
-
   static defaultProps = {
     arrange: 'normal',
-    height: '100%'
+    height: '100%',
+    renderCell: () => { }
   };
 
   renderTitle() {
@@ -26,6 +26,9 @@ export default class Wcontainer extends React.Component {
       <div className={`${prefix}-title`}>
         {this.props.title}
         <span className={`${prefix}-time`} />
+        <div className={`${prefix}-link`}>
+          {this.props.renderCell}
+        </div>
       </div>
     );
   }
@@ -118,7 +121,7 @@ export default class Wcontainer extends React.Component {
           ...style
         }}
         {...otherProps}
-        ref={o => {this.container = o;}}
+        ref={o => { this.container = o; }}
       >
         {title && this.renderTitle()}
         {arrange === 'normal' && this.renderMainNormal()}
