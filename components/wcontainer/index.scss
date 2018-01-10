@@ -53,6 +53,10 @@
       margin-left: $s5;
       margin-right: $s5;
       margin-bottom: $s5;
+
+      &.no-title {
+        margin-top: $s2;
+      }
     }
     >.next-row {
       padding: 0 $s5;
