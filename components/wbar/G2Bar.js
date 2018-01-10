@@ -8,7 +8,7 @@ import './G2Bar.scss';
 
 let defaultConfig = {
   colors: color.category_12,
-  padding: [32, 5, 32, 45],
+  padding: [40, 5, 32, 45],
   xAxis: {
     type: 'cat',
     labelFormatter: null, //可以强制覆盖，手动设置label
@@ -39,13 +39,16 @@ let defaultConfig = {
 export default {
   beforeInit(props) {
     const {config} = props;
+    const newConfig = merge({}, defaultConfig, config);
+
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 45]),
+      config: newConfig
     });
   },
   init(chart, userConfig, data, rawData) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = userConfig;
 
     let defs = {
       x: propertyAssign(propertyMap.xAxis, {
@@ -142,7 +145,7 @@ export default {
             '<span class="g2-legend-text">' + result + '</span></li>';
         },
         'g2-legend': Object.assign({
-          top: '6px',
+          top: size.s3,
         }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
       });
 

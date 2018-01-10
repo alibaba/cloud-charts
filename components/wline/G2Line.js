@@ -8,7 +8,7 @@ import './G2Line.scss';
 
 const defaultConfig = {
   colors: color.category_12,
-  padding: [32, 5, 32, 45],
+  padding: [40, 5, 32, 45],
   xAxis: {
     type: 'time', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
@@ -51,13 +51,26 @@ const defaultConfig = {
 export default {
   beforeInit(props) {
     const {config} = props;
+    const newConfig = merge({}, defaultConfig, config);
+
     // TODO 处理padding
+    let defaultPaddingTop = defaultConfig.padding[0];
+    let defaultPaddingRight = defaultConfig.padding[1];
+    let defaultPaddingBottom = defaultConfig.padding[2];
+    let defaultPaddingLeft = defaultConfig.padding[3];
+    if (Array.isArray(newConfig.yAxis)) {
+      defaultPaddingRight = 45;
+    }
+    if (!newConfig.legend) {
+      defaultPaddingTop = 16;
+    }
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (Array.isArray(config.yAxis) ? [32, 45, 32, 45] : defaultConfig.padding)
+      padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
+      config: newConfig
     });
   },
   init(chart, userConfig, data, rawData) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = userConfig;
 
     if (config.xAxis && config.xAxis.type === 'datetime') {
       config.xAxis.type = 'time';
@@ -164,7 +177,7 @@ export default {
             '<span class="g2-legend-text">' + result + '</span></li>';
         },
         'g2-legend': Object.assign({
-          top: '6px',
+          top: size.s3,
         }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
       });
     } else {

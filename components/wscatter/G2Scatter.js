@@ -8,7 +8,7 @@ import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
-  padding: [32, 5, 32, 45],
+  padding: [40, 5, 32, 45],
   colors: color.category_12,
   xAxis: {
     type: 'linear',
@@ -121,13 +121,15 @@ const chartRender = (chart, config) => {
 export default {
   beforeInit(props) {
     const { config } = props;
+    const newConfig = merge({}, defaultConfig, config);
 
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 45]),
+      config: newConfig
     });
   },
   init(chart, userConfig, data, rawData) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = userConfig;
     setSource(chart, config, data);
 
     setAxis(chart, config);
@@ -170,7 +172,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
       },
       'g2-legend': Object.assign(
         {
-          top: '6px'
+          top: size.s3
         },
         config.legend.align === 'right' ? { right: 0 } : { left: 0 }
       )

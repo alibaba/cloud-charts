@@ -10,7 +10,7 @@ import './G2LineBar.scss';
 const defaultConfig = {
   lineColors: color.category_12.slice(1),
   barColors: color.linear_10,
-  padding: [32, 45, 32, 45],
+  padding: [40, 45, 32, 45],
   xAxis: {
     type: 'timeCat', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
@@ -53,10 +53,11 @@ const defaultConfig = {
 export default {
   beforeInit(props) {
     const {config} = props;
+    const newConfig = merge({}, defaultConfig, config);
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
-      config: merge({}, defaultConfig, config)
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 45, 32, 45]),
+      config: newConfig
     });
   },
   init(chart, userConfig, data, rawData) {
@@ -201,7 +202,7 @@ export default {
           display: 'inline-block',
           position: 'relative',
           marginRight: size.s3,
-          top: '6px',
+          top: size.s3,
         }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
       });
     } else {
