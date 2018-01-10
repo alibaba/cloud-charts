@@ -24,7 +24,7 @@ ReactDOM.render(
       <Wcircle type="gauge" 
       title="标题"
       bottomNumber={2} 
-      percent={0.9}>7</Wcircle>
+      percent={1}>7</Wcircle>
     </div>,
 mountNode);
 ````
