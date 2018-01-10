@@ -24,14 +24,8 @@ const colorMap = color.category_12;
 const setAxis = (chart, config) => {
 
   const xAxis = {
-    textStyle: {
-      textAlign: 'center', // 文本对齐方向，可取值为： start middle end
-      fill: color.colorN22, // 文本的颜色
-      fontSize: size.s3 // 文本大小
-    },
     title: null, // 不展示坐标轴的标题
     label: {
-      autoRotate: false,
       formatter: config.xAxis.labelFormatter
     }
   };
@@ -49,22 +43,10 @@ const setAxis = (chart, config) => {
 
 
   chart.axis('y', {
-    tickLine: null,
     title: null,
-    line: null,
     label: {
-      textAlign: 'center',
-      fill: color.colorN24,
-      fontSize: size.s3,
       formatter: config.yAxis.labelFormatter
-    },
-    grid: {
-      line: {
-        stroke: color.colorN13,
-        lineWidth: 1,
-        lineDash: [1, 0]
-      }
-    },
+    }
   });
 };
 
@@ -191,12 +173,6 @@ const setToolTip = (chart, config) => {
       containerTpl: '<div class="g2-tooltip">' + '<p class="g2-tooltip-title">{name}</p>' + '<div class="g2-tooltip-list"></div>' + '</div>', // tooltip的外层模板
       itemTpl: '<div class="g2-tooltip-list-item"><span style="color:{color}"></span><span>{value}</span></div>', // 支持的字段 index,color,name,value
       'g2-tooltip': {
-        position: 'absolute',
-        visibility: 'hidden',
-        border: '1px solid #efefef',
-        backgroundColor: 'white',
-        padding: size.s3,
-        transition: 'top 200ms,left 200ms',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

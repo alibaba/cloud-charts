@@ -30,6 +30,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   axis: {
     bottom: {
       label: {
+        autoRotate: false,
         textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
       line: {
