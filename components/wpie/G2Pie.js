@@ -31,7 +31,8 @@ export default {
 
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
-    const diameter = boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius;
+    // 饼本体大小，向下取整
+    const diameter = Math.floor( boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius );
 
     element.style.paddingTop = `${padding[0]}px`;
     element.style.paddingRight = `${padding[1]}px`;
