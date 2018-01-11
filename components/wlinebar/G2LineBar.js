@@ -358,12 +358,18 @@ function drawBar(chart, config, yAxisKey = 'y') {
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape);
+    chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+      lineJoin: "round"
+    });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape);
+    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+      lineJoin: "round"
+    });
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape);
+    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+      lineJoin: "round"
+    });
   }
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
