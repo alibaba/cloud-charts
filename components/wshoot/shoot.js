@@ -24,25 +24,26 @@ function Shoot (canvas, map, config) {
       toStop: 0,//到达点停留持续时间（持续）
       toFade: 0.1//到达点消失所用时间（持续）
     },
-    fromRadius: 12,//出发点半径
-    toRadius: 12,//到达点半径
-    fromBorder:1.5,//出发点边框宽度
-    toBorder:2,//到达点边框宽度
+    fromRadius: 3,//出发点半径
+    toRadius: 3,//到达点半径
+    fromBorder: 1,//出发点边框宽度
+    toBorder: 1,//到达点边框宽度
     shootPointColor: {
-      fromPoint: '243,183,87',//出发点颜色
-      fromShadow: '109,30,39',//出发点阴影颜色
-      toPoint: '66,173,255',//到达点颜色
-      toShadow: '66,173,255'//到达点阴影颜色
+      fromPoint: '46, 133, 255',//出发点颜色
+      fromShadow: '46, 133, 255',//出发点阴影颜色
+      toPoint: '46, 133, 255',//到达点颜色
+      toShadow: '46, 133, 255'//到达点阴影颜色
     },
     lineWidth:2,//飞线宽度
     lineColor: {
-      from:"0,255,255", //线出发颜色
-      to:"0,255,255" //线到达颜色
+      from:"46, 133, 255", //线出发颜色
+      to:"46, 133, 255" //线到达颜色
     },
     bullet: {
       r: 2.5, //弹头半径
       length: 20, //弹头长度
-      color: 'rgb(232,180,101)'
+      color: 'rgb(46, 133, 255)',
+      shadowColor: 'rgb(46, 133, 255)'
     },
     keys: {
       from: 'from',
@@ -626,7 +627,7 @@ Shoot.prototype = {
     sCtx.globalCompositeOperation = 'lighter';
 
     // shadow
-    sCtx.shadowColor = '#f00';
+    sCtx.shadowColor = this.config.bullet.shadowColor;
     sCtx.shadowBlur = 20;
     sCtx.shadowOffsetX = 0;
     sCtx.shadowOffsetY = 0;
