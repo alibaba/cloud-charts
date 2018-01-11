@@ -250,13 +250,13 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width, height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
+      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
       const chart = new G2.Chart({
         container: this.chartDom,
         width,
         height,
         padding,
-        forceFit: width === undefined || forceFit,
+        forceFit: forceFit || false,
         ...otherProps
       });
       const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
@@ -353,6 +353,11 @@ function g2Factory(name, Chart, convertData = true) {
           }
           if (size[1]) {
             element.style.height = size[1] + 'px';
+          }
+          if (ChartProcess.changeSize) {
+            this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, size[0], size[1]);
+          } else {
+            this.chart && this.chart.changeSize(size[0], size[1]);
           }
           this._size = size;
         }
