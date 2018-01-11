@@ -47,6 +47,17 @@ export default {
       padding: 0
     });
   },
+  changeSize(chart, config, w, h) {
+    const padding = config.padding || defaultConfig.padding;
+    const outerRadius = config.outerRadius || defaultConfig.outerRadius;
+    
+    const boxHeight = h - padding[0] - padding[2];
+    const boxWidth = w - padding[1] - padding[3];
+    // 饼本体大小，向下取整
+    const diameter = Math.floor( boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius );
+
+    chart.changeSize(diameter, diameter);
+  },
   init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
 

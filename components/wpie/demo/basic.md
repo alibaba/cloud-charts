@@ -41,7 +41,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item" style={{width: 300, height: 300}}>
-            <Wpie config={options} data={data} height="300" />
+            <Wpie config={options} data={data} />
         </div>
       </div>
     );

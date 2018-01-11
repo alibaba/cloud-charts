@@ -354,12 +354,12 @@ function g2Factory(name, Chart, convertData = true) {
           if (size[1]) {
             element.style.height = size[1] + 'px';
           }
+          this._size = size;
           if (ChartProcess.changeSize) {
             this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, size[0], size[1]);
           } else {
             this.chart && this.chart.changeSize(size[0], size[1]);
           }
-          this._size = size;
         }
       })
     }
