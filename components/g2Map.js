@@ -44,7 +44,7 @@ export const MatrixUtil = G2.MatrixUtil;
 export const PathUtil = G2.PathUtil;
 
 export const Wline = WG2Line;
-export const Wminiline = WG2MiniLine
+export const Wminiline = WG2MiniLine;
 export const Wbar = WG2Bar;
 export const Wlinebar = WG2LineBar;
 export const Wpie = WG2Pie;
