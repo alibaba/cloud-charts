@@ -4,7 +4,7 @@
 import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
-import { propertyAssign, propertyMap } from '../chartCommon/common';
+import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -95,7 +95,8 @@ const chartRender = (chart, config) => {
     })
     .position('x*y')
     .size(4)
-    .shape('circle');
+    .shape('circle')
+    .active(false);
 
   chart.render();
 };
@@ -135,6 +136,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
       position: 'top',
       // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
       autoPosition: false,
+      onHover: noop,
       itemTpl: (value, color, checked, index) => {
         const item = (rawData && rawData[index]) || {};
         const result = config.legend.nameFormatter

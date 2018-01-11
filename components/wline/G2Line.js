@@ -2,7 +2,7 @@
 
 import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
-import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
+import { propertyAssign, getDataIndexColor, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import './G2Line.scss';
 
@@ -165,6 +165,7 @@ export default {
         position: 'top',
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         autoPosition: false,
+        onHover: noop,
         itemTpl: (value, color, checked, index) => {
           const item = (rawData && rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
@@ -287,19 +288,19 @@ export default {
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
+    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
     chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
   } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
+    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
     chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
   } else {
     chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
   }
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
   } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
   }
 }
 

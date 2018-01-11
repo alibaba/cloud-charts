@@ -156,3 +156,8 @@ export function beautifyNumber(num, char = ',') {
   }
   return result;
 }
+
+/**
+ * 空函数
+ * */
+export function noop() {}

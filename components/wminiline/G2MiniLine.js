@@ -170,19 +170,19 @@ export default {
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
+    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false);
   } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape);
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
+    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false);
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape);
+    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false);
   }
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
   } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3);
+    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
   }
 }
 
