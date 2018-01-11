@@ -14,6 +14,8 @@
         vertical-align: top;
         #{$wcircle-prefix}-svg-bg{
           stroke: currentColor;
+          stroke-linejoin: round;
+          stroke-linecap: round;
           opacity: 0.1;
           fill: none;
         }
