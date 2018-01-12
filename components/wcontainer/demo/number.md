@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wplaceholder
+  Wcontainer, Wicon, Wnumber, Wplaceholder, Wminiline
 } from '@alife/aisc-widgets';
 
 import {
@@ -22,6 +22,13 @@ import {
 } from '@alife/aisc';
 
 const { Row, Col } = Grid;
+
+let data = [
+  {
+    "name":"机房",
+    "data":[[1483372800000,2092],[1483459200000,2192],[1483545600000,2214],[1483632000000,2354],[1483718400000,2714],[1483804800000,2922],[1483891200000,2823],[1483977600000,2018],[1484064000000,1259],[1484150400000,1381],[1484236800000,1533],[1484323200000,2398],[1484409600000,2064],[1484496000000,2294]]
+  }
+];
 
 ReactDOM.render(
     <div style={{background: '#f2f3f7', padding: '20px 0'}}>
@@ -39,8 +46,8 @@ ReactDOM.render(
         </Col>
         <Col span="4">
           <Wcontainer title={false} height={86}>
-            <Wnumber bottomTitle="CPU" >123</Wnumber>
-            <Wicon type="monitor" size="big" />
+            <Wnumber bottomTitle="中间件" unit="个">1314</Wnumber>
+            <Wminiline data={data} height={50} />
           </Wcontainer>
         </Col>
         <Col span="12">

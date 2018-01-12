@@ -58,7 +58,7 @@ export default class Wcontainer extends React.Component {
                 </Col>
               );
             }
-            if (child.type.Chart && child.type.Chart.displayName === 'Wminiline') {
+            if (child.type.displayName === 'AiscWidgetsG2MiniLine') {
               return (
                 <Col fixedSpan="4" key={i}>
                   {child}
