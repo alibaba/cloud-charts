@@ -117,7 +117,7 @@ export default {
 
     setAxis(chart, config);
 
-    setToolTip(chart, config);
+    setToolTip(chart, config, rawData);
 
     setLegend(chart, config, rawData, this.chartDom);
 
@@ -166,7 +166,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
   }
 };
 
-const setToolTip = (chart, config) => {
+const setToolTip = (chart, config, rawData) => {
   if (config.tooltip) {
     const tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
@@ -198,8 +198,10 @@ const setToolTip = (chart, config) => {
         }
 
         ev.items.forEach((item, index) => {
+          const raw = (rawData && rawData[index]) || {};
+
           if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+            item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
           }
           // if (config.tooltip.nameFormatter) {
           //   item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);

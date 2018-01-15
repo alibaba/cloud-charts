@@ -144,20 +144,22 @@ export default {
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltip:change', function (ev) {
+          const raw = (rawData && rawData[0]) || {};
+
           ev.items.forEach((item, index) => {
             const percent = numberDecimal(item.value / totalData, 4);
 
             if (config.tooltip.valueFormatter) {
               item.value = config.tooltip.valueFormatter(item.value, {
-                ...item,
+                ...raw,
                 percent
-              }, index, item.point._origin);
+              }, index, ev.items);
             }
             if (config.tooltip.nameFormatter) {
               item.name = config.tooltip.nameFormatter(item.name, {
-                ...item,
+                ...raw,
                 percent
-              }, index, item.point._origin);
+              }, index, ev.items);
             }
           });
         });

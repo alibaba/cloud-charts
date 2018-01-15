@@ -205,11 +205,13 @@ export default {
           }
 
           ev.items.forEach((item, index) => {
+            const raw = (rawData && rawData[index]) || {};
+
             if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+              item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
             }
             if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+              item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
             }
           });
         });

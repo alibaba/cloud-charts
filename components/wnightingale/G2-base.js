@@ -27,7 +27,7 @@ export default {
     });
   },
   // 图表绘制主函数，必选
-  init(chart, userConfig, data) {
+  init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
     chart.source(data);
     chart.coord('polar');
@@ -43,11 +43,13 @@ export default {
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltip:change', function (ev) {
           ev.items.forEach((item, index) => {
+            const raw = (rawData && rawData[index]) || {};
+
             if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+              item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
             }
             if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+              item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
             }
           });
         });
