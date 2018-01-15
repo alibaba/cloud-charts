@@ -109,7 +109,7 @@ ReactDOM.render(
       <p></p>
        <Row>
         <Col span="24">
-        <Wcontainer title="table" borderbottom={false}>
+        <Wcontainer title="table" titleBorder={false}>
          <Table
             primaryKey="id"
             dataSource={getData()}>

@@ -17,8 +17,8 @@
       float: right;
     }
   }
-  #{$wcontainer-prefix}-hideborderbottom {
-    border-bottom-width: 0;
+  #{$wcontainer-prefix}-hide-title-border {
+    border-bottom: none;
   }
   #{$wcontainer-prefix}-main {
     flex-grow: 1;
