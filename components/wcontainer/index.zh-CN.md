@@ -14,6 +14,7 @@ cols: 1
 | title     | 标题     | String            | ''       |
 | arrange   | 排列方式   | 'cross', 'normal' | 'normal' |
 | height    | 高度     | String or Number  | '100%'   |
+| renderCell    | 定义标题右侧操作     | string or element  | 无   |
 | borderbottom    | 是否展示标题border,true显示、false隐藏   | boolean  | true  |
 
 
