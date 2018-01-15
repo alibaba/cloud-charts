@@ -18,12 +18,14 @@ export default class Wcontainer extends React.Component {
   static defaultProps = {
     arrange: 'normal',
     height: '100%',
-    operation: ''
+    operation: '',
+    borderbottom: true
   };
-
   renderTitle() {
+    const { borderbottom } = this.props;
+    const hideborderbottom = borderbottom ? '' : `${prefix}-hideborderbottom`;
     return (
-      <div className={`${prefix}-title`}>
+      <div className={`${prefix}-title ${hideborderbottom}`}>
         {this.props.title}
         {
           this.props.operation ?

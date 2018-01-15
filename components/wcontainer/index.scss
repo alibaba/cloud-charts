@@ -17,6 +17,9 @@
       float: right;
     }
   }
+  #{$wcontainer-prefix}-hideborderbottom {
+    border-bottom-width: 0;
+  }
   #{$wcontainer-prefix}-main {
     flex-grow: 1;
     display: flex;
@@ -53,13 +56,12 @@
       margin-left: $s5;
       margin-right: $s5;
       margin-bottom: $s5;
-
       &.no-title {
         margin-top: $s2;
       }
     }
     >.next-row {
-      padding: 0 $s5;
+      padding: 0 $s5 $s5 $s5;
       >.next-col {
         padding: 0;
       }
