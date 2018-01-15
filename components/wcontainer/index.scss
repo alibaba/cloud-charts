@@ -58,6 +58,8 @@
       }
     }
     &#{$wcontainer-prefix}-main-one-chart {
+      // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
+      padding: 0;
       margin-left: $s5;
       margin-right: $s5;
       margin-bottom: $s5;
