@@ -4,6 +4,7 @@ import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
 import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
+import rectTooltip from '../chartCommon/rectTooltip';
 import './G2Bar.scss';
 
 let defaultConfig = {
@@ -162,33 +163,7 @@ export default {
     }
 
     // tooltip
-    if (config.tooltip) {
-      let tooltipCfg = {
-        // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
-        crosshairs: {},
-      };
-      chart.tooltip(tooltipCfg);
-      if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', function (ev) {
-          if (config.tooltip.titleFormatter) {
-            ev.items[0].title = config.tooltip.titleFormatter(ev.items[0].title, ev.items);
-          }
-
-          ev.items.forEach((item, index) => {
-            const raw = (rawData && rawData[index]) || {};
-
-            if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
-            }
-            if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
-            }
-          });
-        });
-      }
-    } else {
-      chart.tooltip(false);
-    }
+    rectTooltip(chart, config, data, rawData);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
