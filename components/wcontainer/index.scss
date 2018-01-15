@@ -25,12 +25,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 $s5 $s5 $s5;
+    &.no-title {
+      padding-bottom: 0;
+    }
+
     &#{$wcontainer-prefix}-cross {
       >#{$wcontainer-prefix}-multi-row-container {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        padding: 0 20px;
+        //padding: 0 $s5;
         .next-row {
           flex: 1; //padding-top: $s2;
           //padding-bottom: $s2;
@@ -61,7 +66,7 @@
       }
     }
     >.next-row {
-      padding: 0 $s5 $s5 $s5;
+      padding: 0;
       >.next-col {
         padding: 0;
       }

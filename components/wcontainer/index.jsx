@@ -50,7 +50,7 @@ export default class Wcontainer extends React.Component {
     }
 
     return (
-      <div className={`${prefix}-main`}>
+      <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
         <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
             if (child.type.displayName === 'Wicon') {
