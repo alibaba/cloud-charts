@@ -2,6 +2,7 @@
 
 import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
+import { numberDecimal } from '../chartCommon/common';
 import './G2Pie.scss';
 
 let defaultConfig = {
@@ -84,6 +85,12 @@ export default {
     }
     chart.coord('theta', thetaConfig);
 
+    //计算得总数据
+    let totalData = 0;
+    data.forEach((d) => {
+      totalData += d.y;
+    });
+
     if (config.legend) {
       chart.legend({
         useHtml: true,
@@ -92,13 +99,17 @@ export default {
         itemTpl: (value, color, checked, index) => {
           const item = (data && data[index]) || {};
           const raw = (rawData && rawData[0]) || {};
+          const percent = numberDecimal(item['y'] / totalData, 4);
+
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...raw,
+            percent,
             color,
             checked
           }, index) : value;
           const number = config.legend.valueFormatter ? config.legend.valueFormatter(item['y'], {
             ...raw,
+            percent,
             color,
             checked
           }, index) : item['y'];
@@ -134,11 +145,19 @@ export default {
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
         chart.on('tooltip:change', function (ev) {
           ev.items.forEach((item, index) => {
+            const percent = numberDecimal(item.value / totalData, 4);
+
             if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, ev.items, index, item.point._origin);
+              item.value = config.tooltip.valueFormatter(item.value, {
+                ...item,
+                percent
+              }, index, item.point._origin);
             }
             if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
+              item.name = config.tooltip.nameFormatter(item.name, {
+                ...item,
+                percent
+              }, index, item.point._origin);
             }
           });
         });

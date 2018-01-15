@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { Wpie } from '@alife/aisc-widgets';
+import { Wpie, Util } from '@alife/aisc-widgets';
 
 let data = [
   {
@@ -33,14 +33,26 @@ let data = [
 ];
 
 let options = {
-  padding: [20, 20, 20, 20]
+  padding: [20, 20, 20, 20],
+  legend: {
+    valueFormatter(v, data) {
+      console.log(v, data);
+      return Util.numberDecimal(data.percent * 100) + '%'
+    }
+  },
+  tooltip: {
+    valueFormatter(v, data) {
+      console.log(v, data);
+      return Util.numberDecimal(data.percent * 100) + '%'
+    }
+  }
 };
 
 class Demo extends React.Component{
   render(){
     return (
       <div className="demos">
-        <div className="demo-item" style={{width: 300, height: 300}}>
+        <div className="demo-item" style={{width: 500, height: 300}}>
             <Wpie config={options} data={data} />
         </div>
       </div>
