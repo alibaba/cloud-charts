@@ -7,6 +7,7 @@ import Grid from '@alife/aisc/lib/grid/index';
 
 import Divider from './views/divider';
 import './index.scss';
+import Wcircle from "../wcircle";
 
 const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer';
@@ -53,7 +54,7 @@ export default class Wcontainer extends React.Component {
       <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
         <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
-            if (child.type.displayName === 'Wicon') {
+            if (child.type.displayName === 'Wicon' || child.type.displayName === 'Wcircle') {
               return (
                 <Col fixedSpan="2" key={i}>
                   {child}

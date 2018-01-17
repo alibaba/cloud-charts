@@ -14,7 +14,7 @@ title:
 
 ````jsx
 import {
-  Wcontainer, Wicon, Wnumber, Wplaceholder, Wminiline
+  Wcontainer, Wicon, Wnumber, Wplaceholder, Wminiline, Wcircle
 } from '@alife/aisc-widgets';
 
 import {
@@ -50,7 +50,28 @@ ReactDOM.render(
         <Col span="4">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="CPU" >1</Wnumber>
-            <Wicon type="monitor" size="big" />
+            <Wicon type="monitor" size="big" status="gray" />
+          </Wcontainer>
+        </Col>
+        <Col span="4">
+          <Wcontainer title={false} height={86}>
+            <Wnumber bottomTitle="CPU" >123</Wnumber>
+            <Wicon type="monitor" size="big" status="gray" />
+          </Wcontainer>
+        </Col>
+        <Col span="4">
+          <Wcontainer title={false} height={86}>
+            <Wnumber bottomTitle="中间件" unit="个">1314</Wnumber>
+            <Wcircle radius={16} percent={0.75} />
+          </Wcontainer>
+        </Col>
+      </Row>
+      <p></p>
+      <Row>
+        <Col span="4">
+          <Wcontainer title={false} height={86}>
+            <Wnumber bottomTitle="CPU" >1</Wnumber>
+            <Wicon type="monitor" size="big" status="gray" />
           </Wcontainer>
         </Col>
         <Col span="4">
@@ -74,7 +95,6 @@ ReactDOM.render(
           </Wcontainer>
         </Col>
       </Row>
-
       <p></p>
       <Row>
         <Col span="12">
