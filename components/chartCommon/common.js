@@ -111,7 +111,10 @@ const statusMap = {
   blue: color.widgetsColorBlue,
 
   success: color.widgetsColorGreen,
-  green: color.widgetsColorGreen
+  green: color.widgetsColorGreen,
+
+  noData: color.widgetsColorGray,
+  gray: color.widgetsColorGray,
 };
 
 export function getStatusColor(status) {

@@ -13,10 +13,10 @@
         display: inline-block;
         vertical-align: top;
         #{$wcircle-prefix}-svg-bg{
-          stroke: currentColor;
+          stroke: $color-n1-3;
           stroke-linejoin: round;
           stroke-linecap: round;
-          opacity: 0.1;
+          //opacity: 0.1;
           fill: none;
         }
         #{$wcircle-prefix}-svg-ring{

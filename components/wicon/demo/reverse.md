@@ -19,12 +19,14 @@ import {
 
 ReactDOM.render(
     <div>
-        <Wicon type="ais" reverse />
+        <Wicon type="ais" reverse status="gray" />
+        <Wicon type="ais" reverse status="blue" />
         <Wicon type="ais" reverse status="orange" />
         <Wicon type="ais" reverse status="red" />
         <Wicon type="ais" reverse status="green" />
         <br />
-        <Wicon type="ais" reverse size="medium" />
+        <Wicon type="ais" reverse size="medium" status="gray" />
+        <Wicon type="ais" reverse size="medium" status="blue" />
         <Wicon type="ais" reverse size="medium" status="orange" />
         <Wicon type="ais" reverse size="medium" status="red" />
         <Wicon type="ais" reverse size="medium" status="green" />
