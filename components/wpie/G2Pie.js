@@ -40,6 +40,12 @@ export default {
     element.style.paddingBottom = `${padding[2]}px`;
     element.style.paddingLeft = `${padding[3]}px`;
 
+    this.childrenDom = element.querySelector('.aisc-widgets-children');
+    if (this.childrenDom) {
+      this.childrenDom.style.width = diameter + 'px';
+      this.childrenDom.style.height = boxHeight + 'px';
+    }
+
     // TODO 处理padding
     return Object.assign({}, props, {
       width: diameter,
@@ -56,6 +62,11 @@ export default {
     const boxWidth = w - padding[1] - padding[3];
     // 饼本体大小，向下取整
     const diameter = Math.floor( boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius );
+
+    if (this.childrenDom) {
+      this.childrenDom.style.width = diameter + 'px';
+      this.childrenDom.style.height = boxHeight + 'px';
+    }
 
     chart.changeSize(diameter, diameter);
   },

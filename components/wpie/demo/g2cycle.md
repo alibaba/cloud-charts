@@ -13,7 +13,7 @@ G2 版 基础环图
 
 
 ````jsx
-import { WG2Pie } from '@alife/aisc-widgets';
+import { WG2Pie, Wnumber } from '@alife/aisc-widgets';
 
 let options = {
   dataType: 'Highcharts',
@@ -41,7 +41,9 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WG2Pie height={300} config={options} data={data}/>
+          <WG2Pie height={300} config={options} data={data}>
+            <Wnumber bottomTitle="副标题" unit="个" rightTitle="副标题">2222</Wnumber>
+          </WG2Pie>
         </div>
       </div>
     );
