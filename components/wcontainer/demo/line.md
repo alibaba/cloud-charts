@@ -71,9 +71,11 @@ ReactDOM.render(
       <p></p>
       <Row>
         <Col span="24">
-          <Wcontainer title={"圆滑曲线图"} height={298}>
-            <Wline ref="chart1" config={options3} data={data} />
-          </Wcontainer>
+          <div style={{height: '400px'}}>
+            <Wcontainer>
+              <Wline config={options3} data={data} />
+            </Wcontainer>
+          </div>
         </Col>
       </Row>
       <p></p>

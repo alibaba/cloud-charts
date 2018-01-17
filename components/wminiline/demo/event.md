@@ -24,8 +24,7 @@ let data = [
 
 let options = {
   spline: true,
-  area: true,
-  interactive: true
+  area: true
 };
 
 class Demo extends React.Component{
@@ -34,18 +33,19 @@ class Demo extends React.Component{
   }
 
   moEvnetHandler(e){
-    this.setState({
+    //debugger;
+    /*this.setState({
       point: {
         x: e.point.x,
         y: e.point.y
       }
-    })
+    })*/
   }
 
   render(){
     return (
       <div>
-        <Wminiline config={options} data={data} width="200" height="80" onMouseOver={this.moEvnetHandler.bind(this)} />
+        <Wminiline config={options} data={data} width="200" height="80" event={{ 'line:mousemove': this.moEvnetHandler.bind(this) }} />
         x: {this.state.point.x} y: {this.state.point.y}
       </div>
     );
