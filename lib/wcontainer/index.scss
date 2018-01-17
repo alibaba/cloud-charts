@@ -17,17 +17,25 @@
       float: right;
     }
   }
+  #{$wcontainer-prefix}-hide-title-border {
+    border-bottom: none;
+  }
   #{$wcontainer-prefix}-main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 $s5 $s5 $s5;
+    &.no-title {
+      padding-bottom: 0;
+    }
+
     &#{$wcontainer-prefix}-cross {
       >#{$wcontainer-prefix}-multi-row-container {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        padding: 0 20px;
+        //padding: 0 $s5;
         .next-row {
           flex: 1; //padding-top: $s2;
           //padding-bottom: $s2;
@@ -50,16 +58,17 @@
       }
     }
     &#{$wcontainer-prefix}-main-one-chart {
+      // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
+      padding: 0;
       margin-left: $s5;
       margin-right: $s5;
       margin-bottom: $s5;
-
       &.no-title {
         margin-top: $s2;
       }
     }
     >.next-row {
-      padding: 0 $s5;
+      padding: 0;
       >.next-col {
         padding: 0;
       }

@@ -26,6 +26,10 @@
   &#{$wicon-prefix}-reverse {
     border-radius: 50%;
 
+    &#{$wicon-prefix}-gray{
+      color: $widgets-color-white;
+      background-color: $gray;
+    }
     &#{$wicon-prefix}-blue{
       color: $widgets-color-white;
       background-color: $blue;
@@ -44,6 +48,9 @@
     }
   }
 
+  &#{$wicon-prefix}-gray{
+    color: $gray;
+  }
   &#{$wicon-prefix}-blue{
     color: $blue;
   }
