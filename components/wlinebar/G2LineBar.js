@@ -11,7 +11,7 @@ import './G2LineBar.scss';
 const defaultConfig = {
   lineColors: color.category_12.slice(1),
   barColors: color.linear_10,
-  padding: [40, 45, 32, 45],
+  padding: [40, 45, 32, 44],
   xAxis: {
     type: 'timeCat', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
@@ -57,7 +57,7 @@ export default {
     const newConfig = merge({}, defaultConfig, config);
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 45, 32, 45]),
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 45, 32, 44]),
       config: newConfig
     });
   },

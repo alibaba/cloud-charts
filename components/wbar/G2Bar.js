@@ -9,7 +9,7 @@ import './G2Bar.scss';
 
 let defaultConfig = {
   colors: color.category_12,
-  padding: [40, 5, 32, 45],
+  padding: [40, 5, 32, 44],
   xAxis: {
     type: 'cat',
     labelFormatter: null, //可以强制覆盖，手动设置label
@@ -44,7 +44,7 @@ export default {
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 45]),
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
       config: newConfig
     });
   },

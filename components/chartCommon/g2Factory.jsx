@@ -30,6 +30,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
   axis: {
     bottom: {
       label: {
+        offset: 18,
         autoRotate: false,
         textStyle: { fill: color.colorN22} // 底部标签文本的颜色
       },
@@ -40,6 +41,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     left: {
       label: {
+        offset: 8,
         textStyle: { fill: color.colorN22} // 左部标签文本的颜色
       },
       grid: {
@@ -54,6 +56,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     },
     right: {
       label: {
+        offset: 8,
         textStyle: { fill: color.colorN22} // 右部标签文本的颜色
       }
     }
@@ -158,6 +161,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
         width: '6px',
         height: '6px',
         marginRight: size.s1,
+        verticalAlign: '1px'
       },
     }
   },

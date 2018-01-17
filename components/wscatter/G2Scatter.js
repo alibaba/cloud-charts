@@ -8,7 +8,7 @@ import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
-  padding: [40, 5, 32, 45],
+  padding: [40, 5, 32, 44],
   colors: color.category_12,
   xAxis: {
     type: 'linear',
@@ -107,7 +107,7 @@ export default {
     const newConfig = merge({}, defaultConfig, config);
 
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 45]),
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
       config: newConfig
     });
   },

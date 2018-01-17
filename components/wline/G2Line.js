@@ -9,7 +9,7 @@ import './G2Line.scss';
 
 const defaultConfig = {
   colors: color.category_12,
-  padding: [40, 5, 32, 45],
+  padding: [40, 5, 32, 44],
   xAxis: {
     type: 'time', //默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
@@ -60,7 +60,7 @@ export default {
     let defaultPaddingBottom = defaultConfig.padding[2];
     let defaultPaddingLeft = defaultConfig.padding[3];
     if (Array.isArray(newConfig.yAxis)) {
-      defaultPaddingRight = 45;
+      defaultPaddingRight = 44;
     }
     if (!newConfig.legend) {
       defaultPaddingTop = 16;
