@@ -54,6 +54,13 @@ export default class Wcontainer extends React.Component {
       <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
         <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
+            if (oneChild) {
+              return (
+                <Col span="24" key={i}>
+                  {child}
+                </Col>
+              );
+            }
             if (child.type.displayName === 'Wicon' || child.type.displayName === 'Wcircle') {
               return (
                 <Col fixedSpan="2" key={i}>
@@ -71,13 +78,6 @@ export default class Wcontainer extends React.Component {
             if (child.type.displayName === 'Divider') {
               return (
                 <Col fixedSpan="1" key={i}>
-                  {child}
-                </Col>
-              );
-            }
-            if (oneChild) {
-              return (
-                <Col span="24" key={i}>
                   {child}
                 </Col>
               );

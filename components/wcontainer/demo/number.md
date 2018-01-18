@@ -108,13 +108,14 @@ ReactDOM.render(
             <Wcontainer.divider />
           </Wcontainer>
         </Col>
-        <Col span="12">
-          <Wcontainer title={false} height={86}>
-            <Wnumber rightTitle="物理机总量" >1</Wnumber>
-            <Wnumber rightTitle="本月数量" >1</Wnumber>
-            <Wcontainer.divider />
-            <Wnumber rightTitle="较去年同期" numberTrend="drop">1</Wnumber>
-            <Wnumber rightTitle="较去年同期" numberTrend="drop">1</Wnumber>
+        <Col span="6">
+          <Wcontainer title={false} height={192}>
+            <Wcircle title="标题" percent={0.9}>1000</Wcircle>
+          </Wcontainer>
+        </Col>
+        <Col span="6">
+          <Wcontainer title={false} height={192}>
+            <Wcircle type="gauge" title="标题" bottomNumber={2} percent={0.9}>7</Wcircle>
           </Wcontainer>
         </Col>
       </Row>
