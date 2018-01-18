@@ -52,8 +52,8 @@ export const propertyMap = {
 
 export function propertyAssign (keys, target, source) {
   keys.forEach((key) => {
-    // 0也是假值，但是是有效值，所以需要排除
-    if (source[key] || source[key] === 0) {
+    // 仅判断undefined的情况
+    if (source[key] !== undefined) {
       target[key] = source[key];
     }
   });
