@@ -70,6 +70,16 @@ export default {
 
     chart.changeSize(diameter, diameter);
   },
+  changeData(chart, config, data) {
+    //更新数据总和值，保证百分比的正常
+    let totalData = 0;
+    data.forEach((d) => {
+      totalData += d.y;
+    });
+    this.totalData = totalData;
+
+    chart.changeData(data);
+  },
   init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
 
@@ -101,6 +111,7 @@ export default {
     data.forEach((d) => {
       totalData += d.y;
     });
+    this.totalData = totalData;
 
     if (config.legend) {
       chart.legend({
@@ -110,7 +121,7 @@ export default {
         itemTpl: (value, color, checked, index) => {
           const item = (data && data[index]) || {};
           const raw = (rawData && rawData[0]) || {};
-          const percent = numberDecimal(item['y'] / totalData, 4);
+          const percent = numberDecimal(item['y'] / this.totalData, 4);
 
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...raw,
@@ -158,7 +169,7 @@ export default {
           const raw = (rawData && rawData[0]) || {};
 
           ev.items.forEach((item, index) => {
-            const percent = numberDecimal(item.value / totalData, 4);
+            const percent = numberDecimal(item.value / this.totalData, 4);
 
             if (config.tooltip.valueFormatter) {
               item.value = config.tooltip.valueFormatter(item.value, {
