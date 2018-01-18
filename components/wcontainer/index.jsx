@@ -42,7 +42,7 @@ export default class Wcontainer extends React.Component {
     const propsChildren = this.props.children;
     const title = this.props.title;
     const oneChild = React.Children.count(propsChildren) === 1;
-    if (oneChild && propsChildren && propsChildren.type.isG2Chart) {
+    if (oneChild && propsChildren && propsChildren.type && propsChildren.type.isG2Chart) {
       return (
         <div className={`${prefix}-main ${prefix}-main-one-chart ${title ? '' : 'no-title'}`}>
           {propsChildren}
