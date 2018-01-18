@@ -78,6 +78,15 @@ export default {
     });
     this.totalData = totalData;
 
+    // 不要忘记排序的状态
+    if (config.autoSort) {
+      data.sort((a, b) => {
+        return b.y - a.y;
+      });
+    }
+    // 更新挂载的转换数据
+    this.data = data;
+
     chart.changeData(data);
   },
   init(chart, userConfig, data, rawData) {
@@ -94,6 +103,8 @@ export default {
         return b.y - a.y;
       });
     }
+    // 挂载转换后的数据
+    this.data = data;
 
     chart.source(data, defs);
 
@@ -119,8 +130,8 @@ export default {
         title: null,
         position: 'right',
         itemTpl: (value, color, checked, index) => {
-          const item = (data && data[index]) || {};
-          const raw = (rawData && rawData[0]) || {};
+          const item = (this.data && this.data[index]) || {};
+          const raw = (this.rawData && this.rawData[0]) || {};
           const percent = numberDecimal(item['y'] / this.totalData, 4);
 
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
@@ -165,8 +176,8 @@ export default {
       };
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', function (ev) {
-          const raw = (rawData && rawData[0]) || {};
+        chart.on('tooltip:change', (ev) => {
+          const raw = (this.rawData && this.rawData[0]) || {};
 
           ev.items.forEach((item, index) => {
             const percent = numberDecimal(item.value / this.totalData, 4);

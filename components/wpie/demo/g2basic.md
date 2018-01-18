@@ -68,7 +68,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <WG2Pie height={300} config={options} data={data}/>
+            <WG2Pie height={300} config={options} data={this.state.data}/>
         </div>
       </div>
     );

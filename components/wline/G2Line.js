@@ -135,7 +135,7 @@ export default {
         const yAxis = {
           title: null, // 不展示坐标轴的标题
           line: {
-            stroke: getDataIndexColor(config.colors, rawData, yIndex) || color.colorN16
+            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.colorN16
           },
           label:{
             formatter: axis.labelFormatter,
@@ -168,7 +168,7 @@ export default {
         autoPosition: false,
         onHover: noop,
         itemTpl: (value, color, checked, index) => {
-          const item = (rawData && rawData[index]) || {};
+          const item = (this.rawData && this.rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...item,
             color,
@@ -187,7 +187,7 @@ export default {
     }
 
     // tooltip
-    rectTooltip(chart, config, data, rawData);
+    rectTooltip.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

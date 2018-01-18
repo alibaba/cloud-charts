@@ -41,9 +41,9 @@ export default {
       };
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', function (ev) {
+        chart.on('tooltip:change', (ev) => {
           ev.items.forEach((item, index) => {
-            const raw = (rawData && rawData[index]) || {};
+            const raw = (this.rawData && this.rawData[index]) || {};
 
             if (config.tooltip.valueFormatter) {
               item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);

@@ -268,6 +268,7 @@ function g2Factory(name, Chart, convertData = true) {
       if (config.xAxis && config.xAxis.type === 'datetime') {
         console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
       }
+      this.rawData = initData;
       chart && ChartProcess.init.call(this, chart, config, data, initData);
 
       if (chart && event) {
@@ -289,6 +290,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       if (newData !== oldData || newData.length !== oldData.length) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
+        this.rawData = newData;
         if (ChartProcess.changeData) {
           this.chart && ChartProcess.changeData.call(this, this.chart, newConfig, data);
         } else {

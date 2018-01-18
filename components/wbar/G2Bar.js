@@ -135,7 +135,7 @@ export default {
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         autoPosition: false,
         itemTpl: (value, color, checked, index) => {
-          const item = (rawData && rawData[index]) || {};
+          const item = (this.rawData && this.rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...item,
             color,
@@ -163,7 +163,7 @@ export default {
     }
 
     // tooltip
-    rectTooltip(chart, config, data, rawData);
+    rectTooltip.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

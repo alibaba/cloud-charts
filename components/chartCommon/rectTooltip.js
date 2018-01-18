@@ -2,7 +2,7 @@
 import {getStatusColor} from './common';
 
 // 常见直角坐标系的tooltip
-export default function (chart, config, data, rawData) {
+export default function (chart, config) {
   // tooltip
   if (config.tooltip) {
     let tooltipCfg = {
@@ -11,13 +11,13 @@ export default function (chart, config, data, rawData) {
     };
     chart.tooltip(tooltipCfg);
     if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-      chart.on('tooltip:change', function (ev) {
+      chart.on('tooltip:change', (ev) => {
         if (config.tooltip.titleFormatter) {
           ev.items[0].title = config.tooltip.titleFormatter(ev.items[0].title, ev.items);
         }
 
         ev.items.forEach((item, index) => {
-          const raw = (rawData && rawData[index]) || {};
+          const raw = (this.rawData && this.rawData[index]) || {};
 
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);

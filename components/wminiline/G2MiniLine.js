@@ -82,7 +82,7 @@ export default {
     chart.legend(false);
 
     // tooltip
-    rectTooltip(chart, config, data, rawData);
+    rectTooltip.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

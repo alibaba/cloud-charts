@@ -117,9 +117,9 @@ export default {
 
     setAxis(chart, config);
 
-    setToolTip(chart, config, rawData);
+    setToolTip.call(this, chart, config);
 
-    setLegend(chart, config, rawData, this.chartDom);
+    setLegend.call(this, chart, config, this.chartDom);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
@@ -128,7 +128,7 @@ export default {
   }
 };
 
-const setLegend = (chart, config, rawData, chartNode) => {
+const setLegend = function(chart, config, chartNode) {
   if (config.legend) {
     chart.legend({
       useHtml: true,
@@ -138,7 +138,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
       autoPosition: false,
       onHover: noop,
       itemTpl: (value, color, checked, index) => {
-        const item = (rawData && rawData[index]) || {};
+        const item = (this.rawData && this.rawData[index]) || {};
         const result = config.legend.nameFormatter
           ? config.legend.nameFormatter(
             value,
@@ -166,7 +166,7 @@ const setLegend = (chart, config, rawData, chartNode) => {
   }
 };
 
-const setToolTip = (chart, config, rawData) => {
+const setToolTip = function (chart, config) {
   if (config.tooltip) {
     const tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
@@ -198,7 +198,7 @@ const setToolTip = (chart, config, rawData) => {
         }
 
         ev.items.forEach((item, index) => {
-          const raw = (rawData && rawData[index]) || {};
+          const raw = (this.rawData && this.rawData[index]) || {};
 
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
