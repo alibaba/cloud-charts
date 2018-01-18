@@ -49,12 +49,12 @@ class Demo extends React.Component{
 
   render(){
     return (
-      <Wcontainer className="demos">
+      <Wcontainer className="demos" height="300">
         {
           this.state.data ?
-            <Wline height="300" config={options} data={this.state.data}/>
+            <Wline config={options} data={this.state.data}/>
             :
-            <Wplaceholder height="300" />
+            <Wplaceholder>加载中...</Wplaceholder>
         }
       </Wcontainer>
     );

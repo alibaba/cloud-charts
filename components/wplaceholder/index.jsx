@@ -13,7 +13,7 @@ const svg = <svg width="44" height="40" className="placeholder-box">
 
 export default class Wplaceholder extends React.Component {
   render() {
-    const { className, height = '100%', style, ...otherProps } = this.props;
+    const { className, height = '100%', style, children, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
       [className]: !!className
@@ -27,7 +27,10 @@ export default class Wplaceholder extends React.Component {
            }}
            {...otherProps}
       >
-        {svg}
+        <div className={prefix + '-children'}>
+          {svg}
+          {children ? <div className={prefix + '-children-text'}>{children}</div> : null}
+        </div>
       </div>
     );
   }
