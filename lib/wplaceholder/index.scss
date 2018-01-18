@@ -11,15 +11,29 @@ $wplaceholder-prefix: '.aisc-wplaceholder';
   min-height: 40px;
   overflow: hidden;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   .placeholder-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: - $width / 2;
-    margin-top: - $height / 2;
+    //position: absolute;
+    //top: 50%;
+    //left: 50%;
+    //margin-left: - $width / 2;
+    //margin-top: - $height / 2;
   }
 
   .placeholder-item {
     fill: $color-n1-3;
+  }
+
+  #{$wplaceholder-prefix}-children {
+    color: $color-n1-6;
+    font-size: $font-size-base-caption;
+    line-height: 1;
+  }
+  #{$wplaceholder-prefix}-children-text {
+    margin-top: $s2;
   }
 }
