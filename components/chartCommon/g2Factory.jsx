@@ -87,7 +87,12 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       marginTop: size.s2,
       listStyle: 'none'
     },
-    'g2-tooltip-marker': {},
+    'g2-tooltip-marker': {
+      width: '6px',
+      height: '6px',
+      border: 'none',
+      marginRight: size.s1,
+    },
   },
   tooltipMarker: {
     symbol: (x, y, r, ctx, marker) => {
