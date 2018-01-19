@@ -2,7 +2,7 @@
 order: 2
 title:
   zh-CN: 带饼图的widget
-  en-US: Basic
+  en-US: Pie
 ---
 
 ## zh-CN

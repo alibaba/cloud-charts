@@ -2,7 +2,7 @@
 order: 1
 title:
   zh-CN: 带折线的widget
-  en-US: Basic
+  en-US: Line
 ---
 
 ## zh-CN

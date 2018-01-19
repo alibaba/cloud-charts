@@ -2,7 +2,7 @@
 order: 3
 title:
   zh-CN: 带柱状图的widget
-  en-US: Basic
+  en-US: Bar
 ---
 
 ## zh-CN
