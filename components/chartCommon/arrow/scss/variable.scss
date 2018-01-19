@@ -1,9 +1,9 @@
-@import "~@alife/aisc-core/scss/aisc";
+@import "../../../theme/normal";
 
 $warrow-prefix: '.aisc-warrow';
 $warrow-width: 10px;
 $warrow-height: 8px;
 
-$blue: $color-f6-1;
-$orange: $color-warning-2;
-$red: $color-error-3;
+$blue: $widgets-color-blue;
+$orange: $widgets-color-orange;
+$red: $widgets-color-red;
