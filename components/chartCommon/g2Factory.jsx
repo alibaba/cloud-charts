@@ -231,7 +231,6 @@ function g2Factory(name, Chart, convertData = true) {
       config: {},
     };
 
-    static displayName = 'AiscWidgets' + name;
     static isG2Chart = true;
 
     constructor(props, context) {
@@ -383,6 +382,8 @@ function g2Factory(name, Chart, convertData = true) {
 
   //暴露原版类
   AiscChart.Chart = Chart;
+
+  AiscChart.displayName = 'AiscWidgets' + name;
 
   return AiscChart;
 }
