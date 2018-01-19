@@ -31,16 +31,18 @@ let data = [
 ];
 
 let options1 = {
-  padding: [0, 0, 0, 0],
-  area: true
+  padding: [20, 20, 20, 20],
+  spline: true,
 };
 
 let options2 = {
-  padding: [0, 0, 0, 0],
+  padding: [20, 20, 20, 20],
+  spline: true,
 };
 
 let options3 = {
-  padding: [0, 0, 0, 0],
+  padding: [20, 20, 20, 20],
+  spline: true,
 };
 
 const demoStyle = {

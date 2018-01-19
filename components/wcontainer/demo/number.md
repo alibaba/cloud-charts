@@ -34,19 +34,13 @@ let data = [
 ReactDOM.render(
     <div style={{background: '#f2f3f7', padding: '20px 0'}}>
       <Row>
-        <Col span="4">
-          <Wcontainer title={false} height={86}>
-            <Wnumber bottomTitle="CPU" >1</Wnumber>
-            <Wicon type="monitor" size="big" status="gray" />
-          </Wcontainer>
-        </Col>
-        <Col span="4">
+        <Col span="6">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="CPU" >123</Wnumber>
             <Wicon type="monitor" size="big" status="gray" />
           </Wcontainer>
         </Col>
-        <Col span="4">
+        <Col span="6">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="中间件" unit="个">1314</Wnumber>
             <Wcircle radius={16} percent={0.75} />
@@ -64,18 +58,12 @@ ReactDOM.render(
       </Row>
       <p></p>
       <Row>
-        <Col span="4">
-          <Wcontainer title={false} height={86}>
-            <Wnumber bottomTitle="CPU" >1</Wnumber>
-            <Wicon type="monitor" size="big" status="gray" />
-          </Wcontainer>
-        </Col>
-        <Col span="4">
+        <Col span="6">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="本周达标情况" rightRatio="20%" rightRatioTrend="raise">57321</Wnumber>
           </Wcontainer>
         </Col>
-        <Col span="4">
+        <Col span="6">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="中间件" unit="个">314</Wnumber>
             <Wminiline data={data} height={50} />
