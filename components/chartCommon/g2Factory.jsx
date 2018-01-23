@@ -232,7 +232,7 @@ function g2Factory(name, Chart, convertData = true) {
     };
 
     static defaultProps = {
-      forceFit: false,
+      //forceFit: false,
       config: {},
     };
 
@@ -376,7 +376,7 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     render() {
-      const { className, style, children, ...otherProps } = this.props;
+      const { className, style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
         <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}

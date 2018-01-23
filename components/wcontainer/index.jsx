@@ -13,25 +13,22 @@ const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer';
 
 export default class Wcontainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   static defaultProps = {
     arrange: 'normal',
     height: '100%',
     operation: '',
     titleBorder: true
   };
-  renderTitle() {
-    const { titleBorder } = this.props;
+
+  renderTitle(title, titleBorder, operation) {
     const hideTitleBorder = titleBorder ? '' : `${prefix}-hide-title-border`;
     return (
       <div className={`${prefix}-title ${hideTitleBorder}`}>
-        {this.props.title}
+        {title}
         {
-          this.props.operation ?
+          operation ?
             <div className={`${prefix}-operation`}>
-              {this.props.operation}
+              {operation}
             </div> : null
         }
       </div>
@@ -112,7 +109,7 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { height, arrange, title, className, style, ...otherProps } = this.props;
+    const { height, arrange, title, titleBorder, operation, className, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [className]: !!className
@@ -129,7 +126,7 @@ export default class Wcontainer extends React.Component {
         {...otherProps}
         ref={o => { this.container = o; }}
       >
-        {title && this.renderTitle()}
+        {title && this.renderTitle(title, titleBorder, operation)}
         {arrange === 'normal' && this.renderMainNormal()}
         {arrange === 'cross' && this.renderMainCross()}
       </div>
