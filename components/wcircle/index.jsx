@@ -91,7 +91,7 @@ export default class Wcircle extends React.Component {
       pathDashoffset = `-${openWidth / 2}px`;
       strokeDashoffset = `-${openWidth / 2}px`;
       strokePathStyle = {
-        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${(circleLengh - openWidth)}px`,
+        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${circleLengh}px`,
         strokeDashoffset: strokeDashoffset
       };
     }

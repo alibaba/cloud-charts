@@ -25,7 +25,7 @@ ReactDOM.render(
       title="标题"
       bottomTitle="底部标题" 
       bottomNumber={2} 
-      percent={0.45}>7</Wcircle>
+      percent={0.08}>7</Wcircle>
     </div>,
 mountNode);
 ````
