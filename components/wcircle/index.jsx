@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Warrow from '../chartCommon/arrow';
+import { getStatusColorName } from '../chartCommon/common';
 import './index.scss';
 
 const prefix = 'aisc-wcircle';
@@ -14,7 +15,7 @@ export default class Wcircle extends React.Component {
     title: '',
     percent: 0,
     unit: '',
-    status: 'blue',
+    status: 'normal',
     radius: 70,
     strokeWidth: 6
   };
@@ -107,7 +108,7 @@ export default class Wcircle extends React.Component {
     };
 
     return(
-      <div className={`${prefix}-main ${this.props.status}`}>
+      <div className={`${prefix}-main ${getStatusColorName(this.props.status)}`}>
         <div className={`${prefix}-ratio`}>
           <div className={`${prefix}-ratio-svg`} style={svgStyle}>
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -171,7 +172,7 @@ Wcircle.propTypes = {
     }
   },
   unit: PropTypes.node,
-  status: PropTypes.oneOf(['blue', 'orange', 'red']),
+  status: PropTypes.oneOf(['normal', 'warning', 'error', 'blue', 'orange', 'red']),
   // 半径
   radius: function(props, propName, componentName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){

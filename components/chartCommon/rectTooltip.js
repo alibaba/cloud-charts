@@ -1,5 +1,4 @@
 'use strict';
-import {getStatusColor} from './common';
 
 // 常见直角坐标系的tooltip
 export default function (chart, config) {

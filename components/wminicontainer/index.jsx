@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
+import { getStatusColorName } from '../chartCommon/common';
 import './index.scss';
 
 const prefix = 'aisc-wminicontainer';
@@ -17,7 +17,7 @@ export default class Wminicontainer extends React.Component {
     const { height = 80, className, status, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
-      [`${prefix}-${status}`]: !!status,
+      [`${prefix}-${getStatusColorName(status)}`]: !!status,
       [className]: !!className
     });
 

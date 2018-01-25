@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getStatusColorName } from '../chartCommon/common';
 import './index.scss';
 
 const prefix = 'aisc-wicon';
@@ -13,7 +14,7 @@ export default class Wicon extends React.Component {
   static defaultProps = {
     size: 'big',
     type: 'monitor',
-    status: 'gray'
+    status: 'none'
   };
 
   render() {
@@ -23,7 +24,7 @@ export default class Wicon extends React.Component {
       [`next-icon`]: true,
       [`next-icon-${type}`]: !!type,
       [`${prefix}-${size}`]: !!size,
-      [`${prefix}-${status}`]: !!status,
+      [`${prefix}-${getStatusColorName(status)}`]: !!status,
       [`${prefix}-reverse`]: !!reverse,
       [classname]: !!classname
     });

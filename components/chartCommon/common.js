@@ -113,12 +113,23 @@ const statusMap = {
   success: color.widgetsColorGreen,
   green: color.widgetsColorGreen,
 
-  noData: color.widgetsColorGray,
+  none: color.widgetsColorGray,
   gray: color.widgetsColorGray,
 };
 
 export function getStatusColor(status) {
   return statusMap[status] || status || statusMap['normal'];
+}
+
+const statusColorMap = {
+  error: 'red',
+  warning: 'orange',
+  normal: 'blue',
+  success: 'green',
+  none: 'gray',
+};
+export function getStatusColorName(status) {
+  return statusColorMap[status] || status || statusMap['normal'];
 }
 
 /**
