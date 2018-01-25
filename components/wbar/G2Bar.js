@@ -31,6 +31,7 @@ let defaultConfig = {
   },
   column: true,
   stack: false,
+  stackReverse: true,
   grid: false,
   // labels: false,
   polar: false,
@@ -183,7 +184,10 @@ export default {
       }
       // 堆叠
       if (config.stack) {
-        chart.intervalStack().position('x*y').color('type', config.colors);
+        chart.interval().position('x*y').color('type', config.colors).adjust([{
+          type: 'stack',
+          reverseOrder: !config.stackReverse, // 层叠顺序倒序
+        }]);
       } else {
         chart.interval().position('x*y').color('type', config.colors).adjust([{
           type: 'dodge',

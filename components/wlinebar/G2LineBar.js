@@ -36,6 +36,7 @@ const defaultConfig = {
   },
   area: false,
   stack: false,//仅Area有效
+  stackReverse: true,
   spline: false,
   grid: false,
   symbol:false,
@@ -317,7 +318,10 @@ export default {
 
 function drawBar(chart, config, yAxisKey = 'y') {
   if (config.stack) {
-    chart.intervalStack().position(['x', yAxisKey]).color('type', config.barColors);
+    chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
+      type: 'stack',
+      reverseOrder: !config.stackReverse, // 层叠顺序倒序
+    }]);
   } else {
     chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'dodge',
