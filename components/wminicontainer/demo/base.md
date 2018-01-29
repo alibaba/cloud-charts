@@ -26,7 +26,7 @@ const { Row, Col } = Grid;
 ReactDOM.render(
   <Row>
     <Col span="6">
-      <Wminicontainer height={192} status="">
+      <Wminicontainer height={192}>
         <Wcircle
           title="本周未达标指标"
           percent={0.45}>7</Wcircle>
@@ -36,23 +36,23 @@ ReactDOM.render(
       <Wminicontainer height={192}>
         <Wcircle
           title="本周未达标指标"
-          status="orange"
+          status="warning"
           percent={0.45}>7</Wcircle>
       </Wminicontainer>
     </Col>
     <Col span="6">
-      <Wminicontainer height={192} status="orange">
+      <Wminicontainer height={192} status="warning">
         <Wcircle
           title="本周未达标指标"
-          status="orange"
+          status="warning"
           percent={0.45}>7</Wcircle>
       </Wminicontainer>
     </Col>
     <Col span="6">
-      <Wminicontainer height={192} status="red">
+      <Wminicontainer height={192} status="error">
         <Wcircle type="gauge"
           title="本周未达标指标"
-          status="red"
+          status="error"
           bottomTitle="较上周"
           bottomNumber={134}
           percent={0.45}

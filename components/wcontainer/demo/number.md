@@ -37,7 +37,7 @@ ReactDOM.render(
         <Col span="6">
           <Wcontainer title={false} height={86}>
             <Wnumber bottomTitle="CPU" >123</Wnumber>
-            <Wicon type="monitor" size="big" status="gray" />
+            <Wicon type="monitor" size="big" />
           </Wcontainer>
         </Col>
         <Col span="6">

@@ -19,17 +19,17 @@ import {
 
 ReactDOM.render(
     <div>
-        <Wicon type="ais" reverse status="gray" />
-        <Wicon type="ais" reverse status="blue" />
-        <Wicon type="ais" reverse status="orange" />
-        <Wicon type="ais" reverse status="red" />
-        <Wicon type="ais" reverse status="green" />
+        <Wicon type="ais" reverse status="none" />
+        <Wicon type="ais" reverse status="normal" />
+        <Wicon type="ais" reverse status="warning" />
+        <Wicon type="ais" reverse status="error" />
+        <Wicon type="ais" reverse status="success" />
         <br />
-        <Wicon type="ais" reverse size="medium" status="gray" />
-        <Wicon type="ais" reverse size="medium" status="blue" />
-        <Wicon type="ais" reverse size="medium" status="orange" />
-        <Wicon type="ais" reverse size="medium" status="red" />
-        <Wicon type="ais" reverse size="medium" status="green" />
+        <Wicon type="ais" reverse size="medium" status="none" />
+        <Wicon type="ais" reverse size="medium" status="normal" />
+        <Wicon type="ais" reverse size="medium" status="warning" />
+        <Wicon type="ais" reverse size="medium" status="error" />
+        <Wicon type="ais" reverse size="medium" status="success" />
     </div>,
 mountNode);
 ````

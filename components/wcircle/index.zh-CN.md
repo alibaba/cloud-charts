@@ -13,8 +13,8 @@ title: Wcircle
 | title      | 标题                                      | String | ''     |
 | percent    | 数值，0-1的数值，表示环比                  | Number | 0     |
 | unit       | 单位                                     | String | ''     |
-| status     | 数值状态, 填写blue(正常)、orange(二级告警)、red(一级告警) |"blue", "orange", "red" | "blue"     |
-| trend      | 数值趋势, 填写raise或者drop自动处理数字    | "raise", "drop" | ''  |
+| status     | 数值状态, 填写 normal(正常)、warning(二级告警)、error(一级告警) |"normal", "warning", "error" | "normal"     |
+| trend      | 数值趋势, 填写 raise或者drop自动处理数字    | "raise", "drop" | ''  |
 | bottomTitle| 底部标题                                   | String| ''  |
 | bottomUnit | 底部单位                                   | String| ''  |
 | bottomNumber| 底部数值                                   | Number| null  |
