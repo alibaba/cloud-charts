@@ -129,7 +129,7 @@ const statusColorMap = {
   none: 'gray',
 };
 export function getStatusColorName(status) {
-  return statusColorMap[status] || status || statusMap['normal'];
+  return statusColorMap[status] || status || statusColorMap['normal'];
 }
 
 /**
