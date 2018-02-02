@@ -1,6 +1,14 @@
 # 忽略目录
 build/
-
+_site/
+config/
+demo/
+docs/
+font/
+guide/
+lib/
+site/
+spec/
 
 # node 覆盖率文件
 coverage/
