@@ -1,4 +1,7 @@
+import G2 from '@antv/g2';
 import {color} from "../theme/normal";
+
+export const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 
 export const compareComputed = function (compare, value1, value2) {
   switch(compare){

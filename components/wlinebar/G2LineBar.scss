@@ -4,10 +4,10 @@
     top: 0;
     left: 0;
   }
-  // TODO last-of-type 选择器不生效？这不科学。。。
-  .g2-legend:last-of-type {
-    margin-right: 0 !important;
-  }
+  // last-of-type 选择器配合css类会不生效，所以放在js逻辑中处理
+  //.g2-legend:last-of-type {
+  //  margin-right: 0 !important;
+  //}
 
   .g2-legend-list-item:last-child {
     margin-right: 0 !important;

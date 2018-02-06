@@ -4,7 +4,7 @@ import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { size, color, fonts } from '../theme/normal';
-import { getParentSize } from './common';
+import { getParentSize, requestAnimationFrame } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 
 //全局G2主题设置
@@ -76,6 +76,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
       color: color.colorN24,
+      textAlign: 'left',
     },
     'g2-tooltip-title': {
       marginBottom: 0,
@@ -206,7 +207,6 @@ function generateUniqueId() {
 
 const rootClassName = 'aisc-widgets ';
 const rootChildClassName = 'aisc-widgets-children';
-const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 
 /**
  * g2Factory 函数
@@ -376,7 +376,7 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     render() {
-      const { className, style, children, data, width, height, padding, config, ...otherProps } = this.props;
+      const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
         <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}

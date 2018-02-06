@@ -204,10 +204,17 @@ export default {
         'g2-legend': Object.assign({
           display: 'inline-block',
           position: 'relative',
-          marginRight: size.s3,
+          textAlign: 'left',
           top: size.s3,
-        }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
+        }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 }),
       });
+      // hack 图例的位置，仅在初始化时处理一遍
+      setTimeout(() => {
+        const parent = this.chartDom.querySelector('.g2-legend').parentNode;
+        if (parent) {
+          parent.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+        }
+      }, 100);
     } else {
       chart.legend(false);
     }
