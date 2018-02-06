@@ -1,13 +1,16 @@
 'use strict';
 
 // 常见直角坐标系的tooltip
-export default function (chart, config) {
+export default function (chart, config, customConfig) {
   // tooltip
   if (config.tooltip) {
     let tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
     };
+    if (customConfig) {
+      Object.assign(tooltipCfg, customConfig);
+    }
     chart.tooltip(tooltipCfg);
     if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
       chart.on('tooltip:change', (ev) => {

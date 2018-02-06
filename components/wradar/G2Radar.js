@@ -1,0 +1,139 @@
+'use strict';
+
+// 引入所需要的库和样式
+import merge from '../utils/merge';
+import {color, fonts, size} from "../theme/normal";
+import rectTooltip from '../chartCommon/rectTooltip';
+import './G2Radar.scss';
+
+// 建议将默认配置放在外层，方便后续维护
+let defaultConfig = {
+  padding: [40, 40, 40, 40],
+  colors: color.category_12,
+  min: 0,
+  max: 100,
+  area: true,
+  symbol: false,
+  // stack: false,
+  // legend: {},
+  tooltip: {
+    nameFormatter: null,
+    valueFormatter: null,
+  },
+};
+
+// 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
+// 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。
+export default {
+  // 初始化前对props的预处理函数
+  beforeInit(props) {
+    const {config} = props;
+    // TODO 处理padding
+    return Object.assign({}, props, {
+      padding: props.padding || config.padding || defaultConfig.padding
+    });
+  },
+  // 图表绘制主函数，必选
+  init(chart, userConfig, data, rawData) {
+    const config = merge({}, defaultConfig, userConfig);
+    chart.source(data, {
+      y: {
+        min: config.min,
+        max: config.max
+      }
+    });
+
+    chart.coord('polar', {
+      radius: 0.9
+    });
+
+    chart.axis('x', {
+      line: null,
+      tickLine: null,
+      grid: {
+        lineStyle: {
+          lineDash: null
+        },
+        //hideFirstLine: false
+      }
+    });
+    chart.axis('y', {
+      // label: {
+      //   zIndex: 10,
+      //   // offset: {number}, // 设置坐标轴文本 label 距离坐标轴线的距离
+      //   textStyle: {
+      //     zIndex: 10,
+      //     // textAlign: 'center', // 文本对齐方向，可取值为： start middle end
+      //     // rotate: 30,
+      //     // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
+      //   }
+      //   // autoRotate: {boolean} // 是否需要自动旋转，默认为 true
+      // },
+      line: null,
+      tickLine: null,
+      grid: {
+        type: 'polygon',
+        lineStyle: {
+          lineDash: null
+        }
+      }
+    });
+
+    // 设置图例
+    if (config.legend) {
+      chart.legend({
+        useHtml: true,
+        title: null,
+        position: 'right',
+        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
+        // autoPosition: false,
+        // onHover: noop,
+        itemTpl: (value, color, checked, index) => {
+          const item = (this.rawData && this.rawData[index]) || {};
+          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+            ...item,
+            color,
+            checked
+          }, index) : value;
+          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+            '<span class="g2-legend-text">' + result + '</span></li>';
+        },
+        // 'g2-legend': Object.assign({
+        //   top: size.s3,
+        // }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
+      });
+    } else {
+      chart.legend(false);
+    }
+
+    // tooltip
+    rectTooltip.call(this, chart, config, {
+      crosshairs: null
+    });
+
+    if (config.area && config.stack) {
+      chart.areaStack().position('x*y').color('type', config.colors).active(false);
+      chart.lineStack().position('x*y').color('type', config.colors).style({
+        lineJoin: "round"
+      });
+    } else if (config.area && !config.stack) {
+      chart.area().position('x*y').color('type', config.colors).active(false);
+      chart.line().position('x*y').color('type', config.colors).style({
+        lineJoin: "round"
+      });
+    } else {
+      chart.line().position('x*y').color('type', config.colors).style({
+        lineJoin: "round"
+      });
+    }
+    // 曲线默认点
+    if (config.symbol && config.area && config.stack) {
+      chart.point().adjust('stack').position('x*y').color('type', config.colors).shape('circle').size(3).active(false);
+    } else if (config.symbol) {
+      chart.point().position('x*y').color('type', config.colors).shape('circle').size(3).active(false);
+    }
+
+    chart.render();
+  }
+};
