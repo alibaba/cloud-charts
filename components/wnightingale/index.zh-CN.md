@@ -19,6 +19,15 @@ cols: 1
 | height | 容器高度 | Number | 自适应父元素高度 |
 
 ### 南丁格尔图配置及数据格式
+* config
+
+```javascript
+const config = {
+  axisLabel: true,
+  colors: '#2e85ff'
+}
+```
+
 * data:
 
 ```javascript

@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../utils/merge';
-import {color, fonts, size} from "../theme/normal";
+import { color, fonts, size } from '../theme/normal';
 import './G2-base.scss';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -11,8 +11,8 @@ let defaultConfig = {
   colors: color.category_12,
   tooltip: {
     nameFormatter: null,
-    valueFormatter: null,
-  },
+    valueFormatter: null
+  }
 };
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -20,7 +20,7 @@ let defaultConfig = {
 export default {
   // 初始化前对props的预处理函数
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: props.padding || config.padding || defaultConfig.padding
@@ -31,25 +31,34 @@ export default {
     const config = merge({}, defaultConfig, userConfig);
     chart.source(data);
     chart.coord('polar');
-    chart.axis(false);
 
     // tooltip
     if (config.tooltip) {
       let tooltipCfg = {
-        showTitle: false,
+        showTitle: false
         // crosshairs: {},
       };
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', (ev) => {
+        chart.on('tooltip:change', ev => {
           ev.items.forEach((item, index) => {
             const raw = (this.rawData && this.rawData[index]) || {};
 
             if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
+              item.value = config.tooltip.valueFormatter(
+                item.value,
+                raw,
+                index,
+                ev.items
+              );
             }
             if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
+              item.name = config.tooltip.nameFormatter(
+                item.name,
+                raw,
+                index,
+                ev.items
+              );
             }
           });
         });
@@ -58,7 +67,33 @@ export default {
       chart.tooltip(false);
     }
 
-    chart.interval()
+    if (config.axisLabel) {
+      chart.axis('x', {
+        grid: {
+          align: 'center',
+          hideFirstLine: false,
+          hideLastLine: false
+        },
+        label: {
+          offset: 10,
+          autoRotate: true,
+          textStyle: {
+            textAlign: 'center'
+          }
+        }
+      });
+
+      chart.axis('y', {
+        tickLine: null,
+        label: null,
+        line: null
+      });
+    } else {
+      chart.axis(false);
+    }
+
+    chart
+      .interval()
       .position('x*y')
       .color('x', config.colors)
       .label('x', {

@@ -1,18 +1,18 @@
 ---
 order: 1
 title:
-  zh-CN: 基本单色
-  en-US: Basic
+  zh-CN: 基本带辅助线
+  en-US: axisLabel
 ---
 
 ## zh-CN
 
-单色南丁格尔图。
+基础
 
 ## en-US
 
 ```jsx
-import { COLORS, Wnightingale } from '@alife/aisc-widgets';
+import { Wnightingale } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -32,8 +32,10 @@ const data = [{
   ]
 }];
 
-let options1 = {
-  colors: COLORS.widgetsColorBlue
+let options2 = {
+  axisLabel: true,
+  padding: [50, 50],
+  legend: false
 };
 
 class Demo extends React.Component {
@@ -42,9 +44,9 @@ class Demo extends React.Component {
       <div className="demos">
         <div className="demo-item">
           <Wnightingale
-            config={options1}
+            config={options2}
             data={data}
-            height="400"
+            height="500"
           />
         </div>
       </div>
