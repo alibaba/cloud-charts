@@ -22,11 +22,25 @@ const defaultConfig = {
 };
 const colorMap = color.category_12;
 const setAxis = (chart, config) => {
-
   const xAxis = {
     title: null, // 不展示坐标轴的标题
     label: {
       formatter: config.xAxis.labelFormatter
+    },
+    tickLine: null,
+    subTickCount: 1, // 次刻度线个数
+    subTickLine: {
+      lineWidth: 1,
+      stroke: '#BFBFBF',
+      length: 4
+    },
+    grid: {
+      align: 'center', // 网格顶点从两个刻度中间开始
+      lineStyle: {
+        stroke: '#8C8C8C',
+        lineWidth: 1,
+        lineDash: [3, 3]
+      }
     }
   };
 
@@ -51,16 +65,7 @@ const setAxis = (chart, config) => {
 
 const setSource = (chart, config, data) => {
   const defs = {
-    x: propertyAssign(
-      propertyMap.xAxis,
-      {
-        type: 'linear'
-      },
-      config.xAxis
-    ),
-    type: {
-      type: 'cat'
-    }
+    x: {}
   };
 
   defs.y = propertyAssign(
@@ -94,6 +99,7 @@ const chartRender = (chart, config) => {
     })
     .position('x*y')
     .size(4)
+    .adjust('jitter')
     .shape('circle')
     .active(false);
 
@@ -127,7 +133,7 @@ export default {
   }
 };
 
-const setLegend = function(chart, config, chartNode) {
+const setLegend = function (chart, config, chartNode) {
   if (config.legend) {
     chart.legend({
       useHtml: true,
@@ -140,14 +146,14 @@ const setLegend = function(chart, config, chartNode) {
         const item = (this.rawData && this.rawData[index]) || {};
         const result = config.legend.nameFormatter
           ? config.legend.nameFormatter(
-            value,
+              value,
             {
               ...item,
               color,
               checked
             },
-            index
-          )
+              index
+            )
           : value;
         return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
