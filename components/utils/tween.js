@@ -14,7 +14,7 @@ export default function (name, config, callback) {
 
 class Tween {
   constructor(config, callback) {
-    const { duration, autoUpdate, maxFps } = config;
+    const { maxFps } = config;
     this.config = config;
     this._callback = callback;
     this.refresh = this.refresh.bind(this);

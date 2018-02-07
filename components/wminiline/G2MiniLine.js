@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../utils/merge';
-import {color, fonts, size} from "../theme/normal";
+import { color, fonts, size } from "../theme/normal";
 import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';

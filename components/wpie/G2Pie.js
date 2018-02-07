@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../utils/merge';
-import {color, fonts, size} from "../theme/normal";
+import { color, fonts, size } from "../theme/normal";
 import { numberDecimal } from '../chartCommon/common';
 import './G2Pie.scss';
 

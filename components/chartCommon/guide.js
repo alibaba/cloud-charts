@@ -1,5 +1,6 @@
 'use strict';
-import {getStatusColor} from './common';
+
+import { getStatusColor } from './common';
 
 export default function (chart, config) {
   const guide = config.guide;
@@ -91,7 +92,7 @@ function drawGuideLine(chart, guideLine) {
   if (guideConfig.start && guideConfig.end) {
     chart.guide().line(guideConfig);
   } else {
-    console.warn('guide line 定义不全')
+    console.warn('guide line 定义不全');
   }
 }
 
@@ -141,6 +142,6 @@ function drawGuideArea(chart, guideArea) {
   if (guideConfig.start && guideConfig.end) {
     chart.guide().region(guideConfig);
   } else {
-    console.warn('guide area 定义不全')
+    console.warn('guide area 定义不全');
   }
 }
