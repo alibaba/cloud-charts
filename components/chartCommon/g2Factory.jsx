@@ -104,16 +104,6 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       ctx.arc(x, y, r, 0, Math.PI * 2, false);
       ctx.fill();
       ctx.stroke();
-
-      // ctx.save();
-      // ctx.beginPath();
-      // ctx.fillStyle = '#fff';
-      // ctx.strokeStyle = color;
-      // ctx.globalAlpha = 0.2;
-      // ctx.lineWidth = 3;
-      // ctx.arc(x, y, 6, 0, Math.PI * 2, false);
-      // ctx.stroke();
-      // ctx.restore();
     },
     // 这里必须传数字，所以不能直接引用
     radius: 4

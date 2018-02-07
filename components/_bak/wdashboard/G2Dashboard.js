@@ -3,7 +3,7 @@ import G2 from "g2";
 import createG2 from "./createG2";
 import { autobind } from "core-decorators";
 
-import "./index.scss";
+import "../../index.scss";
 
 const color = ["#4AD051", "#F6A71F", "#EF5350"];
 // 自定义Shape 部分

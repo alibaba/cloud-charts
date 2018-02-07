@@ -3,29 +3,6 @@ import {color} from "../theme/normal";
 
 export const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 
-export const compareComputed = function (compare, value1, value2) {
-  switch(compare){
-    case '<':
-      return value1 < value2;
-    case '<=':
-      return value1 <= value2;
-    case '>':
-      return value1 > value2;
-    case '>=':
-      return value1 >= value2;
-    case '==':
-      return value1 == value2;
-    case '===':
-      return value1 === value2;
-    case '!=':
-      return value1 != value2;
-    case '!==':
-      return value1 !== value2;
-    default:
-      return false;
-  }
-}
-
 // name: 类型 ，相当于type
 // stash: 每组类型的一些信息集，注意，要符合G2语法
 // Util: G2的Util
@@ -64,6 +41,15 @@ export function propertyAssign (keys, target, source) {
   return target;
 }
 
+/**
+ * 找到对应元素的父元素的大小
+ *
+ * @param {element} element Html元素
+ * @param {number} width props中传递的width属性
+ * @param {number} height props中传递的height属性
+ *
+ * @return {array} 宽和高的数组
+ * */
 export function getParentSize(element, width, height) {
   const parent = element && element.parentElement;
   let w = '', h = '';

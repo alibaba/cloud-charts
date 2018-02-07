@@ -9,6 +9,7 @@ guide/
 lib/
 site/
 spec/
+components/_bak
 
 # node 覆盖率文件
 coverage/

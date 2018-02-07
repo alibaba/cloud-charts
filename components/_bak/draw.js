@@ -1,7 +1,7 @@
 'use strict';
 
-import isEqual from '../utils/isEqual';
-import SVG from '../chartCommon/svg';
+import isEqual from './isEqual';
+import SVG from './svg';
 
 class Draw{
   constructor(dom, size, options){

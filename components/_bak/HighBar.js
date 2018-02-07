@@ -1,11 +1,11 @@
 'use strict';
 
 import Highcharts from 'highcharts'; // 暂时使用highcharts
-import Base from '../chartCommon/highBase';
-import COLORS from '../chartCommon/colors';
+import Base from './highBase';
+import COLORS from './colors';
 import merge from '../utils/merge';
 import { color, fonts } from '../theme/normal';
-import './index.scss';
+import '../index.scss';
 
 Highcharts.setOptions({ global: { useUTC: false } }); // 不使用HC内置时区设置
 const dateFormat = Highcharts.dateFormat;
