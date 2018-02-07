@@ -1,5 +1,5 @@
 ---
-order: 0
+order: 1
 title:
   zh-CN: 基本
   en-US: Basic
@@ -23,7 +23,6 @@ const data = [
       ['2003', 33],
       ['2004', 30],
       ['2005', 25],
-      ['2006', 42],
     ]
   },
   {
@@ -34,12 +33,13 @@ const data = [
       ['2003', 35],
       ['2004', 27],
       ['2005', 54],
-      ['2006', 52],
     ]
   }
 ];
 
-let options1 = {};
+let options1 = {
+  area: true
+};
 
 class Demo extends React.Component {
   render() {

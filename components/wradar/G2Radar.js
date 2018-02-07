@@ -3,19 +3,29 @@
 // 引入所需要的库和样式
 import merge from '../utils/merge';
 import {color, fonts, size} from "../theme/normal";
+import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
 import rectTooltip from '../chartCommon/rectTooltip';
 import './G2Radar.scss';
 
 // 建议将默认配置放在外层，方便后续维护
 let defaultConfig = {
-  padding: [40, 40, 40, 40],
+  padding: [20, 20, 20, 20],
   colors: color.category_12,
-  min: 0,
-  max: 100,
-  area: true,
+  xAxis: {
+    labelFormatter: null, //可以强制覆盖，手动设置label
+  },
+  yAxis: {
+    labelFormatter: null, //可以强制覆盖，手动设置label
+    max: 100,
+    min: 0,
+  },
+  radius: 0.8,
+  area: false,
   symbol: false,
   // stack: false,
-  // legend: {},
+  legend: {
+    nameFormatter: null,
+  },
   tooltip: {
     nameFormatter: null,
     valueFormatter: null,
@@ -36,18 +46,28 @@ export default {
   // 图表绘制主函数，必选
   init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
-    chart.source(data, {
-      y: {
-        min: config.min,
-        max: config.max
+
+    const defs = {
+      type: {
+        type: 'cat'
       }
-    });
+    };
+
+    defs.y = propertyAssign(propertyMap.yAxis, {
+      type: 'linear',
+      tickCount: 5
+    }, config.yAxis);
+
+    chart.source(data, defs);
 
     chart.coord('polar', {
-      radius: 0.9
+      radius: config.radius
     });
 
     chart.axis('x', {
+      label:{
+        formatter:config.xAxis.labelFormatter,
+      },
       line: null,
       tickLine: null,
       grid: {
@@ -58,17 +78,18 @@ export default {
       }
     });
     chart.axis('y', {
-      // label: {
-      //   zIndex: 10,
-      //   // offset: {number}, // 设置坐标轴文本 label 距离坐标轴线的距离
-      //   textStyle: {
-      //     zIndex: 10,
-      //     // textAlign: 'center', // 文本对齐方向，可取值为： start middle end
-      //     // rotate: 30,
-      //     // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
-      //   }
-      //   // autoRotate: {boolean} // 是否需要自动旋转，默认为 true
-      // },
+      label: {
+        offset: 8,
+        textStyle: {
+          textAlign: 'right', // 文本右对齐
+        },
+        htmlTemplate(text, item, index) {
+          if (config.yAxis.labelFormatter) {
+            return config.yAxis.labelFormatter(text, item, index);
+          }
+          return text;
+        }
+      },
       line: null,
       tickLine: null,
       grid: {
@@ -82,7 +103,7 @@ export default {
     // 设置图例
     if (config.legend) {
       chart.legend({
-        useHtml: true,
+        // useHtml: true,
         title: null,
         position: 'right',
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
