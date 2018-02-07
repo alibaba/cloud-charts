@@ -8,22 +8,22 @@ export const requestAnimationFrame = ( window && window.requestAnimationFrame ) 
 // Util: G2的Util
 // dotDom: 图例的图标dom
 // chart: chart实例
-export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='type'){
-  let obj = stash[name];
-  let filterNames = [];
-  obj.isChecked = obj.isChecked ? false : true;
-  Util.each(stash, function (v) {
-    if (v.isChecked) {
-      dotDom[v.index].style.background = v.color;
-      filterNames.push(v.name);
-    } else {
-      dotDom[v.index].style.background = '#999';
-    }
-  });
-
-  chart.filter(filterString, filterNames);
-  chart.repaint();
-}
+// export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='type'){
+//   let obj = stash[name];
+//   let filterNames = [];
+//   obj.isChecked = obj.isChecked ? false : true;
+//   Util.each(stash, function (v) {
+//     if (v.isChecked) {
+//       dotDom[v.index].style.background = v.color;
+//       filterNames.push(v.name);
+//     } else {
+//       dotDom[v.index].style.background = '#999';
+//     }
+//   });
+//
+//   chart.filter(filterString, filterNames);
+//   chart.repaint();
+// }
 
 export const propertyMap = {
   xAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'mask', 'base', 'exponent'],
