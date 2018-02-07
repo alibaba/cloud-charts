@@ -9,7 +9,7 @@ import './G2Radar.scss';
 
 // 建议将默认配置放在外层，方便后续维护
 let defaultConfig = {
-  padding: [20, 20, 20, 20],
+  padding: [20, 20, 40, 20],
   colors: color.category_12,
   xAxis: {
     labelFormatter: null, //可以强制覆盖，手动设置label
@@ -25,6 +25,8 @@ let defaultConfig = {
   // stack: false,
   legend: {
     nameFormatter: null,
+    offsetX: 0,
+    offsetY: 0
   },
   tooltip: {
     nameFormatter: null,
@@ -103,9 +105,11 @@ export default {
     // 设置图例
     if (config.legend) {
       chart.legend({
-        // useHtml: true,
+        useHtml: true,
         title: null,
-        position: 'right',
+        offsetX: 0 + (config.legend.offsetX || 0),
+        offsetY: -50 + (config.legend.offsetY || 0),
+        position: 'bottom',
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         // autoPosition: false,
         // onHover: noop,

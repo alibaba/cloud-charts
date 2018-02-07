@@ -1,8 +1,5 @@
 .aisc-widgets.G2Radar > div {
-  .g-labels {
-    width: 50%;
+  .g2-legend-list-item:last-child {
+    margin-right: 0 !important;
   }
-  //.g-label {
-  //  width: 100%;
-  //}
 }
