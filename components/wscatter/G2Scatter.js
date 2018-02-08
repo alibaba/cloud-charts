@@ -17,6 +17,7 @@ const defaultConfig = {
   yAxis: {
     min: 0
   },
+  jitter: false,
   tooltip: true,
   legend: true
 };
@@ -30,7 +31,19 @@ const setAxis = (chart, config) => {
     }
   };
 
-  if (config.grid) {
+  if (config.jitter) {
+    xAxis.grid = {
+      align: 'center', // 网格顶点从两个刻度中间开始
+      lineStyle: {
+        stroke: color.colorN13,
+        lineWidth: 1,
+        // lineDash: [3, 3]
+      }
+    };
+  }
+
+  // 扰动点图不能打开垂直网格线
+  if (config.grid && !config.jitter) {
     xAxis.grid = {
       lineStyle: {
         stroke: color.colorN13,
@@ -54,7 +67,7 @@ const setSource = (chart, config, data) => {
     x: propertyAssign(
       propertyMap.xAxis,
       {
-        type: 'linear'
+        type: config.jitter ? 'cat' : 'linear'
       },
       config.xAxis
     ),
@@ -76,10 +89,9 @@ const setSource = (chart, config, data) => {
 };
 
 const chartRender = (chart, config) => {
-  const index = 0;
   const typeArr = [];
 
-  chart
+  const geom = chart
     .point()
     .color('type', (val) => {
       let curIndex;
@@ -97,13 +109,23 @@ const chartRender = (chart, config) => {
     .shape('circle')
     .active(false);
 
+  if (config.jitter) {
+    geom.adjust('jitter');
+  }
+
   chart.render();
 };
 
 export default {
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const preConfig = {};
+    if (config.jitter) {
+      preConfig.xAxis = {
+        type: 'cat'
+      }
+    }
+    const newConfig = merge({}, defaultConfig, preConfig, config);
 
     return Object.assign({}, props, {
       padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
