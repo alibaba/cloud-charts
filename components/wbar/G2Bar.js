@@ -1,13 +1,13 @@
 'use strict';
 
 import merge from '../utils/merge';
-import { color, fonts, size } from "../theme/normal";
+import { color, fonts, size } from '../theme/normal';
 import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
 import './G2Bar.scss';
 
-let defaultConfig = {
+const defaultConfig = {
   colors: color.category_12,
   padding: [40, 5, 32, 44],
   xAxis: {
@@ -52,7 +52,7 @@ export default {
   init(chart, userConfig, data, rawData) {
     const config = userConfig;
 
-    let defs = {
+    const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'cat',
       }, config.xAxis),
@@ -70,7 +70,7 @@ export default {
 
     chart.source(data, defs);
 
-    let yAxis = {
+    const yAxis = {
       // title: null, // 不展示 xDim 对应坐标轴的标题
       // line: {
       //   lineWidth: 0, // 设置线的宽度
@@ -92,7 +92,7 @@ export default {
     };
 
 
-    let xAxis = {
+    const xAxis = {
       // title: null, // 不展示 xDim 对应坐标轴的标题
       // tickLine: {
       //   lineWidth: 0

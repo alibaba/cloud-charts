@@ -38,7 +38,7 @@ export const Util = Object.assign({}, G2.Util, {
   getStatusColor: common.getStatusColor,
   isInvalidNumber: common.isInvalidNumber,
   numberDecimal: common.numberDecimal,
-  beautifyNumber: common.beautifyNumber,
+  beautifyNumber: common.beautifyNumber
 });
 
 export const DomUtil = G2.DomUtil;

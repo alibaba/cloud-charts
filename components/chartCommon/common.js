@@ -1,5 +1,5 @@
 import G2 from '@antv/g2';
-import {color} from "../theme/normal";
+import { color } from '../theme/normal';
 
 export const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
 

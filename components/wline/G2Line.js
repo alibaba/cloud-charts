@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../utils/merge';
-import { color, fonts, size } from "../theme/normal";
+import { color, size } from '../theme/normal';
 import { propertyAssign, getDataIndexColor, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
@@ -261,16 +261,16 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
     chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style({
-      lineJoin: "round"
+      lineJoin: 'round'
     });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
     chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style({
-      lineJoin: "round"
+      lineJoin: 'round'
     });
   } else {
     chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style({
-      lineJoin: "round"
+      lineJoin: 'round'
     });
   }
   // 曲线默认点

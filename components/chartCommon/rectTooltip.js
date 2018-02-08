@@ -4,7 +4,7 @@
 export default function (chart, config, customConfig) {
   // tooltip
   if (config.tooltip) {
-    let tooltipCfg = {
+    const tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
     };

@@ -6,7 +6,7 @@ import './index.scss';
 const Util = G2.Util;
 const Stat = G2.Stat;
 
-let defaultConfig = {
+const defaultConfig = {
   legend: {
     align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label

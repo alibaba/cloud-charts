@@ -2,11 +2,11 @@
 
 // 引入所需要的库和样式
 import merge from '../utils/merge';
-import { color, fonts, size } from '../theme/normal';
+import { color } from '../theme/normal';
 import './G2-base.scss';
 
 // 建议将默认配置放在外层，方便后续维护
-let defaultConfig = {
+const defaultConfig = {
   padding: [20, 20, 20, 20],
   colors: color.category_12,
   label: {

@@ -2,20 +2,20 @@
 
 // 引入所需要的库和样式
 import merge from '../utils/merge';
-import {color, fonts, size} from "../theme/normal";
+import { color } from '../theme/normal';
 import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
 import rectTooltip from '../chartCommon/rectTooltip';
 import './G2Radar.scss';
 
 // 建议将默认配置放在外层，方便后续维护
-let defaultConfig = {
+const defaultConfig = {
   padding: [20, 20, 40, 20],
   colors: color.category_12,
   xAxis: {
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
   },
   yAxis: {
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     max: 100,
     min: 0,
   },
@@ -39,7 +39,7 @@ let defaultConfig = {
 export default {
   // 初始化前对props的预处理函数
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: props.padding || config.padding || defaultConfig.padding
@@ -67,8 +67,8 @@ export default {
     });
 
     chart.axis('x', {
-      label:{
-        formatter:config.xAxis.labelFormatter,
+      label: {
+        formatter: config.xAxis.labelFormatter,
       },
       line: null,
       tickLine: null,
@@ -107,12 +107,12 @@ export default {
       chart.legend({
         useHtml: true,
         title: null,
-        offsetX: 0 + (config.legend.offsetX || 0),
+        offsetX: config.legend.offsetX || 0,
         offsetY: -50 + (config.legend.offsetY || 0),
         position: 'bottom',
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         // autoPosition: false,
-        // onHover: noop,
+        onHover: noop,
         itemTpl: (value, color, checked, index) => {
           const item = (this.rawData && this.rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
@@ -140,16 +140,16 @@ export default {
     if (config.area && config.stack) {
       chart.areaStack().position('x*y').color('type', config.colors).active(false);
       chart.lineStack().position('x*y').color('type', config.colors).style({
-        lineJoin: "round"
+        lineJoin: 'round'
       });
     } else if (config.area && !config.stack) {
       chart.area().position('x*y').color('type', config.colors).active(false);
       chart.line().position('x*y').color('type', config.colors).style({
-        lineJoin: "round"
+        lineJoin: 'round'
       });
     } else {
       chart.line().position('x*y').color('type', config.colors).style({
-        lineJoin: "round"
+        lineJoin: 'round'
       });
     }
     // 曲线默认点

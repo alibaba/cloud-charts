@@ -7,7 +7,7 @@ import {DataSet} from '@antv/data-set';
 const Util = G2.Util;
 import './G2Sankey.scss';
 
-let defaultConfig = {
+const defaultConfig = {
   padding: [32, 5, 32, 45],
   legend: {
     align: 'left',

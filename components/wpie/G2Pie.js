@@ -1,11 +1,11 @@
 'use strict';
 
 import merge from '../utils/merge';
-import { color, fonts, size } from "../theme/normal";
+import { color, size } from '../theme/normal';
 import { numberDecimal } from '../chartCommon/common';
 import './G2Pie.scss';
 
-let defaultConfig = {
+const defaultConfig = {
   colors: color.category_12,
   padding: [20, 20, 20, 20],
   legend: {
@@ -92,7 +92,7 @@ export default {
   init(chart, userConfig, data, rawData) {
     const config = merge({}, defaultConfig, userConfig);
 
-    let defs = {
+    const defs = {
       type: {
         type: 'cat'
       },
@@ -109,7 +109,7 @@ export default {
     chart.source(data, defs);
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
-    let thetaConfig = {
+    const thetaConfig = {
       radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.8
     };
     if (config.cycle) {
@@ -170,7 +170,7 @@ export default {
 
     // tooltip
     if (config.tooltip) {
-      let tooltipCfg = {
+      const tooltipCfg = {
         showTitle: false,
         // crosshairs: {},
       };
