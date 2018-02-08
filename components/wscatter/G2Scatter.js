@@ -54,6 +54,7 @@ const setAxis = (chart, config) => {
 
   chart.axis('x', xAxis);
 
+
   chart.axis('y', {
     title: null,
     label: {
