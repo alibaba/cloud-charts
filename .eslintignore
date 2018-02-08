@@ -9,7 +9,7 @@ guide/
 lib/
 site/
 spec/
-_bak
+_bak/
 
 # node 覆盖率文件
 coverage/
