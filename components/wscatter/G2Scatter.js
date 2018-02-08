@@ -1,11 +1,11 @@
 'use strict';
 
 // 引入所需要的库和样式
-import G2 from '@antv/g2';
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
+
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
   padding: [40, 5, 32, 44],
