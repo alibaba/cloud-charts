@@ -19,5 +19,12 @@ node_modules/
 **/*.min.js
 **/*-min.js
 
+# 工程构建脚本
+fie.config.js
+gulpfile.js
+webpack.config.js
+
+# 第三方库
+components/utils/merge.js
 
 template/

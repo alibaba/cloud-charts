@@ -1,10 +1,7 @@
 'use strict';
 
 import merge from '../utils/merge';
-import G2 from '@antv/g2';
-import {DataSet} from '@antv/data-set';
-
-const Util = G2.Util;
+import { DataSet } from '@antv/data-set';
 import './G2Sankey.scss';
 
 const defaultConfig = {
@@ -78,12 +75,5 @@ export default {
         stroke: '#ccc'
       });
     chart.render();
-
-
   }
 };
-
-function getLegendNode(target) {
-  if (target.tagName === 'LI') return target;
-  else return target.parentNode;
-}
