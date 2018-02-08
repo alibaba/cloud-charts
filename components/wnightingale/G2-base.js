@@ -9,6 +9,9 @@ import './G2-base.scss';
 let defaultConfig = {
   padding: [20, 20, 20, 20],
   colors: color.category_12,
+  label: {
+    key: 'x'
+  },
   tooltip: {
     nameFormatter: null,
     valueFormatter: null
@@ -67,7 +70,7 @@ export default {
       chart.tooltip(false);
     }
 
-    if (config.axisLabel) {
+    if (config.axis) {
       chart.axis('x', {
         grid: {
           align: 'center',
@@ -92,17 +95,20 @@ export default {
       chart.axis(false);
     }
 
-    chart
+    const geom = chart
       .interval()
       .position('x*y')
       .color('x', config.colors)
-      .label('x', {
-        offset: -15
-      })
       .style({
         lineWidth: 1,
         stroke: color.widgetsColorWhite
       });
+
+    if (config.label) {
+      geom.label(config.label.key, {
+        offset: -15
+      });
+    }
 
     chart.render();
   }

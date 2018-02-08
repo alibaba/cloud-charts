@@ -23,7 +23,7 @@ cols: 1
 
 ```javascript
 const config = {
-  axisLabel: true,
+  axis: true,
   colors: '#2e85ff'
 }
 ```
