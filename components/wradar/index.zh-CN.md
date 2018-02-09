@@ -11,32 +11,24 @@ cols: 1
 
 ### 通用参数
 
-| 成员 | 说明 | 类型 | 默认值 |
-|---|---|---|---|
-| config | 相关配置 | Object | 见下方具体配置 |
-| data | 传入数据，必填 | Array | 见下方具体配置 |
-| width | 容器宽度 | Number | 自适应父元素宽度 |
-| height | 容器高度 | Number | 自适应父元素高度 |
+| 属性名    | 描述                                       | 类型               | 默认值      |
+| ------ | ---------------------------------------- | ---------------- | -------- |
+| width  | 图表宽度                                     | number \| string | 自适应父元素宽度 |
+| height | 图表高度                                     | number \| string | 自适应父元素高度 |
+| config | 图表配置，详情见下方                               | object           | {}       |
+| data   | 图表数据，详情见 [数据 Data](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/140) | array            | []       |
+| event  | 图表交互事件，详情见 [图表事件 Event](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145) | object           | {}       |
 
-### 南丁格尔图配置及数据格式
-* data:
+### 配置项
 
-```javascript
-const data = [{
-  name: '人口比例',
-  data: [
-    ['2001', 41.8],
-    ['2002', 38],
-    ['2003', 33.7],
-    ['2004', 30.7],
-    ['2005', 25.8],
-    ['2006', 31.7],
-    ['2007', 33],
-    ['2008', 46],
-    ['2009', 38.3],
-    ['2010', 28],
-    ['2011', 42.5],
-    ['2012', 30.3]
-  ]
-}];
-```
+| 属性名     | 描述                                       | 类型                | 默认值                |
+| ------- | ---------------------------------------- | ----------------- | ------------------ |
+| xAxis   | X轴配置项，在此X轴对应外层环状的圈。X轴配置项仅支持 labelFormatter。详情见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                 |
+| yAxis   | Y轴配置项，在此Y轴对应半径的线。详细配置见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                 |
+| legend  | 图例配置项，目前位置在下方。仅支持nameFormatter，详情见 [图例 Legend](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142) | object \| boolean | {}                 |
+| tooltip | 提示信息配置项，支持 titleFormatter、nameFormatter、valueFormatter，详情见 [提示信息 Tooltip](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143) | object \| boolean | false              |
+| colors  | 图表颜色数组，详情见 [颜色 Color](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/149) | array             | COLORS.category_12 |
+| padding | 图表边距                                     | array             | [0, 0, 0, 0]       |
+| area    | 是否为面积图                                   | boolean           | false              |
+| symbol  | 是否显示线上的点                                 | boolean           | false              |
+| radius  | 外环半径                                     | number            | 0.8                |

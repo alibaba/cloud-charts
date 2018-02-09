@@ -7,12 +7,12 @@ title:
 
 ## zh-CN
 
-单色南丁格尔图。
+将颜色设置为单一种颜色，可以变为单色南丁格尔图。
 
 ## en-US
 
 ```jsx
-import { COLORS, Wnightingale } from '@alife/aisc-widgets';
+import { COLORS, Wcontainer, Wnightingale } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -32,22 +32,19 @@ const data = [{
   ]
 }];
 
-let options1 = {
+let options = {
   colors: COLORS.widgetsColorBlue
 };
 
 class Demo extends React.Component {
   render() {
     return (
-      <div className="demos">
-        <div className="demo-item">
-          <Wnightingale
-            config={options1}
-            data={data}
-            height="400"
-          />
-        </div>
-      </div>
+      <Wcontainer height="400">
+        <Wnightingale
+          config={options}
+          data={data}
+        />
+      </Wcontainer>
     );
   }
 }

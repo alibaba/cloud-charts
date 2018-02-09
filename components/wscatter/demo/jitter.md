@@ -1,20 +1,18 @@
 ---
 order: 2
 title:
-  zh-CN: 多个点的散点图
-  en-US: multi point
+  zh-CN: 扰动点图
+  en-US: jitter
 ---
 
 ## zh-CN
 
-演示了多个点的扰动点图。
+设置jitter为true可以变为扰动点图。
 
 ## en-US
 
-basic use.
-
 ```jsx
-import { Wscatter } from '@alife/aisc-widgets';
+import { Wcontainer, Wscatter } from '@alife/aisc-widgets';
 
 const point = [
   {
@@ -77,6 +75,7 @@ const point = [
 ];
 
 const options = {
+  padding: [40, 5, 24, 29],
   jitter: true,
   yAxis: {
     min: 0,
@@ -87,9 +86,9 @@ const options = {
 class Demo extends React.Component {
   render() {
     return (
-      <div>
+      <Wcontainer>
         <Wscatter height="400" data={point} config={options} />
-      </div>
+      </Wcontainer>
     );
   }
 }

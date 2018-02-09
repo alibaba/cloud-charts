@@ -1,18 +1,18 @@
 ---
 order: 2
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 点图
+  en-US: Symbol
 ---
 
 ## zh-CN
 
-基础
+设置symbol为true显示点图。
 
 ## en-US
 
 ```jsx
-import { Wradar } from '@alife/aisc-widgets';
+import { Wcontainer, Wradar } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -37,22 +37,19 @@ const data = [
   }
 ];
 
-let options1 = {
+let options = {
   symbol: true
 };
 
 class Demo extends React.Component {
   render() {
     return (
-      <div className="demos">
-        <div className="demo-item">
-          <Wradar
-            config={options1}
-            data={data}
-            height="400"
-          />
-        </div>
-      </div>
+      <Wcontainer height="400">
+        <Wradar
+          config={options}
+          data={data}
+        />
+      </Wcontainer>
     );
   }
 }

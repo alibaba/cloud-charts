@@ -11,69 +11,24 @@ cols: 1
 
 ### 通用参数
 
-| 成员 | 说明 | 类型 | 默认值 |
-|---|---|---|---|
-| config | 相关配置 | Object | 见下方具体配置 |
-| data | 传入数据，必填 | Array | 见下方具体配置 |
-| width | 容器宽度 | Number | 自适应父元素宽度 |
-| height | 容器高度 | Number | 自适应父元素高度 |
+| 属性名    | 描述                                       | 类型               | 默认值      |
+| ------ | ---------------------------------------- | ---------------- | -------- |
+| width  | 图表宽度                                     | number \| string | 自适应父元素宽度 |
+| height | 图表高度                                     | number \| string | 自适应父元素高度 |
+| config | 图表配置，详情见下方                               | object           | {}       |
+| data   | 图表数据，详情见 [数据 Data](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/140) | array            | []       |
+| event  | 图表交互事件，详情见 [图表事件 Event](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145) | object           | {}       |
 
-### 饼图配置及数据格式
+### 配置项
 
-* config:
-
-```javascript
-  {
-    legend: { //是否显示图例，默认为true，表示展示图例。仅初次设置有效。不建议修改
-      nameFormatter: null, // 图例 name格式化函数。参数：name, item, index, data
-      valueFormatter: null, // 图例 value格式化函数。参数：name, item, index, data
-    },
-    tooltip: { //默认显示，设置为false时，表示不显示
-      nameFormatter: null, // tooltip name格式化函数。参数：name, data
-      valueFormatter: null, // tooltip value格式化函数。参数：value, date
-    },
-    cycle: false, //是否为环图，默认为false，表示显示为饼图，仅初次设置有效
-    clickable: false, //是否可点击，默认为false，表示不可点击。仅初次设置有效
-    colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
-    padding: [40, 40, 40, 40], //容器内边距，默认为40，单位是像素。不建议修改,
-  }
-
-  /*
-   * 说明：
-   * labelFormatter 支持的类型为Function。回调会带入原始值和时间格式化函数作为参数。返回值即为显示内容
-   * 例如 function(value,format){return format('%m-%d',value)};
-   */
-```
-
-* data:
-
-```javascript
-  [
-    {
-      "name": "饼",
-      "data": [
-        ['Firefox', 45.0],
-        ['IE', 26.8],
-        ['Chrome', 12.8],
-        ['Safari', 8.5],
-        ['Opera', 6.2],
-        ['Others', 0.7]
-      ]
-    }
-  ]
-```
-
-* 事件
-
-onClick: (需要设置clickable为true才会触发)
-
-```javascript
-  function(e){
-    console.log(e.target) //触发事件的图表实例
-    console.log(e.point) //点击选中的饼区块
-    console.log(e.point.x) //点击选中区块的索引
-    console.log(e.point.y) //点击选中区块的值
-    console.log(e.point.xName) //点击选中区块的描述
-    console.log(e.name) //选中饼图的名称
-  }
-```
+| 属性名         | 描述                                       | 类型                | 默认值                |
+| ----------- | ---------------------------------------- | ----------------- | ------------------ |
+| legend      | 图例配置项，支持 nameFormatter、valueFormatter，详情见 [图例 Legend](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142) | object \| boolean | {}                 |
+| tooltip     | 提示信息配置项，支持 nameFormatter、valueFormatter，详情见 [提示信息 Tooltip](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143) | object \| boolean | {}                 |
+| guide       | 辅助标记配置项，详情见 [辅助标记 Guide](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/144) | object \| boolean | null               |
+| colors      | 图表颜色数组，详情见 [颜色 Color](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/149) | array             | COLORS.category_12 |
+| padding     | 图表边距                                     | array             | [20, 20, 20, 20]   |
+| autoSort    | 数据项是否自动排序，为true时将根据每一项的数值作降序排序           | boolean           | true               |
+| cycle       | 是否为环图                                    | boolean           | false              |
+| innerRadius | 圆环内环半径，数值范围 0 到 1，仅 cycle 为 true 时有效     | number            | 0.8                |
+| outerRadius | 饼图外部半径，数值范围 0 到 1，不建议修改                  | number            | 0.8                |

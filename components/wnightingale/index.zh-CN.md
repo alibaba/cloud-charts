@@ -11,23 +11,15 @@ cols: 1
 
 ### 通用参数
 
-| 成员 | 说明 | 类型 | 默认值 |
-|---|---|---|---|
-| config | 相关配置 | Object | 见下方具体配置 |
-| data | 传入数据，必填 | Array | 见下方具体配置 |
-| width | 容器宽度 | Number | 自适应父元素宽度 |
-| height | 容器高度 | Number | 自适应父元素高度 |
+| 属性名    | 描述                                       | 类型               | 默认值      |
+| ------ | ---------------------------------------- | ---------------- | -------- |
+| width  | 图表宽度                                     | number \| string | 自适应父元素宽度 |
+| height | 图表高度                                     | number \| string | 自适应父元素高度 |
+| config | 图表配置，详情见下方                               | object           | {}       |
+| data   | 图表数据，详情见 [数据 Data](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/140) | array            | []       |
+| event  | 图表交互事件，详情见 [图表事件 Event](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145) | object           | {}       |
 
 ### 南丁格尔图配置及数据格式
-* config
-
-```javascript
-const config = {
-  axis: true,
-  colors: '#2e85ff'
-}
-```
-
 * data:
 
 ```javascript

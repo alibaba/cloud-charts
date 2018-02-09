@@ -14,7 +14,7 @@ title:
 basic use.
 
 ```jsx
-import { Wscatter } from '@alife/aisc-widgets';
+import { Wcontainer, Wscatter } from '@alife/aisc-widgets';
 
 const point = [
   {
@@ -58,17 +58,19 @@ const point = [
 ];
 
 const options = {
+  padding: [40, 5, 24, 44],
   xAxis: {
-    type: 'time'
+    type: 'time',
+    mask: 'YYYY-MM-DD'
   }
 };
 
 class Demo extends React.Component {
   render() {
     return (
-      <div>
+      <Wcontainer>
         <Wscatter height="400" data={point} config={options} />
-      </div>
+      </Wcontainer>
     );
   }
 }

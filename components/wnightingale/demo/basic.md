@@ -12,7 +12,7 @@ title:
 ## en-US
 
 ```jsx
-import { Wnightingale } from '@alife/aisc-widgets';
+import { Wcontainer, Wnightingale } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -32,20 +32,17 @@ const data = [{
   ]
 }];
 
-let options1 = {};
+let options = {};
 
 class Demo extends React.Component {
   render() {
     return (
-      <div className="demos">
-        <div className="demo-item">
-          <Wnightingale
-            config={options1}
-            data={data}
-            height="400"
-          />
-        </div>
-      </div>
+      <Wcontainer height="400">
+        <Wnightingale
+          config={options}
+          data={data}
+        />
+      </Wcontainer>
     );
   }
 }

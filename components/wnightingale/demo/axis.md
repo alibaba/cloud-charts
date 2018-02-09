@@ -7,12 +7,12 @@ title:
 
 ## zh-CN
 
-基础
+设置axis为true可以显示坐标轴，通过设置label.key控制label显示x轴的值还是y轴的值。
 
 ## en-US
 
 ```jsx
-import { Wnightingale } from '@alife/aisc-widgets';
+import { Wcontainer, Wnightingale } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -33,7 +33,7 @@ const data = [{
   ]
 }];
 
-let options2 = {
+let options = {
   axis: true,
   label: {
     key: 'y'
@@ -45,14 +45,12 @@ let options2 = {
 class Demo extends React.Component {
   render() {
     return (
-      <div className="demos">
-        <div className="demo-item" style={{height: '400px'}}>
-          <Wnightingale
-            config={options2}
-            data={data}
-          />
-        </div>
-      </div>
+      <Wcontainer height="400">
+        <Wnightingale
+          config={options}
+          data={data}
+        />
+      </Wcontainer>
     );
   }
 }

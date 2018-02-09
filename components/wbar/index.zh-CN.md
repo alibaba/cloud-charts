@@ -11,83 +11,25 @@ cols: 1
 
 ### 通用参数
 
-| 成员 | 说明 | 类型 | 默认值 |
-|---|---|---|---|
-| config | 相关配置 | Object | 见下方具体配置 |
-| data | 传入数据，必填 | Array | 见下方具体配置 |
-| width | 容器宽度 | Number | 自适应父元素宽度 |
-| height | 容器高度 | Number | 自适应父元素高度 |
+| 属性名    | 描述                                       | 类型               | 默认值      |
+| ------ | ---------------------------------------- | ---------------- | -------- |
+| width  | 图表宽度                                     | number \| string | 自适应父元素宽度 |
+| height | 图表高度                                     | number \| string | 自适应父元素高度 |
+| config | 图表配置，详情见下方                               | object           | {}       |
+| data   | 图表数据，详情见 [数据 Data](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/140) | array            | []       |
+| event  | 图表交互事件，详情见 [图表事件 Event](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145) | object           | {}       |
 
-### 柱图配置及数据格式
+### 配置项
 
-* config:
-
-```javascript
-  {
-    xAxis: {
-      labelFormatter: null //自定义格式化，默认为null。
-    },
-    yAxis: {
-      labelFormatter: null, //自定义格式化，默认为null
-      max: null, //Y轴可见的最大值，默认为自动计算。label最大不一定会显示此值，还与间隔有关。
-      min: null,  //Y轴可见的最小值，默认为自动计算，一般为0
-      guideLine: []  //Y轴辅助线，默认false，表示不显示；内部为对象，包含值以及颜色
-    },
-    legend: { //默认显示，设置为false时，表示不显示
-      nameFormatter: null, // 图例文字格式化函数。参数：name, data, index
-    },
-    tooltip: { //默认显示，设置为false时，表示不显示
-      titleFormatter: null, // tooltip标题格式化函数。参数：title
-      nameFormatter: null, // tooltip name格式化函数。参数：name, data, index, record
-      valueFormatter: null, // tooltip value格式化函数。参数：value, data, index, record
-    },
-    labels: { //默认为false，表示不显示
-      labelFormatter: null, // 图例文字格式化函数。参数：value
-    },
-    clickable: false, //柱是否可点击，默认为false，表示不可点击。仅初次设置有效
-    stack: false,//多组数据时是否堆叠，默认为false，表示并列对比，不堆叠
-    column: true, //是否为纵向柱图，默认为true，表示纵向，仅初次设置有效
-    grid: false, //是否显示网格，默认为false，表示显示。仅初次设置有效。不建议修改
-    colors: ['#389BFF','#F2A72D','#8CD123',...], //线条配色，默认有17种颜色。不建议修改
-    padding: [12, 0, 12, 0] //容器内边距，单位是像素。不建议修改
-  }
-
-  /*
-   * 说明：
-   *
-   * labelFormatter 支持的类型为Function。回调会带入原始值和时间格式化函数作为参数。返回值即为显示内容
-   * 例如 function(value,format){return format('%m-%d',value)};
-   *
-   * 当为横向柱状图时，横向轴为Y轴。
-   */
-```
-
-* data:
-
-```javascript
-  [
-    {
-      "name":"柱1",
-      "data":[["一",59],["二",23],["三",19],["四",27],...]
-    },
-    {
-      "name":"柱2",
-      "data":[["一",92],["二",15],["三",4],["四",49],...]
-    }
-  ]
-```
-
-* 事件
-
-onClick: (需要设置clickable为true才会触发)
-
-```javascript
-  function(e){
-    console.log(e.target) //触发事件的图表实例
-    console.log(e.point) //点击选中的柱区块
-    console.log(e.point.x) //点击选中的区块x位置
-    console.log(e.point.y) //点击选中的区块的值
-    console.log(e.point.xName) //点击选中区块的描述
-    console.log(e.name) //选中点所在的柱名
-  }
-```
+| 属性名     | 描述                                       | 类型                | 默认值                |
+| ------- | ---------------------------------------- | ----------------- | ------------------ |
+| xAxis   | X轴配置项，详情见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                 |
+| yAxis   | Y轴配置项，详情见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) ，如果传入配置项数组则变为双Y轴图表 | object \| array   | {}                 |
+| legend  | 图例配置项，支持 align、nameFormatter，详情见 [图例 Legend](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142) | object \| boolean | {}                 |
+| tooltip | 提示信息配置项，支持 titleFormatter、nameFormatter、valueFormatter，详情见 [提示信息 Tooltip](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143) | object \| boolean | {}                 |
+| guide   | 辅助标记配置项，详情见 [辅助标记 Guide](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/144) | object \| boolean | null               |
+| colors  | 图表颜色数组，详情见 [颜色 Color](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/149) | array             | COLORS.category_12 |
+| padding | 图表边距                                     | array             | [32, 5, 32, 45]    |
+| column  | 是否为垂直柱图，设置为 false 可变为水平柱图                | boolean           | true               |
+| stack   | 是否为堆栈柱图                                  | boolean           | false              |
+| grid    | 是否显示网格线                                  | boolean           | false              |

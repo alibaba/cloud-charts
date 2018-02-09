@@ -29,6 +29,7 @@ const defaultConfig = {
     offsetY: 0
   },
   tooltip: {
+    titleFormatter: null,
     nameFormatter: null,
     valueFormatter: null,
   },
