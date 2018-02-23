@@ -1,6 +1,7 @@
 import G2 from '@antv/g2';
 import * as DataSet from '@antv/data-set';
 import * as common from './chartCommon/common';
+import g2Connect from './chartCommon/g2Connect';
 
 import g2Factory from './chartCommon/g2Factory';
 
@@ -16,7 +17,7 @@ import G2Sankey from './wsankey/G2Sankey';
 import G2Nightingale from './wnightingale/G2-base';
 import G2Radar from './wradar/G2Radar';
 
-// 暴露所有基础图表
+// 所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
 export const WG2MiniLine = g2Factory('G2MiniLine', G2MiniLine);
 export const WG2Bar = g2Factory('G2Bar', G2Bar);
@@ -29,10 +30,12 @@ export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
 export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
 export const WG2Radar = g2Factory('G2Radar', G2Radar);
 
-// 暴露基础图表库
+// 基础图表库
 export { G2, DataSet };
 
+// 工具类
 export const Util = Object.assign({}, G2.Util, {
+  Connect: g2Connect, // 图表联动组件
   propertyAssign: common.propertyAssign,
   getParentSize: common.getParentSize,
   getStatusColor: common.getStatusColor,
@@ -40,11 +43,11 @@ export const Util = Object.assign({}, G2.Util, {
   numberDecimal: common.numberDecimal,
   beautifyNumber: common.beautifyNumber
 });
-
 export const DomUtil = G2.DomUtil;
 export const MatrixUtil = G2.MatrixUtil;
 export const PathUtil = G2.PathUtil;
 
+// 图表组件
 export const Wline = WG2Line;
 export const Wminiline = WG2MiniLine;
 export const Wbar = WG2Bar;

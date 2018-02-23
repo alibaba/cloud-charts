@@ -13,16 +13,14 @@ title:
 
 
 ````jsx
-import { Wline } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Util } from '@alife/aisc-widgets';
 
 let options1 = {
   xAxis: {type: 'time'},
-  zoom: true
 };
 
 let options2 = {
   xAxis: {type: 'time'},
-  zoom: true
 };
 
 let data1 = [
@@ -48,34 +46,21 @@ let data2 = [
 
 class Demo extends React.Component{
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      action: {}
-    };
-  }
-
-  moEventHandler(e){
-    this.setState({
-      action: {
-        'hover': e
-      }
-    });
-  }
-
-  sEventHandler(e){
-    this.setState({
-      action: {
-        'select': e
-      }
-    });
+  componentDidMount() {
+    if (this.line1 && this.line2) {
+      this.connect = new Util.Connect([this.line1.chart, this.line2.chart]);
+    }
   }
 
   render(){
     return (
-      <div>
-        <Wline config={options1} data={data1} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="250" />
-        <Wline config={options2} data={data2} onMouseOver={this.moEventHandler.bind(this)} onSelection={this.sEventHandler.bind(this)} action={this.state.action}  height="250" />
+      <div className="demos-box">
+        <Wcontainer className="demos">
+          <Wline ref={line => this.line1 = line} height="250" config={options1} data={data1}/>
+        </Wcontainer>
+        <Wcontainer className="demos" style={{marginTop: '20px'}}>
+          <Wline ref={line => this.line2 = line} height="250" config={options2} data={data2}/>
+        </Wcontainer>
       </div>
     );
   }
