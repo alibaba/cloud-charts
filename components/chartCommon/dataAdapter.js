@@ -1,6 +1,9 @@
 'use strict';
 
 export default function highchartsDataToG2Data(data, config) {
+  if (!data) {
+    return [];
+  }
   if (!Array.isArray(data)) {
     data = [data];
   }
