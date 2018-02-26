@@ -1,10 +1,17 @@
 'use strict';
 
 export default function highchartsDataToG2Data(data, config) {
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
   const newData = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach((oneData) => {
       const { name: dataName, yAxis: yIndex = 0 } = oneData;
+
+      if (Array.isArray(oneData.data)) {
+        return;
+      }
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -38,6 +45,10 @@ export default function highchartsDataToG2Data(data, config) {
   } else {
     data.forEach((oneData) => {
       const { name: dataName } = oneData;
+
+      if (Array.isArray(oneData.data)) {
+        return;
+      }
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
