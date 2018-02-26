@@ -9,7 +9,7 @@ export default function highchartsDataToG2Data(data, config) {
     data.forEach((oneData) => {
       const { name: dataName, yAxis: yIndex = 0 } = oneData;
 
-      if (Array.isArray(oneData.data)) {
+      if (!Array.isArray(oneData.data)) {
         return;
       }
 
@@ -46,7 +46,7 @@ export default function highchartsDataToG2Data(data, config) {
     data.forEach((oneData) => {
       const { name: dataName } = oneData;
 
-      if (Array.isArray(oneData.data)) {
+      if (!Array.isArray(oneData.data)) {
         return;
       }
 
