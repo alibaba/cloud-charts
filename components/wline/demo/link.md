@@ -13,14 +13,14 @@ title:
 
 
 ````jsx
-import { Wcontainer, Wline, Util } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wbar, Util } from '@alife/aisc-widgets';
 
 let options1 = {
-  xAxis: {type: 'time'},
+  xAxis: {type: 'timeCat'},
 };
 
 let options2 = {
-  xAxis: {type: 'time'},
+  xAxis: {type: 'timeCat'},
 };
 
 let data1 = [
@@ -56,11 +56,12 @@ class Demo extends React.Component{
     return (
       <div className="demos-box">
         <Wcontainer className="demos">
-          <Wline ref={line => this.line1 = line} height="250" config={options1} data={data1}/>
+          <Wbar ref={line => this.line1 = line} height="250" config={options1} data={data1}/>
         </Wcontainer>
         <Wcontainer className="demos" style={{marginTop: '20px'}}>
-          <Wline ref={line => this.line2 = line} height="250" config={options2} data={data2}/>
+          <Wbar ref={line => this.line2 = line} height="250" config={options2} data={data2}/>
         </Wcontainer>
+
       </div>
     );
   }

@@ -37,6 +37,7 @@
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc-portal-layout": "*",
     "@alife/brush": "*",
+    "@alife/g2-connect": "^0.1.1",
     "@antv/data-set": "^0.8.5",
     "@antv/g2": "^3.0.3",
     "autoprefixer": "^6.3.6",

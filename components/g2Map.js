@@ -1,7 +1,7 @@
 import G2 from '@antv/g2';
 import * as DataSet from '@antv/data-set';
+import g2Connect from '@alife/g2-connect';
 import * as common from './chartCommon/common';
-import g2Connect from './chartCommon/g2Connect';
 
 import g2Factory from './chartCommon/g2Factory';
 
