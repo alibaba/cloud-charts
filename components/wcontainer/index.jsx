@@ -51,6 +51,9 @@ export default class Wcontainer extends React.Component {
       <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
         <Row align="center">
           {React.Children.map(this.props.children, (child, i) => {
+            if (!child) {
+              return child;
+            }
             if (oneChild) {
               return (
                 <Col span="24" key={i}>
