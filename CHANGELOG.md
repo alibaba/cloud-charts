@@ -1,3 +1,16 @@
+### 2.1.1 (2018-03-01)
+
+#### New Features
+
+- 新增图表联动功能，已提取为公共tnpm包，可推广给其它G2使用者使用。
+  - 思路：<https://github.com/antvis/g2/issues/485>
+  - 包地址：<http://web.npm.alibaba-inc.com/package/@alife/g2-connect>
+  - 示例：<http://riddle.alibaba-inc.com/riddles/a49ae3a6>
+
+#### Bug Fixes
+
+- 逻辑细节优化，减少错误输入导致报错的可能。
+
 ### 2.1.0 (2018-02-08)
 
 #### New Features
