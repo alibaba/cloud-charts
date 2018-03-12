@@ -10,6 +10,8 @@ import './index.scss';
 const prefix = 'aisc-wcircle';
 
 export default class Wcircle extends React.Component {
+  static displayName = 'Wcircle';
+
   static defaultProps = {
     type: 'circle',
     title: '',
