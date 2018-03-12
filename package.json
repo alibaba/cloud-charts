@@ -40,6 +40,7 @@
     "@alife/g2-connect": "^0.1.1",
     "@antv/data-set": "^0.8.5",
     "@antv/g2": "^3.0.3",
+    "@antv/g2-brush": "^0.0.2",
     "autoprefixer": "^6.3.6",
     "babel-cli": "~6.7.5",
     "babel-core": "~6.7.4",
