@@ -36,13 +36,22 @@ let data = [
 
 
 class Demo extends React.Component{
-
+  state = {
+    str: '11111'
+  }
+  componentWillMount() {
+    setTimeout(() => {
+      this.setState({
+        str: '2333'
+      })
+    }, 2000);
+  }
   render(){
     return (
       <div className="demos">
-        <div className="demo-item">
-          <WG2Pie height={300} config={options} data={data}>
-            <Wnumber bottomTitle="副标题" unit="个" rightTitle="副标题">2222</Wnumber>
+        <div className="demo-item" style={{height: 500}}>
+          <WG2Pie config={options} data={data}>
+            <Wnumber bottomTitle="副标题" unit="个" rightTitle="副标题">{this.state.str}</Wnumber>
           </WG2Pie>
         </div>
       </div>

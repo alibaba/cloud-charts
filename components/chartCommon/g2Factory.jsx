@@ -301,9 +301,9 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     shouldComponentUpdate (nextProps) {
-      const { className: newClass, style: newStyle } = nextProps;
-      const { className: oldClass, style: oldStyle } = this.props;
-      return newClass !== oldClass || newStyle !== oldStyle;
+      const { className: newClass, style: newStyle, children: newChild } = nextProps;
+      const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
+      return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
     }
 
     // componentWillUpdate (nextProps) {}
