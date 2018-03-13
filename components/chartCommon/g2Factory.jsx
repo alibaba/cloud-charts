@@ -108,6 +108,12 @@ const theme = G2.Util.deepMix({}, G2.Global, {
     // 这里必须传数字，所以不能直接引用
     radius: 4
   },
+  tooltipCrosshairsRect: {
+    style: {
+      fill: color['widgets-tooltip-cross-react'],
+      opacity: color['widgets-tooltip-cross-react-opacity']
+    }
+  },
   tooltipCrosshairsLine: {
     style: {
       stroke: color.colorN17,
