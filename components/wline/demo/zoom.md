@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { Wline } from '@alife/aisc-widgets';
+import { Wcontainer, Wline } from '@alife/aisc-widgets';
 
 let data = [
   {
@@ -25,19 +25,21 @@ let data = [
   }
 ];
 
-let options1 = {
-  xAxis: {type: 'time'},
+let options = {
+  padding: [40, 5, 24, 44],
+  xAxis: {
+    type: 'time',
+    mask: 'YYYY-MM-DD'
+  },
   zoom: true
 };
 
 class Demo extends React.Component{
   render(){
     return (
-      <div className="demos">
-        <div className="demo-item" style={{height: "298px"}}>
-            <Wline config={options1} data={data}/>
-        </div>
-      </div>
+      <Wcontainer className="demos" height="300">
+        <Wline config={options} data={data}/>
+      </Wcontainer>
     );
   }
 }
