@@ -307,9 +307,11 @@ class ResetButton {
   }
 
   destroy() {
-    this.dom.removeEventListener('click', this.handleClick);
-    this.dom.parentNode.removeChild(this.dom);
-    this.dom = null;
+    if (this.dom) {
+      this.dom.removeEventListener('click', this.handleClick);
+      this.dom.parentNode.removeChild(this.dom);
+      this.dom = null;
+    }
     this.chart = null;
   }
 }
