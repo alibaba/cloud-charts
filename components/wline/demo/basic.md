@@ -26,7 +26,7 @@ let data = [
 ];
 
 let options1 = {
-  xAxis: {type: 'time'},
+  xAxis: {type: 'time', tickCount: 10, autoRotate: true},
 };
 
 class Demo extends React.Component{

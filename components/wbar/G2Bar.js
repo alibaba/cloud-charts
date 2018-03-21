@@ -14,6 +14,7 @@ const defaultConfig = {
     type: 'cat',
     labelFormatter: null, //可以强制覆盖，手动设置label
     categories: null,
+    autoRotate: false,
   },
   yAxis: {
     labelFormatter: null, //可以强制覆盖，手动设置label
@@ -77,6 +78,7 @@ export default {
     const xAxis = {
       title: null, // 不展示坐标轴的标题
       label:{
+        autoRotate: config.xAxis.autoRotate,
         formatter:config.xAxis.labelFormatter,
       }
     };

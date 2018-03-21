@@ -16,6 +16,7 @@ const defaultConfig = {
     mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
     labelFormatter: null, //可以强制覆盖，手动设置label
     categories: null,
+    autoRotate: false,
     max: null,
     min: null,
   },
@@ -108,7 +109,8 @@ export default {
     const xAxis = {
       title: null, // 不展示坐标轴的标题
       label:{
-        formatter:config.xAxis.labelFormatter,
+        autoRotate: config.xAxis.autoRotate,
+        formatter: config.xAxis.labelFormatter,
       }
     };
 

@@ -12,7 +12,8 @@ const defaultConfig = {
   colors: color.category_12,
   xAxis: {
     type: 'linear',
-    mask: 'YYYY-MM-DD HH:mm:ss'
+    mask: 'YYYY-MM-DD HH:mm:ss',
+    autoRotate: false,
   },
   yAxis: {
     min: 0
@@ -27,6 +28,7 @@ const setAxis = (chart, config) => {
   const xAxis = {
     title: null, // 不展示坐标轴的标题
     label: {
+      autoRotate: config.xAxis.autoRotate,
       formatter: config.xAxis.labelFormatter
     }
   };
