@@ -1,5 +1,5 @@
 ﻿---
-order: 2
+order: 3
 title:
   zh-CN: 基本
   en-US: Basic
@@ -54,7 +54,7 @@ class Demo extends React.Component{
           this.state.data ?
             <Wline config={options} data={this.state.data}/>
             :
-            <Wplaceholder>加载中...</Wplaceholder>
+            <Wplaceholder loading />
         }
       </Wcontainer>
     );

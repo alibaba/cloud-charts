@@ -1,10 +1,6 @@
 @import "../theme/normal";
-$width: 44px;
-$height: 40px;
+$height: 32px;
 
-$item-y-position-1: 15;
-$item-y-position-2: 8;
-$item-y-position-3: 0;
 $item-height-1: 20px;
 $item-height-2: 26px;
 $item-height-3: 32px;
@@ -23,14 +19,9 @@ $wplaceholder-prefix: '.aisc-wplaceholder';
   justify-content: center;
   text-align: center;
 
-  .placeholder-box {
-    //position: absolute;
-    //top: 50%;
-    //left: 50%;
-    //margin-left: - $width / 2;
-    //margin-top: - $height / 2;
-  }
+  .placeholder-box {}
 
+  // 加载动画
   &#{$wplaceholder-prefix}-loading {
     .item-1 {
       animation: wplaceholder-loading-1 1s linear 0s infinite;
