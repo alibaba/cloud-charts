@@ -1,5 +1,5 @@
 ﻿---
-order: 0
+order: 2
 title:
   zh-CN: 基本
   en-US: Basic
