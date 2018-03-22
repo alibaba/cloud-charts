@@ -61,10 +61,10 @@ export default {
     let defaultPaddingRight = defaultConfig.padding[1];
     let defaultPaddingBottom = defaultConfig.padding[2];
     let defaultPaddingLeft = defaultConfig.padding[3];
-    if (Array.isArray(newConfig.yAxis)) {
+    if (defaultPaddingRight !== 'auto' && Array.isArray(newConfig.yAxis)) {
       defaultPaddingRight = 44;
     }
-    if (!newConfig.legend) {
+    if (defaultPaddingTop !== 'auto' && !newConfig.legend) {
       defaultPaddingTop = 16;
     }
     return Object.assign({}, props, {
