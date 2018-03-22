@@ -28,7 +28,7 @@ export default {
     const {config} = props;
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
-    const outerRadius = config.outerRadius || defaultConfig.outerRadius;
+    const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
 
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
@@ -56,7 +56,7 @@ export default {
   },
   changeSize(chart, config, w, h) {
     const padding = config.padding || defaultConfig.padding;
-    const outerRadius = config.outerRadius || defaultConfig.outerRadius;
+    const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
     
     const boxHeight = h - padding[0] - padding[2];
     const boxWidth = w - padding[1] - padding[3];
