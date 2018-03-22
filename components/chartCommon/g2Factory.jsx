@@ -92,7 +92,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       width: '6px',
       height: '6px',
       border: 'none',
-      marginRight: size.s1,
+      marginRight: size.s3,
     },
   },
   tooltipMarker: {
