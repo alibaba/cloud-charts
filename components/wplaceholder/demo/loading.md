@@ -1,13 +1,13 @@
 ﻿---
 order: 1
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 加载状态
+  en-US: Loading
 ---
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+设置 loading，状态显示为加载中。
 
 ## en-US
 

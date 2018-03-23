@@ -1,13 +1,13 @@
 ﻿---
 order: 2
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 异常状态
+  en-US: Error
 ---
 
 ## zh-CN
 
-基础用法，演示了基本用法。
+设置 error，状态显示为数据异常。
 
 ## en-US
 
