@@ -41,7 +41,7 @@ let options = {
     mask: 'YYYY-MM-DD'
   },
   area: true,
-  stack: true,
+  //stack: true,
   zoom: true
 };
 

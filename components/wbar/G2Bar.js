@@ -1,10 +1,12 @@
 'use strict';
 
+import Brush from '@antv/g2-brush';
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
+import ResetButton from '../chartCommon/ResetButton';
 import './G2Bar.scss';
 
 const defaultConfig = {
@@ -34,6 +36,7 @@ const defaultConfig = {
   stack: false,
   stackReverse: true,
   grid: false,
+  zoom: false,
   // labels: false,
   polar: false,
 };
@@ -159,5 +162,22 @@ export default {
     // }
 
     chart.render();
+
+    if (config.zoom) {
+      const button = this.resetButton = new ResetButton(chart);
+
+      this.brush = new Brush({
+        canvas: chart.get('canvas'),
+        chart,
+        type: 'X',
+        onBrushstart() {
+          chart.hideTooltip();
+        },
+        onBrushmove() {
+          chart.hideTooltip();
+          button.show();
+        }
+      });
+    }
   }
 };

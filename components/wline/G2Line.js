@@ -6,6 +6,7 @@ import { color, size } from '../theme/normal';
 import { propertyAssign, getDataIndexColor, propertyMap, noop } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
+import ResetButton from '../chartCommon/ResetButton';
 import './G2Line.scss';
 
 const defaultConfig = {
@@ -39,8 +40,8 @@ const defaultConfig = {
   spline: false,
   grid: false,
   symbol:false,
+  zoom: false,
   // TODO
-  // zoom: false,
   // labels: false,
   // mini: false,
   // dataConfig: {
@@ -203,11 +204,7 @@ export default {
 
     chart.render();
 
-    // G2 3.0 暂不支持框选模式
     if (config.zoom) {
-    //   chart.setMode('select'); // 开启框选模式
-    //   chart.select('rangeX'); // 选择框选交互形式
-
       const button = this.resetButton = new ResetButton(chart);
 
       this.brush = new Brush({
@@ -255,65 +252,5 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
   } else if (config.symbol) {
     chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
-  }
-}
-
-class ResetButton {
-  constructor(chart) {
-    this.chart = chart;
-    this.isShow = false;
-    this.dom = null;
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.hide();
-  }
-
-  show() {
-    if (this.isShow) {
-      return;
-    }
-
-    if (this.dom) {
-      this.dom.style.display = 'block';
-      this.isShow = true;
-    } else {
-      const chart = this.chart;
-      const wrapper = chart.get('wrapperEl');
-      const range = chart.get('plotRange');
-      if (wrapper && range && range.tr) {
-        this.dom = document.createElement('span');
-        this.dom.innerText = '重置';
-        this.dom.className = 'widgets-reset-button';
-        this.dom.style.top = range.tr.y + 'px';
-        this.dom.style.right = (chart.get('width') - range.tr.x) + 'px';
-        wrapper.appendChild(this.dom);
-
-        this.isShow = true;
-
-        this.dom.addEventListener('click', this.handleClick);
-      }
-    }
-  }
-
-  hide() {
-    if (this.isShow && this.dom) {
-      this.chart.get('options').filters = {};
-      this.chart.repaint();
-      this.dom.style.display = 'none';
-      this.isShow = false;
-    }
-  }
-
-  destroy() {
-    if (this.dom) {
-      this.dom.removeEventListener('click', this.handleClick);
-      this.dom.parentNode.removeChild(this.dom);
-      this.dom = null;
-    }
-    this.chart = null;
   }
 }
