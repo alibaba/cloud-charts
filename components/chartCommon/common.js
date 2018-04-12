@@ -152,13 +152,18 @@ export function beautifyNumber(num, char = ',') {
   if (isInvalidNumber(num)) {
     return '-';
   }
-  let number = num.toString().split('.')[0], result = '';
+  const isNegative = num < 0;
+  let number = num.toString().split('.')[0].replace('-', ''), result = '';
   while (number.length > 3) {
     result = char + number.slice(-3) + result;
     number = number.slice(0, number.length - 3);
   }
   if (number) {
     result = number + result;
+  }
+  // 处理负数
+  if (isNegative) {
+    result = '-' + result;
   }
   return result;
 }
