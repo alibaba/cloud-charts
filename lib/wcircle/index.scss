@@ -13,7 +13,7 @@
         display: inline-block;
         vertical-align: top;
         #{$wcircle-prefix}-svg-bg{
-          stroke: $color-n1-3;
+          stroke: $widgets-mini-card-empty;
           stroke-linejoin: round;
           stroke-linecap: round;
           //opacity: 0.1;
