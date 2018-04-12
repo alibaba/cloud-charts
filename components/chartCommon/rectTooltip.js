@@ -7,6 +7,9 @@ export default function (chart, config, customConfig) {
     const tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
+      itemTpl: '<li data-index={index}>'
+        + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
+        + '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
     };
     if (customConfig) {
       Object.assign(tooltipCfg, customConfig);
