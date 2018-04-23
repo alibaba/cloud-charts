@@ -113,7 +113,7 @@ export default {
       radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.8
     };
     if (config.cycle) {
-      thetaConfig.innerRadius = config.innerRadius;
+      thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
     }
     chart.coord('theta', thetaConfig);
 
