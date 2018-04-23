@@ -288,7 +288,7 @@ function g2Factory(name, Chart, convertData = true) {
         console.warn('padding 不支持修改');
       }
 
-      if (newData !== oldData || newData.length !== oldData.length) {
+      if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
         this.rawData = newData;
         if (ChartProcess.changeData) {
