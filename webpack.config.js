@@ -174,7 +174,7 @@ function dev() {
   // 添加soure-map
   _config.devtool = 'source-map';
   // 入口文件添加server 和 hrm
-  _config.entry = getDevEntry(demoPath);
+  _config.entry = Object.assign(getDevEntry(demoPath), getDevEntry(srcPath));
 
   return _config;
 }
