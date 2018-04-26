@@ -14,7 +14,6 @@ title:
 
 ````jsx
 import { Wmap } from '@alife/aisc-widgets';
-import chinaData from '../china';
 
 let data = [
   { id: '广东', count: 20 },
