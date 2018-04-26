@@ -15,7 +15,7 @@ export Wplaceholder from './wplaceholder/index';
 export const COLORS = color;
 
 // 所有图表组件，这里底层依赖G2
-export * from './g2Map';
+export * from './g2Charts';
 // import * as highchartsMap from './highchartsMap';
 //
 // export const WG2Line = g2Map.WG2Line;
