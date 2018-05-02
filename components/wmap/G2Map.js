@@ -1,12 +1,13 @@
 'use strict';
 
-import merge from '../utils/merge';
-import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
+import { geoConicEqualArea } from 'd3-geo';
+import merge from '../utils/merge';
 import chinaGeo from './chinaGeo';
+import { color, size } from '../theme/normal';
 
 const defaultConfig = {
-  padding: [40, 40, 40, 40],
+  padding: [0, 0, 0, 0],
   type: 'china',
   legend: {
     align: 'left',
@@ -19,6 +20,9 @@ const defaultConfig = {
   },
   labels: false,
 };
+
+// 这几个地点太小，需要特殊处理边框颜色
+const minArea = ['钓鱼岛', '赤尾屿', '澳门'];
 
 export default {
   beforeInit(props) {
@@ -48,6 +52,9 @@ export default {
       },
     });
 
+    // 设置了 geo.projection 变换后，几何体的坐标系和图表的坐标系（从左下角到右上角）上下相反，所以设置镜像使地图的坐标正确。
+    chart.coord().reflect();
+
     chart.axis(false);
 
     // 设置图例
@@ -69,17 +76,59 @@ export default {
     }
 
     const ds = new DataSet();
-    const bgMapDataView = ds.createView('back')
+    const bgMapDataView = ds.createView('bgMap')
       .source(geoData, {
         type: 'GeoJSON'
+      }).transform({
+        type: 'geo.projection',
+        // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
+        projection: () => {
+          return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+        },
+        as: ['x', 'y', 'cX', 'cY'],
       });
+
+    if (config.type === 'china') {
+      // 过滤掉南海诸岛
+      bgMapDataView.transform({
+        type: 'filter',
+        callback(row) {
+          return row.properties.name !== '南海诸岛';
+        }
+      });
+    }
+
+    // start: 按照投影后尺寸比例调整图表的真实比例
+    const longitudeRange = bgMapDataView.range('x');
+    const latitudeRange = bgMapDataView.range('y');
+    const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+    const { width: chartWidth, height: chartHeight } = chart._attrs;
+    const chartRatio = chartWidth / chartHeight;
+
+    let width = chartWidth;
+    let height = chartHeight;
+    if (chartRatio > ratio) {
+      width = chartHeight * ratio;
+    } else if (chartRatio < ratio) {
+      height = chartWidth / ratio
+    }
+    if (width !== chartWidth || height !== chartHeight) {
+      chart.changeSize(width, height);
+    }
+    // end: 按照投影后尺寸比例调整图表的真实比例
 
     const bgMapView = chart.view();
     bgMapView.source(bgMapDataView);
     bgMapView.tooltip(false);
-    bgMapView.polygon().position('longitude*latitude').style({
-      fill: '#fff',
-      stroke: '#ccc',
+    bgMapView.polygon().position('x*y').style('name', {
+      fill: color.widgetsMapAreaBg,
+      stroke: (name) => {
+        // 对一些尺寸非常小的形状特殊处理，以显示出来。
+        if (minArea.indexOf(name) > -1) {
+          return color.widgetsMapAreaBg;
+        }
+        return color.widgetsMapAreaBorder;
+      },
       lineWidth: 1
     });
 

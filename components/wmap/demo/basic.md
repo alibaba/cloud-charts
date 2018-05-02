@@ -13,7 +13,7 @@ title:
 
 
 ````jsx
-import { Wmap } from '@alife/aisc-widgets';
+import { Wcontainer, Wmap } from '@alife/aisc-widgets';
 
 let data = [
   { id: '广东', count: 20 },
@@ -25,19 +25,15 @@ let data = [
 ];
 
 let options = {
-  defs: {},
   tooltip: false,
-  geoData: chinaData
 };
 
 class Demo extends React.Component{
   render(){
     return (
-      <div className="demos">
-        <div className="demo-item">
-            <Wmap width={800} height={600} config={options} data={[]}/>
-        </div>
-      </div>
+      <Wcontainer height={640} style={{ width: 560 }}>
+        <Wmap config={options} data={data}/>
+      </Wcontainer>
     );
   }
 }
