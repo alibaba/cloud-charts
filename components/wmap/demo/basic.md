@@ -16,12 +16,12 @@ title:
 import { Wcontainer, Wmap } from '@alife/aisc-widgets';
 
 let data = [
-  { id: '广东', count: 20 },
-  { id: '新疆', count: 1 },
-  { id: '山西', count: 5 },
-  { id: '山东', count: 10 },
-  { id: '浙江', count: 32 },
-  { id: '青海', count: 3 }
+  { name: '广东', value: 20 },
+  { name: '新疆', value: 1 },
+  { name: '山西', value: 5 },
+  { name: '山东', value: 10 },
+  { name: '浙江', value: 32 },
+  { name: '青海', value: 22 }
 ];
 
 let options = {

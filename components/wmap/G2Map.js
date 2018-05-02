@@ -8,6 +8,13 @@ import { color, size } from '../theme/normal';
 
 const defaultConfig = {
   padding: [0, 0, 0, 0],
+  colors: (() => {
+    const result = [];
+    for (let i = 1; i <= 10; i++) {
+      result.push(color[`widgetsColorCategory${i}`]);
+    }
+    return result;
+  })(),
   type: 'china',
   legend: {
     align: 'left',
@@ -48,6 +55,12 @@ export default {
         sync: true
       },
       latitude: {
+        sync: true
+      },
+      x: {
+        sync: true
+      },
+      y: {
         sync: true
       },
     });
@@ -132,7 +145,33 @@ export default {
       lineWidth: 1
     });
 
-
+    // 绘制数据层
+    const areaMapDataView = ds.createView()
+      .source(data)
+      .transform({
+        geoDataView: bgMapDataView,
+        field: 'name',
+        type: 'geo.region',
+        as: [ 'x', 'y' ]
+      // })
+      // .transform({
+      //   type: 'map',
+      //   callback: function(obj) {
+      //     obj.trend = (obj.value > 100) ? '男性更多' : '女性更多';
+      //     return obj;
+      //   }
+      });
+    const areaMapView = chart.view();
+    areaMapView.source(areaMapDataView);
+    areaMapView.polygon().position('x*y')
+      .color(config.colors)
+      .opacity('value')
+      .tooltip('name*value')
+      // .animate({
+      //   leave: {
+      //     animation: 'fadeOut'
+      //   }
+      // });
 
     // tooltip
     // if (config.tooltip) {
