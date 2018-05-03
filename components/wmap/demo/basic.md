@@ -15,6 +15,7 @@ title:
 ````jsx
 import { Wcontainer, Wmap } from '@alife/aisc-widgets';
 
+
 let data = [
   { name: '广东', value: 20 },
   { name: '新疆', value: 1 },

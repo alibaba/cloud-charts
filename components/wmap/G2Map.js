@@ -5,6 +5,7 @@ import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
 import chinaGeo from './chinaGeo';
 import { color, size } from '../theme/normal';
+import './G2Map.scss';
 
 const defaultConfig = {
   padding: [0, 0, 0, 0],
@@ -16,6 +17,7 @@ const defaultConfig = {
     return result;
   })(),
   type: 'china',
+  showSouthChinaSea: true,
   legend: {
     align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label
