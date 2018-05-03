@@ -11,7 +11,7 @@ const defaultConfig = {
   colors: (() => {
     const result = [];
     for (let i = 1; i <= 10; i++) {
-      result.push(color[`widgetsColorCategory${i}`]);
+      result.push(color[`widgetsColorLinear${i}`]);
     }
     return result;
   })(),
@@ -76,80 +76,15 @@ export default {
     //   position: 'left'
     // });
 
-    // 绘制地图背景
-    let geoData = null;
-    if (this.geoData) {
-      // 如果用户有传geoData，优先使用
-      geoData = this.geoData;
-    } else if (config.type === 'china') {
-      // 自带中国地图数据
-      geoData = chinaGeo;
-    } else {
-      console.warn('map: no geo data, can\'t draw the map!');
-    }
-
     const ds = new DataSet();
-    const bgMapDataView = ds.createView('bgMap')
-      .source(geoData, {
-        type: 'GeoJSON'
-      }).transform({
-        type: 'geo.projection',
-        // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
-        projection: () => {
-          return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
-        },
-        as: ['x', 'y', 'cX', 'cY'],
-      });
 
-    if (config.type === 'china') {
-      // 过滤掉南海诸岛
-      bgMapDataView.transform({
-        type: 'filter',
-        callback(row) {
-          return row.properties.name !== '南海诸岛';
-        }
-      });
-    }
-
-    // start: 按照投影后尺寸比例调整图表的真实比例
-    const longitudeRange = bgMapDataView.range('x');
-    const latitudeRange = bgMapDataView.range('y');
-    const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
-    const { width: chartWidth, height: chartHeight } = chart._attrs;
-    const chartRatio = chartWidth / chartHeight;
-
-    let width = chartWidth;
-    let height = chartHeight;
-    if (chartRatio > ratio) {
-      width = chartHeight * ratio;
-    } else if (chartRatio < ratio) {
-      height = chartWidth / ratio
-    }
-    if (width !== chartWidth || height !== chartHeight) {
-      chart.changeSize(width, height);
-    }
-    // end: 按照投影后尺寸比例调整图表的真实比例
-
-    const bgMapView = chart.view();
-    bgMapView.source(bgMapDataView);
-    bgMapView.tooltip(false);
-    bgMapView.polygon().position('x*y').style('name', {
-      fill: color.widgetsMapAreaBg,
-      stroke: (name) => {
-        // 对一些尺寸非常小的形状特殊处理，以显示出来。
-        if (minArea.indexOf(name) > -1) {
-          return color.widgetsMapAreaBg;
-        }
-        return color.widgetsMapAreaBorder;
-      },
-      lineWidth: 1
-    });
+    drawMapBackground.call(this, chart, ds, config);
 
     // 绘制数据层
     const areaMapDataView = ds.createView()
       .source(data)
       .transform({
-        geoDataView: bgMapDataView,
+        geoDataView: this.bgMapDataView,
         field: 'name',
         type: 'geo.region',
         as: [ 'x', 'y' ]
@@ -164,14 +99,12 @@ export default {
     const areaMapView = chart.view();
     areaMapView.source(areaMapDataView);
     areaMapView.polygon().position('x*y')
-      .color(config.colors)
-      .opacity('value')
-      .tooltip('name*value')
-      // .animate({
-      //   leave: {
-      //     animation: 'fadeOut'
-      //   }
-      // });
+      // 颜色倒序，否则颜色对应的数值会从小开始
+      .color('value', config.colors.slice(0).reverse())
+      // .opacity('value')
+      .tooltip('name*value');
+
+    this.areaMapView = areaMapView;
 
     // tooltip
     // if (config.tooltip) {
@@ -268,5 +201,79 @@ export default {
     // }
   }
 };
+
+function drawMapBackground(chart, ds, config) {
+  // 绘制地图背景
+  let geoData = null;
+  if (this.geoData) {
+    // 如果用户有传geoData，优先使用
+    geoData = this.geoData;
+  } else if (config.type === 'china') {
+    // 自带中国地图数据
+    geoData = chinaGeo;
+  } else {
+    console.warn('map: no geo data, can\'t draw the map!');
+  }
+
+
+  const bgMapDataView = ds.createView('bgMap')
+    .source(geoData, {
+      type: 'GeoJSON'
+    }).transform({
+      type: 'geo.projection',
+      // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
+      projection: () => {
+        return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+      },
+      as: ['x', 'y', 'cX', 'cY'],
+    });
+
+  if (config.type === 'china') {
+    // 过滤掉南海诸岛
+    bgMapDataView.transform({
+      type: 'filter',
+      callback(row) {
+        return row.properties.name !== '南海诸岛';
+      }
+    });
+  }
+
+  // start: 按照投影后尺寸比例调整图表的真实比例
+  const longitudeRange = bgMapDataView.range('x');
+  const latitudeRange = bgMapDataView.range('y');
+  const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+  const { width: chartWidth, height: chartHeight } = chart._attrs;
+  const chartRatio = chartWidth / chartHeight;
+
+  let width = chartWidth;
+  let height = chartHeight;
+  if (chartRatio > ratio) {
+    width = chartHeight * ratio;
+  } else if (chartRatio < ratio) {
+    height = chartWidth / ratio
+  }
+  if (width !== chartWidth || height !== chartHeight) {
+    chart.changeSize(width, height);
+  }
+  // end: 按照投影后尺寸比例调整图表的真实比例
+
+  const bgMapView = chart.view();
+  bgMapView.source(bgMapDataView);
+  bgMapView.tooltip(false);
+  bgMapView.polygon().position('x*y').style('name', {
+    fill: color.widgetsMapAreaBg,
+    stroke: (name) => {
+      // 对一些尺寸非常小的形状特殊处理，以显示出来。
+      if (minArea.indexOf(name) > -1) {
+        return color.widgetsMapAreaBg;
+      }
+      return color.widgetsMapAreaBorder;
+    },
+    lineWidth: 1
+  });
+
+  this.bgMapDataView = bgMapDataView;
+  this.bgMapView = bgMapView;
+}
 
 
