@@ -243,13 +243,13 @@ function g2Factory(name, Chart, convertData = true) {
       this.autoResize = this.autoResize.bind(this);
     }
 
-    // componentWillMount () {}
+    componentWillMount () {
+      if (this.props.customChart) {
+        this.chartProcess = ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
+      }
+    }
 
     componentDidMount () {
-      if (this.props.customChart) {
-        ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
-      }
-
       // 设置初始高宽
       this.setSize();
 

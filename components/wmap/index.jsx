@@ -1,3 +1,4 @@
+import React from 'react';
 import g2Factory from "../chartCommon/g2Factory";
 import G2Map from "./G2Map";
 import SouthChinaSea from './southChinaSea';
@@ -14,13 +15,29 @@ const southChinaSea = SouthChinaSea({
   islandColor: color.widgetsMapAreaBg
 });
 
-export default class Map extends MapBase {
+class Map extends MapBase {
   constructor(props, context) {
     super(props, context);
   }
 
+  componentWillMount() {
+    super.componentWillMount();
+
+    this.convertChildren(this.props.children);
+  }
+
   componentWillReceiveProps(nextProps) {
+    this.convertChildren(this.props.children);
+
     super.componentWillReceiveProps(nextProps);
+  }
+
+  convertChildren(children) {
+    React.Children.forEach(children, function (child) {
+      if (!child) {
+        return;
+      }
+    });
   }
 
   render() {
@@ -35,3 +52,18 @@ export default class Map extends MapBase {
     );
   }
 }
+
+// 地图不需要校验data
+delete Map.propTypes.data;
+
+/**
+ * @return {null}
+ */
+Map.Area = function MapArea() { return null; };
+
+/**
+ * @return {null}
+ */
+Map.Point = function MapPoint() { return null; };
+
+export default Map;

@@ -1,5 +1,6 @@
 'use strict';
 
+import React from 'react';
 import { DataSet } from '@antv/data-set';
 import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
@@ -28,6 +29,10 @@ const defaultConfig = {
     valueFormatter: null,
   },
   labels: false,
+};
+
+const chinaProjection = () => {
+  return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
 };
 
 // 这几个地点太小，需要特殊处理边框颜色
@@ -82,31 +87,17 @@ export default {
 
     drawMapBackground.call(this, chart, ds, config);
 
-    // 绘制数据层
-    const areaMapDataView = ds.createView()
-      .source(data)
-      .transform({
-        geoDataView: this.bgMapDataView,
-        field: 'name',
-        type: 'geo.region',
-        as: [ 'x', 'y' ]
-      // })
-      // .transform({
-      //   type: 'map',
-      //   callback: function(obj) {
-      //     obj.trend = (obj.value > 100) ? '男性更多' : '女性更多';
-      //     return obj;
-      //   }
-      });
-    const areaMapView = chart.view();
-    areaMapView.source(areaMapDataView);
-    areaMapView.polygon().position('x*y')
-      // 颜色倒序，否则颜色对应的数值会从小开始
-      .color('value', config.colors.slice(0).reverse())
-      // .opacity('value')
-      .tooltip('name*value');
-
-    this.areaMapView = areaMapView;
+    React.Children.forEach(this.props.children, (child) => {
+      if (!child) {
+        return;
+      }
+      if (child.type.name === 'MapArea') {
+        drawMapArea.call(this, chart, ds, config, child.props.data);
+      }
+      if (child.type.name === 'MapPoint') {
+        drawMapPoint.call(this, chart, ds, config, child.props.data);
+      }
+    });
 
     // tooltip
     // if (config.tooltip) {
@@ -224,9 +215,7 @@ function drawMapBackground(chart, ds, config) {
     }).transform({
       type: 'geo.projection',
       // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
-      projection: () => {
-        return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
-      },
+      projection: chinaProjection,
       as: ['x', 'y', 'cX', 'cY'],
     });
 
@@ -278,4 +267,65 @@ function drawMapBackground(chart, ds, config) {
   this.bgMapView = bgMapView;
 }
 
+function drawMapArea(chart, ds, config, data) {
+  // 绘制数据层
+  const areaMapDataView = ds.createView()
+    .source(data)
+    .transform({
+      geoDataView: this.bgMapDataView,
+      field: 'name',
+      type: 'geo.region',
+      as: [ 'x', 'y' ]
+      // })
+      // .transform({
+      //   type: 'map',
+      //   callback: function(obj) {
+      //     obj.trend = (obj.value > 100) ? '男性更多' : '女性更多';
+      //     return obj;
+      //   }
+    });
+  const areaMapView = chart.view();
+  areaMapView.source(areaMapDataView);
+  areaMapView.polygon().position('x*y')
+  // 颜色倒序，否则颜色对应的数值会从小开始
+    .color('value', config.colors.slice(0).reverse())
+    // .opacity('value')
+    .tooltip('name*value');
 
+  this.areaMapView = areaMapView;
+}
+
+function drawMapPoint(chart, ds, config, data) {
+  // 绘制数据层
+  const pointMapDataView = ds.createView()
+    .source(data)
+    .transform({
+      type: 'map',
+      callback: d => {
+        if (d.x && d.y) {
+          return d;
+        }
+        if (d.lng && d.lat) {
+          const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(d.lng), Number(d.lat)], chinaProjection);
+          d.x = projectedCoord[0];
+          d.y = projectedCoord[1];
+        }
+        if (d.name) {
+
+        }
+        return d;
+      }
+    });
+
+  const pointMapView = chart.view();
+  pointMapView.source(pointMapDataView);
+  pointMapView.point().position('x*y')
+    .shape('circle')
+    // 颜色倒序，否则颜色对应的数值会从小开始
+    .color('value', config.colors.slice(0).reverse())
+    .size(4)
+    // .opacity('value')
+    .tooltip('name*value');
+
+  this.pointMapView = pointMapView;
+}
