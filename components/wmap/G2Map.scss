@@ -1,5 +1,9 @@
 .aisc-widgets.G2Map {
   position: relative;
+  // 使缩放后的地图居中
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .aisc-widgets-map-south-china-sea {
     position: absolute;

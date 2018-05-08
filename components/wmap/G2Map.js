@@ -267,8 +267,8 @@ function drawMapBackground(chart, ds, config) {
   this.bgMapView = bgMapView;
 }
 
+// 绘制分级统计地图
 function drawMapArea(chart, ds, config, data) {
-  // 绘制数据层
   const areaMapDataView = ds.createView()
     .source(data)
     .transform({
@@ -295,37 +295,62 @@ function drawMapArea(chart, ds, config, data) {
   this.areaMapView = areaMapView;
 }
 
+// 绘制散点图
 function drawMapPoint(chart, ds, config, data) {
-  // 绘制数据层
   const pointMapDataView = ds.createView()
     .source(data)
     .transform({
       type: 'map',
-      callback: d => {
-        if (d.x && d.y) {
-          return d;
-        }
-        if (d.lng && d.lat) {
-          const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(d.lng), Number(d.lat)], chinaProjection);
-          d.x = projectedCoord[0];
-          d.y = projectedCoord[1];
-        }
-        if (d.name) {
-
-        }
-        return d;
-      }
+      callback: convertPointPosition
     });
 
   const pointMapView = chart.view();
   pointMapView.source(pointMapDataView);
   pointMapView.point().position('x*y')
     .shape('circle')
-    // 颜色倒序，否则颜色对应的数值会从小开始
     .color('value', config.colors.slice(0).reverse())
     .size(4)
     // .opacity('value')
-    .tooltip('name*value');
+    .tooltip('name*value')
+    .active(false);
 
   this.pointMapView = pointMapView;
+}
+
+function convertTypeData(data) {
+  if (!Array.isArray(data)) {
+    return [];
+  }
+  const result = [];
+  data.forEach((item) => {
+    const { name, data } = item;
+    if (!Array.isArray(data)) {
+      return;
+    }
+    data.forEach((d) => {
+      if (!d.type) {
+        d.type = name || 'type';
+      }
+
+      result.push(d);
+    });
+  });
+
+  return result;
+}
+
+// 设置数据的坐标点
+function convertPointPosition(point) {
+  if (point.x && point.y) {
+    return d;
+  }
+  if (point.lng && point.lat) {
+    const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(point.lng), Number(point.lat)], chinaProjection);
+    point.x = projectedCoord[0];
+    point.y = projectedCoord[1];
+  }
+  if (point.name) {
+
+  }
+  return point;
 }
