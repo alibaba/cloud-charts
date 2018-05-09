@@ -251,7 +251,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     componentDidMount () {
       // 设置初始高宽
-      this.setSize();
+      this.initSize();
 
       // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
@@ -328,17 +328,10 @@ function g2Factory(name, Chart, convertData = true) {
       this.chartId = null;
     }
 
-    setSize() {
+    initSize() {
       const element = this.chartDom;
       const size = getParentSize(element, this.props.width, this.props.height);
-      this._size = size;
-
-      if (size[0]) {
-        element.style.width = size[0] + 'px';
-      }
-      if (size[1]) {
-        element.style.height = size[1] + 'px';
-      }
+      this.setSize(size);
 
       window.addEventListener('resize', this.autoResize);
     }
@@ -357,13 +350,8 @@ function g2Factory(name, Chart, convertData = true) {
 
         const size = getParentSize(element, props.width, props.height);
         if(!(size[0] === _size[0] && size[1] === _size[1])){
-          if (size[0]) {
-            element.style.width = size[0] + 'px';
-          }
-          if (size[1]) {
-            element.style.height = size[1] + 'px';
-          }
-          this._size = size;
+          this.setSize(size);
+
           if (ChartProcess.changeSize) {
             this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, size[0], size[1]);
           } else {
@@ -371,6 +359,18 @@ function g2Factory(name, Chart, convertData = true) {
           }
         }
       })
+    }
+
+    setSize(size) {
+      const element = this.chartDom;
+      this._size = size;
+
+      if (size[0]) {
+        element.style.width = size[0] + 'px';
+      }
+      if (size[1]) {
+        element.style.height = size[1] + 'px';
+      }
     }
 
     render() {
