@@ -47,7 +47,7 @@ export default {
     }
 
     return Object.assign({}, props, {
-      padding: props.padding || config.padding,
+      padding: props.padding || newConfig.padding,
       config: newConfig
     });
   },
