@@ -87,6 +87,7 @@ export default {
 
     drawMapBackground.call(this, chart, ds, config);
 
+    const customPointLayer = [];
     React.Children.forEach(this.props.children, (child) => {
       if (!child) {
         return;
@@ -97,7 +98,16 @@ export default {
       if (child.type.name === 'MapPoint') {
         drawMapPoint.call(this, chart, ds, config, child.props.data);
       }
+      if (child.type.name === 'MapCustom') {
+        customPointLayer.push(child.props);
+      }
     });
+    this.setState({
+      customPointLayer
+    });
+
+    //
+    this.convertChildren();
 
     // tooltip
     // if (config.tooltip) {
@@ -301,7 +311,7 @@ function drawMapPoint(chart, ds, config, data) {
     .source(data)
     .transform({
       type: 'map',
-      callback: convertPointPosition
+      callback: convertPointPosition.bind(this)
     });
 
   const pointMapView = chart.view();
@@ -311,7 +321,7 @@ function drawMapPoint(chart, ds, config, data) {
     .color('value', config.colors.slice(0).reverse())
     .size(4)
     // .opacity('value')
-    .tooltip('name*value')
+    .tooltip('name*value*x*y')
     .active(false);
 
   this.pointMapView = pointMapView;
@@ -340,11 +350,11 @@ function convertTypeData(data) {
 }
 
 // 设置数据的坐标点
-function convertPointPosition(point) {
+export function convertPointPosition(point) {
   if (point.x && point.y) {
-    return d;
+    return point;
   }
-  if (point.lng && point.lat) {
+  if (this.bgMapDataView && point.lng && point.lat) {
     const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(point.lng), Number(point.lat)], chinaProjection);
     point.x = projectedCoord[0];
     point.y = projectedCoord[1];

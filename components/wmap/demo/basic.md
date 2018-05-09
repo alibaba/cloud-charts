@@ -1,5 +1,5 @@
 ﻿---
-order: 1
+order: 0
 title:
   zh-CN: 分级统计图
   en-US: Area
@@ -41,9 +41,7 @@ class Demo extends React.Component{
   render(){
     return (
       <Wcontainer height={600} style={{ width: 800 }}>
-        <Wmap config={options}>
-          <Wmap.Area data={data} />
-        </Wmap>
+        <Wmap config={options}></Wmap>
       </Wcontainer>
     );
   }
