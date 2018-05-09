@@ -65,9 +65,11 @@ export default {
         sync: true
       },
       x: {
+        nice: false,
         sync: true
       },
       y: {
+        nice: false,
         sync: true
       },
     });
