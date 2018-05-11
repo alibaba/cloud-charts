@@ -204,6 +204,20 @@ export default {
     //     });
     //   });
     // }
+  },
+  changeSize(chart, config, chartWidth, chartHeight) {
+    const chartRatio = chartWidth / chartHeight;
+    const ratio = this.bgMapRatio || chartRatio;
+
+    let width = chartWidth;
+    let height = chartHeight;
+    if (chartRatio > ratio) {
+      width = chartHeight * ratio;
+    } else if (chartRatio < ratio) {
+      height = chartWidth / ratio
+    }
+    chart.changeSize(width, height);
+
   }
 };
 
@@ -244,7 +258,7 @@ function drawMapBackground(chart, ds, config) {
   // start: 按照投影后尺寸比例调整图表的真实比例
   const longitudeRange = bgMapDataView.range('x');
   const latitudeRange = bgMapDataView.range('y');
-  const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+  const ratio = this.bgMapRatio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
   const { width: chartWidth, height: chartHeight } = chart._attrs;
   const chartRatio = chartWidth / chartHeight;
 
