@@ -41,7 +41,7 @@ let pointData = [
 ];
 
 let options = {
-  tooltip: false,
+
 };
 
 class Demo extends React.Component{

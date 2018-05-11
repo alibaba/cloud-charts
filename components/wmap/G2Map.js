@@ -24,7 +24,6 @@ const defaultConfig = {
     nameFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
-    titleFormatter: null,
     nameFormatter: null,
     valueFormatter: null,
   },
@@ -52,10 +51,6 @@ export default {
     });
   },
   init(chart, config, data) {
-    chart.tooltip({
-      showTitle: false
-    });
-
     // 同步度量
     chart.scale({
       longitude: {
@@ -78,6 +73,8 @@ export default {
     chart.coord().reflect();
 
     chart.axis(false);
+
+    mapTooltip(chart, config);
 
     // 设置图例
     chart.legend(false);
@@ -318,6 +315,8 @@ function drawMapArea(chart, ds, config, data) {
     // .opacity('value')
     .tooltip('name*value');
 
+  // mapTooltip(areaMapView, config);
+
   this.areaMapView = areaMapView;
 }
 
@@ -337,8 +336,10 @@ function drawMapPoint(chart, ds, config, data) {
     .color('value', config.colors.slice(0).reverse())
     .size(4)
     // .opacity('value')
-    .tooltip('name*value*x*y')
+    .tooltip('name*value')
     .active(false);
+
+  // mapTooltip(pointMapView, config);
 
   this.pointMapView = pointMapView;
 }
@@ -379,4 +380,34 @@ export function convertPointPosition(point) {
 
   }
   return point;
+}
+
+function mapTooltip(chart, config) {
+  // tooltip
+  if (config.tooltip) {
+    const tooltipCfg = {
+      showTitle: false,
+      crosshairs: null,
+      itemTpl: '<li data-index={index}>'
+      + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
+      + '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
+    };
+    chart.tooltip(tooltipCfg);
+    if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+      chart.on('tooltip:change', (ev) => {
+        ev.items.forEach((item, index) => {
+          const raw = (this.rawData && this.rawData[index]) || {};
+
+          if (config.tooltip.valueFormatter) {
+            item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
+          }
+          if (config.tooltip.nameFormatter) {
+            item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
+          }
+        });
+      });
+    }
+  } else {
+    chart.tooltip(false);
+  }
 }
