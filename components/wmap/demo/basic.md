@@ -1,13 +1,13 @@
 ﻿---
 order: 0
 title:
-  zh-CN: 分级统计图
-  en-US: Area
+  zh-CN: 基本
+  en-US: Basic
 ---
 
 ## zh-CN
 
-分级统计图。
+最基础用法，仅显示中国地图。
 
 ## en-US
 

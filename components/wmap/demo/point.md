@@ -2,7 +2,7 @@
 order: 2
 title:
   zh-CN: 散点地图
-  en-US: Area
+  en-US: Point
 ---
 
 ## zh-CN

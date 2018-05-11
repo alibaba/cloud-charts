@@ -1,8 +1,8 @@
 ﻿---
 order: 3
 title:
-  zh-CN: 散点地图
-  en-US: Area
+  zh-CN: 自定义点地图
+  en-US: Custom
 ---
 
 ## zh-CN
