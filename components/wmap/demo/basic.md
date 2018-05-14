@@ -34,14 +34,19 @@ let data = [
 ];
 
 let pointData = [
-  { name: '北京', lng: 116.4551, lat: 40.2539, value: 20, level: '0' },
-  { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10, level: '1' },
-  { name: '上海', lng: 121.4648, lat: 31.2891, value: 40, level: '0' },
-  { name: '广州', lng: 113.5107, lat: 23.2196, value: 30, level: '2' },
+  { name: '北京', lng: 116.4551, lat: 40.2539, value: 20, type: '0' },
+  { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10, type: '1' },
+  { name: '上海', lng: 121.4648, lat: 31.2891, value: 40, type: '0' },
+  { name: '广州', lng: 113.5107, lat: 23.2196, value: 30, type: '2' },
 ];
 
 let options = {
-
+  legend: {
+    nameFormatter(name, data, index) {
+      console.log(name, data, index);
+      return 'name: ' + name;
+    }
+  }
 };
 
 class Demo extends React.Component{

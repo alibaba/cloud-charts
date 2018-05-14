@@ -6,10 +6,11 @@ import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
 import chinaGeo from './chinaGeo';
 import { color, size } from '../theme/normal';
+import {noop} from "../chartCommon/common";
 import './G2Map.scss';
 
 const defaultConfig = {
-  padding: [0, 0, 0, 0],
+  padding: [20, 20, 20, 20],
   colors: (() => {
     const result = [];
     for (let i = 1; i <= 10; i++) {
@@ -77,10 +78,47 @@ export default {
     mapTooltip.call(this, chart, config);
 
     // 设置图例
-    // chart.legend(false);
-    // chart.legend('trend', {
-    //   position: 'left'
-    // });
+    if (config.legend) {
+      const self = this;
+      chart.legend({
+        useHtml: true,
+        title: null,
+        position: 'left',
+        // 使用container控制图例添加的位置，方便调整样式
+        container: '#' + this.chartId + '-legend',
+        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
+        autoPosition: false,
+        onHover: noop,
+        itemTpl: (value, color, checked, index) => {
+          const item = (self.rawData && self.rawData[index]) || {};
+          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+            ...item,
+            color,
+            checked
+          }, index) : value;
+          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+            '<span class="g2-legend-text">' + result + '</span></li>';
+        },
+        // 'g2-legend': Object.assign({
+        //   // display: 'inline-block',
+        //   position: 'relative',
+        //   textAlign: 'left',
+        //   // top: size.s3,
+        // }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 }),
+      });
+      // hack 图例的位置，仅在初始化时处理一遍
+      // setTimeout(() => {
+      //   // TODO 在示例中this会无法获取？？？
+      //   const legendDom = self.chartDom.querySelector('.g2-legend');
+      //   const parent = legendDom && legendDom.parentNode;
+      //   if (parent) {
+      //     parent.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+      //   }
+      // }, 100);
+    } else {
+      chart.legend(false);
+    }
 
     const ds = new DataSet();
 
@@ -231,7 +269,6 @@ function drawMapBackground(chart, ds, config) {
     console.warn('map: no geo data, can\'t draw the map!');
   }
 
-
   const bgMapDataView = ds.createView('bgMap')
     .source(geoData, {
       type: 'GeoJSON'
@@ -299,19 +336,19 @@ function drawMapArea(chart, ds, config, data) {
       field: 'name',
       type: 'geo.region',
       as: [ 'x', 'y' ]
-      // })
-      // .transform({
-      //   type: 'map',
-      //   callback: function(obj) {
-      //     obj.trend = (obj.value > 100) ? '男性更多' : '女性更多';
-      //     return obj;
-      //   }
+      })
+      .transform({
+        type: 'map',
+        callback: function(obj) {
+          obj.type = String(obj.type);
+          return obj;
+        }
     });
   const areaMapView = chart.view();
   areaMapView.source(areaMapDataView);
   areaMapView.polygon().position('x*y')
-  // 颜色倒序，否则颜色对应的数值会从小开始
-    .color('value', config.colors.slice(0).reverse())
+    // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
+    .color('type', config.colors.slice(0))
     // .opacity('value')
     .tooltip('name*value', function (name, value) {
       return {
@@ -329,14 +366,17 @@ function drawMapPoint(chart, ds, config, data) {
     .source(data)
     .transform({
       type: 'map',
-      callback: convertPointPosition.bind(this)
+      callback: (point) => {
+        point.type = String(point.type);
+        return convertPointPosition.call(this, point);
+      }
     });
 
   const pointMapView = chart.view();
   pointMapView.source(pointMapDataView);
   pointMapView.point().position('x*y')
     .shape('circle')
-    .color('value', config.colors.slice(0).reverse())
+    .color('type', config.colors.slice(0))
     .size(4)
     // .opacity('value')
     .tooltip('name*value', function (name, value) {
@@ -381,6 +421,7 @@ export function convertPointPosition(point) {
     const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(point.lng), Number(point.lat)], chinaProjection);
     point.x = projectedCoord[0];
     point.y = projectedCoord[1];
+    return point;
   }
   if (point.name) {
 

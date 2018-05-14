@@ -146,6 +146,7 @@ const theme = G2.Util.deepMix({}, G2.Global, {
       unCheckColor: color.colorN21
     },
     html: {
+      // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
       'g2-legend': {
         overflow: 'auto',
         fontFamily: fonts.fontFamilyBase,

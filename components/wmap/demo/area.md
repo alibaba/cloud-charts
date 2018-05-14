@@ -34,7 +34,6 @@ let data = [
 ];
 
 let options = {
-
   tooltip: {
     nameFormatter(v, raw, i, items) {
       console.log(v, raw, i, items);

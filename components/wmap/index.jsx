@@ -110,6 +110,7 @@ class Map extends MapBase {
             return this.renderCustomPointLayer(layer, i);
           })
         }
+        <div className="aisc-widgets-map-legend" id={this.chartId + '-legend'}></div>
       </div>
     );
   }
