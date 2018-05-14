@@ -34,7 +34,17 @@ let data = [
 ];
 
 let options = {
-  tooltip: false,
+
+  tooltip: {
+    nameFormatter(v, raw, i, items) {
+      console.log(v, raw, i, items);
+      return 'name: ' + v;
+    },
+    valueFormatter(v, raw, i, items) {
+      console.log(v, raw, i, items);
+      return 'value: ' + v;
+    }
+  },
 };
 
 class Demo extends React.Component{

@@ -74,7 +74,7 @@ export default {
 
     chart.axis(false);
 
-    mapTooltip(chart, config);
+    mapTooltip.call(this, chart, config);
 
     // 设置图例
     chart.legend(false);
@@ -313,7 +313,12 @@ function drawMapArea(chart, ds, config, data) {
   // 颜色倒序，否则颜色对应的数值会从小开始
     .color('value', config.colors.slice(0).reverse())
     // .opacity('value')
-    .tooltip('name*value');
+    .tooltip('name*value', function (name, value) {
+      return {
+        name,
+        value
+      };
+    });
 
   // mapTooltip(areaMapView, config);
 
@@ -336,7 +341,12 @@ function drawMapPoint(chart, ds, config, data) {
     .color('value', config.colors.slice(0).reverse())
     .size(4)
     // .opacity('value')
-    .tooltip('name*value')
+    .tooltip('name*value', function (name, value) {
+      return {
+        name,
+        value
+      };
+    })
     .active(false);
 
   // mapTooltip(pointMapView, config);
@@ -396,7 +406,7 @@ function mapTooltip(chart, config) {
     if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
       chart.on('tooltip:change', (ev) => {
         ev.items.forEach((item, index) => {
-          const raw = (this.rawData && this.rawData[index]) || {};
+          const raw = item.point._origin || {};
 
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
