@@ -77,7 +77,7 @@ export default {
     mapTooltip.call(this, chart, config);
 
     // 设置图例
-    chart.legend(false);
+    // chart.legend(false);
     // chart.legend('trend', {
     //   position: 'left'
     // });
@@ -320,8 +320,6 @@ function drawMapArea(chart, ds, config, data) {
       };
     });
 
-  // mapTooltip(areaMapView, config);
-
   this.areaMapView = areaMapView;
 }
 
@@ -348,8 +346,6 @@ function drawMapPoint(chart, ds, config, data) {
       };
     })
     .active(false);
-
-  // mapTooltip(pointMapView, config);
 
   this.pointMapView = pointMapView;
 }

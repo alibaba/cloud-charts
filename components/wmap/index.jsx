@@ -63,7 +63,7 @@ class Map extends MapBase {
     });
   }
 
-  renderCustomPointLayer(layer) {
+  renderCustomPointLayer(layer, layerIndex) {
     const { data, render } = layer;
     const width = this.chart.get('width');
     const height = this.chart.get('height');
@@ -76,7 +76,7 @@ class Map extends MapBase {
     };
 
     return (
-      <div className="aisc-widgets-map-custom-container" style={layerStyle}>
+      <div key={layerIndex} className="aisc-widgets-map-custom-container" style={layerStyle}>
         {
           Array.isArray(data) && data.map((d, i) => {
             let point = convertPointPosition.call(this, d);
@@ -106,8 +106,8 @@ class Map extends MapBase {
             southChinaSea : null
         }
         {
-          customPointLayer.length > 0 && customPointLayer.map((layer) => {
-            return this.renderCustomPointLayer(layer);
+          customPointLayer.length > 0 && customPointLayer.map((layer, i) => {
+            return this.renderCustomPointLayer(layer, i);
           })
         }
       </div>
