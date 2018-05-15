@@ -12,7 +12,7 @@ export default function (chart, config) {
     if (Array.isArray(guide.line)) {
       guide.line.forEach((line) => {
         drawGuideLine(chart, line);
-      })
+      });
     } else {
       drawGuideLine(chart, guide.line);
     }
@@ -22,7 +22,7 @@ export default function (chart, config) {
     if (Array.isArray(guide.area)) {
       guide.area.forEach((area) => {
         drawGuideArea(chart, area);
-      })
+      });
     } else {
       drawGuideArea(chart, guide.area);
     }
@@ -67,17 +67,15 @@ function drawGuideLine(chart, guideLine) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value };
-        } else {
-          return { x: 'min', [axis]: value };
         }
+        return { x: 'min', [axis]: value };
       };
       guideConfig.end = function (xScales, yScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: xScales.x.values.length - 0.5, [axis]: value };
-        } else {
-          return { x: 'max', [axis]: value };
         }
+        return { x: 'max', [axis]: value };
       };
       guideConfig.text.offsetY = offsetY === 0 ? offsetY : (offsetY || 6);
     }
@@ -118,17 +116,15 @@ function drawGuideArea(chart, guideArea) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value[0] };
-        } else {
-          return { x: 'min', [axis]: value[0] };
         }
+        return { x: 'min', [axis]: value[0] };
       };
       guideConfig.end = function (xScales, yScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: xScales.x.values.length - 0.5, [axis]: value[1] };
-        } else {
-          return { x: 'max', [axis]: value[1] };
         }
+        return { x: 'max', [axis]: value[1] };
       };
     }
   }

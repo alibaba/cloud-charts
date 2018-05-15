@@ -7,11 +7,11 @@ import widgetsVar from '!!sass-variable-loader!./dark.scss';
 const prefix = 'widgets-';
 
 Object.assign(color, widgetsVar, {
-  [prefix + 'tooltip-background']: '#20264A',
-  [prefix + 'tooltip-shadow']: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
-  [prefix + 'tooltip-cross-line']: '#dddddd',
-  [prefix + 'tooltip-cross-react']: '#20264A',
-  [prefix + 'tooltip-cross-react-opacity']: 0.7,
+  [`${prefix}tooltip-background`]: '#20264A',
+  [`${prefix}tooltip-shadow`]: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
+  [`${prefix}tooltip-cross-line`]: '#dddddd',
+  [`${prefix}tooltip-cross-react`]: '#20264A',
+  [`${prefix}tooltip-cross-react-opacity`]: 0.7,
 
   category_12: [
     widgetsVar.widgetsColorCategory1,
@@ -41,6 +41,6 @@ Object.assign(color, widgetsVar, {
   ],
 });
 
-fonts['fontFamilyNumber'] = widgetsVar.fontFamilyNumber;
+fonts.fontFamilyNumber = widgetsVar.fontFamilyNumber;
 
 export { size, color, fonts };

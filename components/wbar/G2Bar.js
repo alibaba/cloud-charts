@@ -14,12 +14,12 @@ const defaultConfig = {
   padding: [40, 5, 32, 44],
   xAxis: {
     type: 'cat',
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     categories: null,
     autoRotate: false,
   },
   yAxis: {
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     max: null,
     min: null,
   },
@@ -43,7 +43,7 @@ const defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     const newConfig = merge({}, defaultConfig, config);
 
     // TODO 处理padding
@@ -72,17 +72,17 @@ export default {
 
     const yAxis = {
       title: null, // 不展示坐标轴的标题
-      label:{
-        formatter:config.yAxis.labelFormatter,
+      label: {
+        formatter: config.yAxis.labelFormatter,
       }
     };
 
 
     const xAxis = {
       title: null, // 不展示坐标轴的标题
-      label:{
+      label: {
         autoRotate: config.xAxis.autoRotate,
-        formatter:config.xAxis.labelFormatter,
+        formatter: config.xAxis.labelFormatter,
       }
     };
 
@@ -144,21 +144,21 @@ export default {
       // chart.point().position('name*value').color('name').shape('circle');
     // } else {
       // 横向柱状图
-      if (!config.column) {
-        chart.coord().transpose();
-      }
+    if (!config.column) {
+      chart.coord().transpose();
+    }
       // 堆叠
-      if (config.stack) {
-        chart.interval().position('x*y').color('type', config.colors).adjust([{
-          type: 'stack',
-          reverseOrder: !config.stackReverse, // 层叠顺序倒序
-        }]);
-      } else {
-        chart.interval().position('x*y').color('type', config.colors).adjust([{
-          type: 'dodge',
-          marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-        }]);
-      }
+    if (config.stack) {
+      chart.interval().position('x*y').color('type', config.colors).adjust([{
+        type: 'stack',
+        reverseOrder: !config.stackReverse, // 层叠顺序倒序
+      }]);
+    } else {
+      chart.interval().position('x*y').color('type', config.colors).adjust([{
+        type: 'dodge',
+        marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      }]);
+    }
     // }
 
     chart.render();

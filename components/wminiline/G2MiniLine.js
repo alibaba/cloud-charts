@@ -10,8 +10,8 @@ const defaultConfig = {
   colors: color.category_12,
   padding: [0, 0, 0, 0],
   xAxis: {
-    type: 'time', //默认为线性
-    mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
+    type: 'time', // 默认为线性
+    mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
     categories: null,
     max: null,
     min: null,
@@ -23,7 +23,7 @@ const defaultConfig = {
   tooltip: false,
   area: false,
   spline: false,
-  symbol:false,
+  symbol: false,
   // dataConfig: {
   //   nameKey: 'name',
   //   valueKey: 'value',
@@ -34,7 +34,7 @@ const defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     const newConfig = merge({}, defaultConfig, config);
 
     // TODO 处理padding
@@ -63,7 +63,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
+        defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
           tickCount: 5
         }, axis);

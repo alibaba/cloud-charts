@@ -1,47 +1,47 @@
 import merge from '../utils/merge';
 import tween from '../utils/tween';
 
-var uniqueId = 0;
+let uniqueId = 0;
 function generateUniqueId() {
-  return 'shoot-' + uniqueId++;
+  return `shoot-${uniqueId++}`;
 }
 
-function Shoot (canvas, map, config) {
+function Shoot(canvas, map, config) {
   this.uuid = generateUniqueId();
   this.map = map;
   this.config = merge({
     autoUpdate: true,
     maxFps: 60,
-    interval: 10000,//单次飞线总时间
-    dTime: 4000,//单条飞线预计的时间
+    interval: 10000, // 单次飞线总时间
+    dTime: 4000, // 单条飞线预计的时间
     // batch: false,
-    shootTime: {//飞行过程中的各个时间 值域[0, 1]
-      fromTime: 0,//出发时间（瞬时）
-      fromStop: 0.4,//出发点保留时间（持续）
-      fromFade: 0.1,//出发点消失所用时间（持续）
-      toBegin: 0.3,//到达目标点的时间（瞬时）
-      toTime: 0.1,//到达点显示所用时间（持续）
-      toStop: 0,//到达点停留持续时间（持续）
-      toFade: 0.1//到达点消失所用时间（持续）
+    shootTime: {// 飞行过程中的各个时间 值域[0, 1]
+      fromTime: 0, // 出发时间（瞬时）
+      fromStop: 0.4, // 出发点保留时间（持续）
+      fromFade: 0.1, // 出发点消失所用时间（持续）
+      toBegin: 0.3, // 到达目标点的时间（瞬时）
+      toTime: 0.1, // 到达点显示所用时间（持续）
+      toStop: 0, // 到达点停留持续时间（持续）
+      toFade: 0.1// 到达点消失所用时间（持续）
     },
-    fromRadius: 3,//出发点半径
-    toRadius: 3,//到达点半径
-    fromBorder: 1,//出发点边框宽度
-    toBorder: 1,//到达点边框宽度
+    fromRadius: 3, // 出发点半径
+    toRadius: 3, // 到达点半径
+    fromBorder: 1, // 出发点边框宽度
+    toBorder: 1, // 到达点边框宽度
     shootPointColor: {
-      fromPoint: '46, 133, 255',//出发点颜色
-      fromShadow: '46, 133, 255',//出发点阴影颜色
-      toPoint: '46, 133, 255',//到达点颜色
-      toShadow: '46, 133, 255'//到达点阴影颜色
+      fromPoint: '46, 133, 255', // 出发点颜色
+      fromShadow: '46, 133, 255', // 出发点阴影颜色
+      toPoint: '46, 133, 255', // 到达点颜色
+      toShadow: '46, 133, 255'// 到达点阴影颜色
     },
-    lineWidth:2,//飞线宽度
+    lineWidth: 2, // 飞线宽度
     lineColor: {
-      from:"46, 133, 255", //线出发颜色
-      to:"46, 133, 255" //线到达颜色
+      from: '46, 133, 255', // 线出发颜色
+      to: '46, 133, 255' // 线到达颜色
     },
     bullet: {
-      r: 2.5, //弹头半径
-      length: 20, //弹头长度
+      r: 2.5, // 弹头半径
+      length: 20, // 弹头长度
       color: 'rgb(46, 133, 255)',
       shadowColor: 'rgb(46, 133, 255)'
     },
@@ -50,7 +50,7 @@ function Shoot (canvas, map, config) {
       to: 'to',
       fromValue: 'fromValue',
       toValue: 'toValue',
-      curvature: 'curvature' //曲率半径，值越大越平坦
+      curvature: 'curvature' // 曲率半径，值越大越平坦
     }
   }, config);
 
@@ -71,8 +71,8 @@ function random() {
 }
 
 Shoot.prototype = {
-  init: function(canvas) {
-    var self = this;
+  init(canvas) {
+    const self = this;
 
     // 射击canvas层
     // self.canvas = canvas;
@@ -89,7 +89,7 @@ Shoot.prototype = {
     // self.calRadius();
   },
 
-  //计算半径
+  // 计算半径
   // calRadius: function(){
   //   var self = this,
   //     fr = self.config.fromRadius,
@@ -112,9 +112,9 @@ Shoot.prototype = {
   //   }
   // },
 
-  //清除画布
-  clear: function(ctx){
-    var self = this,
+  // 清除画布
+  clear(ctx) {
+    let self = this,
       width = self.config.width,
       height = self.config.height;
 
@@ -132,11 +132,11 @@ Shoot.prototype = {
 //          y: posList[name].y * height
 //      }
 //  },
-  draw: function(data) {
+  draw(data) {
     if (!data) {
       return;
     }
-    var self = this,
+    let self = this,
       batchKey = self.config.batchKey,
       dTime = self.config.dTime,
       // 由于要保证interval时间内完成全部动画
@@ -152,41 +152,42 @@ Shoot.prototype = {
       shoots = [],
       count = 0,
       shootMap = {},
-      fCo, tCo, s;
+      fCo,
+      tCo,
+      s;
 
     // self.unoverview();
 
     // 先清除画布
     self.clear(sCtx);
 
-    var l = data.length;
+    const l = data.length;
 
-    var time = self.config.shootTime;
+    const time = self.config.shootTime;
 
-    for(var i = 0; i < l; i++){
+    for (let i = 0; i < l; i++) {
       var d = data[i],
         fromCityName = d[keys.from],
         toCityName = d[keys.to];
 
-      if (typeof fromCityName ==='object') {
+      if (typeof fromCityName === 'object') {
         fCo = fromCityName;
       } else {
         // 获取出发城市在画布上的坐标
         fCo = self.map.getCoord(fromCityName);
       }
 
-      if (typeof toCityName ==='object') {
+      if (typeof toCityName === 'object') {
         tCo = toCityName;
       } else {
         // 获取到达城市在画布上的坐标
         tCo = self.map.getCoord(toCityName);
       }
 
-      if(fCo && tCo){
-
-        let color = {};
+      if (fCo && tCo) {
+        const color = {};
         // 如果数据带有颜色配置
-        if(d._color){
+        if (d._color) {
           Object.assign(color, d._color);
         }
 
@@ -201,22 +202,22 @@ Shoot.prototype = {
         //
         //   s.index = indexMap[d[batchKey]];
         // }else{
-          s.index = (times-1) * Math.random();
+        s.index = (times - 1) * Math.random();
         // }
 
         // 判断是否是多点同时射击一个点
-        if(!shootMap[s.index]){
+        if (!shootMap[s.index]) {
           shootMap[s.index] = [];
         }
 
-        shootMap[s.index].forEach(function(city){
-          if(city === toCityName){
+        shootMap[s.index].forEach((city) => {
+          if (city === toCityName) {
             // 正在被攻击
             s.shooting = true;
           }
         });
 
-        if(!s.shooting){
+        if (!s.shooting) {
           shootMap[s.index].push(toCityName);
         }
 
@@ -233,9 +234,9 @@ Shoot.prototype = {
       duration: interval,
       autoUpdate,
       maxFps
-    }, function (t) {
+    }, (t) => {
       self.clear(sCtx);
-      shoots.forEach(function(s, i) {
+      shoots.forEach((s, i) => {
         s(t * times - s.index);
       });
     });
@@ -249,8 +250,8 @@ Shoot.prototype = {
     //   };
     // });
   },
-  emit: function(fCo, tCo, data, color, time) {
-    var self = this,
+  emit(fCo, tCo, data, color, time) {
+    let self = this,
       keys = self.config.keys,
       sCtx = self.sCtx,
       // 发射出现时间段
@@ -273,68 +274,70 @@ Shoot.prototype = {
       fromFadeBegin = fromTime + fromStop,
       // 命中消失时间点
       toFadeBegin = toBegin + toTime + toStop,
-      s, fr, tr;
+      s,
+      fr,
+      tr;
 
     // 发射半径
     // if(self.fromRadiusScale){
     //   fr = self.fromRadiusScale(data[keys.fromValue]);
     // }else{
-      fr = self.config.fromRadius;
+    fr = self.config.fromRadius;
     // }
 
     // 到达半径
     // if(self.toRadiusScale){
     //   tr = self.toRadiusScale(data[keys.toValue]);
     // }else{
-      tr = self.config.toRadius;
+    tr = self.config.toRadius;
     // }
 
-    var h = data[keys.curvature] || random();
+    const h = data[keys.curvature] || random();
 
-    s = function(t){
-      if(fCo){
+    s = function (t) {
+      if (fCo) {
         // 出发:
         // 1. 出现
-        if( t < fromTime){
+        if (t < fromTime) {
           self.from(fCo, fr, color)(t / fromTime);
           // 2. 停留
-        }else if(t > fromTime && t < fromFadeBegin){
+        } else if (t > fromTime && t < fromFadeBegin) {
           self.from(fCo, fr, color)(1);
           // 3. 消失
-        }else if(t > fromFadeBegin){
+        } else if (t > fromFadeBegin) {
           self.from(fCo, fr, color, true)((t - fromFadeBegin) / fromFade);
         }
       }
 
-      if(tCo){
+      if (tCo) {
         // 轨迹
-        if(t >= fromTime && t < toBegin){
-          //出发 - 到达瞬间
+        if (t >= fromTime && t < toBegin) {
+          // 出发 - 到达瞬间
           self.track(sCtx, fCo, tCo, false, color, h)((t - fromTime) / (toBegin - fromTime));
-        }else if(t > toBegin && t < toFadeBegin){
-          //到达后停留
+        } else if (t > toBegin && t < toFadeBegin) {
+          // 到达后停留
           // TODO add by kaihong.tkh
-          var shootDurable = self.config.shootDurable;
-          if(shootDurable){
-            var time = - (t - fromTime) / (toBegin - fromTime);
-            time = time - Math.floor(time);
+          const shootDurable = self.config.shootDurable;
+          if (shootDurable) {
+            let time = -(t - fromTime) / (toBegin - fromTime);
+            time -= Math.floor(time);
             time = 1 - time;
             self.track(sCtx, fCo, tCo, true, color, h)(time);
-          }else{
+          } else {
             self.track(sCtx, fCo, tCo, true, color, h)(0);
           }
-        }else if(t > toFadeBegin && t < toFadeBegin + toFade){
-          //停留后消失时间
+        } else if (t > toFadeBegin && t < toFadeBegin + toFade) {
+          // 停留后消失时间
           self.track(sCtx, fCo, tCo, true, color, h)((t - toFadeBegin) / toFade);
         }
 
 
         // 如果不是正在被射击
-        if(!s.shooting){
+        if (!s.shooting) {
           // 到达:
           // 1. 放大
-          if(t >= toBegin && t < (toBegin + toTime)){
-            if(!s.to){
+          if (t >= toBegin && t < (toBegin + toTime)) {
+            if (!s.to) {
               // TODO fire 方法需要改写？
 //                              self.fire('to', {pos: tCo, data: data});
 //                              $(self).trigger('to', {pos: tCo, data: data})
@@ -342,32 +345,32 @@ Shoot.prototype = {
             }
             self.to(tCo, tr, color)((t - toBegin) / toTime);
             // 2. 停留
-          }else if(t > (toBegin + toTime) && t < toFadeBegin){
+          } else if (t > (toBegin + toTime) && t < toFadeBegin) {
             self.to(tCo, tr, color)(1);
             // 3. 消失
-          }else if(t >= toFadeBegin){
+          } else if (t >= toFadeBegin) {
             self.to(tCo, tr, color, true, 3)((t - toFadeBegin) / toFade);
           }
         }
       }
-    }
+    };
 
     return s;
   },
 
-  from: function(co, r, color, zoom) {
-    var self = this,
-      c = 'rgba(' + (color.fColor || this.config.shootPointColor.fromPoint) + ',',
+  from(co, r, color, zoom) {
+    let self = this,
+      c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`,
       b = self.config.fromBorder,
       sCtx = self.sCtx,
       pi = 2 * Math.PI;
 
-    return function(t) {
-      if(t > 1 || t < 0){
+    return function (t) {
+      if (t > 1 || t < 0) {
         return;
       }
 
-      if(zoom){
+      if (zoom) {
         t = 1 - t;
       }
 
@@ -375,12 +378,12 @@ Shoot.prototype = {
 
       // 画背景圆
       sCtx.beginPath();
-      sCtx.strokeStyle = c + t + ')';
+      sCtx.strokeStyle = `${c + t})`;
       sCtx.lineWidth = b * t;
-      sCtx.fillStyle = c + '0.3)';
+      sCtx.fillStyle = `${c}0.3)`;
 
       // shadow
-      sCtx.shadowColor = 'rgba(' + (color.fColor || self.config.shootPointColor.fromShadow) + ',1)';
+      sCtx.shadowColor = `rgba(${color.fColor || self.config.shootPointColor.fromShadow},1)`;
       sCtx.shadowBlur = 5;
       sCtx.shadowOffsetX = 0;
       sCtx.shadowOffsetY = 0;
@@ -392,56 +395,56 @@ Shoot.prototype = {
 
       // 画中心圆
       sCtx.beginPath();
-      sCtx.fillStyle = c + '1)';
+      sCtx.fillStyle = `${c}1)`;
       sCtx.arc(co.x, co.y, 2 * t, 0, pi);
       sCtx.fill();
 
       sCtx.restore();
     };
   },
-  to: function(co, r, color, zoom, n, anticlockwise) {
-    var self = this,
-      c = 'rgba(' + (color.tColor || this.config.shootPointColor.toPoint) + ',',
+  to(co, r, color, zoom, n, anticlockwise) {
+    let self = this,
+      c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`,
       b = self.config.toBorder,
       sCtx = self.sCtx,
       pi = 2 * Math.PI,
       sin = Math.sin,
       cos = Math.cos;
 
-    return function(t){
-      var rad = 0;
+    return function (t) {
+      let rad = 0;
 
-      if(t > 1 || t < 0){
+      if (t > 1 || t < 0) {
         return;
       }
 
       sCtx.save();
 
       // 每次转的角度
-      if(n){
+      if (n) {
         rad = n * pi * t;
 
-        if(anticlockwise){
+        if (anticlockwise) {
           rad = -rad;
         }
       }
 
-      if(zoom){
+      if (zoom) {
         t = 1 - t;
       }
 
       // 画背景圆
       sCtx.beginPath();
-      sCtx.fillStyle = c + '0.3)';
+      sCtx.fillStyle = `${c}0.3)`;
       sCtx.arc(co.x, co.y, r * t, 0, pi);
       sCtx.fill();
 
       // 画离散弧线
       sCtx.beginPath();
-      sCtx.strokeStyle = c + t + ')';
+      sCtx.strokeStyle = `${c + t})`;
       sCtx.lineWidth = b * t;
       // shadow
-      sCtx.shadowColor = 'rgba(' + (color.tColor || self.config.shootPointColor.toShadow) + ',1)';
+      sCtx.shadowColor = `rgba(${color.tColor || self.config.shootPointColor.toShadow},1)`;
       sCtx.shadowBlur = 10;
       sCtx.shadowOffsetX = 0;
       sCtx.shadowOffsetY = 0;
@@ -456,29 +459,28 @@ Shoot.prototype = {
 
       // 画中心圆
       sCtx.beginPath();
-      sCtx.fillStyle = c + '1)';
+      sCtx.fillStyle = `${c}1)`;
       sCtx.arc(co.x, co.y, 2 * t, 0, pi);
       sCtx.fill();
 
       sCtx.restore();
     };
-
   },
-  track: function(ctx, fCo, tCo, fade, color, h, overview) {
-    var self = this,
+  track(ctx, fCo, tCo, fade, color, h, overview) {
+    let self = this,
       abs = Math.abs,
       sin = Math.sin,
       cos = Math.cos,
       atan = Math.atan,
-      pow2 = function(x){
+      pow2 = function (x) {
         return Math.pow(x, 2);
       },
       sqrt = Math.sqrt,
-      pow = function(i){
+      pow = function (i) {
         return Math.pow(i, 2);
       },
-      fColor = 'rgba('+ (color.fColor || self.config.lineColor.from) +',',
-      tColor = 'rgba('+ (color.tColor || self.config.lineColor.to) +',',
+      fColor = `rgba(${color.fColor || self.config.lineColor.from},`,
+      tColor = `rgba(${color.tColor || self.config.lineColor.to},`,
 
       // (x1, y1) 出发点，(x2, y2) 到达点
       x1 = fCo.x,
@@ -489,7 +491,7 @@ Shoot.prototype = {
       // 求法线方程
       // y = j * x + k
       dx = (x1 + x2) / 2,
-      dy  = (y1 + y2) / 2,
+      dy = (y1 + y2) / 2,
       j = (x1 - x2) / (y2 - y1),
       k = dy - j * dx,
       // d用来控制弧线的弧度
@@ -505,61 +507,64 @@ Shoot.prototype = {
       bulletLen = this.config.bullet.length;
 
     if (isNaN(j)) {
-      //水平方向
+      // 水平方向
       x3 = dx;
       y3 = dy + h;
     } else if (j == 0) {
-      //竖直方向
+      // 竖直方向
       x3 = dx + h;
       y3 = dy;
-    } else if (Math.abs(j) >= 1) {//之后的两个条件判断请画象限图理解。。。估计明天我也忘记为什么要这么写了
+    } else if (Math.abs(j) >= 1) { // 之后的两个条件判断请画象限图理解。。。估计明天我也忘记为什么要这么写了
       // k = dy + dx/j;
       y3 = dy - cx;
       // x3 = (k - y3)*j;
-      x3 = (y3 - k)/j;
+      x3 = (y3 - k) / j;
     } else if (j > 0) {
       x3 = (x1 + x2) / 2 - cx;
       y3 = j * x3 + k;
     }
 
-    return function(t){
+    return function (t) {
       // 移动点坐标
-      var x0, y0,
+      let x0,
+        y0,
         pi = 2 * Math.PI,
         // 贝塞尔曲线切线斜率
-        kx, ky,
+        kx,
+        ky,
         // 蒙板起始坐标
-        rx, ry,
+        rx,
+        ry,
         // 蒙板半径
         r,
         gradientOpacity = 0.7;
 
-      if(t > 1 || t < 0){
+      if (t > 1 || t < 0) {
         return;
       }
 
       // TODO：最好加上一个透明度变化的动画
-      if(!overview){
-        if(fade){
+      if (!overview) {
+        if (fade) {
           // 避免出现科学计数法，rgba中的透明值不能设为科学计数法
-          gradientOpacity = (1-t) < 0.01 ? 0.01 : (1-t);
-        }else{
+          gradientOpacity = (1 - t) < 0.01 ? 0.01 : (1 - t);
+        } else {
           gradientOpacity = t < 0.01 ? 0.01 : t;
         }
 
         var shootDurable = self.config.shootDurable;
-        if(shootDurable){
+        if (shootDurable) {
           gradientOpacity = 1; // add by kaihong.tkh 线不需要渐变
         }
       }
 
       // 贝塞尔曲线方程
-      x0 = (1-t)*(1-t) * x1 + 2*t*(1-t) * x3 + t*t * x2;
-      y0 = (1-t)*(1-t) * y1 + 2*t*(1-t) * y3 + t*t * y2;
+      x0 = (1 - t) * (1 - t) * x1 + 2 * t * (1 - t) * x3 + t * t * x2;
+      y0 = (1 - t) * (1 - t) * y1 + 2 * t * (1 - t) * y3 + t * t * y2;
 
       // 贝塞尔曲线切线方程
-      kx = -2 * x1 *(1-t) + 2 * x3 * (1 - 2 * t) + 2 * x2 * t;
-      ky = -2 * y1 *(1-t) + 2 * y3 * (1 - 2 * t) + 2 * y2 * t;
+      kx = -2 * x1 * (1 - t) + 2 * x3 * (1 - 2 * t) + 2 * x2 * t;
+      ky = -2 * y1 * (1 - t) + 2 * y3 * (1 - 2 * t) + 2 * y2 * t;
 
       rx = (x1 + x0) / 2;
       ry = (y1 + y0) / 2;
@@ -568,10 +573,10 @@ Shoot.prototype = {
 
       ctx.save();
 
-      gradient.addColorStop(0, fColor + gradientOpacity + ')');
-      gradient.addColorStop(1, tColor + gradientOpacity + ')');
+      gradient.addColorStop(0, `${fColor + gradientOpacity})`);
+      gradient.addColorStop(1, `${tColor + gradientOpacity})`);
 
-      if(!fade && !overview){
+      if (!fade && !overview) {
         // 创建圆形蒙板
         ctx.arc(rx, ry, r, 0, pi);
         ctx.clip();
@@ -590,29 +595,27 @@ Shoot.prototype = {
 
       ctx.restore();
 
-      var a = atan(ky/kx);
+      let a = atan(ky / kx);
 
       // 计算旋转角度
-      if(ky > 0 && kx < 0){
-        a = a + pi / 2;
-      }else if(ky < 0 && kx < 0){
-        a = a - pi / 2;
+      if (ky > 0 && kx < 0) {
+        a += pi / 2;
+      } else if (ky < 0 && kx < 0) {
+        a -= pi / 2;
       }
 
       // TODO add by kaihong.tkh
       var shootDurable = self.config.shootDurable;
-      if(shootDurable){
+      if (shootDurable) {
         self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
-      }else{
-        if(!fade && !overview){
+      } else if (!fade && !overview) {
           // ky/kx 为切线斜率
-          self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
-        }
+        self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
       }
     };
   },
-  drawBullet: function(x, y, a, color, r, len) {
-    var self = this,
+  drawBullet(x, y, a, color, r, len) {
+    let self = this,
       pi = 2 * Math.PI,
       sCtx = self.sCtx;
 
@@ -643,19 +646,19 @@ Shoot.prototype = {
 
     sCtx.restore();
   },
-  unoverview: function() {
-    var self = this;
+  unoverview() {
+    const self = this;
 
     // 隐藏overview canvas，显示shoot canvas
     // $(self.config.canvas).hide();
     // $(self.canvas).show();
   },
-  update: function (time) {
+  update(time) {
     if (this.tween && this.tween.update) {
       this.tween.update(time);
     }
   },
-  destroy: function () {
+  destroy() {
     this.clear(this.sCtx);
 
     // this.canvas.parentNode.removeChild(this.canvas);

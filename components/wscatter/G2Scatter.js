@@ -24,7 +24,6 @@ const defaultConfig = {
 };
 const colorMap = color.category_12;
 const setAxis = (chart, config) => {
-
   const xAxis = {
     title: null, // 不展示坐标轴的标题
     label: {
@@ -126,7 +125,7 @@ export default {
     if (config.jitter) {
       preConfig.xAxis = {
         type: 'cat'
-      }
+      };
     }
     const newConfig = merge({}, defaultConfig, preConfig, config);
 
@@ -152,7 +151,7 @@ export default {
   }
 };
 
-const setLegend = function(chart, config, chartNode) {
+const setLegend = function (chart, config, chartNode) {
   if (config.legend) {
     chart.legend({
       useHtml: true,

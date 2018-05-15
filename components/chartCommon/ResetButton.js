@@ -30,8 +30,8 @@ export default class ResetButton {
         this.dom = document.createElement('span');
         this.dom.innerText = '重置';
         this.dom.className = 'widgets-reset-button';
-        this.dom.style.top = range.tr.y + 'px';
-        this.dom.style.right = (chart.get('width') - range.tr.x) + 'px';
+        this.dom.style.top = `${range.tr.y}px`;
+        this.dom.style.right = `${chart.get('width') - range.tr.x}px`;
         wrapper.appendChild(this.dom);
 
         this.isShow = true;

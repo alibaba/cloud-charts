@@ -1,7 +1,7 @@
 import G2 from '@antv/g2';
 import { color } from '../theme/normal';
 
-export const requestAnimationFrame = ( window && window.requestAnimationFrame ) || G2.DomUtil.requestAnimationFrame;
+export const requestAnimationFrame = (window && window.requestAnimationFrame) || G2.DomUtil.requestAnimationFrame;
 
 // name: 类型 ，相当于type
 // stash: 每组类型的一些信息集，注意，要符合G2语法
@@ -30,7 +30,7 @@ export const propertyMap = {
   yAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'mask', 'base', 'exponent'],
 };
 
-export function propertyAssign (keys, target, source) {
+export function propertyAssign(keys, target, source) {
   keys.forEach((key) => {
     // 仅判断undefined的情况
     if (source[key] !== undefined) {
@@ -107,7 +107,7 @@ const statusMap = {
 };
 
 export function getStatusColor(status) {
-  return statusMap[status] || status || statusMap['normal'];
+  return statusMap[status] || status || statusMap.normal;
 }
 
 const statusColorMap = {
@@ -118,7 +118,7 @@ const statusColorMap = {
   none: 'gray',
 };
 export function getStatusColorName(status) {
-  return statusColorMap[status] || status || statusColorMap['normal'];
+  return statusColorMap[status] || status || statusColorMap.normal;
 }
 
 /**
@@ -163,7 +163,7 @@ export function beautifyNumber(num, char = ',') {
   }
   // 处理负数
   if (isNegative) {
-    result = '-' + result;
+    result = `-${result}`;
   }
   return result;
 }

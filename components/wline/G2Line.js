@@ -13,16 +13,16 @@ const defaultConfig = {
   colors: color.category_12,
   padding: [40, 5, 32, 44],
   xAxis: {
-    type: 'time', //默认为线性
-    mask: 'YYYY-MM-DD HH:mm:ss', //上述type为time时，此字段生效
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    type: 'time', // 默认为线性
+    mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     categories: null,
     autoRotate: false,
     max: null,
     min: null,
   },
   yAxis: {
-    labelFormatter: null, //可以强制覆盖，手动设置label
+    labelFormatter: null, // 可以强制覆盖，手动设置label
     max: null,
     min: null,
   },
@@ -36,10 +36,10 @@ const defaultConfig = {
     valueFormatter: null,
   },
   area: false,
-  stack: false,//仅Area有效
+  stack: false, // 仅Area有效
   spline: false,
   grid: false,
-  symbol:false,
+  symbol: false,
   zoom: false,
   // TODO
   // labels: false,
@@ -54,14 +54,14 @@ const defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     const newConfig = merge({}, defaultConfig, config);
 
     // TODO 处理padding
     let defaultPaddingTop = defaultConfig.padding[0];
     let defaultPaddingRight = defaultConfig.padding[1];
-    let defaultPaddingBottom = defaultConfig.padding[2];
-    let defaultPaddingLeft = defaultConfig.padding[3];
+    const defaultPaddingBottom = defaultConfig.padding[2];
+    const defaultPaddingLeft = defaultConfig.padding[3];
     if (defaultPaddingRight !== 'auto' && Array.isArray(newConfig.yAxis)) {
       defaultPaddingRight = 44;
     }
@@ -93,7 +93,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs['y' + yIndex] = propertyAssign(propertyMap.yAxis, {
+        defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
           tickCount: 5
         }, axis);
@@ -109,7 +109,7 @@ export default {
 
     const xAxis = {
       title: null, // 不展示坐标轴的标题
-      label:{
+      label: {
         autoRotate: config.xAxis.autoRotate,
         formatter: config.xAxis.labelFormatter,
       }
@@ -135,7 +135,7 @@ export default {
           line: {
             stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.colorN16
           },
-          label:{
+          label: {
             formatter: axis.labelFormatter,
           }
         };
@@ -143,13 +143,13 @@ export default {
           yAxis.grid = null;
         }
 
-        chart.axis('y' + yIndex, yAxis);
+        chart.axis(`y${yIndex}`, yAxis);
       });
     } else {
       const yAxis = {
         title: null, // 不展示坐标轴的标题
-        label:{
-          formatter:config.yAxis.labelFormatter,
+        label: {
+          formatter: config.yAxis.labelFormatter,
         }
       };
 
@@ -196,7 +196,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
-        drawLine(chart, config, lineShape, areaShape, 'y' + yIndex);
+        drawLine(chart, config, lineShape, areaShape, `y${yIndex}`);
       });
     } else {
       drawLine(chart, config, lineShape, areaShape);

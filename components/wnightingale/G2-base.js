@@ -4,7 +4,7 @@
 import merge from '../utils/merge';
 import { color } from '../theme/normal';
 import './G2-base.scss';
-import {noop} from "../chartCommon/common";
+import { noop } from '../chartCommon/common';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -73,13 +73,13 @@ export default {
 
     // tooltip
     if (config.tooltip) {
-      let tooltipCfg = {
+      const tooltipCfg = {
         showTitle: false
         // crosshairs: {},
       };
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', ev => {
+        chart.on('tooltip:change', (ev) => {
           ev.items.forEach((item, index) => {
             const raw = (this.rawData && this.rawData[index]) || {};
 

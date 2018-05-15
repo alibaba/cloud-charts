@@ -2,10 +2,10 @@ const nameMap = {};
 
 export default function (name, config, callback) {
   if (nameMap[name]) {
-    //restart
+    // restart
     nameMap[name].start();
   } else {
-    //start
+    // start
     nameMap[name] = new Tween(config, callback);
   }
 
@@ -36,10 +36,10 @@ class Tween {
 
   refresh() {
     if (this._isPlay && this.config.autoUpdate) {
-      if(window.requestAnimationFrame) {
+      if (window.requestAnimationFrame) {
         window.requestAnimationFrame(this.refresh);
       } else {
-        setTimeout(this.refresh, 1000/60);
+        setTimeout(this.refresh, 1000 / 60);
       }
 
       const now = Date.now();
@@ -54,7 +54,6 @@ class Tween {
       } else {
         this.update(now);
       }
-
     }
   }
 

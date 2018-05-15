@@ -10,7 +10,7 @@ const defaultConfig = {
   padding: [20, 20, 20, 20],
   legend: {
     // position: 'right',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
     valueFormatter: null
   },
   tooltip: {
@@ -25,7 +25,7 @@ const defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
@@ -33,7 +33,7 @@ export default {
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
     // 饼本体大小，向下取整
-    const diameter = Math.floor( boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius );
+    const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
     element.style.paddingTop = `${padding[0]}px`;
     element.style.paddingRight = `${padding[1]}px`;
@@ -42,8 +42,8 @@ export default {
 
     this.childrenDom = element.querySelector('.aisc-widgets-children');
     if (this.childrenDom) {
-      this.childrenDom.style.width = diameter + 'px';
-      this.childrenDom.style.height = boxHeight + 'px';
+      this.childrenDom.style.width = `${diameter}px`;
+      this.childrenDom.style.height = `${boxHeight}px`;
     }
 
     // TODO 处理padding
@@ -57,21 +57,21 @@ export default {
   changeSize(chart, config, w, h) {
     const padding = config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    
+
     const boxHeight = h - padding[0] - padding[2];
     const boxWidth = w - padding[1] - padding[3];
     // 饼本体大小，向下取整
-    const diameter = Math.floor( boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius );
+    const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
     if (this.childrenDom) {
-      this.childrenDom.style.width = diameter + 'px';
-      this.childrenDom.style.height = boxHeight + 'px';
+      this.childrenDom.style.width = `${diameter}px`;
+      this.childrenDom.style.height = `${boxHeight}px`;
     }
 
     chart.changeSize(diameter, diameter);
   },
   changeData(chart, config, data) {
-    //更新数据总和值，保证百分比的正常
+    // 更新数据总和值，保证百分比的正常
     let totalData = 0;
     data.forEach((d) => {
       totalData += d.y;
@@ -80,9 +80,7 @@ export default {
 
     // 不要忘记排序的状态
     if (config.autoSort) {
-      data.sort((a, b) => {
-        return b.y - a.y;
-      });
+      data.sort((a, b) => b.y - a.y);
     }
     // 更新挂载的转换数据
     this.data = data;
@@ -99,9 +97,7 @@ export default {
     };
 
     if (config.autoSort) {
-      data.sort((a, b) => {
-        return b.y - a.y;
-      });
+      data.sort((a, b) => b.y - a.y);
     }
     // 挂载转换后的数据
     this.data = data;
@@ -117,7 +113,7 @@ export default {
     }
     chart.coord('theta', thetaConfig);
 
-    //计算得总数据
+    // 计算得总数据
     let totalData = 0;
     data.forEach((d) => {
       totalData += d.y;
@@ -132,7 +128,7 @@ export default {
         itemTpl: (value, color, checked, index) => {
           const item = (this.data && this.data[index]) || {};
           const raw = (this.rawData && this.rawData[0]) || {};
-          const percent = numberDecimal(item['y'] / this.totalData, 4);
+          const percent = numberDecimal(item.y / this.totalData, 4);
 
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...raw,

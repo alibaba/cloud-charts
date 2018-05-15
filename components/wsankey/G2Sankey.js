@@ -22,7 +22,7 @@ const defaultConfig = {
 
 export default {
   beforeInit(props) {
-    const {config} = props;
+    const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: props.padding || config.padding || defaultConfig.padding
@@ -43,8 +43,8 @@ export default {
     chart.tooltip(config.tooltip);
     chart.axis(false);
     chart.scale({
-      x: {sync: true},
-      y: {sync: true}
+      x: { sync: true },
+      y: { sync: true }
     });
 
     // edge view
@@ -66,9 +66,7 @@ export default {
       .label('name', {
         textStyle: config.textStyle,
         offset: 0,
-        formatter: val => {
-          return '  ' + val;
-        }
+        formatter: val => `  ${val}`
       })
       .tooltip(false)
       .style({

@@ -1,5 +1,8 @@
 {
   "extends": "eslint-config-ali",
+  "parserOptions": {
+    "ecmaVersion": 7
+  },
   "rules": {
     // 低版本 nodejs 需要在 strict 模式下支持 es6 语法
     "strict": "off",

@@ -21,7 +21,7 @@ export default function highchartsDataToG2Data(data, config) {
           const [x, y, ...extra] = d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            [`y${yIndex}`]: y,
             extra,
             type: dataName
           });
@@ -30,7 +30,7 @@ export default function highchartsDataToG2Data(data, config) {
           const y = isNaN(d) ? d[0] : d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            [`y${yIndex}`]: y,
             extra: [],
             type: dataName
           });
@@ -38,7 +38,7 @@ export default function highchartsDataToG2Data(data, config) {
           const { x, y, ...extra } = d;
           newData.push({
             x,
-            ['y' + yIndex]: y,
+            [`y${yIndex}`]: y,
             extra,
             type: dataName
           });

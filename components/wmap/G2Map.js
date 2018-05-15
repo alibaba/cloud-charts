@@ -6,7 +6,7 @@ import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
 import chinaGeo from './chinaGeo.json';
 import { color, size } from '../theme/normal';
-import {noop} from "../chartCommon/common";
+import { noop } from '../chartCommon/common';
 import './G2Map.scss';
 
 const defaultConfig = {
@@ -31,9 +31,7 @@ const defaultConfig = {
   labels: false,
 };
 
-const chinaProjection = () => {
-  return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
-};
+const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '澳门'];
@@ -85,7 +83,7 @@ export default {
         title: null,
         position: 'left',
         // 使用container控制图例添加的位置，方便调整样式
-        container: '#' + this.chartId + '-legend',
+        container: `#${this.chartId}-legend`,
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         autoPosition: false,
         onHover: noop,
@@ -249,10 +247,9 @@ export default {
     if (chartRatio > ratio) {
       width = chartHeight * ratio;
     } else if (chartRatio < ratio) {
-      height = chartWidth / ratio
+      height = chartWidth / ratio;
     }
     chart.changeSize(width, height);
-
   }
 };
 
@@ -301,7 +298,7 @@ function drawMapBackground(chart, ds, config) {
   if (chartRatio > ratio) {
     width = chartHeight * ratio;
   } else if (chartRatio < ratio) {
-    height = chartWidth / ratio
+    height = chartWidth / ratio;
   }
   if (width !== chartWidth || height !== chartHeight) {
     chart.changeSize(width, height);
@@ -335,27 +332,25 @@ function drawMapArea(chart, ds, config, data) {
       geoDataView: this.bgMapDataView,
       field: 'name',
       type: 'geo.region',
-      as: [ 'x', 'y' ]
-      })
+      as: ['x', 'y']
+    })
       .transform({
         type: 'map',
-        callback: function(obj) {
+        callback(obj) {
           obj.type = String(obj.type);
           return obj;
         }
-    });
+      });
   const areaMapView = chart.view();
   areaMapView.source(areaMapDataView);
   areaMapView.polygon().position('x*y')
     // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
     .color('type', config.colors.slice(0))
     // .opacity('value')
-    .tooltip('name*value', function (name, value) {
-      return {
-        name,
-        value
-      };
-    });
+    .tooltip('name*value', (name, value) => ({
+      name,
+      value
+    }));
 
   this.areaMapView = areaMapView;
 }
@@ -379,12 +374,10 @@ function drawMapPoint(chart, ds, config, data) {
     .color('type', config.colors.slice(0))
     .size(4)
     // .opacity('value')
-    .tooltip('name*value', function (name, value) {
-      return {
-        name,
-        value
-      };
-    })
+    .tooltip('name*value', (name, value) => ({
+      name,
+      value
+    }))
     .active(false);
 
   this.pointMapView = pointMapView;
