@@ -63,14 +63,16 @@ function drawGuideLine(chart, guideLine) {
       guideConfig.text.style.textAlign = titleAlign || 'center';
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
-      guideConfig.start = function (xScales, yScales) {
+      // 函数接受两个参数 xScales 和 yScales
+      guideConfig.start = function (xScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value };
         }
         return { x: 'min', [axis]: value };
       };
-      guideConfig.end = function (xScales, yScales) {
+      // 函数接受两个参数 xScales 和 yScales
+      guideConfig.end = function (xScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: xScales.x.values.length - 0.5, [axis]: value };
@@ -112,14 +114,16 @@ function drawGuideArea(chart, guideArea) {
       guideConfig.end = [value[1], 'max'];
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
-      guideConfig.start = function (xScales, yScales) {
+      // 函数接受两个参数 xScales 和 yScales
+      guideConfig.start = function (xScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value[0] };
         }
         return { x: 'min', [axis]: value[0] };
       };
-      guideConfig.end = function (xScales, yScales) {
+      // 函数接受两个参数 xScales 和 yScales
+      guideConfig.end = function (xScales) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: xScales.x.values.length - 0.5, [axis]: value[1] };

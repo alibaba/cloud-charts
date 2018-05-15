@@ -147,21 +147,6 @@ export default {
         }
 
         chart.axis(`y${yIndex}`, yAxisLine);
-
-        // const yAxisBar = {
-        //   title: null, // 不展示坐标轴的标题
-        //   line: {
-        //     stroke: axisColor
-        //   },
-        //   label:{
-        //     formatter: axis.labelFormatter,
-        //   }
-        // };
-        // if (yIndex !== 0) {
-        //   yAxisBar.grid = null;
-        // }
-        //
-        // chart.axis('y' + yIndex + barKey, yAxisBar);
       });
     } else {
       const yAxisLine = {
@@ -172,15 +157,6 @@ export default {
       };
 
       chart.axis('y', yAxisLine);
-
-      // const yAxisBar = {
-      //   title: null, // 不展示坐标轴的标题
-      //   label:{
-      //     formatter:config.yAxis.labelFormatter,
-      //   }
-      // };
-      //
-      // chart.axis('y' + barKey, yAxisBar);
     }
 
     // 设置图例
@@ -230,12 +206,10 @@ export default {
     // 正式开始绘图，创建两个不同的view
     const barView = chart.view();
     barView.source(barData);
-    // barView.interval().position('name*value').color('type0').adjust(['dodge']);
     this.barView = barView;
 
     const lineView = chart.view();
     lineView.source(lineData);
-    // lineView.line().position('name*value').color('type');
     this.lineView = lineView;
 
     const lineShape = config.spline ? 'smooth' : 'line';

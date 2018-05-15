@@ -273,8 +273,8 @@ function g2Factory(name, Chart, convertData = true) {
       chart && ChartProcess.init.call(this, chart, config, data, initData);
 
       if (chart && event) {
-        Object.keys(event).forEach((name) => {
-          chart.on(name, event[name]);
+        Object.keys(event).forEach((eventKey) => {
+          chart.on(eventKey, event[eventKey]);
         });
       }
 
@@ -331,8 +331,8 @@ function g2Factory(name, Chart, convertData = true) {
 
     initSize() {
       const element = this.chartDom;
-      const size = getParentSize(element, this.props.width, this.props.height);
-      this.setSize(size);
+      const parentSize = getParentSize(element, this.props.width, this.props.height);
+      this.setSize(parentSize);
 
       window.addEventListener('resize', this.autoResize);
     }
@@ -349,28 +349,28 @@ function g2Factory(name, Chart, convertData = true) {
       requestAnimationFrame(() => {
         this.resizeRuning = false;
 
-        const size = getParentSize(element, props.width, props.height);
-        if(!(size[0] === _size[0] && size[1] === _size[1])){
-          this.setSize(size);
+        const parentSize = getParentSize(element, props.width, props.height);
+        if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
+          this.setSize(parentSize);
 
           if (ChartProcess.changeSize) {
-            this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, size[0], size[1]);
+            this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, parentSize[0], parentSize[1]);
           } else {
-            this.chart && this.chart.changeSize(size[0], size[1]);
+            this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
           }
         }
       })
     }
 
-    setSize(size) {
+    setSize(newSize) {
       const element = this.chartDom;
-      this._size = size;
+      this._size = newSize;
 
-      if (size[0]) {
-        element.style.width = size[0] + 'px';
+      if (newSize[0]) {
+        element.style.width = newSize[0] + 'px';
       }
-      if (size[1]) {
-        element.style.height = size[1] + 'px';
+      if (newSize[1]) {
+        element.style.height = newSize[1] + 'px';
       }
     }
 

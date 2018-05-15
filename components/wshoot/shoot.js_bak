@@ -6,8 +6,6 @@ function generateUniqueId() {
   return `shoot-${uniqueId++}`;
 }
 
-const PI = 2 * Math.PI;
-
 function Shoot(canvas, map, config) {
   this.uuid = generateUniqueId();
   this.map = map;
@@ -64,6 +62,8 @@ function Shoot(canvas, map, config) {
 
   this.sCtx = this.canvas.getContext('2d');
   this.sCtx.lineWidth = this.config.lineWidth;
+
+  // this.init(canvas);
 }
 
 function random() {
@@ -71,55 +71,117 @@ function random() {
 }
 
 Shoot.prototype = {
+  init(canvas) {
+    const self = this;
+
+    // 射击canvas层
+    // self.canvas = canvas;
+
+    // self.sCtx = self.canvas.getContext('2d');
+    // self.sCtx.lineWidth = self.config.lineWidth;
+
+    // 如果存在批量出现的key，则必定批量出现
+    // if(self.config.batchKey){
+    //   self.config.batch = true;
+    // }
+
+    // 计算半径
+    // self.calRadius();
+  },
+
+  // 计算半径
+  // calRadius: function(){
+  //   var self = this,
+  //     fr = self.config.fromRadius,
+  //     tr = self.config.toRadius;
+  //
+  //   if(typeof fr !== 'number'){
+  //     if(fr.domain && fr.range){
+  //       self.fromRadiusScale = d3.scale.linear()
+  //         .domain(fr.domain).range(fr.range)
+  //         .clamp(true);
+  //     }
+  //   }
+  //
+  //   if(typeof tr !== 'number'){
+  //     if(tr.domain && tr.range){
+  //       self.toRadiusScale = d3.scale.linear()
+  //         .domain(tr.domain).range(tr.range)
+  //         .clamp(true);
+  //     }
+  //   }
+  // },
+
   // 清除画布
   clear(ctx) {
-    const { width, height } = this.config;
+    let self = this,
+      width = self.config.width,
+      height = self.config.height;
 
     ctx.clearRect(0, 0, width, height);
   },
 
+//  getCoord: function(name, map) {
+//      var self = this,
+//          width = self.config.width,
+//          height = self.config.height,
+//          posList = self.config.posList;
+//
+//      return {
+//          x: posList[name].x * width,
+//          y: posList[name].y * height
+//      }
+//  },
   draw(data) {
     if (!data) {
       return;
     }
-    const self = this,
+    let self = this,
+      batchKey = self.config.batchKey,
       dTime = self.config.dTime,
       // 由于要保证interval时间内完成全部动画
       interval = self.config.interval,
       autoUpdate = self.config.autoUpdate,
       maxFps = self.config.maxFps,
       times = (interval / dTime) >> 0,
+      indexMap = {},
       keys = self.config.keys,
       sCtx = self.sCtx,
+      ceil = Math.ceil,
+      max = Math.max,
       shoots = [],
+      count = 0,
       shootMap = {},
-      time = self.config.shootTime,
-      l = data.length;
-
-    let fCo,
+      fCo,
       tCo,
       s;
+
+    // self.unoverview();
 
     // 先清除画布
     self.clear(sCtx);
 
+    const l = data.length;
+
+    const time = self.config.shootTime;
+
     for (let i = 0; i < l; i++) {
-      const d = data[i],
+      var d = data[i],
         fromCityName = d[keys.from],
         toCityName = d[keys.to];
 
       if (typeof fromCityName === 'object') {
         fCo = fromCityName;
-      // } else {
-      //   // 获取出发城市在画布上的坐标
-      //   fCo = self.map.getCoord(fromCityName);
+      } else {
+        // 获取出发城市在画布上的坐标
+        fCo = self.map.getCoord(fromCityName);
       }
 
       if (typeof toCityName === 'object') {
         tCo = toCityName;
-      // } else {
-      //   // 获取到达城市在画布上的坐标
-      //   tCo = self.map.getCoord(toCityName);
+      } else {
+        // 获取到达城市在画布上的坐标
+        tCo = self.map.getCoord(toCityName);
       }
 
       if (fCo && tCo) {
@@ -131,7 +193,17 @@ Shoot.prototype = {
 
         s = self.emit(fCo, tCo, d, color, time);
 
+        // 批量出现的话要根据特定的数据key，否则随机出现
+        // if(batchKey){
+        //   // FIXED: 有可能为0
+        //   if(indexMap[d[batchKey]] === undefined){
+        //     indexMap[d[batchKey]] = count++;
+        //   }
+        //
+        //   s.index = indexMap[d[batchKey]];
+        // }else{
         s.index = (times - 1) * Math.random();
+        // }
 
         // 判断是否是多点同时射击一个点
         if (!shootMap[s.index]) {
@@ -149,6 +221,11 @@ Shoot.prototype = {
           shootMap[s.index].push(toCityName);
         }
 
+        // 是否批量出现
+        // if(self.config.batch){
+        //   s.index = s.index >> 0;
+        // }
+
         shoots.push(s);
       }
     }
@@ -159,13 +236,22 @@ Shoot.prototype = {
       maxFps
     }, (t) => {
       self.clear(sCtx);
-      shoots.forEach((shootFunction) => {
-        shootFunction(t * times - shootFunction.index);
+      shoots.forEach((s, i) => {
+        s(t * times - s.index);
       });
     });
+
+    // transition().duration(interval).tween(this.uuid, function() {
+    //   return function(t) {
+    //     self.clear(sCtx);
+    //     shoots.forEach(function(s, i) {
+    //       s(t * times - s.index);
+    //     });
+    //   };
+    // });
   },
   emit(fCo, tCo, data, color, time) {
-    const self = this,
+    let self = this,
       keys = self.config.keys,
       sCtx = self.sCtx,
       // 发射出现时间段
@@ -188,13 +274,25 @@ Shoot.prototype = {
       fromFadeBegin = fromTime + fromStop,
       // 命中消失时间点
       toFadeBegin = toBegin + toTime + toStop,
-      // 发射半径
-      fr = self.config.fromRadius,
-      tr = self.config.toRadius,
-      h = data[keys.curvature] || random(),
-      shootDurable = self.config.shootDurable;
+      s,
+      fr,
+      tr;
 
-    let s;
+    // 发射半径
+    // if(self.fromRadiusScale){
+    //   fr = self.fromRadiusScale(data[keys.fromValue]);
+    // }else{
+    fr = self.config.fromRadius;
+    // }
+
+    // 到达半径
+    // if(self.toRadiusScale){
+    //   tr = self.toRadiusScale(data[keys.toValue]);
+    // }else{
+    tr = self.config.toRadius;
+    // }
+
+    const h = data[keys.curvature] || random();
 
     s = function (t) {
       if (fCo) {
@@ -219,6 +317,7 @@ Shoot.prototype = {
         } else if (t > toBegin && t < toFadeBegin) {
           // 到达后停留
           // TODO add by kaihong.tkh
+          const shootDurable = self.config.shootDurable;
           if (shootDurable) {
             let time = -(t - fromTime) / (toBegin - fromTime);
             time -= Math.floor(time);
@@ -239,6 +338,9 @@ Shoot.prototype = {
           // 1. 放大
           if (t >= toBegin && t < (toBegin + toTime)) {
             if (!s.to) {
+              // TODO fire 方法需要改写？
+//                              self.fire('to', {pos: tCo, data: data});
+//                              $(self).trigger('to', {pos: tCo, data: data})
               s.to = true;
             }
             self.to(tCo, tr, color)((t - toBegin) / toTime);
@@ -257,10 +359,11 @@ Shoot.prototype = {
   },
 
   from(co, r, color, zoom) {
-    const self = this,
+    let self = this,
       c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`,
       b = self.config.fromBorder,
-      sCtx = self.sCtx;
+      sCtx = self.sCtx,
+      pi = 2 * Math.PI;
 
     return function (t) {
       if (t > 1 || t < 0) {
@@ -285,7 +388,7 @@ Shoot.prototype = {
       sCtx.shadowOffsetX = 0;
       sCtx.shadowOffsetY = 0;
 
-      sCtx.arc(co.x, co.y, r * t, 0, PI);
+      sCtx.arc(co.x, co.y, r * t, 0, pi);
 
       sCtx.fill();
       sCtx.stroke();
@@ -293,17 +396,18 @@ Shoot.prototype = {
       // 画中心圆
       sCtx.beginPath();
       sCtx.fillStyle = `${c}1)`;
-      sCtx.arc(co.x, co.y, 2 * t, 0, PI);
+      sCtx.arc(co.x, co.y, 2 * t, 0, pi);
       sCtx.fill();
 
       sCtx.restore();
     };
   },
   to(co, r, color, zoom, n, anticlockwise) {
-    const self = this,
+    let self = this,
       c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`,
       b = self.config.toBorder,
       sCtx = self.sCtx,
+      pi = 2 * Math.PI,
       sin = Math.sin,
       cos = Math.cos;
 
@@ -318,7 +422,7 @@ Shoot.prototype = {
 
       // 每次转的角度
       if (n) {
-        rad = n * PI * t;
+        rad = n * pi * t;
 
         if (anticlockwise) {
           rad = -rad;
@@ -332,7 +436,7 @@ Shoot.prototype = {
       // 画背景圆
       sCtx.beginPath();
       sCtx.fillStyle = `${c}0.3)`;
-      sCtx.arc(co.x, co.y, r * t, 0, PI);
+      sCtx.arc(co.x, co.y, r * t, 0, pi);
       sCtx.fill();
 
       // 画离散弧线
@@ -345,31 +449,36 @@ Shoot.prototype = {
       sCtx.shadowOffsetX = 0;
       sCtx.shadowOffsetY = 0;
 
-      sCtx.arc(co.x, co.y, r * t, rad, PI / 6 + rad);
-      sCtx.moveTo(co.x + r * cos(PI / 3 + rad) * t, co.y + r * sin(PI / 3 + rad) * t);
-      sCtx.arc(co.x, co.y, r * t, PI / 3 + rad, PI / 2 + rad);
-      sCtx.moveTo(co.x + r * cos(PI * 2 / 3 + rad) * t, co.y + r * sin(PI * 2 / 3 + rad) * t);
-      sCtx.arc(co.x, co.y, r * t, PI * 2 / 3 + rad, PI * 5 / 6 + rad);
+      sCtx.arc(co.x, co.y, r * t, rad, pi / 6 + rad);
+      sCtx.moveTo(co.x + r * cos(pi / 3 + rad) * t, co.y + r * sin(pi / 3 + rad) * t);
+      sCtx.arc(co.x, co.y, r * t, pi / 3 + rad, pi / 2 + rad);
+      sCtx.moveTo(co.x + r * cos(pi * 2 / 3 + rad) * t, co.y + r * sin(pi * 2 / 3 + rad) * t);
+      sCtx.arc(co.x, co.y, r * t, pi * 2 / 3 + rad, pi * 5 / 6 + rad);
 
       sCtx.stroke();
 
       // 画中心圆
       sCtx.beginPath();
       sCtx.fillStyle = `${c}1)`;
-      sCtx.arc(co.x, co.y, 2 * t, 0, PI);
+      sCtx.arc(co.x, co.y, 2 * t, 0, pi);
       sCtx.fill();
 
       sCtx.restore();
     };
   },
   track(ctx, fCo, tCo, fade, color, h, overview) {
-    const self = this,
+    let self = this,
+      abs = Math.abs,
+      sin = Math.sin,
       cos = Math.cos,
       atan = Math.atan,
       pow2 = function (x) {
         return Math.pow(x, 2);
       },
       sqrt = Math.sqrt,
+      pow = function (i) {
+        return Math.pow(i, 2);
+      },
       fColor = `rgba(${color.fColor || self.config.lineColor.from},`,
       tColor = `rgba(${color.tColor || self.config.lineColor.to},`,
 
@@ -389,26 +498,26 @@ Shoot.prototype = {
       d = sqrt(pow2(x1 - x2) + pow2(y1 - y2)) / h,
       rad = atan(j),
       cx = d * cos(rad),
+      // 控制点坐标
+      x3 = (x1 + x2) / 2 + cx,
+      y3 = j * x3 + k,
       // 渐变
       gradient = ctx.createLinearGradient(x1, y1, x2, y2),
       bulletR = this.config.bullet.r,
-      bulletLen = this.config.bullet.length,
-      shootDurable = self.config.shootDurable;
-
-    // 控制点坐标
-    let x3 = (x1 + x2) / 2 + cx,
-      y3 = j * x3 + k;
+      bulletLen = this.config.bullet.length;
 
     if (isNaN(j)) {
       // 水平方向
       x3 = dx;
       y3 = dy + h;
-    } else if (j === 0) {
+    } else if (j == 0) {
       // 竖直方向
       x3 = dx + h;
       y3 = dy;
     } else if (Math.abs(j) >= 1) { // 之后的两个条件判断请画象限图理解。。。估计明天我也忘记为什么要这么写了
+      // k = dy + dx/j;
       y3 = dy - cx;
+      // x3 = (k - y3)*j;
       x3 = (y3 - k) / j;
     } else if (j > 0) {
       x3 = (x1 + x2) / 2 - cx;
@@ -419,6 +528,7 @@ Shoot.prototype = {
       // 移动点坐标
       let x0,
         y0,
+        pi = 2 * Math.PI,
         // 贝塞尔曲线切线斜率
         kx,
         ky,
@@ -442,6 +552,7 @@ Shoot.prototype = {
           gradientOpacity = t < 0.01 ? 0.01 : t;
         }
 
+        var shootDurable = self.config.shootDurable;
         if (shootDurable) {
           gradientOpacity = 1; // add by kaihong.tkh 线不需要渐变
         }
@@ -467,7 +578,7 @@ Shoot.prototype = {
 
       if (!fade && !overview) {
         // 创建圆形蒙板
-        ctx.arc(rx, ry, r, 0, PI);
+        ctx.arc(rx, ry, r, 0, pi);
         ctx.clip();
       }
 
@@ -488,12 +599,13 @@ Shoot.prototype = {
 
       // 计算旋转角度
       if (ky > 0 && kx < 0) {
-        a += PI / 2;
+        a += pi / 2;
       } else if (ky < 0 && kx < 0) {
-        a -= PI / 2;
+        a -= pi / 2;
       }
 
       // TODO add by kaihong.tkh
+      var shootDurable = self.config.shootDurable;
       if (shootDurable) {
         self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
       } else if (!fade && !overview) {
@@ -503,7 +615,8 @@ Shoot.prototype = {
     };
   },
   drawBullet(x, y, a, color, r, len) {
-    const self = this,
+    let self = this,
+      pi = 2 * Math.PI,
       sCtx = self.sCtx;
 
     sCtx.save();
@@ -523,7 +636,7 @@ Shoot.prototype = {
     sCtx.shadowOffsetY = 0;
 
     sCtx.fillStyle = color || this.config.bullet.color;
-    sCtx.arc(x, y, r, -PI / 4, PI / 4);
+    sCtx.arc(x, y, r, -pi / 4, pi / 4);
 
     sCtx.lineTo(x - len, y);
 
@@ -533,6 +646,13 @@ Shoot.prototype = {
 
     sCtx.restore();
   },
+  unoverview() {
+    const self = this;
+
+    // 隐藏overview canvas，显示shoot canvas
+    // $(self.config.canvas).hide();
+    // $(self.canvas).show();
+  },
   update(time) {
     if (this.tween && this.tween.update) {
       this.tween.update(time);
@@ -540,6 +660,8 @@ Shoot.prototype = {
   },
   destroy() {
     this.clear(this.sCtx);
+
+    // this.canvas.parentNode.removeChild(this.canvas);
   }
 };
 
