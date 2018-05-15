@@ -34,7 +34,7 @@ class Map extends MapBase {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.children !== this.props.children) {
-      this.convertChildren(nextProps.children);
+      this.convertChildren(nextProps.children, nextProps.config);
     }
 
     super.componentWillReceiveProps(nextProps);
@@ -47,16 +47,18 @@ class Map extends MapBase {
     return super.shouldComponentUpdate(nextProps, nextState) || newLayer !== oldLayer;
   }
 
-  convertChildren(children = this.props.children) {
+  convertChildren(children = this.props.children, config = this.props.config) {
     const customPointLayer = [];
-    React.Children.forEach(children, function (child) {
+    React.Children.forEach(children, (child) => {
       if (!child) {
         return;
       }
-
       if (child.type.name === 'MapCustom') {
         customPointLayer.push(child.props);
       }
+
+      let { data } = child.props;
+      this.chartProcess.changeData.call(this, this.chart, config, child.type.name, data);
     });
     this.setState({
       customPointLayer

@@ -11,13 +11,14 @@ import './G2Map.scss';
 
 const defaultConfig = {
   padding: [20, 20, 20, 20],
-  colors: (() => {
-    const result = [];
-    for (let i = 1; i <= 10; i++) {
-      result.push(color[`widgetsColorLinear${i}`]);
-    }
-    return result;
-  })(),
+  // colors: (() => {
+  //   const result = [];
+  //   for (let i = 1; i <= 10; i++) {
+  //     result.push(color[`widgetsColorLinear${i}`]);
+  //   }
+  //   return result;
+  // })(),
+  colors: color.category_12,
   type: 'china',
   showSouthChinaSea: true,
   legend: {
@@ -102,7 +103,7 @@ export default {
       chart.legend(false);
     }
 
-    const ds = new DataSet();
+    const ds = this.ds = new DataSet();
 
     drawMapBackground.call(this, chart, ds, config);
 
@@ -128,9 +129,6 @@ export default {
     this.setState({
       customPointLayer
     });
-
-    //
-    this.convertChildren();
 
     // tooltip
     // if (config.tooltip) {
@@ -188,6 +186,20 @@ export default {
       height = chartWidth / ratio;
     }
     chart.changeSize(width, height);
+  },
+  changeData(chart, newConfig, viewName, newData) {
+    const config = merge({}, defaultConfig, newConfig);
+    const ds = this.ds;
+    let data = newData;
+    if (config.dataType !== 'g2') {
+      data = convertMapData(newData);
+    }
+    if (viewName === 'MapArea') {
+      drawMapArea.call(this, chart, ds, config, data);
+    }
+    if (viewName === 'MapPoint') {
+      drawMapPoint.call(this, chart, ds, config, data);
+    }
   }
 };
 
@@ -264,14 +276,18 @@ function drawMapBackground(chart, ds, config) {
 
 // 绘制分级统计地图
 function drawMapArea(chart, ds, config, data) {
-  const areaMapDataView = ds.createView()
-    .source(data)
-    .transform({
-      geoDataView: this.bgMapDataView,
-      field: 'name',
-      type: 'geo.region',
-      as: ['x', 'y']
-    })
+  let areaMapDataView = this.areaMapDataView;
+  if (areaMapDataView) {
+    areaMapDataView.origin !== data && areaMapDataView.source(data);
+  } else {
+    areaMapDataView = this.areaMapDataView = ds.createView()
+      .source(data)
+      .transform({
+        geoDataView: this.bgMapDataView,
+        field: 'name',
+        type: 'geo.region',
+        as: ['x', 'y']
+      })
       .transform({
         type: 'map',
         callback(obj) {
@@ -279,46 +295,53 @@ function drawMapArea(chart, ds, config, data) {
           return obj;
         }
       });
-  const areaMapView = chart.view();
-  areaMapView.source(areaMapDataView);
-  areaMapView.polygon().position('x*y')
-    // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
-    .color('type', config.colors.slice(0))
-    // .opacity('value')
-    .tooltip('name*value', (name, value) => ({
-      name,
-      value
-    }));
 
-  this.areaMapView = areaMapView;
+    const areaMapView = chart.view();
+    areaMapView.source(areaMapDataView);
+    areaMapView.polygon().position('x*y')
+    // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
+      .color('type', config.colors.slice(0))
+      // .opacity('value')
+      .tooltip('name*value', (name, value) => ({
+        name,
+        value
+      }));
+
+    this.areaMapView = areaMapView;
+  }
 }
 
 // 绘制散点图
 function drawMapPoint(chart, ds, config, data) {
-  const pointMapDataView = ds.createView()
-    .source(data)
-    .transform({
-      type: 'map',
-      callback: (point) => {
-        point.type = String(point.type);
-        return convertPointPosition.call(this, point);
-      }
-    });
+  let pointMapDataView = this.pointMapDataView;
+  if (pointMapDataView) {
+    pointMapDataView.origin !== data && pointMapDataView.source(data);
+  } else {
+    pointMapDataView = this.pointMapDataView = ds.createView()
+      .source(data)
+      .transform({
+        type: 'map',
+        callback: (point) => {
+          point.type = String(point.type);
+          return convertPointPosition.call(this, point);
+        }
+      });
 
-  const pointMapView = chart.view();
-  pointMapView.source(pointMapDataView);
-  pointMapView.point().position('x*y')
-    .shape('circle')
-    .color('type', config.colors.slice(0))
-    .size(4)
-    // .opacity('value')
-    .tooltip('name*value', (name, value) => ({
-      name,
-      value
-    }))
-    .active(false);
+    const pointMapView = chart.view();
+    pointMapView.source(pointMapDataView);
+    pointMapView.point().position('x*y')
+      .shape('circle')
+      .color('type', config.colors.slice(0))
+      .size(4)
+      // .opacity('value')
+      .tooltip('name*value', (name, value) => ({
+        name,
+        value
+      }))
+      .active(false);
 
-  this.pointMapView = pointMapView;
+    this.pointMapView = pointMapView;
+  }
 }
 
 function convertMapData(data) {

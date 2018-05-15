@@ -250,6 +250,8 @@ function g2Factory(name, Chart, convertData = true) {
     componentWillMount () {
       if (this.props.customChart) {
         this.chartProcess = ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
+      } else {
+        this.chartProcess = ChartProcess;
       }
     }
 

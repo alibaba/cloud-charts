@@ -58,16 +58,23 @@ class Demo extends React.Component{
   };
 
   componentWillMount() {
-    
+    setTimeout(() => {
+      this.setState({
+        pointData: [
+          { name: '北京', lng: 116.4551, lat: 40.2539, value: 50, type: '中' },
+          { name: '杭州', lng: 119.5313, lat: 29.8773, value: 30, type: '中' },
+          { name: '上海', lng: 121.4648, lat: 31.2891, value: 60, type: '良' },
+          { name: '广州', lng: 113.5107, lat: 23.2196, value: 10, type: '优' },
+        ]
+      });
+    }, 3000);
   }
   render(){
     const { width, height } = this.state;
-
     return (
       <Wcontainer height={height} style={{ width: width }}>
         <Wmap config={options}>
-          <Wmap.Area data={data} />
-          <Wmap.Point data={pointData} />
+          <Wmap.Point data={this.state.pointData} />
         </Wmap>
       </Wcontainer>
     );
