@@ -4,7 +4,7 @@ import React from 'react';
 import { DataSet } from '@antv/data-set';
 import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
-import chinaGeo from './chinaGeo';
+import chinaGeo from './chinaGeo.json';
 import { color, size } from '../theme/normal';
 import {noop} from "../chartCommon/common";
 import './G2Map.scss';

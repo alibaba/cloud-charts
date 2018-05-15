@@ -53,51 +53,63 @@ const config = {
     }
   },
 
-  externals: [{
-    react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react'
+  externals: [
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react'
+      }
+    },
+    {
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom'
+      }
+    },
+    {
+      '@alife/aisc': {
+        root: 'Aisc',
+        commonjs2: 'Aisc',
+        commonjs: 'Aisc',
+        amd: 'Aisc'
+      }
     }
-  }, {
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom'
-    }
-  }, {
-    '@alife/aisc': {
-    root: 'Aisc',
-    commonjs2: 'Aisc',
-    commonjs: 'Aisc',
-    amd: 'Aisc'
-    }
-  }],
+  ],
 
   module: {
-    loaders: [{
-      test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
-      loaders: ['react-hot-loader/webpack', 'babel']
-    }, {
-      test: /\.less$/,
-      exclude: /node_modules/,
-      loader: ExtractTextPlugin.extract('style', 'raw!postcss!less')
-    }, {
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('style', 'raw!postcss!@ali/sass-loader')
-    // }, {
-    //     test: /\.scssm$/,
-    //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!@ali/sass-loader`)
-    // }, {
-    //     test: /\.lessm$/,
-    //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!less`)
-    // }, {
-    //     test: /\.cssm$/,
-    //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss`)
-    }]
+    loaders: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loaders: ['react-hot-loader/webpack', 'babel']
+      },
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract('style', 'raw!postcss!less')
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style', 'raw!postcss!@ali/sass-loader')
+        // }, {
+        //     test: /\.scssm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!@ali/sass-loader`)
+        // }, {
+        //     test: /\.lessm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!less`)
+        // }, {
+        //     test: /\.cssm$/,
+        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss`)
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
+    ]
   },
 
   postcss() {
@@ -131,7 +143,7 @@ const config = {
  */
 function getDevEntry(cwd) {
   const entry = {};
-  glob.sync('*.jsx', { cwd }).forEach((item) => {
+  glob.sync('*.jsx', {cwd}).forEach((item) => {
     const file = item.replace('.jsx', '');
     entry[file] = [
       `webpack-dev-server/client?http://0.0.0.0:${config.port}/`,
@@ -161,14 +173,14 @@ function dev() {
 
   _config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('development') },
+      'process.env': {NODE_ENV: JSON.stringify('development')},
       __DEV__: JSON.stringify(JSON.parse('true'))
     }),
 
     // 代码热替换
     new webpack.HotModuleReplacementPlugin(),
 
-    new ExtractTextPlugin('[name].css', { allChunks: true })
+    new ExtractTextPlugin('[name].css', {allChunks: true})
   );
 
   // 添加soure-map
@@ -197,15 +209,14 @@ function demo() {
 
   _config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production') },
+      'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false'))
     }),
 
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
     new webpack.optimize.DedupePlugin(),
 
-    new ExtractTextPlugin('[name].css', { allChunks: true })
-
+    new ExtractTextPlugin('[name].css', {allChunks: true})
   );
 
   _config.entry = getDevEntry(demoPath);
@@ -244,20 +255,20 @@ function prod(themeName) {
 
   _config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production') },
+      'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false'))
     }),
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
     new webpack.optimize.DedupePlugin(),
 
 
-    new ExtractTextPlugin('[name].css', { allChunks: true }),
+    new ExtractTextPlugin('[name].css', {allChunks: true}),
 
     // 压缩代码
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
-      compress: { warnings: false },
-      output: { comments: false }
+      compress: {warnings: false},
+      output: {comments: false}
     })
   );
 
