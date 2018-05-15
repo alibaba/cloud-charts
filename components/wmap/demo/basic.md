@@ -17,30 +17,31 @@ import { Wcontainer, Wmap } from '@alife/aisc-widgets';
 
 
 let data = [
-  { name: '广东', value: 20 },
-  { name: '新疆', value: 1 },
-  { name: '山西', value: 5 },
-  { name: '山东', value: 10 },
-  { name: '浙江', value: 32 },
-  { name: '青海', value: 24 },
-  { name: '四川', value: 46 },
-  { name: '广西', value: 64 },
-  { name: '西藏', value: 3 },
-  { name: '湖南', value: 7 },
-  { name: '湖北', value: 12 },
-  { name: '安徽', value: 30 },
-  { name: '甘肃', value: 28 },
-  { name: '河南', value: 50 },
+  { name: '广东', value: 20, type: '大' },
+  { name: '新疆', value: 1, type: '小' },
+  { name: '山西', value: 5, type: '小' },
+  { name: '山东', value: 10, type: '大' },
+  { name: '浙江', value: 32, type: '大' },
+  { name: '青海', value: 24, type: '大' },
+  { name: '四川', value: 46, type: '大' },
+  { name: '广西', value: 64, type: '大' },
+  { name: '西藏', value: 3, type: '小' },
+  { name: '湖南', value: 7, type: '小' },
+  { name: '湖北', value: 12, type: '大' },
+  { name: '安徽', value: 30, type: '大' },
+  { name: '甘肃', value: 28, type: '大' },
+  { name: '河南', value: 50, type: '大' },
 ];
 
 let pointData = [
-  { name: '北京', lng: 116.4551, lat: 40.2539, value: 20, type: '0' },
-  { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10, type: '1' },
-  { name: '上海', lng: 121.4648, lat: 31.2891, value: 40, type: '0' },
-  { name: '广州', lng: 113.5107, lat: 23.2196, value: 30, type: '2' },
+  { name: '北京', lng: 116.4551, lat: 40.2539, value: 20, type: '优' },
+  { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10, type: '良' },
+  { name: '上海', lng: 121.4648, lat: 31.2891, value: 40, type: '优' },
+  { name: '广州', lng: 113.5107, lat: 23.2196, value: 30, type: '中' },
 ];
 
 let options = {
+  dataType: 'g2',
   legend: {
     nameFormatter(name, data, index) {
       console.log(name, data, index);
@@ -53,22 +54,11 @@ class Demo extends React.Component{
   state = {
     width: 800,
     height: 600,
+    pointData: pointData
   };
 
   componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        width: 700,
-        height: 700
-      });
-    }, 3000);
-
-    setTimeout(() => {
-      this.setState({
-        width: 600,
-        height: 800
-      });
-    }, 6000);
+    
   }
   render(){
     const { width, height } = this.state;

@@ -21,7 +21,6 @@ const defaultConfig = {
   type: 'china',
   showSouthChinaSea: true,
   legend: {
-    align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
@@ -49,7 +48,7 @@ export default {
       config: newConfig
     });
   },
-  init(chart, config, data) {
+  init(chart, config) {
     // 同步度量
     chart.scale({
       longitude: {
@@ -98,22 +97,7 @@ export default {
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
             '<span class="g2-legend-text">' + result + '</span></li>';
         },
-        // 'g2-legend': Object.assign({
-        //   // display: 'inline-block',
-        //   position: 'relative',
-        //   textAlign: 'left',
-        //   // top: size.s3,
-        // }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 }),
       });
-      // hack 图例的位置，仅在初始化时处理一遍
-      // setTimeout(() => {
-      //   // TODO 在示例中this会无法获取？？？
-      //   const legendDom = self.chartDom.querySelector('.g2-legend');
-      //   const parent = legendDom && legendDom.parentNode;
-      //   if (parent) {
-      //     parent.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
-      //   }
-      // }, 100);
     } else {
       chart.legend(false);
     }
@@ -127,11 +111,15 @@ export default {
       if (!child) {
         return;
       }
+      let { data } = child.props;
+      if (config.dataType !== 'g2') {
+        data = convertMapData(data);
+      }
       if (child.type.name === 'MapArea') {
-        drawMapArea.call(this, chart, ds, config, child.props.data);
+        drawMapArea.call(this, chart, ds, config, data);
       }
       if (child.type.name === 'MapPoint') {
-        drawMapPoint.call(this, chart, ds, config, child.props.data);
+        drawMapPoint.call(this, chart, ds, config, data);
       }
       if (child.type.name === 'MapCustom') {
         customPointLayer.push(child.props);
@@ -187,56 +175,6 @@ export default {
     // }
 
     chart.render();
-
-    // 自定义图例html
-    // if (config.legend) {
-    //   let id = chart._attrs.id;
-    //   let chartNode = document.getElementById(id);
-    //   chartNode.style.position = 'relative';
-    //   let geom = chart.getGeoms()[0]; // 获取所有的图形
-    //   let items = geom.getData(); // 获取图形对应的数据
-    //   let stash = {};
-    //
-    //   let ulNode = document.createElement('ul');
-    //   ulNode.classList.add('ac-line-legend');
-    //   // ulNode.style.top = config.padding[0] + 'px';
-    //   if(config.legend.align === 'right'){
-    //     ulNode.style.right = config.padding[1] + 'px';
-    //   }else{
-    //     ulNode.style.left = 5 + 'px';
-    //   }
-    //   ulNode.innerHTML = '';
-    //   for (let i = 0, l = items.length; i < l; i++) {
-    //     let item = items[i];
-    //     let itemData = item._origin;
-    //     let color = item.color;
-    //     let type = itemData[0].type;
-    //     let name = itemData.name;
-    //     let value = itemData.value;
-    //
-    //     let typeFormatter = config.legend.nameFormatter ? config.legend.nameFormatter(type, item, i) : type ;
-    //
-    //     let liHtml = '<li class="item" data-id="' + type + '"><i class="dot" style="background:' + color + ';"></i><span>' + typeFormatter + '</span></li>';
-    //     ulNode.innerHTML += liHtml;
-    //     chartNode.appendChild(ulNode);
-    //
-    //     stash[type] = {
-    //       item: item,
-    //       color: color,
-    //       name: type,
-    //       isChecked: true,
-    //       index: i
-    //     };
-    //   }
-    //   let dotDom = chartNode.getElementsByClassName('dot');
-    //   Array.prototype.forEach.call(ulNode.querySelectorAll('li'), (item) => {
-    //     item.addEventListener('click', (e) => {
-    //       let node = getLegendNode(e.target);
-    //       let type = node.getAttribute('data-id');
-    //       g2LegendFilter(type, stash, Util, dotDom, chart);
-    //     });
-    //   });
-    // }
   },
   changeSize(chart, config, chartWidth, chartHeight) {
     const chartRatio = chartWidth / chartHeight;
@@ -383,22 +321,21 @@ function drawMapPoint(chart, ds, config, data) {
   this.pointMapView = pointMapView;
 }
 
-function convertTypeData(data) {
+function convertMapData(data) {
   if (!Array.isArray(data)) {
     return [];
   }
   const result = [];
   data.forEach((item) => {
-    const { name, data } = item;
-    if (!Array.isArray(data)) {
+    const { name = '', data: itemData } = item;
+    if (!Array.isArray(itemData)) {
       return;
     }
-    data.forEach((d) => {
-      if (!d.type) {
-        d.type = name || 'type';
-      }
-
-      result.push(d);
+    itemData.forEach((d) => {
+      result.push({
+        ...d,
+        type: d.type || name
+      });
     });
   });
 
