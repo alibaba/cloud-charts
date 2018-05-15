@@ -136,12 +136,12 @@ export default {
             color,
             checked
           }, index) : value;
-          const number = config.legend.valueFormatter ? config.legend.valueFormatter(item['y'], {
+          const number = config.legend.valueFormatter ? config.legend.valueFormatter(item.y, {
             ...raw,
             percent,
             color,
             checked
-          }, index) : item['y'];
+          }, index) : item.y;
           return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
             '<span class="g2-legend-text">' + result + '</span>' + '<span class="g2-legend-value">' + number + '</span></li>';
