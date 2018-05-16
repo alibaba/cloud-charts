@@ -7,6 +7,7 @@ import merge from '../utils/merge';
 import chinaGeo from './chinaGeo.json';
 import { color, size } from '../theme/normal';
 import { noop } from '../chartCommon/common';
+import { provinceName, positionMap } from './chinaGeoInfo';
 import './G2Map.scss';
 
 const defaultConfig = {
@@ -289,17 +290,27 @@ function drawMapArea(chart, ds, config, data) {
     areaMapDataView = this.areaMapDataView = ds.createView()
       .source(data)
       .transform({
+        type: 'map',
+        callback(obj) {
+          const { name, type, ...others } = obj;
+          let newName = name;
+          // 将省份全称转化为简称，原名先存在别的名字
+          if (provinceName[name]) {
+            newName = provinceName[obj.name];
+          }
+          obj.type = String(obj.type);
+          return {
+            name: newName,
+            type: String(type),
+            ...others
+          };
+        }
+      })
+      .transform({
         geoDataView: this.bgMapDataView,
         field: 'name',
         type: 'geo.region',
         as: ['x', 'y']
-      })
-      .transform({
-        type: 'map',
-        callback(obj) {
-          obj.type = String(obj.type);
-          return obj;
-        }
       });
 
     const areaMapView = chart.view();
@@ -328,8 +339,9 @@ function drawMapPoint(chart, ds, config, data) {
       .transform({
         type: 'map',
         callback: (point) => {
-          point.type = String(point.type);
-          return convertPointPosition.call(this, point);
+          const newPoint = Object.assign({}, point);
+          newPoint.type = String(newPoint.type);
+          return convertPointPosition.call(this, newPoint);
         }
       });
 
@@ -426,15 +438,34 @@ export function convertPointPosition(point) {
   if (point.x && point.y) {
     return point;
   }
-  if (this.bgMapDataView && point.lng && point.lat) {
-    const projectedCoord = this.bgMapDataView.geoProjectPosition([Number(point.lng), Number(point.lat)], chinaProjection);
-    point.x = projectedCoord[0];
-    point.y = projectedCoord[1];
+  if (!this.bgMapDataView) {
     return point;
   }
-  if (point.name) {
-
+  if (point.lng && point.lat) {
+    return getProjectionPosition(point, this.bgMapDataView, Number(point.lng), Number(point.lat));
   }
+  if (point.name) {
+    let name = point.name;
+    if (!/^\w/.test(name)) {
+      if (name === '\u963F\u62C9' || name === '\u5F20\u5BB6') {
+        // 阿拉、张家 两个开头的需要截取三个字符
+        name = name.slice(0, 3);
+      } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) { //以"省" / "自治区"结尾的不截断
+        name = name.slice(0, 2);
+      }
+    }
+    const position = positionMap[name];
+    if (position) {
+      return getProjectionPosition(point, this.bgMapDataView, position.lng, position.lat);
+    }
+  }
+  return point;
+}
+
+function getProjectionPosition(point, view, lng, lat) {
+  const projectedCoord = view.geoProjectPosition([lng, lat], chinaProjection);
+  point.x = projectedCoord[0];
+  point.y = projectedCoord[1];
   return point;
 }
 
