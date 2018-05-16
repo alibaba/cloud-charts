@@ -42,6 +42,7 @@ let pointData = [
 
 let options = {
   dataType: 'g2',
+  labels: true,
   legend: {
     nameFormatter(name, data, index) {
       console.log(name, data, index);

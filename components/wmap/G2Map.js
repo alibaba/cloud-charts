@@ -11,14 +11,14 @@ import './G2Map.scss';
 
 const defaultConfig = {
   padding: [20, 20, 20, 20],
-  // colors: (() => {
-  //   const result = [];
-  //   for (let i = 1; i <= 10; i++) {
-  //     result.push(color[`widgetsColorLinear${i}`]);
-  //   }
-  //   return result;
-  // })(),
-  colors: color.category_12,
+  areaColors: (() => {
+    const result = [];
+    for (let i = 1; i <= 10; i++) {
+      result.push(color[`widgetsColorLinear${i}`]);
+    }
+    return result;
+  })(),
+  pointColors: color.category_12,
   type: 'china',
   showSouthChinaSea: true,
   legend: {
@@ -34,7 +34,19 @@ const defaultConfig = {
 const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
 
 // 这几个地点太小，需要特殊处理边框颜色
-const minArea = ['钓鱼岛', '赤尾屿', '澳门'];
+const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
+const minLabel = ['钓鱼岛', '赤尾屿'];
+
+// 特殊处理一些地区的label
+const fixLngLatMap = {
+  '甘肃': [104.4948862, 35.0248462],
+  '河北': [115.5193875, 38.3062153],
+  '天津': [118.2141694, 38.8206246],
+  '澳门': [113.2573035, 21.7906005],
+  '香港': [114.9040905, 21.9265955],
+  '陕西': [108.5133047, 33.8799429],
+  '上海': [122.2818331, 31.0480268],
+};
 
 export default {
   beforeInit(props) {
@@ -162,15 +174,9 @@ export default {
     //   chart.tooltip(false);
     // }
 
-    // chart.polygon().position(Stat.map.region('name', config.geoData)).color('Population','#e5f5e0-#31a354').style({
-    //   fill: 'rgba(49, 157, 255, 0.8)',
-    //   stroke: '#999',
-    //   lineWidth: 1
-    // });
-    //
-    // if (config.labels) {
-    //   chart.point().position(Stat.map.center('name', config.geoData)).size(0).label('name', {offset: 0});
-    // }
+    if (config.labels) {
+      drawMapLabel.call(this, chart, config);
+    }
 
     chart.render();
   },
@@ -299,8 +305,8 @@ function drawMapArea(chart, ds, config, data) {
     const areaMapView = chart.view();
     areaMapView.source(areaMapDataView);
     areaMapView.polygon().position('x*y')
-    // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
-      .color('type', config.colors.slice(0))
+      // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
+      .color('type', config.areaColors)
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
@@ -331,7 +337,7 @@ function drawMapPoint(chart, ds, config, data) {
     pointMapView.source(pointMapDataView);
     pointMapView.point().position('x*y')
       .shape('circle')
-      .color('type', config.colors.slice(0))
+      .color('type', config.pointColors)
       .size(4)
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
@@ -342,6 +348,56 @@ function drawMapPoint(chart, ds, config, data) {
 
     this.pointMapView = pointMapView;
   }
+}
+
+function drawMapLabel(chart, config) {
+  const labelConfig = config.labels;
+
+  // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
+  const labelData = this.bgMapDataView.rows.map((row) => {
+    let label = {
+      name: row.name,
+      x: row.cX,
+      y: row.cY
+    };
+
+    // fix 某些地区label位置不好，需要重新定位
+    const fixLngLat = fixLngLatMap[row.name];
+    if (fixLngLat) {
+      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, chinaProjection);
+      label.x = position[0];
+      label.y = position[1];
+    }
+
+    return label;
+  });
+
+  const labelMapView = chart.view();
+  labelMapView.source(labelData);
+  labelMapView.point().position('x*y')
+    .size(0)
+    .label('name', {
+      offset: 0,
+      textStyle: (name) => {
+        let fontSize = size.s3;
+        // 对一些尺寸非常小的形状特殊处理，以显示出来。
+        if (minLabel.indexOf(name) > -1) {
+          fontSize = size.s2;
+        }
+
+        return {
+          fill: color.colorN23,
+          // 需要去掉 px 的字符串
+          fontSize: fontSize.replace('px', ''),
+          textBaseline: 'middle'
+        };
+      },
+      formatter: labelConfig.formatter || null
+    })
+    .tooltip(false)
+    .active(false);
+
+  this.labelMapView = labelMapView;
 }
 
 function convertMapData(data) {
