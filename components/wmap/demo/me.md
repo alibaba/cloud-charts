@@ -357,7 +357,7 @@ class Demo extends React.Component{
     return (
       <Wcontainer height={600} style={{ width: 800 }}>
         <Wmap config={options}>
-          <Wmap.Point data={data} />
+          <Wmap.Point labels data={data} />
         </Wmap>
       </Wcontainer>
     );

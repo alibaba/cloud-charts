@@ -129,11 +129,12 @@ export default {
       if (config.dataType !== 'g2') {
         data = convertMapData(data);
       }
+      const layerConfig = Object.assign({}, config, child.props);
       if (child.type.name === 'MapArea') {
-        drawMapArea.call(this, chart, ds, config, data);
+        drawMapArea.call(this, chart, ds, layerConfig, data);
       }
       if (child.type.name === 'MapPoint') {
-        drawMapPoint.call(this, chart, ds, config, data);
+        drawMapPoint.call(this, chart, ds, layerConfig, data);
       }
       if (child.type.name === 'MapCustom') {
         customPointLayer.push(child.props);
@@ -347,16 +348,29 @@ function drawMapPoint(chart, ds, config, data) {
 
     const pointMapView = chart.view();
     pointMapView.source(pointMapDataView);
-    pointMapView.point().position('x*y')
+    const pointGeom = pointMapView.point().position('x*y')
       .shape('circle')
       .color('type', config.pointColors)
-      .size(4)
+      .size(config.size || 4)
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
         value
       }))
       .active(false);
+
+    if (config.labels) {
+      pointGeom.label('name', {
+        offset: `-${size.s3.replace('px', '')}`,
+        textStyle: {
+          fill: color.colorN23,
+          // 需要去掉 px 的字符串
+          fontSize: size.s3.replace('px', ''),
+          textBaseline: 'middle'
+        },
+        formatter: config.labels.formatter || null
+      })
+    }
 
     this.pointMapView = pointMapView;
   }

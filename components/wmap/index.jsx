@@ -55,6 +55,7 @@ class Map extends MapBase {
       }
       if (child.type.name === 'MapCustom') {
         customPointLayer.push(child.props);
+        return;
       }
 
       let { data } = child.props;
