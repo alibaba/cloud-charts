@@ -129,7 +129,7 @@ export function getStatusColorName(status) {
  * @return {boolean} 是否有效数字
  * */
 export function isInvalidNumber(v) {
-  return isNaN(v) || !isFinite(v) || v === null;
+  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
 }
 
 /**
