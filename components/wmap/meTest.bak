@@ -1,0 +1,236 @@
+// 原始数据
+const meRawData = [
+  {
+    city: '北京市',
+    shop: '北京一店',
+    indicator1: 3000,
+    indicator2: 200,
+    indicator3: 4,
+  },
+  {
+    city: '北京市',
+    shop: '北京二店',
+    indicator1: 2000,
+    indicator2: 300,
+    indicator3: 5,
+  },
+  {
+    city: '北京市',
+    shop: '北京三店',
+    indicator1: 5000,
+    indicator2: 400,
+    indicator3: 2,
+  },
+  {
+    city: '杭州市',
+    shop: '亲橙里',
+    indicator1: 1000,
+    indicator2: 500,
+    indicator3: 10,
+  },
+  {
+    city: '上海市',
+    shop: '上海一店',
+    indicator1: 3600,
+    indicator2: 240,
+    indicator3: 6,
+  },
+  {
+    city: '上海市',
+    shop: '上海零店',
+    indicator1: 2200,
+    indicator2: 640,
+    indicator3: 1,
+  },
+];
+
+// 预警规则
+const alarmRule = [
+  {
+    type: 'more',
+    name: '指标一',
+    key: 'indicator1',
+    warning: 3000,
+    error: 5000
+  },
+  {
+    type: 'less',
+    name: '指标二',
+    key: 'indicator2',
+    warning: 300,
+    error: 200
+  },
+];
+
+/*
+* 按城市聚合数据，结果形如：
+[
+  {
+    name: '北京市',
+    data: [
+      {
+        city: '北京市',
+        shop: '北京一店',
+        indicator1: 3000,
+        indicator2: 200,
+        indicator3: 4,
+      },
+      {
+        city: '北京市',
+        shop: '北京二店',
+        indicator1: 2000,
+        indicator2: 300,
+        indicator3: 5,
+      },
+      ...
+    ]
+  },
+  ...
+]
+* */
+const meCityData = ((data) => {
+  const cityMap = {};
+
+  // 将原始数据按照city维度分开存储到不同的key中
+  meRawData.forEach((d) => {
+    const { city } = d;
+    if (cityMap[city]) {
+      cityMap[city].push(d);
+    } else {
+      cityMap[city] = [d];
+    }
+  });
+
+  // 将统一存储的Map转化为数组
+  return Object.keys(cityMap).map((city) => {
+    return {
+      name: city,
+      data: cityMap[city]
+    };
+  });
+})(meRawData);
+
+const compareFunMap = {
+  more(a, b) {
+    return a > b;
+  },
+  less(a, b) {
+    return a < b;
+  }
+};
+
+function isInvalidNumber(v) {
+  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
+}
+
+/*
+* 应用预警规则，提取出报警数据
+* */
+const meAlarmData = ((cityData) => {
+  cityData.forEach((item) => {
+    const { data } = item;
+
+    item.normal = [];
+    item.warning = [];
+    item.error = [];
+
+    data.forEach((d) => {
+      // const { city, shop, ...raw } = d;
+
+      d.normal = [];
+      d.warning = [];
+      d.error = [];
+
+      alarmRule.forEach((r) => {
+        const { key, name, type, warning, error } = r;
+        const value = d[key];
+        if (isInvalidNumber(value)) {
+          return;
+        }
+
+        const compareFun = compareFunMap[type];
+
+        // 先判断error的状态，通过则不再判断warning
+        if (compareFun(value, error)) {
+          d.error.push({
+            key,
+            name,
+            value
+          });
+        } else if (compareFun(value, warning)) {
+          d.warning.push({
+            key,
+            name,
+            value
+          });
+        } else {
+          d.normal.push({
+            key,
+            name,
+            value
+          });
+        }
+      });
+
+      if (d.error.length > 0) {
+        item.error.push(d);
+      } else if (d.warning.length > 0) {
+        item.warning.push(d);
+      } else {
+        item.normal.push(d);
+      }
+    });
+  });
+
+  return cityData;
+})(meCityData);
+
+const meResultData = ((data) => {
+  return data.map((d) => {
+    d.value = d.data.length;
+
+    const { warning, error } = d;
+    d.type = (warning.length > 0 || error.length > 0) ? '异常' : '正常';
+
+    return d;
+  }).sort((a, b) => {
+    // 将异常的排在前面
+    return a.type === '异常' ? -1 : 1;
+  });
+})(meAlarmData);
+
+console.log(meResultData);
+//console.log(JSON.stringify(meResultData, null, 2));
+
+const valueFormatter = (value, raw, index, items) => {
+  const errorShop = raw.error.concat(raw.warning);
+  if (errorShop.length === 0) {
+    return '正常';
+  }
+
+  const errorKeyMap = {};
+  const errorShopStr = errorShop.map((e) => {
+    const { shop } = e;
+
+    e.error.concat(e.warning).forEach((keyInfo) => {
+      if (errorKeyMap[keyInfo.key]) {
+        errorKeyMap[keyInfo.key].count += 1;
+      } else {
+        errorKeyMap[keyInfo.key] = {
+          name: keyInfo.name,
+          count: 1
+        };
+      }
+    });
+
+    return `<span style="display: block; color: ${COLORS.widgetsColorOrange}">${shop}</span>`;
+  }).join('');
+
+  const errorKey = Object.keys(errorKeyMap).map((errorKey) => {
+    const info = errorKeyMap[errorKey];
+    return `<span style="color: ${COLORS.widgetsColorOrange}">${info.name}</span> 报警${info.count}次`;
+  });
+
+  return `<br />异常门店：<span style="color: ${COLORS.widgetsColorRed}">${errorShop.length}家</span><br />
+${errorShopStr}<br />异常指标：<span style="color: ${COLORS.widgetsColorRed}">${errorKey.length}个</span><br />${errorKey.join('<br />')}`;
+};
