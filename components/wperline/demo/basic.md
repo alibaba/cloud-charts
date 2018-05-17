@@ -16,14 +16,17 @@ import { Wcontainer, Wperline } from '@alife/aisc-widgets';
 
 class Demo extends React.Component {
   render() {
+
+
+
+  
     return (
       <div>
         <Wcontainer height="50">
-          <Wperline  percent={10} status={'error'} />
-        </Wcontainer>
-
-        <Wcontainer height="50">
-          <Wperline  percent={40} />
+          <div>
+            指标1 <Wperline style={{display: 'inline-block'}} percent={10} status={'error'} />
+            指标2 <Wperline style={{display: 'inline-block'}} percent={40} />
+          </div>
         </Wcontainer>
       </div>
     );

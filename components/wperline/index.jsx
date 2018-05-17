@@ -14,17 +14,22 @@ export default class Wperline extends React.Component {
   };
 
   render() {
-    const percent = this.props.percent;
-    let defaultStyle = { width: `${percent}%` };
+    const { className, style, percent, status, ...others } = this.props;
+    const barStyle = { width: `${percent}%` };
+    const textStyle = {};
 
     if (percent < 15) {
-      defaultStyle = { width: `${percent}%`, 'text-indent': `${percent + 1}%` };
+      textStyle.marginRight = 0;
+      textStyle.marginLeft = '100%';
+      textStyle.paddingLeft = 7;
     }
 
+    const cls = classNames(prefix, `${prefix}-status-${status}`, className);
+
     return (
-      <div className={`${prefix} ${prefix}-status-${this.props.status}`}>
-        <div className={`${prefix}-num`} style={defaultStyle}>
-          <span>{percent}%</span>
+      <div className={cls} style={style} {...others}>
+        <div className={`${prefix}-num`} style={barStyle}>
+          <span style={textStyle}>{percent}%</span>
         </div>
       </div>
     )
