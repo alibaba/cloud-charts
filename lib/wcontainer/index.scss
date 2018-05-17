@@ -16,6 +16,16 @@
     border-bottom: 1px solid $color-n1-5;
     >#{$wcontainer-prefix}-operation {
       float: right;
+
+      font-size: $font-size-base-caption;
+
+      a {
+        color: $color-n2-3;
+
+        &:hover {
+          color: $color-n2-4;
+        }
+      }
     }
   }
   #{$wcontainer-prefix}-hide-title-border {

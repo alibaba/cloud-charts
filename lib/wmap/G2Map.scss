@@ -1,3 +1,5 @@
+@import "../theme/normal";
+
 .aisc-widgets.G2Map {
   position: relative;
   // 使缩放后的地图居中
@@ -9,6 +11,23 @@
     position: absolute;
     right: 0;
     bottom: 0;
+  }
+
+  .aisc-widgets-map-legend {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    // 注意！ 这个需要和 g2Factory 中的 g2-legend 的样式一致
+    //overflow: auto;
+    font-family: $font-family-base;
+    font-size: $font-size-base-caption;
+    line-height: $font-size-base-caption;
+    color: $color-n2-4;
+
+    .g2-legend:last-child .g2-legend-list-item:last-child {
+      margin-bottom: 0 !important;
+    }
   }
 
   .aisc-widgets-map-custom-container {
@@ -29,5 +48,13 @@
   // fix 在开发项目中被 display: inline-block 导致canvas上移两个像素的问题
   canvas {
     display: block;
+  }
+
+  .g2-tooltip-list > li:first-child {
+    margin-top: 0 !important;
+  }
+
+  .g2-legend-list-item:last-child {
+    margin-right: 0 !important;
   }
 }
