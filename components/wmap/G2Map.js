@@ -369,7 +369,7 @@ function drawMapPoint(chart, ds, config, data) {
           textBaseline: 'middle'
         },
         formatter: config.labels.formatter || null
-      })
+      });
     }
 
     this.pointMapView = pointMapView;
@@ -381,7 +381,7 @@ function drawMapLabel(chart, config) {
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
   const labelData = this.bgMapDataView.rows.map((row) => {
-    let label = {
+    const label = {
       name: row.name,
       x: row.cX,
       y: row.cY
@@ -464,7 +464,7 @@ export function convertPointPosition(point) {
       if (name === '\u963F\u62C9' || name === '\u5F20\u5BB6') {
         // 阿拉、张家 两个开头的需要截取三个字符
         name = name.slice(0, 3);
-      } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) { //以"省" / "自治区"结尾的不截断
+      } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) { // 以"省" / "自治区"结尾的不截断
         name = name.slice(0, 2);
       }
     }
