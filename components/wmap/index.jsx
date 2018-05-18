@@ -58,7 +58,7 @@ class Map extends MapBase {
         return;
       }
 
-      let { data } = child.props;
+      const { data } = child.props;
       this.chartProcess.changeData.call(this, this.chart, config, child.type.displayName, data);
     });
     this.setState({

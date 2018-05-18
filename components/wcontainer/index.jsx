@@ -93,7 +93,7 @@ export default class Wcontainer extends React.Component {
     let maxColPerRow = 0;
     let currentColPerRow = 0;
     // 计算栅格的ColSpan
-    React.Children.forEach(this.props.children, (child, i) => {
+    React.Children.forEach(this.props.children, (child) => {
       if (child.type.displayName !== 'Divider') {
         currentColPerRow += 1;
       } else if (child.type && child.type !== 'combiner') {
@@ -154,8 +154,8 @@ function chunks(arr, maxSpan) {
       );
       oneRow = [];
     } else if (child.type === 'combiner' && oneRow.length) {
-      let lastChild = oneRow[oneRow.length - 1].props.children;
-      let lastSpan = oneRow[oneRow.length - 1].props.span;
+      const lastChild = oneRow[oneRow.length - 1].props.children;
+      const lastSpan = oneRow[oneRow.length - 1].props.span;
       oneRow[oneRow.length - 1] = (
         <Col span={lastSpan + maxSpan} key={i}>
           {lastChild}

@@ -7,6 +7,7 @@ import merge from '../utils/merge';
 import chinaGeo from './mapData/chinaGeo.json';
 import { color, size } from '../theme/normal';
 import { noop } from '../chartCommon/common';
+import rectLegend from "../chartCommon/rectLegend";
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import './G2Map.scss';
 
@@ -89,32 +90,12 @@ export default {
     mapTooltip.call(this, chart, config);
 
     // 设置图例
-    if (config.legend) {
-      const self = this;
-      chart.legend({
-        useHtml: true,
-        title: null,
-        position: 'left',
-        // 使用container控制图例添加的位置，方便调整样式
-        container: `#${this.chartId}-legend`,
-        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-        autoPosition: false,
-        onHover: noop,
-        itemTpl: (value, color, checked, index) => {
-          const item = (self.rawData && self.rawData[index]) || {};
-          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-            ...item,
-            color,
-            checked
-          }, index) : value;
-          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">' + result + '</span></li>';
-        },
-      });
-    } else {
-      chart.legend(false);
-    }
+    rectLegend.call(this, chart, config, {
+      position: 'left',
+      // 使用container控制图例添加的位置，方便调整样式
+      container: `#${this.chartId}-legend`,
+      'g2-legend': {}
+    });
 
     const ds = this.ds = new DataSet();
 
@@ -143,38 +124,6 @@ export default {
     this.setState({
       customPointLayer
     });
-
-    // tooltip
-    // if (config.tooltip) {
-    //   let tooltipCfg = {
-    //     custom: true,
-    //     offset: 8,
-    //     // crosshairs: {
-    //     //   type: 'y' // 启用水平方向的辅助线
-    //     // },
-    //     // crossLine: {
-    //     //   stroke: '#dddddd',
-    //     //   lineWidth: 1,
-    //     // },
-    //     padding: [12, 12, 12, 12],
-    //     html: '<div class="ac-tooltip" style="position:absolute;visibility: hidden;"><h4 class="ac-title"></h4><ul class="ac-list"></ul></div>',
-    //     // itemTpl: '<li><i style="background-color:{color}"></i>{name}<span>{value}</span></li>',
-    //   };
-    //   chart.tooltip(true, tooltipCfg);
-    //   if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-    //     chart.on('tooltipchange', function (ev) {
-    //       ev.items.forEach((item) => {
-    //         item.title = config.tooltip.titleFormatter ? config.tooltip.titleFormatter(item.title) : item.title;
-    //         item.value = '';
-    //         item.name = '';
-    //         // item.value = config.tooltip.valueFormatter ? config.tooltip.valueFormatter(item.value) : item.value;
-    //         // item.name = config.tooltip.nameFormatter ? config.tooltip.nameFormatter(item.name) : item.name;
-    //       });
-    //     });
-    //   }
-    // } else {
-    //   chart.tooltip(false);
-    // }
 
     if (config.labels) {
       drawMapLabel.call(this, chart, config);

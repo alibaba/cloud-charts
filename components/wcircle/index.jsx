@@ -63,8 +63,8 @@ export default class Wcircle extends React.Component {
   renderMain() {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
-    let radius = this.props.radius;
-    let strokeWidth = this.props.strokeWidth;
+    const radius = this.props.radius;
+    const strokeWidth = this.props.strokeWidth;
 
     if (this.props.trend === 'raise') {
       numberClasses += ' raise';
@@ -168,7 +168,7 @@ export default class Wcircle extends React.Component {
 Wcircle.propTypes = {
   type: PropTypes.oneOf(['gauge', 'circle']),
   title: PropTypes.node,
-  percent: function(props, propName, componentName){
+  percent: function(props, propName){
     if(!(props[propName] >= 0 && props[propName] <= 1)){
       return new Error('Validation failed!');
     }
@@ -176,13 +176,13 @@ Wcircle.propTypes = {
   unit: PropTypes.node,
   status: PropTypes.oneOf(['normal', 'warning', 'error', 'blue', 'orange', 'red']),
   // 半径
-  radius: function(props, propName, componentName){
+  radius: function(props, propName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){
       return new Error('Validation failed!');
     }
   },
   // 粗细
-  strokeWidth: function(props, propName, componentName){
+  strokeWidth: function(props, propName){
     if(!(props[propName] >= 2 && props[propName] <= 10)){
       return new Error('Validation failed!');
     }

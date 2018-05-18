@@ -119,38 +119,6 @@ const chartRender = (chart, config) => {
   chart.render();
 };
 
-export default {
-  beforeInit(props) {
-    const { config } = props;
-    const preConfig = {};
-    if (config.jitter) {
-      preConfig.xAxis = {
-        type: 'cat'
-      };
-    }
-    const newConfig = merge({}, defaultConfig, preConfig, config);
-
-    return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
-      config: newConfig
-    });
-  },
-  init(chart, userConfig, data) {
-    const config = userConfig;
-    setSource(chart, config, data);
-
-    setAxis(chart, config);
-
-    setToolTip.call(this, chart, config);
-
-    rectLegend.call(this, chart, config);
-
-    // 绘制辅助线，辅助背景区域
-    guide(chart, config);
-
-    chartRender(chart, config);
-  }
-};
 
 const setToolTip = function (chart, config) {
   if (config.tooltip) {
@@ -189,13 +157,43 @@ const setToolTip = function (chart, config) {
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
           }
-          // if (config.tooltip.nameFormatter) {
-          //   item.name = config.tooltip.nameFormatter(item.name, ev.items, index, item.point._origin);
-          // }
         });
       });
     }
   } else {
     chart.tooltip(false);
+  }
+};
+
+export default {
+  beforeInit(props) {
+    const { config } = props;
+    const preConfig = {};
+    if (config.jitter) {
+      preConfig.xAxis = {
+        type: 'cat'
+      };
+    }
+    const newConfig = merge({}, defaultConfig, preConfig, config);
+
+    return Object.assign({}, props, {
+      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
+      config: newConfig
+    });
+  },
+  init(chart, userConfig, data) {
+    const config = userConfig;
+    setSource(chart, config, data);
+
+    setAxis(chart, config);
+
+    setToolTip.call(this, chart, config);
+
+    rectLegend.call(this, chart, config);
+
+    // 绘制辅助线，辅助背景区域
+    guide(chart, config);
+
+    chartRender(chart, config);
   }
 };

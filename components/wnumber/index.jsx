@@ -8,6 +8,14 @@ import './index.scss';
 
 const prefix = 'aisc-wnumber';
 
+function getTrendIcon(trend) {
+  if(trend === 'raise'){
+    return <Warrow type="up"/>
+  }else if( trend === 'drop'){
+    return <Warrow type="down"/>
+  }
+}
+
 export default class Wnumber extends React.Component {
   constructor(props) {
     super(props);
@@ -28,27 +36,18 @@ export default class Wnumber extends React.Component {
     }
   }
 
-  trendIconFunc(trend){
-    if(trend === 'raise'){
-      return <Warrow type="up"/>
-    }else if( trend === 'drop'){
-      return <Warrow type="down"/>
-    }
-  }
-
   renderMain() {
+    const { status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio } = this.props;
+    const numberTrendIcon = getTrendIcon(numberTrend);
+    const numberClasses = `${prefix}-number`;
 
-    let numberTrendIcon = this.trendIconFunc(this.props.numberTrend);
-    let numberClasses = `${prefix}-number`;
+    const rightRatioTrendIcon = getTrendIcon(rightRatioTrend);
+    const rightRatioTrendClasses = `${prefix}-rightRatio ${rightRatioTrend}`;
 
-    let rightRatioTrendIcon = this.trendIconFunc(this.props.rightRatioTrend);
-    let rightRatioTrendClasses = `${prefix}-ratio ${this.props.rightRatioTrend}`;
-
-    // rightRatioTrend
     return(
-      <div className={`${prefix}-main ${this.props.numberTrend} ${this.props.status}`}>
+      <div className={`${prefix}-main ${numberTrend} ${status}`}>
         {
-          this.props.numberTrend &&
+          numberTrend &&
           <span className={`${prefix}-leftIcon`}>
             {numberTrendIcon}
           </span>
@@ -57,27 +56,27 @@ export default class Wnumber extends React.Component {
           {this.props.children}
         </span>
         {
-          this.props.unit &&
+          unit &&
           <span className={`${prefix}-unit`}>
-            {this.props.unit}
+            {unit}
           </span>
         }
         {
-          this.props.rightTitle &&
+          rightTitle &&
           <span className={`${prefix}-rightTitle`}>
-            {this.props.rightTitle}
+            {rightTitle}
           </span>
         }
         {
-          this.props.rightRatio &&
-          <span className={`${prefix}-rightRatio ${this.props.rightRatioTrend}`}>
+          rightRatio &&
+          <span className={rightRatioTrendClasses}>
             {
-              this.props.rightRatioTrend &&
+              rightRatioTrend &&
               <span className={`${prefix}-rightRatioIcon`}>
                 {rightRatioTrendIcon}
               </span>
             }
-            {this.props.rightRatio}
+            {rightRatio}
           </span>
         }
         { this.props.trend &&
@@ -90,7 +89,7 @@ export default class Wnumber extends React.Component {
   }
 
   render() {
-    const { className, ...otherProps} = this.props;
+    const { className, style, ...otherProps} = this.props;
 
     const mainClasses = classNames({
       [`${prefix}`]: true,
@@ -98,7 +97,7 @@ export default class Wnumber extends React.Component {
     });
 
     return (
-      <div className={mainClasses} {...otherProps}>
+      <div className={mainClasses} style={style} {...otherProps}>
         {this.renderMain()}
         {this.renderBottom()}
       </div>
