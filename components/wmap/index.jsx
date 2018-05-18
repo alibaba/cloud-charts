@@ -1,7 +1,7 @@
 import React from 'react';
 import g2Factory from "../chartCommon/g2Factory";
 import G2Map, { convertPointPosition } from "./G2Map";
-import SouthChinaSea from './southChinaSea';
+import SouthChinaSea from './mapData/southChinaSea';
 import { color } from '../theme/normal';
 
 const MapBase = g2Factory('G2Map', G2Map, false);

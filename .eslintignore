@@ -27,4 +27,7 @@ webpack.config.js
 # 第三方库
 components/utils/merge.js
 
+# 地图数据
+components/wmap/mapData/
+
 template/

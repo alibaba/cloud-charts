@@ -4,10 +4,10 @@ import React from 'react';
 import { DataSet } from '@antv/data-set';
 import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
-import chinaGeo from './chinaGeo.json';
+import chinaGeo from './mapData/chinaGeo.json';
 import { color, size } from '../theme/normal';
 import { noop } from '../chartCommon/common';
-import { provinceName, positionMap } from './chinaGeoInfo';
+import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import './G2Map.scss';
 
 const defaultConfig = {
