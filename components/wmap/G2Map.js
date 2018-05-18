@@ -130,13 +130,13 @@ export default {
         data = convertMapData(data);
       }
       const layerConfig = Object.assign({}, config, child.props);
-      if (child.type.name === 'MapArea') {
+      if (child.type.displayName === 'WidgetsMapArea') {
         drawMapArea.call(this, chart, ds, layerConfig, data);
       }
-      if (child.type.name === 'MapPoint') {
+      if (child.type.displayName === 'WidgetsMapPoint') {
         drawMapPoint.call(this, chart, ds, layerConfig, data);
       }
-      if (child.type.name === 'MapCustom') {
+      if (child.type.displayName === 'WidgetsMapCustom') {
         customPointLayer.push(child.props);
       }
     });
@@ -202,10 +202,10 @@ export default {
     if (config.dataType !== 'g2') {
       data = convertMapData(newData);
     }
-    if (viewName === 'MapArea') {
+    if (viewName === 'WidgetsMapArea') {
       drawMapArea.call(this, chart, ds, config, data);
     }
-    if (viewName === 'MapPoint') {
+    if (viewName === 'WidgetsMapPoint') {
       drawMapPoint.call(this, chart, ds, config, data);
     }
   }

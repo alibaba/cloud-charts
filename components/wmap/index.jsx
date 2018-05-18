@@ -53,13 +53,13 @@ class Map extends MapBase {
       if (!child) {
         return;
       }
-      if (child.type.name === 'MapCustom') {
+      if (child.type.displayName === 'WidgetsMapCustom') {
         customPointLayer.push(child.props);
         return;
       }
 
       let { data } = child.props;
-      this.chartProcess.changeData.call(this, this.chart, config, child.type.name, data);
+      this.chartProcess.changeData.call(this, this.chart, config, child.type.displayName, data);
     });
     this.setState({
       customPointLayer
@@ -125,16 +125,19 @@ delete Map.propTypes.data;
 /**
  * @return {null}
  */
-Map.Area = function MapArea() { return null; };
+Map.Area = function WidgetsMapArea() { return null; };
+Map.Area.displayName = 'WidgetsMapArea';
 
 /**
  * @return {null}
  */
-Map.Point = function MapPoint() { return null; };
+Map.Point = function WidgetsMapPoint() { return null; };
+Map.Point.displayName = 'WidgetsMapPoint';
 
 /**
  * @return {null}
  */
-Map.Custom = function MapCustom() { return null; };
+Map.Custom = function WidgetsMapCustom() { return null; };
+Map.Custom.displayName = 'WidgetsMapCustom';
 
 export default Map;
