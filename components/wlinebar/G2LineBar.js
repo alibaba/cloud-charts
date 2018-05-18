@@ -63,10 +63,9 @@ export default {
       config: newConfig
     });
   },
-  init(chart, userConfig, data, rawData) {
+  init(chart, userConfig, data) {
     const config = userConfig;
 
-    // 在这里 data === rawData
     const rawLineData = [];
     const rawBarData = [];
     data.forEach((d) => {

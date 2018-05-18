@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
-import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
+import {propertyAssign, propertyMap, noop, getRawData} from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -134,7 +134,7 @@ export default {
       config: newConfig
     });
   },
-  init(chart, userConfig, data, rawData) {
+  init(chart, userConfig, data) {
     const config = userConfig;
     setSource(chart, config, data);
 
@@ -221,7 +221,7 @@ const setToolTip = function (chart, config) {
         }
 
         ev.items.forEach((item, index) => {
-          const raw = (this.rawData && this.rawData[index]) || {};
+          const raw = getRawData(config, this.rawData, item);
 
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);

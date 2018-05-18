@@ -43,7 +43,7 @@ export default {
       config: newConfig
     });
   },
-  init(chart, userConfig, data, rawData) {
+  init(chart, userConfig, data) {
     const config = userConfig;
 
     if (config.xAxis && config.xAxis.type === 'datetime') {

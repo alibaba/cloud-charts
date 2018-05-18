@@ -62,7 +62,13 @@ const options = {
   xAxis: {
     type: 'time',
     mask: 'YYYY-MM-DD'
-  }
+  },
+  tooltip: {
+    valueFormatter(v, raw) {
+      console.log(raw)
+      return v;
+    }
+  },
 };
 
 class Demo extends React.Component {

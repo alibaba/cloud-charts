@@ -87,7 +87,7 @@ export default {
 
     chart.changeData(data);
   },
-  init(chart, userConfig, data, rawData) {
+  init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
 
     const defs = {

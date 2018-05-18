@@ -1,6 +1,9 @@
 'use strict';
+import { getRawData } from './common';
 
-// 常见直角坐标系的tooltip
+/*
+* 常见直角坐标系的tooltip，包含title、name、value
+* */
 export default function (chart, config, customConfig) {
   // tooltip
   if (config.tooltip) {
@@ -22,7 +25,7 @@ export default function (chart, config, customConfig) {
         }
 
         ev.items.forEach((item, index) => {
-          const raw = (this.rawData && this.rawData[index]) || {};
+          const raw = getRawData(config, this.rawData, item);
 
           if (config.tooltip.valueFormatter) {
             item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);

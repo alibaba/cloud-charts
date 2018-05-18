@@ -47,7 +47,7 @@ export default {
     });
   },
   // 图表绘制主函数，必选
-  init(chart, userConfig, data, rawData) {
+  init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
 
     const defs = {

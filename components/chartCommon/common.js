@@ -180,3 +180,30 @@ export function beautifyNumber(num, char = ',') {
  * 空函数
  * */
 export function noop() {}
+
+/*
+* tooltip item 获取原始数据
+*
+* @param {object} config 图表配置项
+* @param {array} rawData 挂载于 this.rawData 上的原始数据
+* @param {number} item tooltip格式化函数的当前数据项
+*
+* @return {object} 寻找得到的原始数据，没有找到则返回空对象。
+* */
+export function getRawData(config, rawData, item) {
+  if(!rawData) {
+    return {};
+  }
+
+  let originData = (item.point && item.point._origin) || {};
+  if (config.dataType !== 'g2') {
+    rawData.some((r) => {
+      if (r.name === originData.type) {
+        originData = r;
+        return true;
+      }
+    });
+  }
+
+  return originData;
+}
