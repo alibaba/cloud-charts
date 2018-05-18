@@ -50,6 +50,14 @@ let options1 = {
       return v;
     }
   },
+  legend: {
+    nameFormatter(v, raw) {
+      if (raw.type === 'line') {
+        return 'line: ' + v;
+      }
+      return v;
+    }
+  },
   stack: true,
   area: true
 };
