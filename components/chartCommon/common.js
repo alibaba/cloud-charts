@@ -148,6 +148,14 @@ export function numberDecimal(num, decimal = 2) {
   return Math.round(Number(num) * Math.pow(10, decimal)) / Math.pow(10, decimal);
 }
 
+/**
+ * 数字格式化千分位
+ *
+ * @param {number} num 输入数字
+ * @param {number} char 分隔符，默认为逗号
+ *
+ * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回千分位的字符串。
+ * */
 export function beautifyNumber(num, char = ',') {
   if (isInvalidNumber(num)) {
     return '-';
