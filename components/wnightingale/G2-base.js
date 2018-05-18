@@ -47,7 +47,7 @@ export default {
         useHtml: true,
         title: null,
         offsetX: config.legend.offsetX || 0,
-        offsetY: -50 + (config.legend.offsetY || 0),
+        offsetY: config.legend.offsetY || 0,
         position: 'bottom',
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         // autoPosition: false,
