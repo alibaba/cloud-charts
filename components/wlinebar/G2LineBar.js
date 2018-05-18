@@ -6,6 +6,7 @@ import { propertyAssign, getDataIndexColor, propertyMap, noop } from '../chartCo
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
+import rectLegend from "../chartCommon/rectLegend";
 import './G2LineBar.scss';
 
 const defaultConfig = {
@@ -159,32 +160,16 @@ export default {
     }
 
     // 设置图例
+    rectLegend.call(this, chart, config, {
+      'g2-legend': Object.assign({
+        display: 'inline-block',
+        position: 'relative',
+        textAlign: 'left',
+        top: size.s3,
+      }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 })
+    });
+
     if (config.legend) {
-      chart.legend({
-        useHtml: true,
-        title: null,
-        position: 'top',
-        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-        autoPosition: false,
-        onHover: noop,
-        itemTpl: (value, color, checked, index) => {
-          const item = (this.rawData && this.rawData[index]) || {};
-          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-            ...item,
-            color,
-            checked
-          }, index) : value;
-          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">' + result + '</span></li>';
-        },
-        'g2-legend': Object.assign({
-          display: 'inline-block',
-          position: 'relative',
-          textAlign: 'left',
-          top: size.s3,
-        }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 }),
-      });
       // hack 图例的位置，仅在初始化时处理一遍
       setTimeout(() => {
         const parent = this.chartDom.querySelector('.g2-legend').parentNode;
@@ -192,8 +177,6 @@ export default {
           parent.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
         }
       }, 100);
-    } else {
-      chart.legend(false);
     }
 
     // tooltip

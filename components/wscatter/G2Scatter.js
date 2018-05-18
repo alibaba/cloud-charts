@@ -4,6 +4,7 @@
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
 import {propertyAssign, propertyMap, noop, getRawData} from '../chartCommon/common';
+import rectLegend from "../chartCommon/rectLegend";
 import guide from '../chartCommon/guide';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -142,50 +143,12 @@ export default {
 
     setToolTip.call(this, chart, config);
 
-    setLegend.call(this, chart, config, this.chartDom);
+    rectLegend.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
     chartRender(chart, config);
-  }
-};
-
-const setLegend = function (chart, config, chartNode) {
-  if (config.legend) {
-    chart.legend({
-      useHtml: true,
-      title: null,
-      position: 'top',
-      // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-      autoPosition: false,
-      onHover: noop,
-      itemTpl: (value, color, checked, index) => {
-        const item = (this.rawData && this.rawData[index]) || {};
-        const result = config.legend.nameFormatter
-          ? config.legend.nameFormatter(
-            value,
-            {
-              ...item,
-              color,
-              checked
-            },
-            index
-          )
-          : value;
-        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-          '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-          '<span class="g2-legend-text">'}${result}</span></li>`;
-      },
-      'g2-legend': Object.assign(
-        {
-          top: size.s3
-        },
-        config.legend.align === 'right' ? { right: 0 } : { left: 0 }
-      )
-    });
-  } else {
-    chart.legend(false);
   }
 };
 
