@@ -60,3 +60,16 @@ export const Wcustom = WG2Custom;
 export const Wsankey = WG2Sankey;
 export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
+
+let trackable = true;
+export function track(enable) {
+  G2.track(enable);
+  trackable = enable;
+}
+
+setTimeout(() => {
+  if (trackable && process.env.NODE_ENV === 'production') {
+    const image = new Image();
+    image.src = `//gm.mmstat.com/aisc-widgets.use.init?version=${__VERSION__}&t=${Date.now()}`;
+  }
+}, 3000);

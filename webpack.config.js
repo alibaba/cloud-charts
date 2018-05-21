@@ -12,6 +12,7 @@ const precss = require('precss');
 const glob = require('glob');
 const autoprefixer = require('autoprefixer');
 const FallbackPort = require('fallback-port');
+const packageInfo = require('./package');
 
 // 默认开启3000端口,若被占用,则开启其他端口
 const fallbackPort = new FallbackPort(3000);
@@ -174,7 +175,8 @@ function dev() {
   _config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('development')},
-      __DEV__: JSON.stringify(JSON.parse('true'))
+      __DEV__: JSON.stringify(JSON.parse('true')),
+      __VERSION__: JSON.stringify(packageInfo.version)
     }),
 
     // 代码热替换
@@ -210,7 +212,8 @@ function demo() {
   _config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('production')},
-      __DEV__: JSON.stringify(JSON.parse('false'))
+      __DEV__: JSON.stringify(JSON.parse('false')),
+      __VERSION__: JSON.stringify(packageInfo.version)
     }),
 
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
@@ -256,7 +259,8 @@ function prod(themeName) {
   _config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('production')},
-      __DEV__: JSON.stringify(JSON.parse('false'))
+      __DEV__: JSON.stringify(JSON.parse('false')),
+      __VERSION__: JSON.stringify(packageInfo.version)
     }),
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
     new webpack.optimize.DedupePlugin(),
