@@ -52,7 +52,8 @@ export function propertyAssign(keys, target, source) {
  * */
 export function getParentSize(element, width, height) {
   const parent = element && element.parentElement;
-  let w = '', h = '';
+  let w = '',
+    h = '';
   if (width) {
     w = width;
   } else if (parent) {
@@ -161,7 +162,8 @@ export function beautifyNumber(num, char = ',') {
     return '-';
   }
   const isNegative = num < 0;
-  let number = num.toString().split('.')[0].replace('-', ''), result = '';
+  let number = num.toString().split('.')[0].replace('-', ''),
+    result = '';
   while (number.length > 3) {
     result = char + number.slice(-3) + result;
     number = number.slice(0, number.length - 3);
@@ -191,7 +193,7 @@ export function noop() {}
 * @return {object} 寻找得到的原始数据，没有找到则返回空对象。
 * */
 export function getRawData(config, rawData, item) {
-  if(!rawData) {
+  if (!rawData) {
     return {};
   }
 

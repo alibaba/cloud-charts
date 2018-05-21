@@ -2,11 +2,11 @@
 
 import Brush from '@antv/g2-brush';
 import merge from '../utils/merge';
-import { color, size } from '../theme/normal';
+import { color } from '../theme/normal';
 import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
-import rectLegend from "../chartCommon/rectLegend";
+import rectLegend from '../chartCommon/rectLegend';
 import ResetButton from '../chartCommon/ResetButton';
 import './G2Bar.scss';
 

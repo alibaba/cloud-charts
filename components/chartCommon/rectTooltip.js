@@ -1,4 +1,5 @@
 'use strict';
+
 import { getRawData } from './common';
 
 /*

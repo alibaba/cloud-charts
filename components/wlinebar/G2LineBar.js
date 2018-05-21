@@ -2,11 +2,11 @@
 
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
-import { propertyAssign, getDataIndexColor, propertyMap, noop } from '../chartCommon/common';
+import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
 import guide from '../chartCommon/guide';
 import rectTooltip from '../chartCommon/rectTooltip';
-import rectLegend from "../chartCommon/rectLegend";
+import rectLegend from '../chartCommon/rectLegend';
 import './G2LineBar.scss';
 
 const defaultConfig = {

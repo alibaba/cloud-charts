@@ -1,17 +1,3 @@
-const nameMap = {};
-
-export default function (name, config, callback) {
-  if (nameMap[name]) {
-    // restart
-    nameMap[name].start();
-  } else {
-    // start
-    nameMap[name] = new Tween(config, callback);
-  }
-
-  return nameMap[name];
-}
-
 class Tween {
   constructor(config, callback) {
     const { maxFps } = config;
@@ -73,4 +59,18 @@ class Tween {
       this.stop();
     }
   }
+}
+
+const nameMap = {};
+
+export default function (name, config, callback) {
+  if (nameMap[name]) {
+    // restart
+    nameMap[name].start();
+  } else {
+    // start
+    nameMap[name] = new Tween(config, callback);
+  }
+
+  return nameMap[name];
 }

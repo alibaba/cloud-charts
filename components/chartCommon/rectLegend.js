@@ -1,6 +1,7 @@
 'use strict';
-import { size } from "../theme/normal";
-import { noop } from "./common";
+
+import { size } from '../theme/normal';
+import { noop } from './common';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -23,9 +24,9 @@ export default function (chart, config, customConfig) {
           color,
           checked
         }, index) : value;
-        return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-          '<span class="g2-legend-text">' + result + '</span></li>';
+          '<span class="g2-legend-text">'}${result}</span></li>`;
       },
       'g2-legend': Object.assign({
         top: size.s3,
@@ -43,7 +44,7 @@ export default function (chart, config, customConfig) {
 }
 
 function getRawData(config, rawData, name) {
-  if(!rawData) {
+  if (!rawData) {
     return {};
   }
 

@@ -59,9 +59,9 @@ export default {
             color,
             checked
           }, index) : value;
-          return '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+          return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">' + result + '</span></li>';
+            '<span class="g2-legend-text">'}${result}</span></li>`;
         },
         // 'g2-legend': Object.assign({
         //   top: size.s3,

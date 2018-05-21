@@ -6,9 +6,9 @@
         "react"
     ],
     "plugins": [
-      "transform-react-es6-displayname",
-      "add-module-exports",
-      "transform-decorators-legacy",
-      "transform-object-assign"
+        "transform-react-es6-displayname",
+        "add-module-exports",
+        "transform-decorators-legacy",
+        "transform-object-assign"
     ]
 }

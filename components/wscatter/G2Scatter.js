@@ -3,8 +3,8 @@
 // 引入所需要的库和样式
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
-import {propertyAssign, propertyMap, noop, getRawData} from '../chartCommon/common';
-import rectLegend from "../chartCommon/rectLegend";
+import { propertyAssign, propertyMap, getRawData } from '../chartCommon/common';
+import rectLegend from '../chartCommon/rectLegend';
 import guide from '../chartCommon/guide';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -126,7 +126,7 @@ const setToolTip = function (chart, config) {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: null,
       custom: true,
-      containerTpl: '<div class="g2-tooltip">' + '<p class="g2-tooltip-title">{name}</p>' + '<div class="g2-tooltip-list"></div>' + '</div>', // tooltip的外层模板
+      containerTpl: '<div class="g2-tooltip"><p class="g2-tooltip-title">{name}</p><div class="g2-tooltip-list"></div></div>', // tooltip的外层模板
       itemTpl: '<div class="g2-tooltip-list-item"><span style="color:{color}"></span><span>{value}</span></div>', // 支持的字段 index,color,name,value
       'g2-tooltip': {
         display: 'flex',

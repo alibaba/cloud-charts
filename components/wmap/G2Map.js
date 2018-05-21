@@ -6,8 +6,7 @@ import { geoConicEqualArea } from 'd3-geo';
 import merge from '../utils/merge';
 import chinaGeo from './mapData/chinaGeo.json';
 import { color, size } from '../theme/normal';
-import { noop } from '../chartCommon/common';
-import rectLegend from "../chartCommon/rectLegend";
+import rectLegend from '../chartCommon/rectLegend';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import './G2Map.scss';
 
