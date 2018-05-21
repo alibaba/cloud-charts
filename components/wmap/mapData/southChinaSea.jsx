@@ -1,3 +1,7 @@
+'use strict';
+
+import React from 'react';
+
 export default function (config) {
   return (
     <svg version="1.1" baseProfile="full" width="64" height="88" className={config.className} xmlns="http://www.w3.org/2000/svg">
