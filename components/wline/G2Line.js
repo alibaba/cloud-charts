@@ -5,6 +5,7 @@ import merge from '../utils/merge';
 import { color } from '../theme/normal';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
+import rectXAxis from "../chartCommon/rectXAxis";
 import rectTooltip from '../chartCommon/rectTooltip';
 import rectLegend from '../chartCommon/rectLegend';
 import ResetButton from '../chartCommon/ResetButton';
@@ -108,26 +109,8 @@ export default {
 
     chart.source(data, defs);
 
-    const xAxis = {
-      title: null, // 不展示坐标轴的标题
-      label: {
-        autoRotate: config.xAxis.autoRotate,
-        formatter: config.xAxis.labelFormatter,
-      }
-    };
-
-    // 网格线
-    if (config.grid) {
-      xAxis.grid = {
-        lineStyle: {
-          stroke: color.colorN13,
-          lineWidth: 1,
-          // lineDash: null
-        },
-        // hideFirstLine: true
-      };
-    }
-    chart.axis('x', xAxis);
+    // 设置X轴
+    rectXAxis.call(this, chart, config);
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
