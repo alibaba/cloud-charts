@@ -6,6 +6,7 @@ import { color } from '../theme/normal';
 import { propertyAssign, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectXAxis from '../chartCommon/rectXAxis';
+import rectYAxis from '../chartCommon/rectYAxis';
 import rectTooltip from '../chartCommon/rectTooltip';
 import rectLegend from '../chartCommon/rectLegend';
 import ResetButton from '../chartCommon/ResetButton';
@@ -72,14 +73,8 @@ export default {
 
     chart.source(data, defs);
 
-    const yAxis = {
-      title: null, // 不展示坐标轴的标题
-      label: {
-        formatter: config.yAxis.labelFormatter,
-      }
-    };
-
-    chart.axis('y', yAxis);
+    // 设置单个Y轴
+    rectYAxis.call(this, chart, config);
 
     // 设置X轴
     rectXAxis.call(this, chart, config);

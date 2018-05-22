@@ -6,6 +6,7 @@ import { color } from '../theme/normal';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
 import guide from '../chartCommon/guide';
 import rectXAxis from "../chartCommon/rectXAxis";
+import rectYAxis from "../chartCommon/rectYAxis";
 import rectTooltip from '../chartCommon/rectTooltip';
 import rectLegend from '../chartCommon/rectLegend';
 import ResetButton from '../chartCommon/ResetButton';
@@ -114,30 +115,20 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const yAxis = {
-          title: null, // 不展示坐标轴的标题
+        const yAxisConfig = {
           line: {
             stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.colorN16
           },
-          label: {
-            formatter: axis.labelFormatter,
-          }
         };
         if (yIndex !== 0) {
-          yAxis.grid = null;
+          yAxisConfig.grid = null;
         }
 
-        chart.axis(`y${yIndex}`, yAxis);
+        rectYAxis.call(this, chart, { yAxis: axis }, `y${yIndex}`, yAxisConfig);
       });
     } else {
-      const yAxis = {
-        title: null, // 不展示坐标轴的标题
-        label: {
-          formatter: config.yAxis.labelFormatter,
-        }
-      };
-
-      chart.axis('y', yAxis);
+      // 设置单个Y轴
+      rectYAxis.call(this, chart, config);
     }
 
     // 设置图例

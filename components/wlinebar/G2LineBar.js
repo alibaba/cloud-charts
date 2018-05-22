@@ -6,6 +6,7 @@ import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/c
 import highchartsDataToG2Data from '../chartCommon/dataAdapter';
 import guide from '../chartCommon/guide';
 import rectXAxis from "../chartCommon/rectXAxis";
+import rectYAxis from "../chartCommon/rectYAxis";
 import rectTooltip from '../chartCommon/rectTooltip';
 import rectLegend from '../chartCommon/rectLegend';
 import './G2LineBar.scss';
@@ -114,32 +115,22 @@ export default {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.colorN16;
-        const yAxisLine = {
-          title: null, // 不展示坐标轴的标题
+        const yAxisConfig = {
           line: {
             stroke: axisColor
           },
-          label: {
-            formatter: axis.labelFormatter,
-          }
         };
         if (yIndex !== 0) {
-          yAxisLine.grid = null;
+          yAxisConfig.grid = null;
           // TODO 可能需要移动位置？
-          yAxisLine.position = 'right';
+          yAxisConfig.position = 'right';
         }
 
-        chart.axis(`y${yIndex}`, yAxisLine);
+        rectYAxis.call(this, chart, { yAxis: axis }, `y${yIndex}`, yAxisConfig);
       });
     } else {
-      const yAxisLine = {
-        title: null, // 不展示坐标轴的标题
-        label: {
-          formatter: config.yAxis.labelFormatter,
-        }
-      };
-
-      chart.axis('y', yAxisLine);
+      // 设置单个Y轴
+      rectYAxis.call(this, chart, config);
     }
 
     // 设置图例

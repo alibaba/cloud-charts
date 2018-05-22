@@ -4,6 +4,7 @@
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, propertyMap, getRawData } from '../chartCommon/common';
+import rectYAxis from "../chartCommon/rectYAxis";
 import rectLegend from '../chartCommon/rectLegend';
 import guide from '../chartCommon/guide';
 
@@ -57,12 +58,8 @@ const setAxis = (chart, config) => {
   chart.axis('x', xAxis);
 
 
-  chart.axis('y', {
-    title: null,
-    label: {
-      formatter: config.yAxis.labelFormatter
-    }
-  });
+  // 设置单个Y轴
+  rectYAxis.call(this, chart, config);
 };
 
 const setSource = (chart, config, data) => {
