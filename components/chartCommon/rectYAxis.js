@@ -12,6 +12,13 @@ export default function (chart, config, yField = 'y', customConfig) {
       }
     };
 
+    // 关闭了X轴，需要显示第一条grid
+    if (!config.xAxis || config.xAxis.enable === false) {
+      yConfig.grid = {
+        hideFirstLine: false
+      };
+    }
+
     if (customConfig) {
       Object.assign(yConfig, customConfig);
     }

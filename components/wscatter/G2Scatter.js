@@ -4,6 +4,7 @@
 import merge from '../utils/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, propertyMap, getRawData } from '../chartCommon/common';
+import rectXAxis from "../chartCommon/rectXAxis";
 import rectYAxis from "../chartCommon/rectYAxis";
 import rectLegend from '../chartCommon/rectLegend';
 import guide from '../chartCommon/guide';
@@ -26,13 +27,9 @@ const defaultConfig = {
 };
 const colorMap = color.category_12;
 const setAxis = (chart, config) => {
-  const xAxis = {
-    title: null, // 不展示坐标轴的标题
-    label: {
-      autoRotate: config.xAxis.autoRotate,
-      formatter: config.xAxis.labelFormatter
-    }
-  };
+
+  // 设置X轴
+  const xAxis = {};
 
   if (config.jitter) {
     xAxis.grid = {
@@ -55,8 +52,7 @@ const setAxis = (chart, config) => {
     };
   }
 
-  chart.axis('x', xAxis);
-
+  rectXAxis.call(this, chart, config, xAxis);
 
   // 设置单个Y轴
   rectYAxis.call(this, chart, config);

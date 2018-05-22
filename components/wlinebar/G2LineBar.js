@@ -126,7 +126,7 @@ export default {
           yAxisConfig.position = 'right';
         }
 
-        rectYAxis.call(this, chart, { yAxis: axis }, `y${yIndex}`, yAxisConfig);
+        rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
       });
     } else {
       // 设置单个Y轴
