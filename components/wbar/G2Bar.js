@@ -135,5 +135,14 @@ export default {
         }
       });
     }
+  },
+  destroy() {
+    // 销毁时需要额外销毁缩放重置按钮
+    if (this.brush) {
+      this.brush.destroy();
+    }
+    if (this.resetButton) {
+      this.resetButton.destroy();
+    }
   }
 };
