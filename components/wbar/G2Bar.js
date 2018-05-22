@@ -58,6 +58,7 @@ export default {
   init(chart, userConfig, data) {
     const config = userConfig;
 
+    // 设置数据度量
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'cat',
@@ -117,6 +118,7 @@ export default {
 
     chart.render();
 
+    // 拖拽缩放
     if (config.zoom) {
       const button = this.resetButton = new ResetButton(chart);
 

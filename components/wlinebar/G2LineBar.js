@@ -122,7 +122,7 @@ export default {
         };
         if (yIndex !== 0) {
           yAxisConfig.grid = null;
-          // TODO 可能需要移动位置？
+          // 因为是多个view组成的图表，所以这里需要移动位置
           yAxisConfig.position = 'right';
         }
 

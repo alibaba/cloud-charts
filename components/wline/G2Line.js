@@ -154,6 +154,7 @@ export default {
 
     chart.render();
 
+    // 拖拽缩放
     if (config.zoom) {
       const button = this.resetButton = new ResetButton(chart);
 
@@ -172,6 +173,7 @@ export default {
     }
   },
   destroy() {
+    // 销毁时需要额外销毁缩放重置按钮
     if (this.brush) {
       this.brush.destroy();
     }
