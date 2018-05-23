@@ -25,8 +25,8 @@
     "build"
   ],
   "dependencies": {
-    "@alife/aisc": "^2.5.27",
-    "@alife/aisc-core": "^0.5.5",
+    "@alife/aisc": "^2.5.40",
+    "@alife/aisc-core": "^0.6.4",
     "prop-types": "^15.5.10",
     "sass-variable-loader": "^0.1.2"
   },
