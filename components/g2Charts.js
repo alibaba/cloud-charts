@@ -67,9 +67,10 @@ export function track(enable) {
   trackable = enable;
 }
 
+const logUrl = '//gm.mmstat.com/aisc-widgets.use.init';
 setTimeout(() => {
   if (trackable && process.env.NODE_ENV === 'production') {
     const image = new Image();
-    image.src = `//gm.mmstat.com/aisc-widgets.use.init?version=${__VERSION__}&t=${Date.now()}`;
+    image.src = `${logUrl}?version=${__VERSION__}&t=${Date.now()}&host=${location && location.host}&url=${document.URL}`;
   }
 }, 3000);
