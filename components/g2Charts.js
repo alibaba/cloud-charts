@@ -71,6 +71,6 @@ const logUrl = '//gm.mmstat.com/aisc-widgets.use.init';
 setTimeout(() => {
   if (trackable && process.env.NODE_ENV === 'production') {
     const image = new Image();
-    image.src = `${logUrl}?version=${__VERSION__}&t=${Date.now()}&host=${location && location.host}&url=${document.URL}`;
+    image.src = `${logUrl}?version=${__VERSION__}&t=${Date.now()}&host=${location && location.host}&url=${document.URL}&theme=${__THEME__}`;
   }
 }, 3000);
