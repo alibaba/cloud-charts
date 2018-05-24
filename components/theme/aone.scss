@@ -1,0 +1,44 @@
+@import "~@alife/aisc-core/scss/aisc";
+@import "~@alife/aisc/src/themes/aone-variables.scss";
+
+$font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$font-size-large-number: 28px !default;
+$font-size-xlarge-number: 32px !default;
+
+$widgets-color-white: #FFFFFF !default;
+$widgets-color-black: #000000 !default;
+
+$widgets-color-blue: #37CBC1 !default;
+$widgets-color-orange: #F8B15D !default;
+$widgets-color-red: #F36479 !default;
+$widgets-color-green: #6DC37D !default;
+$widgets-color-gray: #DCDEE3 !default;
+
+$widgets-color-category-1: $widgets-color-blue !default;
+$widgets-color-category-2: $widgets-color-orange !default;
+$widgets-color-category-3: $widgets-color-red !default;
+$widgets-color-category-4: $widgets-color-green !default;
+$widgets-color-category-5: #758FC6 !default;
+$widgets-color-category-6: #8C57AA !default;
+$widgets-color-category-7: #F0999F !default;
+$widgets-color-category-8: #B28A76 !default;
+$widgets-color-category-9: #CA567C !default;
+$widgets-color-category-10: #AD72CE !default;
+$widgets-color-category-11: #19B5D2 !default;
+$widgets-color-category-12: #4991E0 !default;
+
+$widgets-color-linear-1: $widgets-color-blue !default;
+$widgets-color-linear-2: #3BD0C7 !default;
+$widgets-color-linear-3: #5FD5CD !default;
+$widgets-color-linear-4: #73DAD3 !default;
+$widgets-color-linear-5: #87E0DA !default;
+$widgets-color-linear-6: #9BE5E0 !default;
+$widgets-color-linear-7: #AFEAE6 !default;
+$widgets-color-linear-8: #C3EFEC !default;
+$widgets-color-linear-9: #D7F5F3 !default;
+$widgets-color-linear-10: #EBF9F8 !default;
+
+$widgets-mini-card-empty: #F2F3F7 !default;
+
+$widgets-map-area-bg: #DCDEE3 !default;
+$widgets-map-area-border: #ffffff !default;
