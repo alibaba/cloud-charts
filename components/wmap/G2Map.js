@@ -36,6 +36,7 @@ const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([2
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
+// 这几个地点需要特殊处理标签的文字大小
 const minLabel = ['钓鱼岛', '赤尾屿'];
 
 // 特殊处理一些地区的label
@@ -159,8 +160,8 @@ export default {
   }
 };
 
+// 绘制地图背景
 function drawMapBackground(chart, ds, config) {
-  // 绘制地图背景
   let geoData = null;
   if (this.geoData) {
     // 如果用户有传geoData，优先使用
@@ -324,6 +325,7 @@ function drawMapPoint(chart, ds, config, data) {
   }
 }
 
+// 绘制背景地图标签
 function drawMapLabel(chart, config) {
   const labelConfig = config.labels;
 
@@ -374,6 +376,7 @@ function drawMapLabel(chart, config) {
   this.labelMapView = labelMapView;
 }
 
+// 转换地图数据结构，因为和默认结构不同，需要特殊处理。
 function convertMapData(data) {
   if (!Array.isArray(data)) {
     return [];
@@ -395,7 +398,7 @@ function convertMapData(data) {
   return result;
 }
 
-// 设置数据的坐标点
+// 计算数据的坐标点
 export function convertPointPosition(point) {
   if (point.x && point.y) {
     return point;
@@ -431,6 +434,7 @@ function getProjectionPosition(point, view, lng, lat) {
   return point;
 }
 
+// 地图的tooltip逻辑
 function mapTooltip(chart, config) {
   // tooltip
   if (config.tooltip) {

@@ -1,11 +1,10 @@
 import { color } from './theme/normal';
 import './index.scss';
 
-// 业务组件，组成没有依赖图表库
+// 业务组件，没有依赖其它图表库
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
 export Wicon from './wicon/index';
-// export Wminiline from './wminiline/index';
 export Wcircle from './wcircle/index';
 export Wminicontainer from './wminicontainer/index';
 export Wshoot from './wshoot/index';
@@ -15,7 +14,7 @@ export Wperline from './wperline/index';
 // 暴露颜色值
 export const COLORS = color;
 
-// 所有图表组件，这里底层依赖G2
+// 暴露所有图表组件、底层依赖的G2、工具类
 export * from './g2Charts';
 // import * as highchartsMap from './highchartsMap';
 //
