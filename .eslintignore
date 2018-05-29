@@ -25,7 +25,7 @@ gulpfile.js
 webpack.config.js
 
 # 第三方库
-components/utils/merge.js
+components/common/merge.js
 
 # 地图数据
 components/wmap/mapData/

@@ -1,10 +1,10 @@
 'use strict';
 
 // 引入所需要的库和样式
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color } from '../theme/normal';
-import { propertyAssign, propertyMap, noop } from '../chartCommon/common';
-import rectTooltip from '../chartCommon/rectTooltip';
+import { propertyAssign, propertyMap, noop } from '../common/common';
+import rectTooltip from '../common/rectTooltip';
 import './G2Radar.scss';
 
 // 建议将默认配置放在外层，方便后续维护

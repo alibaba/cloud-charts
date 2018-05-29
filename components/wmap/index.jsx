@@ -1,5 +1,5 @@
 import React from 'react';
-import g2Factory from "../chartCommon/g2Factory";
+import g2Factory from "../common/g2Factory";
 import G2Map, { convertPointPosition } from "./G2Map";
 import SouthChinaSea from './mapData/southChinaSea';
 import { color } from '../theme/normal';

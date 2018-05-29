@@ -3,8 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Warrow from '../chartCommon/arrow';
-import { getStatusColorName } from '../chartCommon/common';
+import Warrow from '../common/arrow';
+import { getStatusColorName } from '../common/common';
 import './index.scss';
 
 const prefix = 'aisc-wcircle';

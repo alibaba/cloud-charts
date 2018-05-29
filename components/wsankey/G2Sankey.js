@@ -1,7 +1,7 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import './G2Sankey.scss';
 
 const defaultConfig = {

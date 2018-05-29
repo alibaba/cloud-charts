@@ -1,5 +1,5 @@
-import merge from '../utils/merge';
-import tween from '../utils/tween';
+import merge from '../common/merge';
+import tween from '../common/tween';
 
 let uniqueId = 0;
 function generateUniqueId() {

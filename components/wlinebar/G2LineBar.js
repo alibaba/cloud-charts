@@ -1,14 +1,14 @@
 'use strict';
 
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color, size } from '../theme/normal';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../chartCommon/common';
-import highchartsDataToG2Data from '../chartCommon/dataAdapter';
-import guide from '../chartCommon/guide';
-import rectXAxis from "../chartCommon/rectXAxis";
-import rectYAxis from "../chartCommon/rectYAxis";
-import rectTooltip from '../chartCommon/rectTooltip';
-import rectLegend from '../chartCommon/rectLegend';
+import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import highchartsDataToG2Data from '../common/dataAdapter';
+import guide from '../common/guide';
+import rectXAxis from "../common/rectXAxis";
+import rectYAxis from "../common/rectYAxis";
+import rectTooltip from '../common/rectTooltip';
+import rectLegend from '../common/rectLegend';
 import './G2LineBar.scss';
 
 const defaultConfig = {

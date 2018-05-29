@@ -1,10 +1,10 @@
 'use strict';
 
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color } from '../theme/normal';
-import { propertyAssign, propertyMap } from '../chartCommon/common';
-import guide from '../chartCommon/guide';
-import rectTooltip from '../chartCommon/rectTooltip';
+import { propertyAssign, propertyMap } from '../common/common';
+import guide from '../common/guide';
+import rectTooltip from '../common/rectTooltip';
 
 const defaultConfig = {
   colors: color.category_12,

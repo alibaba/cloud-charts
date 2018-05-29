@@ -1,10 +1,10 @@
 'use strict';
 
 // 引入所需要的库和样式
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color } from '../theme/normal';
 import './G2-base.scss';
-import { noop } from '../chartCommon/common';
+import { noop } from '../common/common';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {

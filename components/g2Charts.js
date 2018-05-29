@@ -2,8 +2,8 @@
 import G2 from '@antv/g2';
 import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
-import * as common from './chartCommon/common';
-import g2Factory from './chartCommon/g2Factory';
+import * as common from './common/common';
+import g2Factory from './common/g2Factory';
 
 // 引入组件
 import G2Line from './wline/G2Line';

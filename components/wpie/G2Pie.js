@@ -1,8 +1,8 @@
 'use strict';
 
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color, size } from '../theme/normal';
-import { numberDecimal } from '../chartCommon/common';
+import { numberDecimal } from '../common/common';
 import './G2Pie.scss';
 
 const defaultConfig = {

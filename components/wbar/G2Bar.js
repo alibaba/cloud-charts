@@ -1,15 +1,15 @@
 'use strict';
 
 import Brush from '@antv/g2-brush';
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color } from '../theme/normal';
-import { propertyAssign, propertyMap } from '../chartCommon/common';
-import guide from '../chartCommon/guide';
-import rectXAxis from '../chartCommon/rectXAxis';
-import rectYAxis from '../chartCommon/rectYAxis';
-import rectTooltip from '../chartCommon/rectTooltip';
-import rectLegend from '../chartCommon/rectLegend';
-import ResetButton from '../chartCommon/ResetButton';
+import { propertyAssign, propertyMap } from '../common/common';
+import guide from '../common/guide';
+import rectXAxis from '../common/rectXAxis';
+import rectYAxis from '../common/rectYAxis';
+import rectTooltip from '../common/rectTooltip';
+import rectLegend from '../common/rectLegend';
+import ResetButton from '../common/ResetButton';
 import './G2Bar.scss';
 
 const defaultConfig = {

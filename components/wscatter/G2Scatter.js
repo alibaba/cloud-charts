@@ -1,13 +1,13 @@
 'use strict';
 
 // 引入所需要的库和样式
-import merge from '../utils/merge';
+import merge from '../common/merge';
 import { color, size } from '../theme/normal';
-import { propertyAssign, propertyMap, getRawData } from '../chartCommon/common';
-import rectXAxis from "../chartCommon/rectXAxis";
-import rectYAxis from "../chartCommon/rectYAxis";
-import rectLegend from '../chartCommon/rectLegend';
-import guide from '../chartCommon/guide';
+import { propertyAssign, propertyMap, getRawData } from '../common/common';
+import rectXAxis from "../common/rectXAxis";
+import rectYAxis from "../common/rectYAxis";
+import rectLegend from '../common/rectLegend';
+import guide from '../common/guide';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {

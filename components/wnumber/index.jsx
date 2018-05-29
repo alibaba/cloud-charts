@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Warrow from '../chartCommon/arrow';
+import Warrow from '../common/arrow';
 import './index.scss';
 
 const prefix = 'aisc-wnumber';
