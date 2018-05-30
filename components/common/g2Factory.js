@@ -71,6 +71,7 @@ function g2Factory(name, Chart, convertData = true) {
       // 开始初始化图表
       const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
       const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
+      // 生成图表实例
       const chart = new G2.Chart({
         container: this.chartDom,
         width,
@@ -79,13 +80,18 @@ function g2Factory(name, Chart, convertData = true) {
         forceFit: forceFit || false,
         ...otherProps
       });
-      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
+
+      // 1.x 升级 到 2.x 的提示
       if (config.xAxis && config.xAxis.type === 'datetime') {
         console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
       }
+
+      // 预处理数据
+      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
       this.rawData = initData;
       chart && ChartProcess.init.call(this, chart, config, data);
 
+      // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
       if (chart && event) {
         Object.keys(event).forEach((eventKey) => {
           chart.on(eventKey, event[eventKey]);
@@ -103,6 +109,7 @@ function g2Factory(name, Chart, convertData = true) {
         console.warn('padding 不支持修改');
       }
 
+      // 数据有变化
       if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
         const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
         this.rawData = newData;
@@ -112,6 +119,7 @@ function g2Factory(name, Chart, convertData = true) {
           this.chart && this.chart.changeData(data);
         }
       }
+      // 传入的长宽有变化
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
         if (ChartProcess.changeSize) {
           this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
@@ -121,6 +129,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
     }
 
+    // 渲染控制，仅 class、style、children 变化会触发渲染
     shouldComponentUpdate (nextProps) {
       const { className: newClass, style: newStyle, children: newChild } = nextProps;
       const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
@@ -129,6 +138,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     // componentWillUpdate (nextProps) {}
 
+    // 准备销毁
     componentWillUnmount () {
       window.removeEventListener('resize', this.autoResize);
 
@@ -143,6 +153,7 @@ function g2Factory(name, Chart, convertData = true) {
       this.chartId = null;
     }
 
+    // 初始化时适配高宽
     initSize() {
       const element = this.chartDom;
       const parentSize = getParentSize(element, this.props.width, this.props.height);
@@ -151,17 +162,18 @@ function g2Factory(name, Chart, convertData = true) {
       window.addEventListener('resize', this.autoResize);
     }
 
-    resizeRuning = false;
+    // 动态适配高宽，利用 resizeRunning 做节流
+    resizeRunning = false;
     autoResize() {
-      if (this.resizeRuning) {
+      if (this.resizeRunning) {
         return;
       }
 
       const { chartDom: element, props, _size } = this;
-      this.resizeRuning = true;
+      this.resizeRunning = true;
 
       requestAnimationFrame(() => {
-        this.resizeRuning = false;
+        this.resizeRunning = false;
 
         const parentSize = getParentSize(element, props.width, props.height);
         if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
@@ -176,6 +188,7 @@ function g2Factory(name, Chart, convertData = true) {
       })
     }
 
+    // 设置高宽
     setSize(newSize) {
       const element = this.chartDom;
       this._size = newSize;
