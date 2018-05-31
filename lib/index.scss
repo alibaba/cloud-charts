@@ -1,5 +1,6 @@
 @import "./theme/normal.scss";
 
+/* Widgets 专用字体，仅包含20个字符 */
 @font-face {
   font-family: "DINMediumNumber";
   src: url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.eot"); /* IE9 */
@@ -11,6 +12,7 @@
   font-weight: normal;
 }
 
+/* 全局公用样式 */
 .aisc-widgets {
   .widgets-reset-button {
     position: absolute;
