@@ -1,3 +1,13 @@
+### 2.1.10 (2018-05-31)
+
+#### New Features
+
+- chore: 底层Aisc依赖升级至2.6.0。
+
+#### Bug Fixes
+
+- Aisc Icon 样式污染问题。
+
 ### 2.1.9 (2018-05-24)
 
 #### New Features
