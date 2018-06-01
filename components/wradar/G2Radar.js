@@ -114,11 +114,11 @@ export default {
         // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
         // autoPosition: false,
         onHover: noop,
-        itemTpl: (value, color, checked, index) => {
+        itemTpl: (value, itemColor, checked, index) => {
           const item = (this.rawData && this.rawData[index]) || {};
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...item,
-            color,
+            itemColor,
             checked
           }, index) : value;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +

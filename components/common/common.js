@@ -83,6 +83,7 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
       colorIndex = i;
       return true;
     }
+    return false;
   });
 
   if (colorIndex !== null) {
@@ -204,6 +205,7 @@ export function getRawData(config, rawData, item) {
         originData = r;
         return true;
       }
+      return false;
     });
   }
 

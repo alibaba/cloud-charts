@@ -125,7 +125,7 @@ export default {
         useHtml: true,
         title: null,
         position: 'right',
-        itemTpl: (value, color, checked, index) => {
+        itemTpl: (value, itemColor, checked, index) => {
           const item = (this.data && this.data[index]) || {};
           const raw = (this.rawData && this.rawData[0]) || {};
           const percent = numberDecimal(item.y / this.totalData, 4);
@@ -133,13 +133,13 @@ export default {
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...raw,
             percent,
-            color,
+            itemColor,
             checked
           }, index) : value;
           const number = config.legend.valueFormatter ? config.legend.valueFormatter(item.y, {
             ...raw,
             percent,
-            color,
+            itemColor,
             checked
           }, index) : item.y;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +

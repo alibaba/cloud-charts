@@ -6,9 +6,9 @@ const widgetsTheme = {
   // 线图只有一个数据时显示点
   showSinglePoint: true,
 
-  snapArray: [ 0, 1, 2, 2.5, 4, 5, 10 ],
+  snapArray: [0, 1, 2, 2.5, 4, 5, 10],
   // 指定固定 tick 数的逼近值
-  snapCountArray: [ 0, 1, 1.2, 1.5, 1.6, 2, 2.2, 2.4, 2.5, 3, 4, 5, 6, 7.5, 8, 10 ],
+  snapCountArray: [0, 1, 1.2, 1.5, 1.6, 2, 2.2, 2.4, 2.5, 3, 4, 5, 6, 7.5, 8, 10],
   // animate: false,
   // colors: {
   //   'default': COLORS
@@ -29,7 +29,7 @@ const widgetsTheme = {
       label: {
         offset: 18,
         autoRotate: false,
-        textStyle: { fill: color.colorN22} // 底部标签文本的颜色
+        textStyle: { fill: color.colorN22 } // 底部标签文本的颜色
       },
       line: {
         stroke: color.colorN16
@@ -39,7 +39,7 @@ const widgetsTheme = {
     left: {
       label: {
         offset: 8,
-        textStyle: { fill: color.colorN22} // 左部标签文本的颜色
+        textStyle: { fill: color.colorN22 } // 左部标签文本的颜色
       },
       grid: {
         // 让grid在轴线的下方
@@ -54,7 +54,7 @@ const widgetsTheme = {
     right: {
       label: {
         offset: 8,
-        textStyle: { fill: color.colorN22} // 右部标签文本的颜色
+        textStyle: { fill: color.colorN22 } // 右部标签文本的颜色
       }
     }
   },

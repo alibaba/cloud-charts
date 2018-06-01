@@ -4,8 +4,8 @@
 import merge from '../common/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, propertyMap, getRawData } from '../common/common';
-import rectXAxis from "../common/rectXAxis";
-import rectYAxis from "../common/rectYAxis";
+import rectXAxis from '../common/rectXAxis';
+import rectYAxis from '../common/rectYAxis';
 import rectLegend from '../common/rectLegend';
 import guide from '../common/guide';
 
@@ -27,7 +27,6 @@ const defaultConfig = {
 };
 const colorMap = color.category_12;
 const setAxis = (chart, config) => {
-
   // 设置X轴
   const xAxis = {};
 

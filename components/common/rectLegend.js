@@ -55,6 +55,7 @@ function getRawData(config, rawData, name) {
         originData = r;
         return true;
       }
+      return false;
     });
   }
 
