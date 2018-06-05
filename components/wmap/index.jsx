@@ -58,8 +58,10 @@ class Map extends MapBase {
         return;
       }
 
-      const { data } = child.props;
-      this.chartProcess.changeData.call(this, this.chart, config, child.type.displayName, data);
+      const { data, ...propsConfig } = child.props;
+      const layerConfig = Object.assign({}, config, propsConfig);
+
+      this.chartProcess.changeData.call(this, this.chart, layerConfig, child.type.displayName, data);
     });
     this.setState({
       customPointLayer
