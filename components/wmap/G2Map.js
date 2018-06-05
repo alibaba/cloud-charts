@@ -12,6 +12,10 @@ import './G2Map.scss';
 
 const defaultConfig = {
   padding: [20, 20, 20, 20],
+  background: {
+    fill: color.widgetsMapAreaBg,
+    stroke: color.widgetsMapAreaBorder,
+  },
   areaColors: (() => {
     const result = [];
     for (let i = 1; i <= 10; i++) {
@@ -23,7 +27,7 @@ const defaultConfig = {
   type: 'china',
   showSouthChinaSea: true,
   legend: {
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
     nameFormatter: null,
@@ -212,19 +216,22 @@ function drawMapBackground(chart, ds, config) {
   }
   // end: 按照投影后尺寸比例调整图表的真实比例
 
+  const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } = config.background || {};
+
   const bgMapView = chart.view();
   bgMapView.source(bgMapDataView);
   bgMapView.tooltip(false);
   bgMapView.polygon().position('x*y').style('name', {
-    fill: color.widgetsMapAreaBg,
+    fill: bgFill || color.widgetsMapAreaBg,
     stroke: (name) => {
       // 对一些尺寸非常小的形状特殊处理，以显示出来。
       if (minArea.indexOf(name) > -1) {
-        return color.widgetsMapAreaBg;
+        return bgFill || color.widgetsMapAreaBg;
       }
-      return color.widgetsMapAreaBorder;
+      return bgStroke || color.widgetsMapAreaBorder;
     },
-    lineWidth: 1
+    lineWidth: 1,
+    ...otherBgStyle
   });
 
   this.bgMapDataView = bgMapDataView;
@@ -265,7 +272,7 @@ function drawMapArea(chart, ds, config, data) {
 
     const areaMapView = chart.view();
     areaMapView.source(areaMapDataView);
-    areaMapView.polygon().position('x*y')
+    const areaGeom = areaMapView.polygon().position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
       .color('type', config.areaColors)
       // .opacity('value')
@@ -273,6 +280,10 @@ function drawMapArea(chart, ds, config, data) {
         name,
         value
       }));
+
+    if (config.geomStyle) {
+      areaGeom.style('name*value', config.geomStyle);
+    }
 
     this.areaMapView = areaMapView;
   }
@@ -308,14 +319,20 @@ function drawMapPoint(chart, ds, config, data) {
       }))
       .active(false);
 
+    if (config.geomStyle) {
+      areaGeom.style('name*value', config.geomStyle);
+    }
+
     if (config.labels) {
+      const { offset = 0, textStyle = {} } = typeof config.labels === 'object' ? config.labels : {};
       pointGeom.label('name', {
-        offset: `-${size.s3.replace('px', '')}`,
+        offset: `${offset - Number(size.s3.replace('px', ''))}`,
         textStyle: {
           fill: color.colorN23,
           // 需要去掉 px 的字符串
           fontSize: size.s3.replace('px', ''),
-          textBaseline: 'middle'
+          textBaseline: 'middle',
+          ...textStyle,
         },
         formatter: config.labels.formatter || null
       });
@@ -348,12 +365,14 @@ function drawMapLabel(chart, config) {
     return label;
   });
 
+  const { offset = 0, textStyle = {} } = typeof labelConfig === 'object' ? labelConfig : {};
+
   const labelMapView = chart.view();
   labelMapView.source(labelData);
   labelMapView.point().position('x*y')
     .size(0)
     .label('name', {
-      offset: 0,
+      offset: offset,
       textStyle: (name) => {
         let fontSize = size.s3;
         // 对一些尺寸非常小的形状特殊处理，以显示出来。
@@ -365,7 +384,8 @@ function drawMapLabel(chart, config) {
           fill: color.colorN23,
           // 需要去掉 px 的字符串
           fontSize: fontSize.replace('px', ''),
-          textBaseline: 'middle'
+          textBaseline: 'middle',
+          ...textStyle,
         };
       },
       formatter: labelConfig.formatter || null
