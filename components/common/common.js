@@ -184,7 +184,7 @@ export function beautifyNumber(num, char = ',') {
  * */
 export function noop() {}
 
-/*
+/**
 * tooltip item 获取原始数据
 *
 * @param {object} config 图表配置项
@@ -210,4 +210,22 @@ export function getRawData(config, rawData, item) {
   }
 
   return originData;
+}
+
+/**
+* 过滤对象中的key，长用于过滤传递给div的props，防止react invalid attribute warning
+*
+ * @param {object} obj 过滤的对象
+ * @param {array} keys 过滤的键列表
+*
+* @return {object} 过滤后的结果
+* */
+export function filterKey(obj, keys) {
+  const result = {};
+  Object.keys(obj).forEach((key) => {
+    if (keys.indexOf(key) === -1) {
+      result[key] = obj[key];
+    }
+  });
+  return result;
 }
