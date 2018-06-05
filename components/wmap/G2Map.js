@@ -372,7 +372,7 @@ function drawMapLabel(chart, config) {
   labelMapView.point().position('x*y')
     .size(0)
     .label('name', {
-      offset: offset,
+      offset,
       textStyle: (name) => {
         let fontSize = size.s3;
         // 对一些尺寸非常小的形状特殊处理，以显示出来。
