@@ -197,20 +197,24 @@ export default function (target, startVal, endVal, decimals, duration, options) 
       }
 
     };
-    this.formatNumber = function (nStr) {
-      nStr = nStr.toFixed(self.decimals);
-      nStr += '';
-      var x, x1, x2, rgx;
-      x = nStr.split('.');
+    this.formatNumber = function (num) {
+      var neg = (num < 0),
+        x, x1, x2, x3, i, len;
+      let numStr = Math.abs(num).toFixed(self.decimals) + '';
+      x = numStr.split('.');
       x1 = x[0];
       x2 = x.length > 1 ? self.options.decimal + x[1] : '';
-      rgx = /(\d+)(\d{3})/;
       if (self.options.useGrouping) {
-        while (rgx.test(x1)) {
-          x1 = x1.replace(rgx, '$1' + self.options.separator + '$2');
+        x3 = '';
+        for (i = 0, len = x1.length; i < len; ++i) {
+          if (i !== 0 && ((i % 3) === 0)) {
+            x3 = self.options.separator + x3;
+          }
+          x3 = x1[len - i - 1] + x3;
         }
+        x1 = x3;
       }
-      return self.options.prefix + x1 + x2 + self.options.suffix;
+      return (neg ? '-' : '') + self.options.prefix + x1 + x2 + self.options.suffix;
     };
 
     // format startVal on initialization
