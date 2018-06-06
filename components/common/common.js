@@ -51,20 +51,30 @@ export function propertyAssign(keys, target, source) {
  * @return {array} 宽和高的数组
  * */
 export function getParentSize(element, width, height) {
+  let w = width || '',
+    h = height || '';
+
   const parent = element && element.parentElement;
-  let w = '',
-    h = '';
-  if (width) {
-    w = width;
-  } else if (parent) {
-    w = parent.clientWidth;
-  }
-  if (height) {
-    h = height;
-  } else if (parent) {
-    h = parent.clientHeight;
+
+  if (parent) {
+    const parentStyle = window.getComputedStyle(parent);
+    const paddingTop = _pxToNumber(parentStyle.getPropertyValue('padding-top'));
+    const paddingRight = _pxToNumber(parentStyle.getPropertyValue('padding-right'));
+    const paddingBottom = _pxToNumber(parentStyle.getPropertyValue('padding-bottom'));
+    const paddingLeft = _pxToNumber(parentStyle.getPropertyValue('padding-left'));
+
+    if (!width) {
+      w = parent.clientWidth - paddingLeft - paddingRight;
+    }
+    if (!height) {
+      h = parent.clientHeight - paddingTop - paddingBottom;
+    }
   }
   return [w, h];
+}
+
+function _pxToNumber(px) {
+  return Number(px.replace('px', ''));
 }
 
 /**
