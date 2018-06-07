@@ -19,7 +19,7 @@ const sortFun = {
 * 常见直角坐标系的tooltip，包含title、name、value
 * */
 export default function (chart, config, customConfig) {
-  if (config.tooltip) {
+  if (config.tooltip !== false) {
     const tooltipCfg = {
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},

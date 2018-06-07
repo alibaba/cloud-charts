@@ -8,7 +8,7 @@ import { noop } from './common';
 * */
 export default function (chart, config, customConfig) {
   // 设置图例
-  if (config.legend) {
+  if (config.legend !== false) {
     const legendConfig = {
       useHtml: true,
       title: null,

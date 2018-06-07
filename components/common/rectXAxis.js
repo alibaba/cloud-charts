@@ -6,7 +6,9 @@ import { color } from '../theme/normal';
 * 常见直角坐标系的X轴设置。
 * */
 export default function (chart, config, customConfig) {
-  if (config.xAxis && config.xAxis.enable !== false) {
+  if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
+    chart.axis('x', false);
+  } else {
     const xAxis = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -32,7 +34,5 @@ export default function (chart, config, customConfig) {
     }
 
     chart.axis('x', xAxis);
-  } else {
-    chart.axis('x', false);
   }
 }
