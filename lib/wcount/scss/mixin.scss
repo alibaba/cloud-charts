@@ -1,0 +1,6 @@
+@import "../../theme/normal";
+@mixin wcount-font {
+  font-family: $font-family-number;
+  //font-size: $font-size-xlarge-number;
+  //line-height: 1;
+}
