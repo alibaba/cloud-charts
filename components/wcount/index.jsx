@@ -10,12 +10,23 @@ import './index.scss';
 const prefix = 'aisc-wcount';
 
 const checkKey = ['start', 'decimals', 'duration', 'useEasing', 'useGrouping', 'separator', 'decimal', 'placeholder'];
+// 检查 a, b 两个对象中某些key是否有变化
 function configChange(a, b) {
   return checkKey.some((key) => {
     return a[key] !== b[key];
   });
 }
 
+/**
+ * 数字切片函数
+ *
+ * @param {number} start 起始值
+ * @param {number} end 结束值
+ * @param {number} clipNum 切片数
+ * @param {number} slipScale 幅度数组
+ *
+ * @return {array} 切片后的数值数组
+ * */
 function clipValue(start, end, clipNum, slipScale) {
   const result = [];
   const delta = end - start;
@@ -37,7 +48,7 @@ function clipValue(start, end, clipNum, slipScale) {
   return result;
 }
 
-export default class Wcircle extends React.Component {
+export default class Wcount extends React.Component {
   static displayName = 'Wcount';
 
   static defaultProps = {
@@ -92,6 +103,7 @@ export default class Wcircle extends React.Component {
 
     if (clipNum > 1) {
       // 切片
+      // 生成切片列表，每个周期更新一次
       const clipArray = clipValue(this.countUp.endVal, newEnd, clipNum, slipScale);
       let loopIndex = 0;
       // 定时更新
@@ -99,7 +111,7 @@ export default class Wcircle extends React.Component {
         this.countUp && this.countUp.update(clipArray[loopIndex]);
 
         loopIndex += 1;
-        // 已更新完列表，清空定时器
+        // 已更新完切片列表，清空定时器
         if (loopIndex >= clipArray.length) {
           clearInterval(this.clipTimer);
         }
@@ -131,12 +143,12 @@ export default class Wcircle extends React.Component {
     });
 
     return (
-      <span ref={s => (this.dom = s)} className={mainClasses} {...filterKey(otherProps, checkKey.concat('end'))} />
+      <span ref={s => (this.dom = s)} className={mainClasses} {...filterKey(otherProps, checkKey.concat(['end', 'clipNum', 'clipPeriod', 'slipScale']))} />
     );
   }
 }
 
-Wcircle.propTypes = {
+Wcount.propTypes = {
   clipNum: PropTypes.number,
   clipPeriod: PropTypes.number,
   slipScale: PropTypes.arrayOf(PropTypes.number),
