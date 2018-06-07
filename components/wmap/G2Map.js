@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
 import { geoConicEqualArea } from 'd3-geo';
 import merge from '../common/merge';
@@ -308,10 +309,18 @@ function drawMapPoint(chart, ds, config, data) {
 
     const pointMapView = chart.view();
     pointMapView.source(pointMapDataView);
+    let sizeConfig = config.size || 4;
+    if (Array.isArray(sizeConfig)) {
+      sizeConfig = ['value', sizeConfig];
+    } else if (G2.Util.isFunction(sizeConfig)) {
+      sizeConfig = ['name*value', sizeConfig];
+    } else {
+      sizeConfig = [sizeConfig];
+    }
     const pointGeom = pointMapView.point().position('x*y')
       .shape('circle')
       .color('type', config.pointColors)
-      .size(config.size || 4)
+      .size(...sizeConfig)
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
@@ -324,7 +333,7 @@ function drawMapPoint(chart, ds, config, data) {
     }
 
     if (config.labels) {
-      const { offset = 0, textStyle = {} } = typeof config.labels === 'object' ? config.labels : {};
+      const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
       pointGeom.label('name', {
         offset: `${offset - Number(size.s3.replace('px', ''))}`,
         textStyle: {
@@ -334,7 +343,7 @@ function drawMapPoint(chart, ds, config, data) {
           textBaseline: 'middle',
           ...textStyle,
         },
-        formatter: config.labels.formatter || null
+        formatter: formatter || null
       });
     }
 
