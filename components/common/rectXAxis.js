@@ -1,25 +1,27 @@
 'use strict';
 
 import { color } from '../theme/normal';
+import merge from './merge';
 
 /*
 * 常见直角坐标系的X轴设置。
 * */
-export default function (chart, config, customConfig) {
+export default function (chart, config, componentConfig) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const xAxis = {
+    const { autoRotate, labelFormatter, customConfig } = config.xAxis || {};
+    const xAxisConfig = {
       title: null, // 不展示坐标轴的标题
       label: {
-        autoRotate: config.xAxis.autoRotate,
-        formatter: config.xAxis.labelFormatter,
+        autoRotate: autoRotate,
+        formatter: labelFormatter,
       }
     };
 
     // 网格线
     if (config.grid) {
-      xAxis.grid = {
+      xAxisConfig.grid = {
         lineStyle: {
           stroke: color.colorN13,
           lineWidth: 1,
@@ -29,10 +31,14 @@ export default function (chart, config, customConfig) {
       };
     }
 
-    if (customConfig) {
-      Object.assign(xAxis, customConfig);
+    if (componentConfig) {
+      Object.assign(xAxisConfig, componentConfig);
     }
 
-    chart.axis('x', xAxis);
+    if (customConfig) {
+      merge(xAxisConfig, customConfig);
+    }
+
+    chart.axis('x', xAxisConfig);
   }
 }

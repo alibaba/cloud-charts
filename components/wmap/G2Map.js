@@ -457,7 +457,9 @@ function getProjectionPosition(point, view, lng, lat) {
 // 地图的tooltip逻辑
 function mapTooltip(chart, config) {
   // tooltip
-  if (config.tooltip) {
+  if (config.tooltip !== false) {
+    const { nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
+
     const tooltipCfg = {
       showTitle: false,
       crosshairs: null,
@@ -465,17 +467,23 @@ function mapTooltip(chart, config) {
       + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
       + '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
     };
+
+    if (customConfig) {
+      merge(tooltipCfg, customConfig);
+    }
+
     chart.tooltip(tooltipCfg);
-    if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+
+    if (nameFormatter || valueFormatter) {
       chart.on('tooltip:change', (ev) => {
         ev.items.forEach((item, index) => {
           const raw = item.point._origin || {};
 
-          if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
+          if (valueFormatter) {
+            item.value = valueFormatter(item.value, raw, index, ev.items);
           }
-          if (config.tooltip.nameFormatter) {
-            item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
+          if (nameFormatter) {
+            item.name = nameFormatter(item.name, raw, index, ev.items);
           }
         });
       });

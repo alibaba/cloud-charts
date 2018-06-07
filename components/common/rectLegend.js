@@ -2,13 +2,16 @@
 
 import { size } from '../theme/normal';
 import { noop } from './common';
+import merge from "./merge";
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
 * */
-export default function (chart, config, customConfig) {
+export default function (chart, config, componentConfig) {
   // 设置图例
   if (config.legend !== false) {
+    const { align, nameFormatter, customConfig } = config.legend || {};
+
     const legendConfig = {
       useHtml: true,
       title: null,
@@ -19,7 +22,7 @@ export default function (chart, config, customConfig) {
       itemTpl: (value, color, checked, index) => {
         const item = getRawData(config, this.rawData, value);
 
-        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+        const result = nameFormatter ? nameFormatter(value, {
           ...item,
           color,
           checked
@@ -30,12 +33,17 @@ export default function (chart, config, customConfig) {
       },
       'g2-legend': Object.assign({
         top: size.s3,
-      }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
+      }, align === 'right' ? { right: 0 } : { left: 0 }),
     };
 
-    if (customConfig) {
-      Object.assign(legendConfig, customConfig);
+    if (componentConfig) {
+      Object.assign(legendConfig, componentConfig);
     }
+
+    if (customConfig) {
+      merge(legendConfig, customConfig);
+    }
+
 
     chart.legend(legendConfig);
   } else {
