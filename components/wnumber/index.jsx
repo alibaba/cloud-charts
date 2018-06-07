@@ -18,18 +18,20 @@ function getTrendIcon(trend) {
 }
 
 export default class Wnumber extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // 图表初始化时记录日志
-    chartLog('Wnumber', 'init');
-  }
+  static displayName = 'Wnumber';
 
   static defaultProps = {
     numberTrend: '',
     rightRatioTrend: '',
     status: ''
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wnumber', 'init');
+  }
 
   renderBottom() {
     const bottomTitle = this.props.bottomTitle;

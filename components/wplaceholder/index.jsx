@@ -39,6 +39,8 @@ function getLocaleText (locale = {}, loading, error) {
 }
 
 export default class Wplaceholder extends React.Component {
+  static displayName = 'Wplaceholder';
+
   constructor(props) {
     super(props);
 

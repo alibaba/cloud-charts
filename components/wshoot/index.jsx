@@ -12,6 +12,8 @@ import Shoot from './shoot';
 const prefix = 'aisc-wshoot';
 
 export default class Wshoot extends React.Component {
+  static displayName = 'Wshoot';
+
   static propTypes = {
     config: PropTypes.object,
     data: PropTypes.array

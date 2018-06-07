@@ -9,6 +9,8 @@ import './index.scss';
 const prefix = 'aisc-wperline';
 
 export default class Wperline extends React.Component {
+  static displayName = 'Wperline';
+
   static defaultProps = {
     percent: 0,
     status: ''

@@ -14,6 +14,8 @@ const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer';
 
 export default class Wcontainer extends React.Component {
+  static displayName = 'Wcontainer';
+
   static defaultProps = {
     arrange: 'normal',
     height: '100%',
