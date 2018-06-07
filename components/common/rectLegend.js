@@ -2,7 +2,7 @@
 
 import { size } from '../theme/normal';
 import { noop } from './common';
-import merge from "./merge";
+import merge from './merge';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。

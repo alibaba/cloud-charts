@@ -320,7 +320,7 @@ function drawMapPoint(chart, ds, config, data) {
       .active(false);
 
     if (config.geomStyle) {
-      areaGeom.style('name*value', config.geomStyle);
+      pointGeom.style('name*value', config.geomStyle);
     }
 
     if (config.labels) {

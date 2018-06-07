@@ -14,7 +14,7 @@ export default function (chart, config, componentConfig) {
     const xAxisConfig = {
       title: null, // 不展示坐标轴的标题
       label: {
-        autoRotate: autoRotate,
+        autoRotate,
         formatter: labelFormatter,
       }
     };

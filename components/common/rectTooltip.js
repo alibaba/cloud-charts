@@ -2,7 +2,7 @@
 
 import G2 from '@antv/g2';
 import { getRawData } from './common';
-import merge from "./merge";
+import merge from './merge';
 
 // 排序函数
 const sortFun = {

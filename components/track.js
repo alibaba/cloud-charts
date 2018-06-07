@@ -1,4 +1,5 @@
-import { getLog } from "./common/log";
+import G2 from '@antv/g2';
+import { getLog } from './common/log';
 
 /**
  * 打点控制函数

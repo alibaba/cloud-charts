@@ -1,6 +1,6 @@
 'use strict';
 
-import merge from "./merge";
+import merge from './merge';
 
 /*
 * 常见直角坐标系的单个Y轴设置。
