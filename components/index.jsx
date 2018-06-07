@@ -17,6 +17,9 @@ export const COLORS = color;
 
 // 暴露所有图表组件、底层依赖的G2、工具类
 export * from './g2Charts';
+
+// 打点控制
+export track from './track';
 // import * as highchartsMap from './highchartsMap';
 //
 // export const WG2Line = g2Map.WG2Line;

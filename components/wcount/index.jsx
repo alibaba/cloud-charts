@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import CountUp from './lib/CountUp';
 import { filterKey } from "../common/common";
 import './index.scss';
+import chartLog from "../common/log";
 
 const prefix = 'aisc-wcount';
 
@@ -69,6 +70,13 @@ export default class Wcount extends React.Component {
     decimal: '.', // character to use as a decimal
     placeholder: "-", // 非数据时的替换
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wcount', 'init');
+  }
 
   dom = null;
   countUp = null;

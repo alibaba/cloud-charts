@@ -60,20 +60,3 @@ export const Wcustom = WG2Custom;
 export const Wsankey = WG2Sankey;
 export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
-
-// 打点控制函数
-let trackable = true;
-export function track(enable) {
-  G2.track(enable);
-  trackable = enable;
-}
-
-// 打点逻辑，使用黄金令箭
-const logUrl = '//gm.mmstat.com/aisc-widgets.use.init';
-setTimeout(() => {
-  if (trackable && process.env.NODE_ENV === 'production') {
-    const image = new Image();
-    // 统计 版本、主题、当前域名
-    image.src = `${logUrl}?version=${__VERSION__}&theme=${__THEME__}&t=${Date.now()}&host=${location && location.host}&url=${document.URL}`;
-  }
-}, 3000);

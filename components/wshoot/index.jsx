@@ -6,6 +6,7 @@ import classNames from 'classnames';
 // 暂时无需样式
 // import './index.scss';
 
+import chartLog from "../common/log";
 import Shoot from './shoot';
 
 const prefix = 'aisc-wshoot';
@@ -22,6 +23,13 @@ export default class Wshoot extends React.Component {
     config: {},
     data: []
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wshoot', 'init');
+  }
 
   canvas = null;
   shoot = null;

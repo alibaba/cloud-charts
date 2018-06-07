@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Warrow from '../common/arrow';
 import { getStatusColorName } from '../common/common';
+import chartLog from "../common/log";
 import './index.scss';
 
 const prefix = 'aisc-wcircle';
@@ -21,6 +22,13 @@ export default class Wcircle extends React.Component {
     radius: 70,
     strokeWidth: 6
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wcircle', 'init');
+  }
 
   renderBottom() {
     const bottomTitle = this.props.bottomTitle;

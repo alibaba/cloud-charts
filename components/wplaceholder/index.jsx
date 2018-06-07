@@ -2,6 +2,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import chartLog from "../common/log";
 import Locale from './locale';
 import './index.scss';
 
@@ -38,6 +39,13 @@ function getLocaleText (locale = {}, loading, error) {
 }
 
 export default class Wplaceholder extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wplaceholder', 'init');
+  }
+
   renderText(loading, error) {
     const { locale, language, children } = this.props;
     // text 优先判断传入的locale，其次判断传入的language，最后取中文locale

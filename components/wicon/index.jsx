@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
+import chartLog from "../common/log";
 import './index.scss';
 
 const prefix = 'aisc-wicon';
@@ -16,6 +17,13 @@ export default class Wicon extends React.Component {
     type: 'monitor',
     status: 'none'
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wicon', 'init');
+  }
 
   render() {
     const { type, size, classname, status, reverse, ...other } = this.props;

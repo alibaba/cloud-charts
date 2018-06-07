@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Warrow from '../common/arrow';
+import chartLog from "../common/log";
 import './index.scss';
 
 const prefix = 'aisc-wnumber';
@@ -19,6 +20,9 @@ function getTrendIcon(trend) {
 export default class Wnumber extends React.Component {
   constructor(props) {
     super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wnumber', 'init');
   }
 
   static defaultProps = {

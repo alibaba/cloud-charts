@@ -6,8 +6,9 @@ import classNames from 'classnames';
 import Grid from '@alife/aisc/lib/grid/index';
 
 import Divider from './views/divider';
-import './index.scss';
 import Wcircle from "../wcircle";
+import chartLog from "../common/log";
+import './index.scss';
 
 const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer';
@@ -19,6 +20,13 @@ export default class Wcontainer extends React.Component {
     operation: '',
     titleBorder: true
   };
+
+  constructor(props) {
+    super(props);
+
+    // 图表初始化时记录日志
+    chartLog('Wcontainer', 'init');
+  }
 
   renderTitle(title, titleBorder, operation) {
     const hideTitleBorder = titleBorder ? '' : `${prefix}-hide-title-border`;

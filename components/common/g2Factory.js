@@ -5,7 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getParentSize, requestAnimationFrame } from './common';
 import highchartsDataToG2Data from './dataAdapter';
-import setG2Theme from './g2Theme'
+import setG2Theme from './g2Theme';
+import chartLog from './log';
 
 setG2Theme(G2);
 
@@ -54,6 +55,9 @@ function g2Factory(name, Chart, convertData = true) {
       this.chartId = generateUniqueId();
 
       this.autoResize = this.autoResize.bind(this);
+
+      // 图表初始化时记录日志
+      chartLog(name, 'init');
     }
 
     componentWillMount () {
