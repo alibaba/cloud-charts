@@ -17,6 +17,7 @@ import G2Custom from './wcustom/G2Custom';
 import G2Sankey from './wsankey/G2Sankey';
 import G2Nightingale from './wnightingale/G2-base';
 import G2Radar from './wradar/G2Radar';
+import G2Rectangle from './wrectangle/G2Rectangle';
 
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
@@ -30,6 +31,7 @@ export const WG2Custom = g2Factory('G2Custom', G2Custom);
 export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
 export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
 export const WG2Radar = g2Factory('G2Radar', G2Radar);
+export const WG2Rectangle = g2Factory('G2Rectangle', G2Rectangle, false);
 
 // 暴露基础图表库
 export { G2, DataSet };
@@ -60,3 +62,4 @@ export const Wcustom = WG2Custom;
 export const Wsankey = WG2Sankey;
 export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
+export const Wrectangle = WG2Rectangle;
