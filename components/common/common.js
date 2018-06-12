@@ -173,7 +173,8 @@ export function beautifyNumber(num, char = ',') {
     return '-';
   }
   const isNegative = num < 0;
-  let number = num.toString().split('.')[0].replace('-', ''),
+  const numberArr = num.toString().split('.');
+  let number = numberArr[0].replace('-', ''),
     result = '';
   while (number.length > 3) {
     result = char + number.slice(-3) + result;
@@ -181,6 +182,10 @@ export function beautifyNumber(num, char = ',') {
   }
   if (number) {
     result = number + result;
+  }
+  // fix 保留了小数位数字
+  if (numberArr[1]) {
+    result = `${result}.${numberArr[1]}`;
   }
   // 处理负数
   if (isNegative) {
