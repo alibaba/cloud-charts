@@ -47,7 +47,7 @@ export default function highchartsDataToG2Data(data, config) {
     });
   } else {
     data.forEach((oneData) => {
-      const { name: dataName } = oneData;
+      const { name: dataName, facet } = oneData;
 
       if (!Array.isArray(oneData.data)) {
         return;
@@ -60,6 +60,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra,
+            facet,
             type: dataName
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
@@ -69,6 +70,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra: [],
+            facet,
             type: dataName
           });
         } else {
@@ -77,6 +79,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra,
+            facet,
             type: dataName
           });
         }

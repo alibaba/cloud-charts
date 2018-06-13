@@ -40,6 +40,7 @@ const defaultConfig = {
   stackReverse: true,
   grid: false,
   zoom: false,
+  facet: false,
   // labels: false,
   polar: false,
 };
@@ -70,6 +71,9 @@ export default {
       type: {
         type: 'cat'
       },
+      facet: {
+        sync: true
+      }
     };
 
     chart.source(data, defs);
@@ -97,23 +101,40 @@ export default {
       // chart.point().position('name*0').color('name').shape('circle');
       // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
       // chart.point().position('name*value').color('name').shape('circle');
-    // } else {
-      // 横向柱状图
+
+    // 横向柱状图
     if (!config.column) {
       chart.coord().transpose();
     }
-      // 堆叠
-    if (config.stack) {
-      chart.interval().position('x*y').color('type', config.colors).adjust([{
-        type: 'stack',
-        reverseOrder: !config.stackReverse, // 层叠顺序倒序
-      }]);
+
+    if (config.facet) {
+      const facetConfig = typeof config.facet === 'object' ? config.facet : {
+        type: 'mirror',
+        transpose: false,
+        padding: [0, 0, 40, 0],
+      };
+      chart.facet(facetConfig.type, {
+        fields: [ 'facet' ],
+        transpose: facetConfig.transpose,
+        padding: facetConfig.padding,
+        eachView(view) {
+          drawBar(view, config, config.colors);
+        }
+      });
     } else {
-      chart.interval().position('x*y').color('type', config.colors).adjust([{
-        type: 'dodge',
-        marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-      }]);
+      drawBar(chart, config, config.colors);
     }
+
+    // if (config.stack) {
+    //   chart.interval().position('x*y').color('type', config.colors).adjust([{
+    //     type: 'stack',
+    //     reverseOrder: !config.stackReverse, // 层叠顺序倒序
+    //   }]);
+    // } else {
+    //   chart.interval().position('x*y').color('type', config.colors).adjust([{
+    //     type: 'dodge',
+    //     marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+    //   }]);
     // }
 
     chart.render();
@@ -146,3 +167,18 @@ export default {
     }
   }
 };
+
+function drawBar(chart, config, colors) {
+  // 堆叠
+  if (config.stack) {
+    chart.interval().position(['x', 'y']).color('type', colors).adjust([{
+      type: 'stack',
+      reverseOrder: !config.stackReverse, // 层叠顺序倒序
+    }]);
+  } else {
+    chart.interval().position(['x', 'y']).color('type', colors).adjust([{
+      type: 'dodge',
+      marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+    }]);
+  }
+}
