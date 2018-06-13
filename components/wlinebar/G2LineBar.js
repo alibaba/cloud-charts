@@ -85,6 +85,7 @@ export default {
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'cat',
+        sync: true,
       }, config.xAxis),
       type: {
         type: 'cat'
@@ -146,9 +147,9 @@ export default {
     if (config.legend) {
       // hack 图例的位置，仅在初始化时处理一遍
       setTimeout(() => {
-        const parent = this.chartDom.querySelector('.g2-legend').parentNode;
-        if (parent) {
-          parent.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+        const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+        if (dom && dom.parentNode) {
+          dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
         }
       }, 100);
     }
