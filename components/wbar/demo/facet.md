@@ -13,32 +13,32 @@ title:
 
 
 ````jsx
-import { Wbar } from '@alife/aisc-widgets';
+import { Wbar, COLORS } from '@alife/aisc-widgets';
 
 let data = [
   {
     "name":"柱1",
-    "facet": 0,
+    "facet": '分面1',
     "data":[]
   },
   {
     "name":"柱2",
-    "facet": 1,
+    "facet": '分面2',
     "data":[]
   },
   {
     "name":"柱3",
-    "facet": 0,
+    "facet": '分面1',
     "data":[]
   },
   {
     "name":"柱4",
-    "facet": 1,
+    "facet": '分面2',
     "data":[]
   }
 ];
 
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 10; i++) {
   const name = i + '-' + i;
   data[0].data.push([name, Math.random() * 100 + 100]);
   data[1].data.push([name, Math.random() * 100 + 100]);
@@ -47,9 +47,12 @@ for (let i = 0; i < 50; i++) {
 }
 
 let options1 = {
+  padding: [40, 24, 20, 44],
+  colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
   legend:{
     align: 'right'
   },
+  marginRatio: 0.05,
   facet: true,
   zoom: true
 };

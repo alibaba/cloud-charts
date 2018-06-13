@@ -38,6 +38,7 @@ const defaultConfig = {
   column: true,
   stack: false,
   stackReverse: true,
+  marginRatio: 0,
   grid: false,
   zoom: false,
   facet: false,
@@ -69,7 +70,8 @@ export default {
         tickCount: 5
       }, config.yAxis),
       type: {
-        type: 'cat'
+        type: 'cat',
+        sync: true
       },
       facet: {
         sync: true
@@ -111,7 +113,7 @@ export default {
       const facetConfig = typeof config.facet === 'object' ? config.facet : {
         type: 'mirror',
         transpose: false,
-        padding: [0, 0, 40, 0],
+        padding: [20, 0, 20, 0],
       };
       chart.facet(facetConfig.type, {
         fields: [ 'facet' ],
@@ -178,7 +180,7 @@ function drawBar(chart, config, colors) {
   } else {
     chart.interval().position(['x', 'y']).color('type', colors).adjust([{
       type: 'dodge',
-      marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
   }
 }
