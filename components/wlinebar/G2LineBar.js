@@ -158,7 +158,7 @@ export default {
     rectTooltip.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
-    guide(chart, config);
+    // guide(chart, config);
 
     // 正式开始绘图，创建两个不同的view
     const barView = chart.view();
