@@ -120,7 +120,7 @@ export default {
         transpose: facetConfig.transpose,
         padding: facetConfig.padding,
         eachView(view) {
-          drawBar(view, config, config.colors);
+          drawBar(view, config, config.colors, 'type*facet');
         }
       });
     } else {
@@ -170,15 +170,15 @@ export default {
   }
 };
 
-function drawBar(chart, config, colors) {
+function drawBar(chart, config, colors, field = 'type') {
   // 堆叠
   if (config.stack) {
-    chart.interval().position(['x', 'y']).color('type', colors).adjust([{
+    chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'stack',
       reverseOrder: !config.stackReverse, // 层叠顺序倒序
     }]);
   } else {
-    chart.interval().position(['x', 'y']).color('type', colors).adjust([{
+    chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'dodge',
       marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);

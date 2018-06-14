@@ -46,9 +46,14 @@ for (let i = 0; i < 10; i++) {
   data[3].data.push([name, Math.random() * 100 + 100]);
 }
 
+data = {"success":true,"errorCode":null,"errorMsg":null,"data":[{"data":[["阿里云",1539],["大数据",1239],["大文娱",939],["电商",1539],["开发测试",639],["蚂蚁",1639]],"name":"7000机柜","facet":"机柜个数"},{"data":[["阿里云",0.50],["大数据",0.50],["大文娱",0.50],["电商",0.50],["开发测试",0.50],["蚂蚁",0.50]],"name":"7000机柜","facet":"机柜超电比"},{"data":[["阿里云",1552],["大数据",1252],["大文娱",952],["电商",1552],["开发测试",652],["蚂蚁",1652]],"name":"8000机柜","facet":"机柜个数"},{"data":[["阿里云",0.50],["大数据",0.50],["大文娱",0.50],["电商",0.50],["开发测试",0.50],["蚂蚁",0.50]],"name":"8000机柜","facet":"机柜超电比"},{"data":[["阿里云",1513],["大数据",1213],["大文娱",913],["电商",1513],["开发测试",613],["蚂蚁",1613]],"name":"5000机柜","facet":"机柜个数"},{"data":[["阿里云",0.50],["大数据",0.50],["大文娱",0.50],["电商",0.50],["开发测试",0.50],["蚂蚁",0.50]],"name":"5000机柜","facet":"机柜超电比"},{"data":[["阿里云",1526],["大数据",1226],["大文娱",926],["电商",1526],["开发测试",626],["蚂蚁",1626]],"name":"6000机柜","facet":"机柜个数"},{"data":[["阿里云",0.50],["大数据",0.50],["大文娱",0.50],["电商",0.50],["开发测试",0.50],["蚂蚁",0.50]],"name":"6000机柜","facet":"机柜超电比"}]};
+
 let options1 = {
   padding: [40, 24, 20, 44],
-  colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
+  colors(name, facet) {
+    console.log(name, facet);
+    return COLORS.widgetsColorCategory1;
+  },
   legend:{
     align: 'right'
   },
@@ -69,7 +74,7 @@ class Demo extends React.Component{
     return (
       <div className="demos">
         <div className="demo-item">
-            <Wbar ref="chart1" config={options1} data={data} height="400" />
+            <Wbar ref="chart1" config={options1} data={data.data} height="400" />
         </div>
       </div>
     );
