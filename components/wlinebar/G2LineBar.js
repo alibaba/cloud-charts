@@ -85,7 +85,8 @@ export default {
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'cat',
-        sync: true,
+        // fix 更新数据时x轴无法清除数据
+        // sync: true,
       }, config.xAxis),
       type: {
         type: 'cat'
