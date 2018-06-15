@@ -158,6 +158,7 @@ export default {
     rectTooltip.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
+    // TODO chart 无法穿透view，绘制会报错
     // guide(chart, config);
 
     // 正式开始绘图，创建两个不同的view

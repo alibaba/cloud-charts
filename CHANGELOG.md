@@ -1,3 +1,28 @@
+### 2.1.12 (2018-06-14)
+
+#### New Features
+
+- 新增矩形分箱图组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/278)。
+- 柱状图添加 镜面柱图 功能(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/28/example/503)。
+
+#### Bug Fixes
+
+- 工具函数 - 千分位格式化函数 会丢失小数的问题。
+- 线柱图某些情况下可能报错的问题。
+
+### 2.1.11 (2018-06-07)
+
+#### New Features
+
+- 添加 tooltip 项目排序功能(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143)。
+- 新增数字翻牌器组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/277)。
+- 优化适配高度逻辑，兼容带有内边距的情况。
+- 增强地图样式可配置性。
+
+#### Bug Fixes
+
+- 地图图层更新没有响应配置项更新的问题。
+
 ### 2.1.10 (2018-05-31)
 
 #### New Features
