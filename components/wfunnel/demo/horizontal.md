@@ -1,13 +1,13 @@
 ---
-order: 0
+order: 1
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 水平漏斗图
+  en-US: Horizontal
 ---
 
 ## zh-CN
 
-基础
+设置 direction 为 horizontal 变为水平漏斗图，align 的可选项会发生变化。
 
 ## en-US
 
@@ -25,16 +25,16 @@ let data = [
 ];
 
 let options1 = {
-  direction: 'vertical',
-  align: 'left',
+  direction: 'horizontal',
+  align: 'top',
 };
 let options2 = {
-  direction: 'vertical',
+  direction: 'horizontal',
   align: 'center',
 };
 let options3 = {
-  direction: 'vertical',
-  align: 'right',
+  direction: 'horizontal',
+  align: 'bottom',
 };
 
 class Demo extends React.Component{

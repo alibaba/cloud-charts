@@ -1,13 +1,13 @@
 ---
-order: 0
+order: 2
 title:
-  zh-CN: 基本
-  en-US: Basic
+  zh-CN: 尖顶漏斗图
+  en-US: Pyramid
 ---
 
 ## zh-CN
 
-基础
+设置 pyramid 为 true 变为尖顶漏斗图，仅适合 align 为 'center' 的情况。
 
 ## en-US
 
@@ -26,29 +26,24 @@ let data = [
 
 let options1 = {
   direction: 'vertical',
-  align: 'left',
+  align: 'center',
+  pyramid: true,
 };
 let options2 = {
-  direction: 'vertical',
+  direction: 'horizontal',
   align: 'center',
-};
-let options3 = {
-  direction: 'vertical',
-  align: 'right',
+  pyramid: true,
 };
 
 class Demo extends React.Component{
   render(){
     return (
       <Row>
-        <Col span="8">
+        <Col span="12">
           <Wfunnel config={options1} data={data} height="400" />
         </Col>
-        <Col span="8">
+        <Col span="12">
           <Wfunnel config={options2} data={data} height="400" />
-        </Col>
-        <Col span="8">
-          <Wfunnel config={options3} data={data} height="400" />
         </Col>
       </Row>
     );

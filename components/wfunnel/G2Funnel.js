@@ -13,7 +13,7 @@ import './G2Funnel.scss';
 
 const defaultConfig = {
   colors: color.order_10,
-  padding: [40, 20, 20, 20],
+  padding: [40, 0, 0, 0],
   // xAxis: {
   //   type: 'cat',
   //   labelFormatter: null, // 可以强制覆盖，手动设置label
@@ -38,6 +38,8 @@ const defaultConfig = {
   direction: 'vertical',
   // 排列位置 start,center,end
   align: 'center',
+  // 尖顶漏斗图
+  pyramid: false,
 };
 
 export default {
@@ -93,7 +95,6 @@ export default {
 
     // 根据传入的 direction 和 align 设置坐标系，并绘制图形
     const drawType = `${config.direction}-${config.align}`;
-    // 默认图形
     let geom = null;
 
     switch (drawType) {
@@ -117,11 +118,14 @@ export default {
         geom = chart.intervalSymmetric();
         break;
       case 'horizontal-bottom':
+        // 和 default 时相同
       default:
         geom = chart.interval();
     }
 
-    geom.position('x*y').shape('funnel').color('x', config.colors);
+    const funnelShape = (config.align === 'center' && config.pyramid) ? 'pyramid' : 'funnel';
+
+    geom.position('x*y').shape(funnelShape).color('x', config.colors);
 
     chart.render();
   },
