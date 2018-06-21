@@ -29,7 +29,7 @@ export default function (chart, config) {
   }
 }
 
-function drawGuideLine(chart, guideLine) {
+export function drawGuideLine(chart, guideLine) {
   const { top, text = {}, status, axis, value, start, end } = guideLine;
   const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY } = text;
   const color = getStatusColor(status);
@@ -96,7 +96,7 @@ function drawGuideLine(chart, guideLine) {
   }
 }
 
-function drawGuideArea(chart, guideArea) {
+export function drawGuideArea(chart, guideArea) {
   const { top, status, axis, value, start, end } = guideArea;
   const color = getStatusColor(status);
 

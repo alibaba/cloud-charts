@@ -4,7 +4,7 @@ import merge from '../common/merge';
 import { color, size } from '../theme/normal';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
 import highchartsDataToG2Data from '../common/dataAdapter';
-import guide from '../common/guide';
+import { drawGuideArea, drawGuideLine } from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
@@ -158,10 +158,6 @@ export default {
     // tooltip
     rectTooltip.call(this, chart, config);
 
-    // 绘制辅助线，辅助背景区域
-    // TODO chart 无法穿透view，绘制会报错
-    // guide(chart, config);
-
     // 正式开始绘图，创建两个不同的view
     const barView = chart.view();
     barView.source(barData);
@@ -187,6 +183,9 @@ export default {
       drawBar(barView, config);
       drawLine(lineView, config, lineShape, areaShape);
     }
+
+    // 绘制辅助线，辅助背景区域
+    viewGuide(config, lineView, rawLineData, barView, rawBarData);
 
     chart.render();
   },
@@ -255,4 +254,51 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   } else if (config.symbol) {
     chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
   }
+}
+
+function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
+  const guide = config.guide;
+  if (!guide) {
+    return;
+  }
+
+  if (guide.line) {
+    if (Array.isArray(guide.line)) {
+      guide.line.forEach((line) => {
+        drawGuideLine( getGuideView(config, line, lineView, rawLineData, barView, rawBarData) , line);
+      });
+    } else {
+      drawGuideLine( getGuideView(config, guide.line, lineView, rawLineData, barView, rawBarData) , guide.line);
+    }
+  }
+
+  if (guide.area) {
+    if (Array.isArray(guide.area)) {
+      guide.area.forEach((area) => {
+        drawGuideArea( getGuideView(config, area, lineView, rawLineData, barView, rawBarData) , area);
+      });
+    } else {
+      drawGuideArea( getGuideView(config, guide.area, lineView, rawLineData, barView, rawBarData) , guide.area);
+    }
+  }
+}
+
+function getGuideView(config, guide, lineView, rawLineData, barView, rawBarData) {
+  const { target, axis, value } = guide;
+
+  // 如果用户指定了绘制目标，直接使用
+  if (target === 'line') {
+    return lineView;
+  } else if (target === 'bar') {
+    return barView;
+  }
+
+  if (axis && (value || value === 0) && /y\d/.test(axis)) {
+    const yIndex = Number(axis.replace(/^y/, ''));
+    if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
+      return barView;
+    }
+  }
+
+  return lineView;
 }

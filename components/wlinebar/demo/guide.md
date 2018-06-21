@@ -54,14 +54,14 @@ let options2 = {
       },
       status: 'error',
       // 线位置
-      axis: 'y0',
+      axis: 'y1',
       value: 5200
     }
   }
 };
 
 class Demo extends React.Component{
-  render(){
+  render() {
     return (
       <div className="demos">
         <div className="demo-item">
