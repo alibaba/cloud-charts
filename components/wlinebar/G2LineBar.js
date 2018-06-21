@@ -145,15 +145,7 @@ export default {
       }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 })
     });
 
-    if (config.legend) {
-      // hack 图例的位置，仅在初始化时处理一遍
-      setTimeout(() => {
-        const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
-        if (dom && dom.parentNode) {
-          dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
-        }
-      }, 50);
-    }
+    hackLegendPosition.call(this, config);
 
     // tooltip
     rectTooltip.call(this, chart, config);
@@ -206,15 +198,7 @@ export default {
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
 
-    if (userConfig.legend) {
-      // hack 图例的位置，仅在初始化时处理一遍
-      setTimeout(() => {
-        const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
-        if (dom && dom.parentNode) {
-          dom.parentNode.style.textAlign = userConfig.legend.align === 'right' ? 'right' : 'left';
-        }
-      }, 50);
-    }
+    hackLegendPosition.call(this, userConfig);
   }
 };
 
@@ -253,6 +237,18 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
   } else if (config.symbol) {
     chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
+  }
+}
+
+function hackLegendPosition(config) {
+  if (config.legend) {
+    // hack 图例的位置，仅在初始化时处理一遍
+    setTimeout(() => {
+      const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+      if (dom && dom.parentNode) {
+        dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+      }
+    }, 50);
   }
 }
 
