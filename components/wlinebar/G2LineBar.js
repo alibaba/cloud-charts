@@ -152,7 +152,7 @@ export default {
         if (dom && dom.parentNode) {
           dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
         }
-      }, 100);
+      }, 50);
     }
 
     // tooltip
@@ -206,6 +206,16 @@ export default {
 
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
+
+    if (userConfig.legend) {
+      // hack 图例的位置，仅在初始化时处理一遍
+      setTimeout(() => {
+        const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+        if (dom && dom.parentNode) {
+          dom.parentNode.style.textAlign = userConfig.legend.align === 'right' ? 'right' : 'left';
+        }
+      }, 50);
+    }
   }
 };
 
