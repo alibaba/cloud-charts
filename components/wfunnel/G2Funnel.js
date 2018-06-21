@@ -12,7 +12,7 @@ import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: color.order_10,
   padding: [40, 20, 20, 20],
   // xAxis: {
   //   type: 'cat',

@@ -17,13 +17,7 @@ const defaultConfig = {
     fill: color.widgetsMapAreaBg,
     stroke: color.widgetsMapAreaBorder,
   },
-  areaColors: (() => {
-    const result = [];
-    for (let i = 1; i <= 10; i++) {
-      result.push(color[`widgetsColorLinear${i}`]);
-    }
-    return result;
-  })(),
+  areaColors: color.order_10,
   pointColors: color.category_12,
   type: 'china',
   showSouthChinaSea: true,
