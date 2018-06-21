@@ -13,6 +13,7 @@ Object.assign(color, widgetsVar, {
   [`${prefix}tooltip-cross-react`]: '#CCD6EC',
   [`${prefix}tooltip-cross-react-opacity`]: 0.3,
 
+  // 分类色阶
   category_12: [
     widgetsVar.widgetsColorCategory1,
     widgetsVar.widgetsColorCategory2,
@@ -27,6 +28,7 @@ Object.assign(color, widgetsVar, {
     widgetsVar.widgetsColorCategory11,
     widgetsVar.widgetsColorCategory12,
   ],
+  // 连续色阶，比较接近的颜色会错开
   linear_10: [
     widgetsVar.widgetsColorLinear1,
     widgetsVar.widgetsColorLinear5,
@@ -38,6 +40,19 @@ Object.assign(color, widgetsVar, {
     widgetsVar.widgetsColorLinear4,
     widgetsVar.widgetsColorLinear6,
     widgetsVar.widgetsColorLinear8,
+  ],
+  // 顺序色阶，连续相似的颜色排列
+  order_10: [
+    widgetsVar.widgetsColorLinear1,
+    widgetsVar.widgetsColorLinear2,
+    widgetsVar.widgetsColorLinear3,
+    widgetsVar.widgetsColorLinear4,
+    widgetsVar.widgetsColorLinear5,
+    widgetsVar.widgetsColorLinear6,
+    widgetsVar.widgetsColorLinear7,
+    widgetsVar.widgetsColorLinear8,
+    widgetsVar.widgetsColorLinear9,
+    widgetsVar.widgetsColorLinear10,
   ],
 });
 
