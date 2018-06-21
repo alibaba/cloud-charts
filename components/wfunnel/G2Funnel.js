@@ -87,7 +87,8 @@ export default {
 
     // tooltip
     rectTooltip.call(this, chart, config, {
-      crosshairs: null
+      showTitle: false,
+      crosshairs: null,
     });
 
     // 绘制辅助线，辅助背景区域
