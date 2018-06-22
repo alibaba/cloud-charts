@@ -195,8 +195,9 @@ export default {
     const lineData = highchartsDataToG2Data(rawLineData, userConfig);
     const barData = highchartsDataToG2Data(rawBarData, userConfig);
 
-    this.barView && this.barView.changeData(barData);
-    this.lineView && this.lineView.changeData(lineData);
+    this.barView && this.barView.source(barData);
+    this.lineView && this.lineView.source(lineData);
+    chart.render();
 
     hackLegendPosition.call(this, userConfig);
   }

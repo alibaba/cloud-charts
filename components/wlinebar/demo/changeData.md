@@ -34,17 +34,13 @@ let options = {
   padding: [40, 5, 24, 44],
   xAxis: {
     type: 'cat',
-    sync: false,
-    //mask: 'YYYY-MM-DD'
   },
-  yAxis: {
-    sync: true,
-  }
+  yAxis: {}
 };
 
 class Demo extends React.Component{
   state = {
-    data
+    data: []
   };
 
   componentDidMount() {
@@ -54,6 +50,7 @@ class Demo extends React.Component{
       });
     }, 3000);
   }
+
   render(){
     return (
       <div className="demos-box">
