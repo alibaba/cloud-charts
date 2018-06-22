@@ -261,20 +261,20 @@ function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
   if (guide.line) {
     if (Array.isArray(guide.line)) {
       guide.line.forEach((line) => {
-        drawGuideLine( getGuideView(config, line, lineView, rawLineData, barView, rawBarData) , line);
+        drawGuideLine(getGuideView(config, line, lineView, rawLineData, barView, rawBarData), line);
       });
     } else {
-      drawGuideLine( getGuideView(config, guide.line, lineView, rawLineData, barView, rawBarData) , guide.line);
+      drawGuideLine(getGuideView(config, guide.line, lineView, rawLineData, barView, rawBarData), guide.line);
     }
   }
 
   if (guide.area) {
     if (Array.isArray(guide.area)) {
       guide.area.forEach((area) => {
-        drawGuideArea( getGuideView(config, area, lineView, rawLineData, barView, rawBarData) , area);
+        drawGuideArea(getGuideView(config, area, lineView, rawLineData, barView, rawBarData), area);
       });
     } else {
-      drawGuideArea( getGuideView(config, guide.area, lineView, rawLineData, barView, rawBarData) , guide.area);
+      drawGuideArea(getGuideView(config, guide.area, lineView, rawLineData, barView, rawBarData), guide.area);
     }
   }
 }

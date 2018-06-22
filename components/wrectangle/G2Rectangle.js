@@ -3,7 +3,7 @@
 import { DataSet } from '@antv/data-set';
 import merge from '../common/merge';
 import { color } from '../theme/normal';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import { propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -37,7 +37,7 @@ const defaultConfig = {
   },
   bin: {
     fields: ['x', 'y'],
-    bins: [ 20, 10 ],          // 两个方向上的分箱个数
+    bins: [20, 10],          // 两个方向上的分箱个数
     // binWidth: [ 10, 1000 ],    // 两个方向上的分箱步长（会覆盖bins的配置）
     // offset: [ 0, 0 ],
 

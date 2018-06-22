@@ -116,7 +116,7 @@ export default {
         padding: [20, 0, 20, 0],
       };
       chart.facet(facetConfig.type, {
-        fields: [ 'facet' ],
+        fields: ['facet'],
         transpose: facetConfig.transpose,
         padding: facetConfig.padding,
         eachView(view) {

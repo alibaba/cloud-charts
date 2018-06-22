@@ -1,12 +1,8 @@
 'use strict';
 
-import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
 import { color } from '../theme/normal';
-import { propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
-import rectXAxis from '../common/rectXAxis';
-import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
@@ -14,23 +10,11 @@ import './G2Funnel.scss';
 const defaultConfig = {
   colors: color.order_10,
   padding: [40, 0, 0, 0],
-  // xAxis: {
-  //   type: 'cat',
-  //   labelFormatter: null, // 可以强制覆盖，手动设置label
-  //   categories: null,
-  //   autoRotate: false,
-  // },
-  // yAxis: {
-  //   labelFormatter: null, // 可以强制覆盖，手动设置label
-  //   max: null,
-  //   min: null,
-  // },
   legend: {
     align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
-    titleFormatter: null,
     nameFormatter: null,
     valueFormatter: null,
   },
@@ -58,16 +42,8 @@ export default {
 
     // 设置数据度量
     const defs = {
-      // x: propertyAssign(propertyMap.xAxis, {
-      //   type: 'cat',
-      // }, config.xAxis),
-      // y: propertyAssign(propertyMap.yAxis, {
-      //   type: 'linear',
-      //   tickCount: 5
-      // }, config.yAxis),
       type: {
         type: 'cat',
-        // sync: true
       }
     };
 
@@ -75,12 +51,6 @@ export default {
 
     // 漏斗图目前看没有轴
     chart.axis(false);
-
-    // // 设置单个Y轴
-    // rectYAxis.call(this, chart, config);
-    //
-    // // 设置X轴
-    // rectXAxis.call(this, chart, config);
 
     // 设置图例
     rectLegend.call(this, chart, config);
@@ -130,13 +100,4 @@ export default {
 
     chart.render();
   },
-  // destroy() {
-  //   // 销毁时需要额外销毁缩放重置按钮
-  //   if (this.brush) {
-  //     this.brush.destroy();
-  //   }
-  //   if (this.resetButton) {
-  //     this.resetButton.destroy();
-  //   }
-  // }
 };
