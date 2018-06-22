@@ -1,3 +1,16 @@
+### 2.1.13 (2018-06-21)
+
+#### New Features
+
+- 新增漏斗图组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/279)。
+- 线柱图重新支持 辅助标记(guide) 功能。
+- chore: 升级 G2 依赖至 3.1.2 。
+
+#### Bug Fixes
+
+- 线柱图数据更新时残留旧数据的问题。
+- 线柱图图例样式问题。
+
 ### 2.1.12 (2018-06-14)
 
 #### New Features
