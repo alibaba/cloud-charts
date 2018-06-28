@@ -53,7 +53,7 @@ export default {
     chart.axis(false);
 
     // 设置图例
-    rectLegend.call(this, chart, config);
+    rectLegend.call(this, chart, config, null, true);
 
     // tooltip
     rectTooltip.call(this, chart, config, {

@@ -7,10 +7,10 @@ import merge from './merge';
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
 * */
-export default function (chart, config, componentConfig) {
+export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { align, nameFormatter, customConfig } = config.legend || {};
+    const { align, nameFormatter, valueFormatter, showData, customConfig } = config.legend || {};
 
     const legendConfig = {
       useHtml: true,
@@ -20,16 +20,30 @@ export default function (chart, config, componentConfig) {
       autoPosition: false,
       onHover: noop,
       itemTpl: (value, color, checked, index) => {
-        const item = getRawData(config, this.rawData, value);
+        const item = getRawData(config, this.rawData, value, isOneDataGroup);
 
-        const result = nameFormatter ? nameFormatter(value, {
+        const newName = nameFormatter ? nameFormatter(value, {
           ...item,
           color,
           checked
         }, index) : value;
+
+        if (showData) {
+          const dataValue = getDataValue(item.data);
+          const newValue = valueFormatter ? valueFormatter(dataValue, {
+            ...item,
+            color,
+            checked
+          }, index) : dataValue;
+
+          return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+          '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+          '<span class="g2-legend-text">'}${newName}</span><span class="g2-legend-value">${newValue}</span></li>`;
+        }
+
         return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-          '<span class="g2-legend-text">'}${result}</span></li>`;
+          '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
       'g2-legend': Object.assign({
         top: size.s3,
@@ -51,9 +65,30 @@ export default function (chart, config, componentConfig) {
   }
 }
 
-function getRawData(config, rawData, name) {
+function getRawData(config, rawData, name, isOneDataGroup) {
   if (!rawData) {
     return {};
+  }
+
+  if (isOneDataGroup) {
+    const originData = rawData[0] || {};
+    let result = {};
+
+    originData.data.some((r) => {
+      if (Array.isArray(r) && r[0] === name || typeof r === 'object' && r.x === name) {
+        result = r;
+        return true;
+      }
+      return false;
+    });
+
+    if (Array.isArray(result)) {
+      result = {
+        data: result
+      };
+    }
+
+    return result;
   }
 
   let originData = {};
@@ -68,4 +103,25 @@ function getRawData(config, rawData, name) {
   }
 
   return originData;
+}
+
+function getDataValue(data) {
+  if (!Array.isArray(data)) {
+    return '-';
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    // 单组数据时，如饼图/漏斗图，data[i] 不是数组/对象
+    if (typeof data[i] !== 'object' && i === 1) {
+      return data[i];
+    }
+    if (i === data.length - 1) {
+      if (Array.isArray(data[i])) {
+        return data[i][1];
+      }
+      if (typeof data[i] === 'object') {
+        return data[i].y;
+      }
+    }
+  }
 }

@@ -31,10 +31,20 @@ let options1 = {
 let options2 = {
   direction: 'vertical',
   align: 'center',
+  legend: {
+    showData: true,
+    valueFormatter(value, data, index) {
+      console.log(value, data, index);
+      return value + '个';
+    }
+  }
 };
 let options3 = {
   direction: 'vertical',
   align: 'right',
+  legend: {
+    showData: true,
+  }
 };
 
 class Demo extends React.Component{
