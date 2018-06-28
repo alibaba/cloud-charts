@@ -31,7 +31,6 @@ const defaultConfig = {
     min: null,
   },
   tooltip: {
-    titleFormatter: null,
     nameFormatter: null,
     valueFormatter: null,
   },
