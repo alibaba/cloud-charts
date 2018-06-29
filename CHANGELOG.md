@@ -1,3 +1,14 @@
+### 2.1.14 (2018-06-28)
+
+#### New Features
+
+- 常用图例增加显示最后一项数据的功能（http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142）。
+- 增强线图几何图形自定义能力。
+
+#### Bug Fixes
+
+- 线柱图更新数据时  sync 失效，某些情况下无法绘制图形的问题。
+
 ### 2.1.13 (2018-06-21)
 
 #### New Features
