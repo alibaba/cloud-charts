@@ -11,13 +11,8 @@ import rectTooltip from '../common/rectTooltip';
 import './G2Rectangle.scss';
 
 const defaultConfig = {
-  colors: (() => {
-    const result = [];
-    for (let i = 1; i <= 10; i++) {
-      result.push(color[`widgetsColorLinear${11 - i}`]);
-    }
-    return result;
-  })(),
+  // 这里需要倒序排列
+  colors: color.order_10.slice().reverse(),
   padding: [40, 10, 32, 44],
   xAxis: {
     labelFormatter: null, // 可以强制覆盖，手动设置label
