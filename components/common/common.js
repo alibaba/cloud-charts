@@ -217,6 +217,10 @@ export function getRawData(config, rawData, item) {
   if (config.dataType !== 'g2' && Array.isArray(rawData)) {
     rawData.some((r) => {
       if (r.name === originData.type) {
+        // 如果原数据中定义了 facet，需要额外判定 facet 字段
+        if (r.facet && originData.facet !== r.facet) {
+          return false;
+        }
         originData = r;
         return true;
       }
