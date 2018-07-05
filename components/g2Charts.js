@@ -46,7 +46,9 @@ export const Util = Object.assign({}, G2.Util, {
   getStatusColor: common.getStatusColor,
   isInvalidNumber: common.isInvalidNumber,
   numberDecimal: common.numberDecimal,
-  beautifyNumber: common.beautifyNumber
+  beautifyNumber: common.beautifyNumber,
+  getRawData: common.getRawData,
+  filterKey: common.filterKey,
 });
 export const DomUtil = G2.DomUtil;
 export const MatrixUtil = G2.MatrixUtil;
