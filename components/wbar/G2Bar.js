@@ -81,7 +81,9 @@ export default {
     chart.source(data, defs);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    if (!config.facet) {
+      rectYAxis.call(this, chart, config);
+    }
 
     // 设置X轴
     rectXAxis.call(this, chart, config);
@@ -115,11 +117,33 @@ export default {
         transpose: false,
         padding: [20, 0, 20, 0],
       };
+      const self = this;
       chart.facet(facetConfig.type, {
         fields: ['facet'],
         transpose: facetConfig.transpose,
         padding: facetConfig.padding,
-        eachView(view) {
+        eachView(view, facet) {
+          let yAxisCustomConfig = null;
+
+          // 为 labelFormatter 的第二个参数添加分面信息
+          if (config.yAxis && config.yAxis.visible !== false) {
+            const { labelFormatter } = config.yAxis || {};
+            if (labelFormatter) {
+              yAxisCustomConfig = {
+                label: {
+                  formatter: (...args) => {
+                    args[1] = Object.assign({
+                      facet: facet.colValue || facet.rowValue
+                    }, args[1]);
+                    return labelFormatter(...args);
+                  },
+                }
+              };
+            }
+          }
+
+          rectYAxis.call(self, view, config, 'y', yAxisCustomConfig);
+
           drawBar(view, config, config.colors, 'type*facet');
         }
       });

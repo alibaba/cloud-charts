@@ -50,12 +50,27 @@ data = {"success":true,"errorCode":null,"errorMsg":null,"data":[{"data":[["阿�
 
 let options1 = {
   padding: [40, 24, 20, 44],
-  colors(name, facet) {
+  /* colors(name, facet) {
     console.log(name, facet);
     return COLORS.widgetsColorCategory1;
+  }, */
+  yAxis: {
+    labelFormatter(label, info, i) {
+      if (info.facet === '机柜个数') {
+        return label + '个';
+      } else {
+        return label + '%';
+      }
+    }
   },
-  legend:{
-    align: 'right'
+  tooltip: {
+    valueFormatter(v, data) {
+      if (data.facet === '机柜个数') {
+        return v + '个';
+      } else {
+        return v + '%';
+      }
+    }
   },
   marginRatio: 0.05,
   facet: true,
