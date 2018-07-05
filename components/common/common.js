@@ -214,7 +214,7 @@ export function getRawData(config, rawData, item) {
   }
 
   let originData = (item.point && item.point._origin) || {};
-  if (config.dataType !== 'g2') {
+  if (config.dataType !== 'g2' && Array.isArray(rawData)) {
     rawData.some((r) => {
       if (r.name === originData.type) {
         originData = r;
