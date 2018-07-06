@@ -1,3 +1,14 @@
+### 2.1.15 (2018-07-06)
+
+#### New Features
+
+- 分面柱图 yAxis.labelFormatter 第二个参数添加分面信息，可以完成更细致的格式化。
+- 完善 暗色主题 颜色配置。
+
+#### Bug Fixes
+
+- 分面柱图 tooltip.nameFormatter 和 tooltip.valueFormatter 第二个参数可能不正确的问题。
+
 ### 2.1.14 (2018-06-28)
 
 #### New Features
