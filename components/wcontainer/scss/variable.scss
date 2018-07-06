@@ -1,4 +1,6 @@
 @import "../../theme/normal";
 $wcontainer-prefix: '.aisc-wcontainer';
 
-$wcontainer-bg-color: $widgets-color-white;
+$wcontainer-bg-color: $widgets-container-background;
+$wcontainer-title-color: $widgets-container-title;
+$wcontainer-split-line: $widgets-container-split-line;

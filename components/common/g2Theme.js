@@ -29,23 +29,23 @@ const widgetsTheme = {
       label: {
         offset: 18,
         autoRotate: false,
-        textStyle: { fill: color.colorN22 } // 底部标签文本的颜色
+        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
       },
       line: {
-        stroke: color.colorN16
+        stroke: color.widgetsAxisLine
       },
       tickLine: null
     },
     left: {
       label: {
         offset: 8,
-        textStyle: { fill: color.colorN22 } // 左部标签文本的颜色
+        textStyle: { fill: color.widgetsAxisLabel } // 左部标签文本的颜色
       },
       grid: {
         // 让grid在轴线的下方
         zIndex: -1,
         lineStyle: {
-          stroke: color.colorN13,
+          stroke: color.widgetsAxisGrid,
           lineWidth: 1,
           lineDash: null
         },
@@ -54,7 +54,7 @@ const widgetsTheme = {
     right: {
       label: {
         offset: 8,
-        textStyle: { fill: color.colorN22 } // 右部标签文本的颜色
+        textStyle: { fill: color.widgetsAxisLabel } // 右部标签文本的颜色
       }
     }
   },
@@ -72,12 +72,12 @@ const widgetsTheme = {
       fontFamily: fonts.fontFamilyBase,
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
-      color: color.colorN24,
+      color: color.widgetsTooltipText,
       textAlign: 'left',
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: color.colorN22
+      color: color.widgetsTooltipTitle
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
@@ -94,7 +94,7 @@ const widgetsTheme = {
   },
   tooltipMarker: {
     symbol: (x, y, r, ctx, marker) => {
-      ctx.fillStyle = color.colorWhite;
+      ctx.fillStyle = color.widgetsTooltipMarkerFill;
       ctx.lineWidth = 2;
       ctx.strokeStyle = marker.get('color');
       ctx.beginPath();
@@ -120,27 +120,27 @@ const widgetsTheme = {
   legend: {
     top: {
       textStyle: {
-        fill: color.colorN24
+        fill: color.widgetsLegendText
       },
-      unCheckColor: color.colorN21
+      unCheckColor: color.widgetsLegendUncheck
     },
     right: {
       textStyle: {
-        fill: color.colorN24
+        fill: color.widgetsLegendText
       },
-      unCheckColor: color.colorN21
+      unCheckColor: color.widgetsLegendUncheck
     },
     bottom: {
       textStyle: {
-        fill: color.colorN24
+        fill: color.widgetsLegendText
       },
-      unCheckColor: color.colorN21
+      unCheckColor: color.widgetsLegendUncheck
     },
     left: {
       textStyle: {
-        fill: color.colorN24
+        fill: color.widgetsLegendText
       },
-      unCheckColor: color.colorN21
+      unCheckColor: color.widgetsLegendUncheck
     },
     html: {
       // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
@@ -149,7 +149,7 @@ const widgetsTheme = {
         fontFamily: fonts.fontFamilyBase,
         fontSize: fonts.fontSizeBaseCaption,
         lineHeight: fonts.fontSizeBaseCaption,
-        color: color.colorN24
+        color: color.widgetsLegendText
       },
       'g2-legend-list': {},
       'g2-legend-list-item': {

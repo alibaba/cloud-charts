@@ -4,6 +4,7 @@ $font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC"
 $font-size-large-number: 28px !default;
 $font-size-xlarge-number: 32px !default;
 
+// 纯粹颜色系列
 $widgets-color-white: #FFFFFF !default;
 $widgets-color-black: #000000 !default;
 
@@ -37,7 +38,22 @@ $widgets-color-linear-8: #C0DAFF !default;
 $widgets-color-linear-9: #D5E7FF !default;
 $widgets-color-linear-10: #EAF2FF !default;
 
+// 业务颜色
 $widgets-mini-card-empty: #F2F3F7 !default;
 
+// 地图特有
 $widgets-map-area-bg: #DCDEE3 !default;
 $widgets-map-area-border: #ffffff !default;
+
+$widgets-container-background: $widgets-color-white !default;
+$widgets-container-title: #333333 !default;
+$widgets-container-split-line: #DCDEE3 !default;
+
+$widgets-legend-uncheck: #CCCCCC !default;
+$widgets-legend-text: #333333 !default;
+
+$widgets-tooltip-background: rgba(255, 255, 255, 0.9);
+$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+$widgets-tooltip-cross-line: #dddddd;
+$widgets-tooltip-cross-react: #CCD6EC;
+$widgets-tooltip-cross-react-opacity: 0.3;

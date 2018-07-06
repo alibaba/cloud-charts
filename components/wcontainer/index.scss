@@ -12,8 +12,8 @@
     padding-bottom: 8px;
     font-size: 14px;
     line-height: 1;
-    color: $color-n2-4;
-    border-bottom: 1px solid $color-n1-5;
+    color: $wcontainer-title-color;
+    border-bottom: 1px solid $wcontainer-split-line;
     >#{$wcontainer-prefix}-operation {
       float: right;
 
@@ -50,7 +50,7 @@
         .next-row {
           flex: 1; //padding-top: $s2;
           //padding-bottom: $s2;
-          border-bottom: 1px solid $color-n1-6;
+          border-bottom: 1px solid $wcontainer-split-line;
           &:last-child {
             border-bottom: none;
           }
@@ -58,7 +58,7 @@
             margin-right: $s1;
             margin-left: $s1;
             padding-left: $s3;
-            border-left: 1px solid $color-n1-6;
+            border-left: 1px solid $wcontainer-split-line;
             &:first-child {
               border-left: none;
               margin-left: 0;
@@ -91,6 +91,6 @@
   #{$wcontainer-prefix}-divider {
     width: 1px;
     height: 30px;
-    background: $color-n1-6;
+    background: $wcontainer-split-line;
   }
 }
