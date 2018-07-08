@@ -61,12 +61,12 @@ const widgetsTheme = {
   tooltip: {
     offset: 8,
     crossLine: {
-      stroke: color['widgets-tooltip-cross-line'],
+      stroke: color.widgetsTooltipCrossLine,
       // lineWidth: 1,
     },
     'g2-tooltip': {
-      backgroundColor: color['widgets-tooltip-background'],
-      boxShadow: color['widgets-tooltip-shadow'],
+      backgroundColor: color.widgetsTooltipBackground,
+      boxShadow: color.widgetsTooltipShadow,
       padding: size.s3,
       borderRadius: size.s1,
       fontFamily: fonts.fontFamilyBase,
@@ -107,8 +107,8 @@ const widgetsTheme = {
   },
   tooltipCrosshairsRect: {
     style: {
-      fill: color['widgets-tooltip-cross-react'],
-      opacity: color['widgets-tooltip-cross-react-opacity']
+      fill: color.widgetsTooltipCrossReact,
+      opacity: color.widgetsTooltipCrossReactOpacity
     }
   },
   tooltipCrosshairsLine: {

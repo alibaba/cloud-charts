@@ -7,11 +7,11 @@ import widgetsVar from '!!sass-variable-loader!./dark.scss';
 const prefix = 'widgets-';
 
 Object.assign(color, widgetsVar, {
-  [`${prefix}tooltip-background`]: '#20264A',
-  [`${prefix}tooltip-shadow`]: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
-  [`${prefix}tooltip-cross-line`]: '#dddddd',
-  [`${prefix}tooltip-cross-react`]: '#20264A',
-  [`${prefix}tooltip-cross-react-opacity`]: 0.7,
+  // [`${prefix}tooltip-background`]: '#20264A',
+  // [`${prefix}tooltip-shadow`]: '0 1px 5px 0 rgba(0, 0, 0, 0.2)',
+  // [`${prefix}tooltip-cross-line`]: '#dddddd',
+  // [`${prefix}tooltip-cross-react`]: '#20264A',
+  // [`${prefix}tooltip-cross-react-opacity`]: 0.7,
 
   // 分类色阶
   category_12: [
