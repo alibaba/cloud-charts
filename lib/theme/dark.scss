@@ -4,7 +4,8 @@ $font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC"
 $font-size-large-number: 28px !default;
 $font-size-xlarge-number: 32px !default;
 
-$widgets-color-white: #141830 !default;
+// 纯颜色
+$widgets-color-white: #2A2D3C !default;
 $widgets-color-black: #FFFFFF !default;
 
 $widgets-color-blue: #2E85FF !default;
@@ -37,7 +38,38 @@ $widgets-color-linear-8: #193669 !default;
 $widgets-color-linear-9: #162B53 !default;
 $widgets-color-linear-10: #141F3E !default;
 
-$widgets-mini-card-empty: #212440 !default;
+// 图例 Legend
+$widgets-legend-uncheck: #666979 !default;
+$widgets-legend-text: #E0E1E8 !default;
 
+// 提示信息 tooltip
+$widgets-tooltip-background: #323545 !default;
+$widgets-tooltip-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-cross-line: #51566B !default;
+$widgets-tooltip-cross-react: #404354 !default;
+$widgets-tooltip-cross-react-opacity: 0.5 !default;
+$widgets-tooltip-title: #848695 !default;
+$widgets-tooltip-text: #E0E1E8 !default;
+$widgets-tooltip-marker-fill: #2A2D3C !default;
+
+// 轴 Axis
+$widgets-axis-label: #848695 !default;
+$widgets-axis-line: #46495C !default;
+$widgets-axis-grid: #3A3D4D !default;
+
+// 业务颜色
+$widgets-mini-card-empty: #212440 !default;
+$widgets-circle-number: #ffffff !default;
+
+// 地图特有
 $widgets-map-area-bg: #212440 !default;
 $widgets-map-area-border: #151931 !default;
+
+// 卡片
+$widgets-container-background: $widgets-color-white !default;
+$widgets-container-title: #E0E1E8 !default;
+$widgets-container-split-line: #46495C !default;
+
+// 桑基图
+$widgets-sankey-edge: #46495C !default;
+$widgets-sankey-node-text: #848695 !default;
