@@ -71,6 +71,8 @@
   }
 
   #{$wcircle-prefix}-number, #{$wcircle-prefix}-bottom-number {
+    color: $number-color;
+
     &.drop {
       color: $red;
     }
