@@ -91,7 +91,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       // 预处理数据
-      const data = convertData ? (config.dataType === 'g2' ? initData : highchartsDataToG2Data(initData, config)) : initData;
+      const data = convertData && ChartProcess.convertData !== false && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
       this.rawData = initData;
       chart && ChartProcess.init.call(this, chart, config, data);
 
@@ -115,7 +115,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 数据有变化
       if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
-        const data = convertData ? (newConfig.dataType === 'g2' ? newData : highchartsDataToG2Data(newData, newConfig)) : newData;
+        const data = convertData && ChartProcess.convertData !== false && newConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newConfig) : newData;
         this.rawData = newData;
         if (ChartProcess.changeData) {
           this.chart && ChartProcess.changeData.call(this, this.chart, newConfig, data);
