@@ -43,19 +43,19 @@ $widgets-legend-uncheck: #666979 !default;
 $widgets-legend-text: #E0E1E8 !default;
 
 // 提示信息 tooltip
-$widgets-tooltip-background: #323545;
-$widgets-tooltip-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-$widgets-tooltip-cross-line: #51566B;
-$widgets-tooltip-cross-react: #404354;
-$widgets-tooltip-cross-react-opacity: 0.5;
-$widgets-tooltip-title: #848695;
-$widgets-tooltip-text: #E0E1E8;
-$widgets-tooltip-marker-fill: #2A2D3C;
+$widgets-tooltip-background: #323545 !default;
+$widgets-tooltip-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-cross-line: #51566B !default;
+$widgets-tooltip-cross-react: #404354 !default;
+$widgets-tooltip-cross-react-opacity: 0.5 !default;
+$widgets-tooltip-title: #848695 !default;
+$widgets-tooltip-text: #E0E1E8 !default;
+$widgets-tooltip-marker-fill: #2A2D3C !default;
 
 // 轴 Axis
-$widgets-axis-label: #848695;
-$widgets-axis-line: #46495C;
-$widgets-axis-grid: #3A3D4D;
+$widgets-axis-label: #848695 !default;
+$widgets-axis-line: #46495C !default;
+$widgets-axis-grid: #3A3D4D !default;
 
 // 业务颜色
 $widgets-mini-card-empty: #212440 !default;

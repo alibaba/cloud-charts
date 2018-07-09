@@ -43,19 +43,19 @@ $widgets-legend-uncheck: #CCCCCC !default;
 $widgets-legend-text: #333333 !default;
 
 // 提示信息 tooltip
-$widgets-tooltip-background: rgba(255, 255, 255, 0.9);
-$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-$widgets-tooltip-cross-line: #dddddd;
-$widgets-tooltip-cross-react: #CCD6EC;
-$widgets-tooltip-cross-react-opacity: 0.3;
-$widgets-tooltip-title: #999999;
-$widgets-tooltip-text: #333333;
-$widgets-tooltip-marker-fill: $widgets-color-white;
+$widgets-tooltip-background: rgba(255, 255, 255, 0.9) !default;
+$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-cross-line: #dddddd !default;
+$widgets-tooltip-cross-react: #CCD6EC !default;
+$widgets-tooltip-cross-react-opacity: 0.3 !default;
+$widgets-tooltip-title: #999999 !default;
+$widgets-tooltip-text: #333333 !default;
+$widgets-tooltip-marker-fill: $widgets-color-white !default;
 
 // 轴 Axis
-$widgets-axis-label: #999999;
-$widgets-axis-line: #DCDEE3;
-$widgets-axis-grid: #F2F3F7;
+$widgets-axis-label: #999999 !default;
+$widgets-axis-line: #DCDEE3 !default;
+$widgets-axis-grid: #F2F3F7 !default;
 
 // 业务颜色
 $widgets-mini-card-empty: #F2F3F7 !default;
