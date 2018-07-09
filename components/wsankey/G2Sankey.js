@@ -1,23 +1,24 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
+import { color } from '../theme/normal';
 import merge from '../common/merge';
 import './G2Sankey.scss';
 
 const defaultConfig = {
-  padding: [32, 5, 32, 45],
+  padding: ['auto', 40, 'auto', 'auto'],
   legend: {
     align: 'left',
     nameFormatter: null, //可以强制覆盖，手动设置label
   },
   tooltip: {
-    showTitle: false,
     nameFormatter: null
   },
-  textStyle: {
-    fill: '#545454',
-    textAlign: 'start'
-  }
+  labels: true,
+  // textStyle: {
+  //   fill: '#545454',
+  //   textAlign: 'start'
+  // }
 };
 
 export default {
@@ -40,7 +41,9 @@ export default {
     });
 
     chart.legend(config.legend);
-    chart.tooltip(config.tooltip);
+    chart.tooltip({
+      showTitle: false,
+    });
     chart.axis(false);
     chart.scale({
       x: { sync: true },
@@ -53,25 +56,33 @@ export default {
     edgeView.edge()
       .position('x*y')
       .shape('arc')
-      .color('#bbb')
-      .opacity(0.6)
+      .color(color.widgetsSankeyEdge)
+      .opacity(0.5)
       .tooltip('target*source*value', config.tooltip.nameFormatter);
 
     // node view
     const nodeView = chart.view();
     nodeView.source(dv.nodes);
-    nodeView.polygon()
+
+    const nodeGeom = nodeView.polygon()
       .position('x*y') // nodes数据的x、y由layout方法计算得出
       .color('name')
-      .label('name', {
-        textStyle: config.textStyle,
-        offset: 0,
-        formatter: val => `  ${val}`
-      })
       .tooltip(false)
       .style({
-        stroke: '#ccc'
+        stroke: 'transparent'
       });
+
+    if (config.labels) {
+      nodeGeom.label('name', {
+        textStyle: {
+          fill: color.widgetsSankeyNodeText,
+          textAlign: 'start',
+        },
+        offset: 0,
+        formatter: v => `    ${v}`
+      });
+    }
+
     chart.render();
   }
 };

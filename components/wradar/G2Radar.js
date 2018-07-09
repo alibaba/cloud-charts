@@ -84,6 +84,7 @@ export default {
       label: {
         offset: 8,
         textStyle: {
+          fill: color.widgetsAxisLabel,
           textAlign: 'right', // 文本右对齐
         },
         htmlTemplate(text, item, index) {

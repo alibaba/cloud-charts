@@ -24,6 +24,11 @@ const widgetsTheme = {
       fillOpacity: 1
     },
   },
+  label: {
+    textStyle: {
+      fill: color.widgetsAxisLabel,
+    }
+  },
   axis: {
     bottom: {
       label: {
@@ -55,6 +60,36 @@ const widgetsTheme = {
       label: {
         offset: 8,
         textStyle: { fill: color.widgetsAxisLabel } // 右部标签文本的颜色
+      }
+    },
+    circle: {
+      label: {
+        offset: 8,
+        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
+      },
+      line: {
+        stroke: color.widgetsAxisLine
+      },
+      tickLine: null,
+      grid: {
+        lineStyle: {
+          stroke: color.widgetsAxisLine,
+        }
+      }
+    },
+    radius: {
+      label: {
+        offset: 8,
+        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
+      },
+      line: {
+        stroke: color.widgetsAxisLine
+      },
+      tickLine: null,
+      grid: {
+        lineStyle: {
+          stroke: color.widgetsAxisLine,
+        }
       }
     }
   },
