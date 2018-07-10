@@ -117,7 +117,7 @@ export default {
       config.yAxis.forEach((axis, yIndex) => {
         const yAxisConfig = {
           line: {
-            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.colorN16
+            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.widgetsAxisLine
           },
         };
         if (yIndex !== 0) {

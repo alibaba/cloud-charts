@@ -23,7 +23,7 @@ export default function (chart, config, componentConfig) {
     if (config.grid) {
       xAxisConfig.grid = {
         lineStyle: {
-          stroke: color.colorN13,
+          stroke: color.widgetsAxisGrid,
           lineWidth: 1,
           // lineDash: null
         },

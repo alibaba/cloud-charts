@@ -34,7 +34,7 @@ const setAxis = (chart, config) => {
     xAxis.grid = {
       align: 'center', // 网格顶点从两个刻度中间开始
       lineStyle: {
-        stroke: color.colorN13,
+        stroke: color.widgetsAxisGrid,
         lineWidth: 1,
         // lineDash: [3, 3]
       }
@@ -45,7 +45,7 @@ const setAxis = (chart, config) => {
   if (config.grid && !config.jitter) {
     xAxis.grid = {
       lineStyle: {
-        stroke: color.colorN13,
+        stroke: color.widgetsAxisGrid,
         lineWidth: 1
       }
     };
@@ -124,10 +124,10 @@ const setToolTip = function (chart, config) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        color: color.colorN24
+        color: color.widgetsTooltipText
       }, // 设置 tooltip 的 css 样式
       'g2-tooltip-title': {
-        color: color.colorN24,
+        color: color.widgetsTooltipTitle,
         marginRight: size.s3,
         marginTop: 0,
         fontSize: size.s3

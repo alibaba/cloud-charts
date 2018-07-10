@@ -54,6 +54,9 @@ const widgetsTheme = {
           lineWidth: 1,
           lineDash: null
         },
+        zeroLineStyle: {
+          stroke: color.widgetsAxisLine
+        }
       }
     },
     right: {
@@ -148,7 +151,7 @@ const widgetsTheme = {
   },
   tooltipCrosshairsLine: {
     style: {
-      stroke: color.colorN17,
+      stroke: color.widgetsTooltipCrossLine,
       lineWidth: 1
     }
   },

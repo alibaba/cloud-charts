@@ -331,7 +331,7 @@ function drawMapPoint(chart, ds, config, data) {
       pointGeom.label('name', {
         offset: `${offset - Number(size.s3.replace('px', ''))}`,
         textStyle: {
-          fill: color.colorN23,
+          fill: color.widgetsMapLabel,
           // 需要去掉 px 的字符串
           fontSize: size.s3.replace('px', ''),
           textBaseline: 'middle',
@@ -384,7 +384,7 @@ function drawMapLabel(chart, config) {
         }
 
         return {
-          fill: color.colorN23,
+          fill: color.widgetsMapLabel,
           // 需要去掉 px 的字符串
           fontSize: fontSize.replace('px', ''),
           textBaseline: 'middle',
