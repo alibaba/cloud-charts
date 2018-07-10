@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import './G2-base.scss';
 import { noop } from '../common/common';
 

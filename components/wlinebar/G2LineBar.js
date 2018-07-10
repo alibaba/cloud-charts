@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color, size } from '../theme/normal';
+import { color, size } from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
 import highchartsDataToG2Data from '../common/dataAdapter';
 import { drawGuideArea, drawGuideLine } from '../common/guide';

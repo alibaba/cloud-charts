@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import { propertyAssign, propertyMap, noop } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
 import './G2Radar.scss';

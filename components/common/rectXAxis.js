@@ -1,6 +1,6 @@
 'use strict';
 
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import merge from './merge';
 
 /*

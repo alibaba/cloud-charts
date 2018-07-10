@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color, size } from '../theme/normal';
+import { color, size } from '../theme/index';
 import { propertyAssign, propertyMap, getRawData } from '../common/common';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';

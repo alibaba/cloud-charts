@@ -1,7 +1,7 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
 

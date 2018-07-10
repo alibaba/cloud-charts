@@ -1,6 +1,6 @@
 'use strict';
 
-import { size, color, fonts } from '../theme/normal';
+import { size, color, fonts } from '../theme/index';
 
 const widgetsTheme = {
   // 线图只有一个数据时显示点

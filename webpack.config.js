@@ -176,7 +176,8 @@ function dev() {
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('development')},
       __DEV__: JSON.stringify(JSON.parse('true')),
-      __VERSION__: JSON.stringify(packageInfo.version)
+      __VERSION__: JSON.stringify(packageInfo.version),
+      __THEME__: JSON.stringify('normal')
     }),
 
     // 代码热替换
@@ -213,7 +214,8 @@ function demo() {
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false')),
-      __VERSION__: JSON.stringify(packageInfo.version)
+      __VERSION__: JSON.stringify(packageInfo.version),
+      __THEME__: JSON.stringify('normal')
     }),
 
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。

@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import guide from '../common/guide';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';

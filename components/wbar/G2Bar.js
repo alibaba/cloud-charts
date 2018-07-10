@@ -2,7 +2,7 @@
 
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
-import { color } from '../theme/normal';
+import { color } from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';

@@ -1,6 +1,6 @@
 'use strict';
 
-import { size } from '../theme/normal';
+import { size } from '../theme/index';
 import { noop } from './common';
 import merge from './merge';
 

@@ -1,4 +1,4 @@
-import { color } from './theme/normal';
+import { color } from './theme/index';
 import './index.scss';
 
 // 业务组件，没有依赖其它图表库

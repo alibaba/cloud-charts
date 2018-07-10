@@ -6,7 +6,7 @@ import { DataSet } from '@antv/data-set';
 import { geoConicEqualArea } from 'd3-geo';
 import merge from '../common/merge';
 import chinaGeo from './mapData/chinaGeo.json';
-import { color, size } from '../theme/normal';
+import { color, size } from '../theme/index';
 import rectLegend from '../common/rectLegend';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import './G2Map.scss';
