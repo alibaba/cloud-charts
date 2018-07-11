@@ -36,6 +36,7 @@ const defaultConfig = {
     valueFormatter: null,
   },
   column: true,
+  dodgeStack: false,
   stack: false,
   stackReverse: true,
   marginRatio: 0,
@@ -195,13 +196,26 @@ export default {
 };
 
 function drawBar(chart, config, colors, field = 'type') {
-  // 堆叠
-  if (config.stack) {
+  if (config.dodgeStack) {
+    chart.interval().position(['x', 'y']).color(field, colors).adjust([
+      {
+        type: 'dodge',
+        marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+        dodgeBy: 'dodge'
+      },
+      {
+        type: 'stack',
+        reverseOrder: !config.stackReverse, // 层叠顺序倒序
+      }
+    ]);
+  } else if (config.stack) {
+    // 堆叠
     chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'stack',
       reverseOrder: !config.stackReverse, // 层叠顺序倒序
     }]);
   } else {
+    // 分组
     chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'dodge',
       marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距

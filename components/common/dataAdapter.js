@@ -47,7 +47,7 @@ export default function highchartsDataToG2Data(data, config) {
     });
   } else {
     data.forEach((oneData) => {
-      const { name: dataName, facet } = oneData;
+      const { name: dataName, facet, dodge } = oneData;
 
       if (!Array.isArray(oneData.data)) {
         return;
@@ -61,6 +61,7 @@ export default function highchartsDataToG2Data(data, config) {
             y,
             extra,
             facet,
+            dodge,
             type: dataName
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
@@ -71,6 +72,7 @@ export default function highchartsDataToG2Data(data, config) {
             y,
             extra: [],
             facet,
+            dodge,
             type: dataName
           });
         } else {
@@ -80,6 +82,7 @@ export default function highchartsDataToG2Data(data, config) {
             y,
             extra,
             facet,
+            dodge,
             type: dataName
           });
         }
