@@ -9,6 +9,10 @@ $font-size-xlarge-number: 32px !default;
 $widgets-color-white: #FFFFFF !default;
 $widgets-color-black: #000000 !default;
 
+$widgets-color-text-1: #333333 !default;
+$widgets-color-text-2: #666666 !default;
+$widgets-color-text-3: #999999 !default;
+
 $widgets-color-blue: #37CBC1 !default;
 $widgets-color-orange: #F8B15D !default;
 $widgets-color-red: #F36479 !default;
@@ -42,6 +46,9 @@ $widgets-color-linear-10: #EBF9F8 !default;
 // 图例 Legend
 $widgets-legend-uncheck: #CCCCCC !default;
 $widgets-legend-text: #333333 !default;
+
+// label
+$widgets-label-text: #333333 !default;
 
 // 提示信息 tooltip
 $widgets-tooltip-background: rgba(255, 255, 255, 0.9) !default;
