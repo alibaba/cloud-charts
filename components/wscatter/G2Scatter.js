@@ -2,12 +2,13 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color, size } from '../theme/index';
-import { propertyAssign, propertyMap, getRawData } from '../common/common';
+import { color } from '../theme/index';
+import { propertyAssign, propertyMap } from '../common/common';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectLegend from '../common/rectLegend';
 import guide from '../common/guide';
+import rectTooltip from "../common/rectTooltip";
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -25,7 +26,7 @@ const defaultConfig = {
   tooltip: true,
   legend: true
 };
-const colorMap = color.category_12;
+
 const setAxis = (chart, config) => {
   // 设置X轴
   const xAxis = {};
@@ -84,21 +85,9 @@ const setSource = (chart, config, data) => {
 };
 
 const chartRender = (chart, config) => {
-  const typeArr = [];
-
   const geom = chart
     .point()
-    .color('type', (val) => {
-      let curIndex;
-      if (!typeArr.includes(val)) {
-        curIndex = typeArr.length;
-        typeArr.push(val);
-      } else {
-        curIndex = typeArr.indexOf(val);
-      }
-
-      return colorMap[curIndex];
-    })
+    .color('type', config.colors)
     .position('x*y')
     .size(4)
     .shape('circle')
@@ -109,52 +98,6 @@ const chartRender = (chart, config) => {
   }
 
   chart.render();
-};
-
-
-const setToolTip = function (chart, config) {
-  if (config.tooltip) {
-    const tooltipCfg = {
-      // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
-      crosshairs: null,
-      custom: true,
-      containerTpl: '<div class="g2-tooltip"><p class="g2-tooltip-title">{name}</p><div class="g2-tooltip-list"></div></div>', // tooltip的外层模板
-      itemTpl: '<div class="g2-tooltip-list-item"><span style="color:{color}"></span><span>{value}</span></div>', // 支持的字段 index,color,name,value
-      'g2-tooltip': {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        color: color.widgetsTooltipText
-      }, // 设置 tooltip 的 css 样式
-      'g2-tooltip-title': {
-        color: color.widgetsTooltipTitle,
-        marginRight: size.s3,
-        marginTop: 0,
-        fontSize: size.s3
-      },
-      'g2-tooltip-list-item': {
-        marginTop: 0
-      }
-    };
-    chart.tooltip(tooltipCfg);
-    if (config.tooltip.titleFormatter || config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-      chart.on('tooltip:change', (ev) => {
-        if (config.tooltip.titleFormatter) {
-          ev.items[0].title = config.tooltip.titleFormatter(ev.items[0].title, ev.items);
-        }
-
-        ev.items.forEach((item, index) => {
-          const raw = getRawData(config, this.rawData, item);
-
-          if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
-          }
-        });
-      });
-    }
-  } else {
-    chart.tooltip(false);
-  }
 };
 
 export default {
@@ -179,7 +122,9 @@ export default {
 
     setAxis(chart, config);
 
-    setToolTip.call(this, chart, config);
+    rectTooltip.call(this, chart, config, {
+      crosshairs: null,
+    });
 
     rectLegend.call(this, chart, config);
 
