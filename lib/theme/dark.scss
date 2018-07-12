@@ -8,11 +8,15 @@ $font-size-xlarge-number: 32px !default;
 $widgets-color-white: #2A2D3C !default;
 $widgets-color-black: #FFFFFF !default;
 
+$widgets-color-text-1: #E0E1E8 !default;
+$widgets-color-text-2: #ABADBA !default;
+$widgets-color-text-3: #848695 !default;
+
 $widgets-color-blue: #2E85FF !default;
 $widgets-color-orange: #FAB34F !default;
 $widgets-color-red: #FF656B !default;
 $widgets-color-green: #4AD051 !default;
-$widgets-color-gray: #2E335C !default;
+$widgets-color-gray: #46495C !default;
 
 $widgets-color-category-1: $widgets-color-blue !default;
 $widgets-color-category-2: $widgets-color-orange !default;
@@ -42,6 +46,9 @@ $widgets-color-linear-10: #314B78 !default;
 $widgets-legend-uncheck: #666979 !default;
 $widgets-legend-text: #E0E1E8 !default;
 
+// label
+$widgets-label-text: #E0E1E8 !default;
+
 // 提示信息 tooltip
 $widgets-tooltip-background: #323545 !default;
 $widgets-tooltip-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2) !default;
@@ -59,7 +66,7 @@ $widgets-axis-grid: #3A3D4D !default;
 
 // 业务颜色
 $widgets-mini-card-empty: #46495C !default;
-$widgets-circle-number: #ffffff !default;
+$widgets-circle-number: #E0E1E8 !default;
 
 // 地图特有
 $widgets-map-area-bg: #46495C !default;
@@ -68,7 +75,7 @@ $widgets-map-label: #ABADBA !default;
 
 // 卡片
 $widgets-container-background: $widgets-color-white !default;
-$widgets-container-title: #E0E1E8 !default;
+$widgets-container-title: $widgets-color-text-1 !default;
 $widgets-container-split-line: #46495C !default;
 
 // 桑基图
