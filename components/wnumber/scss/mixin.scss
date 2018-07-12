@@ -3,10 +3,10 @@
   font-family: $font-family-number;
   font-size: $font-size-large-number;
   line-height: 1;
-  color: $color-n2-4;
+  color: $widgets-color-text-1;
 }
 
 @mixin subTitle-font {
   font-family: $font-family-number;
-  color: $color-n2-3;
+  color: $widgets-color-text-2;
 }

@@ -89,12 +89,12 @@ $wplaceholder-prefix: '.aisc-wplaceholder';
   }
 
   .placeholder-item {
-    fill: $color-n1-3;
+    fill: $widgets-color-gray;
   }
 
   // 文案
   #{$wplaceholder-prefix}-children {
-    color: $color-n1-6;
+    color: $widgets-color-text-3;
     font-size: $font-size-base-caption;
     line-height: 1;
   }

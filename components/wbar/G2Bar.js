@@ -123,6 +123,15 @@ export default {
         fields: ['facet'],
         transpose: facetConfig.transpose,
         padding: facetConfig.padding,
+        rowTitle: {
+          offsetX: 15,
+          style: {
+            fontSize: 12,
+            textAlign: 'center',
+            rotate: 90,
+            fill: color.widgetsAxisLabel
+          }
+        },
         eachView(view, facet) {
           let yAxisCustomConfig = null;
 
