@@ -269,7 +269,7 @@ function drawMapArea(chart, ds, config, data) {
     areaMapView.source(areaMapDataView);
     const areaGeom = areaMapView.polygon().position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
-      .color('type', config.areaColors)
+      .color('type', config.areaColors.join('-'))
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
