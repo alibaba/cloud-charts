@@ -8,7 +8,7 @@ import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectLegend from '../common/rectLegend';
 import guide from '../common/guide';
-import rectTooltip from "../common/rectTooltip";
+import rectTooltip from '../common/rectTooltip';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {

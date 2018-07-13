@@ -75,7 +75,7 @@ function getRawData(config, rawData, name, isOneDataGroup) {
     let result = {};
 
     originData.data.some((r) => {
-      if (Array.isArray(r) && r[0] === name || typeof r === 'object' && r.x === name) {
+      if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
         result = r;
         return true;
       }
