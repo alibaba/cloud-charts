@@ -30,24 +30,6 @@ const rootChildClassName = 'aisc-widgets-children';
 function g2Factory(name, Chart, convertData = true) {
   let ChartProcess = Chart;
   class AiscChart extends React.Component {
-    static propTypes = {
-      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      config: PropTypes.object,
-      data: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.object),
-        PropTypes.object
-      ]).isRequired,
-      event: PropTypes.object,
-      forceFit: PropTypes.bool
-    };
-
-    static defaultProps = {
-      config: {},
-    };
-
-    static isG2Chart = true;
-
     constructor(props, context) {
       super(props, context);
       this.chart = null;
@@ -215,10 +197,28 @@ function g2Factory(name, Chart, convertData = true) {
     }
   }
 
-  //暴露原版类
-  AiscChart.Chart = Chart;
+  AiscChart.propTypes = {
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    config: PropTypes.object,
+    data: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.object),
+      PropTypes.object
+    ]).isRequired,
+    event: PropTypes.object,
+    forceFit: PropTypes.bool
+  };
+
+  AiscChart.defaultProps = {
+    config: {},
+  };
+
+  AiscChart.isG2Chart = true;
 
   AiscChart.displayName = 'AiscWidgets' + name;
+
+  //暴露原版类
+  AiscChart.Chart = Chart;
 
   return AiscChart;
 }
