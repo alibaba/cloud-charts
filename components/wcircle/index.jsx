@@ -71,13 +71,24 @@ export default class Wcircle extends React.Component {
   renderMain() {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
+
+    const trend = this.props.trend;
+    const type = this.props.type;
+    const percent = this.props.percent;
     const radius = this.props.radius;
     const strokeWidth = this.props.strokeWidth;
+    const status = this.props.status;
+    const customColor = this.props.color;
 
-    if (this.props.trend === 'raise') {
+    const style = {};
+    if (customColor) {
+      style.color = customColor;
+    }
+
+    if (trend === 'raise') {
       numberClasses += ' raise';
       numberTrendIcon = <Warrow type="up"/>
-    } else if (this.props.trend === 'drop') {
+    } else if (trend === 'drop') {
       numberClasses += ' drop';
       numberTrendIcon = <Warrow type="down"/>
     }
@@ -89,20 +100,20 @@ export default class Wcircle extends React.Component {
     const circleLengh = Math.PI * 2 * radiusInner;
 
     let openWidth, pathDashoffset, strokeDashoffset, strokePathStyle;
-    if(this.props.type === 'circle'){
+    if(type === 'circle'){
       openWidth = 0;
       pathDashoffset = '0px';
       strokeDashoffset = `-${circleLengh / 2}px`;
       strokePathStyle = {
-        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${(1-this.props.percent) * (circleLengh - openWidth)}px`,
+        strokeDasharray: `${percent * (circleLengh - openWidth)}px ${(1-percent) * (circleLengh - openWidth)}px`,
         strokeDashoffset: strokeDashoffset
       };
-    }else if(this.props.type === 'gauge'){
+    }else if(type === 'gauge'){
       openWidth = Math.PI * 0.45 * radiusInner;
       pathDashoffset = `-${openWidth / 2}px`;
       strokeDashoffset = `-${openWidth / 2}px`;
       strokePathStyle = {
-        strokeDasharray: `${this.props.percent * (circleLengh - openWidth)}px ${circleLengh}px`,
+        strokeDasharray: `${percent * (circleLengh - openWidth)}px ${circleLengh}px`,
         strokeDashoffset: strokeDashoffset
       };
     }
@@ -118,7 +129,7 @@ export default class Wcircle extends React.Component {
     };
 
     return(
-      <div className={`${prefix}-main ${getStatusColorName(this.props.status)}`}>
+      <div className={`${prefix}-main ${getStatusColorName(status)}`} style={style}>
         <div className={`${prefix}-ratio`}>
           <div className={`${prefix}-ratio-svg`} style={svgStyle}>
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -140,7 +151,7 @@ export default class Wcircle extends React.Component {
           <div className={`${prefix}-number-block`}>
             <div className={`${prefix}-number-middle`}>
               {
-                this.props.trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
+                trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
               }
               <span className={numberClasses}>
                 {this.props.children}
@@ -151,7 +162,7 @@ export default class Wcircle extends React.Component {
               <p className={`${prefix}-title`}>{this.props.title}</p>
             </div>
           </div>
-          {this.props.type === 'gauge' && this.renderBottom()}
+          {type === 'gauge' && this.renderBottom()}
         </div>
       </div>
     );
