@@ -21,6 +21,9 @@ const defaultConfig = {
   pointColors: color.category_12,
   type: 'china',
   showSouthChinaSea: true,
+  projection() {
+    return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+  },
   legend: {
     nameFormatter: null, // 可以强制覆盖，手动设置label
   },
@@ -31,7 +34,7 @@ const defaultConfig = {
   labels: false,
 };
 
-const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+// const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -56,6 +59,7 @@ export default {
     if (geoData) {
       this.geoData = geoData;
     }
+    this.config = newConfig;
 
     return Object.assign({}, props, {
       padding: props.padding || newConfig.padding,
@@ -178,7 +182,7 @@ function drawMapBackground(chart, ds, config) {
     }).transform({
       type: 'geo.projection',
       // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
-      projection: chinaProjection,
+      projection: config.projection,
       as: ['x', 'y', 'cX', 'cY'],
     });
 
@@ -297,7 +301,7 @@ function drawMapPoint(chart, ds, config, data) {
         callback: (point) => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
-          return convertPointPosition.call(this, newPoint);
+          return convertPointPosition.call(this, newPoint, config.projection);
         }
       });
 
@@ -360,7 +364,7 @@ function drawMapLabel(chart, config) {
     // fix 某些地区label位置不好，需要重新定位
     const fixLngLat = fixLngLatMap[row.name];
     if (fixLngLat) {
-      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, chinaProjection);
+      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, config.projection);
       label.x = position[0];
       label.y = position[1];
     }
@@ -422,7 +426,7 @@ function convertMapData(data) {
 }
 
 // 计算数据的坐标点
-export function convertPointPosition(point) {
+export function convertPointPosition(point, projection) {
   if (point.x && point.y) {
     return point;
   }
@@ -430,7 +434,7 @@ export function convertPointPosition(point) {
     return point;
   }
   if (point.lng && point.lat) {
-    return getProjectionPosition(point, this.bgMapDataView, Number(point.lng), Number(point.lat));
+    return getProjectionPosition(point, this.bgMapDataView, projection, Number(point.lng), Number(point.lat));
   }
   if (point.name) {
     let name = point.name;
@@ -444,14 +448,14 @@ export function convertPointPosition(point) {
     }
     const position = positionMap[name];
     if (position) {
-      return getProjectionPosition(point, this.bgMapDataView, position.lng, position.lat);
+      return getProjectionPosition(point, this.bgMapDataView, projection, position.lng, position.lat);
     }
   }
   return point;
 }
 
-function getProjectionPosition(point, view, lng, lat) {
-  const projectedCoord = view.geoProjectPosition([lng, lat], chinaProjection);
+function getProjectionPosition(point, view, projection, lng, lat) {
+  const projectedCoord = view.geoProjectPosition([lng, lat], projection);
   point.x = projectedCoord[0];
   point.y = projectedCoord[1];
   return point;

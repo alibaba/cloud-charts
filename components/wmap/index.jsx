@@ -84,7 +84,7 @@ class Map extends MapBase {
       <div key={layerIndex} className="aisc-widgets-map-custom-container" style={layerStyle}>
         {
           Array.isArray(data) && data.map((d, i) => {
-            let point = convertPointPosition.call(this, d);
+            let point = convertPointPosition.call(this, d, this.config.projection);
             point = this.bgMapView.getXY(point);
             const pointStyle = {
               left: point.x,
