@@ -166,7 +166,8 @@ data.forEach((d) => {
 
 let options1 = {
   legend:{
-    align: 'right'
+    align: 'right',
+    allowAllCanceled: true,
   },
   xAxis: {
     type: 'timeCat',

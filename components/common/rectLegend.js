@@ -10,12 +10,13 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { align, nameFormatter, valueFormatter, showData, customConfig } = config.legend || {};
+    const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false } = config.legend || {};
 
     const legendConfig = {
       useHtml: true,
       title: null,
       position: 'top',
+      allowAllCanceled,
       // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
       autoPosition: false,
       onHover: noop,
