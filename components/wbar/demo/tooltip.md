@@ -27,6 +27,7 @@ let data = [
 
 let options = {
   tooltip: {
+    showTitle: false,
     titleFormatter: function(v) {
       return 'title: ' + v;
     },
@@ -40,13 +41,6 @@ let options = {
 };
 
 class Demo extends React.Component{
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   render(){
     return (
       <div className="demos">

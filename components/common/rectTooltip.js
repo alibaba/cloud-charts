@@ -21,9 +21,10 @@ const sortFun = {
 * */
 export default function (chart, config, componentConfig) {
   if (config.tooltip !== false) {
-    const { sort, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
+    const { sort, showTitle = true, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
 
     const tooltipConfig = {
+      showTitle,
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
       itemTpl: '<li data-index={index}>'
