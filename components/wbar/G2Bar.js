@@ -1,5 +1,6 @@
 'use strict';
 
+import G2 from '@antv/g2';
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
 import { color } from '../theme/index';
@@ -43,6 +44,7 @@ const defaultConfig = {
   grid: false,
   zoom: false,
   facet: false,
+  size: null,
   // labels: false,
   polar: false,
 };
@@ -205,29 +207,46 @@ export default {
 };
 
 function drawBar(chart, config, colors, field = 'type') {
-  if (config.dodgeStack) {
-    chart.interval().position(['x', 'y']).color(field, colors).adjust([
+  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
+  let geom = null;
+  if (dodgeStack) {
+    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([
       {
         type: 'dodge',
-        marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
         dodgeBy: 'dodge'
       },
       {
         type: 'stack',
-        reverseOrder: !config.stackReverse, // 层叠顺序倒序
+        reverseOrder: !stackReverse, // 层叠顺序倒序
       }
     ]);
-  } else if (config.stack) {
+  } else if (stack) {
     // 堆叠
-    chart.interval().position(['x', 'y']).color(field, colors).adjust([{
+    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'stack',
-      reverseOrder: !config.stackReverse, // 层叠顺序倒序
+      reverseOrder: !stackReverse, // 层叠顺序倒序
     }]);
   } else {
     // 分组
-    chart.interval().position(['x', 'y']).color(field, colors).adjust([{
+    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
       type: 'dodge',
-      marginRatio: config.marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
+  }
+
+  // TODO 暂时没有更好的方案
+  if (size) {
+    let sizeConfig = size || 20;
+    if (Array.isArray(size)) {
+      sizeConfig = ['y', size];
+    } else if (G2.Util.isFunction(size)) {
+      sizeConfig = ['x*y*type*facet', size];
+    } else if (typeof size === 'object') {
+      // TODO
+    } else {
+      sizeConfig = [size];
+    }
+    geom.size(...sizeConfig);
   }
 }
