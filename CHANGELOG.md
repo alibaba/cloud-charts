@@ -1,3 +1,12 @@
+### 2.1.18 (2018-07-19)
+
+#### New Features
+
+- 圆环组件添加自定义颜色的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/33
+- 常用图例开放全部关闭图例的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
+- 常用 tooltip 开放关闭标题的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143
+- 优化地图组件投影函数的逻辑，可以通过配置项自定义投影函数。
+
 ### 2.1.17 (2018-07-12)
 
 #### New Features
