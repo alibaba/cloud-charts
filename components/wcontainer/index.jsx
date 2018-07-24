@@ -46,9 +46,8 @@ export default class Wcontainer extends React.Component {
   }
 
   renderMainNormal() {
-    const propsChildren = this.props.children;
-    const title = this.props.title;
-    const fullContent = this.props.fullContent;
+    const { children: propsChildren, title, fullContent } = this.props;
+
     const oneChild = React.Children.count(propsChildren) === 1;
     if ((oneChild && propsChildren && propsChildren.type && propsChildren.type.isG2Chart) || fullContent) {
       return (
@@ -61,7 +60,7 @@ export default class Wcontainer extends React.Component {
     return (
       <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
         <Row align="center">
-          {React.Children.map(this.props.children, (child, i) => {
+          {React.Children.map(propsChildren, (child, i) => {
             if (!child) {
               return child;
             }
