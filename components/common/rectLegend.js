@@ -52,6 +52,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     };
 
     if (componentConfig) {
+      // 内部的componentConfig直接使用assign浅复制，方便覆盖。
       Object.assign(legendConfig, componentConfig);
     }
 

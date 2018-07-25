@@ -4,6 +4,7 @@ import merge from '../common/merge';
 import { color, size } from '../theme/index';
 import { numberDecimal } from '../common/common';
 import './G2Pie.scss';
+import rectLegend from '../common/rectLegend';
 
 const defaultConfig = {
   colors: color.category_12,
@@ -120,40 +121,35 @@ export default {
     });
     this.totalData = totalData;
 
-    if (config.legend) {
-      chart.legend({
-        useHtml: true,
-        title: null,
-        position: 'right',
-        itemTpl: (value, itemColor, checked, index) => {
-          const item = (this.data && this.data[index]) || {};
-          const raw = (this.rawData && this.rawData[0]) || {};
-          const percent = numberDecimal(item.y / this.totalData, 4);
+    // 设置图例
+    rectLegend.call(this, chart, config, {
+      position: 'right',
+      itemTpl: (value, itemColor, checked, index) => {
+        const item = (this.data && this.data[index]) || {};
+        const raw = (this.rawData && this.rawData[0]) || {};
+        const percent = numberDecimal(item.y / this.totalData, 4);
 
-          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-            ...raw,
-            percent,
-            itemColor,
-            checked
-          }, index) : value;
-          const number = config.legend.valueFormatter ? config.legend.valueFormatter(item.y, {
-            ...raw,
-            percent,
-            itemColor,
-            checked
-          }, index) : item.y;
-          return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
-        },
-        'g2-legend': {
-          position: 'static',
-          marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
-        },
-      });
-    } else {
-      chart.legend(false);
-    }
+        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+          ...raw,
+          percent,
+          itemColor,
+          checked
+        }, index) : value;
+        const number = config.legend.valueFormatter ? config.legend.valueFormatter(item.y, {
+          ...raw,
+          percent,
+          itemColor,
+          checked
+        }, index) : item.y;
+        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+        '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+        '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
+      },
+      'g2-legend': {
+        position: 'static',
+        marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
+      },
+    }, true);
 
     // tooltip
     if (config.tooltip) {
