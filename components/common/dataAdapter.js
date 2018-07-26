@@ -10,7 +10,7 @@ export default function highchartsDataToG2Data(data, config) {
   const newData = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach((oneData) => {
-      const { name: dataName, yAxis: yIndex = 0 } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, ...groupExtra } = oneData;
 
       if (!Array.isArray(oneData.data)) {
         return;
@@ -23,6 +23,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             [`y${yIndex}`]: y,
             extra,
+            groupExtra,
             type: dataName
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
@@ -32,6 +33,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             [`y${yIndex}`]: y,
             extra: [],
+            groupExtra,
             type: dataName
           });
         } else {
@@ -40,6 +42,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             [`y${yIndex}`]: y,
             extra,
+            groupExtra,
             type: dataName
           });
         }
@@ -47,7 +50,7 @@ export default function highchartsDataToG2Data(data, config) {
     });
   } else {
     data.forEach((oneData) => {
-      const { name: dataName, facet, dodge } = oneData;
+      const { name: dataName, facet, dodge, ...groupExtra } = oneData;
 
       if (!Array.isArray(oneData.data)) {
         return;
@@ -60,6 +63,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra,
+            groupExtra,
             facet,
             dodge,
             type: dataName
@@ -71,6 +75,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra: [],
+            groupExtra,
             facet,
             dodge,
             type: dataName
@@ -81,6 +86,7 @@ export default function highchartsDataToG2Data(data, config) {
             x,
             y,
             extra,
+            groupExtra,
             facet,
             dodge,
             type: dataName
