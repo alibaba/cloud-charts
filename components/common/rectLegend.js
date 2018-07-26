@@ -10,7 +10,7 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false } = config.legend || {};
+    const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
 
     const legendConfig = {
       useHtml: true,
@@ -48,6 +48,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       },
       'g2-legend': Object.assign({
         top: size.s3,
+        ...style
       }, align === 'right' ? { right: 0 } : { left: 0 }),
     };
 
