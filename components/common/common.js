@@ -31,6 +31,9 @@ export const propertyMap = {
 };
 
 export function propertyAssign(keys, target, source) {
+  if (!source) {
+    return target;
+  }
   keys.forEach((key) => {
     // 仅判断undefined的情况
     if (source[key] !== undefined) {
