@@ -2,8 +2,8 @@
 
 #### New Features
 
-- 柱图开放柱宽度配置。
-- 图例开放自定义样式功能。
+- 柱图开放柱宽度配置。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/28
+- 图例开放自定义样式功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
 - chore: 锁定底层库版本。
 
 #### Bug Fixes

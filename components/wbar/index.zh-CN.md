@@ -38,3 +38,4 @@ cols: 1
 | grid         | 是否显示网格线                                               | boolean           | false              |
 | facet        | 是否分面                                                     | object \| boolean | false              |
 | zoom         | 是否开启拖拽缩放。在非堆叠时生效。                           | boolean           | false              |
+| size         | 手动设定柱宽。默认不设置为自动适配。                         | number            | null               |
