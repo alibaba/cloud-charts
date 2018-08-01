@@ -48,7 +48,6 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       },
       'g2-legend': Object.assign({
         top: size.s3,
-        ...style
       }, align === 'right' ? { right: 0 } : { left: 0 }),
     };
 
@@ -61,6 +60,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       merge(legendConfig, customConfig);
     }
 
+    if (legendConfig['g2-legend'] && typeof legendConfig['g2-legend'] === 'object') {
+      Object.assign(legendConfig['g2-legend'], style);
+    }
 
     chart.legend(legendConfig);
   } else {
