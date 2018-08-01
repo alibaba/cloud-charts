@@ -125,25 +125,34 @@ export default {
     rectLegend.call(this, chart, config, {
       position: 'right',
       itemTpl: (value, itemColor, checked, index) => {
+        const { nameFormatter, valueFormatter, showData = true } = config.legend || {};
+
         const item = (this.data && this.data[index]) || {};
         const raw = (this.rawData && this.rawData[0]) || {};
         const percent = numberDecimal(item.y / this.totalData, 4);
 
-        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+        const result = nameFormatter ? nameFormatter(value, {
           ...raw,
           percent,
           itemColor,
           checked
         }, index) : value;
-        const number = config.legend.valueFormatter ? config.legend.valueFormatter(item.y, {
-          ...raw,
-          percent,
-          itemColor,
-          checked
-        }, index) : item.y;
+
+        if (showData) {
+          const number = valueFormatter ? valueFormatter(item.y, {
+            ...raw,
+            percent,
+            itemColor,
+            checked
+          }, index) : item.y;
+          return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+          '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+          '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
+        }
+
         return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
         '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-        '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
+        '<span class="g2-legend-text">'}${result}</span></li>`;
       },
       'g2-legend': {
         position: 'static',
