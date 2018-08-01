@@ -1633,6 +1633,12 @@ export const positionMap = {
     "fullName": "焦作市",
     "province": "河南",
   },
+  "济源": {
+    "lng": 112.3571,
+    "lat": 35.0849,
+    "fullName": "济源市",
+    "province": "河南",
+  },
   "许昌": {
     "lng": 113.6975,
     "lat": 34.0466,
