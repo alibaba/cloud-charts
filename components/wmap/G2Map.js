@@ -451,6 +451,9 @@ export function convertPointPosition(point, projection) {
       return getProjectionPosition(point, this.bgMapDataView, projection, position.lng, position.lat);
     }
   }
+  if (!point.x || !point.y) {
+    console.warn('无法定位地点：', point);
+  }
   return point;
 }
 

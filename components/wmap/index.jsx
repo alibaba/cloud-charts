@@ -86,6 +86,10 @@ class Map extends MapBase {
           Array.isArray(data) && data.map((d, i) => {
             let point = convertPointPosition.call(this, d, this.config.projection);
             point = this.bgMapView.getXY(point);
+            if (!point) {
+              return null;
+            }
+
             const pointStyle = {
               left: point.x,
               top: point.y,
