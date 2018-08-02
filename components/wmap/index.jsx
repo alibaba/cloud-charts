@@ -69,7 +69,7 @@ class Map extends MapBase {
   }
 
   renderCustomPointLayer(layer, layerIndex) {
-    const { data, render } = layer;
+    const { data, render, ...otherProps } = layer;
     const width = this.chart.get('width');
     const height = this.chart.get('height');
     const [ cW, cH ] = this._size;
@@ -96,7 +96,7 @@ class Map extends MapBase {
             };
             return (
               <div key={i} className="aisc-widgets-map-custom-point" style={pointStyle}>
-                {render && render(d, i)}
+                {render && render(d, i, otherProps)}
               </div>
             );
           })
