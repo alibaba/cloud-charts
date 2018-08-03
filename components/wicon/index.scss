@@ -1,7 +1,11 @@
 @import "../theme/index";
-@import "~@alife/aisc/lib/icon/style/index.scss";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
+
+// 覆盖内部变量
+$icon-prefix: 'aisc-wicon';
+$icon-font-family: WidgetsIcon;
+@import "~@alife/aisc/lib/icon/style/index.scss";
 
 #{$wicon-prefix} {
   &.next-icon {
