@@ -1,14 +1,14 @@
-//@import "../theme/index";
+@import "../theme/index";
 @import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
+// 覆盖内部变量
+$icon-prefix: 'aisc-wicon';
+$icon-font-family: WidgetsIcon;
+@import "~@alife/aisc/lib/icon/style/index.scss";
+
 #{$wicon-prefix} {
-  position: relative;
-  display: inline-block;
-
-  @import "~@alife/aisc/lib/icon/style/index.scss";
-
-  .next-icon {
+  &.next-icon {
     line-height: 1;
     &#{$wicon-prefix}-big {
       @include icon-handler(38px);
@@ -27,7 +27,7 @@
     }
   }
 
-  #{$wicon-prefix}-reverse {
+  &#{$wicon-prefix}-reverse {
     border-radius: 50%;
 
     &#{$wicon-prefix}-gray{
@@ -52,19 +52,19 @@
     }
   }
 
-  #{$wicon-prefix}-gray{
+  &#{$wicon-prefix}-gray{
     color: $gray;
   }
-  #{$wicon-prefix}-blue{
+  &#{$wicon-prefix}-blue{
     color: $blue;
   }
-  #{$wicon-prefix}-orange{
+  &#{$wicon-prefix}-orange{
     color: $orange;
   }
-  #{$wicon-prefix}-red{
+  &#{$wicon-prefix}-red{
     color: $red;
   }
-  #{$wicon-prefix}-green{
+  &#{$wicon-prefix}-green{
     color: $green;
   }
 }
