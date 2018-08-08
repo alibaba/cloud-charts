@@ -85,6 +85,8 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       this.chart = chart;
+
+      this.afterRender(config);
     }
 
     componentWillReceiveProps(nextProps){
@@ -122,7 +124,9 @@ function g2Factory(name, Chart, convertData = true) {
       return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
     }
 
-    // componentWillUpdate (nextProps) {}
+    componentDidUpdate () {
+      this.afterRender();
+    }
 
     // 准备销毁
     componentWillUnmount () {
@@ -184,6 +188,22 @@ function g2Factory(name, Chart, convertData = true) {
       }
       if (newSize[1]) {
         element.style.height = newSize[1] + 'px';
+      }
+    }
+
+    afterRenderCallbacks = [];
+    afterRender(config) {
+      if (ChartProcess.afterRender || this.afterRenderCallbacks.length > 0) {
+        setTimeout(() => {
+          if (this.chart && ChartProcess.afterRender) {
+            ChartProcess.afterRender.call(this, this.chart, config || this.props.config);
+          }
+          if (this.afterRenderCallbacks.length > 0) {
+            afterRenderCallbacks.forEach((cb) => {
+              cb && cb(config || this.props.config);
+            });
+          }
+        }, 50);
       }
     }
 

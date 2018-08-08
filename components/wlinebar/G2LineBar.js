@@ -145,7 +145,7 @@ export default {
       }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 })
     });
 
-    hackLegendPosition.call(this, config);
+    // hackLegendPosition.call(this, config);
 
     // tooltip
     rectTooltip.call(this, chart, config);
@@ -199,7 +199,16 @@ export default {
     this.lineView && this.lineView.source(lineData);
     chart.render();
 
-    hackLegendPosition.call(this, userConfig);
+    // hackLegendPosition.call(this, userConfig);
+  },
+  afterRender(chart, config) {
+    if (config.legend) {
+      // hack 图例的位置
+      const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+      if (dom && dom.parentNode) {
+        dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+      }
+    }
   }
 };
 
@@ -241,17 +250,17 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   }
 }
 
-function hackLegendPosition(config) {
-  if (config.legend) {
-    // hack 图例的位置，仅在初始化时处理一遍
-    setTimeout(() => {
-      const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
-      if (dom && dom.parentNode) {
-        dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
-      }
-    }, 50);
-  }
-}
+// function hackLegendPosition(config) {
+//   if (config.legend) {
+//     // hack 图例的位置，仅在初始化时处理一遍
+//     setTimeout(() => {
+//       const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+//       if (dom && dom.parentNode) {
+//         dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+//       }
+//     }, 50);
+//   }
+// }
 
 function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
   const guide = config.guide;
