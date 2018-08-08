@@ -26,15 +26,15 @@ export default class Wicon extends React.Component {
   }
 
   render() {
-    const { type, size, classname, status, reverse, ...other } = this.props;
+    const { type, size, className, status, reverse, ...other } = this.props;
     const classes = classNames({
-      [`next-icon`]: true,
-      [`next-icon-${type}`]: !!type,
+      // [`next-icon`]: true,
+      [`${prefix}-${type}`]: !!type,
       [`${prefix}`]: true,
       [`${prefix}-${size}`]: !!size,
       [`${prefix}-${getStatusColorName(status)}`]: !!status,
       [`${prefix}-reverse`]: !!reverse,
-      [classname]: !!classname
+      [className]: !!className
     });
 
     return (
