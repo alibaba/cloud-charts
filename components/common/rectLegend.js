@@ -1,7 +1,7 @@
 'use strict';
 
 import { size } from '../theme/index';
-import { noop } from './common';
+import { noop, pxToNumber } from './common';
 import merge from './merge';
 
 /*
@@ -13,6 +13,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
 
     const legendConfig = {
+      //这些是widgets特有的属性
+      autoCollapse: true,
+      // 以下为g2的属性
       useHtml: true,
       title: null,
       position: 'top',
@@ -65,6 +68,15 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     }
 
     chart.legend(legendConfig);
+
+    if (this.afterRenderCallbacks && legendConfig.autoCollapse) {
+      const legendCollapseInfo = legendCollapse.call(this, legendConfig);
+      this.afterRenderCallbacks.push(legendCollapseInfo.render);
+
+      if (this.unmountCallbacks) {
+        this.unmountCallbacks.push(legendCollapseInfo.unmount);
+      }
+    }
   } else {
     chart.legend(false);
   }
@@ -129,4 +141,116 @@ function getDataValue(data) {
       }
     }
   }
+}
+
+function legendCollapse(legendConfig) {
+  const { collapseRow = 2 } = legendConfig;
+  let collapseInstance = null;
+  return {
+    render: function (chart, config) {
+      if (config.legend !== false && this.chartDom) {
+        const legendWrapperDom = this.chartDom.querySelector('.g2-legend');
+        const legendListDom = this.chartDom.querySelector('.g2-legend-list');
+        const legendListItemDom = this.chartDom.querySelector('.g2-legend-list-item');
+
+        if (!legendWrapperDom || !legendListDom || !legendListItemDom) {
+          return;
+        }
+
+        const itemStyle = window.getComputedStyle(legendListItemDom);
+        const marginTop = pxToNumber(itemStyle.getPropertyValue('margin-top'));
+        const marginBottom = pxToNumber(itemStyle.getPropertyValue('margin-bottom'));
+        const itemHeight = legendListItemDom.offsetHeight + marginTop + marginBottom;
+        const wrapperHeight = legendWrapperDom.offsetHeight;
+
+        if (wrapperHeight > itemHeight * collapseRow) {
+          if (!collapseInstance) {
+            collapseInstance = new Collapse(legendWrapperDom, legendListDom, {
+              itemHeight,
+              collapseRow,
+              wrapperHeight
+            });
+          }
+
+          collapseInstance.start();
+        } else {
+          if (collapseInstance) {
+            collapseInstance.end();
+          }
+        }
+      }
+    },
+    unmount() {
+      if (collapseInstance) {
+        collapseInstance.destroy();
+      }
+    }
+  }
+}
+
+class Collapse {
+  constructor(dom, listDom, config) {
+    this.dom = dom;
+    this.listDom = listDom;
+    this.moveOffset = 0;
+    this.config = config;
+    this.handleClick = this.handleClick.bind(this);
+
+    const collapseDom = this.collapseDom = document.createElement('div');
+    collapseDom.className = 'widgets-legend-collapse';
+    collapseDom.innerHTML = `<div class="legend-collapse-btn collapse-up"></div><div class="legend-collapse-btn collapse-down"></div>`;
+    collapseDom.addEventListener('click', this.handleClick);
+    collapseDom.addEventListener('mousemove', noopEvent);
+    collapseDom.addEventListener('mouseout', noopEvent);
+  }
+
+  handleClick(e) {
+    e.stopPropagation();
+
+    if (!e.target.classList.contains('legend-collapse-btn')) {
+      return;
+    }
+
+    const { itemHeight, collapseRow, wrapperHeight } = this.config;
+    let moveOffset = this.moveOffset;
+
+    // 上一页
+    if (e.target.classList.contains('collapse-up')) {
+      moveOffset = Math.min(0, moveOffset + 1);
+      this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
+    }
+    // 下一页
+    if (e.target.classList.contains('collapse-down')) {
+      moveOffset = Math.max(-(wrapperHeight / itemHeight) + collapseRow, moveOffset - 1);
+      this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
+    }
+
+    this.moveOffset = moveOffset;
+  }
+
+  start() {
+    const { itemHeight, collapseRow } = this.config;
+
+    this.dom.classList.add('has-collapse');
+    this.dom.style.maxHeight = itemHeight * collapseRow + 'px';
+    this.dom.appendChild(this.collapseDom);
+  }
+
+  end() {
+    this.dom.classList.remove('has-collapse');
+    this.dom.style.maxHeight = '';
+    this.dom.removeChild(this.collapseDom);
+  }
+
+  destroy() {
+    this.end();
+
+    this.collapseDom.removeEventListener('click', this.handleClick);
+    this.collapseDom.removeEventListener('mousemove', noopEvent);
+    this.collapseDom.removeEventListener('mouseout', noopEvent);
+  }
+}
+
+function noopEvent(e) {
+  e.stopPropagation();
 }

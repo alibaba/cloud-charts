@@ -61,10 +61,10 @@ export function getParentSize(element, width, height) {
 
   if (parent) {
     const parentStyle = window.getComputedStyle(parent);
-    const paddingTop = _pxToNumber(parentStyle.getPropertyValue('padding-top'));
-    const paddingRight = _pxToNumber(parentStyle.getPropertyValue('padding-right'));
-    const paddingBottom = _pxToNumber(parentStyle.getPropertyValue('padding-bottom'));
-    const paddingLeft = _pxToNumber(parentStyle.getPropertyValue('padding-left'));
+    const paddingTop = pxToNumber(parentStyle.getPropertyValue('padding-top'));
+    const paddingRight = pxToNumber(parentStyle.getPropertyValue('padding-right'));
+    const paddingBottom = pxToNumber(parentStyle.getPropertyValue('padding-bottom'));
+    const paddingLeft = pxToNumber(parentStyle.getPropertyValue('padding-left'));
 
     if (!width) {
       w = parent.clientWidth - paddingLeft - paddingRight;
@@ -76,7 +76,7 @@ export function getParentSize(element, width, height) {
   return [w, h];
 }
 
-function _pxToNumber(px) {
+export function pxToNumber(px) {
   return Number(px.replace('px', ''));
 }
 

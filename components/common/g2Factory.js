@@ -97,6 +97,8 @@ function g2Factory(name, Chart, convertData = true) {
         console.warn('padding 不支持修改');
       }
 
+      let needAfterRender = false;
+
       // 数据有变化
       if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
         const data = convertData && ChartProcess.convertData !== false && newConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newConfig) : newData;
@@ -106,6 +108,8 @@ function g2Factory(name, Chart, convertData = true) {
         } else {
           this.chart && this.chart.changeData(data);
         }
+
+        needAfterRender = true;
       }
       // 传入的长宽有变化
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
@@ -114,6 +118,12 @@ function g2Factory(name, Chart, convertData = true) {
         } else {
           this.chart && this.chart.changeSize(newWidth, newHeight);
         }
+
+        needAfterRender = true;
+      }
+
+      if (needAfterRender) {
+        this.afterRender(newConfig);
       }
     }
 
@@ -124,16 +134,18 @@ function g2Factory(name, Chart, convertData = true) {
       return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
     }
 
-    componentDidUpdate () {
-      this.afterRender();
-    }
-
     // 准备销毁
+    unmountCallbacks = [];
     componentWillUnmount () {
       window.removeEventListener('resize', this.autoResize);
 
       if (ChartProcess.destroy) {
         this.chart && ChartProcess.destroy.call(this, this.chart);
+      }
+      if (this.unmountCallbacks.length > 0) {
+        this.unmountCallbacks.forEach((cb) => {
+          cb && cb.call(this, this.chart);
+        });
       }
 
       this.chart && this.chart.off();
@@ -199,8 +211,8 @@ function g2Factory(name, Chart, convertData = true) {
             ChartProcess.afterRender.call(this, this.chart, config || this.props.config);
           }
           if (this.afterRenderCallbacks.length > 0) {
-            afterRenderCallbacks.forEach((cb) => {
-              cb && cb(config || this.props.config);
+            this.afterRenderCallbacks.forEach((cb) => {
+              cb && cb.call(this, this.chart, config || this.props.config);
             });
           }
         }, 50);
