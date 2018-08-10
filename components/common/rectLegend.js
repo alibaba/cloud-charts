@@ -166,9 +166,11 @@ function legendCollapse(legendConfig) {
         if (wrapperHeight > itemHeight * collapseRow) {
           if (!collapseInstance) {
             collapseInstance = new Collapse(legendWrapperDom, legendListDom, {
+              wrapperHeight,
               itemHeight,
               collapseRow,
-              wrapperHeight
+              collapseTop: marginTop,
+              collapseBottom: marginBottom,
             });
           }
 
@@ -194,44 +196,91 @@ class Collapse {
     this.config = config;
     this.handleClick = this.handleClick.bind(this);
 
+    const { itemHeight, collapseRow, wrapperHeight, collapseTop, collapseBottom } = this.config;
+
     const collapseDom = this.collapseDom = document.createElement('div');
     collapseDom.className = 'widgets-legend-collapse';
-    collapseDom.innerHTML = '<div class="legend-collapse-btn collapse-up"></div><div class="legend-collapse-btn collapse-down"></div>';
+    collapseDom.style.paddingTop = `${collapseTop}px`;
+    collapseDom.style.paddingBottom = `${collapseBottom}px`;
+
+    const collapseUpDom = this.collapseUpDom = document.createElement('div');
+    collapseUpDom.className = 'legend-collapse-btn collapse-up';
+    const collapseDownDom = this.collapseDownDom = document.createElement('div');
+    collapseDownDom.className = 'legend-collapse-btn collapse-down';
+    collapseDom.appendChild(collapseUpDom);
+    collapseDom.appendChild(collapseDownDom);
+
     collapseDom.addEventListener('click', this.handleClick);
     collapseDom.addEventListener('mousemove', noopEvent);
     collapseDom.addEventListener('mouseout', noopEvent);
+
+    this.minOffset = -(wrapperHeight / itemHeight) + collapseRow;
+    this.maxOffset = 0;
   }
 
   handleClick(e) {
     e.stopPropagation();
 
-    if (!e.target.classList.contains('legend-collapse-btn')) {
+    if (!e.target.classList.contains('legend-collapse-btn') || e.target.classList.contains('disable')) {
       return;
     }
 
-    const { itemHeight, collapseRow, wrapperHeight } = this.config;
+    // const { itemHeight, collapseRow, wrapperHeight } = this.config;
     let moveOffset = this.moveOffset;
 
     // 上一页
     if (e.target.classList.contains('collapse-up')) {
-      moveOffset = Math.min(0, moveOffset + 1);
-      this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
+      moveOffset += 1;
+      // moveOffset = Math.min(0, moveOffset + 1);
+      // this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
     }
     // 下一页
     if (e.target.classList.contains('collapse-down')) {
-      moveOffset = Math.max(-(wrapperHeight / itemHeight) + collapseRow, moveOffset - 1);
-      this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
+      moveOffset -= 1;
+      // moveOffset = Math.max(-(wrapperHeight / itemHeight) + collapseRow, moveOffset - 1);
+      // this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
     }
 
     this.moveOffset = moveOffset;
+
+    this.renderState();
+  }
+
+  renderState() {
+    const { itemHeight } = this.config;
+
+    this.collapseUpDom.classList.remove('disable');
+    this.collapseDownDom.classList.remove('disable');
+
+    // 不能向下
+    if (this.moveOffset <= this.minOffset) {
+      this.moveOffset = this.minOffset;
+      this.collapseDownDom.classList.add('disable');
+    }
+
+    // 不能向上
+    if (this.moveOffset >= this.maxOffset) {
+      this.moveOffset = this.maxOffset;
+      this.collapseUpDom.classList.add('disable');
+    }
+
+    this.listDom.style.transform = `translate(0, ${this.moveOffset * itemHeight}px)`;
   }
 
   start() {
     const { itemHeight, collapseRow } = this.config;
 
     this.dom.classList.add('has-collapse');
+
+    // 展示时重新获取高度
+    // 修复因样式变化导致滚动范围改变所引起的问题。
+    this.config.wrapperHeight = this.dom.offsetHeight;
+    this.minOffset = -(this.config.wrapperHeight / itemHeight) + collapseRow;
+
     this.dom.style.maxHeight = `${itemHeight * collapseRow}px`;
     this.dom.appendChild(this.collapseDom);
+
+    this.renderState();
   }
 
   end() {

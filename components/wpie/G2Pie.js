@@ -123,6 +123,7 @@ export default {
 
     // 设置图例
     rectLegend.call(this, chart, config, {
+      autoCollapse: false,
       position: 'right',
       itemTpl: (value, itemColor, checked, index) => {
         const { nameFormatter, valueFormatter, showData = true } = config.legend || {};

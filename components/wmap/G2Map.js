@@ -94,6 +94,7 @@ export default {
 
     // 设置图例
     rectLegend.call(this, chart, config, {
+      autoCollapse: false,
       position: 'left',
       // 使用container控制图例添加的位置，方便调整样式
       container: `#${this.chartId}-legend`,
