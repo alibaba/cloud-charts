@@ -13,7 +13,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
 
     const legendConfig = {
-      //这些是widgets特有的属性
+      // 这些是widgets特有的属性
       autoCollapse: true,
       // 以下为g2的属性
       useHtml: true,
@@ -147,7 +147,7 @@ function legendCollapse(legendConfig) {
   const { collapseRow = 2 } = legendConfig;
   let collapseInstance = null;
   return {
-    render: function (chart, config) {
+    render(chart, config) {
       if (config.legend !== false && this.chartDom) {
         const legendWrapperDom = this.chartDom.querySelector('.g2-legend');
         const legendListDom = this.chartDom.querySelector('.g2-legend-list');
@@ -173,10 +173,8 @@ function legendCollapse(legendConfig) {
           }
 
           collapseInstance.start();
-        } else {
-          if (collapseInstance) {
-            collapseInstance.end();
-          }
+        } else if (collapseInstance) {
+          collapseInstance.end();
         }
       }
     },
@@ -185,7 +183,7 @@ function legendCollapse(legendConfig) {
         collapseInstance.destroy();
       }
     }
-  }
+  };
 }
 
 class Collapse {
@@ -198,7 +196,7 @@ class Collapse {
 
     const collapseDom = this.collapseDom = document.createElement('div');
     collapseDom.className = 'widgets-legend-collapse';
-    collapseDom.innerHTML = `<div class="legend-collapse-btn collapse-up"></div><div class="legend-collapse-btn collapse-down"></div>`;
+    collapseDom.innerHTML = '<div class="legend-collapse-btn collapse-up"></div><div class="legend-collapse-btn collapse-down"></div>';
     collapseDom.addEventListener('click', this.handleClick);
     collapseDom.addEventListener('mousemove', noopEvent);
     collapseDom.addEventListener('mouseout', noopEvent);
@@ -232,7 +230,7 @@ class Collapse {
     const { itemHeight, collapseRow } = this.config;
 
     this.dom.classList.add('has-collapse');
-    this.dom.style.maxHeight = itemHeight * collapseRow + 'px';
+    this.dom.style.maxHeight = `${itemHeight * collapseRow}px`;
     this.dom.appendChild(this.collapseDom);
   }
 
