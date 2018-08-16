@@ -15,6 +15,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     const legendConfig = {
       // 这些是widgets特有的属性
       autoCollapse: true,
+      collapseRow: 'auto',
       // 以下为g2的属性
       useHtml: true,
       title: null,
@@ -144,7 +145,7 @@ function getDataValue(data) {
 }
 
 function legendCollapse(legendConfig) {
-  const { collapseRow = 2 } = legendConfig;
+  let { collapseRow = 2 } = legendConfig;
   let collapseInstance = null;
   return {
     render(chart, config) {
@@ -163,6 +164,15 @@ function legendCollapse(legendConfig) {
         const itemHeight = legendListItemDom.offsetHeight + marginTop + marginBottom;
         const wrapperHeight = legendWrapperDom.offsetHeight;
 
+        // 自动适配图例折叠高度
+        if (collapseRow === 'auto') {
+          const chartHeight = this._size && this._size[1];
+          if (chartHeight) {
+            // 行数最多占图表高度的三分之一，最小为2。
+            collapseRow = Math.max(2, Math.round(( chartHeight / itemHeight ) / 3));
+          }
+        }
+
         if (wrapperHeight > itemHeight * collapseRow) {
           if (!collapseInstance) {
             collapseInstance = new Collapse(legendWrapperDom, legendListDom, {
@@ -174,7 +184,7 @@ function legendCollapse(legendConfig) {
             });
           }
 
-          collapseInstance.start();
+          collapseInstance.start({ collapseRow });
         } else if (collapseInstance) {
           collapseInstance.end();
         }
@@ -225,20 +235,15 @@ class Collapse {
       return;
     }
 
-    // const { itemHeight, collapseRow, wrapperHeight } = this.config;
     let moveOffset = this.moveOffset;
 
     // 上一页
     if (e.target.classList.contains('collapse-up')) {
       moveOffset += 1;
-      // moveOffset = Math.min(0, moveOffset + 1);
-      // this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
     }
     // 下一页
     if (e.target.classList.contains('collapse-down')) {
       moveOffset -= 1;
-      // moveOffset = Math.max(-(wrapperHeight / itemHeight) + collapseRow, moveOffset - 1);
-      // this.listDom.style.transform = `translate(0, ${moveOffset * itemHeight}px)`;
     }
 
     this.moveOffset = moveOffset;
@@ -267,8 +272,9 @@ class Collapse {
     this.listDom.style.transform = `translate(0, ${this.moveOffset * itemHeight}px)`;
   }
 
-  start() {
-    const { itemHeight, collapseRow } = this.config;
+  start({ collapseRow: newCollapseRow }) {
+    const { itemHeight, collapseRow: oldCollapseRow } = this.config;
+    const collapseRow = newCollapseRow || oldCollapseRow;
 
     this.dom.classList.add('has-collapse');
 
