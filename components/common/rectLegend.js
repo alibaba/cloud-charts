@@ -10,12 +10,12 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
+    const { autoCollapse = true, collapseRow = 'auto', align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
 
     const legendConfig = {
       // 这些是widgets特有的属性
-      autoCollapse: true,
-      collapseRow: 'auto',
+      autoCollapse,
+      collapseRow,
       // 以下为g2的属性
       useHtml: true,
       title: null,
