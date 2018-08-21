@@ -14,9 +14,11 @@
  * @param {React.Component}} aisc - PC 端图表
  * @param {React.Component} aism - 移动端图表
  */
+export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 export default function autoSelect(aisc, aism) {
-    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || !aism) {
-        return aisc;
-    }
-    return aism;
+  if (!isMobile || !aism) {
+    return aisc;
+  }
+  return aism;
 }
