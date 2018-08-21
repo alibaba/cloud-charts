@@ -269,14 +269,14 @@ function prod(themeName) {
     new webpack.optimize.DedupePlugin(),
 
 
-    new ExtractTextPlugin('[name].css', {allChunks: true})
+    new ExtractTextPlugin('[name].css', {allChunks: true}),
 
     // 压缩代码
-    // new webpack.optimize.UglifyJsPlugin({
-    //   minimize: true,
-    //   compress: {warnings: false},
-    //   output: {comments: false}
-    // })
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {warnings: false},
+      output: {comments: false}
+    })
   );
 
   return _config;
