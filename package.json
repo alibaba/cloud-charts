@@ -3,6 +3,7 @@
   "version": "2.1.24",
   "main": "./build/index.js",
   "scripts": {
+    "build": "fie build2",
     "dev": "brush start -c ./config/_dev.js",
     "babel-site": "babel ./site/theme/template --out-dir ./site/theme/template",
     "clean-site": "rm site/theme/template/**/*.js site/theme/template/*.js",
@@ -27,6 +28,7 @@
   "dependencies": {
     "@alife/aisc": "^2.7.13",
     "@alife/aisc-core": "0.6.9",
+    "@antv/f2": "^3.2.0",
     "prop-types": "^15.5.10",
     "sass-variable-loader": "^0.1.2"
   },

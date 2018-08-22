@@ -55,7 +55,7 @@ let data = [
 ];
 
 ReactDOM.render(
-    <div>
+    <div style={{background: '#f2f3f7', padding: '20px 0'}}>
       <Row>
         <Col span="12">
           <Wcontainer title={"多数据项折线图"} height={298}>

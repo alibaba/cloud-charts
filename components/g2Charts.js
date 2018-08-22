@@ -4,6 +4,7 @@ import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
 import g2Factory from './common/g2Factory';
+import { autoSelect } from './common/platform';
 
 // 引入组件
 import G2Line from './wline/G2Line';
@@ -19,6 +20,8 @@ import G2Nightingale from './wnightingale/G2-base';
 import G2Radar from './wradar/G2Radar';
 import G2Rectangle from './wrectangle/G2Rectangle';
 import G2Funnel from './wfunnel/G2Funnel';
+
+import F2Line from './wline/mobile/F2Line';
 
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
@@ -68,3 +71,5 @@ export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
 export const Wrectangle = WG2Rectangle;
 export const Wfunnel = WG2Funnel;
+
+export const GFLine = autoSelect(Wline, F2Line);

@@ -101,7 +101,7 @@ gulp.task('build:demo', ['clean'], (cb) => {
 });
 
 gulp.task('build:lib', ['clean'], () => {
-    gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss'])
+    gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss', srcPath + '/**/*.json'])
         // .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('lib'));
 
