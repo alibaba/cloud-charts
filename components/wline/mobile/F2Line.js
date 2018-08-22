@@ -84,7 +84,7 @@ const setDomStyle = (elem, styleObj) => {
 const renderTopContent = (x, dataArr, canvas, config) => {
   id = generateUniqueId();
   let topContentStr =
-    '<div style="display: flex; flex-wrap: wrap; -webkit-user-select: none;flex-direction: column; width: ' +
+    '<div style="display: flex; flex-wrap: wrap; WebkitUserSelect: none;flex-direction: column; width: ' +
     Client.width +
     'px; padding: 8px 12px; font-size: 12px; line-height: 1.2 ">';
 

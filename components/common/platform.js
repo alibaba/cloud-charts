@@ -16,7 +16,7 @@
  */
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-export default function autoSelect(aisc, aism) {
+export function autoSelect(aisc, aism) {
   if (!isMobile || !aism) {
     return aisc;
   }

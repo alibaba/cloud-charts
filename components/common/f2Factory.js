@@ -2,7 +2,7 @@ import F2 from '@antv/f2';
 import React from 'react';
 import PropTypes from 'prop-types';
 // import { View, Theme, Client, Unit } from '@alife/aism';
-import { dealData, setDomStyle, setInlineDomStyle } from './utils';
+import { dealData, setDomStyle, setInlineDomStyle } from './f2Utils';
 
 // const { bp } = Unit;
 
@@ -350,7 +350,7 @@ function g2Factory(name, Chart) {
 
         const legendContainer = document.querySelector(`#aismlegend${this.chartId}`);
         let lengendStr =
-          '<div style="display: flex;-webkit-user-select: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px;">';
+          '<div style="display: flex;WebkitUserSelect: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px;">';
 
         legendData.forEach(i => {
           let color = i.color;
@@ -499,7 +499,7 @@ function g2Factory(name, Chart) {
       const { style = {}, width, height } = this.props;
       const chartStyle = {
         position: 'relative',
-        '-webkit-user-select': 'none',
+        'WebkitUserSelect': 'none',
         backgroundColor: style.backgroundColor || '#fff',
         overflow: 'hidden'
       };

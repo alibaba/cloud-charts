@@ -3,6 +3,7 @@
   "version": "2.1.22",
   "main": "./lib/index.js",
   "scripts": {
+    "build": "fie build2",
     "dev": "brush start -c ./config/_dev.js",
     "babel-site": "babel ./site/theme/template --out-dir ./site/theme/template",
     "clean-site": "rm site/theme/template/**/*.js site/theme/template/*.js",
