@@ -1,5 +1,6 @@
 import G2 from '@antv/g2';
 import { getLog } from './common/log';
+import { isMobile } from './common/platform';
 
 /**
  * 打点控制函数
@@ -26,6 +27,6 @@ setTimeout(() => {
 
     const image = new Image();
     // 统计 版本、主题、当前域名、图表初始化次数
-    image.src = `${logUrl}?version=${__VERSION__}&theme=${__THEME__}&t=${Date.now()}&host=${location && location.host}&fullurl=${document.URL}&chartinit=${chartInit}`;
+    image.src = `${logUrl}?version=${__VERSION__}&theme=${__THEME__}&t=${Date.now()}&host=${location && location.host}&fullurl=${document.URL}&chartinit=${chartInit}&uamobile=${isMobile}`;
   }
 }, 3000);
