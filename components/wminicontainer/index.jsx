@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
+import { isMobileWithProps } from "../common/platform";
 import './index.scss';
 
 const prefix = 'aisc-wminicontainer';
@@ -27,6 +28,7 @@ export default class Wminicontainer extends React.Component {
     const { height = 80, className, status, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
+      [`${prefix}-mobile`]: isMobileWithProps(otherProps),
       [`${prefix}-${getStatusColorName(status)}`]: !!status,
       [className]: !!className
     });

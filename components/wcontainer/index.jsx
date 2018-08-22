@@ -8,6 +8,7 @@ import Grid from '@alife/aisc/lib/grid/index';
 import Divider from './views/divider';
 import Wcircle from "../wcircle";
 import chartLog from "../common/log";
+import { isMobileWithProps } from '../common/platform';
 import './index.scss';
 
 const { Row, Col } = Grid;
@@ -125,6 +126,7 @@ export default class Wcontainer extends React.Component {
     const { height, arrange, title, titleBorder, operation, className, style, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
+      [`${prefix}-mobile`]: isMobileWithProps(otherProps),
       [className]: !!className
     });
 
