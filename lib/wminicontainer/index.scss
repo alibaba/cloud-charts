@@ -4,6 +4,11 @@
 #{$wminicontainer-prefix} {
   background: $wminicontainer-bg-color;
   padding-top: 20px;
+
+  // 移动端适配
+  &#{$wminicontainer-prefix}-mobile {
+    padding-top: 12px;
+  }
 }
 
 #{$wminicontainer-prefix}-blue{
