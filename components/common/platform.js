@@ -22,3 +22,7 @@ export function autoSelect(aisc, aism) {
   }
   return aism;
 }
+
+export function isMobileWithProps(props) {
+  return !!(props.isMobile || (props.isMobile !== false && isMobile));
+}
