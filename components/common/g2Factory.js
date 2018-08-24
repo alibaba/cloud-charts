@@ -64,6 +64,8 @@ function g2Factory(name, Chart, convertData = true) {
         height,
         padding,
         forceFit: forceFit || false,
+        // auto-padding 时自带的内边距
+        autoPaddingAppend: 2,
         ...otherProps
       });
 
