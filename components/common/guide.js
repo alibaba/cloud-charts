@@ -31,7 +31,7 @@ export default function (chart, config) {
 
 export function drawGuideLine(chart, guideLine) {
   const { top, text = {}, status, axis, value, start, end } = guideLine;
-  const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY } = text;
+  const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {} } = text;
   const color = getStatusColor(status);
 
   const guideConfig = {
@@ -45,7 +45,8 @@ export function drawGuideLine(chart, guideLine) {
       autoRotate: titleRotate || false,
       style: {
         fill: color,
-        textAlign: titleAlign || ((titlePosition || 'start') !== 'start' ? 'start' : 'end')
+        textAlign: titleAlign || ((titlePosition || 'start') !== 'start' ? 'start' : 'end'),
+        ...style
       },
       offsetX,
       offsetY

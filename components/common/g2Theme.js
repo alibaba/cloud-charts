@@ -215,6 +215,7 @@ const widgetsTheme = {
       'g2-legend-list': {},
       'g2-legend-list-item': {
         wordBreak: 'break-all',
+        marginTop: 0,
         marginBottom: size.s3,
         marginRight: size.s3
       },
