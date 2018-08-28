@@ -49,6 +49,8 @@
 
     width: $legend-collapse-arrow-width + 8px;
     height: 100%;
+
+    box-sizing: border-box;
   }
 
   .legend-collapse-btn {
