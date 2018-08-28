@@ -44,6 +44,7 @@ export { G2, DataSet };
 // 暴露工具类
 export const Util = Object.assign({}, G2.Util, {
   Connect: g2Connect, // 图表联动组件
+  propertyMap: common.propertyMap,
   propertyAssign: common.propertyAssign,
   getParentSize: common.getParentSize,
   getStatusColor: common.getStatusColor,
