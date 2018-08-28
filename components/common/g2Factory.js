@@ -54,46 +54,21 @@ function g2Factory(name, Chart, convertData = true) {
       // 设置初始高宽
       this.initSize();
 
-      // 开始初始化图表
-      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
-      // 生成图表实例
-      const chart = new G2.Chart({
-        container: this.chartDom,
-        width,
-        height,
-        padding,
-        forceFit: forceFit || false,
-        // auto-padding 时自带的内边距
-        autoPaddingAppend: 1,
-        ...otherProps
-      });
-
-      // 1.x 升级 到 2.x 的提示
-      if (config.xAxis && config.xAxis.type === 'datetime') {
-        console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
-      }
-
-      // 预处理数据
-      const data = convertData && ChartProcess.convertData !== false && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
-      this.rawData = initData;
-      chart && ChartProcess.init.call(this, chart, config, data);
-
-      // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
-      if (chart && event) {
-        Object.keys(event).forEach((eventKey) => {
-          chart.on(eventKey, event[eventKey]);
-        });
-      }
-
-      this.chart = chart;
-
-      this.afterRender(config);
+      this.initChart(this.props);
     }
 
     componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding } = this.props;
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
+
+      // 配置项有变化，重新生成图表
+      if (changeConfig && !G2.Util.isEqual(newConfig !== oldConfig)) {
+        this.componentWillUnmount();
+
+        requestAnimationFrame(() => {
+          this.initChart(nextProps);
+        });
+      }
 
       if (newPadding !== oldPadding) {
         console.warn('padding 不支持修改');
@@ -153,8 +128,50 @@ function g2Factory(name, Chart, convertData = true) {
       this.chart && this.chart.off();
       this.chart && this.chart.destroy && this.chart.destroy();
       this.chart = null;
-      this.chartDom = null;
-      this.chartId = null;
+      // this.chartDom = null;
+      // this.chartId = null;
+
+      this.afterRenderCallbacks = [];
+      this.unmountCallbacks = [];
+    }
+
+    initChart(props) {
+      let currentProps = props || this.props;
+      // 开始初始化图表
+      currentProps = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, currentProps) : currentProps;
+      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = currentProps;
+      // 生成图表实例
+      const chart = new G2.Chart({
+        container: this.chartDom,
+        width,
+        height,
+        padding,
+        forceFit: forceFit || false,
+        // auto-padding 时自带的内边距
+        autoPaddingAppend: 1,
+        ...otherProps
+      });
+
+      // 1.x 升级 到 2.x 的提示
+      if (config.xAxis && config.xAxis.type === 'datetime') {
+        console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
+      }
+
+      // 预处理数据
+      const data = convertData && ChartProcess.convertData !== false && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
+      this.rawData = initData;
+      chart && ChartProcess.init.call(this, chart, config, data);
+
+      // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
+      if (chart && event) {
+        Object.keys(event).forEach((eventKey) => {
+          chart.on(eventKey, event[eventKey]);
+        });
+      }
+
+      this.chart = chart;
+
+      this.afterRender(config);
     }
 
     // 初始化时适配高宽
