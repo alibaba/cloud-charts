@@ -24,6 +24,9 @@ import G2Funnel from './wfunnel/G2Funnel';
 import F2Line from './wline/F2Line';
 import F2Pie from './wpie/F2Pie';
 import F2Bar from './wbar/F2Bar';
+import F2RangeLine from './wrangeline/F2RangeLine';
+// 未实现，空白占位
+import G2RangeLine from './wrangeline/G2RangeLine';
 
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
@@ -77,3 +80,4 @@ export const Wfunnel = WG2Funnel;
 export const GFLine = autoSelect(Wline, F2Line);
 export const GFPie = autoSelect(Wpie, F2Pie);
 export const GFBar = autoSelect(Wbar, F2Bar);
+export const GFRangeLine = autoSelect(G2RangeLine, F2RangeLine);
