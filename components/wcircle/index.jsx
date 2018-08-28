@@ -72,13 +72,7 @@ export default class Wcircle extends React.Component {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
 
-    const trend = this.props.trend;
-    const type = this.props.type;
-    const percent = this.props.percent;
-    const radius = this.props.radius;
-    const strokeWidth = this.props.strokeWidth;
-    const status = this.props.status;
-    const customColor = this.props.color;
+    const { trend, type, percent, radius, strokeWidth, status, color: customColor, backgroundColor } = this.props;
 
     const style = {};
     if (customColor) {
@@ -123,6 +117,10 @@ export default class Wcircle extends React.Component {
       strokeDashoffset: pathDashoffset
     };
 
+    if (backgroundColor) {
+      pathStyle.stroke = backgroundColor;
+    }
+
     const svgStyle = {
       height: radius * 2,
       width: radius * 2
@@ -143,7 +141,6 @@ export default class Wcircle extends React.Component {
                 className={`${prefix}-svg-ring`}
                 d={pathString}
                 strokeWidth={strokeWidth}
-                ref={(path) => { this.path = path; }}
                 style={strokePathStyle}
               />
             </svg>
