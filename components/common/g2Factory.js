@@ -62,12 +62,14 @@ function g2Factory(name, Chart, convertData = true) {
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
       // 配置项有变化，重新生成图表
-      if (changeConfig && !G2.Util.isEqual(newConfig !== oldConfig)) {
+      if (changeConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
         this.componentWillUnmount();
 
         requestAnimationFrame(() => {
           this.initChart(nextProps);
         });
+
+        return;
       }
 
       if (newPadding !== oldPadding) {
