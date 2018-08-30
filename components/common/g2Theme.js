@@ -1,6 +1,7 @@
 'use strict';
 
 import { size, color, fonts } from '../theme/index';
+import { pxToNumber } from './common';
 
 const widgetsTheme = {
   // 线图只有一个数据时显示点
