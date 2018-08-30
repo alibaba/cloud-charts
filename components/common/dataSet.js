@@ -49,7 +49,7 @@ require('@antv/data-set/lib/transform/geo/projection');
 require('@antv/data-set/lib/transform/geo/region');
 // diagram
 require('@antv/data-set/lib/transform/diagram/arc');
-require('@antv/data-set/lib/transform/diagram/dagre');
+// require('@antv/data-set/lib/transform/diagram/dagre');
 require('@antv/data-set/lib/transform/diagram/sankey');
 require('@antv/data-set/lib/transform/diagram/voronoi');
 // hierarchy

@@ -85,37 +85,53 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isNil = __webpack_require__(35);
-	const isObject = __webpack_require__(44);
-	const uniqueId = __webpack_require__(162);
-	const EventEmitter = __webpack_require__(68);
-	const View = __webpack_require__(25);
-	const CONSTANTS = __webpack_require__(38);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	class DataSet extends EventEmitter {
-	  constructor(initialProps = { state: {} }) {
-	    super();
-	    const me = this;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var assign = __webpack_require__(2);
+	var isNil = __webpack_require__(35);
+	var isObject = __webpack_require__(44);
+	var uniqueId = __webpack_require__(162);
+	var EventEmitter = __webpack_require__(68);
+	var View = __webpack_require__(25);
+	var CONSTANTS = __webpack_require__(38);
+
+	var DataSet = function (_EventEmitter) {
+	  _inherits(DataSet, _EventEmitter);
+
+	  function DataSet() {
+	    var initialProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { state: {} };
+
+	    _classCallCheck(this, DataSet);
+
+	    var _this = _possibleConstructorReturn(this, _EventEmitter.call(this));
+
+	    var me = _this;
 	    assign(me, {
 	      _onChangeTimer: null,
-	      DataSet,
+	      DataSet: DataSet,
 	      isDataSet: true,
 	      views: {}
 	    }, initialProps);
+	    return _this;
 	  }
 
-	  _getUniqueViewName() {
-	    const me = this;
-	    let name = uniqueId('view_');
+	  DataSet.prototype._getUniqueViewName = function _getUniqueViewName() {
+	    var me = this;
+	    var name = uniqueId('view_');
 	    while (me.views[name]) {
 	      name = uniqueId('view_');
 	    }
 	    return name;
-	  }
+	  };
 
-	  createView(name, options = {}) {
-	    const me = this;
+	  DataSet.prototype.createView = function createView(name) {
+	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	    var me = this;
 	    if (isNil(name)) {
 	      name = me._getUniqueViewName();
 	    }
@@ -124,55 +140,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	      name = me._getUniqueViewName();
 	    }
 	    if (me.views[name]) {
-	      throw new Error(`data view exists: ${name}`);
+	      throw new Error('data view exists: ' + name);
 	    }
-	    const view = new View(me, options);
+	    var view = new View(me, options);
 	    me.views[name] = view;
 	    return view;
-	  }
+	  };
 
-	  getView(name) {
+	  DataSet.prototype.getView = function getView(name) {
 	    return this.views[name];
-	  }
+	  };
 
-	  setView(name, view) {
+	  DataSet.prototype.setView = function setView(name, view) {
 	    this.views[name] = view;
-	  }
+	  };
 
-	  setState(name, value) {
-	    const me = this;
+	  DataSet.prototype.setState = function setState(name, value) {
+	    var me = this;
 	    me.state[name] = value;
 	    if (me._onChangeTimer) {
 	      clearTimeout(me._onChangeTimer);
 	      me._onChangeTimer = null;
 	    }
-	    me._onChangeTimer = setTimeout(() => {
+	    me._onChangeTimer = setTimeout(function () {
 	      me.emit('statechange', name, value);
 	    }, 16); // execute after one frame
-	  }
-	}
+	  };
+
+	  return DataSet;
+	}(EventEmitter);
 
 	assign(DataSet, {
-	  CONSTANTS,
-	  DataSet,
+	  CONSTANTS: CONSTANTS,
+	  DataSet: DataSet,
 	  DataView: View, // alias
-	  View,
+	  View: View,
 	  connectors: {},
 	  transforms: {},
 
-	  registerConnector(name, connector) {
+	  registerConnector: function registerConnector(name, connector) {
 	    DataSet.connectors[name] = connector;
 	  },
-
-	  getConnector(name) {
+	  getConnector: function getConnector(name) {
 	    return DataSet.connectors[name] || DataSet.connectors.default;
 	  },
-
-	  registerTransform(name, transform) {
+	  registerTransform: function registerTransform(name, transform) {
 	    DataSet.transforms[name] = transform;
 	  },
-
-	  getTransform(name) {
+	  getTransform: function getTransform(name) {
 	    return DataSet.transforms[name] || DataSet.transforms.default;
 	  }
 	}, CONSTANTS);
@@ -185,7 +200,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	DataSet.version = '____DATASET_VERSION____';
 
 	module.exports = DataSet;
-
 
 /***/ },
 /* 2 */
@@ -224,15 +238,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
 
-	const INVALID_FIELD_ERR_MSG = 'Invalid field: it must be a string!';
-	const INVALID_FIELDS_ERR_MSG = 'Invalid fields: it must be an array!';
+	var INVALID_FIELD_ERR_MSG = 'Invalid field: it must be a string!';
+	var INVALID_FIELDS_ERR_MSG = 'Invalid fields: it must be an array!';
 
 	module.exports = {
-	  getField(options, defaultField) {
-	    const { field, fields } = options;
+	  getField: function getField(options, defaultField) {
+	    var field = options.field,
+	        fields = options.fields;
+
 	    if (isString(field)) {
 	      return field;
 	    }
@@ -240,7 +256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      console.warn(INVALID_FIELD_ERR_MSG);
 	      return field[0];
 	    }
-	    console.warn(`${INVALID_FIELD_ERR_MSG} will try to get fields instead.`);
+	    console.warn(INVALID_FIELD_ERR_MSG + ' will try to get fields instead.');
 	    if (isString(fields)) {
 	      return fields;
 	    }
@@ -252,19 +268,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    throw new TypeError(INVALID_FIELD_ERR_MSG);
 	  },
-	  getFields(options, defaultFields) {
-	    const { field, fields } = options;
+	  getFields: function getFields(options, defaultFields) {
+	    var field = options.field,
+	        fields = options.fields;
+
 	    if (isArray(fields)) {
 	      return fields;
 	    }
 	    if (isString(fields)) {
 	      console.warn(INVALID_FIELDS_ERR_MSG);
-	      return [ fields ];
+	      return [fields];
 	    }
-	    console.warn(`${INVALID_FIELDS_ERR_MSG} will try to get field instead.`);
+	    console.warn(INVALID_FIELDS_ERR_MSG + ' will try to get field instead.');
 	    if (isString(field)) {
 	      console.warn(INVALID_FIELDS_ERR_MSG);
-	      return [ field ];
+	      return [field];
 	    }
 	    if (isArray(field) && field.length) {
 	      console.warn(INVALID_FIELDS_ERR_MSG);
@@ -276,7 +294,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError(INVALID_FIELDS_ERR_MSG);
 	  }
 	};
-
 
 /***/ },
 /* 5 */
@@ -2920,32 +2937,39 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isArray = __webpack_require__(3);
-	const isFunction = __webpack_require__(11);
-	const isString = __webpack_require__(6);
-	const groupBy = __webpack_require__(157);
-	const simpleSortBy = __webpack_require__(142);
+	var isArray = __webpack_require__(3);
+	var isFunction = __webpack_require__(11);
+	var isString = __webpack_require__(6);
+	var groupBy = __webpack_require__(157);
+	var simpleSortBy = __webpack_require__(142);
 
-	module.exports = (rows, group_by, order_by = []) => {
-	  let newRows = rows;
+	module.exports = function (rows, group_by) {
+	  var order_by = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+	  var newRows = rows;
 	  if (order_by && order_by.length) {
 	    newRows = simpleSortBy(rows, order_by);
 	  }
 
-	  let groupingFn;
+	  var groupingFn = void 0;
 	  if (isFunction(group_by)) {
 	    groupingFn = group_by;
 	  } else if (isArray(group_by)) {
-	    groupingFn = row => `_${group_by.map(col => row[col]).join('-')}`;
+	    groupingFn = function groupingFn(row) {
+	      return '_' + group_by.map(function (col) {
+	        return row[col];
+	      }).join('-');
+	    };
 	    // NOTE: Object.keys({'b': 'b', '2': '2', '1': '1', 'a': 'a'}) => [ '1', '2', 'b', 'a' ]
 	    // that is why we have to add a prefix
 	  } else if (isString(group_by)) {
-	    groupingFn = row => `_${row[group_by]}`;
+	    groupingFn = function groupingFn(row) {
+	      return '_' + row[group_by];
+	    };
 	  }
-	  const groups = groupBy(newRows, groupingFn);
+	  var groups = groupBy(newRows, groupingFn);
 	  return groups;
 	};
-
 
 /***/ },
 /* 15 */
@@ -63638,22 +63662,28 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const EventEmitter = __webpack_require__(68);
-	const assign = __webpack_require__(2);
-	const clone = __webpack_require__(26);
-	const cloneDeep = __webpack_require__(26);
-	const find = __webpack_require__(153);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isMatch = __webpack_require__(57);
-	const isObject = __webpack_require__(44);
-	const isString = __webpack_require__(6);
-	const keys = __webpack_require__(19);
-	const pick = __webpack_require__(22);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EventEmitter = __webpack_require__(68);
+	var assign = __webpack_require__(2);
+	var clone = __webpack_require__(26);
+	var cloneDeep = __webpack_require__(26);
+	var find = __webpack_require__(153);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isMatch = __webpack_require__(57);
+	var isObject = __webpack_require__(44);
+	var isString = __webpack_require__(6);
+	var keys = __webpack_require__(19);
+	var pick = __webpack_require__(22);
 
 	function cloneOptions(options) {
-	  const result = {};
-	  forIn(options, (value, key) => {
+	  var result = {};
+	  forIn(options, function (value, key) {
 	    if (isObject(value) && value.isView) {
 	      result[key] = value;
 	    } else {
@@ -63663,11 +63693,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return result;
 	}
 
-	class View extends EventEmitter {
+	var View = function (_EventEmitter) {
+	  _inherits(View, _EventEmitter);
+
 	  // constructor
-	  constructor(dataSet, options) {
-	    super();
-	    const me = this;
+	  function View(dataSet, options) {
+	    _classCallCheck(this, View);
+
+	    var _this = _possibleConstructorReturn(this, _EventEmitter.call(this));
+
+	    var me = _this;
 	    options = options || {};
 	    dataSet = dataSet || {};
 	    if (!dataSet.isDataSet) {
@@ -63675,7 +63710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      dataSet = null;
 	    }
 	    assign(me, {
-	      dataSet,
+	      dataSet: dataSet,
 	      loose: !dataSet,
 	      dataType: 'table',
 	      isView: true,
@@ -63686,8 +63721,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      watchingStates: null
 	    }, options);
 	    if (!me.loose) {
-	      const { watchingStates } = me;
-	      dataSet.on('statechange', name => {
+	      var watchingStates = me.watchingStates;
+
+	      dataSet.on('statechange', function (name) {
 	        if (isArray(watchingStates)) {
 	          if (watchingStates.indexOf(name) > -1) {
 	            me._reExecute();
@@ -63697,39 +63733,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      });
 	    }
+	    return _this;
 	  }
 
-	  _parseStateExpression(expr) {
-	    const dataSet = this.dataSet;
-	    const matched = /^\$state\.(\w+)/.exec(expr);
+	  View.prototype._parseStateExpression = function _parseStateExpression(expr) {
+	    var dataSet = this.dataSet;
+	    var matched = /^\$state\.(\w+)/.exec(expr);
 	    if (matched) {
 	      return dataSet.state[matched[1]];
 	    }
 	    return expr;
-	  }
+	  };
 
-	  _preparseOptions(options) {
-	    const me = this;
-	    const optionsCloned = cloneOptions(options);
+	  View.prototype._preparseOptions = function _preparseOptions(options) {
+	    var me = this;
+	    var optionsCloned = cloneOptions(options);
 	    if (me.loose) {
 	      return optionsCloned;
 	    }
-	    forIn(optionsCloned, (value, key) => {
+	    forIn(optionsCloned, function (value, key) {
 	      if (isString(value) && /^\$state\./.test(value)) {
 	        optionsCloned[key] = me._parseStateExpression(value);
 	      }
 	    });
 	    return optionsCloned;
-	  }
+	  };
 
 	  // connectors
-	  _prepareSource(source, options) {
-	    const me = this;
-	    const DataSet = View.DataSet;
+
+
+	  View.prototype._prepareSource = function _prepareSource(source, options) {
+	    var me = this;
+	    var DataSet = View.DataSet;
 	    // warning me.origin is protected
 	    me._source = {
-	      source,
-	      options
+	      source: source,
+	      options: options
 	    };
 	    if (!options) {
 	      if (source instanceof View || isString(source)) {
@@ -63749,104 +63788,131 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    me.rows = cloneDeep(me.origin);
 	    return me;
-	  }
+	  };
 
-	  source(source, options) {
-	    const me = this;
-	    me._prepareSource(source, options);
+	  View.prototype.source = function source(_source, options) {
+	    var me = this;
+	    me._prepareSource(_source, options);
 	    me._reExecuteTransforms();
 	    me.trigger('change');
 	    return me;
-	  }
+	  };
 
 	  // transforms
-	  transform(options = {}) {
-	    const me = this;
+
+
+	  View.prototype.transform = function transform() {
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+	    var me = this;
 	    me.transforms.push(options);
 	    me._executeTransform(options);
 	    return me;
-	  }
-	  _executeTransform(options) {
-	    const me = this;
+	  };
+
+	  View.prototype._executeTransform = function _executeTransform(options) {
+	    var me = this;
 	    options = me._preparseOptions(options);
-	    const transform = View.DataSet.getTransform(options.type);
+	    var transform = View.DataSet.getTransform(options.type);
 	    transform(me, options);
-	  }
-	  _reExecuteTransforms() {
-	    const me = this;
-	    me.transforms.forEach(options => {
+	  };
+
+	  View.prototype._reExecuteTransforms = function _reExecuteTransforms() {
+	    var me = this;
+	    me.transforms.forEach(function (options) {
 	      me._executeTransform(options);
 	    });
-	  }
+	  };
 
 	  // rows
-	  addRow(row) {
+
+
+	  View.prototype.addRow = function addRow(row) {
 	    this.rows.push(row);
-	  }
-	  removeRow(index) {
+	  };
+
+	  View.prototype.removeRow = function removeRow(index) {
 	    this.rows.splice(index, 1);
-	  }
-	  updateRow(index, newRow) {
+	  };
+
+	  View.prototype.updateRow = function updateRow(index, newRow) {
 	    assign(this.rows[index], newRow);
-	  }
-	  findRows(query) {
-	    return this.rows.filter(row => isMatch(row, query));
-	  }
-	  findRow(query) {
+	  };
+
+	  View.prototype.findRows = function findRows(query) {
+	    return this.rows.filter(function (row) {
+	      return isMatch(row, query);
+	    });
+	  };
+
+	  View.prototype.findRow = function findRow(query) {
 	    return find(this.rows, query);
-	  }
+	  };
 
 	  // columns
-	  getColumnNames() {
-	    const firstRow = this.rows[0];
+
+
+	  View.prototype.getColumnNames = function getColumnNames() {
+	    var firstRow = this.rows[0];
 	    if (firstRow) {
 	      return keys(firstRow);
 	    }
 	    return [];
-	  }
-	  getColumnName(index) {
+	  };
+
+	  View.prototype.getColumnName = function getColumnName(index) {
 	    return this.getColumnNames()[index];
-	  }
-	  getColumnIndex(columnName) {
-	    const columnNames = this.getColumnNames();
+	  };
+
+	  View.prototype.getColumnIndex = function getColumnIndex(columnName) {
+	    var columnNames = this.getColumnNames();
 	    return columnNames.indexOf(columnName);
-	  }
-	  getColumn(columnName) {
-	    return this.rows.map(row => row[columnName]);
-	  }
-	  getColumnData(columnName) {
+	  };
+
+	  View.prototype.getColumn = function getColumn(columnName) {
+	    return this.rows.map(function (row) {
+	      return row[columnName];
+	    });
+	  };
+
+	  View.prototype.getColumnData = function getColumnData(columnName) {
 	    return this.getColumn(columnName);
-	  }
+	  };
 
 	  // data process
-	  getSubset(startRowIndex, endRowIndex, columnNames) {
-	    const subset = [];
-	    for (let i = startRowIndex; i <= endRowIndex; i++) {
+
+
+	  View.prototype.getSubset = function getSubset(startRowIndex, endRowIndex, columnNames) {
+	    var subset = [];
+	    for (var i = startRowIndex; i <= endRowIndex; i++) {
 	      subset.push(pick(this.rows[i], columnNames));
 	    }
 	    return subset;
-	  }
-	  toString(prettyPrint) {
-	    const me = this;
+	  };
+
+	  View.prototype.toString = function toString(prettyPrint) {
+	    var me = this;
 	    if (prettyPrint) {
 	      return JSON.stringify(me.rows, null, 2);
 	    }
 	    return JSON.stringify(me.rows);
-	  }
-	  _reExecute() {
-	    const me = this;
-	    const {
-	      source,
-	      options
-	    } = me._source;
+	  };
+
+	  View.prototype._reExecute = function _reExecute() {
+	    var me = this;
+	    var _me$_source = me._source,
+	        source = _me$_source.source,
+	        options = _me$_source.options;
+
 	    me._prepareSource(source, options);
 	    me._reExecuteTransforms();
 	    me.trigger('change');
-	  }
-	}
+	  };
+
+	  return View;
+	}(EventEmitter);
 
 	module.exports = View;
-
 
 /***/ },
 /* 26 */
@@ -67073,27 +67139,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = __webpack_require__(1);
 
-
 /***/ },
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  standardDeviation,
-	  interquartileRange
-	} = __webpack_require__(16);
+	var _require = __webpack_require__(16),
+	    standardDeviation = _require.standardDeviation,
+	    interquartileRange = _require.interquartileRange;
 
 	module.exports = {
-	  silverman(arr) {
-	    const stdev = standardDeviation(arr);
-	    const num = 4 * Math.pow(stdev, 5);
-	    const denom = 3 * arr.length;
+	  silverman: function silverman(arr) {
+	    var stdev = standardDeviation(arr);
+	    var num = 4 * Math.pow(stdev, 5);
+	    var denom = 3 * arr.length;
 	    return Math.pow(num / denom, 0.2);
 	  },
-
-	  nrd(x) {
-	    let s = standardDeviation(x);
-	    const iqr = interquartileRange(x);
+	  nrd: function nrd(x) {
+	    var s = standardDeviation(x);
+	    var iqr = interquartileRange(x);
 	    if (typeof iqr === 'number') {
 	      s = Math.min(s, iqr / 1.34);
 	    }
@@ -67101,16 +67164,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 
-
 /***/ },
 /* 33 */
 /***/ function(module, exports) {
 
 	
-	module.exports = (extent, bandwidth = 1) => {
-	  const [ min, max ] = extent;
-	  const values = [];
-	  let tmp = min;
+	module.exports = function (extent) {
+	  var bandwidth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	  var min = extent[0],
+	      max = extent[1];
+
+	  var values = [];
+	  var tmp = min;
 	  while (tmp < max) {
 	    values.push(tmp);
 	    tmp += bandwidth;
@@ -67118,7 +67183,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  values.push(max);
 	  return values;
 	};
-
 
 /***/ },
 /* 34 */
@@ -67231,20 +67295,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  GRAPH: 'graph',
 	  TABLE: 'table',
 	  GEO_GRATICULE: 'geo-graticule',
-	  STATISTICS_METHODS: [
-	    'max',
-	    'mean', // alias: average
-	    'median',
-	    'min',
-	    'mode',
-	    'product',
-	    'standardDeviation',
-	    'sum',
-	    'sumSimple',
-	    'variance'
-	  ]
+	  STATISTICS_METHODS: ['max', 'mean', // alias: average
+	  'median', 'min', 'mode', 'product', 'standardDeviation', 'sum', 'sumSimple', 'variance']
 	};
-
 
 /***/ },
 /* 39 */
@@ -67255,51 +67308,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @reference: https://github.com/Planeshifter/kernel-smooth/blob/master/lib/index.js#L16
 	 */
 	function uniform(u) {
-	  return (Math.abs(u) <= 1) ? 0.5 : 0;
+	  return Math.abs(u) <= 1 ? 0.5 : 0;
 	}
 	function tricubed(u) {
-	  const abs = 1 - Math.pow(Math.abs(u), 3);
+	  var abs = 1 - Math.pow(Math.abs(u), 3);
 	  return Math.pow(abs, 3);
 	}
 	module.exports = {
 	  boxcar: uniform,
-	  cosine(u) {
+	  cosine: function cosine(u) {
 	    if (Math.abs(u) <= 1) {
 	      return Math.PI / 4 * Math.cos(Math.PI / 2 * u);
 	    }
 	    return 0;
 	  },
-	  epanechnikov(u) {
-	    return (Math.abs(u) < 1) ? 0.75 * (1 - u * u) : 0;
+	  epanechnikov: function epanechnikov(u) {
+	    return Math.abs(u) < 1 ? 0.75 * (1 - u * u) : 0;
 	  },
-	  gaussian(u) {
+	  gaussian: function gaussian(u) {
 	    // return 1 / Math.sqrt(2 * Math.PI) * Math.exp(-0.5 * u * u);
 	    return 0.3989422804 * Math.exp(-0.5 * u * u);
 	  },
-	  quartic(u) {
+	  quartic: function quartic(u) {
 	    if (Math.abs(u) < 1) {
-	      const tmp = 1 - u * u;
-	      return (15 / 16) * tmp * tmp;
+	      var tmp = 1 - u * u;
+	      return 15 / 16 * tmp * tmp;
 	    }
 	    return 0;
 	  },
-	  triangular(u) {
-	    const abs = Math.abs(u);
-	    return (abs < 1) ? (1 - abs) : 0;
+	  triangular: function triangular(u) {
+	    var abs = Math.abs(u);
+	    return abs < 1 ? 1 - abs : 0;
 	  },
-	  tricube(u) {
-	    return (Math.abs(u) < 1) ? (70 / 81) * tricubed(u) : 0;
+	  tricube: function tricube(u) {
+	    return Math.abs(u) < 1 ? 70 / 81 * tricubed(u) : 0;
 	  },
-	  triweight(u) {
+	  triweight: function triweight(u) {
 	    if (Math.abs(u) < 1) {
-	      const tmp = 1 - u * u;
-	      return (35 / 32) * tmp * tmp * tmp;
+	      var tmp = 1 - u * u;
+	      return 35 / 32 * tmp * tmp * tmp;
 	    }
 	    return 0;
 	  },
-	  uniform
-	};
 
+	  uniform: uniform
+	};
 
 /***/ },
 /* 40 */
@@ -67633,34 +67686,34 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const getPointAtLength = __webpack_require__(62);
-	const cloneDeep = __webpack_require__(26);
-	const {
-	  geoPath
-	} = __webpack_require__(28);
-	const {
-	  GEO,
-	  registerConnector
-	} = __webpack_require__(1);
+	var getPointAtLength = __webpack_require__(62);
+	var cloneDeep = __webpack_require__(26);
 
-	const geoPathGenerator = geoPath();
+	var _require = __webpack_require__(28),
+	    geoPath = _require.geoPath;
+
+	var _require2 = __webpack_require__(1),
+	    GEO = _require2.GEO,
+	    registerConnector = _require2.registerConnector;
+
+	var geoPathGenerator = geoPath();
 
 	function GeoJSONConnector(data, options, dataView) {
 	  dataView.dataType = GEO;
-	  const features = cloneDeep(data.features);
+	  var features = cloneDeep(data.features);
 
 	  // pre-process
-	  features.forEach(feature => {
+	  features.forEach(function (feature) {
 	    feature.name = feature.properties.name;
 	    feature.longitude = [];
 	    feature.latitude = [];
-	    const pathData = feature.pathData = geoPathGenerator(feature);
-	    const points = getPointAtLength(pathData);
-	    points._path.forEach(point => {
+	    var pathData = feature.pathData = geoPathGenerator(feature);
+	    var points = getPointAtLength(pathData);
+	    points._path.forEach(function (point) {
 	      feature.longitude.push(point[1]);
 	      feature.latitude.push(point[2]);
 	    });
-	    const centroid = geoPathGenerator.centroid(feature);
+	    var centroid = geoPathGenerator.centroid(feature);
 	    feature.centroidX = centroid[0];
 	    feature.centroidY = centroid[1];
 	  });
@@ -67675,16 +67728,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = GeoJSONConnector;
 
-
 /***/ },
 /* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isFunction = __webpack_require__(11);
-	const isString = __webpack_require__(6);
-	const d3Geo = __webpack_require__(28);
-	const d3GeoProjection = __webpack_require__(58);
-	const d3CompositeProjection = __webpack_require__(165);
+	var isFunction = __webpack_require__(11);
+	var isString = __webpack_require__(6);
+	var d3Geo = __webpack_require__(28);
+	var d3GeoProjection = __webpack_require__(58);
+	var d3CompositeProjection = __webpack_require__(165);
 
 	/*
 	* getGeoProjection
@@ -67692,7 +67744,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @param {string|function} projection  projection name or projection function
 	* @param {boolean} [exportRaw = false] - whether return the raw projection or not
 	* */
-	module.exports = (projection, exportRaw) => {
+	module.exports = function (projection, exportRaw) {
 	  if (isFunction(projection)) {
 	    return exportRaw ? projection : projection();
 	  }
@@ -67710,20 +67762,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return null;
 	};
 
-
 /***/ },
 /* 50 */
 /***/ function(module, exports) {
 
-	module.exports = fraction => {
-	  const step = 1 / fraction;
-	  const pArr = [];
-	  for (let i = 0; i <= 1; i = i + step) {
+	module.exports = function (fraction) {
+	  var step = 1 / fraction;
+	  var pArr = [];
+	  for (var i = 0; i <= 1; i = i + step) {
 	    pArr.push(i);
 	  }
 	  return pArr;
 	};
-
 
 /***/ },
 /* 51 */
@@ -93702,50 +93752,51 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const {
-	  geoArea,
-	  geoCentroid,
-	  geoContains,
-	  geoDistance,
-	  geoLength
-	} = __webpack_require__(28);
-	const {
-	  geoProject
-	} = __webpack_require__(58);
-	const View = __webpack_require__(25);
-	const getGeoProjection = __webpack_require__(49);
+	var assign = __webpack_require__(2);
+
+	var _require = __webpack_require__(28),
+	    _geoArea = _require.geoArea,
+	    _geoCentroid = _require.geoCentroid,
+	    _geoContains = _require.geoContains,
+	    _geoDistance = _require.geoDistance,
+	    _geoLength = _require.geoLength;
+
+	var _require2 = __webpack_require__(58),
+	    _geoProject = _require2.geoProject;
+
+	var View = __webpack_require__(25);
+	var getGeoProjection = __webpack_require__(49);
 
 	assign(View.prototype, {
 	  // geo maintain
-	  geoArea(feature) {
-	    return geoArea(feature);
+	  geoArea: function geoArea(feature) {
+	    return _geoArea(feature);
 	  },
-	  geoAreaByName(name) {
-	    return geoArea(this.geoFeatureByName(name));
+	  geoAreaByName: function geoAreaByName(name) {
+	    return _geoArea(this.geoFeatureByName(name));
 	  },
-	  geoCentroid(feature) {
-	    return geoCentroid(feature);
+	  geoCentroid: function geoCentroid(feature) {
+	    return _geoCentroid(feature);
 	  },
-	  geoCentroidByName(name) {
-	    return geoCentroid(this.geoFeatureByName(name));
+	  geoCentroidByName: function geoCentroidByName(name) {
+	    return _geoCentroid(this.geoFeatureByName(name));
 	  },
-	  geoDistance(p1, p2) {
-	    return geoDistance(p1, p2);
+	  geoDistance: function geoDistance(p1, p2) {
+	    return _geoDistance(p1, p2);
 	  },
-	  geoLength(feature) {
-	    return geoLength(feature);
+	  geoLength: function geoLength(feature) {
+	    return _geoLength(feature);
 	  },
-	  geoLengthByName(name) {
-	    return geoLength(this.geoFeatureByName(name));
+	  geoLengthByName: function geoLengthByName(name) {
+	    return _geoLength(this.geoFeatureByName(name));
 	  },
-	  geoContains(feature, position/* [longitude, latitude] */) {
-	    return geoContains(feature, position);
+	  geoContains: function geoContains(feature, position /* [longitude, latitude] */) {
+	    return _geoContains(feature, position);
 	  },
-	  geoFeatureByName(name) {
-	    const rows = this.rows;
-	    let result;
-	    rows.some(feature => {
+	  geoFeatureByName: function geoFeatureByName(name) {
+	    var rows = this.rows;
+	    var result = void 0;
+	    rows.some(function (feature) {
 	      if (feature.name === name) {
 	        result = feature;
 	        return true;
@@ -93754,11 +93805,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	    return result;
 	  },
-	  geoFeatureByPosition(position) {
-	    const rows = this.rows;
-	    let result;
-	    rows.some(feature => {
-	      if (geoContains(feature, position)) {
+	  geoFeatureByPosition: function geoFeatureByPosition(position) {
+	    var rows = this.rows;
+	    var result = void 0;
+	    rows.some(function (feature) {
+	      if (_geoContains(feature, position)) {
 	        result = feature;
 	        return true;
 	      }
@@ -93766,58 +93817,58 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	    return result;
 	  },
-	  geoNameByPosition(position) {
-	    const feature = this.geoFeatureByPosition(position);
+	  geoNameByPosition: function geoNameByPosition(position) {
+	    var feature = this.geoFeatureByPosition(position);
 	    if (feature) {
 	      return feature.name;
 	    }
 	  },
+
 	  // projection
 	  // export getGeoProjection for custom used.
-	  getGeoProjection,
-	  geoProject(feature, projection, exportRaw) {
+	  getGeoProjection: getGeoProjection,
+	  geoProject: function geoProject(feature, projection, exportRaw) {
 	    projection = getGeoProjection(projection, exportRaw);
-	    return geoProject(feature, projection);
+	    return _geoProject(feature, projection);
 	  },
-	  geoProjectByName(name, projection, exportRaw) {
+	  geoProjectByName: function geoProjectByName(name, projection, exportRaw) {
 	    projection = getGeoProjection(projection, exportRaw);
-	    return geoProject(this.geoFeatureByName(name), projection);
+	    return _geoProject(this.geoFeatureByName(name), projection);
 	  },
-	  geoProjectPosition(position, projection, exportRaw) {
+	  geoProjectPosition: function geoProjectPosition(position, projection, exportRaw) {
 	    projection = getGeoProjection(projection, exportRaw);
 	    return projection(position);
 	  },
-	  geoProjectInvert(point/* [x, y] */, projection, exportRaw) {
+	  geoProjectInvert: function geoProjectInvert(point /* [x, y] */, projection, exportRaw) {
 	    projection = getGeoProjection(projection, exportRaw);
 	    return projection.invert(point);
 	  }
 	});
-
 
 /***/ },
 /* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* eslint-disable no-cond-assign, no-loop-func */
-	const assign = __webpack_require__(2);
-	const View = __webpack_require__(25);
+	var assign = __webpack_require__(2);
+	var View = __webpack_require__(25);
 
 	assign(View.prototype, {
-	  getAllNodes() {
-	    const nodes = [];
-	    this.root.each(node => {
+	  getAllNodes: function getAllNodes() {
+	    var nodes = [];
+	    this.root.each(function (node) {
 	      nodes.push(node);
 	    });
 	    return nodes;
 	  },
-	  getAllLinks() {
-	    const links = [];
-	    const nodes = [ this.root ];
-	    let node;
+	  getAllLinks: function getAllLinks() {
+	    var links = [];
+	    var nodes = [this.root];
+	    var node = void 0;
 	    while (node = nodes.pop()) {
-	      const children = node.children;
+	      var children = node.children;
 	      if (children) {
-	        children.forEach(child => {
+	        children.forEach(function (child) {
 	          links.push({
 	            source: node,
 	            target: child
@@ -93834,47 +93885,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	  getAllEdges: View.prototype.getAllLinks
 	});
 
-
 /***/ },
 /* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const values = __webpack_require__(42);
-	const partition = __webpack_require__(14);
-	const View = __webpack_require__(25);
+	var assign = __webpack_require__(2);
+	var values = __webpack_require__(42);
+	var _partition = __webpack_require__(14);
+	var View = __webpack_require__(25);
 
 	assign(View.prototype, {
-	  partition(group_by = [], order_by = []) {
-	    return partition(this.rows, group_by, order_by);
+	  partition: function partition() {
+	    var group_by = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	    var order_by = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	    return _partition(this.rows, group_by, order_by);
 	  },
-	  group(group_by, order_by) {
-	    const groups = this.partition(group_by, order_by);
+	  group: function group(group_by, order_by) {
+	    var groups = this.partition(group_by, order_by);
 	    return values(groups);
 	  },
-	  groups(group_by, order_by) {
+	  groups: function groups(group_by, order_by) {
 	    return this.group(group_by, order_by);
 	  }
 	});
-
-
 
 /***/ },
 /* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const flattenDeep = __webpack_require__(56);
-	const isArray = __webpack_require__(3);
-	const simpleStatistics = __webpack_require__(16);
-	const View = __webpack_require__(25);
-	const pByFraction = __webpack_require__(50);
-	const {
-	  STATISTICS_METHODS
-	} = __webpack_require__(38);
+	var assign = __webpack_require__(2);
+	var flattenDeep = __webpack_require__(56);
+	var isArray = __webpack_require__(3);
+	var simpleStatistics = __webpack_require__(16);
+	var View = __webpack_require__(25);
+	var pByFraction = __webpack_require__(50);
+
+	var _require = __webpack_require__(38),
+	    STATISTICS_METHODS = _require.STATISTICS_METHODS;
 
 	function getColumnValues(me, column) {
-	  let values = me.getColumn(column);
+	  var values = me.getColumn(column);
 	  if (isArray(values) && isArray(values[0])) {
 	    values = flattenDeep(values);
 	  }
@@ -93882,49 +93933,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	// statistics
-	STATISTICS_METHODS.forEach(method => {
-	  View.prototype[method] = function(column) {
+	STATISTICS_METHODS.forEach(function (method) {
+	  View.prototype[method] = function (column) {
 	    return simpleStatistics[method](getColumnValues(this, column));
 	  };
 	});
 
-	const {
-	  quantile
-	} = simpleStatistics;
+	var _quantile = simpleStatistics.quantile;
+
 
 	assign(View.prototype, {
 	  average: View.prototype.mean,
-	  quantile(column, p) {
-	    return quantile(getColumnValues(this, column), p);
+	  quantile: function quantile(column, p) {
+	    return _quantile(getColumnValues(this, column), p);
 	  },
-	  quantiles(column, pArr) {
-	    const columnArr = getColumnValues(this, column);
-	    return pArr.map(p => quantile(columnArr, p));
+	  quantiles: function quantiles(column, pArr) {
+	    var columnArr = getColumnValues(this, column);
+	    return pArr.map(function (p) {
+	      return _quantile(columnArr, p);
+	    });
 	  },
-	  quantilesByFraction(column, fraction) {
+	  quantilesByFraction: function quantilesByFraction(column, fraction) {
 	    return this.quantiles(column, pByFraction(fraction));
 	  },
-	  range(column) {
-	    const me = this;
-	    return [ me.min(column), me.max(column) ];
+	  range: function range(column) {
+	    var me = this;
+	    return [me.min(column), me.max(column)];
 	  },
-	  extent(column) { // alias
+	  extent: function extent(column) {
+	    // alias
 	    return this.range(column);
 	  }
 	});
-
 
 /***/ },
 /* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isString = __webpack_require__(6);
-	const cloneDeep = __webpack_require__(26);
-	const {
-	  registerConnector
-	} = __webpack_require__(1);
+	var isString = __webpack_require__(6);
+	var cloneDeep = __webpack_require__(26);
 
-	registerConnector('default', (dataView, dataSet) => {
+	var _require = __webpack_require__(1),
+	    registerConnector = _require.registerConnector;
+
+	registerConnector('default', function (dataView, dataSet) {
 	  if (isString(dataView)) {
 	    dataView = dataSet.getView(dataView);
 	  }
@@ -93934,55 +93986,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return cloneDeep(dataView.rows);
 	});
 
-
 /***/ },
 /* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isString = __webpack_require__(6);
-	const {
-	  dsvFormat,
-	  csvParse,
-	  tsvParse
-	} = __webpack_require__(166);
-	const {
-	  registerConnector
-	} = __webpack_require__(1);
+	var isString = __webpack_require__(6);
 
-	registerConnector('dsv', (str, options = {}) => {
-	  const delimiter = options.delimiter || ',';
+	var _require = __webpack_require__(166),
+	    dsvFormat = _require.dsvFormat,
+	    csvParse = _require.csvParse,
+	    tsvParse = _require.tsvParse;
+
+	var _require2 = __webpack_require__(1),
+	    registerConnector = _require2.registerConnector;
+
+	registerConnector('dsv', function (str) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	  var delimiter = options.delimiter || ',';
 	  if (!isString(delimiter)) {
 	    throw new TypeError('Invalid delimiter: must be a string!');
 	  }
 	  return dsvFormat(delimiter).parse(str);
 	});
 
-	registerConnector('csv', str => {
+	registerConnector('csv', function (str) {
 	  return csvParse(str);
 	});
 
-	registerConnector('tsv', str => {
+	registerConnector('tsv', function (str) {
 	  return tsvParse(str);
 	});
-
 
 /***/ },
 /* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  geoGraticule
-	} = __webpack_require__(28);
-	const {
-	  registerConnector
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(28),
+	    geoGraticule = _require.geoGraticule;
+
+	var _require2 = __webpack_require__(1),
+	    registerConnector = _require2.registerConnector;
 
 	function connector(options, dataView) {
 	  dataView.dataType = 'geo-graticule';
-	  const data = geoGraticule().lines();
+	  var data = geoGraticule().lines();
 
-	  data.map((row, index) => {
-	    row.index = `${index}`;
+	  data.map(function (row, index) {
+	    row.index = '' + index;
 	    return row;
 	  });
 
@@ -93994,23 +94045,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = connector;
 
-
 /***/ },
 /* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isFunction = __webpack_require__(11);
-	const {
-	  GRAPH,
-	  registerConnector
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var isFunction = __webpack_require__(11);
 
-	const DEFAULT_OPTIONS = {
-	  nodes(d) { // optional
+	var _require = __webpack_require__(1),
+	    GRAPH = _require.GRAPH,
+	    registerConnector = _require.registerConnector;
+
+	var DEFAULT_OPTIONS = {
+	  nodes: function nodes(d) {
+	    // optional
 	    return d.nodes;
 	  },
-	  edges(d) { // optional
+	  edges: function edges(d) {
+	    // optional
 	    return d.edges;
 	  }
 	};
@@ -94018,7 +94070,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function connector(data, options, dataView) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
 	  dataView.dataType = GRAPH;
-	  const { nodes, edges } = options;
+	  var _options = options,
+	      nodes = _options.nodes,
+	      edges = _options.edges;
+
 	  if (nodes && !isFunction(nodes)) {
 	    throw new TypeError('Invalid nodes: must be a function!');
 	  }
@@ -94036,23 +94091,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerConnector('graph', connector);
 	registerConnector('diagram', connector);
 
-
 /***/ },
 /* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const cloneDeep = __webpack_require__(26);
-	const {
-	  getGridForHexJSON,
-	  renderHexJSON
-	} = __webpack_require__(168);
-	const {
-	  HEX,
-	  registerConnector
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var cloneDeep = __webpack_require__(26);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(168),
+	    getGridForHexJSON = _require.getGridForHexJSON,
+	    renderHexJSON = _require.renderHexJSON;
+
+	var _require2 = __webpack_require__(1),
+	    HEX = _require2.HEX,
+	    registerConnector = _require2.registerConnector;
+
+	var DEFAULT_OPTIONS = {
 	  width: 1,
 	  height: 1
 	};
@@ -94062,7 +94116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  row.cy = row.y;
 	  row.x = [];
 	  row.y = [];
-	  row.vertices.forEach(v => {
+	  row.vertices.forEach(function (v) {
 	    row.x.push(v.x + row.cx);
 	    row.y.push(v.y + row.cy);
 	  });
@@ -94072,11 +94126,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	function HexJSONConnector(data, options, dataView) {
 	  dataView.dataType = HEX;
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const { width, height } = options;
-	  const HexJSON = cloneDeep(data);
+	  var _options = options,
+	      width = _options.width,
+	      height = _options.height;
+
+	  var HexJSON = cloneDeep(data);
 	  dataView._HexJSON = HexJSON;
-	  const grid = dataView._GridHexJSON = getGridForHexJSON(HexJSON);
-	  const rows = dataView.rows = renderHexJSON(HexJSON, width, height).map(processRow);
+	  var grid = dataView._GridHexJSON = getGridForHexJSON(HexJSON);
+	  var rows = dataView.rows = renderHexJSON(HexJSON, width, height).map(processRow);
 	  dataView._gridRows = renderHexJSON(grid, width, height).map(processRow);
 	  return rows;
 	}
@@ -94088,19 +94145,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = HexJSONConnector;
 
-
 /***/ },
 /* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isFunction = __webpack_require__(11);
-	const {
-	  hierarchy
-	} = __webpack_require__(24);
-	const {
-	  HIERARCHY,
-	  registerConnector
-	} = __webpack_require__(1);
+	var isFunction = __webpack_require__(11);
+
+	var _require = __webpack_require__(24),
+	    hierarchy = _require.hierarchy;
+
+	var _require2 = __webpack_require__(1),
+	    HIERARCHY = _require2.HIERARCHY,
+	    registerConnector = _require2.registerConnector;
 
 	/*
 	 * options: {
@@ -94112,7 +94168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function connector(data, options, dataView) {
 	  dataView.dataType = HIERARCHY;
-	  const children = options && options.children ? options.children : null;
+	  var children = options && options.children ? options.children : null;
 
 	  if (children && !isFunction(children)) {
 	    throw new TypeError('Invalid children: must be a function!');
@@ -94129,76 +94185,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerConnector('hierarchy', connector);
 	registerConnector('tree', connector);
 
-
 /***/ },
 /* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isString = __webpack_require__(6);
-	const {
-	  feature
-	} = __webpack_require__(238);
-	const GeoJSONConnector = __webpack_require__(48);
-	const {
-	  registerConnector
-	} = __webpack_require__(1);
+	var isString = __webpack_require__(6);
+
+	var _require = __webpack_require__(238),
+	    feature = _require.feature;
+
+	var GeoJSONConnector = __webpack_require__(48);
+
+	var _require2 = __webpack_require__(1),
+	    registerConnector = _require2.registerConnector;
 
 	function TopoJSONConnector(data, options, dataView) {
-	  const object = options.object;
+	  var object = options.object;
 	  if (!isString(object)) {
 	    throw new TypeError('Invalid object: must be a string!');
 	  }
-	  const geoData = feature(data, data.objects[object]);
+	  var geoData = feature(data, data.objects[object]);
 	  return GeoJSONConnector(geoData, options, dataView);
 	}
 
 	registerConnector('topojson', TopoJSONConnector);
 	registerConnector('TopoJSON', TopoJSONConnector);
 
-
 /***/ },
 /* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const flattenDeep = __webpack_require__(56);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const keys = __webpack_require__(19);
-	const uniq = __webpack_require__(155);
-	const simpleStatistics = __webpack_require__(16);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  STATISTICS_METHODS
-	} = __webpack_require__(38);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var flattenDeep = __webpack_require__(56);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
+	var keys = __webpack_require__(19);
+	var uniq = __webpack_require__(155);
+	var simpleStatistics = __webpack_require__(16);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(38),
+	    STATISTICS_METHODS = _require2.STATISTICS_METHODS;
+
+	var _require3 = __webpack_require__(4),
+	    getFields = _require3.getFields;
+
+	var DEFAULT_OPTIONS = {
 	  as: [],
 	  fields: [],
 	  groupBy: [],
 	  operations: []
 	};
-	const DEFAULT_OPERATION = 'count';
+	var DEFAULT_OPERATION = 'count';
 
-	const aggregates = {
-	  count(data) {
+	var aggregates = {
+	  count: function count(data) {
 	    return data.length;
 	  },
-	  distinct(data, field) {
-	    const values = uniq(data.map(row => row[field]));
+	  distinct: function distinct(data, field) {
+	    var values = uniq(data.map(function (row) {
+	      return row[field];
+	    }));
 	    return values.length;
 	  }
 	};
-	STATISTICS_METHODS.forEach(method => {
-	  aggregates[method] = (data, field) => {
-	    let values = data.map(row => row[field]);
+	STATISTICS_METHODS.forEach(function (method) {
+	  aggregates[method] = function (data, field) {
+	    var values = data.map(function (row) {
+	      return row[field];
+	    });
 	    if (isArray(values) && isArray(values[0])) {
 	      values = flattenDeep(values);
 	    }
@@ -94209,19 +94268,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields)) {
 	    throw new TypeError('Invalid fields: it must be an array with one or more strings!');
 	  }
-	  let outputNames = options.as || [];
+	  var outputNames = options.as || [];
 	  if (isString(outputNames)) {
-	    outputNames = [ outputNames ];
+	    outputNames = [outputNames];
 	  }
-	  let operations = options.operations;
+	  var operations = options.operations;
 	  if (isString(operations)) {
-	    operations = [ operations ];
+	    operations = [operations];
 	  }
-	  const DEFAULT_OPERATIONS = [ DEFAULT_OPERATION ];
+	  var DEFAULT_OPERATIONS = [DEFAULT_OPERATION];
 	  if (!isArray(operations) || !operations.length) {
 	    console.warn('operations is not defined, will use [ "count" ] directly.');
 	    operations = DEFAULT_OPERATIONS;
@@ -94235,13 +94294,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new TypeError('Invalid as: it\'s length must be the same as fields!');
 	    }
 	  }
-	  const groups = partition(dataView.rows, options.groupBy);
-	  const results = [];
-	  forIn(groups, group => {
-	    const result = group[0];
-	    operations.forEach((operation, i) => {
-	      const outputName = outputNames[i];
-	      const field = fields[i];
+	  var groups = partition(dataView.rows, options.groupBy);
+	  var results = [];
+	  forIn(groups, function (group) {
+	    var result = group[0];
+	    operations.forEach(function (operation, i) {
+	      var outputName = outputNames[i];
+	      var field = fields[i];
 	      result[outputName] = aggregates[operation](group, field);
 	    });
 	    results.push(result);
@@ -94256,73 +94315,89 @@ return /******/ (function(modules) { // webpackBootstrap
 	  VALID_AGGREGATES: keys(aggregates)
 	};
 
-
 /***/ },
 /* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'y', 'count' ],
-	  bins: [ 30, 30 ], // Numeric vector giving number of bins in both horizontal and vertical directions
-	  offset: [ 0, 0 ],
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'y', 'count'],
+	  bins: [30, 30], // Numeric vector giving number of bins in both horizontal and vertical directions
+	  offset: [0, 0],
 	  sizeByCount: false // calculate bin size by binning count
 	  // fields: ['field0', 'field1'], // required
 	  // binWidth: [ 30, 30 ], // Numeric vector giving bin width in both horizontal and vertical directions. Overrides bins if both set.
 	};
-	const SQRT3 = Math.sqrt(3);
-	const THIRD_PI = Math.PI / 3;
-	const ANGLES = [ 0, THIRD_PI, 2 * THIRD_PI, 3 * THIRD_PI, 4 * THIRD_PI, 5 * THIRD_PI ];
+	var SQRT3 = Math.sqrt(3);
+	var THIRD_PI = Math.PI / 3;
+	var ANGLES = [0, THIRD_PI, 2 * THIRD_PI, 3 * THIRD_PI, 4 * THIRD_PI, 5 * THIRD_PI];
 
 	function distance(x0, y0, x1, y1) {
 	  return Math.sqrt((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1));
 	}
 	function nearestBinsCenters(value, scale, offset) {
-	  const temp = value - offset;
+	  var temp = value - offset;
 	  scale = scale / 2;
-	  const div = Math.floor(temp / scale);
-	  const rounded = scale * (div + (Math.abs(div % 2) === 1 ? 1 : 0));
-	  const roundedScaled = scale * (div + (Math.abs(div % 2) === 1 ? 0 : 1));
-	  return [ rounded + offset, roundedScaled + offset ];
+	  var div = Math.floor(temp / scale);
+	  var rounded = scale * (div + (Math.abs(div % 2) === 1 ? 1 : 0));
+	  var roundedScaled = scale * (div + (Math.abs(div % 2) === 1 ? 0 : 1));
+	  return [rounded + offset, roundedScaled + offset];
 	}
-	function generateBins(points, binWidth = [ 1, 1 ], offset = [ 0, 0 ]) { // processing aligned data
-	  const bins = {};
-	  const [ binWidthX, binWidthY ] = binWidth;
-	  const [ offsetX, offsetY ] = offset;
-	  points.forEach(point => {
-	    const [ x, y ] = point;
+	function generateBins(points) {
+	  var binWidth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [1, 1];
+	  var offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [0, 0];
+	  // processing aligned data
+	  var bins = {};
+	  var binWidthX = binWidth[0],
+	      binWidthY = binWidth[1];
+	  var offsetX = offset[0],
+	      offsetY = offset[1];
+
+	  points.forEach(function (point) {
+	    var x = point[0],
+	        y = point[1];
 	    // step3.1: nearest two centers
-	    const [ xRounded, xRoundedScaled ] = nearestBinsCenters(x, binWidthX, offsetX);
-	    const [ yRounded, yRoundedScaled ] = nearestBinsCenters(y, binWidthY, offsetY);
+
+	    var _nearestBinsCenters = nearestBinsCenters(x, binWidthX, offsetX),
+	        xRounded = _nearestBinsCenters[0],
+	        xRoundedScaled = _nearestBinsCenters[1];
+
+	    var _nearestBinsCenters2 = nearestBinsCenters(y, binWidthY, offsetY),
+	        yRounded = _nearestBinsCenters2[0],
+	        yRoundedScaled = _nearestBinsCenters2[1];
 	    // step3.2: compare distances
-	    const d1 = distance(x, y, xRounded, yRounded);
-	    const d2 = distance(x, y, xRoundedScaled, yRoundedScaled);
-	    let binKey;
-	    let binX;
-	    let binY;
+
+
+	    var d1 = distance(x, y, xRounded, yRounded);
+	    var d2 = distance(x, y, xRoundedScaled, yRoundedScaled);
+	    var binKey = void 0;
+	    var binX = void 0;
+	    var binY = void 0;
 
 	    if (d1 < d2) {
-	      binKey = `x${xRounded}y${yRounded}`;
-	      [ binX, binY ] = [ xRounded, yRounded ];
+	      binKey = 'x' + xRounded + 'y' + yRounded;
+	      binX = xRounded;
+	      binY = yRounded;
 	    } else {
-	      binKey = `x${xRoundedScaled}y${yRoundedScaled}`;
-	      [ binX, binY ] = [ xRoundedScaled, yRoundedScaled ];
+	      binKey = 'x' + xRoundedScaled + 'y' + yRoundedScaled;
+	      binX = xRoundedScaled;
+	      binY = yRoundedScaled;
 	    }
 	    bins[binKey] = bins[binKey] || {
 	      x: binX,
 	      y: binY,
 	      count: 0
 	    };
-	    bins[binKey].count ++;
+	    bins[binKey].count++;
 	  });
 	  return bins;
 	}
@@ -94330,22 +94405,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	function transform(dataView, options) {
 	  // step1: get binWidth, etc.
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields) || fields.length !== 2) {
 	    throw new TypeError('Invalid fields: it must be an array with 2 strings!');
 	  }
-	  const [ fieldX, fieldY ] = fields;
-	  const rangeFieldX = dataView.range(fieldX);
-	  const rangeFieldY = dataView.range(fieldY);
-	  const widthX = rangeFieldX[1] - rangeFieldX[0];
-	  const widthY = rangeFieldY[1] - rangeFieldY[0];
-	  let binWidth = options.binWidth || [];
+	  var fieldX = fields[0],
+	      fieldY = fields[1];
+
+	  var rangeFieldX = dataView.range(fieldX);
+	  var rangeFieldY = dataView.range(fieldY);
+	  var widthX = rangeFieldX[1] - rangeFieldX[0];
+	  var widthY = rangeFieldY[1] - rangeFieldY[0];
+	  var binWidth = options.binWidth || [];
 	  if (binWidth.length !== 2) {
-	    const [ binsX, binsY ] = options.bins;
+	    var _options$bins = options.bins,
+	        binsX = _options$bins[0],
+	        binsY = _options$bins[1];
+
 	    if (binsX <= 0 || binsY <= 0) {
 	      throw new TypeError('Invalid bins: must be an array with two positive numbers (e.g. [ 30, 30 ])!');
 	    }
-	    binWidth = [ widthX / binsX, widthY / binsY ];
+	    binWidth = [widthX / binsX, widthY / binsY];
 	  }
 	  // step2: align scale (squash Y)
 	  /*
@@ -94360,38 +94440,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   *           0
 	   */
-	  const [ offsetX, offsetY ] = options.offset;
-	  const yScale = 3 * binWidth[0] / (SQRT3 * binWidth[1]);
+	  var _options$offset = options.offset,
+	      offsetX = _options$offset[0],
+	      offsetY = _options$offset[1];
+
+	  var yScale = 3 * binWidth[0] / (SQRT3 * binWidth[1]);
 	  // const yScale = binWidth[0] / (SQRT3 * binWidth[1]);
-	  const points = dataView.rows.map(row => [ row[fieldX], yScale * row[fieldY] ]);
+	  var points = dataView.rows.map(function (row) {
+	    return [row[fieldX], yScale * row[fieldY]];
+	  });
 	  // step3: binning
-	  const bins = generateBins(points, [ binWidth[0], yScale * binWidth[1] ], [ offsetX, yScale * offsetY ]);
+	  var bins = generateBins(points, [binWidth[0], yScale * binWidth[1]], [offsetX, yScale * offsetY]);
 	  // step4: restore scale (for Y)
-	  const [ asX, asY, asCount ] = options.as;
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1],
+	      asCount = _options$as[2];
+
 	  if (!asX || !asY || !asCount) {
 	    throw new TypeError('Invalid as: it must be an array with three elements (e.g. [ "x", "y", "count" ])!');
 	  }
-	  const radius = binWidth[0] / SQRT3;
-	  const hexagonPoints = ANGLES.map(angle => [ Math.sin(angle) * radius, -Math.cos(angle) * radius ]);
-	  const result = [];
-	  let maxCount = 0;
+	  var radius = binWidth[0] / SQRT3;
+	  var hexagonPoints = ANGLES.map(function (angle) {
+	    return [Math.sin(angle) * radius, -Math.cos(angle) * radius];
+	  });
+	  var result = [];
+	  var maxCount = 0;
 	  if (options.sizeByCount) {
-	    forIn(bins, bin => {
+	    forIn(bins, function (bin) {
 	      if (bin.count > maxCount) {
 	        maxCount = bin.count;
 	      }
 	    });
 	  }
-	  forIn(bins, bin => {
-	    const { x, y, count } = bin;
-	    const row = {};
+	  forIn(bins, function (bin) {
+	    var x = bin.x,
+	        y = bin.y,
+	        count = bin.count;
+
+	    var row = {};
 	    row[asCount] = count;
 	    if (options.sizeByCount) {
-	      row[asX] = hexagonPoints.map(p => x + (bin.count / maxCount) * p[0]);
-	      row[asY] = hexagonPoints.map(p => (y + (bin.count / maxCount) * p[1]) / yScale);
+	      row[asX] = hexagonPoints.map(function (p) {
+	        return x + bin.count / maxCount * p[0];
+	      });
+	      row[asY] = hexagonPoints.map(function (p) {
+	        return (y + bin.count / maxCount * p[1]) / yScale;
+	      });
 	    } else {
-	      row[asX] = hexagonPoints.map(p => x + p[0]);
-	      row[asY] = hexagonPoints.map(p => (y + p[1]) / yScale);
+	      row[asX] = hexagonPoints.map(function (p) {
+	        return x + p[0];
+	      });
+	      row[asY] = hexagonPoints.map(function (p) {
+	        return (y + p[1]) / yScale;
+	      });
 	    }
 	    result.push(row);
 	  });
@@ -94403,24 +94505,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('bin.hex', transform);
 	registerTransform('hexbin', transform);
 
-
 /***/ },
 /* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const pick = __webpack_require__(22);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var pick = __webpack_require__(22);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'count' ],
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'count'],
 	  bins: 30,
 	  offset: 0,
 	  groupBy: []
@@ -94429,55 +94530,63 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	function nearestBin(value, scale, offset) {
-	  const temp = value - offset;
-	  const div = Math.floor(temp / scale);
-	  return [ div * scale + offset, (div + 1) * scale + offset ];
+	  var temp = value - offset;
+	  var div = Math.floor(temp / scale);
+	  return [div * scale + offset, (div + 1) * scale + offset];
 	}
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
+	  var field = getField(options);
 	  if (dataView.rows.length === 0) {
 	    return;
 	  }
-	  const range = dataView.range(field);
-	  const width = range[1] - range[0];
-	  let binWidth = options.binWidth;
+	  var range = dataView.range(field);
+	  var width = range[1] - range[0];
+	  var binWidth = options.binWidth;
 	  if (!binWidth) {
-	    const bins = options.bins;
+	    var bins = options.bins;
 	    if (bins <= 0) {
 	      throw new TypeError('Invalid bins: it must be a positive number!');
 	    }
 	    binWidth = width / bins;
 	  }
-	  const offset = options.offset % binWidth;
+	  var offset = options.offset % binWidth;
 
 	  // grouping
-	  const rows = [];
-	  const groupBy = options.groupBy;
-	  const groups = partition(dataView.rows, groupBy);
-	  forIn(groups, group => {
-	    const bins = {};
-	    const column = group.map(row => row[field]);
-	    column.forEach(value => {
-	      const [ x0, x1 ] = nearestBin(value, binWidth, offset);
-	      const binKey = `${x0}-${x1}`;
+	  var rows = [];
+	  var groupBy = options.groupBy;
+	  var groups = partition(dataView.rows, groupBy);
+	  forIn(groups, function (group) {
+	    var bins = {};
+	    var column = group.map(function (row) {
+	      return row[field];
+	    });
+	    column.forEach(function (value) {
+	      var _nearestBin = nearestBin(value, binWidth, offset),
+	          x0 = _nearestBin[0],
+	          x1 = _nearestBin[1];
+
+	      var binKey = x0 + '-' + x1;
 	      bins[binKey] = bins[binKey] || {
-	        x0,
-	        x1,
+	        x0: x0,
+	        x1: x1,
 	        count: 0
 	      };
-	      bins[binKey].count ++;
+	      bins[binKey].count++;
 	    });
-	    const [ asX, asCount ] = options.as;
+	    var _options$as = options.as,
+	        asX = _options$as[0],
+	        asCount = _options$as[1];
+
 	    if (!asX || !asCount) {
 	      throw new TypeError('Invalid as: it must be an array with 2 elements (e.g. [ "x", "count" ])!');
 	    }
 
-	    const meta = pick(group[0], groupBy);
-	    forIn(bins, bin => {
-	      const row = assign({}, meta);
-	      row[asX] = [ bin.x0, bin.x1 ];
+	    var meta = pick(group[0], groupBy);
+	    forIn(bins, function (bin) {
+	      var row = assign({}, meta);
+	      row[asX] = [bin.x0, bin.x1];
 	      row[asCount] = bin.count;
 	      rows.push(row);
 	    });
@@ -94488,28 +94597,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('bin.histogram', transform);
 	registerTransform('bin.dot', transform);
 
-
 /***/ },
 /* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const {
-	  quantile
-	} = __webpack_require__(16);
-	const partition = __webpack_require__(14);
-	const pByFraction = __webpack_require__(50);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(16),
+	    quantile = _require.quantile;
+
+	var partition = __webpack_require__(14);
+	var pByFraction = __webpack_require__(50);
+
+	var _require2 = __webpack_require__(1),
+	    registerTransform = _require2.registerTransform;
+
+	var _require3 = __webpack_require__(4),
+	    getField = _require3.getField;
+
+	var DEFAULT_OPTIONS = {
 	  as: '_bin',
 	  groupBy: [], // optional
 	  fraction: 4 // default
@@ -94519,25 +94628,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  const as = options.as;
+	  var field = getField(options);
+	  var as = options.as;
 	  if (!isString(as)) {
 	    throw new TypeError('Invalid as: it must be a string (e.g. "_bin")!');
 	  }
-	  let pArray = options.p;
-	  const fraction = options.fraction;
+	  var pArray = options.p;
+	  var fraction = options.fraction;
 	  if (!isArray(pArray) || pArray.length === 0) {
 	    pArray = pByFraction(fraction);
 	  }
-	  const rows = dataView.rows;
-	  const groupBy = options.groupBy;
-	  const groups = partition(rows, groupBy);
-	  const result = [];
-	  forIn(groups, group => {
+	  var rows = dataView.rows;
+	  var groupBy = options.groupBy;
+	  var groups = partition(rows, groupBy);
+	  var result = [];
+	  forIn(groups, function (group) {
 	    // const resultRow = pick(group[0], groupBy);
-	    const resultRow = group[0];
-	    const binningColumn = group.map(row => row[field]);
-	    const quantiles = pArray.map(p => quantile(binningColumn, p));
+	    var resultRow = group[0];
+	    var binningColumn = group.map(function (row) {
+	      return row[field];
+	    });
+	    var quantiles = pArray.map(function (p) {
+	      return quantile(binningColumn, p);
+	    });
 	    resultRow[as] = quantiles;
 	    result.push(resultRow);
 	  });
@@ -94546,71 +94659,92 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('bin.quantile', transform);
 
-
 /***/ },
 /* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'y', 'count' ],
-	  bins: [ 30, 30 ], // Numeric vector giving number of bins in both horizontal and vertical directions
-	  offset: [ 0, 0 ],
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'y', 'count'],
+	  bins: [30, 30], // Numeric vector giving number of bins in both horizontal and vertical directions
+	  offset: [0, 0],
 	  sizeByCount: false // calculate bin size by binning count
 	  // fields: ['field0', 'field1'], // required
 	  // binWidth: [ 30, 30 ], // Numeric vector giving bin width in both horizontal and vertical directions. Overrides bins if both set.
 	};
 
 	function nearestBin(value, scale, offset) {
-	  const temp = value - offset;
-	  const div = Math.floor(temp / scale);
-	  return [ div * scale + offset, (div + 1) * scale + offset ];
+	  var temp = value - offset;
+	  var div = Math.floor(temp / scale);
+	  return [div * scale + offset, (div + 1) * scale + offset];
 	}
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const [ fieldX, fieldY ] = getFields(options);
+
+	  var _getFields = getFields(options),
+	      fieldX = _getFields[0],
+	      fieldY = _getFields[1];
+
 	  if (!fieldX || !fieldY) {
 	    throw new TypeError('Invalid fields: must be an array with 2 strings!');
 	  }
-	  const rangeFieldX = dataView.range(fieldX);
-	  const rangeFieldY = dataView.range(fieldY);
-	  const widthX = rangeFieldX[1] - rangeFieldX[0];
-	  const widthY = rangeFieldY[1] - rangeFieldY[0];
-	  let binWidth = options.binWidth || [];
+	  var rangeFieldX = dataView.range(fieldX);
+	  var rangeFieldY = dataView.range(fieldY);
+	  var widthX = rangeFieldX[1] - rangeFieldX[0];
+	  var widthY = rangeFieldY[1] - rangeFieldY[0];
+	  var binWidth = options.binWidth || [];
 	  if (binWidth.length !== 2) {
-	    const [ binsX, binsY ] = options.bins;
+	    var _options$bins = options.bins,
+	        binsX = _options$bins[0],
+	        binsY = _options$bins[1];
+
 	    if (binsX <= 0 || binsY <= 0) {
 	      throw new TypeError('Invalid bins: must be an array with 2 positive numbers (e.g. [ 30, 30 ])!');
 	    }
-	    binWidth = [ widthX / binsX, widthY / binsY ];
+	    binWidth = [widthX / binsX, widthY / binsY];
 	  }
-	  const points = dataView.rows.map(row => [ row[fieldX], row[fieldY] ]);
-	  const bins = {};
-	  const [ offsetX, offsetY ] = options.offset;
-	  points.forEach(point => {
-	    const [ x0, x1 ] = nearestBin(point[0], binWidth[0], offsetX);
-	    const [ y0, y1 ] = nearestBin(point[1], binWidth[1], offsetY);
-	    const binKey = `${x0}-${x1}-${y0}-${y1}`;
+	  var points = dataView.rows.map(function (row) {
+	    return [row[fieldX], row[fieldY]];
+	  });
+	  var bins = {};
+	  var _options$offset = options.offset,
+	      offsetX = _options$offset[0],
+	      offsetY = _options$offset[1];
+
+	  points.forEach(function (point) {
+	    var _nearestBin = nearestBin(point[0], binWidth[0], offsetX),
+	        x0 = _nearestBin[0],
+	        x1 = _nearestBin[1];
+
+	    var _nearestBin2 = nearestBin(point[1], binWidth[1], offsetY),
+	        y0 = _nearestBin2[0],
+	        y1 = _nearestBin2[1];
+
+	    var binKey = x0 + '-' + x1 + '-' + y0 + '-' + y1;
 	    bins[binKey] = bins[binKey] || {
-	      x0,
-	      x1,
-	      y0,
-	      y1,
+	      x0: x0,
+	      x1: x1,
+	      y0: y0,
+	      y1: y1,
 	      count: 0
 	    };
-	    bins[binKey].count ++;
+	    bins[binKey].count++;
 	  });
-	  const rows = [];
-	  const [ asX, asY, asCount ] = options.as;
+	  var rows = [];
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1],
+	      asCount = _options$as[2];
+
 	  if (!asX || !asY || !asCount) {
 	    throw new TypeError('Invalid as: it must be an array with 3 strings (e.g. [ "x", "y", "count" ])!');
 	  }
@@ -94620,33 +94754,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * 0---1
 	   */
 	  if (!options.sizeByCount) {
-	    forIn(bins, bin => {
-	      const row = {};
-	      row[asX] = [ bin.x0, bin.x1, bin.x1, bin.x0 ];
-	      row[asY] = [ bin.y0, bin.y0, bin.y1, bin.y1 ];
+	    forIn(bins, function (bin) {
+	      var row = {};
+	      row[asX] = [bin.x0, bin.x1, bin.x1, bin.x0];
+	      row[asY] = [bin.y0, bin.y0, bin.y1, bin.y1];
 	      row[asCount] = bin.count;
 	      rows.push(row);
 	    });
 	  } else {
-	    let maxCount = 0;
-	    forIn(bins, bin => {
+	    var maxCount = 0;
+	    forIn(bins, function (bin) {
 	      if (bin.count > maxCount) {
 	        maxCount = bin.count;
 	      }
 	    });
-	    forIn(bins, bin => {
-	      const { x0, x1, y0, y1, count } = bin;
-	      const scale = count / maxCount;
-	      const [ cx, cy ] = [ (x0 + x1) / 2, (y0 + y1) / 2 ];
-	      const rx = (x1 - x0) * scale / 2;
-	      const ry = (y1 - y0) * scale / 2;
-	      const x01 = cx - rx;
-	      const x11 = cx + rx;
-	      const y01 = cy - ry;
-	      const y11 = cy + ry;
-	      const row = {};
-	      row[asX] = [ x01, x11, x11, x01 ];
-	      row[asY] = [ y01, y01, y11, y11 ];
+	    forIn(bins, function (bin) {
+	      var x0 = bin.x0,
+	          x1 = bin.x1,
+	          y0 = bin.y0,
+	          y1 = bin.y1,
+	          count = bin.count;
+
+	      var scale = count / maxCount;
+	      var cx = (x0 + x1) / 2,
+	          cy = (y0 + y1) / 2;
+
+	      var rx = (x1 - x0) * scale / 2;
+	      var ry = (y1 - y0) * scale / 2;
+	      var x01 = cx - rx;
+	      var x11 = cx + rx;
+	      var y01 = cy - ry;
+	      var y11 = cy + ry;
+	      var row = {};
+	      row[asX] = [x01, x11, x11, x01];
+	      row[asY] = [y01, y01, y11, y11];
 	      row[asCount] = count;
 	      rows.push(row);
 	    });
@@ -94657,20 +94798,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('bin.rectangle', transform);
 	registerTransform('bin.rect', transform);
 
-
 /***/ },
 /* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
-	registerTransform('default', dataView => {
+	registerTransform('default', function (dataView) {
 	  return dataView;
 	});
-
-
 
 /***/ },
 /* 108 */
@@ -94680,32 +94817,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * for Arc Diagram (edges without weight) / Chord Diagram (edges with source and target weight)
 	 * graph data required (nodes, edges)
 	 */
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const values = __webpack_require__(42);
-	const isFunction = __webpack_require__(11);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var values = __webpack_require__(42);
+	var isFunction = __webpack_require__(11);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {
 	  y: 0,
 	  thickness: 0.05, // thickness of the node, (0, 1)
 	  weight: false,
 	  marginRatio: 0.1, // margin ratio, [0, 1)
-	  id: node => node.id,
-	  source: edge => edge.source,
-	  target: edge => edge.target,
-	  sourceWeight: edge => edge.value || 1,
-	  targetWeight: edge => edge.value || 1,
+	  id: function id(node) {
+	    return node.id;
+	  },
+	  source: function source(edge) {
+	    return edge.source;
+	  },
+	  target: function target(edge) {
+	    return edge.target;
+	  },
+	  sourceWeight: function sourceWeight(edge) {
+	    return edge.value || 1;
+	  },
+	  targetWeight: function targetWeight(edge) {
+	    return edge.value || 1;
+	  },
 	  sortBy: null // optional, id | weight | frequency | {function}
 	};
 
-	function _nodesFromEdges(edges, options, map = {}) {
-	  edges.forEach(edge => {
-	    const sId = options.edgeSource(edge);
-	    const tId = options.edgeTarget(edge);
+	function _nodesFromEdges(edges, options) {
+	  var map = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	  edges.forEach(function (edge) {
+	    var sId = options.edgeSource(edge);
+	    var tId = options.edgeTarget(edge);
 	    if (!map[sId]) {
 	      map[sId] = {
 	        id: sId
@@ -94721,31 +94870,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function _processGraph(nodeById, edges, options) {
-	  forIn(nodeById, (node, id) => {
+	  forIn(nodeById, function (node, id) {
 	    // in edges, out edges
-	    node.inEdges = edges.filter(edge => `${options.target(edge)}` === `${id}`);
-	    node.outEdges = edges.filter(edge => `${options.source(edge)}` === `${id}`);
+	    node.inEdges = edges.filter(function (edge) {
+	      return '' + options.target(edge) === '' + id;
+	    });
+	    node.outEdges = edges.filter(function (edge) {
+	      return '' + options.source(edge) === '' + id;
+	    });
 	    // frequency
 	    node.edges = node.outEdges.concat(node.inEdges);
 	    node.frequency = node.edges.length;
 	    // weight
 	    node.value = 0;
-	    node.inEdges.forEach(edge => {
+	    node.inEdges.forEach(function (edge) {
 	      node.value += options.targetWeight(edge);
 	    });
-	    node.outEdges.forEach(edge => {
+	    node.outEdges.forEach(function (edge) {
 	      node.value += options.sourceWeight(edge);
 	    });
 	  });
 	}
 
 	function _sortNodes(nodes, options) {
-	  const sortMethods = {
-	    weight: (a, b) => b.value - a.value,
-	    frequency: (a, b) => b.frequency - a.frequency,
-	    id: (a, b) => (`${options.id(a)}`).localeCompare(`${options.id(b)}`)
+	  var sortMethods = {
+	    weight: function weight(a, b) {
+	      return b.value - a.value;
+	    },
+	    frequency: function frequency(a, b) {
+	      return b.frequency - a.frequency;
+	    },
+	    id: function id(a, b) {
+	      return ('' + options.id(a)).localeCompare('' + options.id(b));
+	    }
 	  };
-	  let method = sortMethods[options.sortBy];
+	  var method = sortMethods[options.sortBy];
 	  if (!method && isFunction(options.sortBy)) {
 	    method = options.sortBy;
 	  }
@@ -94755,41 +94914,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function _layoutNodes(nodes, options) {
-	  const len = nodes.length;
+	  var len = nodes.length;
 	  if (!len) {
 	    throw new TypeError('Invalid nodes: it\'s empty!');
 	  }
 	  if (options.weight) {
-	    const marginRatio = options.marginRatio;
+	    var marginRatio = options.marginRatio;
 	    if (marginRatio < 0 || marginRatio >= 1) {
 	      throw new TypeError('Invalid marginRatio: it must be in range [0, 1)!');
 	    }
-	    const margin = marginRatio / (2 * len);
-	    const thickness = options.thickness;
+	    var margin = marginRatio / (2 * len);
+	    var thickness = options.thickness;
 	    if (thickness <= 0 || thickness >= 1) {
 	      throw new TypeError('Invalid thickness: it must be in range (0, 1)!');
 	    }
-	    let totalValue = 0;
-	    nodes.forEach(node => {
+	    var totalValue = 0;
+	    nodes.forEach(function (node) {
 	      totalValue += node.value;
 	    });
-	    nodes.forEach(node => {
+	    nodes.forEach(function (node) {
 	      node.weight = node.value / totalValue;
 	      node.width = node.weight * (1 - marginRatio);
 	      node.height = thickness;
 	    });
-	    nodes.forEach((node, index) => {
+	    nodes.forEach(function (node, index) {
 	      // x
-	      let deltaX = 0;
-	      for (let i = index - 1; i >= 0; i--) {
+	      var deltaX = 0;
+	      for (var i = index - 1; i >= 0; i--) {
 	        deltaX += nodes[i].width + 2 * margin;
 	      }
-	      const minX = node.minX = margin + deltaX;
-	      const maxX = node.maxX = node.minX + node.width;
-	      const minY = node.minY = options.y - thickness / 2;
-	      const maxY = node.maxY = minY + thickness;
-	      node.x = [ minX, maxX, maxX, minX ];
-	      node.y = [ minY, minY, maxY, maxY ];
+	      var minX = node.minX = margin + deltaX;
+	      var maxX = node.maxX = node.minX + node.width;
+	      var minY = node.minY = options.y - thickness / 2;
+	      var maxY = node.maxY = minY + thickness;
+	      node.x = [minX, maxX, maxX, minX];
+	      node.y = [minY, minY, maxY, maxY];
 	      /* points
 	       * 3---2
 	       * |   |
@@ -94799,8 +94958,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // node.y = options.y;
 	    });
 	  } else {
-	    const deltaX = 1 / len;
-	    nodes.forEach((node, index) => {
+	    var deltaX = 1 / len;
+	    nodes.forEach(function (node, index) {
 	      node.x = (index + 0.5) * deltaX;
 	      node.y = options.y;
 	    });
@@ -94809,40 +94968,40 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _locatingEdges(nodeById, edges, options) {
 	  if (options.weight) {
-	    const valueById = {};
-	    forIn(nodeById, (node, id) => {
+	    var valueById = {};
+	    forIn(nodeById, function (node, id) {
 	      valueById[id] = node.value;
 	    });
-	    edges.forEach(edge => {
-	      const sId = options.source(edge);
-	      const tId = options.target(edge);
-	      const sNode = nodeById[sId];
-	      const tNode = nodeById[tId];
+	    edges.forEach(function (edge) {
+	      var sId = options.source(edge);
+	      var tId = options.target(edge);
+	      var sNode = nodeById[sId];
+	      var tNode = nodeById[tId];
 	      if (sNode && tNode) {
-	        const sValue = valueById[sId];
-	        const currentSValue = options.sourceWeight(edge);
-	        const sStart = sNode.minX + ((sNode.value - sValue) / sNode.value) * sNode.width;
-	        const sEnd = sStart + currentSValue / sNode.value * sNode.width;
+	        var sValue = valueById[sId];
+	        var currentSValue = options.sourceWeight(edge);
+	        var sStart = sNode.minX + (sNode.value - sValue) / sNode.value * sNode.width;
+	        var sEnd = sStart + currentSValue / sNode.value * sNode.width;
 	        valueById[sId] -= currentSValue;
 
-	        const tValue = valueById[tId];
-	        const currentTValue = options.targetWeight(edge);
-	        const tStart = tNode.minX + ((tNode.value - tValue) / tNode.value) * tNode.width;
-	        const tEnd = tStart + currentTValue / tNode.value * tNode.width;
+	        var tValue = valueById[tId];
+	        var currentTValue = options.targetWeight(edge);
+	        var tStart = tNode.minX + (tNode.value - tValue) / tNode.value * tNode.width;
+	        var tEnd = tStart + currentTValue / tNode.value * tNode.width;
 	        valueById[tId] -= currentTValue;
 
-	        const y = options.y;
-	        edge.x = [ sStart, sEnd, tStart, tEnd ];
-	        edge.y = [ y, y, y, y ];
+	        var y = options.y;
+	        edge.x = [sStart, sEnd, tStart, tEnd];
+	        edge.y = [y, y, y, y];
 	      }
 	    });
 	  } else {
-	    edges.forEach(edge => {
-	      const sNode = nodeById[options.source(edge)];
-	      const tNode = nodeById[options.target(edge)];
+	    edges.forEach(function (edge) {
+	      var sNode = nodeById[options.source(edge)];
+	      var tNode = nodeById[options.target(edge)];
 	      if (sNode && tNode) {
-	        edge.x = [ sNode.x, tNode.x ];
-	        edge.y = [ sNode.y, tNode.y ];
+	        edge.x = [sNode.x, tNode.x];
+	        edge.y = [sNode.y, tNode.y];
 	      }
 	    });
 	  }
@@ -94850,14 +95009,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dv, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const nodeById = {};
-	  let nodes = dv.nodes;
-	  const edges = dv.edges;
+	  var nodeById = {};
+	  var nodes = dv.nodes;
+	  var edges = dv.edges;
 	  if (!isArray(nodes) || nodes.length === 0) {
 	    nodes = _nodesFromEdges(edges, options, nodeById);
 	  }
-	  nodes.forEach(node => {
-	    const id = options.id(node);
+	  nodes.forEach(function (node) {
+	    var id = options.id(node);
 	    nodeById[id] = node;
 	  });
 	  _processGraph(nodeById, edges, options);
@@ -94871,7 +95030,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('diagram.arc', transform);
 	registerTransform('arc', transform);
 
-
 /***/ },
 /* 109 */
 /***/ function(module, exports, __webpack_require__) {
@@ -94880,32 +95038,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * for Sankey Diagram
 	 * graph data required (nodes, edges)
 	 */
-	const assign = __webpack_require__(2);
-	const isString = __webpack_require__(6);
-	const isFunction = __webpack_require__(11);
-	const {
-	  sankey,
-	  sankeyLeft,
-	  sankeyRight,
-	  sankeyCenter,
-	  sankeyJustify
-	} = __webpack_require__(169);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var isString = __webpack_require__(6);
+	var isFunction = __webpack_require__(11);
 
-	const ALIGN_METHOD = {
-	  sankeyLeft,
-	  sankeyRight,
-	  sankeyCenter,
-	  sankeyJustify
+	var _require = __webpack_require__(169),
+	    sankey = _require.sankey,
+	    sankeyLeft = _require.sankeyLeft,
+	    sankeyRight = _require.sankeyRight,
+	    sankeyCenter = _require.sankeyCenter,
+	    sankeyJustify = _require.sankeyJustify;
+
+	var _require2 = __webpack_require__(1),
+	    registerTransform = _require2.registerTransform;
+
+	var ALIGN_METHOD = {
+	  sankeyLeft: sankeyLeft,
+	  sankeyRight: sankeyRight,
+	  sankeyCenter: sankeyCenter,
+	  sankeyJustify: sankeyJustify
 	};
 
-	const DEFAULT_OPTIONS = {
+	var DEFAULT_OPTIONS = {
 	  // nodeId: node => node.index,
-	  value: node => node.value,
-	  source: edge => edge.source,
-	  target: edge => edge.target,
+	  value: function value(node) {
+	    return node.value;
+	  },
+	  source: function source(edge) {
+	    return edge.source;
+	  },
+	  target: function target(edge) {
+	    return edge.target;
+	  },
 	  nodeAlign: 'sankeyJustify',
 	  nodeWidth: 0.02,
 	  nodePadding: 0.02
@@ -94913,17 +95077,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dv, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  let nodeAlign = null;
+	  var nodeAlign = null;
 	  if (isString(options.nodeAlign)) {
 	    nodeAlign = ALIGN_METHOD[options.nodeAlign];
 	  } else if (isFunction(options.nodeAlign)) {
 	    nodeAlign = options.nodeAlign;
 	  }
-	  const sankeyProcessor = sankey()
-	    .links(d => d.edges)
-	    .nodeWidth(options.nodeWidth)
-	    .nodePadding(options.nodePadding)
-	    .extent([[ 0, 0 ], [ 1, 1 ]]);
+	  var sankeyProcessor = sankey().links(function (d) {
+	    return d.edges;
+	  }).nodeWidth(options.nodeWidth).nodePadding(options.nodePadding).extent([[0, 0], [1, 1]]);
 	  if (isFunction(options.nodeId)) {
 	    sankeyProcessor.nodeId(options.nodeId);
 	  }
@@ -94932,104 +95094,113 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  sankeyProcessor(dv);
 	  // post process (x, y), etc.
-	  dv.nodes.forEach(node => {
-	    const { x0, x1, y0, y1 } = node;
+	  dv.nodes.forEach(function (node) {
+	    var x0 = node.x0,
+	        x1 = node.x1,
+	        y0 = node.y0,
+	        y1 = node.y1;
 	    /* points
 	     * 3---2
 	     * |   |
 	     * 0---1
 	     */
-	    node.x = [ x0, x1, x1, x0 ];
-	    node.y = [ y0, y0, y1, y1 ];
+
+	    node.x = [x0, x1, x1, x0];
+	    node.y = [y0, y0, y1, y1];
 	  });
-	  dv.edges.forEach(edge => {
-	    const {
-	      source,
-	      target
-	    } = edge;
-	    const sx = source.x1;
-	    const tx = target.x0;
-	    edge.x = [ sx, sx, tx, tx ];
-	    const offset = edge.width / 2;
-	    edge.y = [ edge.y0 + offset, edge.y0 - offset, edge.y1 + offset, edge.y1 - offset ];
+	  dv.edges.forEach(function (edge) {
+	    var source = edge.source,
+	        target = edge.target;
+
+	    var sx = source.x1;
+	    var tx = target.x0;
+	    edge.x = [sx, sx, tx, tx];
+	    var offset = edge.width / 2;
+	    edge.y = [edge.y0 + offset, edge.y0 - offset, edge.y1 + offset, edge.y1 - offset];
 	  });
 	}
 
 	registerTransform('diagram.sankey', transform);
 	registerTransform('sankey', transform);
 
-
 /***/ },
 /* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Voronoi = __webpack_require__(171);
-	const isArray = __webpack_require__(3);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Voronoi = __webpack_require__(171);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var DEFAULT_OPTIONS = {
 	  // fields: [ 'x', 'y' ] // field x and field y, required
 	  // extend: [[x0, y0], [x1, y1]], // optional
 	  // size: [width, height], // optional
-	  as: [ '_x', '_y' ]
+	  as: ['_x', '_y']
 	};
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: must be an array with two strings!');
 	  }
-	  const xField = as[0];
-	  const yField = as[1];
+	  var xField = as[0];
+	  var yField = as[1];
 
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields) && fields.length !== 2) {
 	    throw new TypeError('Invalid fields: must be an array with two strings!');
 	  }
-	  const x = fields[0];
-	  const y = fields[1];
+	  var x = fields[0];
+	  var y = fields[1];
 
-	  const rows = dataView.rows;
-	  const data = rows.map(row => [ row[x], row[y] ]);
-	  const voronoi = d3Voronoi.voronoi();
+	  var rows = dataView.rows;
+	  var data = rows.map(function (row) {
+	    return [row[x], row[y]];
+	  });
+	  var voronoi = d3Voronoi.voronoi();
 	  if (options.extend) {
 	    voronoi.extent(options.extend);
 	  }
 	  if (options.size) {
 	    voronoi.size(options.size);
 	  }
-	  const polygons = voronoi(data).polygons();
-	  rows.forEach((row, i) => {
-	    const polygon = polygons[i].filter(point => !!point); // some points are null
-	    row[xField] = polygon.map(point => point[0]);
-	    row[yField] = polygon.map(point => point[1]);
+	  var polygons = voronoi(data).polygons();
+	  rows.forEach(function (row, i) {
+	    var polygon = polygons[i].filter(function (point) {
+	      return !!point;
+	    }); // some points are null
+	    row[xField] = polygon.map(function (point) {
+	      return point[0];
+	    });
+	    row[yField] = polygon.map(function (point) {
+	      return point[1];
+	    });
 	  });
 	}
 
 	registerTransform('diagram.voronoi', transform);
 	registerTransform('voronoi', transform);
 
-
 /***/ },
 /* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {
 	  fillBy: 'group', // group | order
 	  groupBy: [],
 	  orderBy: []
@@ -95037,9 +95208,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function arrayDifference(arr1, arr2) {
 	  // arrayDifference([1, 1, 1, 2], [1, 2]) => [1, 1]
-	  const shadow = arr1.map(item => item); // shadow copy
-	  arr2.forEach(item => {
-	    const index = shadow.indexOf(item);
+	  var shadow = arr1.map(function (item) {
+	    return item;
+	  }); // shadow copy
+	  arr2.forEach(function (item) {
+	    var index = shadow.indexOf(item);
 	    if (index > -1) {
 	      shadow.splice(index, 1);
 	    }
@@ -95047,45 +95220,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return shadow;
 	}
 
-	function transform(dataView, options = {}) {
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const rows = dataView.rows;
-	  const groupBy = options.groupBy;
-	  const orderBy = options.orderBy;
-	  const groups = partition(rows, groupBy, orderBy);
-	  let maxLength = 0;
-	  let referenceGroup = [];
-	  forIn(groups, group => {
+	  var rows = dataView.rows;
+	  var groupBy = options.groupBy;
+	  var orderBy = options.orderBy;
+	  var groups = partition(rows, groupBy, orderBy);
+	  var maxLength = 0;
+	  var referenceGroup = [];
+	  forIn(groups, function (group) {
 	    if (group.length > maxLength) {
 	      maxLength = group.length;
 	      referenceGroup = group;
 	    }
 	  });
-	  const referenceOrderByKeys = [];
-	  const referenceRowByOrderByKey = {};
-	  referenceGroup.forEach(row => {
-	    const key = orderBy.map(col => row[col]).join('-');
+	  var referenceOrderByKeys = [];
+	  var referenceRowByOrderByKey = {};
+	  referenceGroup.forEach(function (row) {
+	    var key = orderBy.map(function (col) {
+	      return row[col];
+	    }).join('-');
 	    referenceOrderByKeys.push(key);
 	    referenceRowByOrderByKey[key] = row;
 	  });
 	  if (options.fillBy === 'order') {
-	    const first = referenceGroup[0];
-	    const allOrderByKeys = [];
-	    const rowByOrderByKey = {};
-	    rows.forEach(row => {
-	      const key = orderBy.map(col => row[col]).join('-');
+	    var first = referenceGroup[0];
+	    var allOrderByKeys = [];
+	    var rowByOrderByKey = {};
+	    rows.forEach(function (row) {
+	      var key = orderBy.map(function (col) {
+	        return row[col];
+	      }).join('-');
 	      if (allOrderByKeys.indexOf(key) === -1) {
 	        allOrderByKeys.push(key);
 	        rowByOrderByKey[key] = row;
 	      }
 	    });
-	    const _missingOrderByKeys = arrayDifference(allOrderByKeys, referenceOrderByKeys);
-	    _missingOrderByKeys.forEach(key => {
-	      const row = {};
-	      groupBy.forEach(col => {
+	    var _missingOrderByKeys = arrayDifference(allOrderByKeys, referenceOrderByKeys);
+	    _missingOrderByKeys.forEach(function (key) {
+	      var row = {};
+	      groupBy.forEach(function (col) {
 	        row[col] = first[col];
 	      });
-	      orderBy.forEach(col => {
+	      orderBy.forEach(function (col) {
 	        row[col] = rowByOrderByKey[key][col];
 	      });
 	      rows.push(row);
@@ -95095,25 +95274,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	    maxLength = referenceGroup.length;
 	  }
-	  forIn(groups, group => {
+	  forIn(groups, function (group) {
 	    if (group !== referenceGroup && group.length < maxLength) {
-	      const first = group[0];
+	      var _first = group[0];
 	      // missing orderBy keys
-	      const orderByKeys = [];
-	      group.forEach(row => {
-	        orderByKeys.push(orderBy.map(col => row[col]).join('-'));
+	      var orderByKeys = [];
+	      group.forEach(function (row) {
+	        orderByKeys.push(orderBy.map(function (col) {
+	          return row[col];
+	        }).join('-'));
 	      });
-	      const missingOrderByKeys = arrayDifference(referenceOrderByKeys, orderByKeys);
-	      missingOrderByKeys.some((key, i) => {
-	        if (i >= (maxLength - group.length)) { // group length overflow
+	      var missingOrderByKeys = arrayDifference(referenceOrderByKeys, orderByKeys);
+	      missingOrderByKeys.some(function (key, i) {
+	        if (i >= maxLength - group.length) {
+	          // group length overflow
 	          return true;
 	        }
-	        const referenceRow = referenceRowByOrderByKey[key];
-	        const row = {};
-	        groupBy.forEach(col => {
-	          row[col] = first[col];
+	        var referenceRow = referenceRowByOrderByKey[key];
+	        var row = {};
+	        groupBy.forEach(function (col) {
+	          row[col] = _first[col];
 	        });
-	        orderBy.forEach(col => {
+	        orderBy.forEach(function (col) {
 	          row[col] = referenceRow[col];
 	        });
 	        rows.push(row);
@@ -95126,14 +95308,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('fill-rows', transform);
 	registerTransform('fillRows', transform);
 
-
 /***/ },
 /* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
 	/*
 	 * options: {
@@ -95146,50 +95326,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return !!row;
 	}
 
-	registerTransform('filter', (dataView, options = {}) => {
+	registerTransform('filter', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  dataView.rows = dataView.rows.filter(options.callback || defaultCallback);
 	});
-
 
 /***/ },
 /* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const difference = __webpack_require__(152);
-	const pick = __webpack_require__(22);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var difference = __webpack_require__(152);
+	var pick = __webpack_require__(22);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var DEFAULT_OPTIONS = {
 	  fields: [],
 	  key: 'key',
 	  retains: [],
 	  value: 'value'
 	};
 
-	registerTransform('fold', (dataView, options) => {
-	  const columns = dataView.getColumnNames();
+	registerTransform('fold', function (dataView, options) {
+	  var columns = dataView.getColumnNames();
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  let fields = getFields(options);
+	  var fields = getFields(options);
 	  if (fields.length === 0) {
 	    console.warn('warning: option fields is not specified, will fold all columns.');
 	    fields = columns;
 	  }
-	  const key = options.key;
-	  const value = options.value;
-	  let retains = options.retains;
+	  var key = options.key;
+	  var value = options.value;
+	  var retains = options.retains;
 	  if (retains.length === 0) {
 	    retains = difference(columns, fields);
 	  }
-	  const resultRows = [];
-	  dataView.rows.forEach(row => {
-	    fields.forEach(field => {
-	      const resultRow = pick(row, retains);
+	  var resultRows = [];
+	  dataView.rows.forEach(function (row) {
+	    fields.forEach(function (field) {
+	      var resultRow = pick(row, retains);
 	      resultRow[key] = field;
 	      resultRow[value] = row[field];
 	      resultRows.push(resultRow);
@@ -95198,47 +95379,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  dataView.rows = resultRows;
 	});
 
-
 /***/ },
 /* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  // field: 'name', // required
 	  // geoView: view, // required
 	  // geoDataView: view, // alias
-	  as: [ '_centroid_x', '_centroid_y' ]
+	  as: ['_centroid_x', '_centroid_y']
 	};
 
 	function transform(view, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  let geoView = options.geoView || options.geoDataView; // alias
+	  var field = getField(options);
+	  var geoView = options.geoView || options.geoDataView; // alias
 	  if (isString(geoView)) {
 	    geoView = view.dataSet.getView(geoView);
 	  }
 	  if (!geoView || geoView.dataType !== 'geo') {
 	    throw new TypeError('Invalid geoView: must be a DataView of GEO dataType!');
 	  }
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "cX", "cY" ])!');
 	  }
 
-	  const centroidX = as[0];
-	  const centroidY = as[1];
-	  view.rows.forEach(row => {
-	    const feature = geoView.geoFeatureByName(row[field]);
+	  var centroidX = as[0];
+	  var centroidY = as[1];
+	  view.rows.forEach(function (row) {
+	    var feature = geoView.geoFeatureByName(row[field]);
 	    if (feature) {
 	      if (geoView._projectedAs) {
 	        row[centroidX] = feature[geoView._projectedAs[2]];
@@ -95253,26 +95433,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('geo.centroid', transform);
 
-
 /***/ },
 /* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Geo = __webpack_require__(28);
-	const getPointAtLength = __webpack_require__(62);
-	const isArray = __webpack_require__(3);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const getGeoProjection = __webpack_require__(49);
+	var assign = __webpack_require__(2);
+	var d3Geo = __webpack_require__(28);
+	var getPointAtLength = __webpack_require__(62);
+	var isArray = __webpack_require__(3);
 
-	const {
-	  geoPath
-	} = d3Geo;
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var getGeoProjection = __webpack_require__(49);
+
+	var geoPath = d3Geo.geoPath;
+
+	var DEFAULT_OPTIONS = {
 	  // projection: '', // default to null
-	  as: [ '_x', '_y', '_centroid_x', '_centroid_y' ]
+	  as: ['_x', '_y', '_centroid_x', '_centroid_y']
 	};
 
 	function transform(dataView, options) {
@@ -95280,79 +95459,84 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError('Invalid dataView: this transform is for Geo data only!');
 	  }
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  let projection = options.projection;
+	  var projection = options.projection;
 	  if (!projection) {
 	    throw new TypeError('Invalid projection!');
 	  }
 	  projection = getGeoProjection(projection);
-	  const geoPathGenerator = geoPath(projection);
-	  const as = options.as;
+	  var geoPathGenerator = geoPath(projection);
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 4) {
 	    throw new TypeError('Invalid as: it must be an array with 4 strings (e.g. [ "x", "y", "cX", "cY" ])!');
 	  }
 	  dataView._projectedAs = as;
-	  const [ lonField, latField, centroidX, centroidY ] = as;
-	  dataView.rows.forEach(row => {
+	  var lonField = as[0],
+	      latField = as[1],
+	      centroidX = as[2],
+	      centroidY = as[3];
+
+	  dataView.rows.forEach(function (row) {
 	    row[lonField] = [];
 	    row[latField] = [];
-	    const pathData = geoPathGenerator(row);
+	    var pathData = geoPathGenerator(row);
 	    if (pathData) {
 	      // TODO projection returns null
-	      const points = getPointAtLength(pathData);
-	      points._path.forEach(point => {
+	      var points = getPointAtLength(pathData);
+	      points._path.forEach(function (point) {
 	        row[lonField].push(point[1]);
 	        row[latField].push(point[2]);
 	      });
-	      const centroid = geoPathGenerator.centroid(row);
+	      var centroid = geoPathGenerator.centroid(row);
 	      row[centroidX] = centroid[0];
 	      row[centroidY] = centroid[1];
 	    }
 	  });
-	  dataView.rows = dataView.rows.filter(row => row[lonField].length !== 0);
+	  dataView.rows = dataView.rows.filter(function (row) {
+	    return row[lonField].length !== 0;
+	  });
 	}
 
 	registerTransform('geo.projection', transform);
-
 
 /***/ },
 /* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  // field: 'name', // required
 	  // geoView: view, // required
 	  // geoDataView: view, // alias
-	  as: [ '_x', '_y' ]
+	  as: ['_x', '_y']
 	};
 
 	function transform(view, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  let geoView = options.geoView || options.geoDataView; // alias
+	  var field = getField(options);
+	  var geoView = options.geoView || options.geoDataView; // alias
 	  if (isString(geoView)) {
 	    geoView = view.dataSet.getView(geoView);
 	  }
 	  if (!geoView || geoView.dataType !== 'geo') {
 	    throw new TypeError('Invalid geoView: must be a DataView of GEO dataType!');
 	  }
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "x", "y" ])!');
 	  }
-	  const lonField = as[0];
-	  const latField = as[1];
-	  view.rows.forEach(row => {
-	    const feature = geoView.geoFeatureByName(row[field]);
+	  var lonField = as[0];
+	  var latField = as[1];
+	  view.rows.forEach(function (row) {
+	    var feature = geoView.geoFeatureByName(row[field]);
 	    if (feature) {
 	      if (geoView._projectedAs) {
 	        row[lonField] = feature[geoView._projectedAs[0]];
@@ -95367,55 +95551,55 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('geo.region', transform);
 
-
 /***/ },
 /* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Hierarchy = __webpack_require__(24);
-	const isArray = __webpack_require__(3);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Hierarchy = __webpack_require__(24);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  field: 'value',
-	  size: [ 1, 1 ], // width, height
+	  size: [1, 1], // width, height
 	  nodeSize: null,
 	  separation: null,
-	  as: [ 'x', 'y' ]
+	  as: ['x', 'y']
 	};
 
 	function transform(dataView, options) {
 	  if (dataView.dataType !== HIERARCHY) {
 	    throw new TypeError('Invalid DataView: This transform is for Hierarchy data only!');
 	  }
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "x", "y" ])!');
 	  }
 
-	  let field;
+	  var field = void 0;
 	  try {
 	    field = getField(options);
 	  } catch (e) {
 	    console.warn(e);
 	  }
 	  if (field) {
-	    root.sum(d => d[field]);
+	    root.sum(function (d) {
+	      return d[field];
+	    });
 	  }
 
-	  const clusterLayout = d3Hierarchy.cluster();
-	  clusterLayout
-	    .size(options.size);
+	  var clusterLayout = d3Hierarchy.cluster();
+	  clusterLayout.size(options.size);
 	  if (options.nodeSize) {
 	    clusterLayout.nodeSize(options.nodeSize);
 	  }
@@ -95424,9 +95608,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  clusterLayout(root);
 
-	  const x = as[0];
-	  const y = as[1];
-	  root.each(node => {
+	  var x = as[0];
+	  var y = as[1];
+	  root.each(function (node) {
 	    node[x] = node.x;
 	    node[y] = node.y;
 	  });
@@ -95435,22 +95619,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.cluster', transform);
 	registerTransform('dendrogram', transform);
 
-
 /***/ },
 /* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const hierarchy = __webpack_require__(40);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
+	var hierarchy = __webpack_require__(40);
 
-	const DEFAULT_OPTIONS = {
-	};
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {};
 
 	function transform(dataView, options) {
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	  if (dataView.dataType !== HIERARCHY) {
@@ -95465,22 +95647,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('non-layered-tidy-tree', transform);
 	registerTransform('mindmap-logical', transform);
 
-
 /***/ },
 /* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const hierarchy = __webpack_require__(40);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
+	var hierarchy = __webpack_require__(40);
 
-	const DEFAULT_OPTIONS = {
-	};
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {};
 
 	function transform(dataView, options) {
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	  if (dataView.dataType !== HIERARCHY) {
@@ -95493,22 +95673,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.dendrogram', transform);
 	registerTransform('dendrogram', transform);
 
-
 /***/ },
 /* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const hierarchy = __webpack_require__(40);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
+	var hierarchy = __webpack_require__(40);
 
-	const DEFAULT_OPTIONS = {
-	};
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {};
 
 	function transform(dataView, options) {
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = Object.assign({}, DEFAULT_OPTIONS, options);
 
 	  if (dataView.dataType !== HIERARCHY) {
@@ -95521,53 +95699,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.indented', transform);
 	registerTransform('indented-tree', transform);
 
-
 /***/ },
 /* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Hierarchy = __webpack_require__(24);
-	const isArray = __webpack_require__(3);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Hierarchy = __webpack_require__(24);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  field: 'value',
-	  size: [ 1, 1 ], // width, height
+	  size: [1, 1], // width, height
 	  padding: 0,
-	  as: [ 'x', 'y', 'r' ]
+	  as: ['x', 'y', 'r']
 	};
 
 	function transform(dataView, options) {
 	  if (dataView.dataType !== HIERARCHY) {
 	    throw new TypeError('Invalid DataView: This transform is for Hierarchy data only!');
 	  }
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 3) {
 	    throw new TypeError('Invalid as: it must be an array with 3 strings (e.g. [ "x", "y", "r" ])!');
 	  }
 
-	  let field;
+	  var field = void 0;
 	  try {
 	    field = getField(options);
 	  } catch (e) {
 	    console.warn(e);
 	  }
 	  if (field) {
-	    root.sum(d => d[field])
-	      .sort((a, b) => b[field] - a[field]);
+	    root.sum(function (d) {
+	      return d[field];
+	    }).sort(function (a, b) {
+	      return b[field] - a[field];
+	    });
 	  }
 
-	  const packLayout = d3Hierarchy.pack();
+	  var packLayout = d3Hierarchy.pack();
 	  packLayout.size(options.size);
 
 	  if (options.padding) {
@@ -95575,10 +95755,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  packLayout(root);
 
-	  const x = as[0];
-	  const y = as[1];
-	  const r = as[2];
-	  root.each(node => {
+	  var x = as[0];
+	  var y = as[1];
+	  var r = as[2];
+	  root.each(function (node) {
 	    node[x] = node.x;
 	    node[y] = node.y;
 	    node[r] = node.r;
@@ -95589,59 +95769,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.circle-packing', transform);
 	registerTransform('circle-packing', transform);
 
-
 /***/ },
 /* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Hierarchy = __webpack_require__(24);
-	const isArray = __webpack_require__(3);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Hierarchy = __webpack_require__(24);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  field: 'value',
-	  size: [ 1, 1 ], // width, height
+	  size: [1, 1], // width, height
 	  round: false,
 	  // ratio: 1.618033988749895, // golden ratio
 	  padding: 0,
 	  sort: true,
-	  as: [ 'x', 'y' ]
+	  as: ['x', 'y']
 	};
 
 	function transform(dataView, options) {
 	  if (dataView.dataType !== HIERARCHY) {
 	    throw new TypeError('Invalid DataView: This transform is for Hierarchy data only!');
 	  }
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "x", "y" ])!');
 	  }
 
-	  let field;
+	  var field = void 0;
 	  try {
 	    field = getField(options);
 	  } catch (e) {
 	    console.warn(e);
 	  }
 	  if (field) {
-	    root.sum(d => d[field]);
+	    root.sum(function (d) {
+	      return d[field];
+	    });
 	  }
 
-	  const partitionLayout = d3Hierarchy.partition();
-	  partitionLayout
-	    .size(options.size)
-	    .round(options.round)
-	    .padding(options.padding);
+	  var partitionLayout = d3Hierarchy.partition();
+	  partitionLayout.size(options.size).round(options.round).padding(options.padding);
 	  partitionLayout(root);
 
 	  /*
@@ -95649,12 +95827,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   3  2
 	   *   0  1
 	   */
-	  const x = as[0];
-	  const y = as[1];
-	  root.each(node => {
-	    node[x] = [ node.x0, node.x1, node.x1, node.x0 ];
-	    node[y] = [ node.y1, node.y1, node.y0, node.y0 ];
-	    [ 'x0', 'x1', 'y0', 'y1' ].forEach(prop => {
+	  var x = as[0];
+	  var y = as[1];
+	  root.each(function (node) {
+	    node[x] = [node.x0, node.x1, node.x1, node.x0];
+	    node[y] = [node.y1, node.y1, node.y0, node.y0];
+	    ['x0', 'x1', 'y0', 'y1'].forEach(function (prop) {
 	      if (as.indexOf(prop) === -1) {
 	        delete node[prop];
 	      }
@@ -95665,55 +95843,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.partition', transform);
 	registerTransform('adjacency', transform);
 
-
 /***/ },
 /* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Hierarchy = __webpack_require__(24);
-	const isArray = __webpack_require__(3);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Hierarchy = __webpack_require__(24);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  field: 'value',
-	  size: [ 1, 1 ], // width, height
+	  size: [1, 1], // width, height
 	  nodeSize: null,
 	  separation: null,
-	  as: [ 'x', 'y' ]
+	  as: ['x', 'y']
 	};
 
 	function transform(dataView, options) {
 	  if (dataView.dataType !== HIERARCHY) {
 	    throw new TypeError('Invalid DataView: This transform is for Hierarchy data only!');
 	  }
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "x", "y" ])!');
 	  }
 
-	  let field;
+	  var field = void 0;
 	  try {
 	    field = getField(options);
 	  } catch (e) {
 	    console.warn(e);
 	  }
 	  if (field) {
-	    root.sum(d => d[field]);
+	    root.sum(function (d) {
+	      return d[field];
+	    });
 	  }
 
-	  const treeLayout = d3Hierarchy.tree();
-	  treeLayout
-	    .size(options.size);
+	  var treeLayout = d3Hierarchy.tree();
+	  treeLayout.size(options.size);
 	  if (options.nodeSize) {
 	    treeLayout.nodeSize(options.nodeSize);
 	  }
@@ -95722,9 +95900,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  treeLayout(root);
 
-	  const x = as[0];
-	  const y = as[1];
-	  root.each(node => {
+	  var x = as[0];
+	  var y = as[1];
+	  root.each(function (node) {
 	    node[x] = node.x;
 	    node[y] = node.y;
 	  });
@@ -95733,26 +95911,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.tree', transform);
 	registerTransform('tree', transform);
 
-
 /***/ },
 /* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const d3Hierarchy = __webpack_require__(24);
-	const isArray = __webpack_require__(3);
-	const {
-	  HIERARCHY,
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var d3Hierarchy = __webpack_require__(24);
+	var isArray = __webpack_require__(3);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    HIERARCHY = _require.HIERARCHY,
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  field: 'value',
 	  tile: 'treemapSquarify', // treemapBinary, treemapDice, treemapSlice, treemapSliceDice, treemapSquarify, treemapResquarify
-	  size: [ 1, 1 ], // width, height
+	  size: [1, 1], // width, height
 	  round: false,
 	  // ratio: 1.618033988749895, // golden ratio
 	  padding: 0,
@@ -95762,43 +95939,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	  paddingRight: 0,
 	  paddingBottom: 0,
 	  paddingLeft: 0,
-	  as: [ 'x', 'y' ]
+	  as: ['x', 'y']
 	};
 
 	function transform(dataView, options) {
 	  if (dataView.dataType !== HIERARCHY) {
 	    throw new TypeError('Invalid DataView: This transform is for Hierarchy data only!');
 	  }
-	  const root = dataView.root;
+	  var root = dataView.root;
 	  options = assign({}, DEFAULT_OPTIONS, options);
 
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 2) {
 	    throw new TypeError('Invalid as: it must be an array with 2 strings (e.g. [ "x", "y" ])!');
 	  }
 
-	  let field;
+	  var field = void 0;
 	  try {
 	    field = getField(options);
 	  } catch (e) {
 	    console.warn(e);
 	  }
 	  if (field) {
-	    root.sum(d => d[field]);
+	    root.sum(function (d) {
+	      return d[field];
+	    });
 	  }
 
-	  const treemapLayout = d3Hierarchy.treemap();
-	  treemapLayout
-	    .tile(d3Hierarchy[options.tile])
-	    .size(options.size)
-	    .round(options.round)
-	    .padding(options.padding)
-	    .paddingInner(options.paddingInner)
-	    .paddingOuter(options.paddingOuter)
-	    .paddingTop(options.paddingTop)
-	    .paddingRight(options.paddingRight)
-	    .paddingBottom(options.paddingBottom)
-	    .paddingLeft(options.paddingLeft);
+	  var treemapLayout = d3Hierarchy.treemap();
+	  treemapLayout.tile(d3Hierarchy[options.tile]).size(options.size).round(options.round).padding(options.padding).paddingInner(options.paddingInner).paddingOuter(options.paddingOuter).paddingTop(options.paddingTop).paddingRight(options.paddingRight).paddingBottom(options.paddingBottom).paddingLeft(options.paddingLeft);
 	  treemapLayout(root);
 
 	  /*
@@ -95806,12 +95975,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   3  2
 	   *   0  1
 	   */
-	  const x = as[0];
-	  const y = as[1];
-	  root.each(node => {
-	    node[x] = [ node.x0, node.x1, node.x1, node.x0 ];
-	    node[y] = [ node.y1, node.y1, node.y0, node.y0 ];
-	    [ 'x0', 'x1', 'y0', 'y1' ].forEach(prop => {
+	  var x = as[0];
+	  var y = as[1];
+	  root.each(function (node) {
+	    node[x] = [node.x0, node.x1, node.x1, node.x0];
+	    node[y] = [node.y1, node.y1, node.y0, node.y0];
+	    ['x0', 'x1', 'y0', 'y1'].forEach(function (prop) {
 	      if (as.indexOf(prop) === -1) {
 	        delete node[prop];
 	      }
@@ -95822,27 +95991,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('hierarchy.treemap', transform);
 	registerTransform('treemap', transform);
 
-
 /***/ },
 /* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const has = __webpack_require__(159);
-	const isFunction = __webpack_require__(11);
-	const isUndefined = __webpack_require__(161);
-	const isString = __webpack_require__(6);
-	const simpleStatistics = __webpack_require__(16);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var has = __webpack_require__(159);
+	var isFunction = __webpack_require__(11);
+	var isUndefined = __webpack_require__(161);
+	var isString = __webpack_require__(6);
+	var simpleStatistics = __webpack_require__(16);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  // field: '', // required
 	  // method: 'value', // required
 	  // value: 10, // required if (method === 'value')
@@ -95850,46 +96018,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	function notUndefinedValues(values) {
-	  return values.filter(value => !isUndefined(value));
+	  return values.filter(function (value) {
+	    return !isUndefined(value);
+	  });
 	}
 
-	const STATISTICS_METHODS = [
-	  'mean',
-	  'median',
-	  'max',
-	  'min'
-	];
-	const imputations = {};
-	STATISTICS_METHODS.forEach(method => {
-	  imputations[method] = (row, values) => simpleStatistics[method](values);
+	var STATISTICS_METHODS = ['mean', 'median', 'max', 'min'];
+	var imputations = {};
+	STATISTICS_METHODS.forEach(function (method) {
+	  imputations[method] = function (row, values) {
+	    return simpleStatistics[method](values);
+	  };
 	});
-	imputations.value = (row, values, value) => value;
+	imputations.value = function (row, values, value) {
+	  return value;
+	};
 
-	function transform(dataView, options = {}) {
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  const method = options.method;
+	  var field = getField(options);
+	  var method = options.method;
 	  if (!method) {
 	    throw new TypeError('Invalid method!');
 	  }
-	  if ((method === 'value' && !has(options, 'value'))) {
+	  if (method === 'value' && !has(options, 'value')) {
 	    throw new TypeError('Invalid value: it is nil.');
 	  }
-	  const column = notUndefinedValues(dataView.getColumn(field));
-	  const groups = partition(dataView.rows, options.groupBy);
-	  forIn(groups, group => {
-	    let fieldValues = notUndefinedValues(group.map(row => row[field]));
+	  var column = notUndefinedValues(dataView.getColumn(field));
+	  var groups = partition(dataView.rows, options.groupBy);
+	  forIn(groups, function (group) {
+	    var fieldValues = notUndefinedValues(group.map(function (row) {
+	      return row[field];
+	    }));
 	    if (fieldValues.length === 0) {
 	      fieldValues = column;
 	    }
-	    group.forEach(row => {
+	    group.forEach(function (row) {
 	      if (isUndefined(row[field])) {
 	        if (isFunction(method)) {
 	          row[field] = method(row, fieldValues, options.value, group);
 	        } else if (isString(method)) {
 	          row[field] = imputations[method](row, fieldValues, options.value);
 	        } else {
-	          throw new TypeError(`Invalid method: must be a function or one of ${STATISTICS_METHODS.join(', ')}`);
+	          throw new TypeError('Invalid method: must be a function or one of ' + STATISTICS_METHODS.join(', '));
 	        }
 	      }
 	    });
@@ -95898,7 +96071,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('impute', transform);
 
-
 /***/ },
 /* 126 */
 /***/ function(module, exports, __webpack_require__) {
@@ -95906,32 +96078,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	/*
 	 * kernel density estimation
 	 */
-	const assign = __webpack_require__(2);
-	const each = __webpack_require__(5);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isFunction = __webpack_require__(11);
-	const isNumber = __webpack_require__(36);
-	const isString = __webpack_require__(6);
-	const keys = __webpack_require__(19);
-	const pick = __webpack_require__(22);
-	const getSeriesValues = __webpack_require__(33);
-	const kernel = __webpack_require__(39);
-	const bandwidth = __webpack_require__(32);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
-	const {
-	  kernelDensityEstimation
-	} = __webpack_require__(16);
+	var assign = __webpack_require__(2);
+	var each = __webpack_require__(5);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isFunction = __webpack_require__(11);
+	var isNumber = __webpack_require__(36);
+	var isString = __webpack_require__(6);
+	var keys = __webpack_require__(19);
+	var pick = __webpack_require__(22);
+	var getSeriesValues = __webpack_require__(33);
+	var kernel = __webpack_require__(39);
+	var bandwidth = __webpack_require__(32);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var _require3 = __webpack_require__(16),
+	    kernelDensityEstimation = _require3.kernelDensityEstimation;
+
+	var DEFAULT_OPTIONS = {
 	  minSize: 0.01,
-	  as: [ 'key', 'y', 'size' ],
+	  as: ['key', 'y', 'size'],
 	  // fields: [ 'y1', 'y2' ], // required, one or more fields
 	  extent: [], // extent to execute regression function, default: [ [ min(x), max(x) ], [ min(y), max(y) ] ]
 	  method: 'gaussian', // kernel method: should be one of keys(kernel)
@@ -95940,23 +96112,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  groupBy: []
 	};
 
-	const KERNEL_METHODS = keys(kernel);
-	const BANDWIDTH_METHODS = keys(bandwidth);
+	var KERNEL_METHODS = keys(kernel);
+	var BANDWIDTH_METHODS = keys(bandwidth);
 
 	function transform(dv, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields) || fields.length < 1) {
 	    throw new TypeError('invalid fields: must be an array of at least 1 strings!');
 	  }
-	  const as = options.as;
+	  var as = options.as;
 	  if (!isArray(as) || as.length !== 3) {
 	    throw new TypeError('invalid as: must be an array of 3 strings!');
 	  }
-	  let method = options.method;
+	  var method = options.method;
 	  if (isString(method)) {
 	    if (KERNEL_METHODS.indexOf(method) === -1) {
-	      throw new TypeError(`invalid method: ${method}. Must be one of ${KERNEL_METHODS.join(', ')}`);
+	      throw new TypeError('invalid method: ' + method + '. Must be one of ' + KERNEL_METHODS.join(', '));
 	    }
 	    method = kernel[method];
 	  }
@@ -95964,16 +96136,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError('invalid method: kernel method must be a function!');
 	  }
 
-	  let extent = options.extent;
+	  var extent = options.extent;
 	  if (!isArray(extent) || extent.length === 0) {
-	    let rangeArr = [];
-	    each(fields, field => {
-	      const range = dv.range(field);
+	    var rangeArr = [];
+	    each(fields, function (field) {
+	      var range = dv.range(field);
 	      rangeArr = rangeArr.concat(range);
 	    });
-	    extent = [ Math.min(...rangeArr), Math.max(...rangeArr) ];
+	    extent = [Math.min.apply(Math, rangeArr), Math.max.apply(Math, rangeArr)];
 	  }
-	  let bw = options.bandwidth;
+	  var bw = options.bandwidth;
 	  if (isString(bw) && bandwidth[bw]) {
 	    bw = bandwidth[bw](dv.getColumn(fields[0]));
 	  } else if (isFunction(bw)) {
@@ -95981,22 +96153,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else if (!isNumber(bw) || bw <= 0) {
 	    bw = bandwidth.nrd(dv.getColumn(fields[0]));
 	  }
-	  const seriesValues = getSeriesValues(extent, options.step ? options.step : bw);
-	  const result = [];
+	  var seriesValues = getSeriesValues(extent, options.step ? options.step : bw);
+	  var result = [];
 
-	  const groupBy = options.groupBy;
-	  const groups = partition(dv.rows, groupBy);
-	  forIn(groups, group => {
-	    const probalityDensityFunctionByField = {};
-	    each(fields, field => {
-	      const row = pick(group[0], groupBy);
-	      probalityDensityFunctionByField[field] = kernelDensityEstimation(group.map(item => item[field]), method, bw);
-	      const [ key, y, size ] = as;
+	  var groupBy = options.groupBy;
+	  var groups = partition(dv.rows, groupBy);
+	  forIn(groups, function (group) {
+	    var probalityDensityFunctionByField = {};
+	    each(fields, function (field) {
+	      var row = pick(group[0], groupBy);
+	      probalityDensityFunctionByField[field] = kernelDensityEstimation(group.map(function (item) {
+	        return item[field];
+	      }), method, bw);
+	      var key = as[0],
+	          y = as[1],
+	          size = as[2];
+
 	      row[key] = field;
 	      row[y] = [];
 	      row[size] = [];
-	      each(seriesValues, yValue => {
-	        const sizeValue = probalityDensityFunctionByField[field](yValue);
+	      each(seriesValues, function (yValue) {
+	        var sizeValue = probalityDensityFunctionByField[field](yValue);
 	        if (sizeValue >= options.minSize) {
 	          row[y].push(yValue);
 	          row[size].push(sizeValue);
@@ -96014,10 +96191,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('KDE', transform);
 
 	module.exports = {
-	  KERNEL_METHODS,
-	  BANDWIDTH_METHODS
+	  KERNEL_METHODS: KERNEL_METHODS,
+	  BANDWIDTH_METHODS: BANDWIDTH_METHODS
 	};
-
 
 /***/ },
 /* 127 */
@@ -96026,50 +96202,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	/*
 	 * @reference: https://github.com/Planeshifter/kernel-smooth/blob/master/lib/index.js
 	 */
-	const assign = __webpack_require__(2);
-	const isArray = __webpack_require__(3);
-	const isFunction = __webpack_require__(11);
-	const isNumber = __webpack_require__(36);
-	const isString = __webpack_require__(6);
-	const keys = __webpack_require__(19);
+	var assign = __webpack_require__(2);
+	var isArray = __webpack_require__(3);
+	var isFunction = __webpack_require__(11);
+	var isNumber = __webpack_require__(36);
+	var isString = __webpack_require__(6);
+	var keys = __webpack_require__(19);
 	// const regression = require('regression');
-	const getSeriesValues = __webpack_require__(33);
+	var getSeriesValues = __webpack_require__(33);
 	// const enclideanDistance = require('../../util/euclidean-distance');
-	const kernel = __webpack_require__(39);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
-	const {
-	  silverman
-	} = __webpack_require__(32);
+	var kernel = __webpack_require__(39);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'y', 'z' ],
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var _require3 = __webpack_require__(32),
+	    silverman = _require3.silverman;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'y', 'z'],
 	  // fields: [ 'x', 'y' ], // required, one or two fields
 	  method: 'gaussian', // kernel method: should be one of keys(kernel)
 	  extent: [], // extent to execute regression function, default: [ [ min(x), max(x) ], [ min(y), max(y) ] ]
 	  bandwidth: [] // bandWidth to execute kernel function
 	};
 
-	const KERNEL_METHODS = keys(kernel);
+	var KERNEL_METHODS = keys(kernel);
 
 	function transform(dv, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields) || fields.length !== 2) {
 	    throw new TypeError('invalid fields: must be an array of 2 strings!');
 	  }
-	  const [ asX, asY, asZ ] = options.as;
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1],
+	      asZ = _options$as[2];
+
 	  if (!isString(asX) || !isString(asY) || !isString(asZ)) {
 	    throw new TypeError('invalid as: must be an array of 3 strings!');
 	  }
-	  let method = options.method;
+	  var method = options.method;
 	  if (isString(method)) {
 	    if (KERNEL_METHODS.indexOf(method) === -1) {
-	      throw new TypeError(`invalid method: ${method}. Must be one of ${KERNEL_METHODS.join(', ')}`);
+	      throw new TypeError('invalid method: ' + method + '. Must be one of ' + KERNEL_METHODS.join(', '));
 	    }
 	    method = kernel[method];
 	  }
@@ -96077,32 +96257,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError('invalid method: kernel method must be a function!');
 	  }
 
-	  const [ xField, yField ] = fields;
-	  let [ extentX, extentY ] = options.extent;
+	  var xField = fields[0],
+	      yField = fields[1];
+	  var _options$extent = options.extent,
+	      extentX = _options$extent[0],
+	      extentY = _options$extent[1];
+
 	  if (!isArray(extentX) || !isArray(extentY)) {
 	    extentX = dv.range(xField);
 	    extentY = dv.range(yField);
 	  }
-	  let [ bwX, bwY ] = options.bandwidth;
+	  var _options$bandwidth = options.bandwidth,
+	      bwX = _options$bandwidth[0],
+	      bwY = _options$bandwidth[1];
+
 	  if (!isNumber(bwX) || bwX <= 0 || !isNumber(bwY) || bwY <= 0) {
 	    bwX = silverman(dv.getColumn(xField));
 	    bwY = silverman(dv.getColumn(yField));
 	  }
-	  const seriesValuesX = getSeriesValues(extentX, bwX);
-	  const seriesValuesY = getSeriesValues(extentY, bwY);
-	  const count = dv.rows.length;
-	  const result = [];
+	  var seriesValuesX = getSeriesValues(extentX, bwX);
+	  var seriesValuesY = getSeriesValues(extentY, bwY);
+	  var count = dv.rows.length;
+	  var result = [];
 
-	  for (let i = 0; i < seriesValuesX.length; i++) {
-	    for (let j = 0; j < seriesValuesY.length; j++) {
-	      let sum = 0;
-	      const x = seriesValuesX[i];
-	      const y = seriesValuesY[j];
-	      for (let k = 0; k < count; k++) {
+	  for (var i = 0; i < seriesValuesX.length; i++) {
+	    for (var j = 0; j < seriesValuesY.length; j++) {
+	      var sum = 0;
+	      var x = seriesValuesX[i];
+	      var y = seriesValuesY[j];
+	      for (var k = 0; k < count; k++) {
 	        sum += method((x - dv.rows[k][xField]) / bwX) * method((y - dv.rows[k][yField]) / bwY);
 	      }
-	      const z = (1 / (count * bwX * bwY)) * sum;
-	      const row = {};
+	      var z = 1 / (count * bwX * bwY) * sum;
+	      var row = {};
 	      row[asX] = x;
 	      row[asY] = y;
 	      row[asZ] = z;
@@ -96117,9 +96304,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('kernel.density', transform);
 
 	module.exports = {
-	  KERNEL_METHODS
+	  KERNEL_METHODS: KERNEL_METHODS
 	};
-
 
 /***/ },
 /* 128 */
@@ -96128,43 +96314,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	/*
 	 * @reference: https://github.com/Planeshifter/kernel-smooth/blob/master/lib/index.js
 	 */
-	const assign = __webpack_require__(2);
-	const isArray = __webpack_require__(3);
-	const isFunction = __webpack_require__(11);
-	const isNil = __webpack_require__(35);
-	const isNumber = __webpack_require__(36);
-	const isString = __webpack_require__(6);
-	const keys = __webpack_require__(19);
+	var assign = __webpack_require__(2);
+	var isArray = __webpack_require__(3);
+	var isFunction = __webpack_require__(11);
+	var isNil = __webpack_require__(35);
+	var isNumber = __webpack_require__(36);
+	var isString = __webpack_require__(6);
+	var keys = __webpack_require__(19);
 	// const regression = require('regression');
-	const {
-	  sum
-	} = __webpack_require__(16);
-	const getSeriesValues = __webpack_require__(33);
-	// const enclideanDistance = require('../../util/euclidean-distance');
-	const kernel = __webpack_require__(39);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
-	const {
-	  silverman
-	} = __webpack_require__(32);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'y' ],
+	var _require = __webpack_require__(16),
+	    sum = _require.sum;
+
+	var getSeriesValues = __webpack_require__(33);
+	// const enclideanDistance = require('../../util/euclidean-distance');
+	var kernel = __webpack_require__(39);
+
+	var _require2 = __webpack_require__(1),
+	    registerTransform = _require2.registerTransform;
+
+	var _require3 = __webpack_require__(4),
+	    getFields = _require3.getFields;
+
+	var _require4 = __webpack_require__(32),
+	    silverman = _require4.silverman;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'y'],
 	  // fields: [ 'x', 'y' ], // required, one or two fields
 	  method: 'gaussian' // kernel method: should be one of keys(kernel)
 	  // extent: [], // extent to execute regression function, default: [ min(x), max(x) ]
 	  // bandwidth: 0.5 // bandWidth to execute kernel function
 	};
 
-	const KERNEL_METHODS = keys(kernel);
+	var KERNEL_METHODS = keys(kernel);
 
 	// calculates weight for i-th obs
 	function weight(kernel, bandwidth, x_0, x_i) {
-	  const arg = (x_i - x_0) / bandwidth;
+	  var arg = (x_i - x_0) / bandwidth;
 	  return kernel(arg);
 	}
 	// calculates weight for i-th obs when p > 1
@@ -96173,11 +96360,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	//   return kernel(arg);
 	// }
 	function vectorize(fun) {
-	  return function(x) {
+	  return function (x) {
 	    if (!isArray(x)) {
 	      return fun(x);
 	    }
-	    return x.map(function(x) {
+	    return x.map(function (x) {
 	      return fun(x);
 	    });
 	  };
@@ -96185,18 +96372,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dv, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
-	  if (!isArray(fields) || (fields.length !== 1 && fields.length !== 2)) {
+	  var fields = getFields(options);
+	  if (!isArray(fields) || fields.length !== 1 && fields.length !== 2) {
 	    throw new TypeError('invalid fields: must be an array of 1 or 2 strings!');
 	  }
-	  const [ asX, asY ] = options.as;
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1];
+
 	  if (!isString(asX) || !isString(asY)) {
 	    throw new TypeError('invalid as: must be an array of 2 strings!');
 	  }
-	  let method = options.method;
+	  var method = options.method;
 	  if (isString(method)) {
 	    if (KERNEL_METHODS.indexOf(method) === -1) {
-	      throw new TypeError(`invalid method: ${method}. Must be one of ${KERNEL_METHODS.join(', ')}`);
+	      throw new TypeError('invalid method: ' + method + '. Must be one of ' + KERNEL_METHODS.join(', '));
 	    }
 	    method = kernel[method];
 	  }
@@ -96204,45 +96394,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError('invalid method: kernel method must be a function!');
 	  }
 
-	  const [ xField, yField ] = fields;
-	  const xs = dv.getColumn(xField);
+	  var xField = fields[0],
+	      yField = fields[1];
 
-	  let extent = options.extent;
+	  var xs = dv.getColumn(xField);
+
+	  var extent = options.extent;
 	  if (!isArray(extent)) {
 	    extent = dv.range(xField);
 	  }
-	  let bandwidth = options.bandwidth;
+	  var bandwidth = options.bandwidth;
 	  if (!isNumber(bandwidth) || bandwidth <= 0) {
 	    bandwidth = silverman(xs);
 	  }
-	  const seriesValues = getSeriesValues(extent, bandwidth);
-	  const xCount = xs.length;
-	  const weightFunc = weight.bind(null, method, bandwidth);
-	  let kernelSmoother;
+	  var seriesValues = getSeriesValues(extent, bandwidth);
+	  var xCount = xs.length;
+	  var weightFunc = weight.bind(null, method, bandwidth);
+	  var kernelSmoother = void 0;
 
 	  if (isNil(yField)) {
 	    // KDE
-	    kernelSmoother = vectorize(x => {
-	      const weights = xs.map(x_i => weightFunc(x, x_i));
-	      const num = sum(weights);
-	      const denom = xCount * bandwidth;
+	    kernelSmoother = vectorize(function (x) {
+	      var weights = xs.map(function (x_i) {
+	        return weightFunc(x, x_i);
+	      });
+	      var num = sum(weights);
+	      var denom = xCount * bandwidth;
 	      if (!num || !denom) return 0;
 	      return num / denom;
 	    });
 	  } else {
 	    // kernel regression smoothing
-	    const ys = dv.getColumn(yField);
-	    kernelSmoother = vectorize(x => {
-	      const weights = xs.map(x_i => weightFunc(x, x_i));
-	      const num = sum(weights.map((w, i) => w * ys[i]));
-	      const denom = sum(weights);
+	    var ys = dv.getColumn(yField);
+	    kernelSmoother = vectorize(function (x) {
+	      var weights = xs.map(function (x_i) {
+	        return weightFunc(x, x_i);
+	      });
+	      var num = sum(weights.map(function (w, i) {
+	        return w * ys[i];
+	      }));
+	      var denom = sum(weights);
 	      if (!num || !denom) return 0;
 	      return num / denom;
 	    });
 	  }
 
-	  const result = seriesValues.map(x => {
-	    const row = {};
+	  var result = seriesValues.map(function (x) {
+	    var row = {};
 	    row[asX] = x;
 	    row[asY] = kernelSmoother(x);
 	    return row;
@@ -96254,17 +96452,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('kernel.regression', transform);
 
 	module.exports = {
-	  KERNEL_METHODS
+	  KERNEL_METHODS: KERNEL_METHODS
 	};
-
 
 /***/ },
 /* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
 	/*
 	 * options: {
@@ -96277,33 +96473,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return row;
 	}
 
-	registerTransform('map', (dataView, options = {}) => {
+	registerTransform('map', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  dataView.rows = dataView.rows.map(options.callback || defaultCallback);
 	});
-
 
 /***/ },
 /* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const values = __webpack_require__(42);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var assign = __webpack_require__(2);
+	var values = __webpack_require__(42);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var DEFAULT_OPTIONS = {
 	  groupBy: [], // optional
 	  orderBy: []
 	};
 
-	registerTransform('partition', (dataView, options = {}) => {
+	registerTransform('partition', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
 	  dataView.rows = partition(dataView.rows, options.groupBy, options.orderBy);
 	});
 
-	function group(dataView, options = {}) {
+	function group(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
 	  dataView.rows = values(partition(dataView.rows, options.groupBy, options.orderBy));
 	}
@@ -96311,39 +96512,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('group', group);
 	registerTransform('groups', group);
 
-
 /***/ },
 /* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const {
-	  sum
-	} = __webpack_require__(16);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(16),
+	    sum = _require.sum;
+
+	var partition = __webpack_require__(14);
+
+	var _require2 = __webpack_require__(1),
+	    registerTransform = _require2.registerTransform;
+
+	var _require3 = __webpack_require__(4),
+	    getField = _require3.getField;
+
+	var DEFAULT_OPTIONS = {
 	  // field: 'y', // required
 	  // dimension: 'x', // required
 	  groupBy: [], // optional
 	  as: '_percent'
 	};
 
-	function transform(dataView, options = {}) {
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  const dimension = options.dimension;
-	  const groupBy = options.groupBy;
-	  let as = options.as;
+	  var field = getField(options);
+	  var dimension = options.dimension;
+	  var groupBy = options.groupBy;
+	  var as = options.as;
 	  if (!isString(dimension)) {
 	    throw new TypeError('Invalid dimension: must be a string!');
 	  }
@@ -96354,21 +96557,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!isString(as)) {
 	    throw new TypeError('Invalid as: must be a string!');
 	  }
-	  const rows = dataView.rows;
-	  const result = [];
-	  const groups = partition(rows, groupBy);
-	  forIn(groups, group => {
-	    const totalSum = sum(group.map(row => row[field]));
+	  var rows = dataView.rows;
+	  var result = [];
+	  var groups = partition(rows, groupBy);
+	  forIn(groups, function (group) {
+	    var totalSum = sum(group.map(function (row) {
+	      return row[field];
+	    }));
 	    if (totalSum === 0) {
-	      console.warn(`Invalid data: total sum of field ${field} is 0!`);
+	      console.warn('Invalid data: total sum of field ' + field + ' is 0!');
 	    }
-	    const innerGroups = partition(group, [ dimension ]);
-	    forIn(innerGroups, innerGroup => {
-	      const innerSum = sum(innerGroup.map(row => row[field]));
+	    var innerGroups = partition(group, [dimension]);
+	    forIn(innerGroups, function (innerGroup) {
+	      var innerSum = sum(innerGroup.map(function (row) {
+	        return row[field];
+	      }));
 	      // const resultRow = pick(innerGroup[0], union(groupBy, [ dimension ]));
-	      const resultRow = innerGroup[0];
+	      var resultRow = innerGroup[0];
 	      // FIXME in case dimension and field is the same
-	      const dimensionValue = resultRow[dimension];
+	      var dimensionValue = resultRow[dimension];
 	      resultRow[field] = innerSum;
 	      resultRow[dimension] = dimensionValue;
 	      if (totalSum === 0) {
@@ -96384,18 +96591,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('percent', transform);
 
-
 /***/ },
 /* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const pick = __webpack_require__(22);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var pick = __webpack_require__(22);
+
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
 
 	/*
 	 * options: {
@@ -96404,41 +96610,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	registerTransform('pick', (dataView, options = {}) => {
-	  const columns = getFields(options, dataView.getColumnNames());
-	  dataView.rows = dataView.rows.map(row => pick(row, columns));
-	});
+	registerTransform('pick', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+	  var columns = getFields(options, dataView.getColumnNames());
+	  dataView.rows = dataView.rows.map(function (row) {
+	    return pick(row, columns);
+	  });
+	});
 
 /***/ },
 /* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const forIn = __webpack_require__(5);
-	const isArray = __webpack_require__(3);
-	const isString = __webpack_require__(6);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getField
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var forIn = __webpack_require__(5);
+	var isArray = __webpack_require__(3);
+	var isString = __webpack_require__(6);
+	var partition = __webpack_require__(14);
 
-	const DEFAULT_OPTIONS = {
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getField = _require2.getField;
+
+	var DEFAULT_OPTIONS = {
 	  // field: 'y', // required
 	  // dimension: 'x', // required
 	  groupBy: [], // optional
 	  as: '_proportion'
 	};
 
-	function transform(dataView, options = {}) {
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const field = getField(options);
-	  const dimension = options.dimension;
-	  const groupBy = options.groupBy;
-	  let as = options.as;
+	  var field = getField(options);
+	  var dimension = options.dimension;
+	  var groupBy = options.groupBy;
+	  var as = options.as;
 	  if (!isString(dimension)) {
 	    throw new TypeError('Invalid dimension: must be a string!');
 	  }
@@ -96449,18 +96660,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!isString(as)) {
 	    throw new TypeError('Invalid as: must be a string!');
 	  }
-	  const rows = dataView.rows;
-	  const result = [];
-	  const groups = partition(rows, groupBy);
-	  forIn(groups, group => {
-	    const totalCount = group.length;
-	    const innerGroups = partition(group, [ dimension ]);
-	    forIn(innerGroups, innerGroup => {
-	      const innerCount = innerGroup.length;
+	  var rows = dataView.rows;
+	  var result = [];
+	  var groups = partition(rows, groupBy);
+	  forIn(groups, function (group) {
+	    var totalCount = group.length;
+	    var innerGroups = partition(group, [dimension]);
+	    forIn(innerGroups, function (innerGroup) {
+	      var innerCount = innerGroup.length;
 	      // const resultRow = pick(innerGroup[0], union(groupBy, [ dimension ]));
-	      const resultRow = innerGroup[0];
+	      var resultRow = innerGroup[0];
 	      // FIXME in case dimension and field is the same
-	      const dimensionValue = resultRow[dimension];
+	      var dimensionValue = resultRow[dimension];
 	      resultRow[field] = innerCount;
 	      resultRow[dimension] = dimensionValue;
 	      resultRow[as] = innerCount / totalCount;
@@ -96472,28 +96683,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('proportion', transform);
 
-
 /***/ },
 /* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isArray = __webpack_require__(3);
-	const isNumber = __webpack_require__(36);
-	const regression = __webpack_require__(233);
-	const getSeriesValues = __webpack_require__(33);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
-	const {
-	  silverman
-	} = __webpack_require__(32);
+	var assign = __webpack_require__(2);
+	var isArray = __webpack_require__(3);
+	var isNumber = __webpack_require__(36);
+	var regression = __webpack_require__(233);
+	var getSeriesValues = __webpack_require__(33);
 
-	const DEFAULT_OPTIONS = {
-	  as: [ 'x', 'y' ],
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var _require3 = __webpack_require__(32),
+	    silverman = _require3.silverman;
+
+	var DEFAULT_OPTIONS = {
+	  as: ['x', 'y'],
 	  // fields: [ 'x', 'y' ], // required two fields
 	  method: 'linear', // regression method: linear, exponential, logarithmic, power, polynomial
 	  // extent: [], // extent to execute regression function, default: [ min(x), max(x) ]
@@ -96502,41 +96712,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  precision: 2 // the number of significant figures the output is rounded to
 	};
 
-	const REGRESSION_METHODS = [
-	  'linear',
-	  'exponential',
-	  'logarithmic',
-	  'power',
-	  'polynomial'
-	];
+	var REGRESSION_METHODS = ['linear', 'exponential', 'logarithmic', 'power', 'polynomial'];
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
+	  var fields = getFields(options);
 	  if (!isArray(fields) || fields.length !== 2) {
 	    throw new TypeError('invalid fields: must be an array of 2 strings.');
 	  }
-	  const [ xField, yField ] = fields;
-	  const method = options.method;
+	  var xField = fields[0],
+	      yField = fields[1];
+
+	  var method = options.method;
 	  if (REGRESSION_METHODS.indexOf(method) === -1) {
-	    throw new TypeError(`invalid method: ${method}. Must be one of ${REGRESSION_METHODS.join(', ')}`);
+	    throw new TypeError('invalid method: ' + method + '. Must be one of ' + REGRESSION_METHODS.join(', '));
 	  }
-	  const points = dataView.rows.map(row => [ row[xField], row[yField] ]);
-	  const regressionResult = regression[method](points, options);
-	  let extent = options.extent;
+	  var points = dataView.rows.map(function (row) {
+	    return [row[xField], row[yField]];
+	  });
+	  var regressionResult = regression[method](points, options);
+	  var extent = options.extent;
 	  if (!isArray(extent) || extent.length !== 2) {
 	    extent = dataView.range(xField);
 	  }
-	  let bandwidth = options.bandwidth;
+	  var bandwidth = options.bandwidth;
 	  if (!isNumber(bandwidth) || bandwidth <= 0) {
 	    bandwidth = silverman(dataView.getColumn(xField));
 	  }
-	  const valuesToPredict = getSeriesValues(extent, bandwidth);
-	  const result = [];
-	  const [ asX, asY ] = options.as;
-	  valuesToPredict.forEach(value => {
-	    const row = {};
-	    const [ x, y ] = regressionResult.predict(value);
+	  var valuesToPredict = getSeriesValues(extent, bandwidth);
+	  var result = [];
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1];
+
+	  valuesToPredict.forEach(function (value) {
+	    var row = {};
+
+	    var _regressionResult$pre = regressionResult.predict(value),
+	        x = _regressionResult$pre[0],
+	        y = _regressionResult$pre[1];
+
 	    row[asX] = x;
 	    row[asY] = y;
 	    if (isFinite(y)) {
@@ -96549,20 +96764,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('regression', transform);
 
 	module.exports = {
-	  REGRESSION_METHODS
+	  REGRESSION_METHODS: REGRESSION_METHODS
 	};
-
 
 /***/ },
 /* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const forIn = __webpack_require__(5);
-	const isPlainObject = __webpack_require__(45);
-	const isString = __webpack_require__(6);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var forIn = __webpack_require__(5);
+	var isPlainObject = __webpack_require__(45);
+	var isString = __webpack_require__(6);
+
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
 	/*
 	 * options: {
@@ -96571,19 +96785,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	function transform(dataView, options = {}) {
-	  const map = options.map || {};
-	  const cleanMap = {};
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	  var map = options.map || {};
+	  var cleanMap = {};
 	  if (isPlainObject(map)) {
-	    forIn(map, (value, key) => {
+	    forIn(map, function (value, key) {
 	      if (isString(value) && isString(key)) {
 	        cleanMap[key] = value;
 	      }
 	    });
 	  }
-	  dataView.rows.forEach(row => {
-	    forIn(map, (newKey, key) => {
-	      const temp = row[key];
+	  dataView.rows.forEach(function (row) {
+	    forIn(map, function (newKey, key) {
+	      var temp = row[key];
 	      delete row[key];
 	      row[newKey] = temp;
 	    });
@@ -96593,14 +96809,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('rename', transform);
 	registerTransform('rename-fields', transform);
 
-
 /***/ },
 /* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
 	/*
 	 * options: {
@@ -96608,24 +96822,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	registerTransform('reverse', dataView => {
+	registerTransform('reverse', function (dataView) {
 	  dataView.rows.reverse();
 	});
-
-
 
 /***/ },
 /* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isArray = __webpack_require__(3);
-	const sortBy = __webpack_require__(154);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var isArray = __webpack_require__(3);
+	var sortBy = __webpack_require__(154);
+
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
 
 	/*
 	 * options: {
@@ -96635,17 +96847,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	const VALID_ORDERS = [ 'ASC', 'DESC' ];
+	var VALID_ORDERS = ['ASC', 'DESC'];
 
-	function transform(dataView, options = {}) {
-	  const fields = getFields(options, [ dataView.getColumnName(0) ]);
+	function transform(dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	  var fields = getFields(options, [dataView.getColumnName(0)]);
 	  if (!isArray(fields)) {
 	    throw new TypeError('Invalid fields: must be an array with strings!');
 	  }
 	  dataView.rows = sortBy(dataView.rows, fields);
-	  const order = options.order;
+	  var order = options.order;
 	  if (order && VALID_ORDERS.indexOf(order) === -1) {
-	    throw new TypeError(`Invalid order: ${order} must be one of ${VALID_ORDERS.join(', ')}`);
+	    throw new TypeError('Invalid order: ' + order + ' must be one of ' + VALID_ORDERS.join(', '));
 	  } else if (order === 'DESC') {
 	    dataView.rows.reverse();
 	  }
@@ -96653,14 +96867,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('sort-by', transform);
 	registerTransform('sortBy', transform);
 
-
 /***/ },
 /* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
 
 	/*
 	 * options: {
@@ -96669,22 +96881,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	registerTransform('sort', (dataView, options = {}) => {
-	  const columnName = dataView.getColumnName(0);
-	  dataView.rows.sort(options.callback || ((a, b) => a[columnName] - b[columnName]));
-	});
+	registerTransform('sort', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+	  var columnName = dataView.getColumnName(0);
+	  dataView.rows.sort(options.callback || function (a, b) {
+	    return a[columnName] - b[columnName];
+	  });
+	});
 
 /***/ },
 /* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
 
 	/*
 	 * options: {
@@ -96695,33 +96909,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * }
 	 */
 
-	registerTransform('subset', (dataView, options = {}) => {
-	  const startIndex = options.startRowIndex || 0;
-	  const endIndex = options.endRowIndex || dataView.rows.length - 1;
-	  const columns = getFields(options, dataView.getColumnNames());
+	registerTransform('subset', function (dataView) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	  var startIndex = options.startRowIndex || 0;
+	  var endIndex = options.endRowIndex || dataView.rows.length - 1;
+	  var columns = getFields(options, dataView.getColumnNames());
 	  dataView.rows = dataView.getSubset(startIndex, endIndex, columns);
 	});
-
 
 /***/ },
 /* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const isString = __webpack_require__(6);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const tagCloud = __webpack_require__(143);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var isString = __webpack_require__(6);
 
-	const DEFAULT_OPTIONS = {
-	  fields: [ 'text', 'value' ], // fields to keep
-	  font: () => 'serif',
+	var _require = __webpack_require__(1),
+	    registerTransform = _require.registerTransform;
+
+	var tagCloud = __webpack_require__(143);
+
+	var _require2 = __webpack_require__(4),
+	    getFields = _require2.getFields;
+
+	var DEFAULT_OPTIONS = {
+	  fields: ['text', 'value'], // fields to keep
+	  font: function font() {
+	    return 'serif';
+	  },
 	  padding: 1,
-	  size: [ 500, 500 ],
+	  size: [500, 500],
 	  spiral: 'archimedean', // 'archimedean' || 'rectangular' || {function}
 	  // timeInterval: Infinity // max execute time
 	  timeInterval: 500 // max execute time
@@ -96730,26 +96948,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const layout = tagCloud();
-	  [
-	    'font',
-	    'fontSize',
-	    'padding',
-	    'rotate',
-	    'size',
-	    'spiral',
-	    'timeInterval'
-	  ].forEach(key => {
+	  var layout = tagCloud();
+	  ['font', 'fontSize', 'padding', 'rotate', 'size', 'spiral', 'timeInterval'].forEach(function (key) {
 	    if (options[key]) {
 	      layout[key](options[key]);
 	    }
 	  });
-	  const fields = getFields(options);
-	  const [ text, value ] = fields;
+	  var fields = getFields(options);
+	  var text = fields[0],
+	      value = fields[1];
+
 	  if (!isString(text) || !isString(value)) {
 	    throw new TypeError('Invalid fields: must be an array with 2 strings (e.g. [ "text", "value" ])!');
 	  }
-	  const words = dataView.rows.map(row => {
+	  var words = dataView.rows.map(function (row) {
 	    row.text = row[text];
 	    row.value = row[value];
 	    return row;
@@ -96758,15 +96970,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (options.imageMask) {
 	    layout.createMask(options.imageMask);
 	  }
-	  const result = layout.start();
-	  const tags = result._tags;
-	  const bounds = result._bounds;
-	  tags.forEach(tag => {
+	  var result = layout.start();
+	  var tags = result._tags;
+	  var bounds = result._bounds;
+	  tags.forEach(function (tag) {
 	    tag.x += options.size[0] / 2;
 	    tag.y += options.size[1] / 2;
 	  });
-	  const [ w, h ] = options.size;
-	  const hasImage = result.hasImage;
+	  var _options$size = options.size,
+	      w = _options$size[0],
+	      h = _options$size[1];
+
+	  var hasImage = result.hasImage;
 	  tags.push({
 	    text: '',
 	    value: 0,
@@ -96788,62 +97003,71 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerTransform('tag-cloud', transform);
 	registerTransform('word-cloud', transform);
 
-
 /***/ },
 /* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const assign = __webpack_require__(2);
-	const each = __webpack_require__(5);
-	const forIn = __webpack_require__(5);
-	const keys = __webpack_require__(19);
-	const map = __webpack_require__(158);
-	const pick = __webpack_require__(22);
-	const {
-	  sum
-	} = __webpack_require__(16);
-	const partition = __webpack_require__(14);
-	const {
-	  registerTransform
-	} = __webpack_require__(1);
-	const {
-	  getFields
-	} = __webpack_require__(4);
+	var assign = __webpack_require__(2);
+	var each = __webpack_require__(5);
+	var forIn = __webpack_require__(5);
+	var keys = __webpack_require__(19);
+	var map = __webpack_require__(158);
+	var pick = __webpack_require__(22);
 
-	const DEFAULT_OPTIONS = {
-	  fields: [ 'name', 'value' ], // fields
+	var _require = __webpack_require__(16),
+	    sum = _require.sum;
+
+	var partition = __webpack_require__(14);
+
+	var _require2 = __webpack_require__(1),
+	    registerTransform = _require2.registerTransform;
+
+	var _require3 = __webpack_require__(4),
+	    getFields = _require3.getFields;
+
+	var DEFAULT_OPTIONS = {
+	  fields: ['name', 'value'], // fields
 	  rows: 5,
-	  size: [ 1, 1 ],
+	  size: [1, 1],
 	  scale: 1,
 	  groupBy: [],
 	  maxCount: 1000,
 	  gapRatio: 0.1,
-	  as: [ 'x', 'y' ]
+	  as: ['x', 'y']
 	};
 
 	function transform(dataView, options) {
 	  options = assign({}, DEFAULT_OPTIONS, options);
-	  const fields = getFields(options);
-	  const [ nameField, valueField ] = fields;
-	  const [ asX, asY ] = options.as;
-	  const groupBy = options.groupBy;
-	  const groups = partition(dataView.rows, groupBy);
-	  const groupKeys = keys(groups);
-	  const [ width, height ] = options.size;
-	  const maxCount = options.maxCount;
-	  const groupCount = groupKeys.length;
-	  const partHeight = height / groupCount;
-	  const rows = options.rows;
-	  const gapRatio = options.gapRatio;
-	  const result = [];
-	  let scale = options.scale;
-	  let currentGroupIndex = 0;
-	  let wStep = 0;
+	  var fields = getFields(options);
+	  var nameField = fields[0],
+	      valueField = fields[1];
+	  var _options$as = options.as,
+	      asX = _options$as[0],
+	      asY = _options$as[1];
+
+	  var groupBy = options.groupBy;
+	  var groups = partition(dataView.rows, groupBy);
+	  var groupKeys = keys(groups);
+	  var _options$size = options.size,
+	      width = _options$size[0],
+	      height = _options$size[1];
+
+	  var maxCount = options.maxCount;
+	  var groupCount = groupKeys.length;
+	  var partHeight = height / groupCount;
+	  var rows = options.rows;
+	  var gapRatio = options.gapRatio;
+	  var result = [];
+	  var scale = options.scale;
+	  var currentGroupIndex = 0;
+	  var wStep = 0;
 
 	  // getting suitable scale and width step
-	  forIn(groups, group => {
-	    const totalValue = sum(map(group, row => row[valueField]));
-	    let cols = Math.ceil(totalValue * scale / rows);
+	  forIn(groups, function (group) {
+	    var totalValue = sum(map(group, function (row) {
+	      return row[valueField];
+	    }));
+	    var cols = Math.ceil(totalValue * scale / rows);
 	    if (totalValue * scale > maxCount) {
 	      scale = maxCount / totalValue;
 	      cols = Math.ceil(totalValue * scale / rows);
@@ -96852,21 +97076,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 
 	  // distributing values into grid
-	  forIn(groups, group => {
-	    const heightRange = [ currentGroupIndex * partHeight, (currentGroupIndex + 1) * partHeight ];
-	    const h = heightRange[1] - heightRange[0];
-	    const hStep = h * (1 - gapRatio) / rows;
-	    let currentCol = 0;
-	    let currentRow = 0;
-	    each(group, row => {
-	      const value = row[valueField];
-	      const count = Math.round(value * scale);
-	      for (let i = 0; i < count; i++) {
+	  forIn(groups, function (group) {
+	    var heightRange = [currentGroupIndex * partHeight, (currentGroupIndex + 1) * partHeight];
+	    var h = heightRange[1] - heightRange[0];
+	    var hStep = h * (1 - gapRatio) / rows;
+	    var currentCol = 0;
+	    var currentRow = 0;
+	    each(group, function (row) {
+	      var value = row[valueField];
+	      var count = Math.round(value * scale);
+	      for (var i = 0; i < count; i++) {
 	        if (currentRow === rows) {
 	          currentRow = 0;
 	          currentCol++;
 	        }
-	        const resultRow = pick(row, [ nameField, valueField ].concat(groupBy));
+	        var resultRow = pick(row, [nameField, valueField].concat(groupBy));
 	        resultRow[asX] = currentCol * wStep + wStep / 2;
 	        resultRow[asY] = currentRow * hStep + hStep / 2 + heightRange[0];
 	        resultRow._wStep = wStep;
@@ -96883,24 +97107,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	registerTransform('waffle', transform);
 
-
-
 /***/ },
 /* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const isArray = __webpack_require__(3);
-	const isFunction = __webpack_require__(11);
-	const isString = __webpack_require__(6);
+	var isArray = __webpack_require__(3);
+	var isFunction = __webpack_require__(11);
+	var isString = __webpack_require__(6);
 
-	module.exports = (arr, keys = []) => {
-	  let comparer;
+	module.exports = function (arr) {
+	  var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+	  var comparer = void 0;
 	  if (isFunction(keys)) {
 	    comparer = keys;
 	  } else if (isArray(keys)) {
-	    comparer = (a, b) => {
-	      for (let i = 0; i < keys.length; i++) {
-	        const key = keys[i];
+	    comparer = function comparer(a, b) {
+	      for (var i = 0; i < keys.length; i++) {
+	        var key = keys[i];
 	        if (a[key] < b[key]) {
 	          return -1;
 	        }
@@ -96911,7 +97135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return 0;
 	    };
 	  } else if (isString(keys)) {
-	    comparer = (a, b) => {
+	    comparer = function comparer(a, b) {
 	      if (a[keys] < b[keys]) {
 	        return -1;
 	      }
@@ -96924,7 +97148,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return arr.sort(comparer);
 	};
 
-
 /***/ },
 /* 143 */
 /***/ function(module, exports) {
@@ -96936,9 +97159,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 	/* eslint-disable no-return-assign, no-cond-assign */
 
-	const cloudRadians = Math.PI / 180,
-	  cw = 1 << 11 >> 5,
-	  ch = 1 << 11;
+	var cloudRadians = Math.PI / 180,
+	    cw = 1 << 11 >> 5,
+	    ch = 1 << 11;
 
 	function cloudText(d) {
 	  return d.text;
@@ -96968,35 +97191,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Load in batches for speed.
 	function cloudSprite(contextAndRatio, d, data, di) {
 	  if (d.sprite) return;
-	  const c = contextAndRatio.context,
-	    ratio = contextAndRatio.ratio;
+	  var c = contextAndRatio.context,
+	      ratio = contextAndRatio.ratio;
 
 	  c.clearRect(0, 0, (cw << 5) / ratio, ch / ratio);
-	  let x = 0,
-	    y = 0,
-	    maxh = 0;
-	  const n = data.length;
+	  var x = 0,
+	      y = 0,
+	      maxh = 0;
+	  var n = data.length;
 	  --di;
 	  while (++di < n) {
 	    d = data[di];
 	    c.save();
 	    c.font = d.style + ' ' + d.weight + ' ' + ~~((d.size + 1) / ratio) + 'px ' + d.font;
-	    let w = c.measureText(d.text + 'm').width * ratio,
-	      h = d.size << 1;
+	    var w = c.measureText(d.text + 'm').width * ratio,
+	        h = d.size << 1;
 	    if (d.rotate) {
-	      const sr = Math.sin(d.rotate * cloudRadians),
-	        cr = Math.cos(d.rotate * cloudRadians),
-	        wcr = w * cr,
-	        wsr = w * sr,
-	        hcr = h * cr,
-	        hsr = h * sr;
-	      w = (Math.max(Math.abs(wcr + hsr), Math.abs(wcr - hsr)) + 0x1f) >> 5 << 5;
+	      var sr = Math.sin(d.rotate * cloudRadians),
+	          cr = Math.cos(d.rotate * cloudRadians),
+	          wcr = w * cr,
+	          wsr = w * sr,
+	          hcr = h * cr,
+	          hsr = h * sr;
+	      w = Math.max(Math.abs(wcr + hsr), Math.abs(wcr - hsr)) + 0x1f >> 5 << 5;
 	      h = ~~Math.max(Math.abs(wsr + hcr), Math.abs(wsr - hcr));
 	    } else {
-	      w = (w + 0x1f) >> 5 << 5;
+	      w = w + 0x1f >> 5 << 5;
 	    }
 	    if (h > maxh) maxh = h;
-	    if (x + w >= (cw << 5)) {
+	    if (x + w >= cw << 5) {
 	      x = 0;
 	      y += maxh;
 	      maxh = 0;
@@ -97021,32 +97244,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.hasText = true;
 	    x += w;
 	  }
-	  const pixels = c.getImageData(0, 0, (cw << 5) / ratio, ch / ratio).data,
-	    sprite = [];
+	  var pixels = c.getImageData(0, 0, (cw << 5) / ratio, ch / ratio).data,
+	      sprite = [];
 	  while (--di >= 0) {
 	    d = data[di];
 	    if (!d.hasText) continue;
-	    const w = d.width,
-	      w32 = w >> 5;
-	    let h = d.y1 - d.y0;
+	    var _w = d.width,
+	        w32 = _w >> 5;
+	    var _h = d.y1 - d.y0;
 	    // Zero the buffer
-	    for (let i = 0; i < h * w32; i++) sprite[i] = 0;
-	    x = d.xoff;
+	    for (var i = 0; i < _h * w32; i++) {
+	      sprite[i] = 0;
+	    }x = d.xoff;
 	    if (x == null) return;
 	    y = d.yoff;
-	    let seen = 0,
-	      seenRow = -1;
-	    for (let j = 0; j < h; j++) {
-	      for (let i = 0; i < w; i++) {
-	        const k = w32 * j + (i >> 5),
-	          m = pixels[((y + j) * (cw << 5) + (x + i)) << 2] ? 1 << (31 - (i % 32)) : 0;
+	    var seen = 0,
+	        seenRow = -1;
+	    for (var j = 0; j < _h; j++) {
+	      for (var _i = 0; _i < _w; _i++) {
+	        var k = w32 * j + (_i >> 5),
+	            m = pixels[(y + j) * (cw << 5) + (x + _i) << 2] ? 1 << 31 - _i % 32 : 0;
 	        sprite[k] |= m;
 	        seen |= m;
 	      }
-	      if (seen) seenRow = j;
-	      else {
+	      if (seen) seenRow = j;else {
 	        d.y0++;
-	        h--;
+	        _h--;
 	        j--;
 	        y++;
 	      }
@@ -97059,19 +97282,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Use mask-based collision detection.
 	function cloudCollide(tag, board, sw) {
 	  sw >>= 5;
-	  const sprite = tag.sprite,
-	    w = tag.width >> 5,
-	    lx = tag.x - (w << 4),
-	    sx = lx & 0x7f,
-	    msx = 32 - sx,
-	    h = tag.y1 - tag.y0;
-	  let x = (tag.y + tag.y0) * sw + (lx >> 5),
-	    last;
-	  for (let j = 0; j < h; j++) {
+	  var sprite = tag.sprite,
+	      w = tag.width >> 5,
+	      lx = tag.x - (w << 4),
+	      sx = lx & 0x7f,
+	      msx = 32 - sx,
+	      h = tag.y1 - tag.y0;
+	  var x = (tag.y + tag.y0) * sw + (lx >> 5),
+	      last = void 0;
+	  for (var j = 0; j < h; j++) {
 	    last = 0;
-	    for (let i = 0; i <= w; i++) {
-	      if (((last << msx) | (i < w ? (last = sprite[j * w + i]) >>> sx : 0))
-	        & board[x + i]) return true;
+	    for (var i = 0; i <= w; i++) {
+	      if ((last << msx | (i < w ? (last = sprite[j * w + i]) >>> sx : 0)) & board[x + i]) return true;
 	    }
 	    x += sw;
 	  }
@@ -97079,8 +97301,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function cloudBounds(bounds, d) {
-	  const b0 = bounds[0],
-	    b1 = bounds[1];
+	  var b0 = bounds[0],
+	      b1 = bounds[1];
 	  if (d.x + d.x0 < b0.x) b0.x = d.x + d.x0;
 	  if (d.y + d.y0 < b0.y) b0.y = d.y + d.y0;
 	  if (d.x + d.x1 > b1.x) b1.x = d.x + d.x1;
@@ -97092,36 +97314,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function archimedeanSpiral(size) {
-	  const e = size[0] / size[1];
-	  return function(t) {
-	    return [ e * (t *= 0.1) * Math.cos(t), t * Math.sin(t) ];
+	  var e = size[0] / size[1];
+	  return function (t) {
+	    return [e * (t *= 0.1) * Math.cos(t), t * Math.sin(t)];
 	  };
 	}
 
 	function rectangularSpiral(size) {
-	  const dy = 4,
-	    dx = dy * size[0] / size[1];
-	  let x = 0,
-	    y = 0;
-	  return function(t) {
-	    const sign = t < 0 ? -1 : 1;
+	  var dy = 4,
+	      dx = dy * size[0] / size[1];
+	  var x = 0,
+	      y = 0;
+	  return function (t) {
+	    var sign = t < 0 ? -1 : 1;
 	    // See triangular numbers: T_n = n * (n + 1) / 2.
-	    switch ((Math.sqrt(1 + 4 * sign * t) - sign) & 3) {
-	      case 0: x += dx; break;
-	      case 1: y += dy; break;
-	      case 2: x -= dx; break;
-	      default: y -= dy; break;
+	    switch (Math.sqrt(1 + 4 * sign * t) - sign & 3) {
+	      case 0:
+	        x += dx;break;
+	      case 1:
+	        y += dy;break;
+	      case 2:
+	        x -= dx;break;
+	      default:
+	        y -= dy;break;
 	    }
-	    return [ x, y ];
+	    return [x, y];
 	  };
 	}
 
 	// TODO reuse arrays?
 	function zeroArray(n) {
-	  const a = [];
-	  let i = -1;
-	  while (++i < n) a[i] = 0;
-	  return a;
+	  var a = [];
+	  var i = -1;
+	  while (++i < n) {
+	    a[i] = 0;
+	  }return a;
 	}
 
 	function cloudCanvas() {
@@ -97129,79 +97356,84 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function functor(d) {
-	  return typeof d === 'function' ? d : function() { return d; };
+	  return typeof d === 'function' ? d : function () {
+	    return d;
+	  };
 	}
 
-	const spirals = {
+	var spirals = {
 	  archimedean: archimedeanSpiral,
 	  rectangular: rectangularSpiral
 	};
 
-	module.exports = function() {
-	  let size = [ 256, 256 ],
-	    text = cloudText,
-	    font = cloudFont,
-	    fontSize = cloudFontSize,
-	    fontStyle = cloudFontNormal,
-	    fontWeight = cloudFontNormal,
-	    rotate = cloudRotate,
-	    padding = cloudPadding,
-	    spiral = archimedeanSpiral,
-	    words = [],
-	    timeInterval = Infinity,
-	    random = Math.random,
-	    canvas = cloudCanvas;
-	  const cloud = {};
+	module.exports = function () {
+	  var size = [256, 256],
+	      text = cloudText,
+	      font = cloudFont,
+	      fontSize = cloudFontSize,
+	      fontStyle = cloudFontNormal,
+	      fontWeight = cloudFontNormal,
+	      rotate = cloudRotate,
+	      padding = cloudPadding,
+	      spiral = archimedeanSpiral,
+	      words = [],
+	      timeInterval = Infinity,
+	      random = Math.random,
+	      canvas = cloudCanvas;
+	  var cloud = {};
 
-	  cloud.canvas = function(_) {
+	  cloud.canvas = function (_) {
 	    return arguments.length ? (canvas = functor(_), cloud) : canvas;
 	  };
 
-	  cloud.start = function() {
-	    const [ width, height ] = size;
-	    const contextAndRatio = getContext(canvas()),
-	      board = cloud.board ? cloud.board : zeroArray((size[0] >> 5) * size[1]),
-	      n = words.length,
-	      tags = [],
-	      data = words.map(function(d, i) {
-	        d.text = text.call(this, d, i);
-	        d.font = font.call(this, d, i);
-	        d.style = fontStyle.call(this, d, i);
-	        d.weight = fontWeight.call(this, d, i);
-	        d.rotate = rotate.call(this, d, i);
-	        d.size = ~~fontSize.call(this, d, i);
-	        d.padding = padding.call(this, d, i);
-	        return d;
-	      }).sort(function(a, b) { return b.size - a.size; });
-	    let i = -1,
-	      bounds = !cloud.board ? null : [{
-	        x: 0,
-	        y: 0
-	      }, {
-	        x: width,
-	        y: height
-	      }];
+	  cloud.start = function () {
+	    var _size = size,
+	        width = _size[0],
+	        height = _size[1];
+
+	    var contextAndRatio = getContext(canvas()),
+	        board = cloud.board ? cloud.board : zeroArray((size[0] >> 5) * size[1]),
+	        n = words.length,
+	        tags = [],
+	        data = words.map(function (d, i) {
+	      d.text = text.call(this, d, i);
+	      d.font = font.call(this, d, i);
+	      d.style = fontStyle.call(this, d, i);
+	      d.weight = fontWeight.call(this, d, i);
+	      d.rotate = rotate.call(this, d, i);
+	      d.size = ~~fontSize.call(this, d, i);
+	      d.padding = padding.call(this, d, i);
+	      return d;
+	    }).sort(function (a, b) {
+	      return b.size - a.size;
+	    });
+	    var i = -1,
+	        bounds = !cloud.board ? null : [{
+	      x: 0,
+	      y: 0
+	    }, {
+	      x: width,
+	      y: height
+	    }];
 
 	    step();
 
 	    function step() {
-	      const start = Date.now();
-	      while ((Date.now() - start) < timeInterval && ++i < n) {
-	        const d = data[i];
-	        d.x = (width * (random() + 0.5)) >> 1;
-	        d.y = (height * (random() + 0.5)) >> 1;
+	      var start = Date.now();
+	      while (Date.now() - start < timeInterval && ++i < n) {
+	        var d = data[i];
+	        d.x = width * (random() + 0.5) >> 1;
+	        d.y = height * (random() + 0.5) >> 1;
 	        cloudSprite(contextAndRatio, d, data, i);
 	        if (d.hasText && place(board, d, bounds)) {
 	          tags.push(d);
 	          if (bounds) {
-	            if (!cloud.hasImage) { // update bounds if image mask not set
+	            if (!cloud.hasImage) {
+	              // update bounds if image mask not set
 	              cloudBounds(bounds, d);
 	            }
 	          } else {
-	            bounds = [
-	              { x: d.x + d.x0, y: d.y + d.y0 },
-	              { x: d.x + d.x1, y: d.y + d.y1 }
-	            ];
+	            bounds = [{ x: d.x + d.x0, y: d.y + d.y0 }, { x: d.x + d.x1, y: d.y + d.y1 }];
 	          }
 	          // Temporary hack
 	          d.x -= size[0] >> 1;
@@ -97217,27 +97449,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function getContext(canvas) {
 	    canvas.width = canvas.height = 1;
-	    const ratio = Math.sqrt(canvas.getContext('2d').getImageData(0, 0, 1, 1).data.length >> 2);
+	    var ratio = Math.sqrt(canvas.getContext('2d').getImageData(0, 0, 1, 1).data.length >> 2);
 	    canvas.width = (cw << 5) / ratio;
 	    canvas.height = ch / ratio;
 
-	    const context = canvas.getContext('2d');
+	    var context = canvas.getContext('2d');
 	    context.fillStyle = context.strokeStyle = 'red';
 	    context.textAlign = 'center';
-	    return { context, ratio };
+	    return { context: context, ratio: ratio };
 	  }
 
 	  function place(board, tag, bounds) {
 	    // const perimeter = [{ x: 0, y: 0 }, { x: size[0], y: size[1] }],
-	    const startX = tag.x,
-	      startY = tag.y,
-	      maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]),
-	      s = spiral(size),
-	      dt = random() < 0.5 ? 1 : -1;
-	    let dxdy,
-	      t = -dt,
-	      dx,
-	      dy;
+	    var startX = tag.x,
+	        startY = tag.y,
+	        maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]),
+	        s = spiral(size),
+	        dt = random() < 0.5 ? 1 : -1;
+	    var dxdy = void 0,
+	        t = -dt,
+	        dx = void 0,
+	        dy = void 0;
 
 	    while (dxdy = s(t += dt)) {
 	      dx = ~~dxdy[0];
@@ -97248,24 +97480,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	      tag.x = startX + dx;
 	      tag.y = startY + dy;
 
-	      if (tag.x + tag.x0 < 0 || tag.y + tag.y0 < 0 ||
-	        tag.x + tag.x1 > size[0] || tag.y + tag.y1 > size[1]) continue;
+	      if (tag.x + tag.x0 < 0 || tag.y + tag.y0 < 0 || tag.x + tag.x1 > size[0] || tag.y + tag.y1 > size[1]) continue;
 	      // TODO only check for collisions within current bounds.
 	      if (!bounds || !cloudCollide(tag, board, size[0])) {
 	        if (!bounds || collideRects(tag, bounds)) {
-	          const sprite = tag.sprite,
-	            w = tag.width >> 5,
-	            sw = size[0] >> 5,
-	            lx = tag.x - (w << 4),
-	            sx = lx & 0x7f,
-	            msx = 32 - sx,
-	            h = tag.y1 - tag.y0;
-	          let last,
-	            x = (tag.y + tag.y0) * sw + (lx >> 5);
-	          for (let j = 0; j < h; j++) {
+	          var sprite = tag.sprite,
+	              w = tag.width >> 5,
+	              sw = size[0] >> 5,
+	              lx = tag.x - (w << 4),
+	              sx = lx & 0x7f,
+	              msx = 32 - sx,
+	              h = tag.y1 - tag.y0;
+	          var last = void 0,
+	              x = (tag.y + tag.y0) * sw + (lx >> 5);
+	          for (var j = 0; j < h; j++) {
 	            last = 0;
-	            for (let i = 0; i <= w; i++) {
-	              board[x + i] |= (last << msx) | (i < w ? (last = sprite[j * w + i]) >>> sx : 0);
+	            for (var i = 0; i <= w; i++) {
+	              board[x + i] |= last << msx | (i < w ? (last = sprite[j * w + i]) >>> sx : 0);
 	            }
 	            x += sw;
 	          }
@@ -97277,22 +97508,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return false;
 	  }
 
-	  cloud.createMask = img => {
-	    const can = document.createElement('canvas');
-	    const [ width, height ] = size;
-	    const w32 = width >> 5;
-	    const board = zeroArray((width >> 5) * height);
+	  cloud.createMask = function (img) {
+	    var can = document.createElement('canvas');
+	    var _size2 = size,
+	        width = _size2[0],
+	        height = _size2[1];
+
+	    var w32 = width >> 5;
+	    var board = zeroArray((width >> 5) * height);
 	    can.width = width;
 	    can.height = height;
-	    const cxt = can.getContext('2d');
+	    var cxt = can.getContext('2d');
 	    cxt.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
-	    const imageData = cxt.getImageData(0, 0, width, height).data;
-	    for (let j = 0; j < height; j++) {
-	      for (let i = 0; i < width; i++) {
-	        const k = w32 * j + (i >> 5);
-	        const tmp = (j * width + i) << 2;
-	        const flag = (imageData[tmp] >= 250) && (imageData[tmp + 1] >= 250) && (imageData[tmp + 2] >= 250);
-	        const m = flag ? 1 << (31 - (i % 32)) : 0;
+	    var imageData = cxt.getImageData(0, 0, width, height).data;
+	    for (var j = 0; j < height; j++) {
+	      for (var i = 0; i < width; i++) {
+	        var k = w32 * j + (i >> 5);
+	        var tmp = j * width + i << 2;
+	        var flag = imageData[tmp] >= 250 && imageData[tmp + 1] >= 250 && imageData[tmp + 2] >= 250;
+	        var m = flag ? 1 << 31 - i % 32 : 0;
 	        board[k] |= m;
 	      }
 	    }
@@ -97300,57 +97534,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	    cloud.hasImage = true;
 	  };
 
-	  cloud.timeInterval = function(_) {
+	  cloud.timeInterval = function (_) {
 	    return arguments.length ? (timeInterval = _ == null ? Infinity : _, cloud) : timeInterval;
 	  };
 
-	  cloud.words = function(_) {
+	  cloud.words = function (_) {
 	    return arguments.length ? (words = _, cloud) : words;
 	  };
 
-	  cloud.size = function(_) {
-	    return arguments.length ? (size = [ +_[0], +_[1] ], cloud) : size;
+	  cloud.size = function (_) {
+	    return arguments.length ? (size = [+_[0], +_[1]], cloud) : size;
 	  };
 
-	  cloud.font = function(_) {
+	  cloud.font = function (_) {
 	    return arguments.length ? (font = functor(_), cloud) : font;
 	  };
 
-	  cloud.fontStyle = function(_) {
+	  cloud.fontStyle = function (_) {
 	    return arguments.length ? (fontStyle = functor(_), cloud) : fontStyle;
 	  };
 
-	  cloud.fontWeight = function(_) {
+	  cloud.fontWeight = function (_) {
 	    return arguments.length ? (fontWeight = functor(_), cloud) : fontWeight;
 	  };
 
-	  cloud.rotate = function(_) {
+	  cloud.rotate = function (_) {
 	    return arguments.length ? (rotate = functor(_), cloud) : rotate;
 	  };
 
-	  cloud.text = function(_) {
+	  cloud.text = function (_) {
 	    return arguments.length ? (text = functor(_), cloud) : text;
 	  };
 
-	  cloud.spiral = function(_) {
+	  cloud.spiral = function (_) {
 	    return arguments.length ? (spiral = spirals[_] || _, cloud) : spiral;
 	  };
 
-	  cloud.fontSize = function(_) {
+	  cloud.fontSize = function (_) {
 	    return arguments.length ? (fontSize = functor(_), cloud) : fontSize;
 	  };
 
-	  cloud.padding = function(_) {
+	  cloud.padding = function (_) {
 	    return arguments.length ? (padding = functor(_), cloud) : padding;
 	  };
 
-	  cloud.random = function(_) {
+	  cloud.random = function (_) {
 	    return arguments.length ? (random = _, cloud) : random;
 	  };
 
 	  return cloud;
 	};
-
 
 /***/ },
 /* 144 */
