@@ -51,9 +51,9 @@ const config = {
     alias: {
       '@alife/aisc-widgets': srcPath,
       '@alife/aisc-widgets/lib': srcPath,
-      '@antv/data-set': '@antv/data-set/lib/index',
-      // '@antv/data-set$': path.resolve(__dirname, './components/common/dataSet'),
-      // '@antv/data-set/lib': '@antv/data-set/lib'
+      // '@antv/data-set': '@antv/data-set/lib/index',
+      '@antv/data-set$': path.resolve(__dirname, './components/common/dataSet'),
+      '@antv/data-set/lib': '@antv/data-set/lib'
     }
   },
 

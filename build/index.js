@@ -92,7 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var assign = __webpack_require__(2);
-	var isNil = __webpack_require__(35);
+	var isNil = __webpack_require__(34);
 	var isObject = __webpack_require__(44);
 	var uniqueId = __webpack_require__(162);
 	var EventEmitter = __webpack_require__(68);
@@ -67066,6 +67066,111 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var _require = __webpack_require__(16),
+	    standardDeviation = _require.standardDeviation,
+	    interquartileRange = _require.interquartileRange;
+
+	module.exports = {
+	  silverman: function silverman(arr) {
+	    var stdev = standardDeviation(arr);
+	    var num = 4 * Math.pow(stdev, 5);
+	    var denom = 3 * arr.length;
+	    return Math.pow(num / denom, 0.2);
+	  },
+	  nrd: function nrd(x) {
+	    var s = standardDeviation(x);
+	    var iqr = interquartileRange(x);
+	    if (typeof iqr === 'number') {
+	      s = Math.min(s, iqr / 1.34);
+	    }
+	    return 1.06 * s * Math.pow(x.length, -0.2);
+	  }
+	};
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	
+	module.exports = function (extent) {
+	  var bandwidth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	  var min = extent[0],
+	      max = extent[1];
+
+	  var values = [];
+	  var tmp = min;
+	  while (tmp < max) {
+	    values.push(tmp);
+	    tmp += bandwidth;
+	  }
+	  values.push(max);
+	  return values;
+	};
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var hierarchy = __webpack_require__(53);
+
+	var Layout = function () {
+	  function Layout(root) {
+	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	    _classCallCheck(this, Layout);
+
+	    var me = this;
+	    me.options = options;
+	    me.rootNode = hierarchy(root, options);
+	  }
+
+	  Layout.prototype.execute = function execute() {
+	    throw new Error('please override this method');
+	  };
+
+	  return Layout;
+	}();
+
+	module.exports = Layout;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	// isFinite,
+	var isNil = function isNil(value) {
+	  /**
+	   * isNil(null) => true
+	   * isNil() => true
+	   */
+	  return value === null || value === undefined;
+	};
+
+	module.exports = isNil;
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * 判断是否数字
+	 * @return {Boolean} 是否数字
+	 */
+	var isType = __webpack_require__(27);
+
+	var isNumber = function isNumber(value) {
+	  return isType(value, 'Number');
+	};
+	module.exports = isNumber;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	// extra APIs
 	__webpack_require__(91);
 	__webpack_require__(92);
@@ -67117,7 +67222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(116);
 	// diagram
 	__webpack_require__(108);
-	// require('./transform/diagram/dagre');
+	// require('@antv/data-set/lib/transform/diagram/dagre');
 	__webpack_require__(109);
 	__webpack_require__(110);
 	// hierarchy
@@ -67139,108 +67244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = __webpack_require__(1);
 
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _require = __webpack_require__(16),
-	    standardDeviation = _require.standardDeviation,
-	    interquartileRange = _require.interquartileRange;
-
-	module.exports = {
-	  silverman: function silverman(arr) {
-	    var stdev = standardDeviation(arr);
-	    var num = 4 * Math.pow(stdev, 5);
-	    var denom = 3 * arr.length;
-	    return Math.pow(num / denom, 0.2);
-	  },
-	  nrd: function nrd(x) {
-	    var s = standardDeviation(x);
-	    var iqr = interquartileRange(x);
-	    if (typeof iqr === 'number') {
-	      s = Math.min(s, iqr / 1.34);
-	    }
-	    return 1.06 * s * Math.pow(x.length, -0.2);
-	  }
-	};
-
-/***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-	
-	module.exports = function (extent) {
-	  var bandwidth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-	  var min = extent[0],
-	      max = extent[1];
-
-	  var values = [];
-	  var tmp = min;
-	  while (tmp < max) {
-	    values.push(tmp);
-	    tmp += bandwidth;
-	  }
-	  values.push(max);
-	  return values;
-	};
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var hierarchy = __webpack_require__(53);
-
-	var Layout = function () {
-	  function Layout(root) {
-	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-	    _classCallCheck(this, Layout);
-
-	    var me = this;
-	    me.options = options;
-	    me.rootNode = hierarchy(root, options);
-	  }
-
-	  Layout.prototype.execute = function execute() {
-	    throw new Error('please override this method');
-	  };
-
-	  return Layout;
-	}();
-
-	module.exports = Layout;
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	// isFinite,
-	var isNil = function isNil(value) {
-	  /**
-	   * isNil(null) => true
-	   * isNil() => true
-	   */
-	  return value === null || value === undefined;
-	};
-
-	module.exports = isNil;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * 判断是否数字
-	 * @return {Boolean} 是否数字
-	 */
-	var isType = __webpack_require__(27);
-
-	var isNumber = function isNumber(value) {
-	  return isType(value, 'Number');
-	};
-	module.exports = isNumber;
+	 ;(function register() { /* react-hot-loader/webpack */ if (false) { if (typeof __REACT_HOT_LOADER__ === 'undefined') { return; } /* eslint-disable camelcase, no-undef */ var webpackExports = typeof __webpack_exports__ !== 'undefined' ? __webpack_exports__ : module.exports; /* eslint-enable camelcase, no-undef */ if (typeof webpackExports === 'function') { __REACT_HOT_LOADER__.register(webpackExports, 'module.exports', "D:\\Git\\aisc-widgets\\components\\common\\dataSet.js"); return; } /* eslint-disable no-restricted-syntax */ for (var key in webpackExports) { /* eslint-enable no-restricted-syntax */ if (!Object.prototype.hasOwnProperty.call(webpackExports, key)) { continue; } var namedExport = void 0; try { namedExport = webpackExports[key]; } catch (err) { continue; } __REACT_HOT_LOADER__.register(namedExport, key, "D:\\Git\\aisc-widgets\\components\\common\\dataSet.js"); } } })();
 
 /***/ },
 /* 37 */
@@ -67445,7 +67449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var each = __webpack_require__(5);
-	var isNil = __webpack_require__(35);
+	var isNil = __webpack_require__(34);
 	var isArray = __webpack_require__(3);
 
 	var values = function values(data, name) {
@@ -82890,7 +82894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var keys = __webpack_require__(19);
-	var isNil = __webpack_require__(35);
+	var isNil = __webpack_require__(34);
 
 	function isMatch(obj, attrs) {
 	  var _keys = keys(attrs);
@@ -96083,13 +96087,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var forIn = __webpack_require__(5);
 	var isArray = __webpack_require__(3);
 	var isFunction = __webpack_require__(11);
-	var isNumber = __webpack_require__(36);
+	var isNumber = __webpack_require__(35);
 	var isString = __webpack_require__(6);
 	var keys = __webpack_require__(19);
 	var pick = __webpack_require__(22);
-	var getSeriesValues = __webpack_require__(33);
+	var getSeriesValues = __webpack_require__(32);
 	var kernel = __webpack_require__(39);
-	var bandwidth = __webpack_require__(32);
+	var bandwidth = __webpack_require__(31);
 	var partition = __webpack_require__(14);
 
 	var _require = __webpack_require__(1),
@@ -96205,11 +96209,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var assign = __webpack_require__(2);
 	var isArray = __webpack_require__(3);
 	var isFunction = __webpack_require__(11);
-	var isNumber = __webpack_require__(36);
+	var isNumber = __webpack_require__(35);
 	var isString = __webpack_require__(6);
 	var keys = __webpack_require__(19);
 	// const regression = require('regression');
-	var getSeriesValues = __webpack_require__(33);
+	var getSeriesValues = __webpack_require__(32);
 	// const enclideanDistance = require('../../util/euclidean-distance');
 	var kernel = __webpack_require__(39);
 
@@ -96219,7 +96223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _require2 = __webpack_require__(4),
 	    getFields = _require2.getFields;
 
-	var _require3 = __webpack_require__(32),
+	var _require3 = __webpack_require__(31),
 	    silverman = _require3.silverman;
 
 	var DEFAULT_OPTIONS = {
@@ -96317,8 +96321,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var assign = __webpack_require__(2);
 	var isArray = __webpack_require__(3);
 	var isFunction = __webpack_require__(11);
-	var isNil = __webpack_require__(35);
-	var isNumber = __webpack_require__(36);
+	var isNil = __webpack_require__(34);
+	var isNumber = __webpack_require__(35);
 	var isString = __webpack_require__(6);
 	var keys = __webpack_require__(19);
 	// const regression = require('regression');
@@ -96326,7 +96330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _require = __webpack_require__(16),
 	    sum = _require.sum;
 
-	var getSeriesValues = __webpack_require__(33);
+	var getSeriesValues = __webpack_require__(32);
 	// const enclideanDistance = require('../../util/euclidean-distance');
 	var kernel = __webpack_require__(39);
 
@@ -96336,7 +96340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _require3 = __webpack_require__(4),
 	    getFields = _require3.getFields;
 
-	var _require4 = __webpack_require__(32),
+	var _require4 = __webpack_require__(31),
 	    silverman = _require4.silverman;
 
 	var DEFAULT_OPTIONS = {
@@ -96689,9 +96693,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var assign = __webpack_require__(2);
 	var isArray = __webpack_require__(3);
-	var isNumber = __webpack_require__(36);
+	var isNumber = __webpack_require__(35);
 	var regression = __webpack_require__(233);
-	var getSeriesValues = __webpack_require__(33);
+	var getSeriesValues = __webpack_require__(32);
 
 	var _require = __webpack_require__(1),
 	    registerTransform = _require.registerTransform;
@@ -96699,7 +96703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _require2 = __webpack_require__(4),
 	    getFields = _require2.getFields;
 
-	var _require3 = __webpack_require__(32),
+	var _require3 = __webpack_require__(31),
 	    silverman = _require3.silverman;
 
 	var DEFAULT_OPTIONS = {
@@ -97595,7 +97599,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TreeLayout = __webpack_require__(34);
+	var TreeLayout = __webpack_require__(33);
 	var nonLayeredTidyTree = __webpack_require__(150);
 	var doTreeLayout = __webpack_require__(41);
 
@@ -97635,7 +97639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TreeLayout = __webpack_require__(34);
+	var TreeLayout = __webpack_require__(33);
 	var dendrogram = __webpack_require__(147);
 	var doTreeLayout = __webpack_require__(41);
 
@@ -97676,7 +97680,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TreeLayout = __webpack_require__(34);
+	var TreeLayout = __webpack_require__(33);
 	var indentedTree = __webpack_require__(148);
 	var separateTree = __webpack_require__(54);
 
@@ -98243,7 +98247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TreeLayout = __webpack_require__(34);
+	var TreeLayout = __webpack_require__(33);
 	var mindmap = __webpack_require__(149);
 	var doTreeLayout = __webpack_require__(41);
 
@@ -109061,7 +109065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _g2 = _interopRequireDefault(_g);
 
-	var _dataSet = __webpack_require__(31);
+	var _dataSet = __webpack_require__(36);
 
 	var DataSet = _interopRequireWildcard(_dataSet);
 
@@ -111954,7 +111958,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _g2 = _interopRequireDefault(_g);
 
-	var _dataSet = __webpack_require__(31);
+	var _dataSet = __webpack_require__(36);
 
 	var _d3Geo = __webpack_require__(59);
 
@@ -118054,7 +118058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _dataSet = __webpack_require__(31);
+	var _dataSet = __webpack_require__(36);
 
 	var _merge = __webpack_require__(10);
 
@@ -118212,7 +118216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _dataSet = __webpack_require__(31);
+	var _dataSet = __webpack_require__(36);
 
 	var _index = __webpack_require__(9);
 
