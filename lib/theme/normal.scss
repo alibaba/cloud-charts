@@ -4,6 +4,34 @@ $font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC"
 $font-size-large-number: 28px !default;
 $font-size-xlarge-number: 32px !default;
 
+// 字体大小 - 文字
+$widgets-text-font-size-1: 12px !default;
+$widgets-text-font-size-2: 14px !default;
+$widgets-text-font-size-3: 16px !default;
+$widgets-text-font-size-4: 18px !default;
+
+// 字体大小 - 数字
+$widgets-number-font-size-1: 12px !default;
+$widgets-number-font-size-2: 14px !default;
+$widgets-number-font-size-3: 16px !default;
+$widgets-number-font-size-4: 24px !default;
+$widgets-number-font-size-5: 28px !default;
+$widgets-number-font-size-6: 32px !default;
+
+// 移动端字体大小 - 文字
+$widgets-text-font-size-1: 12px !default;
+$widgets-text-font-size-2: 14px !default;
+$widgets-text-font-size-3: 16px !default;
+$widgets-text-font-size-4: 18px !default;
+
+// 移动端字体大小 - 数字
+$widgets-number-font-size-1: 14px !default;
+$widgets-number-font-size-2: 14px !default;
+$widgets-number-font-size-3: 14px !default;
+$widgets-number-font-size-4: 20px !default;
+$widgets-number-font-size-5: 24px !default;
+$widgets-number-font-size-6: 28px !default;
+
 // 纯颜色
 $widgets-color-white: #FFFFFF !default;
 $widgets-color-black: #000000 !default;
