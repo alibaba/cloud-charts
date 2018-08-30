@@ -50,7 +50,8 @@ const config = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       '@alife/aisc-widgets': srcPath,
-      '@alife/aisc-widgets/lib': srcPath
+      '@alife/aisc-widgets/lib': srcPath,
+      '@antv/data-set': '@antv/data-set/src/index'
     }
   },
 
