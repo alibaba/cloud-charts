@@ -92,11 +92,12 @@ function g2Factory(name, Chart, convertData = true) {
       }
       // 传入的长宽有变化
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
-        if (ChartProcess.changeSize) {
-          this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
-        } else {
-          this.chart && this.chart.changeSize(newWidth, newHeight);
-        }
+        this.changeSize(newConfig, newWidth, newHeight);
+        // if (ChartProcess.changeSize) {
+        //   this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
+        // } else {
+        //   this.chart && this.chart.changeSize(newWidth, newHeight);
+        // }
 
         needAfterRender = true;
       }
@@ -185,6 +186,16 @@ function g2Factory(name, Chart, convertData = true) {
       window.addEventListener('resize', this.autoResize);
     }
 
+    changeSize(config, w, h) {
+      this.setSize([w, h]);
+
+      if (ChartProcess.changeSize) {
+        this.chart && ChartProcess.changeSize.call(this, this.chart, config, w, h);
+      } else {
+        this.chart && this.chart.changeSize(w, h);
+      }
+    }
+
     // 动态适配高宽，利用 resizeRunning 做节流
     resizeRunning = false;
     resizeTimer = null;
@@ -202,13 +213,15 @@ function g2Factory(name, Chart, convertData = true) {
 
         const parentSize = getParentSize(element, props.width, props.height);
         if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
-          this.setSize(parentSize);
+          this.changeSize(props.config, parentSize[0], parentSize[1]);
 
-          if (ChartProcess.changeSize) {
-            this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, parentSize[0], parentSize[1]);
-          } else {
-            this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
-          }
+          // this.setSize(parentSize);
+          //
+          // if (ChartProcess.changeSize) {
+          //   this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, parentSize[0], parentSize[1]);
+          // } else {
+          //   this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
+          // }
         }
       })
     }
