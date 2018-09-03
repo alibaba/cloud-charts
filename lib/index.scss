@@ -12,6 +12,28 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: "TXDDINMediumNumber";
+  src: url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinmedium/txddinmedium.eot"); /* IE9 */
+  src: url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinmedium/txddinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinmedium/txddinmedium.woff") format("woff"), /* chrome、firefox */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinmedium/txddinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinmedium/txddinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "TXDDINRegularNumber";
+  src: url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinregular/txddinregular.eot"); /* IE9 */
+  src: url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinregular/txddinregular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinregular/txddinregular.woff") format("woff"), /* chrome、firefox */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinregular/txddinregular.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("//g-assets.daily.taobao.net/ls/lib-common/1.0.4/txddinregular/txddinregular.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  font-style: normal;
+  font-weight: normal;
+}
+
 /* 全局公用样式 */
 .aisc-widgets {
   .widgets-reset-button {
