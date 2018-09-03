@@ -187,15 +187,17 @@ function g2Factory(name, Chart, convertData = true) {
 
     // 动态适配高宽，利用 resizeRunning 做节流
     resizeRunning = false;
+    resizeTimer = null;
     autoResize() {
       if (this.resizeRunning) {
+        cancelAnimationFrame(this.resizeTimer);
         return;
       }
 
       const { chartDom: element, props, _size } = this;
       this.resizeRunning = true;
 
-      requestAnimationFrame(() => {
+      this.resizeTimer = requestAnimationFrame(() => {
         this.resizeRunning = false;
 
         const parentSize = getParentSize(element, props.width, props.height);
