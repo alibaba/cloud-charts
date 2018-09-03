@@ -187,7 +187,6 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     changeSize(config, w, h) {
-      console.log('widgets change size');
       this.setSize([w, h]);
 
       if (ChartProcess.changeSize) {
@@ -202,7 +201,7 @@ function g2Factory(name, Chart, convertData = true) {
     resizeTimer = null;
     autoResize() {
       if (this.resizeRunning) {
-        window.debounceTest && cancelAnimationFrame(this.resizeTimer);
+        cancelAnimationFrame(this.resizeTimer);
         return;
       }
 
