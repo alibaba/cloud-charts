@@ -57,5 +57,7 @@ Object.assign(color, widgetsVar, {
 });
 
 fonts.fontFamilyNumber = widgetsVar.fontFamilyNumber;
+fonts.fontFamilyTxdMediumNumber = widgetsVar.fontFamilyTxdMediumNumber;
+fonts.fontFamilyTxdRegularNumber = widgetsVar.fontFamilyTxdRegularNumber;
 
 export { size, color, fonts };
