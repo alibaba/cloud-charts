@@ -65,7 +65,12 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
     }
 
     if (legendConfig['g2-legend'] && typeof legendConfig['g2-legend'] === 'object') {
-      Object.assign(legendConfig['g2-legend'], style);
+      Object.keys(style).forEach((key) => {
+        if (style[key]) {
+          legendConfig['g2-legend'][key] = style[key];
+        }
+      });
+      // Object.assign(legendConfig['g2-legend'], style);
     }
 
     chart.legend(legendConfig);
