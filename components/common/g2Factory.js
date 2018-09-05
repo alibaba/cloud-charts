@@ -66,6 +66,8 @@ function g2Factory(name, Chart, convertData = true) {
         this.componentWillUnmount();
 
         requestAnimationFrame(() => {
+          this.initSize(nextProps);
+
           this.initChart(nextProps);
         });
 
@@ -117,6 +119,9 @@ function g2Factory(name, Chart, convertData = true) {
     // 准备销毁
     unmountCallbacks = [];
     componentWillUnmount () {
+      // 清空缩放相关变量和事件
+      this.resizeRunning = false;
+      this.resizeTimer = null;
       window.removeEventListener('resize', this.autoResize);
 
       if (ChartProcess.destroy) {
@@ -178,9 +183,11 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     // 初始化时适配高宽
-    initSize() {
+    initSize(props) {
+      let currentProps = props || this.props;
+
       const element = this.chartDom;
-      const parentSize = getParentSize(element, this.props.width, this.props.height);
+      const parentSize = getParentSize(element, currentProps.width, currentProps.height);
       this.setSize(parentSize);
 
       window.addEventListener('resize', this.autoResize);
