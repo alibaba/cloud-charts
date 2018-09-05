@@ -118,4 +118,21 @@
       transition: transform 0.2s ease-in-out;
     }
   }
+
+  ::-webkit-scrollbar {
+    background: $color-n1-4;
+    width: 8px;
+    height: 8px;
+    padding: 0 3px;
+    // border-radius: 3px;
+  }
+  ::-webkit-scrollbar-corner {
+    background: $color-n1-4;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $color-n1-7;
+    border-radius: 3px;
+  }
 }

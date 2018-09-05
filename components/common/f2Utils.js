@@ -1,6 +1,6 @@
 export function dealData(originData, config) {
   const newData = [];
-  originData.forEach(oneData => {
+  originData.forEach((oneData) => {
     const { name: dataName } = oneData;
 
     oneData.data.forEach((d, i) => {
@@ -49,10 +49,28 @@ export function setInlineDomStyle(styleObj) {
       result += `${prop.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${styleObj[prop]}; `;
     }
   }
-  return result + "'";
+  return `${result}'`;
 }
 
 let uniqueId = 0;
-export function generateUniqueId() {
-  return `react-f2-${uniqueId++}`;
+export function generateUniqueId(extra = '') {
+  return `react-f2-${extra}${uniqueId++}`;
+}
+
+export function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// 获取当前点击的点在canvas中的相对位置
+export function getPoint(canvas, clientX, clientY) {
+  const bbox = canvas.getBoundingClientRect();
+  return {
+    x: clientX - bbox.left,
+    y: clientY - bbox.top
+  };
 }

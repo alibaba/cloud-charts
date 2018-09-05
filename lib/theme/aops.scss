@@ -1,0 +1,84 @@
+@import "~@alife/aisc-core/scss/aisc";
+
+$font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$font-size-large-number: 28px !default;
+$font-size-xlarge-number: 32px !default;
+
+// 纯颜色
+$widgets-color-white: #FFFFFF !default;
+$widgets-color-black: #000000 !default;
+
+$widgets-color-text-1: #333333 !default;
+$widgets-color-text-2: #666666 !default;
+$widgets-color-text-3: #999999 !default;
+$widgets-color-disable: #CCCCCC !default;
+
+$widgets-color-blue: #25A4F5 !default;
+$widgets-color-orange: #F9A825 !default;
+$widgets-color-red: #EF5350 !default;
+$widgets-color-green: #2CDFAB !default;
+$widgets-color-gray: #E5E7E9 !default;
+
+$widgets-color-category-1: $widgets-color-blue !default;
+$widgets-color-category-2: $widgets-color-green !default;
+$widgets-color-category-3: #896AFF !default;
+$widgets-color-category-4: $widgets-color-red !default;
+$widgets-color-category-5: $widgets-color-orange !default;
+$widgets-color-category-6: #4081DC !default;
+$widgets-color-category-7: #26C6DA !default;
+$widgets-color-category-8: #555CE5 !default;
+$widgets-color-category-9: #EF57CA !default;
+$widgets-color-category-10: #07D7FE !default;
+$widgets-color-category-11: #9E57E5 !default;
+$widgets-color-category-12: #FF7842 !default;
+
+$widgets-color-linear-1: $widgets-color-blue !default;
+$widgets-color-linear-2: #7CC8F9 !default;
+$widgets-color-linear-3: #D3EDFD !default;
+$widgets-color-linear-4: #51B6F7 !default;
+$widgets-color-linear-5: #A8DBFB !default;
+$widgets-color-linear-6: #3AADF6 !default;
+$widgets-color-linear-7: #66BFF8 !default;
+$widgets-color-linear-8: #92D1FA !default;
+$widgets-color-linear-9: #BDE3FC !default;
+$widgets-color-linear-10: #E9F5FE !default;
+
+// 图例 Legend
+$widgets-legend-uncheck: #999999 !default;
+$widgets-legend-text: #333333 !default;
+
+// label
+$widgets-label-text: #999999 !default;
+
+// 提示信息 tooltip
+$widgets-tooltip-background: #F7F9FB !default;
+$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-cross-line: #C4C6CF !default;
+$widgets-tooltip-cross-react: #E5E7E9 !default;
+$widgets-tooltip-cross-react-opacity: 0.3 !default;
+$widgets-tooltip-title: #999999 !default;
+$widgets-tooltip-text: #333333 !default;
+$widgets-tooltip-marker-fill: $widgets-color-white !default;
+
+// 轴 Axis
+$widgets-axis-label: #999999 !default;
+$widgets-axis-line: #E5E7E9 !default;
+$widgets-axis-grid: #F2F3F7 !default;
+
+// 业务颜色
+$widgets-mini-card-empty: #2F3244 !default;
+$widgets-circle-number: currentColor !default;
+
+// 地图特有
+$widgets-map-area-bg: #2F3244 !default;
+$widgets-map-area-border: #252837 !default;
+$widgets-map-label: #ABADBA !default;
+
+// 卡片
+$widgets-container-background: $widgets-color-white !default;
+$widgets-container-title: #333333 !default;
+$widgets-container-split-line: #E5E7E9 !default;
+
+// 桑基图
+$widgets-sankey-edge: #E5E7E9 !default;
+$widgets-sankey-node-text: #999999 !default;
