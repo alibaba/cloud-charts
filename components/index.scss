@@ -120,19 +120,19 @@
   }
 
   ::-webkit-scrollbar {
-    background: $color-n1-4;
+    background: $widgets-scrollbar-bg;
     width: 8px;
     height: 8px;
     padding: 0 3px;
     // border-radius: 3px;
   }
   ::-webkit-scrollbar-corner {
-    background: $color-n1-4;
+    background: $widgets-scrollbar-bg;
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: $color-n1-7;
+    background: $widgets-scrollbar-thumb;
     border-radius: 3px;
   }
 }
