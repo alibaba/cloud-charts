@@ -159,6 +159,9 @@ export default {
         position: 'static',
         marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
       },
+      'g2-legend-list-item': {
+        marginRight: 0
+      },
     }, true);
 
     // tooltip
