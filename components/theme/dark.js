@@ -54,6 +54,34 @@ Object.assign(color, widgetsVar, {
     widgetsVar.widgetsColorLinear9,
     widgetsVar.widgetsColorLinear10,
   ],
+
+  // 青色色阶 - turquoise
+  // 连续色阶，比较接近的颜色会错开
+  linear_turquoise_10: [
+    widgetsVar.widgetsColorLinearTurquoise1,
+    widgetsVar.widgetsColorLinearTurquoise5,
+    widgetsVar.widgetsColorLinearTurquoise9,
+    widgetsVar.widgetsColorLinearTurquoise3,
+    widgetsVar.widgetsColorLinearTurquoise7,
+    widgetsVar.widgetsColorLinearTurquoise10,
+    widgetsVar.widgetsColorLinearTurquoise2,
+    widgetsVar.widgetsColorLinearTurquoise4,
+    widgetsVar.widgetsColorLinearTurquoise6,
+    widgetsVar.widgetsColorLinearTurquoise8,
+  ],
+  // 顺序色阶，连续相似的颜色排列
+  order_turquoise_10: [
+    widgetsVar.widgetsColorLinearTurquoise1,
+    widgetsVar.widgetsColorLinearTurquoise2,
+    widgetsVar.widgetsColorLinearTurquoise3,
+    widgetsVar.widgetsColorLinearTurquoise4,
+    widgetsVar.widgetsColorLinearTurquoise5,
+    widgetsVar.widgetsColorLinearTurquoise6,
+    widgetsVar.widgetsColorLinearTurquoise7,
+    widgetsVar.widgetsColorLinearTurquoise8,
+    widgetsVar.widgetsColorLinearTurquoise9,
+    widgetsVar.widgetsColorLinearTurquoise10,
+  ],
 });
 
 fonts.fontFamilyNumber = widgetsVar.fontFamilyNumber;
