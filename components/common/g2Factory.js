@@ -58,11 +58,11 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig } = nextProps;
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
       // 配置项有变化，重新生成图表
-      if (changeConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
+      if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
         this.componentWillUnmount();
 
         requestAnimationFrame(() => {
