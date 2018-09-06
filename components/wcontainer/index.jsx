@@ -32,12 +32,9 @@ export default class Wcontainer extends React.Component {
   }
 
   renderTitle(title, titleBorder, operation) {
-    const hideTitleBorder = titleBorder ? '' : `${prefix}-hide-title-border`;
+    const titleBorderCls = titleBorder ? `${prefix}-title-border` : '';
     return (
-      <div className={`${prefix}-title ${hideTitleBorder}`}>
-        {
-          titleBorder ? <span className={`${prefix}-title-border`} /> : null
-        }
+      <div className={`${prefix}-title ${titleBorderCls}`}>
         {title}
         {
           operation ?
