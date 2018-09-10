@@ -47,13 +47,13 @@ function f2Factory(name, Chart) {
       data: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]).isRequired,
       plotCfg: PropTypes.object,
       forceFit: PropTypes.bool
-    };
+    }
 
     static defaultProps = {
       forceFit: false,
       plotCfg: {},
       config: {}
-    };
+    }
 
     static displayName = 'AismWidgets' + name;
 
@@ -68,16 +68,16 @@ function f2Factory(name, Chart) {
 
     componentDidMount() {
       // 开始初始化图表
-      const props = this.props;
-
-      // 如果外部有传入颜色主题，则使用这个主题
-      if (props.config.colors) {
-        F2.Global.colors = props.config.colors;
-      }
-      F2.Global.pixelRatio = 2;
-      const { width, height, data: chartData, forceFit, config, ...otherProps } = props;
+      const { width, height, data: chartData, forceFit, config, ...otherProps } = this.props;
       const { padding, legend, xAxis, yAxis, width: configWidth } = config;
       const initData = [];
+
+      // 如果外部有传入颜色主题，则使用这个主题
+      if (config.colors) {
+        F2.Global.colors = config.colors;
+      }
+      F2.Global.pixelRatio = 2;
+
       chartData.forEach(item => {
         let curObj = {
           name: item.name,
@@ -309,8 +309,7 @@ function f2Factory(name, Chart) {
           });
         }
 
-        let legendStr =
-          '<div style="display: flex;WebkitUserSelect: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px;">';
+        let legendStr = '<div style="display: flex;WebkitUserSelect: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px;">';
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
