@@ -50,7 +50,7 @@
         }
         #{$wcircle-prefix}-title {
           font-size: 12px;
-          margin: 0;
+          margin: 2px 0 0 0;
           line-height: 1;
           color: $widgets-color-text-2;
         }
@@ -115,10 +115,9 @@
     }
     #{$wcircle-prefix}-title {
       font-size: 12px;
-      margin: 0;
+      margin: 2px 0 0 0;
       line-height: 1;
       color: $widgets-color-text-2;
-      margin-top: 2px;
     }
 
   }

@@ -54,9 +54,100 @@ function g2Factory(name, Chart, convertData = true) {
       // 设置初始高宽
       this.initSize();
 
+      this.initChart(this.props);
+    }
+
+    componentWillReceiveProps(nextProps){
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig } = nextProps;
+      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
+
+      // 配置项有变化，重新生成图表
+      if (changeConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
+        this.componentWillUnmount();
+
+        requestAnimationFrame(() => {
+          this.initSize(nextProps);
+
+          this.initChart(nextProps);
+        });
+
+        return;
+      }
+
+      if (newPadding !== oldPadding) {
+        console.warn('padding 不支持修改');
+      }
+
+      let needAfterRender = false;
+
+      // 数据有变化
+      if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
+        const data = convertData && ChartProcess.convertData !== false && newConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newConfig) : newData;
+        this.rawData = newData;
+        if (ChartProcess.changeData) {
+          this.chart && ChartProcess.changeData.call(this, this.chart, newConfig, data);
+        } else {
+          this.chart && this.chart.changeData(data);
+        }
+
+        needAfterRender = true;
+      }
+      // 传入的长宽有变化
+      if (newWidth !== oldWidth || newHeight !== oldHeight) {
+        this.changeSize(newConfig, newWidth, newHeight);
+        // if (ChartProcess.changeSize) {
+        //   this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
+        // } else {
+        //   this.chart && this.chart.changeSize(newWidth, newHeight);
+        // }
+
+        needAfterRender = true;
+      }
+
+      if (needAfterRender) {
+        this.afterRender(newConfig);
+      }
+    }
+
+    // 渲染控制，仅 class、style、children 变化会触发渲染
+    shouldComponentUpdate (nextProps) {
+      const { className: newClass, style: newStyle, children: newChild } = nextProps;
+      const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
+      return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
+    }
+
+    // 准备销毁
+    unmountCallbacks = [];
+    componentWillUnmount () {
+      // 清空缩放相关变量和事件
+      this.resizeRunning = false;
+      this.resizeTimer = null;
+      window.removeEventListener('resize', this.autoResize);
+
+      if (ChartProcess.destroy) {
+        this.chart && ChartProcess.destroy.call(this, this.chart);
+      }
+      if (this.unmountCallbacks.length > 0) {
+        this.unmountCallbacks.forEach((cb) => {
+          cb && cb.call(this, this.chart);
+        });
+      }
+
+      this.chart && this.chart.off();
+      this.chart && this.chart.destroy && this.chart.destroy();
+      this.chart = null;
+      // this.chartDom = null;
+      // this.chartId = null;
+
+      this.afterRenderCallbacks = [];
+      this.unmountCallbacks = [];
+    }
+
+    initChart(props) {
+      let currentProps = props || this.props;
       // 开始初始化图表
-      const props = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, this.props) : this.props;
-      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = props;
+      currentProps = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, currentProps) : currentProps;
+      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = currentProps;
       // 生成图表实例
       const chart = new G2.Chart({
         container: this.chartDom,
@@ -65,7 +156,7 @@ function g2Factory(name, Chart, convertData = true) {
         padding,
         forceFit: forceFit || false,
         // auto-padding 时自带的内边距
-        autoPaddingAppend: 2,
+        autoPaddingAppend: 1,
         ...otherProps
       });
 
@@ -91,103 +182,53 @@ function g2Factory(name, Chart, convertData = true) {
       this.afterRender(config);
     }
 
-    componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding } = this.props;
-
-      if (newPadding !== oldPadding) {
-        console.warn('padding 不支持修改');
-      }
-
-      let needAfterRender = false;
-
-      // 数据有变化
-      if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
-        const data = convertData && ChartProcess.convertData !== false && newConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newConfig) : newData;
-        this.rawData = newData;
-        if (ChartProcess.changeData) {
-          this.chart && ChartProcess.changeData.call(this, this.chart, newConfig, data);
-        } else {
-          this.chart && this.chart.changeData(data);
-        }
-
-        needAfterRender = true;
-      }
-      // 传入的长宽有变化
-      if (newWidth !== oldWidth || newHeight !== oldHeight) {
-        if (ChartProcess.changeSize) {
-          this.chart && ChartProcess.changeSize.call(this, this.chart, newConfig, newWidth, newHeight);
-        } else {
-          this.chart && this.chart.changeSize(newWidth, newHeight);
-        }
-
-        needAfterRender = true;
-      }
-
-      if (needAfterRender) {
-        this.afterRender(newConfig);
-      }
-    }
-
-    // 渲染控制，仅 class、style、children 变化会触发渲染
-    shouldComponentUpdate (nextProps) {
-      const { className: newClass, style: newStyle, children: newChild } = nextProps;
-      const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
-      return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
-    }
-
-    // 准备销毁
-    unmountCallbacks = [];
-    componentWillUnmount () {
-      window.removeEventListener('resize', this.autoResize);
-
-      if (ChartProcess.destroy) {
-        this.chart && ChartProcess.destroy.call(this, this.chart);
-      }
-      if (this.unmountCallbacks.length > 0) {
-        this.unmountCallbacks.forEach((cb) => {
-          cb && cb.call(this, this.chart);
-        });
-      }
-
-      this.chart && this.chart.off();
-      this.chart && this.chart.destroy && this.chart.destroy();
-      this.chart = null;
-      this.chartDom = null;
-      this.chartId = null;
-    }
-
     // 初始化时适配高宽
-    initSize() {
+    initSize(props) {
+      let currentProps = props || this.props;
+
       const element = this.chartDom;
-      const parentSize = getParentSize(element, this.props.width, this.props.height);
+      const parentSize = getParentSize(element, currentProps.width, currentProps.height);
       this.setSize(parentSize);
 
       window.addEventListener('resize', this.autoResize);
     }
 
+    changeSize(config, w, h) {
+      this.setSize([w, h]);
+
+      if (ChartProcess.changeSize) {
+        this.chart && ChartProcess.changeSize.call(this, this.chart, config, w, h);
+      } else {
+        this.chart && this.chart.changeSize(w, h);
+      }
+    }
+
     // 动态适配高宽，利用 resizeRunning 做节流
     resizeRunning = false;
+    resizeTimer = null;
     autoResize() {
       if (this.resizeRunning) {
+        cancelAnimationFrame(this.resizeTimer);
         return;
       }
 
       const { chartDom: element, props, _size } = this;
       this.resizeRunning = true;
 
-      requestAnimationFrame(() => {
+      this.resizeTimer = requestAnimationFrame(() => {
         this.resizeRunning = false;
 
         const parentSize = getParentSize(element, props.width, props.height);
         if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
-          this.setSize(parentSize);
+          this.changeSize(props.config, parentSize[0], parentSize[1]);
 
-          if (ChartProcess.changeSize) {
-            this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, parentSize[0], parentSize[1]);
-          } else {
-            this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
-          }
+          // this.setSize(parentSize);
+          //
+          // if (ChartProcess.changeSize) {
+          //   this.chart && ChartProcess.changeSize.call(this, this.chart, props.config, parentSize[0], parentSize[1]);
+          // } else {
+          //   this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
+          // }
         }
       })
     }

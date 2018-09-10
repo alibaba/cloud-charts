@@ -1,6 +1,7 @@
 'use strict';
 
 import { size, color, fonts } from '../theme/index';
+import { pxToNumber } from './common';
 
 const widgetsTheme = {
   // 线图只有一个数据时显示点
@@ -57,7 +58,10 @@ const widgetsTheme = {
       label: {
         offset: 18,
         autoRotate: false,
-        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
+        textStyle: {
+          fill: color.widgetsAxisLabel,
+          fontFamily: fonts.fontFamilyTxdRegularNumber
+        } // 底部标签文本的颜色
       },
       line: {
         stroke: color.widgetsAxisLine
@@ -67,7 +71,10 @@ const widgetsTheme = {
     left: {
       label: {
         offset: 8,
-        textStyle: { fill: color.widgetsAxisLabel } // 左部标签文本的颜色
+        textStyle: {
+          fill: color.widgetsAxisLabel,
+          fontFamily: fonts.fontFamilyTxdRegularNumber
+        } // 左部标签文本的颜色
       },
       grid: {
         // 让grid在轴线的下方
@@ -85,13 +92,19 @@ const widgetsTheme = {
     right: {
       label: {
         offset: 8,
-        textStyle: { fill: color.widgetsAxisLabel } // 右部标签文本的颜色
+        textStyle: {
+          fill: color.widgetsAxisLabel,
+          fontFamily: fonts.fontFamilyTxdRegularNumber
+        } // 右部标签文本的颜色
       }
     },
     circle: {
       label: {
         offset: 8,
-        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
+        textStyle: {
+          fill: color.widgetsAxisLabel,
+          fontFamily: fonts.fontFamilyTxdRegularNumber
+        } // 底部标签文本的颜色
       },
       line: {
         stroke: color.widgetsAxisLine
@@ -106,7 +119,10 @@ const widgetsTheme = {
     radius: {
       label: {
         offset: 8,
-        textStyle: { fill: color.widgetsAxisLabel } // 底部标签文本的颜色
+        textStyle: {
+          fill: color.widgetsAxisLabel,
+          fontFamily: fonts.fontFamilyTxdRegularNumber
+        } // 底部标签文本的颜色
       },
       line: {
         stroke: color.widgetsAxisLine
@@ -130,7 +146,7 @@ const widgetsTheme = {
       boxShadow: color.widgetsTooltipShadow,
       padding: size.s3,
       borderRadius: size.s1,
-      fontFamily: fonts.fontFamilyBase,
+      fontFamily: fonts.fontFamilyTxdMediumNumber,
       fontSize: fonts.fontSizeBaseCaption,
       lineHeight: fonts.fontSizeBaseCaption,
       color: color.widgetsTooltipText,
@@ -207,7 +223,7 @@ const widgetsTheme = {
       // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
       'g2-legend': {
         overflow: 'auto',
-        fontFamily: fonts.fontFamilyBase,
+        fontFamily: fonts.fontFamilyTxdMediumNumber,
         fontSize: fonts.fontSizeBaseCaption,
         lineHeight: fonts.fontSizeBaseCaption,
         color: color.widgetsLegendText
@@ -237,7 +253,7 @@ const widgetsTheme = {
         style: {
           fill: color.colorB16,
           fontSize: fonts.fontSizeBaseCaption,
-          fontFamily: fonts.fontFamilyBase,
+          fontFamily: fonts.fontFamilyTxdMediumNumber,
         }
       }
     },
