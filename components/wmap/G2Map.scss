@@ -11,6 +11,8 @@
     position: absolute;
     right: 0;
     bottom: 0;
+    // 2018-08-17 设置 max-width 让南海诸岛能根据图表大小缩放
+    max-width: 14%;
   }
 
   .aisc-widgets-map-legend {
