@@ -174,7 +174,7 @@ function legendCollapse(legendConfig) {
           const chartHeight = this._size && this._size[1];
           if (chartHeight) {
             // 行数最多占图表高度的三分之一，最小为2。
-            collapseRow = Math.max(2, Math.round(( chartHeight / itemHeight ) / 3));
+            collapseRow = Math.max(2, Math.round((chartHeight / itemHeight) / 3));
           }
         } else {
           collapseRow = Number(collapseRow);
