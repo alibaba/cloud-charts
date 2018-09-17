@@ -57,29 +57,28 @@ function g2Factory(name, Chart, convertData = true) {
       this.initChart(this.props);
     }
 
+    isReRendering = false;
+    reRenderTimer = null;
     componentWillReceiveProps(nextProps){
       const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
       // 配置项有变化，重新生成图表
       if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
-        const nowChartInstance = this.chart;
+        // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
+        if (this.isReRendering) {
+          window.cancelAnimationFrame(this.reRenderTimer);
+        }
+
+        this.isReRendering = true;
         this.componentWillUnmount();
 
-        requestAnimationFrame(() => {
-          const childList = this.chartDom.children;
-          const chartDomEl = nowChartInstance._attrs.wrapperEl;
-          if (chartDomEl) {
-            for (let i = 0; i < childList.length; i++) {
-              if (childList[i] === chartDomEl) {
-                this.chartDom.removeChild(chartDomEl);
-              }
-            }
-          }
-
+        this.reRenderTimer = requestAnimationFrame(() => {
           this.initSize(nextProps);
 
           this.initChart(nextProps);
+
+          this.isReRendering = false;
         });
 
         return;
