@@ -14,6 +14,7 @@ import './G2Line.scss';
 
 const defaultConfig = {
   colors: color.category_12,
+  areaColors: [],
   padding: [40, 5, 32, 44],
   xAxis: {
     type: 'time', // 默认为线性
@@ -185,14 +186,16 @@ export default {
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   const geomStyle = config.geomStyle || {};
+  const areaColors = merge([], config.colors, config.areaColors);
+
   if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
+    chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
     chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style('x*y*type*extra', {
       lineJoin: 'round',
       ...geomStyle
     });
   } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.colors).shape(areaShape).active(false);
+    chart.area().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
     chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style('x*y*type*extra', {
       lineJoin: 'round',
       ...geomStyle
