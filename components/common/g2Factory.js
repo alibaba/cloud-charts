@@ -63,14 +63,22 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 配置项有变化，重新生成图表
       if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
+        const chartDomEl = this.chart && this.chart._attrs.wrapperEl;
         this.componentWillUnmount();
+        // this.chartDom.removeChild(chartDomEl);
 
-        // requestAnimationFrame 会在标签页转到后台时不运行，导致重复dom问题
-        setTimeout(() => {
+        requestAnimationFrame(() => {
+          const childList = this.chartDom.children;
+          for (let i = 0; i < childList.length; i++) {
+            if (childList[i] === chartDomEl) {
+              this.chartDom.removeChild(chartDomEl);
+            }
+          }
+
           this.initSize(nextProps);
 
           this.initChart(nextProps);
-        }, 1000 / 60);
+        });
 
         return;
       }
