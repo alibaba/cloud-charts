@@ -57,7 +57,13 @@ module.exports = {
       //   // 将demo目录发布至demo平台
       //   command: 'fie git publishDemo'
       // }
-    ]
+    ],
+
+    online: [
+      {
+        command: 'node_modules/.bin/gulp online'
+      }
+    ],
   },
 
   // ci 插件所需的配置

@@ -194,3 +194,38 @@ gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) =>
 gulp.task('default', ['start']);
 // gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
 gulp.task('build', ['build:dist', 'build:lib', 'build:theme']);
+
+gulp.task('online', (cb) => {
+  let buildFirstTime = true;
+  const webpackConfig = config.online();
+  const compiler = webpack(webpackConfig);
+
+  compiler.plugin('done', (stats) => {
+    if (stats.hasErrors()) {
+      console.log(stats.toString({ colors: true }));
+    }
+    // 只有第一次启动start的时候才执行
+    if (buildFirstTime) {
+      buildFirstTime = false;
+      cb && cb();
+      // listening
+      gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${webpackConfig.port}`));
+      gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
+      // open(`http://localhost:${webpackConfig.port}/demo/index.html`);
+    }
+  });
+
+  new WebpackDevServer(compiler, {
+    hot: true,
+    inline: true,
+    // stats: { colors: true },
+    quiet: true,
+    publicPath: webpackConfig.output.publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    contentBase: path.resolve(__dirname, './')
+  }).listen(webpackConfig.port, '0.0.0.0', (err) => {
+    if (err) {
+      throw new gutil.PluginError('webpack-dev-server', err);
+    }
+  });
+});
