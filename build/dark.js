@@ -77747,11 +77747,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (changeConfig !== false && !_g2.default.Util.isEqual(newConfig, oldConfig)) {
 	          this.componentWillUnmount();
 
-	          (0, _common.requestAnimationFrame)(function () {
+	          // requestAnimationFrame 会在标签页转到后台时不运行，导致重复dom问题
+	          setTimeout(function () {
 	            _this2.initSize(nextProps);
 
 	            _this2.initChart(nextProps);
-	          });
+	          }, 1000 / 60);
 
 	          return;
 	        }

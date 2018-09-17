@@ -65,11 +65,12 @@ function g2Factory(name, Chart, convertData = true) {
       if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
         this.componentWillUnmount();
 
-        requestAnimationFrame(() => {
+        // requestAnimationFrame 会在标签页转到后台时不运行，导致重复dom问题
+        setTimeout(() => {
           this.initSize(nextProps);
 
           this.initChart(nextProps);
-        });
+        }, 1000 / 60);
 
         return;
       }
