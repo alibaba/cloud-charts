@@ -63,15 +63,16 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 配置项有变化，重新生成图表
       if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
-        const chartDomEl = this.chart && this.chart._attrs.wrapperEl;
         this.componentWillUnmount();
-        // this.chartDom.removeChild(chartDomEl);
 
         requestAnimationFrame(() => {
           const childList = this.chartDom.children;
-          for (let i = 0; i < childList.length; i++) {
-            if (childList[i] === chartDomEl) {
-              this.chartDom.removeChild(chartDomEl);
+          const chartDomEl = this.chart && this.chart._attrs.wrapperEl;
+          if (chartDomEl) {
+            for (let i = 0; i < childList.length; i++) {
+              if (childList[i] === chartDomEl) {
+                this.chartDom.removeChild(chartDomEl);
+              }
             }
           }
 
@@ -144,7 +145,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.chart && this.chart.off();
       this.chart && this.chart.destroy && this.chart.destroy();
-      this.chart = null;
+      // this.chart = null;
       // this.chartDom = null;
       // this.chartId = null;
 
@@ -274,7 +275,7 @@ function g2Factory(name, Chart, convertData = true) {
     render() {
       const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
+        <div ref={dom => this.chartDom = dom} id={this.chartId} key={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}
         </div>
       );

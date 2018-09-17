@@ -77745,15 +77745,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // 配置项有变化，重新生成图表
 
 	        if (changeConfig !== false && !_g2.default.Util.isEqual(newConfig, oldConfig)) {
-	          var chartDomEl = this.chart && this.chart._attrs.wrapperEl;
 	          this.componentWillUnmount();
-	          // this.chartDom.removeChild(chartDomEl);
 
 	          (0, _common.requestAnimationFrame)(function () {
 	            var childList = _this2.chartDom.children;
-	            for (var i = 0; i < childList.length; i++) {
-	              if (childList[i] === chartDomEl) {
-	                _this2.chartDom.removeChild(chartDomEl);
+	            var chartDomEl = _this2.chart && _this2.chart._attrs.wrapperEl;
+	            if (chartDomEl) {
+	              for (var i = 0; i < childList.length; i++) {
+	                if (childList[i] === chartDomEl) {
+	                  _this2.chartDom.removeChild(chartDomEl);
+	                }
 	              }
 	            }
 
@@ -77839,7 +77840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.chart && this.chart.off();
 	        this.chart && this.chart.destroy && this.chart.destroy();
-	        this.chart = null;
+	        // this.chart = null;
 	        // this.chartDom = null;
 	        // this.chartId = null;
 
@@ -78014,7 +78015,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'div',
 	          _extends({ ref: function ref(dom) {
 	              return _this6.chartDom = dom;
-	            }, id: this.chartId, className: rootClassName + name + ' ' + className, style: style }, otherProps),
+	            }, id: this.chartId, key: this.chartId, className: rootClassName + name + ' ' + className, style: style }, otherProps),
 	          children ? _react2.default.createElement(
 	            'div',
 	            { className: rootChildClassName },
