@@ -63,11 +63,12 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 配置项有变化，重新生成图表
       if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
+        const nowChartInstance = this.chart;
         this.componentWillUnmount();
 
         requestAnimationFrame(() => {
           const childList = this.chartDom.children;
-          const chartDomEl = this.chart && this.chart._attrs.wrapperEl;
+          const chartDomEl = nowChartInstance._attrs.wrapperEl;
           if (chartDomEl) {
             for (let i = 0; i < childList.length; i++) {
               if (childList[i] === chartDomEl) {
@@ -145,7 +146,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.chart && this.chart.off();
       this.chart && this.chart.destroy && this.chart.destroy();
-      // this.chart = null;
+      this.chart = null;
       // this.chartDom = null;
       // this.chartId = null;
 
