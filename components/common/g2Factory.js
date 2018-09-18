@@ -218,7 +218,7 @@ function g2Factory(name, Chart, convertData = true) {
     resizeTimer = null;
     autoResize() {
       if (this.resizeRunning) {
-        cancelAnimationFrame(this.resizeTimer);
+        window.cancelAnimationFrame(this.resizeTimer);
         return;
       }
 
