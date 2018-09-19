@@ -10,6 +10,7 @@ import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import ResetButton from '../common/ResetButton';
+import drawLine from "../common/drawLine";
 import './G2Line.scss';
 
 const defaultConfig = {
@@ -183,33 +184,3 @@ export default {
     }
   }
 };
-
-function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
-  const geomStyle = config.geomStyle || {};
-  const areaColors = merge([], config.colors, config.areaColors);
-
-  if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
-  } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
-  } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
-  }
-  // 曲线默认点
-  if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
-  } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
-  }
-}
