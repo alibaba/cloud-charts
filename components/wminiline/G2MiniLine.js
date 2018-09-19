@@ -5,7 +5,7 @@ import { color } from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectTooltip from '../common/rectTooltip';
-import drawLine from "../common/drawLine";
+import drawLine from '../common/drawLine';
 
 const defaultConfig = {
   colors: color.category_12,

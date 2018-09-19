@@ -10,7 +10,7 @@ import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import ResetButton from '../common/ResetButton';
-import drawLine from "../common/drawLine";
+import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
 const defaultConfig = {
