@@ -1,7 +1,7 @@
 'use strict';
 
 import { size } from '../theme/index';
-import { noop, pxToNumber } from './common';
+import { pxToNumber } from './common';
 import merge from './merge';
 
 /*
@@ -10,7 +10,7 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { autoCollapse = true, collapseRow = 'auto', align, nameFormatter, valueFormatter, showData, customConfig, allowAllCanceled = false, style = {} } = config.legend || {};
+    const { autoCollapse = true, collapseRow = 'auto', align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
 
     const legendConfig = {
       // 这些是widgets特有的属性
@@ -23,7 +23,10 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       allowAllCanceled,
       // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
       autoPosition: false,
-      onHover: noop,
+      hoverable,
+      onHover,
+      clickable,
+      onClick,
       itemTpl: (value, color, checked, index) => {
         const item = getRawData(config, this.rawData, value, isOneDataGroup);
 
