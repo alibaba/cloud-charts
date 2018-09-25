@@ -57,18 +57,28 @@ function g2Factory(name, Chart, convertData = true) {
       this.initChart(this.props);
     }
 
+    isReRendering = false;
+    reRenderTimer = null;
     componentWillReceiveProps(nextProps){
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig } = nextProps;
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
       // 配置项有变化，重新生成图表
-      if (changeConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
+      if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
+        // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
+        if (this.isReRendering) {
+          window.cancelAnimationFrame(this.reRenderTimer);
+        }
+
+        this.isReRendering = true;
         this.componentWillUnmount();
 
-        requestAnimationFrame(() => {
+        this.reRenderTimer = requestAnimationFrame(() => {
           this.initSize(nextProps);
 
           this.initChart(nextProps);
+
+          this.isReRendering = false;
         });
 
         return;
@@ -156,7 +166,7 @@ function g2Factory(name, Chart, convertData = true) {
         padding,
         forceFit: forceFit || false,
         // auto-padding 时自带的内边距
-        autoPaddingAppend: 1,
+        autoPaddingAppend: 3,
         ...otherProps
       });
 
@@ -208,7 +218,7 @@ function g2Factory(name, Chart, convertData = true) {
     resizeTimer = null;
     autoResize() {
       if (this.resizeRunning) {
-        cancelAnimationFrame(this.resizeTimer);
+        window.cancelAnimationFrame(this.resizeTimer);
         return;
       }
 
@@ -265,7 +275,7 @@ function g2Factory(name, Chart, convertData = true) {
     render() {
       const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
+        <div ref={dom => this.chartDom = dom} id={this.chartId} key={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}
         </div>
       );

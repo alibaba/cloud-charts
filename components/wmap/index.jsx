@@ -6,14 +6,14 @@ import { color } from '../theme/index';
 
 const MapBase = g2Factory('G2Map', G2Map, false);
 const rootClassName = 'aisc-widgets ';
-const southChinaSea = SouthChinaSea({
-  className: 'aisc-widgets-map-south-china-sea',
-  fontColor: color.widgetsMapAreaBg,
-  landColor: color.widgetsMapAreaBg,
-  lineColor: color.widgetsMapAreaBg,
-  boxColor: color.widgetsMapAreaBg,
-  islandColor: color.widgetsMapAreaBg
-});
+// const southChinaSea = SouthChinaSea({
+//   className: 'aisc-widgets-map-south-china-sea',
+//   fontColor: color.widgetsMapAreaBg,
+//   landColor: color.widgetsMapAreaBg,
+//   lineColor: color.widgetsMapAreaBg,
+//   boxColor: color.widgetsMapAreaBg,
+//   islandColor: color.widgetsMapAreaBg
+// });
 
 class Map extends MapBase {
   constructor(props, context) {
@@ -105,15 +105,23 @@ class Map extends MapBase {
     );
   }
 
+  renderSouthChinaSea(config) {
+    if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
+      const { fill } = config.background || {};
+      const mapColor = fill || color.widgetsMapAreaBg;
+
+      return <SouthChinaSea className="aisc-widgets-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
     const { customPointLayer } = this.state;
     return (
       <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>
-        {
-          config.showSouthChinaSea === undefined || config.showSouthChinaSea ?
-            southChinaSea : null
-        }
+        {this.renderSouthChinaSea(config)}
         {
           customPointLayer.length > 0 && customPointLayer.map((layer, i) => {
             return this.renderCustomPointLayer(layer, i);

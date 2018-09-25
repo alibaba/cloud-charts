@@ -6,6 +6,7 @@ import { color } from '../theme/index';
 import { propertyAssign, propertyMap, noop } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
 import './G2Radar.scss';
+import drawLine from '../common/drawLine';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -139,27 +140,10 @@ export default {
       crosshairs: null
     });
 
-    if (config.area && config.stack) {
-      chart.areaStack().position('x*y').color('type', config.colors).active(false);
-      chart.lineStack().position('x*y').color('type', config.colors).style({
-        lineJoin: 'round'
-      });
-    } else if (config.area && !config.stack) {
-      chart.area().position('x*y').color('type', config.colors).active(false);
-      chart.line().position('x*y').color('type', config.colors).style({
-        lineJoin: 'round'
-      });
-    } else {
-      chart.line().position('x*y').color('type', config.colors).style({
-        lineJoin: 'round'
-      });
-    }
-    // 曲线默认点
-    if (config.symbol && config.area && config.stack) {
-      chart.point().adjust('stack').position('x*y').color('type', config.colors).shape('circle').size(3).active(false);
-    } else if (config.symbol) {
-      chart.point().position('x*y').color('type', config.colors).shape('circle').size(3).active(false);
-    }
+    const lineShape = config.spline ? 'smooth' : 'line';
+    const areaShape = config.spline ? 'smooth' : 'area';
+
+    drawLine(chart, config, lineShape, areaShape);
 
     chart.render();
   }

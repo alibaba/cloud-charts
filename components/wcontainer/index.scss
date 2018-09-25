@@ -23,6 +23,7 @@
       }
 
       &#{$wcontainer-prefix}-main-one-chart {
+        // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
         // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
         padding: 0;
         margin-left: $s3;
@@ -41,10 +42,39 @@
     margin-right: $s5;
     padding-top: $s5;
     padding-bottom: 8px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1;
     color: $wcontainer-title-color;
-    border-bottom: 1px solid $wcontainer-split-line;
+    //border-bottom: 1px solid $wcontainer-split-line;
+
+    &#{$wcontainer-prefix}-title-border {
+      position: relative;
+      padding-left: $s3;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: $s5;
+        left: 0;
+
+        width: $s1;
+        height: $s4;
+        background: $widgets-color-blue;
+        border-radius: $s1 / 2;
+      }
+    }
+
+    //#{$wcontainer-prefix}-title-border {
+    //  display: inline-block;
+    //
+    //  width: $s1;
+    //  height: $s4;
+    //  margin-right: $s2;
+    //  vertical-align: -2px;
+    //  background: $widgets-color-blue;
+    //  border-radius: 10px;
+    //}
+
     >#{$wcontainer-prefix}-operation {
       float: right;
 
@@ -59,9 +89,7 @@
       }
     }
   }
-  #{$wcontainer-prefix}-hide-title-border {
-    border-bottom: none;
-  }
+
   #{$wcontainer-prefix}-main {
     flex-grow: 1;
     display: flex;
@@ -101,6 +129,7 @@
       }
     }
     &#{$wcontainer-prefix}-main-one-chart {
+      // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
       // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
       padding: 0;
       margin-left: $s5;

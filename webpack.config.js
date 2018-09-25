@@ -15,7 +15,7 @@ const FallbackPort = require('fallback-port');
 const packageInfo = require('./package');
 
 // 默认开启3000端口,若被占用,则开启其他端口
-const fallbackPort = new FallbackPort(3000);
+const fallbackPort = new FallbackPort(9009);
 
 const componentName = 'AiscWidgets';
 const srcPath = path.resolve(__dirname, './components');
@@ -285,6 +285,52 @@ function prod(themeName) {
   return _config;
 }
 
+/**
+ * online 环境
+ * @returns {*}
+ */
+function online() {
+  const _config = _.cloneDeep(config);
+
+  _config.externals = {
+    react: { // UMD
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "react",
+      root: "React"
+    },
+    'react-dom': 'ReactDOM'
+  };
+
+  _config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {NODE_ENV: JSON.stringify('production')},
+      __DEV__: JSON.stringify(JSON.parse('false')),
+      __VERSION__: JSON.stringify(packageInfo.version),
+      __THEME__: JSON.stringify('index')
+    }),
+    // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
+    new webpack.optimize.DedupePlugin(),
+
+
+    new ExtractTextPlugin('[name].css', {allChunks: true})
+
+    // 压缩代码
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    //   compress: {warnings: false},
+    //   output: {comments: false}
+    // })
+  );
+
+  // 添加soure-map
+  _config.devtool = 'source-map';
+  // 入口文件添加server 和 hrm
+  // _config.entry = Object.assign(getDevEntry(demoPath), getDevEntry(srcPath));
+
+  return _config;
+}
+
 module.exports = {
 
   dev,
@@ -292,6 +338,8 @@ module.exports = {
   demo,
 
   prod,
+
+  online,
 
   srcPath
 

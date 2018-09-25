@@ -155,6 +155,9 @@ export default function (target, startVal, endVal, decimals, duration, options) 
       // make sure values are valid
       if (!isNaN(self.endVal) && !isNaN(self.startVal) && self.startVal !== self.endVal) {
         self.rAF = requestAnimationFrame(self.count);
+      } else if (self.startVal === self.endVal) {
+        console.log('countUp error: startVal and endVal is equal');
+        self.printValue(endVal);
       } else {
         console.log('countUp error: startVal or endVal is not a number');
         self.printValue(endVal);
