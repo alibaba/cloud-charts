@@ -34,8 +34,11 @@ const barConfig = {
     const newProps = { ...props };
     const newConfig = Object.assign({}, defaultConfig, props.config);
 
+    if (typeof newConfig.legend === 'undefined' || typeof newConfig.legend === 'boolean') {
+      newConfig.legend = {};
+    }
+
     if (newConfig.legend) {
-      if (typeof newConfig.legend === 'boolean') newConfig.legend = {};
       const { dir = 'top', show = true, formatter = defaultLegendFormatter } = newConfig.legend;
 
       newConfig.legend.dir = dir;

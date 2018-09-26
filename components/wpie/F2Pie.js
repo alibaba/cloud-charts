@@ -28,8 +28,11 @@ const pie = {
     const newProps = Object.assign({}, props);
     const newConfig = Object.assign({}, defaultConfig, newProps.config);
 
+    if (typeof newConfig.legend === 'undefined' || typeof newConfig.legend === 'boolean') {
+      newConfig.legend = {};
+    }
+
     if (newConfig.legend) {
-      if (typeof newConfig.legend === 'boolean') newConfig.legend = {};
       const { dir = 'right', show = true, formatter = defaultLegendFormatter } = newConfig.legend;
       newConfig.legend.dir = dir;
       newConfig.legend.show = show;

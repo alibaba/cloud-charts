@@ -302,7 +302,7 @@ function f2Factory(name, Chart) {
         if (newData.length < this.originData.length) {
           this.originData.forEach((item, index) => {
             if (!newData[index] || item.name !== newData[index].name) {
-              newData.splice(index, 0, { color: '#E9EDF0', name: item.name, value: '--' });
+              newData.splice(index, 0, { color: 'color.widgetsLegendUncheck', name: item.name, value: '--' });
             } else {
               resultData.push(item);
             }
@@ -313,7 +313,7 @@ function f2Factory(name, Chart) {
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : '#E9EDF0';
+            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
@@ -339,8 +339,8 @@ function f2Factory(name, Chart) {
                 class="legend"
                 data-name=${escapeHtml(i.name)}
               >
-                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${visible ? dotColor: '#E9EDF0'}">
-                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : '#E9EDF0'}">
+                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${visible ? dotColor: 'color.widgetsLegendUncheck'}">
+                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : 'color.widgetsLegendUncheck'}">
                   </span>
                 </span>
                 ${legendFormatter(i)}
@@ -369,7 +369,7 @@ function f2Factory(name, Chart) {
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : '#E9EDF0';
+            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
@@ -382,7 +382,7 @@ function f2Factory(name, Chart) {
         } else {
           legendData.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d.name) > -1;
-            const dotColor = visible ? colors[i] : '#E9EDF0';
+            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                 display: 'flex',
@@ -476,6 +476,9 @@ function f2Factory(name, Chart) {
         backgroundColor: style.backgroundColor || '#fff',
         overflow: 'hidden',
       };
+      const canvasStyle = {
+        backgroundColor: style.backgroundColor || '#fff',
+      };
 
       if (config.legend && config.legend.dir && config.legend.dir === 'right') {
         chartStyle.display = 'flex';
@@ -485,7 +488,7 @@ function f2Factory(name, Chart) {
       return (
         <div id={`aismcontainer-${this.chartId}`} style={chartStyle}>
           <div id={`aismlegend${this.chartId}`} style={{ width: width }} />
-          <canvas ref={dom => (this.canvas = dom)} id={this.chartId} className={rootClassName + name} />
+          <canvas ref={dom => (this.canvas = dom)} id={this.chartId} className={rootClassName + name} style={canvasStyle} />
         </div>
       );
     }

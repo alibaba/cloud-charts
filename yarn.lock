@@ -46,9 +46,9 @@
     loader-utils "1.x"
     object-assign "^4.0.1"
 
-"@alife/aisc-core@0.6.4":
-  version "0.6.4"
-  resolved "http://registry.npm.alibaba-inc.com/@alife/aisc-core/download/@alife/aisc-core-0.6.4.tgz#adc4655abe5d29112f130b9ff6c9d18d272851bc"
+"@alife/aisc-core@0.6.9":
+  version "0.6.9"
+  resolved "http://registry.npm.alibaba-inc.com/@alife/aisc-core/download/@alife/aisc-core-0.6.9.tgz#55ebfd0f58d3943164cf072f66952ee93e70ec72"
 
 "@alife/aisc-core@^0.6.7":
   version "0.6.7"
@@ -173,22 +173,23 @@
   resolved "http://registry.npm.alibaba-inc.com/@alife/next-util/download/@alife/next-util-0.7.0.tgz#8b62d57baa883a2863fa5fa7cf5a201dcc493181"
 
 "@antv/adjust@~0.0.3":
-  version "0.0.6"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/adjust/download/@antv/adjust-0.0.6.tgz#16db3000dd315607acda8f6968caf7b58c36f3a8"
+  version "0.0.7"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/adjust/download/@antv/adjust-0.0.7.tgz#01e83c36b28c50eecb98fad9dc662176b4036ab7"
   dependencies:
-    "@antv/util" "~1.0.11"
+    "@antv/util" "~1.2.5"
 
 "@antv/attr@~0.0.3":
-  version "0.0.6"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/attr/download/@antv/attr-0.0.6.tgz#5b3886512cd290c1bd179e9613f3197243dc0557"
+  version "0.0.7"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/attr/download/@antv/attr-0.0.7.tgz#333f252ce35fc3efdf8ad48046c263a6be2d7d04"
   dependencies:
-    "@antv/util" "~1.0.11"
+    "@antv/util" "~1.2.5"
 
-"@antv/data-set@^0.8.9":
-  version "0.8.9"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/data-set/download/@antv/data-set-0.8.9.tgz#019b3ec73a1309d57dfb379200b8ae02486fa613"
+"@antv/data-set@^0.9.4":
+  version "0.9.6"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/data-set/download/@antv/data-set-0.9.6.tgz#3273a5cb8230ad368a2e8075bce030ac330b2a69"
   dependencies:
-    "@antv/hierarchy" "~0.1.0-beta.2"
+    "@antv/hierarchy" "~0.3.15"
+    "@antv/util" "~1.2.4"
     d3-array "~1.2.0"
     d3-composite-projections "~1.2.0"
     d3-dsv "~1.0.5"
@@ -199,16 +200,15 @@
     d3-sankey "~0.7.1"
     d3-voronoi "~1.1.2"
     dagre "~0.8.2"
-    lodash "~4.17.4"
     point-at-length "~1.0.2"
     regression "~2.0.0"
-    simple-statistics "~4.1.0"
+    simple-statistics "~6.1.0"
     topojson-client "~3.0.0"
     wolfy87-eventemitter "~5.1.0"
 
 "@antv/f2@^3.2.0":
-  version "3.2.0"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/f2/download/@antv/f2-3.2.0.tgz#4eb1bd6d906f90eb0c3b54c7a06ec5fa4bf30efe"
+  version "3.2.2"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/f2/download/@antv/f2-3.2.2.tgz#43b5bef6b9eeef352ae3c5461451936ec59eef3c"
   dependencies:
     "@antv/adjust" "~0.0.3"
     "@antv/attr" "~0.0.3"
@@ -242,18 +242,30 @@
     lodash "~4.17.4"
     wolfy87-eventemitter "~5.1.0"
 
-"@antv/hierarchy@~0.1.0-beta.2":
-  version "0.1.2"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/hierarchy/download/@antv/hierarchy-0.1.2.tgz#d736fe5c4cf8ae664ba51bca194a1786c028ad9d"
+"@antv/gl-matrix@^2.7.1":
+  version "2.7.1"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/gl-matrix/download/@antv/gl-matrix-2.7.1.tgz#acb8e37f7ab3df01345aba4372d7942be42eba14"
+
+"@antv/hierarchy@~0.3.15":
+  version "0.3.15"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/hierarchy/download/@antv/hierarchy-0.3.15.tgz#218c664510c5052185dcc9924e8236d3fd22a020"
+  dependencies:
+    "@antv/util" "^1.2.4"
 
 "@antv/scale@~0.0.6":
-  version "0.0.6"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/scale/download/@antv/scale-0.0.6.tgz#210ed4167f8fb13d2e5fb9f2c259479af190d496"
+  version "0.0.9"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/scale/download/@antv/scale-0.0.9.tgz#24a96d3c3a4a507315a9a335e5a435be4d6ccd45"
   dependencies:
-    "@antv/util" "~1.0.11"
+    "@antv/util" "~1.2.5"
     fecha "~2.3.3"
 
-"@antv/util@~1.0.11", "@antv/util@~1.0.6":
+"@antv/util@^1.2.4", "@antv/util@~1.2.4", "@antv/util@~1.2.5":
+  version "1.2.5"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/util/download/@antv/util-1.2.5.tgz#8896c5055ec29e4a344b5daa97bf82905f7d40cd"
+  dependencies:
+    "@antv/gl-matrix" "^2.7.1"
+
+"@antv/util@~1.0.6":
   version "1.0.12"
   resolved "http://registry.npm.alibaba-inc.com/@antv/util/download/@antv/util-1.0.12.tgz#b55e921f30f1c8410f3e24a2d889e82568c3df38"
 
@@ -7880,9 +7892,9 @@ signal-exit@^3.0.0:
   version "3.0.2"
   resolved "http://registry.npm.alibaba-inc.com/signal-exit/download/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-simple-statistics@~4.1.0:
-  version "4.1.1"
-  resolved "http://registry.npm.alibaba-inc.com/simple-statistics/download/simple-statistics-4.1.1.tgz#533c48d48336ba3d350d8135f20fa7138acb0c7d"
+simple-statistics@~6.1.0:
+  version "6.1.1"
+  resolved "http://registry.npm.alibaba-inc.com/simple-statistics/download/simple-statistics-6.1.1.tgz#e3a0799ffc49914d6f421c5a4ac585f6a13e2bad"
 
 slash@^1.0.0:
   version "1.0.0"
