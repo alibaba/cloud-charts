@@ -6,9 +6,8 @@ import { color } from '../theme/';
 
 F2.Global.pixelRatio = window.devicePixelRatio;
 
-const colorMap = color.category_12;
 const theme = {
-  colors: colorMap,
+  colors: color.category_12,
   pixelRatio: window.devicePixelRatio,
   guide: {
     line: {
@@ -17,7 +16,6 @@ const theme = {
   }
 };
 
-F2.Global.setTheme(theme);
 let uniqueId = 0;
 function generateUniqueId() {
   return `react-f2-${uniqueId++}`;
@@ -66,17 +64,26 @@ function f2Factory(name, Chart) {
       this.chartId = generateUniqueId();
     }
 
+    componentWillMount() {
+      const { config } = this.props;
+
+      // 如果外部有传入颜色主题，则使用这个主题
+      if (config.colors) {
+        theme.colors = config.colors;
+      }
+      if (config.theme) {
+        Object.assign(theme, config.theme);
+      }
+
+      F2.Global.setTheme(theme);
+    }
+
     componentDidMount() {
       // 开始初始化图表
       const { width, height, data: chartData, forceFit, config, ...otherProps } = this.props;
       const { padding, legend, xAxis, yAxis, width: configWidth } = config;
       const initData = [];
-
-      // 如果外部有传入颜色主题，则使用这个主题
-      if (config.colors) {
-        F2.Global.colors = config.colors;
-      }
-      F2.Global.pixelRatio = 2;
+      const colors = F2.Global.colors;
 
       chartData.forEach(item => {
         let curObj = {
@@ -117,7 +124,7 @@ function f2Factory(name, Chart) {
       const data = dealData(initData, config);
       ChartProcess.init.call(this, chart, config, data, initData, this);
       initData.forEach((i, index) => {
-        i.color = colorMap[index];
+        i.color = colors[index];
       });
 
       this.initData = initData;
@@ -291,7 +298,7 @@ function f2Factory(name, Chart) {
 
     renderLegend = (dir = 'top', legendData, visibleItemNames) => {
       this.lastData = legendData;
-      const colors = colorMap;
+      const colors = theme.colors;
       const legendContainer = document.querySelector(`#aismlegend${this.chartId}`);
       const legendFormatter = this.config.legend.formatter;
       const isInit = !visibleItemNames;
@@ -302,7 +309,7 @@ function f2Factory(name, Chart) {
         if (newData.length < this.originData.length) {
           this.originData.forEach((item, index) => {
             if (!newData[index] || item.name !== newData[index].name) {
-              newData.splice(index, 0, { color: 'color.widgetsLegendUncheck', name: item.name, value: '--' });
+              newData.splice(index, 0, { color: color.widgetsLegendUncheck, name: item.name, value: '--' });
             } else {
               resultData.push(item);
             }
@@ -313,7 +320,7 @@ function f2Factory(name, Chart) {
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
+            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
@@ -326,8 +333,8 @@ function f2Factory(name, Chart) {
         } else {
           legendData.forEach((i) => {
             let dotColor = i.color;
-            if (colorMap.indexOf(dotColor) >= 0) {
-              dotColor = colorMap[colorMap.indexOf(dotColor)];
+            if (colors.indexOf(dotColor) >= 0) {
+              dotColor = colors[colors.indexOf(dotColor)];
             }
             const visible = isInit || visibleItemNames.indexOf(i.name) > -1;
             legendStr += `
@@ -339,8 +346,8 @@ function f2Factory(name, Chart) {
                 class="legend"
                 data-name=${escapeHtml(i.name)}
               >
-                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${visible ? dotColor: 'color.widgetsLegendUncheck'}">
-                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : 'color.widgetsLegendUncheck'}">
+                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${visible ? dotColor: color.widgetsLegendUncheck}">
+                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : color.widgetsLegendUncheck}">
                   </span>
                 </span>
                 ${legendFormatter(i)}
@@ -369,7 +376,7 @@ function f2Factory(name, Chart) {
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
+            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
@@ -382,7 +389,7 @@ function f2Factory(name, Chart) {
         } else {
           legendData.forEach((d, i) => {
             const visible = isInit || visibleItemNames.indexOf(d.name) > -1;
-            const dotColor = visible ? colors[i] : 'color.widgetsLegendUncheck';
+            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                 display: 'flex',
@@ -429,7 +436,6 @@ function f2Factory(name, Chart) {
           else {
             visibleItems.push(curName);
           }
-
           this.filterData(visibleItems);
         });
       }
@@ -451,8 +457,12 @@ function f2Factory(name, Chart) {
         }
         return i > -1;
       });
-      const newColorMap = colorMap.filter((c, index) => colorIndexes.indexOf(index) > -1);
-      F2.Global.colors = newColorMap;
+      const colors = theme.colors;
+      const newColorMap = colors.filter((c, index) => colorIndexes.indexOf(index) > -1);
+      // F2.Global.colors = newColorMap;
+      F2.Global.setTheme({
+        colors: newColorMap
+      });
       this.chart && this.chart.changeData(resultData);
       const dir = this.config.legend && this.config.legend.dir;
       this.renderLegend(dir, this.lastData, visibleItemNames);
