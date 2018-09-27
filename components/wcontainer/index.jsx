@@ -31,10 +31,10 @@ export default class Wcontainer extends React.Component {
     chartLog('Wcontainer', 'init');
   }
 
-  renderTitle(title, titleBorder, operation) {
+  renderTitle(title, titleBorder, operation, titleStyle) {
     const titleBorderCls = titleBorder ? `${prefix}-title-border` : '';
     return (
-      <div className={`${prefix}-title ${titleBorderCls}`}>
+      <div className={`${prefix}-title ${titleBorderCls}`} style={titleStyle}>
         {title}
         {
           operation ?
@@ -46,20 +46,20 @@ export default class Wcontainer extends React.Component {
     );
   }
 
-  renderMainNormal() {
+  renderMainNormal(contentStyle) {
     const { children: propsChildren, title, fullContent } = this.props;
 
     const oneChild = React.Children.count(propsChildren) === 1;
     if ((oneChild && propsChildren && propsChildren.type && propsChildren.type.isG2Chart) || fullContent) {
       return (
-        <div className={`${prefix}-main ${prefix}-main-one-chart ${title ? '' : 'no-title'}`}>
+        <div className={`${prefix}-main ${prefix}-main-one-chart ${title ? '' : 'no-title'}`} style={contentStyle}>
           {propsChildren}
         </div>
       );
     }
 
     return (
-      <div className={`${prefix}-main ${title ? '' : 'no-title'}`}>
+      <div className={`${prefix}-main ${title ? '' : 'no-title'}`} style={contentStyle}>
         <Row align="center">
           {React.Children.map(propsChildren, (child, i) => {
             if (!child) {
@@ -100,7 +100,7 @@ export default class Wcontainer extends React.Component {
     );
   }
 
-  renderMainCross() {
+  renderMainCross(contentStyle) {
     let maxColPerRow = 0;
     let currentColPerRow = 0;
     // 计算栅格的ColSpan
@@ -116,14 +116,14 @@ export default class Wcontainer extends React.Component {
     });
     const ColPerRow = ~~(24 / maxColPerRow);
     return (
-      <div className={`${prefix}-main ${prefix}-cross`}>
+      <div className={`${prefix}-main ${prefix}-cross`} style={contentStyle}>
         <div className={`${prefix}-multi-row-container`}>{chunks(this.props.children, ColPerRow)}</div>
       </div>
     );
   }
 
   render() {
-    const { height, arrange, title, titleBorder, operation, className, style, ...otherProps } = this.props;
+    const { height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(otherProps),
@@ -141,9 +141,9 @@ export default class Wcontainer extends React.Component {
         {...otherProps}
         ref={o => { this.container = o; }}
       >
-        {title && this.renderTitle(title, titleBorder, operation)}
-        {arrange === 'normal' && this.renderMainNormal()}
-        {arrange === 'cross' && this.renderMainCross()}
+        {title && this.renderTitle(title, titleBorder, operation, titleStyle)}
+        {arrange === 'normal' && this.renderMainNormal(contentStyle)}
+        {arrange === 'cross' && this.renderMainCross(contentStyle)}
       </div>
     );
   }

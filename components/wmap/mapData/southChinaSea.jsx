@@ -5,7 +5,7 @@ import React from 'react';
 export default function (props) {
   // 2018-08-17 设置 viewBox 和 preserveAspectRatio 让南海诸岛能根据图表大小缩放
   return (
-    <svg version="1.1" baseProfile="full" width="64" height="88" className={props.className} xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 64 88" preserveAspectRatio="xMaxYMax meet">
+    <svg version="1.1" baseProfile="full" width="64" height="88" className={props.className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 88" preserveAspectRatio="xMaxYMax meet">
       <g className="south-china-sea-group">
         <text className="south-china-sea-name" fill={props.fontColor} x="30" y="85" fontSize="8">南海诸岛</text>
         <path className="south-china-sea-land" fill={props.landColor} d="M55.9,0.8c0,0.6,0,0.4-0.2,1.1C55.4,3.1,56,2.8,56.5,4c0.4,0.8,0.2,0.4,0.9,0.8c0.7,0.4,0.9,0.5,0.9,1.2c0,0.6,0.2,0.8,0.6,0.7s0-1.1,0.2-1.9c0.2-0.9,0.6-1.2,1.1-2.2c0.2-0.5,0.3-1.4,0.4-1.7"/>
