@@ -123,7 +123,7 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, ...otherProps } = this.props;
+    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(otherProps),
@@ -134,8 +134,9 @@ export default class Wcontainer extends React.Component {
       <div
         className={mainClasses}
         style={{
+          width,
           minHeight: height,
-          height: height,
+          height,
           ...style
         }}
         {...otherProps}
