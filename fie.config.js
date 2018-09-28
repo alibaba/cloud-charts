@@ -26,10 +26,10 @@ module.exports = {
   },
   tasks: {
     build2: [
-      // {
-      //   // 同步版本号
-      //   command: 'fie git sync'
-      // },
+      {
+        // 同步版本号
+        command: 'fie git sync'
+      },
       // {
       //   // 检测dependencies中的版本依赖
       //   command: 'fie check'
