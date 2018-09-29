@@ -21,7 +21,7 @@ const sortFun = {
 * */
 export default function (chart, config, componentConfig) {
   if (config.tooltip !== false) {
-    const { sort, showTitle = true, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
+    const { sort, showTitle = true, showColon = true, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
 
     const tooltipConfig = {
       showTitle,
@@ -29,7 +29,7 @@ export default function (chart, config, componentConfig) {
       crosshairs: {},
       itemTpl: '<li data-index={index}>'
         + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
-        + '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
+        + `<span class="g2-tooltip-item-name">{name}</span>${showColon ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
     };
 
     if (componentConfig) {
