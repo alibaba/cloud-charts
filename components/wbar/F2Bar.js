@@ -1,14 +1,16 @@
 import f2Factory from '../common/f2Factory';
 import { color } from '../theme/';
-import { getPoint, generateUniqueId, setDomStyle } from '../common/f2Utils';
+import { getPoint, generateUniqueId, setDomStyle, getTooltipId, getContainerId, getLegendId } from '../common/f2Utils';
+import { xAxisConfig, yAxisConfig, legendConfig, tooltipConfig } from '../common/f2Defaults';
+import merge from '../common/merge';
 
 const colorMap = color.category_12;
 const clientWidth = window.innerWidth;
-const defaultLegendFormatter = d =>
-  `<span class="name" style="color: ${color.widgetsTooltipTitle}; margin-right: 6px;">
+const defaultLegendFormatter = (d, titleStyle, valueStyle) =>
+  `<span class="name" style="color: ${titleStyle.fill}; font-size: ${titleStyle.fontSize}px; margin-right: 6px;">
     ${d.name}
   </span>
-  <span class="value" style="color: ${color.widgetsTooltipText}">
+  <span class="value" style="color: ${valueStyle.fill}; font-size: ${valueStyle.fontSize}px;">
     ${d.value ? d.value : ''}
   </span>`;
 
@@ -20,8 +22,13 @@ const defaultConfig = {
   yAxis: {
     min: 0
   },
-  tooltip: true,
-  legend: { show: true, dir: 'top' },
+  tooltip: tooltipConfig,
+  legend: {
+    ...legendConfig,
+    show: true,
+    position: 'top',
+    formatter: defaultLegendFormatter
+  },
   colors: colorMap,
 
   autoSort: false,
@@ -32,16 +39,7 @@ const barConfig = {
 
   beforeInit(props) {
     const newProps = { ...props };
-    const newConfig = Object.assign({}, defaultConfig, props.config);
-
-    if (newConfig.legend) {
-      if (typeof newConfig.legend === 'boolean') newConfig.legend = {};
-      const { dir = 'top', show = true, formatter = defaultLegendFormatter } = newConfig.legend;
-
-      newConfig.legend.dir = dir;
-      newConfig.legend.show = show;
-      newConfig.legend.formatter = formatter;
-    }
+    const newConfig = merge({}, defaultConfig, props.config);
 
     newProps.config = newConfig;
     return newProps;
@@ -50,29 +48,29 @@ const barConfig = {
   init(chart, userConfig, data) {
     const { type, showTop } = userConfig;
 
-    if (userConfig.autoSort) {
-      data.sort((a, b) => b.y - a.y);
-    }
     chart.source(data, {
       y: {
         tickCount: 5
       }
     });
 
-    chart.axis('x', {
-      label: {
-        fontSize: 10
-      },
-      // x轴文字和轴间距5px
-      labelOffset: 5,
-      grid: null
-    });
+    if (userConfig.xAxis.show === false) {
+      chart.axis('x', false);
+    } else {
+      chart.axis('x', {
+        ...xAxisConfig,
+        ...userConfig.xAxis,
+      });
+    }
 
-    chart.axis('y', {
-      label: {
-        fontSize: 10
-      }
-    });
+    if (userConfig.yAxis.show === false) {
+      chart.axis('y', false);
+    } else {
+      chart.axis('y', {
+        ...yAxisConfig,
+        ...userConfig.yAxis
+      });
+    }
 
     if (type === 'cascade') {
       chart
@@ -125,7 +123,7 @@ const barConfig = {
     // 画辅助线
     self.drawGuideLine(data, elem, canvas, config);
 
-    self.drawTopContent(data, canvas, config, self);
+    self.renderTooltip(data, canvas, config, self, elem);
   },
 
   chartTouchMove(e, chart, config, canvas, resultData, originData, elem, self) {
@@ -146,7 +144,7 @@ const barConfig = {
         self.removeGuideLine(elem);
         self.currentCanvasData = data;
         self.drawGuideLine(data, elem, canvas, config);
-        self.drawTopContent(data, canvas, config, self);
+        self.renderTooltip(data, canvas, config, self, elem);
       }
     }
   },
@@ -154,15 +152,17 @@ const barConfig = {
   chartTouchEnd(e, chart, config, canvas, resultData, originData, elem, self) {
     self.inMove = false;
     self.removeGuideLine(elem);
-    self.removeTopContent(self, elem);
+    self.removeTooltip(self, elem);
   },
 
-  drawTopContent(data, canvas, config, self) {
-    if (!config.tooltip) {
-      return;
+  renderTooltip(data, canvas, config, self, elem) {
+    if (config.tooltip === false) {
+      return null;
     }
+    const { titleStyle, valueStyle } = config.legend;
     const dataArr = [];
     const x = data[0]._origin.x;
+    const tooltipId = getTooltipId(elem.chartId);
     data.forEach((i) => {
       dataArr.push({
         color: i.color,
@@ -176,7 +176,7 @@ const barConfig = {
       clientWidth
       }px; padding: 8px 12px; font-size: 12px; line-height: 1.2 ">`;
 
-    topContentStr += `<div style="color: #000">${x}</div>`;
+    topContentStr += `<div style="color: ${valueStyle.fill}">${x}</div>`;
     topContentStr += '<div style="display: flex; flex-direction: row;flex-wrap: wrap;">';
 
     dataArr.forEach((i) => {
@@ -184,43 +184,40 @@ const barConfig = {
       if (colorMap.indexOf(dotColor) >= 0) {
         dotColor = colorMap[colorMap.indexOf(dotColor)];
       }
-      topContentStr += `<div style="margin-right: 30px; margin-top: 12px; white-space: nowrap"><span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${dotColor}"><span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${dotColor}"></span></span><span class="name" style="color: ${
-        color.widgetsTooltipTitle
-      }; margin-right: 6px;">${i.name}</span><span class="value" style="color: ${color.widgetsTooltipText}">${
+      topContentStr += `<div style="margin-right: 30px; margin-top: 12px; white-space: nowrap"><span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: transparent;border: 1px solid ${dotColor}"><span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${dotColor}"></span></span><span class="name" style="color: ${
+        titleStyle.fill
+      }; margin-right: 6px;">${i.name}</span><span class="value" style="color: ${valueStyle.fill}">${
         i.value !== null ? i.value : ''
       }</span></div>`;
     });
     topContentStr += '</div></div>';
 
-    let topContentDiv = document.querySelector(`#${self.tooltipId}`);
+    let topContentDiv = document.querySelector(`#${tooltipId}`);
     if (!topContentDiv) {
       topContentDiv = document.createElement('div');
-      topContentDiv.id = self.tooltipId;
+      topContentDiv.id = tooltipId;
       setDomStyle(topContentDiv, {
-        backgroundColor: color.widgetsTooltipBackground,
+        backgroundColor: config.tooltip.background.fill,
         position: 'absolute',
-        top: -100,
+        top: 0,
         left: 0,
-        borderStyle: 'solid',
-        borderColor: color.widgetsTooltipCrossLine,
-        borderWidth: '1px 0 1px',
+        // borderStyle: 'solid',
+        // borderColor: color.widgetsTooltipCrossLine,
+        // borderWidth: '1px 0 1px',
         padding: 8,
         boxSizing: 'border-box',
         width: `${clientWidth}px`,
         overflow: 'hidden'
       });
-      document.body.appendChild(topContentDiv);
+      const parentContainer = document.getElementById(getContainerId(elem.chartId));
+      parentContainer.appendChild(topContentDiv);
     }
 
     topContentDiv.innerHTML = topContentStr;
-
-    setDomStyle(topContentDiv, {
-      top: `${canvas.getClientRects()[0].top + window.scrollY - topContentDiv.getClientRects()[0].height + config.padding[0]}px`
-    });
   },
 
-  removeTopContent(self, elem) {
-    const parentContainer = document.querySelector(`#aismcontainer-${elem.chartId}`);
+  removeTooltip(self, elem) {
+    const parentContainer = document.querySelector(`#${getContainerId(elem.chartId)}`);
     // 如果有辅助线，则清除
     const tipLines = parentContainer.querySelector('.tipLine');
     if (tipLines) {
@@ -228,15 +225,18 @@ const barConfig = {
         if (tipLines[j]) parentContainer.removeChild(tipLines[j]);
       }
     }
-    const tooltip = document.querySelector(`#${self.tooltipId}`);
+    const tooltip = document.querySelector(`#${getTooltipId(elem.chartId)}`);
     if (tooltip) {
-      document.body.removeChild(tooltip);
+      parentContainer.removeChild(tooltip);
     }
   },
 
   drawGuideLine(data, elem, canvas, config) {
     const { tooltipType, type } = config;
-    const container = document.querySelector(`#aismcontainer-${elem.chartId}`);
+    const container = document.querySelector(`#${getContainerId(elem.chartId)}`);
+    const legendContainer = document.querySelector(`#${getLegendId(elem.chartId)}`);
+    const legendHeight = legendContainer.getClientRects()[0].height;
+    const dirTop = config.legend.position === 'top';
     // 构造图例的数据
     const legendData = data.concat([]);
     legendData.map((d) => {
@@ -252,7 +252,7 @@ const barConfig = {
         value: i._origin.y
       });
     });
-    elem.renderLegend(config.legend.dir, resultArr);
+    elem.renderLegend(resultArr);
 
     if (tooltipType === 'simple') {
       // 简单模式的辅助线
@@ -266,7 +266,7 @@ const barConfig = {
       xTipLine.style.borderStyle = 'dashed';
       xTipLine.style.position = 'absolute';
       xTipLine.style.left = `${config.padding[3]}px`;
-      xTipLine.style.top = `${tipLineY}px`;
+      xTipLine.style.top = dirTop ? `${tipLineY + legendHeight}px` : `${tipLineY}px`;
       xTipLine.style.height = 0;
       xTipLine.style.width = `${canvas.getClientRects()[0].width -
         config.padding[1] -
@@ -282,14 +282,12 @@ const barConfig = {
       tipLine.style.borderStyle = 'dashed';
       tipLine.style.position = 'absolute';
       tipLine.style.left = `${tipLineX - 0.5}px`;
-      tipLine.style.top = `${10}px`;
-      tipLine.style.height = `${tipLineY + config.padding[0] + 10}px`;
+      tipLine.style.bottom = `${16 + config.padding[0]}px`;
+      tipLine.style.height = `${container.querySelector('canvas').getClientRects()[0].height - config.padding[0] - config.padding[2]}px`;
       container.appendChild(tipLine);
     } else if (type === 'cascade') {
       // 如果是复杂的tooltip， 只需要画y轴方向的tipline
       const { x: tipLineX } = data[0];
-      const lastData = data[data.length - 1];
-      const tipLineY = lastData.y[lastData.y.length - 1];
       const tipLine = document.createElement('div');
       tipLine.className = 'tipLine';
       tipLine.style.borderColor = '#ccc';
@@ -298,8 +296,8 @@ const barConfig = {
       tipLine.style.borderStyle = 'dashed';
       tipLine.style.position = 'absolute';
       tipLine.style.left = `${tipLineX - 0.5}px`;
-      tipLine.style.top = `${10}px`;
-      tipLine.style.height = `${tipLineY + config.padding[0]}px`;
+      tipLine.style.bottom = `${16 + config.padding[0]}px`;
+      tipLine.style.height = `${container.querySelector('canvas').getClientRects()[0].height - config.padding[0] - config.padding[2]}px`;
       container.appendChild(tipLine);
     } else if (type === 'dodge') {
       // 如果两个柱的图，寻找中间的y坐标， 只需要画y轴方向的tipline
@@ -323,7 +321,7 @@ const barConfig = {
 
   // 清除辅助线
   removeGuideLine(elem) {
-    const container = document.querySelector(`#aismcontainer-${elem.chartId}`);
+    const container = document.querySelector(`#${getContainerId(elem.chartId)}`);
     const tipLines = container.querySelectorAll('.tipLine');
     tipLines.forEach((t) => {
       container.removeChild(t);

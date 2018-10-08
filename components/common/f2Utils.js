@@ -57,6 +57,18 @@ export function generateUniqueId(extra = '') {
   return `react-f2-${extra}${uniqueId++}`;
 }
 
+export function getTooltipId(id) {
+  return `${id}-tooltip`;
+}
+
+export function getLegendId(id) {
+  return `${id}-legend`;
+}
+
+export function getContainerId(id) {
+  return `${id}-container`;
+}
+
 export function escapeHtml(unsafe) {
   return unsafe
     .replace(/&/g, '&amp;')

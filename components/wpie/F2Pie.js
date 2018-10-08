@@ -1,7 +1,9 @@
 import f2Factory from '../common/f2Factory';
 import { color } from '../theme/';
+import { legendConfig } from '../common/f2Defaults';
+import merge from '../common/merge';
 
-const defaultLegendFormatter = d => `<span style="color: ${color.widgetsColorText1}">${d[0]} ${d[1] * 100}%</span>`;
+const defaultLegendFormatter = (d, titleStyle) => `<span style="color: ${titleStyle.fill}; font-size: ${titleStyle.fontSize}px;">${d[0]} ${d[1] * 100}%</span>`;
 
 const defaultConfig = {
   width: 130,
@@ -14,10 +16,15 @@ const defaultConfig = {
     min: 0
   },
   tooltip: true,
-  legend: { show: true, dir: 'right' },
+  legend: {
+    ...legendConfig,
+    show: true,
+    position: 'right',
+    formatter: defaultLegendFormatter
+  },
   colors: color.category_12,
 
-  autoSort: true,
+  autoSort: false,
   cycle: false,
   innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
   outerRadius: 0.8, // 饼图半径大小，初始化时可用，暂不支持
@@ -26,15 +33,7 @@ const defaultConfig = {
 const pie = {
   beforeInit(props) {
     const newProps = Object.assign({}, props);
-    const newConfig = Object.assign({}, defaultConfig, newProps.config);
-
-    if (newConfig.legend) {
-      if (typeof newConfig.legend === 'boolean') newConfig.legend = {};
-      const { dir = 'right', show = true, formatter = defaultLegendFormatter } = newConfig.legend;
-      newConfig.legend.dir = dir;
-      newConfig.legend.show = show;
-      newConfig.legend.formatter = formatter;
-    }
+    const newConfig = merge({}, defaultConfig, newProps.config);
 
     newProps.config = newConfig;
     return newProps;
