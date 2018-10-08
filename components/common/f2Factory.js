@@ -7,7 +7,6 @@ import { color } from '../theme/';
 F2.Global.pixelRatio = window.devicePixelRatio;
 
 const theme = {
-  colors: color.category_12,
   pixelRatio: window.devicePixelRatio,
   guide: {
     line: {

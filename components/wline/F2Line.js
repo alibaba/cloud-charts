@@ -39,6 +39,7 @@ const defaultConfig = {
   grid: false,
   symbol: false,
   zoom: false,
+  colors: color.category_12,
 };
 
 const renderTooltip = (elem, x, dataArr, canvas, config) => {
