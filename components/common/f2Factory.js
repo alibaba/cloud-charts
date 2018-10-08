@@ -1,7 +1,7 @@
 import F2 from '@antv/f2';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dealData, setDomStyle, setInlineDomStyle, escapeHtml } from './f2Utils';
+import { dealData, setDomStyle, setInlineDomStyle, escapeHtml, getTooltipId, getLegendId, getContainerId } from './f2Utils';
 import { color } from '../theme/';
 
 F2.Global.pixelRatio = window.devicePixelRatio;
@@ -56,6 +56,9 @@ function f2Factory(name, Chart) {
     static displayName = 'AismWidgets' + name;
 
     hasSetColor = false;
+    showTooltip = true;
+    timeoutId = null;
+    touchY = 0;
 
     constructor(props, context) {
       super(props, context);
@@ -105,10 +108,12 @@ function f2Factory(name, Chart) {
         ...otherProps
       });
 
+      // tooltip、legend 都是自己实现的，将默认的关掉
       chart.tooltip(false);
       chart.legend(false);
 
-      initData.forEach(i => {
+      initData.forEach((i, index) => {
+        i.color = colors[index];
         i.data.forEach(dataItem => {
           if (xAxis.labelFormatter) {
             dataItem[0] = xAxis.labelFormatter(dataItem[0]);
@@ -123,26 +128,16 @@ function f2Factory(name, Chart) {
       //把数据处理为g2可以识别的格式
       const data = dealData(initData, config);
       ChartProcess.init.call(this, chart, config, data, initData, this);
-      initData.forEach((i, index) => {
-        i.color = colors[index];
-      });
 
-      this.initData = initData;
       this.resultData = data;
       this.originData = initData;
       this.chart = chart;
       this.config = config;
       this.addCanvasEvents();
 
-      if (!legend || (legend && legend.show !== false)) {
-        if (!legend) {
-          this.renderLegend('top', initData);
-        } else {
-          this.renderLegend(legend.dir, initData);
-        }
-      }
+      this.renderLegend(initData);
       ChartProcess.afterRender &&
-        ChartProcess.afterRender.call(this, this.canvas, this.chart, this.config, this.props, this);
+        ChartProcess.afterRender.call(this, this.canvas, this.chart, this.config, this.props, this, ChartProcess);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -168,17 +163,9 @@ function f2Factory(name, Chart) {
           });
         });
 
-        const data = dealData(newData, newConfig);
+        const data = dealData(newData, newConfig, isPieChart);
 
-        if (ChartProcess.changeData) {
-          ChartProcess.changeData.call(this, this.chart, newConfig, data);
-        } else {
-          this.chart && this.chart.changeData(data);
-        }
-
-        if (ChartProcess.afterChangeData) {
-          ChartProcess.afterChangeData.call(this, this.canvas, this.chart, this.config, this.props, this);
-        }
+        this.changeData(data, newConfig);
       }
 
       if (newWidth !== oldWidth || newHeight !== oldHeight) {
@@ -205,9 +192,17 @@ function f2Factory(name, Chart) {
       this.chartId = null;
     }
 
-    showTooltip = true;
-    timeoutId = null;
-    touchY = 0;
+    changeData = (data, config) => {
+      if (ChartProcess.changeData) {
+        ChartProcess.changeData.call(this, this.chart, config, data);
+      } else if (this.chart) {
+        this.chart.changeData(data);
+      }
+
+      if (ChartProcess.afterChangeData) {
+        ChartProcess.afterChangeData.call(this, this.canvas, this.chart, this.config, this.props, this);
+      }
+    }
 
     onTouchStart = e => {
       this.inTouch = true;
@@ -290,20 +285,27 @@ function f2Factory(name, Chart) {
         this.canvas.addEventListener('touchmove', this.onTouchMove);
         this.canvas.addEventListener('touchend', this.onTouchEnd);
       } else {
-        const container = document.querySelector(`#aismcontainer-${this.chartId}`);
+        const container = document.querySelector(`#${getContainerId(this.chartId)}`);
         this.canvas.addEventListener('mousedown', this.onTouchStart);
         this.canvas.addEventListener('mouseup', this.onTouchEnd);
       }
     };
 
-    renderLegend = (dir = 'top', legendData, visibleItemNames) => {
+    renderLegend = (legendData, legendItems) => {
+      const config = this.props.config;
+      const { show, position, titleStyle, valueStyle, unCheckStyle } = config.legend;
+
+      if (show === false) {
+        return null;
+      }
+
       this.lastData = legendData;
       const colors = theme.colors;
-      const legendContainer = document.querySelector(`#aismlegend${this.chartId}`);
+      const legendContainer = document.querySelector(`#${getLegendId(this.chartId)}`);
       const legendFormatter = this.config.legend.formatter;
-      const isInit = !visibleItemNames;
+      const isInit = !legendItems;
 
-      if (dir === 'top') {
+      if (position === 'top') {
         const newData = legendData;
         const resultData = [];
         if (newData.length < this.originData.length) {
@@ -316,27 +318,27 @@ function f2Factory(name, Chart) {
           });
         }
 
-        let legendStr = '<div style="display: flex;WebkitUserSelect: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px;">';
+        let legendStr = '<div style="display: flex;WebkitUserSelect: none; flex-wrap: wrap; font-size: 12px; line-height: 1.2; box-sizing: border-box;-webkit-font-smoothing: antialiased; padding-left: 12px; padding-top: 12px;">';
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
-            const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
+            const visible = isInit || legendItems[i].visible;
+            const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center'
                 })} data-name=${escapeHtml(d[0])}>
-                ${this.getLegendCircle(dotColor)} ${legendFormatter(d)}
+                ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
         } else {
-          legendData.forEach((i) => {
+          legendData.forEach((i, index) => {
             let dotColor = i.color;
             if (colors.indexOf(dotColor) >= 0) {
               dotColor = colors[colors.indexOf(dotColor)];
             }
-            const visible = isInit || visibleItemNames.indexOf(i.name) > -1;
+            const visible = isInit || legendItems[index].visible;
             legendStr += `
               <div
                 style="margin-right: 30px; margin-bottom: 12px; white-space: nowrap"
@@ -346,11 +348,11 @@ function f2Factory(name, Chart) {
                 class="legend"
                 data-name=${escapeHtml(i.name)}
               >
-                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: #fff;border: 1px solid ${visible ? dotColor: color.widgetsLegendUncheck}">
-                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : color.widgetsLegendUncheck}">
+                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: transparent;border: 1px solid ${visible ? dotColor: unCheckStyle.fill}">
+                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : unCheckStyle.fill}">
                   </span>
                 </span>
-                ${legendFormatter(i)}
+                ${legendFormatter(i, titleStyle, valueStyle)}
               </div>`;
           });
         }
@@ -358,9 +360,9 @@ function f2Factory(name, Chart) {
         legendStr += '</div>';
         legendContainer.innerHTML = '';
         legendContainer.insertAdjacentHTML('afterbegin', legendStr);
-      } else if (dir === 'right') {
+      } else if (position === 'right') {
         // 将图例放置到右边
-        const chartContainer = document.querySelector(`#aismcontainer-${this.chartId}`);
+        const chartContainer = document.querySelector(`#${getContainerId(this.chartId)}`);
         setDomStyle(chartContainer, {
           flexDirection: 'row'
         });
@@ -375,28 +377,29 @@ function f2Factory(name, Chart) {
 
         if (isPieChart) {
           legendData[0].data.forEach((d, i) => {
-            const visible = isInit || visibleItemNames.indexOf(d[0]) > -1;
-            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
+            const visible = isInit || legendItems[i].visible;
+            const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                   display: 'flex',
                   flexDirection: 'row',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  marginBottom: '6px'
                 })} data-name=${escapeHtml(d[0])}>
-                ${this.getLegendCircle(dotColor)} ${legendFormatter(d)}
+                ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
         } else {
           legendData.forEach((d, i) => {
-            const visible = isInit || visibleItemNames.indexOf(d.name) > -1;
-            const dotColor = visible ? colors[i] : color.widgetsLegendUncheck;
+            const visible = isInit || legendItems[i].visible;
+            const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: 'center'
               })} data-name=${escapeHtml(d.name)}>
-              ${this.getLegendCircle(dotColor)} ${legendFormatter(d)}
+              ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
             </div>`;
           });
         }
@@ -425,18 +428,21 @@ function f2Factory(name, Chart) {
         const legendItem = legends[i];
         const index = i;
         legendItem.addEventListener('click', e => {
-          const visibleItems = [...legends].filter(l => l.getAttribute('data-close') === 'false').map(l => l.getAttribute('data-name'));
-          const curName = e.currentTarget.getAttribute('data-name');
+          const legendItems = [...legends].map(l => {
+            return {
+              visible: l.getAttribute('data-close') === 'false',
+              name: l.getAttribute('data-name')
+            };
+          });
           const curVisible = e.currentTarget.getAttribute('data-close') === 'false';
 
           if (curVisible) {
-            const index = visibleItems.indexOf(curName);
-            visibleItems.splice(index, 1);
+            legendItems[i].visible = false;
           }
           else {
-            visibleItems.push(curName);
+            legendItems[i].visible = true;
           }
-          this.filterData(visibleItems);
+          this.filterData(legendItems);
         });
       }
     };
@@ -445,33 +451,22 @@ function f2Factory(name, Chart) {
     getLegendCircle = color => `<span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color: ${color};margin-right: 6px"></span>`;
 
     /**
-     * @param {Array} visibleItemNames
+     * @param {Array} legendItems
      */
-    filterData = (visibleItemNames) => {
+    filterData = (legendItems) => {
       const data = this.resultData;
       const colorIndexes = [];
-      const resultData = data.filter((item, index) => {
-        const i = visibleItemNames.indexOf(item[isPieChart ? 'x' : 'type']);
-        if (i > -1) {
-          colorIndexes.push(index);
-        }
-        return i > -1;
+      const visibleNames = legendItems.filter(i => i.visible).map(i => i.name);
+      this.chart.filter(isPieChart ? 'x' : 'type', val => {
+        return visibleNames.indexOf(val) > -1;
       });
-      const colors = theme.colors;
-      const newColorMap = colors.filter((c, index) => colorIndexes.indexOf(index) > -1);
-      // F2.Global.colors = newColorMap;
-      F2.Global.setTheme({
-        colors: newColorMap
-      });
-      this.chart && this.chart.changeData(resultData);
-      const dir = this.config.legend && this.config.legend.dir;
-      this.renderLegend(dir, this.lastData, visibleItemNames);
+      this.chart.repaint();
+      this.renderLegend(this.lastData, legendItems);
+      ChartProcess.onRepaint && ChartProcess.onRepaint.call(this, this, ChartProcess);
     };
 
-    clickLegend = i => {};
-
     clearLegend = () => {
-      const legendContainer = document.querySelector(`#aismlegend${this.chartId}`);
+      const legendContainer = document.querySelector(`#${getLegendId(this.chartId)}`);
       const values = legendContainer.querySelectorAll('.value');
       values.forEach(i => {
         i.innerHTML = '';
@@ -480,24 +475,34 @@ function f2Factory(name, Chart) {
 
     render() {
       const { style = {}, width, height, config } = this.props;
+      const backgroundColor = style.backgroundColor || color.widgetsColorWhite;
       const chartStyle = {
         position: 'relative',
         'WebkitUserSelect': 'none',
-        backgroundColor: style.backgroundColor || '#fff',
+        backgroundColor,
         overflow: 'hidden',
       };
       const canvasStyle = {
-        backgroundColor: style.backgroundColor || '#fff',
+        backgroundColor,
       };
 
-      if (config.legend && config.legend.dir && config.legend.dir === 'right') {
+      if (config.legend.position === 'right') {
         chartStyle.display = 'flex';
         chartStyle.alignItems = 'center';
       }
 
+      if (Array.isArray(config.appendPadding)) {
+        const padding = config.appendPadding.map(i => `${i}px`).join(' ');
+        chartStyle.padding = padding;
+      }
+      if (typeof config.appendPadding === 'number') {
+        const padding = `${config.appendPadding}px`;
+        chartStyle.padding = padding;
+      }
+
       return (
-        <div id={`aismcontainer-${this.chartId}`} style={chartStyle}>
-          <div id={`aismlegend${this.chartId}`} style={{ width: width }} />
+        <div id={`${getContainerId(this.chartId)}`} style={chartStyle}>
+          <div id={`${getLegendId(this.chartId)}`} style={{ width: width }} />
           <canvas ref={dom => (this.canvas = dom)} id={this.chartId} className={rootClassName + name} style={canvasStyle} />
         </div>
       );

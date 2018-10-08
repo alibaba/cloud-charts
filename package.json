@@ -28,7 +28,7 @@
   "dependencies": {
     "@alife/aisc": "^2.7.13",
     "@alife/aisc-core": "0.6.9",
-    "@antv/f2": "^3.2.0",
+    "@antv/f2": "3.1.15",
     "prop-types": "^15.5.10",
     "sass-variable-loader": "^0.1.2"
   },

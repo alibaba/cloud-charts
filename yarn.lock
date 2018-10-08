@@ -172,18 +172,6 @@
   version "0.7.0"
   resolved "http://registry.npm.alibaba-inc.com/@alife/next-util/download/@alife/next-util-0.7.0.tgz#8b62d57baa883a2863fa5fa7cf5a201dcc493181"
 
-"@antv/adjust@~0.0.3":
-  version "0.0.7"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/adjust/download/@antv/adjust-0.0.7.tgz#01e83c36b28c50eecb98fad9dc662176b4036ab7"
-  dependencies:
-    "@antv/util" "~1.2.5"
-
-"@antv/attr@~0.0.3":
-  version "0.0.7"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/attr/download/@antv/attr-0.0.7.tgz#333f252ce35fc3efdf8ad48046c263a6be2d7d04"
-  dependencies:
-    "@antv/util" "~1.2.5"
-
 "@antv/data-set@^0.9.4":
   version "0.9.6"
   resolved "http://registry.npm.alibaba-inc.com/@antv/data-set/download/@antv/data-set-0.9.6.tgz#3273a5cb8230ad368a2e8075bce030ac330b2a69"
@@ -206,14 +194,11 @@
     topojson-client "~3.0.0"
     wolfy87-eventemitter "~5.1.0"
 
-"@antv/f2@^3.2.0":
-  version "3.2.2"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/f2/download/@antv/f2-3.2.2.tgz#43b5bef6b9eeef352ae3c5461451936ec59eef3c"
+"@antv/f2@3.1.15":
+  version "3.1.15"
+  resolved "http://registry.npm.alibaba-inc.com/@antv/f2/download/@antv/f2-3.1.15.tgz#53ed5dc95c219f0c1f318eba666016fa178f6cfa"
   dependencies:
-    "@antv/adjust" "~0.0.3"
-    "@antv/attr" "~0.0.3"
-    "@antv/scale" "~0.0.6"
-    "@antv/util" "~1.0.6"
+    fecha "~2.3.1"
     hammerjs "^2.0.8"
 
 "@antv/g2-brush@^0.0.2":
@@ -252,22 +237,11 @@
   dependencies:
     "@antv/util" "^1.2.4"
 
-"@antv/scale@~0.0.6":
-  version "0.0.9"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/scale/download/@antv/scale-0.0.9.tgz#24a96d3c3a4a507315a9a335e5a435be4d6ccd45"
-  dependencies:
-    "@antv/util" "~1.2.5"
-    fecha "~2.3.3"
-
-"@antv/util@^1.2.4", "@antv/util@~1.2.4", "@antv/util@~1.2.5":
+"@antv/util@^1.2.4", "@antv/util@~1.2.4":
   version "1.2.5"
   resolved "http://registry.npm.alibaba-inc.com/@antv/util/download/@antv/util-1.2.5.tgz#8896c5055ec29e4a344b5daa97bf82905f7d40cd"
   dependencies:
     "@antv/gl-matrix" "^2.7.1"
-
-"@antv/util@~1.0.6":
-  version "1.0.12"
-  resolved "http://registry.npm.alibaba-inc.com/@antv/util/download/@antv/util-1.0.12.tgz#b55e921f30f1c8410f3e24a2d889e82568c3df38"
 
 "@babel/code-frame@7.0.0-beta.44":
   version "7.0.0-beta.44"
@@ -3507,7 +3481,7 @@ fbjs@^0.8.16, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
-fecha@~2.3.3:
+fecha@~2.3.1, fecha@~2.3.3:
   version "2.3.3"
   resolved "http://registry.npm.alibaba-inc.com/fecha/download/fecha-2.3.3.tgz#948e74157df1a32fd1b12c3a3c3cdcb6ec9d96cd"
 
