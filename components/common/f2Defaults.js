@@ -63,7 +63,13 @@ export const legendConfig = {
 
 export const tooltipConfig = {
   background: {
-    fill: color.widgetsColorWhite
+    fill: color.widgetsTooltipBackground
+  },
+  // aisc-widgets 移动端特有，更 F2 无关
+  border: {
+    color: color.widgetsTooltipBorder,
+    style: 'solid',
+    width: '1px 0 1px',
   }
 };
 
