@@ -2,21 +2,19 @@
 @import './scss/variable.scss';
 #{$wcontainer-prefix} {
   background: $wcontainer-bg-color;
-  // padding-top:$s5;
-  // padding-bottom: $s5;
   display: flex;
   flex-direction: column;
 
   // 移动端适配
   &#{$wcontainer-prefix}-mobile {
     #{$wcontainer-prefix}-title {
-      margin-left: $s3;
-      margin-right: $s3;
-      padding-top: $s3;
+      margin-left: $wcontainer-mobile-padding;
+      margin-right: $wcontainer-mobile-padding;
+      padding-top: $wcontainer-mobile-padding;
     }
 
     #{$wcontainer-prefix}-main {
-      padding: 0 $s3 $s3 $s3;
+      padding: 0 $wcontainer-mobile-padding $wcontainer-mobile-padding $wcontainer-mobile-padding;
 
       &.no-title {
         padding-bottom: 0;
@@ -26,23 +24,23 @@
         // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
         // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
         padding: 0;
-        margin-left: $s3;
-        margin-right: $s3;
-        margin-bottom: $s3;
+        margin-left: $wcontainer-mobile-padding;
+        margin-right: $wcontainer-mobile-padding;
+        margin-bottom: $wcontainer-mobile-padding;
 
         &.no-title {
-          margin-top: $s2;
+          margin-top: $wcontainer-padding - $s3;
         }
       }
     }
   }
 
   #{$wcontainer-prefix}-title {
-    margin-left: $s5;
-    margin-right: $s5;
-    padding-top: $s5;
-    padding-bottom: 8px;
-    font-size: 16px;
+    margin-left: $wcontainer-padding;
+    margin-right: $wcontainer-padding;
+    padding-top: $wcontainer-padding;
+    padding-bottom: $wcontainer-padding - $s3;
+    font-size: $wcontainer-title-font-size;
     line-height: 1;
     color: $wcontainer-title-color;
     //border-bottom: 1px solid $wcontainer-split-line;
@@ -54,7 +52,7 @@
       &:before {
         content: "";
         position: absolute;
-        top: $s5;
+        top: $wcontainer-padding;
         left: 0;
 
         width: $s1;
@@ -95,7 +93,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 $s5 $s5 $s5;
+    padding: 0 $wcontainer-padding $wcontainer-padding $wcontainer-padding;
 
     &.no-title {
       padding-bottom: 0;
@@ -132,9 +130,9 @@
       // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
       // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
       padding: 0;
-      margin-left: $s5;
-      margin-right: $s5;
-      margin-bottom: $s5;
+      margin-left: $wcontainer-padding;
+      margin-right: $wcontainer-padding;
+      margin-bottom: $wcontainer-padding;
       &.no-title {
         margin-top: $s2;
       }
