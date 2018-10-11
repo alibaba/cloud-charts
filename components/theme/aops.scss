@@ -1,8 +1,39 @@
 @import "~@alife/aisc-core/scss/aisc";
 
 $font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$font-family-txd-medium-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$font-family-txd-regular-number: TXDDINRegularNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+
 $font-size-large-number: 28px !default;
 $font-size-xlarge-number: 32px !default;
+
+// 字体大小 - 文字
+$widgets-text-font-size-1: 12px !default;
+$widgets-text-font-size-2: 14px !default;
+$widgets-text-font-size-3: 16px !default;
+$widgets-text-font-size-4: 18px !default;
+
+// 字体大小 - 数字
+$widgets-number-font-size-1: 12px !default;
+$widgets-number-font-size-2: 14px !default;
+$widgets-number-font-size-3: 16px !default;
+$widgets-number-font-size-4: 24px !default;
+$widgets-number-font-size-5: 28px !default;
+$widgets-number-font-size-6: 32px !default;
+
+// 移动端字体大小 - 文字
+$widgets-mobile-text-font-size-1: 12px !default;
+$widgets-mobile-text-font-size-2: 14px !default;
+$widgets-mobile-text-font-size-3: 16px !default;
+$widgets-mobile-text-font-size-4: 18px !default;
+
+// 移动端字体大小 - 数字
+$widgets-mobile-number-font-size-1: 14px !default;
+$widgets-mobile-number-font-size-2: 14px !default;
+$widgets-mobile-number-font-size-3: 14px !default;
+$widgets-mobile-number-font-size-4: 20px !default;
+$widgets-mobile-number-font-size-5: 24px !default;
+$widgets-mobile-number-font-size-6: 28px !default;
 
 // 纯颜色
 $widgets-color-white: #FFFFFF !default;
@@ -43,6 +74,17 @@ $widgets-color-linear-8: #92D1FA !default;
 $widgets-color-linear-9: #BDE3FC !default;
 $widgets-color-linear-10: #E9F5FE !default;
 
+$widgets-color-linear-turquoise-1: #52D7FF !default;
+$widgets-color-linear-turquoise-2: #5FDAFF !default;
+$widgets-color-linear-turquoise-3: #6EDEFF !default;
+$widgets-color-linear-turquoise-4: #7CE1FF !default;
+$widgets-color-linear-turquoise-5: #8AE4FF !default;
+$widgets-color-linear-turquoise-6: #97E7FF !default;
+$widgets-color-linear-turquoise-7: #A5EAFF !default;
+$widgets-color-linear-turquoise-8: #B3EEFF !default;
+$widgets-color-linear-turquoise-9: #C2F1FF !default;
+$widgets-color-linear-turquoise-10: #CFF4FF !default;
+
 // 图例 Legend
 $widgets-legend-uncheck: #E9EDF0 !default;
 $widgets-legend-text: #333333 !default;
@@ -77,9 +119,20 @@ $widgets-map-label: #ABADBA !default;
 
 // 卡片
 $widgets-container-background: $widgets-color-white !default;
+$widgets-container-padding: 20px !default;
+$widgets-mobile-container-padding: 12px !default;
 $widgets-container-title: #333333 !default;
 $widgets-container-split-line: #E5E7E9 !default;
 
 // 桑基图
 $widgets-sankey-edge: #E5E7E9 !default;
 $widgets-sankey-node-text: #999999 !default;
+
+// 表格颜色
+$widgets-table-header: #ECF4FF !default;
+$widgets-table-body-zebra: #F5F9FE !default;
+$widgets-table-split: #ECF4FF !default;
+
+// 滚动条颜色
+$widgets-scrollbar-bg: #EBECF0 !default;
+$widgets-scrollbar-thumb: #C4C6CF !default;

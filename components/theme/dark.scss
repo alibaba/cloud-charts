@@ -100,7 +100,8 @@ $widgets-tooltip-cross-react: #404354 !default;
 $widgets-tooltip-cross-react-opacity: 0.5 !default;
 $widgets-tooltip-title: #848695 !default;
 $widgets-tooltip-text: #E0E1E8 !default;
-$widgets-tooltip-marker-fill: #2A2D3C !default;
+$widgets-tooltip-marker-fill: $widgets-color-white !default;
+$widgets-tooltip-border: $widgets-tooltip-background !default;
 
 // 轴 Axis
 $widgets-axis-label: #848695 !default;
