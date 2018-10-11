@@ -112,12 +112,12 @@ export default function (target, startVal, endVal, decimals, duration, options) 
         self.startTime = timestamp;
       }
 
+      self.timestamp = timestamp;
+
+      var progress = timestamp - self.startTime;
+      self.remaining = self.duration - progress;
+
       if (self.throttle % 2 === 0) {
-        self.timestamp = timestamp;
-
-        var progress = timestamp - self.startTime;
-        self.remaining = self.duration - progress;
-
         // to ease or not to ease
         if (self.options.useEasing) {
           if (self.countDown) {
