@@ -107,40 +107,47 @@ export default function (target, startVal, endVal, decimals, duration, options) 
     };
     this.count = function (timestamp) {
 
-      if (!self.startTime) self.startTime = timestamp;
-
-      self.timestamp = timestamp;
-
-      var progress = timestamp - self.startTime;
-      self.remaining = self.duration - progress;
-
-      // to ease or not to ease
-      if (self.options.useEasing) {
-        if (self.countDown) {
-          self.frameVal = self.startVal - self.easeOutExpo(progress, 0, self.startVal - self.endVal, self.duration);
-        } else {
-          self.frameVal = self.easeOutExpo(progress, self.startVal, self.endVal - self.startVal, self.duration);
-        }
-      } else {
-        if (self.countDown) {
-          self.frameVal = self.startVal - ((self.startVal - self.endVal) * (progress / self.duration));
-        } else {
-          self.frameVal = self.startVal + (self.endVal - self.startVal) * (progress / self.duration);
-        }
+      if (!self.startTime) {
+        self.throttle = 0;
+        self.startTime = timestamp;
       }
 
-      // don't go past endVal since progress can exceed duration in the last frame
-      if (self.countDown) {
-        self.frameVal = (self.frameVal < self.endVal) ? self.endVal : self.frameVal;
-      } else {
-        self.frameVal = (self.frameVal > self.endVal) ? self.endVal : self.frameVal;
+      if (self.throttle % 2 === 0) {
+        self.timestamp = timestamp;
+
+        var progress = timestamp - self.startTime;
+        self.remaining = self.duration - progress;
+
+        // to ease or not to ease
+        if (self.options.useEasing) {
+          if (self.countDown) {
+            self.frameVal = self.startVal - self.easeOutExpo(progress, 0, self.startVal - self.endVal, self.duration);
+          } else {
+            self.frameVal = self.easeOutExpo(progress, self.startVal, self.endVal - self.startVal, self.duration);
+          }
+        } else {
+          if (self.countDown) {
+            self.frameVal = self.startVal - ((self.startVal - self.endVal) * (progress / self.duration));
+          } else {
+            self.frameVal = self.startVal + (self.endVal - self.startVal) * (progress / self.duration);
+          }
+        }
+
+        // don't go past endVal since progress can exceed duration in the last frame
+        if (self.countDown) {
+          self.frameVal = (self.frameVal < self.endVal) ? self.endVal : self.frameVal;
+        } else {
+          self.frameVal = (self.frameVal > self.endVal) ? self.endVal : self.frameVal;
+        }
+
+        // decimal
+        self.frameVal = Math.round(self.frameVal * self.dec) / self.dec;
+
+        // format and print value
+        self.printValue(self.frameVal);
       }
 
-      // decimal
-      self.frameVal = Math.round(self.frameVal * self.dec) / self.dec;
-
-      // format and print value
-      self.printValue(self.frameVal);
+      self.throttle = self.throttle + 1;
 
       // whether to continue
       if (progress < self.duration) {
