@@ -102,6 +102,16 @@ export default class Wcount extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    // 清空定时器
+    clearInterval(this.clipTimer);
+
+    // 停止 countUp 组件
+    if (this.countUp) {
+      this.countUp.pauseResume();
+    }
+  }
+
   clipTimer = null;
   clipNumber(props, newEnd) {
     const { clipNum, clipPeriod, slipScale } = props;

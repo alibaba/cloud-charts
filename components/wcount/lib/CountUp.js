@@ -117,7 +117,8 @@ export default function (target, startVal, endVal, decimals, duration, options) 
       var progress = timestamp - self.startTime;
       self.remaining = self.duration - progress;
 
-      if (self.throttle % 2 === 0) {
+      // 偶数次渲染，或者最后一次才会渲染dom
+      if (self.throttle % 2 === 0 || progress >= self.duration) {
         // to ease or not to ease
         if (self.options.useEasing) {
           if (self.countDown) {
