@@ -289,8 +289,14 @@ function prod(themeName) {
  * online 环境
  * @returns {*}
  */
-function online() {
+function online(themeName) {
   const _config = _.cloneDeep(config);
+
+  if (themeName) {
+    _config.entry = {
+      [themeName]: _config.entry.index
+    };
+  }
 
   _config.externals = {
     react: { // UMD
