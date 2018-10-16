@@ -1,6 +1,9 @@
 export default function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   const geomStyle = config.geomStyle || {};
-  const areaColors = mergeArray([], config.colors, config.areaColors);
+  let areaColors = config.areaColors || config.colors;
+  if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
+    areaColors = mergeArray([], config.colors, config.areaColors);
+  }
 
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
