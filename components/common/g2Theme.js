@@ -3,6 +3,28 @@
 import { size, color, fonts } from '../theme/index';
 import { pxToNumber } from './common';
 
+// 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
+export const legendHtmlContainer = {
+  overflow: 'auto',
+  fontFamily: fonts.fontFamilyTxdMediumNumber,
+  fontSize: fonts.fontSizeBaseCaption,
+  lineHeight: fonts.fontSizeBaseCaption,
+  color: color.widgetsLegendText
+};
+export const legendHtmlList = {};
+export const legendHtmlListItem = {
+  wordBreak: 'break-all',
+  marginTop: 0,
+  marginBottom: size.s3,
+  marginRight: size.s3
+};
+export const legendHtmlMarker = {
+  width: '6px',
+  height: '6px',
+  marginRight: size.s1,
+  verticalAlign: '1px'
+};
+
 const widgetsTheme = {
   // 线图只有一个数据时显示点
   showSinglePoint: true,
@@ -221,26 +243,10 @@ const widgetsTheme = {
     },
     html: {
       // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
-      'g2-legend': {
-        overflow: 'auto',
-        fontFamily: fonts.fontFamilyTxdMediumNumber,
-        fontSize: fonts.fontSizeBaseCaption,
-        lineHeight: fonts.fontSizeBaseCaption,
-        color: color.widgetsLegendText
-      },
-      'g2-legend-list': {},
-      'g2-legend-list-item': {
-        wordBreak: 'break-all',
-        marginTop: 0,
-        marginBottom: size.s3,
-        marginRight: size.s3
-      },
-      'g2-legend-marker': {
-        width: '6px',
-        height: '6px',
-        marginRight: size.s1,
-        verticalAlign: '1px'
-      },
+      'g2-legend': legendHtmlContainer,
+      'g2-legend-list': legendHtmlList,
+      'g2-legend-list-item': legendHtmlListItem,
+      'g2-legend-marker': legendHtmlMarker,
     }
   },
   guide: {

@@ -3,6 +3,7 @@
 import { size } from '../theme/index';
 import { pxToNumber } from './common';
 import merge from './merge';
+import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -61,6 +62,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
           '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
       'g2-legend': legendStyle,
+      'g2-legend-list': legendHtmlList,
+      'g2-legend-list-item': legendHtmlListItem,
+      'g2-legend-marker': legendHtmlMarker
     };
 
     if (componentConfig) {
