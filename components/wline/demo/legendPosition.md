@@ -26,9 +26,11 @@ let data = [
 ];
 
 let options1 = {
+  padding: [16, 5, 64, 44],
   xAxis: {type: 'time'},
   legend:{
-    align: 'right',
+    position: 'bottom',
+    align: 'center',
     nameFormatter(value, data, index) {
       return value + '数据';
     }

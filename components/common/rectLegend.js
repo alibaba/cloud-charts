@@ -10,7 +10,14 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { autoCollapse = true, collapseRow = 'auto', align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
+    const { autoCollapse = true, collapseRow = 'auto', position, align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
+
+    const legendStyle = position === 'bottom' ? { bottom: size.s3 } : { top: size.s3 };
+    if (align === 'right') {
+      legendStyle.right = 0;
+    } else if (align === 'left') {
+      legendStyle.left = 0;
+    }
 
     const legendConfig = {
       // 这些是widgets特有的属性
@@ -19,10 +26,10 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       // 以下为g2的属性
       useHtml: true,
       title: null,
-      position: 'top',
+      position: position || 'top',
       allowAllCanceled,
       // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-      autoPosition: false,
+      autoPosition: align === 'center',
       hoverable,
       onHover,
       clickable,
@@ -53,9 +60,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
           '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
-      'g2-legend': Object.assign({
-        top: size.s3,
-      }, align === 'right' ? { right: 0 } : { left: 0 }),
+      'g2-legend': legendStyle,
     };
 
     if (componentConfig) {
