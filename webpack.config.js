@@ -80,7 +80,7 @@ const config = {
   ],
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -89,7 +89,7 @@ const config = {
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
+          // fallback: 'style-loader',
           use: [
             'raw-loader',
             {
@@ -104,10 +104,6 @@ const config = {
       }
     ]
   },
-
-  // postcss() {
-  //   return [precss, autoprefixer];
-  // },
 
   plugins: [
     // 允许错误不打断程序
@@ -239,16 +235,6 @@ function prod(themeName) {
       [themeName]: _config.entry.index
     };
   }
-
-  // _config.externals = {
-  //   react: { // UMD
-  //     commonjs: "react",
-  //     commonjs2: "react",
-  //     amd: "react",
-  //     root: "React"
-  //   },
-  //   'react-dom': 'ReactDOM'
-  // };
 
   _config.plugins.push(
     new webpack.DefinePlugin({
