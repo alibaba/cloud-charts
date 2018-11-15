@@ -1,14 +1,8 @@
 {
     "presets": [
-        "es2015",
-        "stage-0",
-        "stage-1",
-        "react"
+        "@ali/babel-preset-fusion"
     ],
     "plugins": [
-        "transform-react-es6-displayname",
-        "add-module-exports",
-        "transform-decorators-legacy",
-        "transform-object-assign"
+
     ]
 }

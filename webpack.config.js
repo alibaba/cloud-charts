@@ -22,8 +22,6 @@ const srcPath = path.resolve(__dirname, './components');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
 
-// const cssModules = 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]';
-
 const config = {
   // 服务器开启的端口号
   port: fallbackPort.getPort(),
@@ -46,8 +44,8 @@ const config = {
   },
 
   resolve: {
-    root: srcPath,
-    extensions: ['', '.js', '.jsx'],
+    modules: [srcPath, 'node_modules'],
+    extensions: ['.js', '.jsx'],
     alias: {
       '@alife/aisc-widgets': srcPath,
       '@alife/aisc-widgets/lib': srcPath,
@@ -59,29 +57,26 @@ const config = {
 
   externals: [
     {
-      react: {
-        root: 'React',
-        commonjs2: 'react',
-        commonjs: 'react',
-        amd: 'react'
-      }
+      'react': 'var React',
+      'react-dom': 'var ReactDOM',
+      '@alife/aisc': 'var Aisc',
     },
-    {
-      'react-dom': {
-        root: 'ReactDOM',
-        commonjs2: 'react-dom',
-        commonjs: 'react-dom',
-        amd: 'react-dom'
-      }
-    },
-    {
-      '@alife/aisc': {
-        root: 'Aisc',
-        commonjs2: 'Aisc',
-        commonjs: 'Aisc',
-        amd: 'Aisc'
-      }
-    }
+    // {
+    //   'react-dom': {
+    //     root: 'ReactDOM',
+    //     commonjs2: 'react-dom',
+    //     commonjs: 'react-dom',
+    //     amd: 'react-dom'
+    //   }
+    // },
+    // {
+    //   '@alife/aisc': {
+    //     root: 'Aisc',
+    //     commonjs2: 'Aisc',
+    //     commonjs: 'Aisc',
+    //     amd: 'Aisc'
+    //   }
+    // }
   ],
 
   module: {
@@ -89,43 +84,37 @@ const config = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: ['react-hot-loader/webpack', 'babel']
-      },
-      {
-        test: /\.less$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract('style', 'raw!postcss!less')
+        use: ['babel-loader'],
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'raw!postcss!@ali/sass-loader')
-        // }, {
-        //     test: /\.scssm$/,
-        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!@ali/sass-loader`)
-        // }, {
-        //     test: /\.lessm$/,
-        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss!less`)
-        // }, {
-        //     test: /\.cssm$/,
-        //     loader: ExtractTextPlugin.extract('style', `${cssModules}!postcss`)
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'raw-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: loader => [precss, autoprefixer]
+              }
+            },
+            '@ali/sass-loader'
+          ],
+        })
       }
     ]
   },
 
-  postcss() {
-    return [precss, autoprefixer];
-  },
+  // postcss() {
+  //   return [precss, autoprefixer];
+  // },
 
   plugins: [
     // 允许错误不打断程序
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     // Webpack gives IDs to identify your modules. With this plugin,
     // Webpack will analyze and prioritize often used modules assigning them the smallest ids.
-    new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.optimize.OccurenceOrderPlugin(),
 
     // 进度插件
     new webpack.ProgressPlugin((percentage, msg) => {
@@ -150,6 +139,8 @@ function getDevEntry(cwd) {
   glob.sync('*.jsx', {cwd}).forEach((item) => {
     const file = item.replace('.jsx', '');
     entry[file] = [
+      // activate HMR for React
+      'react-hot-loader/patch',
       `webpack-dev-server/client?http://0.0.0.0:${config.port}/`,
       'webpack/hot/only-dev-server',
       `${file}.scss`,
@@ -167,13 +158,12 @@ function dev() {
   const _config = _.cloneDeep(config);
 
   _config.context = demoPath;
-  _config.resolve.root = demoPath;
+  _config.resolve.modules = [demoPath, 'node_modules'];
   _config.output = {
     path: demoPath,
     filename: '[name].js',
     publicPath: '/demo/'
   };
-  _config.externals = null;
 
   _config.plugins.push(
     new webpack.DefinePlugin({
@@ -205,13 +195,12 @@ function dev() {
 function demo() {
   const _config = _.cloneDeep(config);
   _config.context = demoPath;
-  _config.resolve.root = demoPath;
+  _config.resolve.modules = [demoPath, 'node_modules'];
   _config.output = {
     path: demoPath,
     filename: '[name].js',
     publicPath: '/demo/'
   };
-  _config.externals = null;
 
   _config.plugins.push(
     new webpack.DefinePlugin({
@@ -222,7 +211,7 @@ function demo() {
     }),
 
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
 
     new ExtractTextPlugin('[name].css', {allChunks: true})
   );
@@ -251,15 +240,15 @@ function prod(themeName) {
     };
   }
 
-  _config.externals = {
-    react: { // UMD
-      commonjs: "react",
-      commonjs2: "react",
-      amd: "react",
-      root: "React"
-    },
-    'react-dom': 'ReactDOM'
-  };
+  // _config.externals = {
+  //   react: { // UMD
+  //     commonjs: "react",
+  //     commonjs2: "react",
+  //     amd: "react",
+  //     root: "React"
+  //   },
+  //   'react-dom': 'ReactDOM'
+  // };
 
   _config.plugins.push(
     new webpack.DefinePlugin({
@@ -269,7 +258,7 @@ function prod(themeName) {
       __THEME__: JSON.stringify(themeName || 'index')
     }),
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
 
 
     new ExtractTextPlugin('[name].css', {allChunks: true}),
@@ -298,15 +287,15 @@ function online(themeName) {
     };
   }
 
-  _config.externals = {
-    react: { // UMD
-      commonjs: "react",
-      commonjs2: "react",
-      amd: "react",
-      root: "React"
-    },
-    'react-dom': 'ReactDOM'
-  };
+  // _config.externals = {
+  //   react: { // UMD
+  //     commonjs: "react",
+  //     commonjs2: "react",
+  //     amd: "react",
+  //     root: "React"
+  //   },
+  //   'react-dom': 'ReactDOM'
+  // };
 
   _config.plugins.push(
     new webpack.DefinePlugin({
@@ -316,7 +305,7 @@ function online(themeName) {
       __THEME__: JSON.stringify('index')
     }),
     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.DedupePlugin(),
 
 
     new ExtractTextPlugin('[name].css', {allChunks: true})

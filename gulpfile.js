@@ -1,9 +1,7 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
 const gulp = require('gulp');
-// const sass = require('gulp-sass');
 const gutil = require('gulp-util');
 const webpack = require('webpack');
 const babel = require('gulp-babel');
@@ -25,6 +23,8 @@ gulp.task('clean', (cb) => {
 gulp.task('start', (cb) => {
     let buildFirstTime = true;
     const webpackConfig = config.dev();
+    const port = webpackConfig.port;
+    delete webpackConfig.port;
     const compiler = webpack(webpackConfig);
 
     compiler.plugin('done', (stats) => {
@@ -36,9 +36,9 @@ gulp.task('start', (cb) => {
             buildFirstTime = false;
             cb && cb();
             // listening
-            gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${webpackConfig.port}`));
+            gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${port}`));
             gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
-            open(`http://localhost:${webpackConfig.port}/demo/index.html`);
+            open(`http://localhost:${port}/demo/index.html`);
         }
     });
 
@@ -50,7 +50,7 @@ gulp.task('start', (cb) => {
         publicPath: webpackConfig.output.publicPath,
         headers: { 'Access-Control-Allow-Origin': '*' },
         contentBase: path.resolve(__dirname, './')
-    }).listen(webpackConfig.port, '0.0.0.0', (err) => {
+    }).listen(port, '0.0.0.0', (err) => {
         if (err) {
             throw new gutil.PluginError('webpack-dev-server', err);
         }
@@ -59,6 +59,7 @@ gulp.task('start', (cb) => {
 
 gulp.task('build:dist', ['clean'], (cb) => {
     const webpackConfig = config.prod();
+    delete webpackConfig.port;
     const compiler = webpack(webpackConfig, (err, stats) => {
         if (err) {
             gutil.log(err);
@@ -81,6 +82,7 @@ gulp.task('build:dist', ['clean'], (cb) => {
 
 gulp.task('build:demo', ['clean'], (cb) => {
     const webpackConfig = config.demo();
+    delete webpackConfig.port;
 
     const compiler = webpack(webpackConfig, (err, stats) => {
         if (err) {
@@ -150,6 +152,7 @@ themeList.forEach((theme, index) => {
       .on('end', () => {
         // 编译主题
         const webpackConfig = config.prod(theme);
+        delete webpackConfig.port;
         const compiler = webpack(webpackConfig, (err, stats) => {
           if (err) {
             gutil.log(err);
@@ -198,6 +201,8 @@ gulp.task('build', ['build:dist', 'build:lib', 'build:theme']);
 gulp.task('online', (cb) => {
   let buildFirstTime = true;
   const webpackConfig = config.online();
+  const port = webpackConfig.port;
+  delete webpackConfig.port;
   const compiler = webpack(webpackConfig);
 
   compiler.plugin('done', (stats) => {
@@ -209,9 +214,9 @@ gulp.task('online', (cb) => {
       buildFirstTime = false;
       cb && cb();
       // listening
-      gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${webpackConfig.port}`));
+      gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${port}`));
       gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
-      // open(`http://localhost:${webpackConfig.port}/demo/index.html`);
+      // open(`http://localhost:${port}/demo/index.html`);
     }
   });
 
@@ -223,7 +228,7 @@ gulp.task('online', (cb) => {
     publicPath: webpackConfig.output.publicPath,
     headers: { 'Access-Control-Allow-Origin': '*' },
     contentBase: path.resolve(__dirname, './')
-  }).listen(webpackConfig.port, '0.0.0.0', (err) => {
+  }).listen(port, '0.0.0.0', (err) => {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
