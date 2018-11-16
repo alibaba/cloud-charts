@@ -197,6 +197,17 @@ function legendCollapse(legendConfig) {
               collapseTop: marginTop,
               collapseBottom: marginBottom,
             });
+          } else if (collapseInstance.dom !== legendWrapperDom || collapseInstance.listDom !== legendListDom) {
+            // 重新渲染后，dom节点可能已经改变，销毁重建
+            collapseInstance.destroy();
+
+            collapseInstance = new Collapse(legendWrapperDom, legendListDom, {
+              wrapperHeight,
+              itemHeight,
+              collapseRow,
+              collapseTop: marginTop,
+              collapseBottom: marginBottom,
+            });
           }
 
           collapseInstance.start({ collapseRow });
@@ -307,7 +318,10 @@ class Collapse {
   end() {
     this.dom.classList.remove('has-collapse');
     this.dom.style.maxHeight = '';
-    this.dom.removeChild(this.collapseDom);
+    // dom被g2重新渲染后已经不在原来的树中，需要额外判断
+    if (this.collapseDom.parentNode === this.dom) {
+      this.dom.removeChild(this.collapseDom);
+    }
   }
 
   destroy() {

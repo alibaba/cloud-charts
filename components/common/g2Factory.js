@@ -232,6 +232,8 @@ function g2Factory(name, Chart, convertData = true) {
         if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
           this.changeSize(props.config, parentSize[0], parentSize[1]);
 
+          this.afterRender();
+
           // this.setSize(parentSize);
           //
           // if (ChartProcess.changeSize) {
