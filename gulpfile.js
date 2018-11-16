@@ -80,27 +80,27 @@ gulp.task('build:dist', ['clean'], (cb) => {
 });
 
 
-gulp.task('build:demo', ['clean'], (cb) => {
-    const webpackConfig = config.demo();
-    delete webpackConfig.port;
-
-    const compiler = webpack(webpackConfig, (err, stats) => {
-        if (err) {
-            gutil.log(err);
-        }
-
-        gutil.log(stats.toString({
-            colors: true,
-            chunks: false
-        }));
-    });
-    compiler.plugin('done', (stats) => {
-        if (stats.hasErrors()) {
-            console.log(stats.toString({ colors: true }));
-        }
-        cb && cb();
-    });
-});
+// gulp.task('build:demo', ['clean'], (cb) => {
+//     const webpackConfig = config.demo();
+//     delete webpackConfig.port;
+//
+//     const compiler = webpack(webpackConfig, (err, stats) => {
+//         if (err) {
+//             gutil.log(err);
+//         }
+//
+//         gutil.log(stats.toString({
+//             colors: true,
+//             chunks: false
+//         }));
+//     });
+//     compiler.plugin('done', (stats) => {
+//         if (stats.hasErrors()) {
+//             console.log(stats.toString({ colors: true }));
+//         }
+//         cb && cb();
+//     });
+// });
 
 gulp.task('build:lib', ['clean'], () => {
     gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss', srcPath + '/**/*.json'])
