@@ -101,10 +101,16 @@ const config = {
         loader: ExtractTextPlugin.extract({
           // fallback: 'style-loader',
           use: [
-            'raw-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: true
+              }
+            },
             {
               loader: 'postcss-loader',
               options: {
+                ident: 'postcss',
                 plugins: loader => [precss, autoprefixer]
               }
             },
