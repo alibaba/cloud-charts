@@ -13,6 +13,16 @@
       }
     ],
 
+    online: [
+      {
+        // 将当前目录链接到fie 本地cdn目录
+        command: 'fie link'
+      },
+      {
+        command: 'node_modules/.bin/gulp online'
+      }
+    ],
+
     build: [
       {
         // 同步版本号
