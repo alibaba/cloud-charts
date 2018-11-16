@@ -117,20 +117,20 @@ const config = {
 
   plugins: [
     // 允许错误不打断程序
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
     // Webpack gives IDs to identify your modules. With this plugin,
     // Webpack will analyze and prioritize often used modules assigning them the smallest ids.
     // new webpack.optimize.OccurenceOrderPlugin(),
 
     // 进度插件
-    new webpack.ProgressPlugin((percentage, msg) => {
-      const stream = process.stderr;
-      if (stream.isTTY && percentage < 0.71) {
-        stream.cursorTo(0);
-        stream.write(`📦   ${msg}`);
-        stream.clearLine(1);
-      }
-    })
+    // new webpack.ProgressPlugin((percentage, msg) => {
+    //   const stream = process.stderr;
+    //   if (stream.isTTY && percentage < 0.71) {
+    //     stream.cursorTo(0);
+    //     stream.write(`📦   ${msg}`);
+    //     stream.clearLine(1);
+    //   }
+    // })
   ]
 };
 
@@ -174,6 +174,16 @@ function dev() {
   _config.externals[0]['react-dom'] = 'var ReactDOM';
 
   _config.plugins.push(
+    // 进度插件
+    new webpack.ProgressPlugin((percentage, msg) => {
+      const stream = process.stderr;
+      if (stream.isTTY && percentage < 0.71) {
+        stream.cursorTo(0);
+        stream.write(`📦   ${msg}`);
+        stream.clearLine(1);
+      }
+    }),
+
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('development')},
       __DEV__: JSON.stringify(JSON.parse('true')),
@@ -296,6 +306,16 @@ function online(themeName) {
   // };
 
   _config.plugins.push(
+    // 进度插件
+    new webpack.ProgressPlugin((percentage, msg) => {
+      const stream = process.stderr;
+      if (stream.isTTY && percentage < 0.71) {
+        stream.cursorTo(0);
+        stream.write(`📦   ${msg}`);
+        stream.clearLine(1);
+      }
+    }),
+
     new webpack.DefinePlugin({
       'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false')),
