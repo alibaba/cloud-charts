@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import * as Widgets from '@alife/aisc-widgets';
 
-console.log(Widgets);
-
 class Demo extends React.Component {
   render() {
     return (
