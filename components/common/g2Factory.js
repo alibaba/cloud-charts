@@ -172,7 +172,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 1.x 升级 到 2.x 的提示
       if (config.xAxis && config.xAxis.type === 'datetime') {
-        console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
+        console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
       }
 
       // 预处理数据
