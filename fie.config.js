@@ -42,20 +42,20 @@
       }
     ],
 
-    publish: [
-      {
-        // 生成history.md 文件
-        command: 'fie commit out'
-      },
-      {
-        // 调用套件中的发布命令
-        command: '__toolkitCommand__'
-      },
-      // {
-      //   // 将demo目录发布至demo平台
-      //   command: 'fie git publishDemo'
-      // }
-    ],
+    // publish: [
+    //   {
+    //     // 生成history.md 文件
+    //     command: 'fie commit out'
+    //   },
+    //   {
+    //     // 调用套件中的发布命令
+    //     command: '__toolkitCommand__'
+    //   },
+    //   // {
+    //   //   // 将demo目录发布至demo平台
+    //   //   command: 'fie git publishDemo'
+    //   // }
+    // ],
 
     open: [
       {
