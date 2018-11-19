@@ -12,8 +12,8 @@ Aisc-Widgets 是一个基于日常业务沉淀的简便图表库，底层为G2�
 
 ```html
 <!-- 引入在线资源 -->
-<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/1.8.9/index.css">
-<script src="https://g.alicdn.com/aisc/aisc-widgets/1.8.9/index.js"></script>
+<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/2.2.3/index.css">
+<script src="https://g.alicdn.com/aisc/aisc-widgets/2.2.3/index.js"></script>
 ```
 
 ```html
@@ -102,8 +102,10 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 1. git clone project
 2. $ tnpm i
 3. fie start
-//打包
-4. fie build2
+//发布日常
+4. fie publish -d
+//发布线上
+4. fie publish -o
 ```
 
 ### 组件命名规范
