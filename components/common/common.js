@@ -235,7 +235,7 @@ export function getRawData(config, rawData, item) {
 }
 
 /**
-* 过滤对象中的key，长用于过滤传递给div的props，防止react invalid attribute warning
+* 过滤对象中的key，常用于过滤传递给div的props，防止react invalid attribute warning
 *
  * @param {object} obj 过滤的对象
  * @param {array} keys 过滤的键列表
