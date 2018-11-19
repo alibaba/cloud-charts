@@ -4,7 +4,7 @@ import G2 from '@antv/g2';
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
 import { color } from '../theme/index';
-import { propertyAssign, propertyMap } from '../common/common';
+import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -56,7 +56,7 @@ export default {
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
+      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 5, 32, 44),
       config: newConfig
     });
   },

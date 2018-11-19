@@ -251,3 +251,34 @@ export function filterKey(obj, keys) {
   });
   return result;
 }
+
+/**
+ * 处理图表库中的默认padding值的通用函数
+ *
+ * @param {padding} padding 用户配置的padding值
+ * @param {object} config 合并了默认配置后的最终配置项
+ * 以下参数非必选
+ * @param {number} [defaultTop] 默认top padding
+ * @param {number} [defaultRight] 默认right padding
+ * @param {number} [defaultBottom] 默认bottom padding
+ * @param {number} [defaultLeft] 默认left padding
+ *
+ * @return
+ * */
+export function defaultPadding(padding, config, defaultTop, defaultRight, defaultBottom, defaultLeft) {
+  if (padding) {
+    return padding;
+  }
+
+  // 取默认配置中的padding
+  let top = defaultTop, right = defaultRight, bottom = defaultBottom, left = defaultLeft;
+
+  if (right !== 'auto' && Array.isArray(config.yAxis)) {
+    right = 45;
+  }
+  if (top !== 'auto' && config.legend === false) {
+    top = 16;
+  }
+
+  return [ top, right, bottom, left ];
+}

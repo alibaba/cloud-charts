@@ -3,7 +3,7 @@
 import { DataSet } from '@antv/data-set';
 import merge from '../common/merge';
 import { color } from '../theme/index';
-import { propertyAssign, propertyMap } from '../common/common';
+import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -56,7 +56,7 @@ export default {
     //   defaultPaddingTop = 16;
     // }
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
+      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 10, 32, 44),
       config: newConfig
     });
   },

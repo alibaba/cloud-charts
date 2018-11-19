@@ -3,7 +3,7 @@
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
 import { color } from '../theme/index';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -62,19 +62,20 @@ export default {
     const { config } = props;
     const newConfig = merge({}, defaultConfig, config);
 
-    // TODO 处理padding
-    let defaultPaddingTop = defaultConfig.padding[0];
-    let defaultPaddingRight = defaultConfig.padding[1];
-    const defaultPaddingBottom = defaultConfig.padding[2];
-    const defaultPaddingLeft = defaultConfig.padding[3];
-    if (defaultPaddingRight !== 'auto' && Array.isArray(newConfig.yAxis)) {
-      defaultPaddingRight = 44;
-    }
-    if (defaultPaddingTop !== 'auto' && !newConfig.legend) {
-      defaultPaddingTop = 16;
-    }
+    // // TODO 处理padding
+    // let defaultPaddingTop = defaultConfig.padding[0];
+    // let defaultPaddingRight = defaultConfig.padding[1];
+    // const defaultPaddingBottom = defaultConfig.padding[2];
+    // const defaultPaddingLeft = defaultConfig.padding[3];
+    // if (defaultPaddingRight !== 'auto' && Array.isArray(newConfig.yAxis)) {
+    //   defaultPaddingRight = 44;
+    // }
+    // if (defaultPaddingTop !== 'auto' && !newConfig.legend) {
+    //   defaultPaddingTop = 16;
+    // }
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
+      // padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
+      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 5, 32, 44),
       config: newConfig
     });
   },

@@ -6,6 +6,7 @@ import guide from '../common/guide';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
+import { defaultPadding } from '../common/common';
 
 const defaultConfig = {
   colors: color.order_10,
@@ -33,7 +34,7 @@ export default {
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 5, 32, 44]),
+      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 0, 0, 0),
       config: newConfig
     });
   },

@@ -2,7 +2,7 @@
 
 import merge from '../common/merge';
 import { color, size } from '../theme/index';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import highchartsDataToG2Data from '../common/dataAdapter';
 import { drawGuideArea, drawGuideLine } from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
@@ -62,7 +62,7 @@ export default {
     const newConfig = merge({}, defaultConfig, config);
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || (newConfig.legend ? defaultConfig.padding : [16, 45, 32, 44]),
+      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 45, 32, 44),
       config: newConfig
     });
   },
