@@ -3,8 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-// 暂时无需样式
-// import './index.scss';
+import './index.scss';
 
 import chartLog from "../common/log";
 import Shoot from './shoot';
@@ -60,8 +59,7 @@ export default class Wshoot extends React.Component {
   render() {
     const { className, ...otherProps } = this.props;
 
-    const mainClasses = classNames({
-      [`${prefix}`]: true,
+    const mainClasses = classNames(prefix, {
       [className]: !!className
     });
 
