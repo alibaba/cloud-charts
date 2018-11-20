@@ -27,7 +27,7 @@ const data = [
 
 class Demo extends React.Component {
   state = {
-    currentChart: chartList[0],
+    currentChart: 'Wbar',
   };
 
   handleChartChange = (chartName) => {
@@ -38,17 +38,31 @@ class Demo extends React.Component {
     const { currentChart } = this.state;
     const Chart = Widgets[currentChart];
 
-    return <Chart config={{
-      padding: [16, 5, 64, 44],
-      xAxis: {type: 'time'},
-      legend:{
-        position: 'bottom',
-        align: 'center',
-        nameFormatter(value, data, index) {
-          return value + '数据';
+    return [
+      <Chart config={{
+        xAxis: {type: 'timeCat'},
+        legend:{
+          position: 'top',
+          align: 'center',
         }
-      }
-    }} data={data} height={400} />;
+      }} data={data} height={400} />,
+
+      <Chart config={{
+        xAxis: {type: 'timeCat'},
+        legend:{
+          position: 'top',
+          align: 'left',
+        }
+      }} data={data} height={400} />,
+
+      <Chart config={{
+        xAxis: {type: 'timeCat'},
+        legend:{
+          position: 'top',
+          align: 'right',
+        }
+      }} data={data} height={400} />,
+    ]
   }
 
   render() {
