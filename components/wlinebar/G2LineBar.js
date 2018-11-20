@@ -136,13 +136,27 @@ export default {
     }
 
     // 设置图例
+    const legendStyle = {
+      display: 'inline-block',
+      position: 'relative',
+    };
+    if (config.legend !== false) {
+      const { position = 'top', align } = config.legend || {};
+
+      if (position === 'top') {
+        legendStyle.top = size.s3;
+      }
+
+      if (align === 'right') {
+        legendStyle.marginLeft = size.s3;
+      } else if (align === 'left') {
+        legendStyle.marginRight = size.s3;
+      } else if (align === 'center') {
+        legendStyle.marginRight = size.s3;
+      }
+    }
     rectLegend.call(this, chart, config, {
-      'g2-legend': Object.assign({
-        display: 'inline-block',
-        position: 'relative',
-        textAlign: 'left',
-        top: size.s3,
-      }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 })
+      'g2-legend': legendStyle
     });
 
     // hackLegendPosition.call(this, config);
@@ -202,11 +216,24 @@ export default {
     // hackLegendPosition.call(this, userConfig);
   },
   afterRender(chart, config) {
-    if (config.legend) {
+    if (config.legend !== false) {
+      const { position = 'top', align } = config.legend || {};
+
       // hack 图例的位置
       const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
       if (dom && dom.parentNode) {
-        dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+        dom.parentNode.className = '';
+
+        if (position === 'bottom') {
+          dom.parentNode.classList.add('position-bottom');
+        }
+        dom.parentNode.classList.add(config.legend.align || 'left');
+      }
+    } else {
+      // 清空类名
+      const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+      if (dom && dom.parentNode) {
+        dom.parentNode.className = '';
       }
     }
   }
