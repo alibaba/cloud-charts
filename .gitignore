@@ -9,3 +9,4 @@ coverage
 .vs
 
 build
+demo/*.js
