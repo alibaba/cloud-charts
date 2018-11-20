@@ -75,7 +75,7 @@ export default {
     // }
     return Object.assign({}, props, {
       // padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
-      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 5, 32, 44),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
       config: newConfig
     });
   },

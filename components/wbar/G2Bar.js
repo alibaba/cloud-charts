@@ -56,7 +56,7 @@ export default {
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 5, 32, 44),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
       config: newConfig
     });
   },

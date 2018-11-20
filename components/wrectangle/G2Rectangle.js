@@ -56,7 +56,7 @@ export default {
     //   defaultPaddingTop = 16;
     // }
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 10, 32, 44),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
       config: newConfig
     });
   },
