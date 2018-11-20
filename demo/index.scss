@@ -3,4 +3,12 @@ body{padding: 20px;}
 
 //@import '../src/index';
 
+.chart-list-item {
+  padding: 8px 12px;
+  cursor: pointer;
 
+  &.current {
+    color: #fff;
+    background: #2E85FF;
+  }
+}
