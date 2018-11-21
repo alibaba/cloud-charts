@@ -58,6 +58,9 @@ class Demo extends React.Component {
         xAxis: {type: 'timeCat'},
         // yAxis: [{}, {}],
         label: {
+          labelFormatter(v) {
+            return `value: ${v}`;
+          }
           // type: 'scatter',
         },
         legend:{

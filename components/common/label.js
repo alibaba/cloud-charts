@@ -18,7 +18,7 @@ export default function (geom, config, field = 'y',  componentConfig) {
     return;
   }
 
-  const { type = 'default', position = 'top', offset = 0, autoRotate, labelFormatter, customConfig } = config.label || {};
+  const { type = 'default', position = 'top', offset = 0, autoRotate = true, labelFormatter = null, customConfig } = config.label || {};
   const labelConfig = {
     type,
     position,
