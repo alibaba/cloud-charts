@@ -22,6 +22,7 @@ export default function (geom, config, field = 'y',  componentConfig) {
   const labelConfig = {
     type,
     position,
+    // 默认距离，加上文字一半的大小以居中
     offset: pxToNumber(size.s1) + pxToNumber(fonts.fontSizeBaseCaption) / 2,
     autoRotate,
     formatter: labelFormatter,

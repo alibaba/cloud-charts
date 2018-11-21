@@ -2,6 +2,13 @@
 
 import { getStatusColor } from './common';
 
+/**
+ * 绘制辅助标记通用函数
+ *
+ * @param {object} chart 图表实例
+ * @param {object} config 图表配置项
+ * 
+ * */
 export default function (chart, config) {
   const guide = config.guide;
   if (!guide) {
