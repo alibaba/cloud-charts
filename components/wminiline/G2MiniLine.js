@@ -25,6 +25,7 @@ const defaultConfig = {
   area: false,
   spline: false,
   symbol: false,
+  label: false,
   // dataConfig: {
   //   nameKey: 'name',
   //   valueKey: 'value',

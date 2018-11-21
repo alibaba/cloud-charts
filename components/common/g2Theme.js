@@ -68,11 +68,15 @@ const widgetsTheme = {
   label: {
     textStyle: {
       fill: color.widgetsLabelText,
+      fontSize: pxToNumber(fonts.fontSizeBaseCaption),
+      fontFamily: fonts.fontFamilyTxdRegularNumber,
     }
   },
   innerLabels: {
     textStyle: {
       fill: color.widgetsLabelText,
+      fontSize: pxToNumber(fonts.fontSizeBaseCaption),
+      fontFamily: fonts.fontFamilyTxdRegularNumber,
     }
   },
   axis: {

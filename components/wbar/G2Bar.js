@@ -10,6 +10,7 @@ import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
+import label from '../common/label';
 import ResetButton from '../common/ResetButton';
 import './G2Bar.scss';
 
@@ -45,7 +46,7 @@ const defaultConfig = {
   zoom: false,
   facet: false,
   size: null,
-  // labels: false,
+  label: false,
   polar: false,
 };
 
@@ -249,4 +250,6 @@ function drawBar(chart, config, colors, field = 'type') {
     }
     geom.size(...sizeConfig);
   }
+
+  label(geom, config);
 }

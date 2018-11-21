@@ -15,7 +15,7 @@ const chartList = [
   'Wscatter',
 ];
 
-const data = [
+let data = [
   {
     "name":"机房1",
     type: 'bar',
@@ -42,7 +42,7 @@ const data = [
 
 class Demo extends React.Component {
   state = {
-    currentChart: 'Wlinebar',
+    currentChart: 'Wscatter',
   };
 
   handleChartChange = (chartName) => {
@@ -56,6 +56,10 @@ class Demo extends React.Component {
     return [
       <Chart config={{
         xAxis: {type: 'timeCat'},
+        // yAxis: [{}, {}],
+        label: {
+          // type: 'scatter',
+        },
         legend:{
           position: 'bottom',
           align: 'center',
@@ -64,6 +68,11 @@ class Demo extends React.Component {
 
       <Chart config={{
         xAxis: {type: 'timeCat'},
+        area: true,
+        stack: true,
+        label: {
+          position: 'bottom',
+        },
         legend:{
           position: 'bottom',
           align: 'left',

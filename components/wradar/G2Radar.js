@@ -23,6 +23,7 @@ const defaultConfig = {
   radius: 0.8,
   area: false,
   symbol: false,
+  label: false,
   // stack: false,
   legend: {
     nameFormatter: null,

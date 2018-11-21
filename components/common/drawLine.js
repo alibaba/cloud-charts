@@ -1,3 +1,7 @@
+'use strict';
+
+import label from './label';
+
 export default function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   const geomStyle = config.geomStyle || {};
   let areaColors = config.areaColors || config.colors;
@@ -5,24 +9,29 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
     areaColors = mergeArray([], config.colors, config.areaColors);
   }
 
+  let lineGeom = null;
+
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
+    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
       lineJoin: 'round',
       ...geomStyle
     });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
       lineJoin: 'round',
       ...geomStyle
     });
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
       lineJoin: 'round',
       ...geomStyle
     });
   }
+
+  label(lineGeom, config, yAxisKey);
+
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);

@@ -9,6 +9,7 @@ import rectYAxis from '../common/rectYAxis';
 import rectLegend from '../common/rectLegend';
 import guide from '../common/guide';
 import rectTooltip from '../common/rectTooltip';
+import label from '../common/label';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -24,7 +25,8 @@ const defaultConfig = {
   },
   jitter: false,
   tooltip: true,
-  legend: true
+  legend: true,
+  label: false,
 };
 
 const setAxis = (chart, config) => {
@@ -96,6 +98,8 @@ const chartRender = (chart, config) => {
   if (config.jitter) {
     geom.adjust('jitter');
   }
+
+  label(geom, config);
 
   chart.render();
 };

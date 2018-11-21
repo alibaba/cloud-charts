@@ -8,6 +8,7 @@ import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
+import label from '../common/label';
 import './G2Rectangle.scss';
 
 const defaultConfig = {
@@ -37,6 +38,7 @@ const defaultConfig = {
 
   },
   grid: false,
+  label: false,
 };
 
 export default {
@@ -107,11 +109,15 @@ export default {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    chart.polygon().position('x*y').color('count', config.colors).tooltip('x*y*count', (x, y, count) => ({
+    const geom = chart.polygon().position('x*y').color('count', config.colors).tooltip('x*y*count', (x, y, count) => ({
       // title: x,
       name: '数量',
       value: count
     }));
+
+    label(geom, config, 'count', {
+      offset: 0,
+    });
 
     chart.render();
   },

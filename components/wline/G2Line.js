@@ -46,8 +46,8 @@ const defaultConfig = {
   grid: false,
   symbol: false,
   zoom: false,
+  label: false,
   // TODO
-  // labels: false,
   // mini: false,
   // dataConfig: {
   //   nameKey: 'name',

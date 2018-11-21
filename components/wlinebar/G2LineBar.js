@@ -9,6 +9,7 @@ import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
+import label from '../common/label';
 import './G2LineBar.scss';
 
 const defaultConfig = {
@@ -44,9 +45,9 @@ const defaultConfig = {
   spline: false,
   grid: false,
   symbol: false,
+  label: false,
   // TODO
   // zoom: false,
-  // labels: false,
   // mini: false,
   // dataConfig: {
   //   nameKey: 'name',
@@ -240,35 +241,43 @@ export default {
 };
 
 function drawBar(chart, config, yAxisKey = 'y') {
+  let intervalGeom = null;
   if (config.stack) {
-    chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
+    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'stack',
       reverseOrder: !config.stackReverse, // 层叠顺序倒序
     }]);
   } else {
-    chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
+    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'dodge',
       marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
   }
+
+  label(intervalGeom, config, yAxisKey);
 }
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+  let lineGeom = null;
+
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   }
+
+  label(lineGeom, config, yAxisKey);
+
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
