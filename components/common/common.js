@@ -279,6 +279,15 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
   if (top !== 'auto' && config.legend === false) {
     top = 16;
   }
+  if (config.legend !== false) {
+    const { position = 'top', align } = config.legend || {};
+    if (top !== 'auto' && position === 'bottom') {
+      top = 16;
+    }
+    if (bottom !== 'auto' && position === 'bottom') {
+      bottom = 64;
+    }
+  }
 
   return [ top, right, bottom, left ];
 }

@@ -19,7 +19,8 @@ export default class Wdashboard extends React.Component {
   static displayName = 'Wdashboard';
 
   static defaultProps = {
-
+    range:[0,100],
+    pointCount: 5,
   };
 
   constructor(props) {
@@ -72,16 +73,6 @@ export default class Wdashboard extends React.Component {
 }
 
 Wdashboard.propTypes = {
-  clipNum: PropTypes.number,
-  clipPeriod: PropTypes.number,
-  slipScale: PropTypes.arrayOf(PropTypes.number),
-  start: PropTypes.number,
-  end: PropTypes.number,
-  decimals: PropTypes.number,
-  duration: PropTypes.number,
-  useEasing: PropTypes.bool,
-  useGrouping: PropTypes.bool,
-  separator: PropTypes.string,
-  decimal: PropTypes.string,
-  placeholder: PropTypes.string,
+  range: PropTypes.array, //取值范围
+  pointCount: PropTypes.number, // 刻度个数
 };

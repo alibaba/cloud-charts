@@ -9,6 +9,7 @@ import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
+import label from '../common/label';
 import './G2LineBar.scss';
 
 const defaultConfig = {
@@ -44,9 +45,9 @@ const defaultConfig = {
   spline: false,
   grid: false,
   symbol: false,
+  label: false,
   // TODO
   // zoom: false,
-  // labels: false,
   // mini: false,
   // dataConfig: {
   //   nameKey: 'name',
@@ -62,7 +63,7 @@ export default {
     const newConfig = merge({}, defaultConfig, config);
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, 40, 45, 32, 44),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
       config: newConfig
     });
   },
@@ -136,13 +137,27 @@ export default {
     }
 
     // 设置图例
+    const legendStyle = {
+      display: 'inline-block',
+      position: 'relative',
+    };
+    if (config.legend !== false) {
+      const { position = 'top', align } = config.legend || {};
+
+      if (position === 'top') {
+        legendStyle.top = size.s3;
+      }
+
+      if (align === 'right') {
+        legendStyle.marginLeft = size.s3;
+      } else if (align === 'left') {
+        legendStyle.marginRight = size.s3;
+      } else if (align === 'center') {
+        legendStyle.marginRight = size.s3;
+      }
+    }
     rectLegend.call(this, chart, config, {
-      'g2-legend': Object.assign({
-        display: 'inline-block',
-        position: 'relative',
-        textAlign: 'left',
-        top: size.s3,
-      }, config.legend.align === 'right' ? { marginLeft: size.s3 } : { marginRight: size.s3 })
+      'g2-legend': legendStyle
     });
 
     // hackLegendPosition.call(this, config);
@@ -202,46 +217,67 @@ export default {
     // hackLegendPosition.call(this, userConfig);
   },
   afterRender(chart, config) {
-    if (config.legend) {
+    if (config.legend !== false) {
+      const { position = 'top', align } = config.legend || {};
+
       // hack 图例的位置
       const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
       if (dom && dom.parentNode) {
-        dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
+        dom.parentNode.className = '';
+
+        if (position === 'bottom') {
+          dom.parentNode.classList.add('position-bottom');
+        }
+        dom.parentNode.classList.add(config.legend.align || 'left');
+      }
+    } else {
+      // 清空类名
+      const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
+      if (dom && dom.parentNode) {
+        dom.parentNode.className = '';
       }
     }
   }
 };
 
 function drawBar(chart, config, yAxisKey = 'y') {
+  let intervalGeom = null;
   if (config.stack) {
-    chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
+    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'stack',
       reverseOrder: !config.stackReverse, // 层叠顺序倒序
     }]);
   } else {
-    chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
+    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'dodge',
       marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
   }
+
+  label(intervalGeom, config, yAxisKey);
 }
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+  let lineGeom = null;
+
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   } else {
-    chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
       lineJoin: 'round'
     });
   }
+
+  label(lineGeom, config, yAxisKey);
+
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);

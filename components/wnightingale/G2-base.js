@@ -5,6 +5,7 @@ import merge from '../common/merge';
 import { color } from '../theme/index';
 import './G2-base.scss';
 import { noop } from '../common/common';
+import label from '../common/label';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -140,11 +141,9 @@ export default {
         stroke: color.widgetsColorWhite
       });
 
-    if (config.label) {
-      geom.label(config.label.key, {
-        offset: -15
-      });
-    }
+    label(geom, config, config.label.key, {
+      offset: -15
+    });
 
     chart.render();
   }

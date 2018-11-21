@@ -1,6 +1,5 @@
 import { COLORS, Wminiline, Util } from '@alife/aisc-widgets';
 import { size, color, fonts } from '../theme/index';
-console.log( size, color)
 
 class DashBoard {
 
@@ -18,7 +17,7 @@ class DashBoard {
       valueAngle: 0.25 * Math.PI,//默认值0的角度,
       timerCount: 0,//计时器状态
       tempData: 0,//动画过渡值
-      timer: "#2CFFB8",//计时器
+      timer: "",//计时器
       valueColor: "",
     };
     this.defaultOptions = {
@@ -30,9 +29,9 @@ class DashBoard {
       urlLength: 60,//icon长宽
       urlBottom: 30,
       textLength: 20,//文字长度
-      unit: "",//仪表盘内部文案单位，text不为false生效
-      unitColor: "#A0A1B5", //仪表盘内部文案，不能与指针共存
-      unitSize: 24,
+      // unit: "",//仪表盘内部文案单位，text不为false生效
+      // unitColor: "#A0A1B5", //仪表盘内部文案，不能与指针共存
+      // unitSize: 24,
       radius: 135,//刻度表线半径
       dialRadius: 165,//刻度盘圆环外半径
       blankAngle: 0 * Math.PI,//刻度盘空余角度
@@ -43,9 +42,9 @@ class DashBoard {
       pointerColor: color.colorText12,//刻度线颜色
       valuePartColor: color.colorB16,//值域颜色
       maxPartColor: color.colorFill12,//刻度盘圆环
-      maxValueColor: "rgba(136,243,255,1)",//最大值标记颜色
+      maxValueColor: color.colorTransparent,//最大值标记颜色
       pointOutColor: color.colorTransparent, // 值域刻度颜色
-      currentValueColor: "#8E949E",//当前值刻度线颜色
+      currentValueColor: color.colorTransparent,//当前值刻度线颜色
       pointerOutterWidth: 8,// 指针包含的外圆半径
       pointerWidth: 90,// 指针针尖相对于圆心半径
       pointerAngle: 0.6 * Math.PI,// 指针两边与圆心角度
@@ -135,7 +134,6 @@ class DashBoard {
     this.arcDraw(this.options.dialRadius - this.options.dialWidth / 2, this.default.startAngle, this.default.startAngle + this.options.blankAngle / 2, this.options.dialWidth, valuePartColor);
     let maxPartColor = this.changeColor(this.options.maxPartColor);
     this.arcDraw(this.options.dialRadius - this.options.dialWidth / 2, this.default.startAngle, endAngle, this.options.dialWidth, valuePartColor);
-    console.log(endAngle, this.default.endAngle)
     this.arcDraw(this.options.dialRadius - this.options.dialWidth / 2, endAngle, this.default.endAngle, this.options.dialWidth, maxPartColor);
 
     if (this.options.isShowMax) {

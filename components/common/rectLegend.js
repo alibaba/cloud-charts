@@ -3,6 +3,7 @@
 import { size } from '../theme/index';
 import { pxToNumber } from './common';
 import merge from './merge';
+import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -10,13 +11,18 @@ import merge from './merge';
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { autoCollapse = true, collapseRow = 'auto', position, align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
+    const { autoCollapse = true, collapseRow = 'auto', position = 'top', align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
 
-    const legendStyle = position === 'bottom' ? { bottom: size.s3 } : { top: size.s3 };
+    // 因为图例项有下边距，所以bottom设置为0即可
+    const legendStyle = position === 'bottom' ? { bottom: 0 } : { top: size.s3 };
     if (align === 'right') {
       legendStyle.right = 0;
     } else if (align === 'left') {
       legendStyle.left = 0;
+    } else if (align === 'center') {
+      legendStyle.left = 0;
+      legendStyle.width = '100%';
+      legendStyle.textAlign = 'center';
     }
 
     const legendConfig = {
@@ -29,7 +35,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       position: position || 'top',
       allowAllCanceled,
       // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-      autoPosition: align === 'center',
+      autoPosition: false,
       hoverable,
       onHover,
       clickable,
@@ -61,6 +67,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
           '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
       'g2-legend': legendStyle,
+      'g2-legend-list': legendHtmlList,
+      'g2-legend-list-item': legendHtmlListItem,
+      'g2-legend-marker': legendHtmlMarker
     };
 
     if (componentConfig) {
