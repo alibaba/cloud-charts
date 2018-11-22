@@ -105,7 +105,9 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 //发布日常
 4. fie publish -d
 //发布线上
-4. fie publish -o
+5. fie publish -o
+//发布tnpm
+6. tnpm publish
 ```
 
 ### 组件命名规范
