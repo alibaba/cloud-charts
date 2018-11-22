@@ -36,6 +36,10 @@
 
 /* 全局公用样式 */
 .aisc-widgets {
+  canvas {
+    display: block;
+  }
+
   .widgets-reset-button {
     position: absolute;
     z-index: 1;

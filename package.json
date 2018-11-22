@@ -3,8 +3,9 @@
   "version": "2.3.0",
   "main": "./build/index.js",
   "scripts": {
-    "start": "gulp start",
-    "build": "gulp build",
+    "start": "./node_modules/.bin/gulp start",
+    "build": "./node_modules/.bin/gulp build",
+    "lib": "./node_modules/.bin/gulp build:lib",
     "lint": "./node_modules/.bin/eslint --fix ./"
   },
   "author": {

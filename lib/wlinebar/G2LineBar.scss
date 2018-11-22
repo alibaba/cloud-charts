@@ -1,4 +1,28 @@
 .aisc-widgets.G2LineBar {
+  > div {
+    height: 100%;
+
+    &.left {
+      text-align: left;
+    }
+    &.center {
+      text-align: center;
+    }
+    &.right {
+      text-align: right;
+    }
+
+    &.position-bottom {
+      canvas {
+        position: static;
+      }
+
+      .g2-legend {
+        transform: translate(0, -100%);
+      }
+    }
+  }
+
   canvas {
     position: absolute;
     top: 0;
