@@ -4,28 +4,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Dashboard from './dashboard';
-// import { filterKey } from "../common/common";
 import './index.scss';
-// import chartLog from "../common/log";
+import chartLog from "../common/log";
 
 const prefix = 'aisc-wdashboard';
-
-
-const defaultConfig = {
-
-};
 
 export default class Wdashboard extends React.Component {
   static displayName = 'Wdashboard';
 
   static defaultProps = {
-    range:[0,100],
+    range: [0, 100],
     pointCount: 5,
   };
 
   constructor(props) {
     super(props);
 
+    // 图表初始化时记录日志
+    chartLog('Wdashboard', 'init');
   }
 
 
@@ -34,27 +30,20 @@ export default class Wdashboard extends React.Component {
     if (!this.dom) {
       return;
     }
-    this.dashboard = new Dashboard(this.dom, Object.assign({},defaultConfig,options));
+    this.dashboard = new Dashboard(this.dom, Object.assign({}, options));
     this.dashboard.setData(data)
   }
 
   componentWillReceiveProps(nextProps) {
     const { data: newData, config: newOptions } = nextProps;
     const { data: oldData, config: oldOptions } = this.props;
-    // console.log(newData, oldData, this.dashboard)
-    if (newOptions != oldOptions) {
-      this.dashboard.setOption(Object.assign({},defaultConfig,newOptions))
+
+    if (newOptions !== oldOptions) {
+      this.dashboard.setOption(Object.assign({}, newOptions))
     } else if (newData !== oldData && this.dashboard) {
-      console.log(newData)
       this.dashboard.setData(newData)
     }
   }
-
-  componentWillUnmount() {
-
-  }
-
-
 
   render() {
     const { className, ...otherProps } = this.props;

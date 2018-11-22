@@ -2,7 +2,6 @@ import { COLORS, Wminiline, Util } from '@alife/aisc-widgets';
 import { size, color, fonts } from '../theme/index';
 
 class DashBoard {
-
   constructor(selector, options) {
     this.element = typeof selector === 'string' ? document.querySelector(selector) : selector;
     this.options = Object.assign(this.defaultOptions || {}, options || {});
@@ -25,7 +24,7 @@ class DashBoard {
       textColor: color.colorBlack, //仪表盘内部文案
       textInDashboard: false,//是否在仪表盘内部显示文案
       textSize: 12,
-      url:"",
+      url: "",
       urlLength: 60,//icon长宽
       urlBottom: 30,
       textLength: 20,//文字长度
@@ -64,7 +63,7 @@ class DashBoard {
 
     };
     this.options = Object.assign(this.defaultOptions, this.options);
-    if(this.element){
+    if (this.element) {
       this.init();
     }
   }
@@ -93,9 +92,9 @@ class DashBoard {
     this.drawIcon();
   }
 
-  drawIcon(){
+  drawIcon() {
     if (this.options.url) {
-      let pastImg =  this.element.querySelector('.icon-img');
+      let pastImg = this.element.querySelector('.icon-img');
       if (pastImg) pastImg.remove();
       let img = document.createElement("img");
       img.src = this.options.url;
@@ -111,9 +110,9 @@ class DashBoard {
     }
   }
 
-  changeColor(color){
+  changeColor(color) {
     let result = color;
-    if(Array.isArray(color)){
+    if (Array.isArray(color)) {
       result = this.context.createLinearGradient(0, 0, this.options.dialRadius * 2, 0);
       color.forEach((item, index) => {
         result.addColorStop(Number(index), item);
@@ -126,7 +125,7 @@ class DashBoard {
     let self = this;
     //刻度表 线
     let percent = (data - this.options.range[0]) / (this.options.range[1] - this.options.range[0]);
-    let endAngle = percent * ( (this.options.angle - this.options.blankAngle) ) + this.default.startAngle + this.options.blankAngle / 2;
+    let endAngle = percent * ((this.options.angle - this.options.blankAngle)) + this.default.startAngle + this.options.blankAngle / 2;
     this.arcDraw(this.radius, this.default.startAngle, this.default.endAngle, this.default.lineWidth, this.options.borderColor)
 
     //值域0以下部分
@@ -143,13 +142,13 @@ class DashBoard {
     //刻度表 点
     this.pointDraw(this.options.pointCount, 0, 10, this.options.radius, this.options.pointerColor, true);
     this.pointDraw(this.options.pointCount, 0, this.options.dialWidth, this.options.dialRadius - this.options.dialWidth / 2, this.options.pointOutColor);
-    if(this.options.text){
+    if (this.options.text) {
       this.writeText(this.options.text, this.options.unit, this.options.url);
-    }else{
+    } else {
       //刻度指针
       this.arcDraw(this.options.pointerOutterWidth, 0, 2 * Math.PI, 1, this.options.pointerPartColor, true);
       this.pointerDraw(data);// 指针中心点
-      this.arcDraw(this.options.pointerAreaWidth, 0, 2 * Math.PI, 1, this.options.pointerPartColor, true,`${this.options.pointerAreaColor}`);
+      this.arcDraw(this.options.pointerAreaWidth, 0, 2 * Math.PI, 1, this.options.pointerPartColor, true, `${this.options.pointerAreaColor}`);
     }
   }
 
@@ -168,9 +167,9 @@ class DashBoard {
   }
 
   //画值线
-  pointLineDraw(A, pointerLength, R, color){
+  pointLineDraw(A, pointerLength, R, color) {
     let Rmax = R + pointerLength / 2;
-    let Rmin = R - pointerLength / 2
+    let Rmin = R - pointerLength / 2;
     let X = this.default.x;
     let Y = this.default.y;
     this.context.beginPath();
@@ -187,11 +186,11 @@ class DashBoard {
     for (let i = start; i < number; i++) {
       let A = i / (number - 1) * (this.options.angle - this.options.blankAngle) + this.default.startAngle - Math.PI + this.options.blankAngle / 2;
       let Rmax = R + pointerLength / 2;
-      let Rmin = R - pointerLength / 2
+      let Rmin = R - pointerLength / 2;
       let X = this.default.x;
       let Y = this.default.y;
-      let tx = X - ( Rmin - this.options.boardFontSize ) * Math.cos(A);
-      let ty = Y - ( Rmin - this.options.boardFontSize ) * Math.sin(A);
+      let tx = X - (Rmin - this.options.boardFontSize) * Math.cos(A);
+      let ty = Y - (Rmin - this.options.boardFontSize) * Math.sin(A);
       let text = (i != number - 1) ? i / (number - 1) * (this.options.range[1] - this.options.range[0]) + this.options.range[0] : '∞';
       this.context.beginPath();
       this.context.moveTo(X - Rmin * Math.cos(A), Y - Rmin * Math.sin(A));
@@ -209,7 +208,7 @@ class DashBoard {
   //仪表盘内部文案
   writeText(text, unit, url) {
     let textSize = Number(this.options.textSize);
-    let yArr = [this.default.y + textSize , this.default.y + 2*textSize ];
+    let yArr = [this.default.y + textSize, this.default.y + 2 * textSize];
     if (!url) yArr = [this.default.y, this.default.y + Number(textSize)];
     this.context.save();
     this.context.textAlign = "center";
@@ -241,7 +240,7 @@ class DashBoard {
     }
     this.context.textAlign = "center";
     this.context.fillStyle = this.options.boardFontColor;
-    this.context.font = this.options.boardFontSize +  `px ${COLORS.fontFamilyTxdMediumNumber}`;
+    this.context.font = this.options.boardFontSize + `px ${COLORS.fontFamilyTxdMediumNumber}`;
     this.context.fillText(text, tx, ty, this.options.textLength);
     this.context.restore();
   }
@@ -343,7 +342,7 @@ class DashBoard {
       } else {
         clearInterval(self.default.timer)
       }
-    }
+    };
     self.default.timer = setInterval(animateMove, self.options.transitionDuration / 50);
   }
 
