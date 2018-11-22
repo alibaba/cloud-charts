@@ -228,7 +228,7 @@ export default {
         if (position === 'bottom') {
           dom.parentNode.classList.add('position-bottom');
         }
-        dom.parentNode.classList.add(config.legend.align || 'left');
+        dom.parentNode.classList.add(align || 'left');
       }
     } else {
       // 清空类名
