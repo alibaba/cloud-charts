@@ -107,7 +107,8 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 //发布线上
 5. fie publish -o
 //发布tnpm
-6. tnpm publish
+6. npm run build
+7. tnpm publish
 ```
 
 ### 组件命名规范
