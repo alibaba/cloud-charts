@@ -26,6 +26,7 @@ cols: 1
 | xAxis   | X轴配置项，详情见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                                                       |
 | yAxis   | Y轴配置项，详情见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                                                       |
 | tooltip | 提示信息配置项，支持 nameFormatter、valueFormatter，详情见 [提示信息 Tooltip](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143) | object \| boolean | {}                                                       |
+| label | 图形文本配置项，详情见 [图形文本 Label](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/286) | object \| boolean | false             |
 | guide   | 辅助标记配置项，详情见 [辅助标记 Guide](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/144) | object \| boolean | null                                                     |
 | colors  | 图表颜色数组，详情见 [颜色 Color](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/149) | array             | COLORS.widgetsColorLinear10 - COLORS.widgetsColorLinear1 |
 | padding | 图表边距                                                     | array             | [32, 5, 32, 45]                                          |

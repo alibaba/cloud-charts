@@ -27,6 +27,7 @@ cols: 1
 | yAxis   | Y轴配置项，在此Y轴对应半径的线。详细配置见 [坐标轴 Axis](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141) | object            | {}                 |
 | legend  | 图例配置项，目前位置在下方。仅支持nameFormatter，详情见 [图例 Legend](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142) | object \| boolean | {}                 |
 | tooltip | 提示信息配置项，支持 titleFormatter、nameFormatter、valueFormatter，详情见 [提示信息 Tooltip](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143) | object \| boolean | false              |
+| label | 图形文本配置项，详情见 [图形文本 Label](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/286) | object \| boolean | false             |
 | colors  | 图表颜色数组，详情见 [颜色 Color](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/149) | array             | COLORS.category_12 |
 | padding | 图表边距                                     | array             | [0, 0, 0, 0]       |
 | area    | 是否为面积图                                   | boolean           | false              |
