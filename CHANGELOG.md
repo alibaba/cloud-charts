@@ -18,8 +18,8 @@
 
 #### New Features
 
-- 增强图例位置控制功能，支持 上左、上中、上右、下左、下中、下右 六个方位。
-- 新增 图形label 功能。
+- 增强图例位置控制功能，支持 上左、上中、上右、下左、下中、下右 六个方位。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
+- 新增 图形label 功能。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/286
 - 新增仪表盘组件。
 - 构建工程优化，打包体积减少，gzip大小（400kb）比原来精简 17%。
 
