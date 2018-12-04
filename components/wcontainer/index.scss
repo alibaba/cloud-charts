@@ -47,18 +47,20 @@
 
     &#{$wcontainer-prefix}-title-border {
       position: relative;
-      padding-left: $s3;
+      padding-left: 0.75em;
 
       &:before {
         content: "";
         position: absolute;
-        top: $wcontainer-padding;
+        // fix: 兼容移动端，不设置top，直接和文字顶部对齐
+        //top: $wcontainer-padding;
         left: 0;
 
-        width: $s1;
-        height: $s4;
+        // 适配字体大小，直接使用em
+        width: 0.25em;
+        height: 1em;
         background: $widgets-color-blue;
-        border-radius: $s1 / 2;
+        border-radius: 0.125em;
       }
     }
 
