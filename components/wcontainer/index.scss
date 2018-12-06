@@ -4,6 +4,7 @@
   background: $wcontainer-bg-color;
   display: flex;
   flex-direction: column;
+  border-radius: $wcontainer-corner-radius;
 
   // 移动端适配
   &#{$wcontainer-prefix}-mobile {
