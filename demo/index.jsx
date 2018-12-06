@@ -43,7 +43,7 @@ let data = [
 class Demo extends React.Component {
 
   state = {
-    currentChart: 'Wscatter',
+    currentChart: 'Wline',
     wdashboardData: 56
   };
 
