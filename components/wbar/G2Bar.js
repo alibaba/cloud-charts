@@ -10,6 +10,7 @@ import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
+import legendFilter from '../common/legendFilter';
 import label from '../common/label';
 import ResetButton from '../common/ResetButton';
 import './G2Bar.scss';
@@ -94,6 +95,8 @@ export default {
 
     // 设置图例
     rectLegend.call(this, chart, config);
+
+    legendFilter.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config);

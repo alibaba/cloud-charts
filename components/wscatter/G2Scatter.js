@@ -7,9 +7,10 @@ import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectLegend from '../common/rectLegend';
-import guide from '../common/guide';
+import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
+import guide from '../common/guide';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -131,6 +132,8 @@ export default {
     });
 
     rectLegend.call(this, chart, config);
+
+    legendFilter.call(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

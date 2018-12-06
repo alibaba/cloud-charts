@@ -24,6 +24,7 @@ let data = [
   {
     "name":"机房2",
     type: 'bar',
+    visible: false,
     "data":[[1483372800000,182],[1483459200000,792],[1483545600000,514],[1483632000000,554],[1483718400000,204],[1483804800000,22],[1483891200000,1023],[1483977600000,528],[1484064000000,879],[1484150400000,981],[1484236800000,453],[1484323200000,1198],[1484409600000,1064],[1484496000000,694]]
   },
   {
@@ -43,9 +44,25 @@ let data = [
 class Demo extends React.Component {
 
   state = {
-    currentChart: 'Wline',
+    chartData: data,
+    currentChart: 'Wlinebar',
     wdashboardData: 56
   };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        chartData: data.map((d) => {
+          if (d.name === '机房4') {
+            d.visible = false;
+          } else {
+            delete d.visible;
+          }
+          return d;
+        })
+      });
+    }, 2000);
+  }
 
   handleChartChange = (chartName) => {
     console.log(chartName);
@@ -69,7 +86,7 @@ class Demo extends React.Component {
           position: 'bottom',
           align: 'center',
         }
-      }} data={data} height={400} />,
+      }} data={this.state.chartData} height={400} />,
 
       <Chart config={{
         xAxis: {type: 'timeCat'},
@@ -82,15 +99,12 @@ class Demo extends React.Component {
           position: 'bottom',
           align: 'left',
         }
-      }} data={data} height={400} />,
+      }} data={this.state.chartData} height={400} />,
 
       <Chart config={{
         xAxis: {type: 'timeCat'},
-        legend:{
-          position: 'bottom',
-          align: 'right',
-        }
-      }} data={data} height={400} />,
+        legend: false,
+      }} data={this.state.chartData} height={400} />,
     ]
   }
 

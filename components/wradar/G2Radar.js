@@ -4,9 +4,10 @@
 import merge from '../common/merge';
 import { color } from '../theme/index';
 import { propertyAssign, propertyMap, noop } from '../common/common';
+import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
-import './G2Radar.scss';
 import drawLine from '../common/drawLine';
+import './G2Radar.scss';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -135,6 +136,8 @@ export default {
     } else {
       chart.legend(false);
     }
+
+    legendFilter.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config, {

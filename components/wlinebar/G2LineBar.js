@@ -70,8 +70,8 @@ export default {
   init(chart, userConfig, data) {
     const config = userConfig;
 
-    const rawLineData = [];
-    const rawBarData = [];
+    const rawLineData = this.rawLineData = [];
+    const rawBarData = this.rawBarData = [];
     data.forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);
@@ -160,8 +160,6 @@ export default {
       'g2-legend': legendStyle
     });
 
-    // hackLegendPosition.call(this, config);
-
     // tooltip
     rectTooltip.call(this, chart, config);
 
@@ -194,11 +192,14 @@ export default {
     // 绘制辅助线，辅助背景区域
     viewGuide(config, lineView, rawLineData, barView, rawBarData);
 
+    viewLegendFilter.call(this, barView, 'rawBarData');
+    viewLegendFilter.call(this, lineView, 'rawLineData');
+
     chart.render();
   },
   changeData(chart, userConfig, data) {
-    const rawLineData = [];
-    const rawBarData = [];
+    const rawLineData = this.rawLineData = [];
+    const rawBarData = this.rawBarData = [];
     data.forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);
@@ -286,18 +287,6 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   }
 }
 
-// function hackLegendPosition(config) {
-//   if (config.legend) {
-//     // hack 图例的位置，仅在初始化时处理一遍
-//     setTimeout(() => {
-//       const dom = this.chartDom && this.chartDom.querySelector('.g2-legend');
-//       if (dom && dom.parentNode) {
-//         dom.parentNode.style.textAlign = config.legend.align === 'right' ? 'right' : 'left';
-//       }
-//     }, 50);
-//   }
-// }
-
 function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
   const guide = config.guide;
   if (!guide) {
@@ -343,4 +332,26 @@ function getGuideView(config, guide, lineView, rawLineData, barView, rawBarData)
   }
 
   return lineView;
+}
+
+function viewLegendFilter(view, dataKey) {
+  /*
+   * indexOrData 有两种可能类型，一种是数字，一种是对象。
+   * 当类型是数字时，是对图例项显示控制的过滤。
+   * 当类型是对象时，是对渲染数据的过滤。
+   * 只有当两者匹配时，图例过滤功能才完整。
+   * 即使关闭图例也有过滤功能，因为可能有外部控制图例开关
+   * */
+  view.filter('type', (type, indexOrData) => {
+    console.log(type, indexOrData)
+    const rawData = this[dataKey] || [];
+    // 类型数字，是图例项对应的index，且有对应的原始数据项
+    if (!isNaN(indexOrData) && rawData[indexOrData] && rawData[indexOrData].visible === false) {
+      return false;
+      // 剩余情况是对象，是数据项过滤
+    } else if (typeof indexOrData === 'object' && indexOrData.visible === false) {
+      return false;
+    }
+    return true;
+  });
 }

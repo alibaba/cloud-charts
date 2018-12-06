@@ -98,7 +98,6 @@ export default {
 
     // 设置图例
     chart.legend(false);
-    // rectLegend.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config, {

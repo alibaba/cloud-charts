@@ -14,7 +14,7 @@ export default function highchartsDataToG2Data(data, config) {
         return;
       }
 
-      const { name: dataName, yAxis: yIndex = 0, ...groupExtra } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, visible, ...groupExtra } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -24,6 +24,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra,
             groupExtra,
+            visible,
             type: dataName
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
@@ -34,6 +35,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra: [],
             groupExtra,
+            visible,
             type: dataName
           });
         } else {
@@ -43,6 +45,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra,
             groupExtra,
+            visible,
             type: dataName
           });
         }
@@ -54,7 +57,7 @@ export default function highchartsDataToG2Data(data, config) {
         return;
       }
 
-      const { name: dataName, facet, dodge, ...groupExtra } = oneData;
+      const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -66,6 +69,7 @@ export default function highchartsDataToG2Data(data, config) {
             groupExtra,
             facet,
             dodge,
+            visible,
             type: dataName
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
@@ -78,6 +82,7 @@ export default function highchartsDataToG2Data(data, config) {
             groupExtra,
             facet,
             dodge,
+            visible,
             type: dataName
           });
         } else {
@@ -89,6 +94,7 @@ export default function highchartsDataToG2Data(data, config) {
             groupExtra,
             facet,
             dodge,
+            visible,
             type: dataName
           });
         }

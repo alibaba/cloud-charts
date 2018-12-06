@@ -3,8 +3,9 @@
 import merge from '../common/merge';
 import { color } from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
-import guide from '../common/guide';
+import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
+import guide from '../common/guide';
 import drawLine from '../common/drawLine';
 
 const defaultConfig = {
@@ -82,6 +83,8 @@ export default {
     chart.axis(false);
 
     chart.legend(false);
+
+    legendFilter.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config);
