@@ -23,6 +23,7 @@ node_modules/
 fie.config.js
 gulpfile.js
 webpack.config.js
+postcss.config.js
 
 # 第三方库
 components/common/merge.js

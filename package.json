@@ -44,6 +44,7 @@
     "css-loader": "^0.28.11",
     "cssnano": "^4.1.7",
     "del": "^2.2.0",
+    "eslint": "^5.9.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "fallback-port": "^0.1.7",
     "glob": "^7.0.3",
