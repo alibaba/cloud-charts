@@ -4,7 +4,7 @@
 
 - 卡片container 蓝色标记线大小跟随文字大小变化。
 - 卡片container 随新版aisc规范，添加圆角。
-- 新增图例项可以默认置灰的功能。
+- 新增图例项可以默认置灰的功能。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
 
 ### 2.3.2 (2018-11-26)
 
