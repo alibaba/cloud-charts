@@ -90,12 +90,14 @@ export default {
           fill: color.widgetsAxisLabel,
           textAlign: 'right', // 文本右对齐
         },
-        htmlTemplate(text, item, index) {
-          if (config.yAxis.labelFormatter) {
-            return config.yAxis.labelFormatter(text, item, index);
-          }
-          return text;
-        }
+        formatter: config.yAxis.labelFormatter,
+        // 之前使用 htmlTemplate 是为了覆盖在line图形之上，和视觉确认后不需要这么做，直接使用默认 formatter 即可。
+        // htmlTemplate(text, item, index) {
+        //   if (config.yAxis.labelFormatter) {
+        //     return config.yAxis.labelFormatter(text, item, index);
+        //   }
+        //   return `<span style="color: ${color.widgetsAxisLabel}">${text}</span>`;
+        // }
       },
       line: null,
       tickLine: null,
