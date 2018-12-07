@@ -78,7 +78,11 @@ export const Wradar = WG2Radar;
 export const Wrectangle = WG2Rectangle;
 export const Wfunnel = WG2Funnel;
 
-export const GFLine = autoSelect(Wline, F2Line);
-export const GFPie = autoSelect(Wpie, F2Pie);
-export const GFBar = autoSelect(Wbar, F2Bar);
-export const GFRangeLine = autoSelect(G2RangeLine, F2RangeLine);
+// export const GFLine = autoSelect(Wline, F2Line);
+// export const GFPie = autoSelect(Wpie, F2Pie);
+// export const GFBar = autoSelect(Wbar, F2Bar);
+// export const GFRangeLine = autoSelect(G2RangeLine, F2RangeLine);
+export const GFLine = F2Line;
+export const GFPie = F2Pie;
+export const GFBar = F2Bar;
+export const GFRangeLine = F2RangeLine;
