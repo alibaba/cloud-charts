@@ -82,6 +82,7 @@ class Demo extends React.Component {
           }
           // type: 'scatter',
         },
+        barLabel: false,
         legend:{
           position: 'bottom',
           align: 'center',
@@ -94,6 +95,12 @@ class Demo extends React.Component {
         stack: true,
         label: {
           position: 'bottom',
+        },
+        lineLabel: {
+          offset: 24,
+        },
+        barLabel: {
+          offset: -12,
         },
         legend:{
           position: 'bottom',

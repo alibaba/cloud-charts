@@ -46,6 +46,8 @@ const defaultConfig = {
   spline: false,
   grid: false,
   symbol: false,
+  lineLabel: undefined,
+  barLabel: undefined,
   label: false,
   // TODO
   // zoom: false,
@@ -256,7 +258,7 @@ function drawBar(chart, config, yAxisKey = 'y') {
     }]);
   }
 
-  label(intervalGeom, config, yAxisKey);
+  label(intervalGeom, config, yAxisKey, null, 'barLabel');
 }
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
@@ -278,7 +280,7 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
     });
   }
 
-  label(lineGeom, config, yAxisKey);
+  label(lineGeom, config, yAxisKey, null, 'lineLabel');
 
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {

@@ -11,14 +11,23 @@ import merge from './merge';
  * @param {object} config 图表配置项
  * @param {string} [field] 映射数据的字段，默认为y
  * @param {object} [componentConfig] 图表额外配置项
+ * @param {string} [extraConfigKey] 额外配置项的key，会在 config.label 的基础上额外扩展，且配置优先级高于默认的 label
  *
  * */
-export default function (geom, config, field = 'y',  componentConfig) {
-  if (config.label === false || (config.label && config.label.visible === false)) {
+
+const defaultConfigKey = 'label';
+
+export default function (geom, config, field = 'y', componentConfig, extraConfigKey) {
+  let configLabel = config[defaultConfigKey];
+  if (extraConfigKey && config[extraConfigKey] !== undefined) {
+    configLabel = config[extraConfigKey];
+  }
+  // const configKey = extraConfigKey || defaultConfigKey;
+  if (configLabel === false || (configLabel && configLabel.visible === false)) {
     return;
   }
 
-  const { type = 'default', position = 'top', offset = 0, autoRotate = true, labelFormatter = null, customConfig } = config.label || {};
+  const { type = 'default', position = 'top', offset = 0, autoRotate = true, labelFormatter = null, customConfig } = configLabel || {};
   const labelConfig = {
     type,
     position,
