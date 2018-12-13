@@ -27,10 +27,10 @@ const errorSvg = <svg width="43px" height="36px" viewBox="0 0 43 36">
 </svg>;
 
 // 无数据状态显示的图标
-const noDataSvg = <svg width="43px" height="36px" viewBox="0 0 43 36">
+const noDataSvg = <svg width="43px" height="36px" viewBox="0 0 43 36" style={{marginLeft: 5}}>
   {/*<g id="数据异常情况展示" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">*/}
     {/*<g id="图表最新样式-copy-3" transform="translate(-660.000000, -1506.000000)" fill="#F2F3F7">*/}
-      {/*<g id="Group-23" transform="translate(660.000000, 1506.000000)">*/}
+      {/*<g transform="translate(3, 0)">*/}
         <polygon className="placeholder-item" points="0 12 8 12 8 32 0 32" />
         <path className="placeholder-item" d="M21,16.0139985 C19.1238002,18.3325877 18,21.285055 18,24.5 C18,27.27522 18.8374075,29.8548529 20.2733236,32 L13,32 L13,0 L21,0 L21,16.0139985 Z" />
         <path className="placeholder-item" d="M34,11.2310283 C33.1898394,11.0793314 32.3541841,11 31.5,11 C29.5412332,11 27.6799005,11.4171646 26,12.1674956 L26,5 L34,5 L34,11.2310283 Z" />
