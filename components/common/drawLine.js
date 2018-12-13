@@ -3,7 +3,12 @@
 import label from './label';
 
 export default function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+  const lineWidth = config.lineWidth;
   const geomStyle = config.geomStyle || {};
+  if (lineWidth && geomStyle.lineWidth === undefined) {
+    geomStyle.lineWidth = lineWidth;
+  }
+
   let areaColors = config.areaColors || config.colors;
   if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.colors, config.areaColors);

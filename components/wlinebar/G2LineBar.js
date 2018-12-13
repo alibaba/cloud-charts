@@ -263,20 +263,28 @@ function drawBar(chart, config, yAxisKey = 'y') {
 
 function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   let lineGeom = null;
+  const lineWidth = config.lineWidth;
+  const geomStyle = {};
+  if (lineWidth !== undefined) {
+    geomStyle.lineWidth = lineWidth;
+  }
 
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
     lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round'
+      lineJoin: 'round',
+      ...geomStyle
     });
   } else if (config.area && !config.stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
     lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round'
+      lineJoin: 'round',
+      ...geomStyle
     });
   } else {
     lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round'
+      lineJoin: 'round',
+      ...geomStyle
     });
   }
 
