@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import classnames from 'classnames';
 import { Grid } from '@alife/aisc';
 import * as Widgets from '@alife/aisc-widgets';
+import Wplaceholder from '../components/wplaceholder';
 
 const { Row, Col } = Grid;
 const chartList = [
@@ -112,6 +113,8 @@ class Demo extends React.Component {
         xAxis: {type: 'timeCat'},
         legend: false,
       }} data={this.state.chartData} height={400} />,
+
+      <Widgets.Wplaceholder noData height={400} />
     ]
   }
 
