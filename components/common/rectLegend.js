@@ -1,7 +1,7 @@
 'use strict';
 
 import { size } from '../theme/index';
-import { pxToNumber } from './common';
+import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
 import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
 
@@ -83,8 +83,14 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
 
     if (legendConfig['g2-legend'] && typeof legendConfig['g2-legend'] === 'object') {
       Object.keys(style).forEach((key) => {
+        // 确保每一项有值设置了，如果是假值则忽略
         if (style[key]) {
-          legendConfig['g2-legend'][key] = style[key];
+          // hack 字号转化为 px
+          if (key === 'fontSize' && isInvalidNumber(style[key])) {
+            legendConfig['g2-legend'][key] = `${style[key]}px`;
+          } else {
+            legendConfig['g2-legend'][key] = style[key];
+          }
         }
       });
       // Object.assign(legendConfig['g2-legend'], style);
