@@ -67,9 +67,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
           '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
       'g2-legend': legendStyle,
-      'g2-legend-list': legendHtmlList,
-      'g2-legend-list-item': legendHtmlListItem,
-      'g2-legend-marker': legendHtmlMarker
+      'g2-legend-list': Object.assign({}, legendHtmlList),
+      'g2-legend-list-item': Object.assign({}, legendHtmlListItem),
+      'g2-legend-marker': Object.assign({}, legendHtmlMarker),
     };
 
     if (componentConfig) {
