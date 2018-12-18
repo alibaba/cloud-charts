@@ -86,7 +86,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
         // 确保每一项有值设置了，如果是假值则忽略
         if (style[key]) {
           // hack 字号转化为 px
-          if (key === 'fontSize' && isInvalidNumber(style[key])) {
+          if (key === 'fontSize' && !isInvalidNumber(style[key])) {
             legendConfig['g2-legend'][key] = `${style[key]}px`;
           } else {
             legendConfig['g2-legend'][key] = style[key];
