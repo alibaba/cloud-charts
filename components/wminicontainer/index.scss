@@ -4,7 +4,7 @@
 #{$wminicontainer-prefix} {
   background: $wminicontainer-bg-color;
   padding-top: 20px;
-  border-radius: $wcontainer-corner-radius;
+  border-radius: $wminicontainer-corner-radius;
 
   // 移动端适配
   &#{$wminicontainer-prefix}-mobile {
