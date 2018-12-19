@@ -30,6 +30,14 @@ export const propertyMap = {
   yAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
 };
 
+const keyType = {
+  min: 'number',
+  max: 'number',
+  minLimit: 'number',
+  maxLimit: 'number',
+  tickCount: 'number',
+};
+
 export function propertyAssign(keys, target, source) {
   if (!source) {
     return target;
@@ -37,7 +45,20 @@ export function propertyAssign(keys, target, source) {
   keys.forEach((key) => {
     // 仅判断undefined的情况
     if (source[key] !== undefined) {
-      target[key] = source[key];
+      // 将部分限制了类型的key属性转换为需要的类型
+      if (keyType[key] !== 'number') {
+        target[key] = source[key];
+      } else if (!isInvalidNumber(source[key])) {
+        // 是数字时才赋值，否则直接跳过
+        target[key] = Number(source[key]);
+      }
+      // if (keyType[key] === 'number') {
+      //   if (!isInvalidNumber(source[key])) {
+      //     target[key] = Number(source[key]);
+      //   }
+      // } else {
+      //   target[key] = source[key];
+      // }
     }
   });
 
