@@ -23,6 +23,9 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       legendStyle.left = 0;
       legendStyle.width = '100%';
       legendStyle.textAlign = 'center';
+    } else {
+      // 默认放到左边
+      legendStyle.left = 0;
     }
 
     const legendConfig = {

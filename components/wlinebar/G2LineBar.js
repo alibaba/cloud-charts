@@ -157,6 +157,9 @@ export default {
         legendStyle.marginRight = size.s3;
       } else if (align === 'center') {
         legendStyle.marginRight = size.s3;
+      } else {
+        // 默认放到左边
+        legendStyle.marginRight = size.s3;
       }
     }
     rectLegend.call(this, chart, config, {
