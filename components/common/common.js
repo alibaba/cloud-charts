@@ -280,7 +280,7 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
     top = 16;
   }
   if (config.legend !== false) {
-    const { position = 'top', align } = config.legend || {};
+    const { position = 'top' } = config.legend || {};
     if (top !== 'auto' && position === 'bottom') {
       top = 16;
     }
