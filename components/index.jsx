@@ -1,6 +1,9 @@
 import { color } from './theme/index';
 import './index.scss';
 
+export const version = __VERSION__;
+export const VERSION = __VERSION__;
+
 // 业务组件，没有依赖其它图表库
 export Wnumber from './wnumber/index';
 export Wcontainer from './wcontainer/index';
