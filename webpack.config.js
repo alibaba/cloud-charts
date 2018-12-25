@@ -70,7 +70,7 @@ const config = {
         amd: 'react-dom'
       },
       '@alife/aisc': 'var Aisc',
-      '@antv/g6': 'var g6',
+      '@antv/g6': 'var G6',
     },
     // {
     //   'react-dom': {
