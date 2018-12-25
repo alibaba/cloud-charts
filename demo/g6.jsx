@@ -59,45 +59,57 @@ data = {
   }],
   edges: []
 };
-const len = 100;
-for (let i = 0; i < 50; i++) {
-  let x = Math.cos((2 * Math.PI / 50) * i) * 100;
-  let y = Math.sin((2 * Math.PI / 50) * i) * 100;
-  const id = G6.Util.guid();
 
-  data.nodes.push({
-    id,
-    x,
-    y,
-  });
-  data.edges.push({
-    source: 'root',
-    target: id
-  });
+const edgeLength = 100;
+const number = 30;
+const depth = 4;
+
+for (let i = 0; i < number; i++) {
+  const rad = (2 * Math.PI / number) * i;
+
+  mockTreeData(data.nodes[0], rad, depth, data.nodes, data.edges);
 }
 
-function mockTreeData(x1, y1, angle, depth, nodes = [], edges = []) {
-  if (depth !== 0) {
-    var x2 = x1 + Math.cos(angle * deg_to_rad) * depth * 10.0;
-    var y2 = y1 + Math.sin(angle * deg_to_rad) * depth * 10.0;
-    var id1 = G6.Util.guid();
-    var id2 = G6.Util.guid();
-    nodes.push({
-      id: id1,
-      x: x1,
-      y: y1
-    });
-    nodes.push({
+function mockTreeData(source, rad, depthIndex, nodes = [], edges = []) {
+  const { x: x1, y: y1, id: id1 } = source;
+
+  if (depthIndex !== 0) {
+    const x2 = x1 + Math.cos(rad) * edgeLength;
+    const y2 = y1 + Math.sin(rad) * edgeLength;
+    const id2 = G6.Util.guid();
+    const target = {
       id: id2,
       x: x2,
-      y: y2
-    });
+      y: y2,
+    };
+
+    nodes.push(target);
     edges.push({
       source: id1,
       target: id2
     });
-    getTreeData(x2, y2, angle - 30, depth - 1, nodes, edges);
-    getTreeData(x2, y2, angle + 30, depth - 1, nodes, edges);
+
+    // 当前深度
+    const currentDepth = depth - depthIndex;
+    // 计算当前层的点的总数
+    const currentNodesNumber = number * Math.pow(2, currentDepth);
+    // 均分的弧度值
+    let deltaRad =  2 * Math.PI / currentNodesNumber;
+
+    if (depthIndex === depth) {
+      deltaRad = deltaRad / 3;
+    } else if (depthIndex === 2) {
+      // deltaRad = deltaRad * 2;
+    } else {
+      deltaRad = deltaRad / 2;
+    }
+
+    // 随机跳过一些生成
+    if (depthIndex !== depth && Math.random() < 0.1) {
+      return;
+    }
+    mockTreeData(target, rad - deltaRad, depthIndex - 1, nodes, edges);
+    mockTreeData(target, rad + deltaRad, depthIndex - 1, nodes, edges);
   }
   return {
     nodes: nodes,
@@ -105,15 +117,23 @@ function mockTreeData(x1, y1, angle, depth, nodes = [], edges = []) {
   };
 }
 
+const tooltip = new G6.Plugins['tool.tooltip']();
 const graph = new G6.Graph({
   container: 'container',
   fitView: 'autoZoom',
   width: 600,
-  height: 600
+  height: 600,
+  plugins: [ tooltip ]
 });
 
 graph.node({
-  size: 2
+  size: 2,
+  tooltip(model) {
+    return [
+      ['x', model.x],
+      ['y', model.y],
+    ]
+  }
 });
 
 graph.read(data);
