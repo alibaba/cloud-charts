@@ -60,8 +60,8 @@ data = {
   edges: []
 };
 
-const edgeLength = 100;
-const number = 30;
+const edgeLength = 50;
+const number = 10;
 const depth = 4;
 
 for (let i = 0; i < number; i++) {
@@ -81,6 +81,7 @@ function mockTreeData(source, rad, depthIndex, nodes = [], edges = []) {
       id: id2,
       x: x2,
       y: y2,
+      depth: depthIndex,
     };
 
     nodes.push(target);
@@ -96,18 +97,28 @@ function mockTreeData(source, rad, depthIndex, nodes = [], edges = []) {
     // 均分的弧度值
     let deltaRad =  2 * Math.PI / currentNodesNumber;
 
-    if (depthIndex === depth) {
-      deltaRad = deltaRad / 3;
-    } else if (depthIndex === 2) {
-      // deltaRad = deltaRad * 2;
-    } else {
-      deltaRad = deltaRad / 2;
-    }
+    deltaRad = deltaRad / (depthIndex - 1);
+    // // 递归第一层
+    // if (depthIndex === depth) {
+    //   deltaRad = deltaRad / 3;
+    // } else if (depthIndex === 2) {
+    //   // 递归倒数第二层，不调整deltaRad
+    //   // deltaRad = deltaRad * 2;
+    // } else if (depthIndex === 4) {
+    //   deltaRad = deltaRad / 3;
+    // } else {
+    //   // 其余情况，除2
+    //   deltaRad = deltaRad / 2;
+    // }
 
-    // 随机跳过一些生成
-    if (depthIndex !== depth && Math.random() < 0.1) {
-      return;
-    }
+    // deltaRad = ( 2 * Math.PI / number ) / Math.pow(2, currentDepth + 1);
+    //
+    // deltaRad = deltaRad / 2
+
+    // // 随机跳过一些生成
+    // if (depthIndex !== depth && Math.random() < 0.1) {
+    //   return;
+    // }
     mockTreeData(target, rad - deltaRad, depthIndex - 1, nodes, edges);
     mockTreeData(target, rad + deltaRad, depthIndex - 1, nodes, edges);
   }
@@ -132,6 +143,7 @@ graph.node({
     return [
       ['x', model.x],
       ['y', model.y],
+      ['depth', model.depth || 'root'],
     ]
   }
 });
