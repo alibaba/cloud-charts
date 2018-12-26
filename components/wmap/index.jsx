@@ -69,6 +69,9 @@ class Map extends MapBase {
   }
 
   renderCustomPointLayer(layer, layerIndex) {
+    if (!this.chart) {
+      return null;
+    }
     const { data, render, ...otherProps } = layer;
     const width = this.chart.get('width');
     const height = this.chart.get('height');
