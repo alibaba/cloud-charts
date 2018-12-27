@@ -161,6 +161,11 @@ export default {
     if (viewName === 'WidgetsMapPoint') {
       drawMapPoint.call(this, chart, ds, config, data);
     }
+  },
+  destroy(chart) {
+    this.bgMapDataView = null;
+    this.areaMapDataView = null;
+    this.pointMapDataView = null;
   }
 };
 
