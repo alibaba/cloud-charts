@@ -11,7 +11,27 @@ import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMark
 export default function (chart, config, componentConfig, isOneDataGroup) {
   // 设置图例
   if (config.legend !== false) {
-    const { autoCollapse = true, collapseRow = 'auto', position = 'top', align, nameFormatter, valueFormatter, showData, allowAllCanceled = false, hoverable = false, onHover = null, clickable = true, onClick = null, customConfig, style = {} } = config.legend || {};
+    const {
+      // 自动折叠图例
+      autoCollapse = true,
+      collapseRow = 'auto',
+      // 图例位置
+      position = 'top',
+      align,
+      // 格式化函数
+      nameFormatter,
+      valueFormatter,
+      showData,
+      // 交互相关
+      allowAllCanceled = false,
+      hoverable = false,
+      onHover = null,
+      clickable = true,
+      onClick = null,
+      // 自定义配置
+      customConfig,
+      style = {},
+    } = config.legend || {};
 
     // 因为图例项有下边距，所以bottom设置为0即可
     const legendStyle = position === 'bottom' ? { bottom: 0 } : { top: size.s3 };
