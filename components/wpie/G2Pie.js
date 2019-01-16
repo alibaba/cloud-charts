@@ -2,7 +2,7 @@
 
 import merge from '../common/merge';
 import { color, size } from '../theme/index';
-import { numberDecimal } from '../common/common';
+import { pxToNumber, numberDecimal } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';
 
@@ -20,8 +20,10 @@ const defaultConfig = {
   },
   autoSort: true,
   cycle: false,
+  select: true,
   innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
   outerRadius: 0.8, // 饼图半径大小，初始化时可用
+  drawPadding: 10,
 };
 
 export default {
@@ -30,6 +32,7 @@ export default {
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
+    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
 
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
@@ -43,21 +46,22 @@ export default {
 
     this.childrenDom = element.querySelector('.aisc-widgets-children');
     if (this.childrenDom) {
-      this.childrenDom.style.width = `${diameter}px`;
+      this.childrenDom.style.width = `${diameter + drawPadding}px`;
       this.childrenDom.style.height = `${boxHeight}px`;
     }
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      width: diameter,
-      height: diameter,
+      width: diameter + drawPadding,
+      height: diameter + drawPadding,
       // forceFit: true,
-      padding: 0
+      padding: drawPadding
     });
   },
   changeSize(chart, config, w, h) {
     const padding = config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
+    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
 
     const boxHeight = h - padding[0] - padding[2];
     const boxWidth = w - padding[1] - padding[3];
@@ -65,11 +69,11 @@ export default {
     const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
     if (this.childrenDom) {
-      this.childrenDom.style.width = `${diameter}px`;
+      this.childrenDom.style.width = `${diameter + drawPadding}px`;
       this.childrenDom.style.height = `${boxHeight}px`;
     }
 
-    chart.changeSize(diameter, diameter);
+    chart.changeSize(diameter + drawPadding, diameter + drawPadding);
   },
   changeData(chart, config, data) {
     // 更新数据总和值，保证百分比的正常
@@ -121,6 +125,8 @@ export default {
     });
     this.totalData = totalData;
 
+    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
+
     // 设置图例
     rectLegend.call(this, chart, config, {
       autoCollapse: false,
@@ -157,7 +163,8 @@ export default {
       },
       'g2-legend': {
         position: 'static',
-        marginLeft: size.s5, // inline flex items 不能使用百分比的margin/padding，先改为固定大小
+        // inline flex items 不能使用百分比的margin/padding，设置为固定大小
+        marginLeft: `${Math.max(pxToNumber(size.s5) - drawPadding, 0)}px`,
       },
       'g2-legend-list-item': {
         marginRight: 0
@@ -199,7 +206,7 @@ export default {
 
     // 下面这一句注释我还没看懂。
     // position若直接使用value导致图例点击某项隐藏，余下展示不为值和不为1
-    chart.intervalStack().position('y').color('x', config.colors).select(false);
+    chart.intervalStack().position('y').color('x', config.colors).select(!!config.select);
 
     chart.render();
   }
