@@ -4,7 +4,7 @@ import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
 import g2Factory from './common/g2Factory';
-import { autoSelect } from './common/platform';
+// import { autoSelect } from './common/platform';
 
 // 引入组件
 import G2Line from './wline/G2Line';
@@ -20,13 +20,14 @@ import G2Nightingale from './wnightingale/G2-base';
 import G2Radar from './wradar/G2Radar';
 import G2Rectangle from './wrectangle/G2Rectangle';
 import G2Funnel from './wfunnel/G2Funnel';
+import G2MultiPie from './wmultipie/G2MultiPie';
 
 import F2Line from './wline/F2Line';
 import F2Pie from './wpie/F2Pie';
 import F2Bar from './wbar/F2Bar';
 import F2RangeLine from './wrangeline/F2RangeLine';
 // 未实现，空白占位
-import G2RangeLine from './wrangeline/G2RangeLine';
+// import G2RangeLine from './wrangeline/G2RangeLine';
 
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
@@ -42,6 +43,7 @@ export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
 export const WG2Radar = g2Factory('G2Radar', G2Radar);
 export const WG2Rectangle = g2Factory('G2Rectangle', G2Rectangle, false);
 export const WG2Funnel = g2Factory('G2Funnel', G2Funnel);
+export const WG2MultiPie = g2Factory('G2MultiPie', G2MultiPie, false);
 
 // 暴露基础图表库
 export { G2, DataSet };
@@ -77,6 +79,7 @@ export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
 export const Wrectangle = WG2Rectangle;
 export const Wfunnel = WG2Funnel;
+export const WMultiPie = WG2MultiPie;
 
 // export const GFLine = autoSelect(Wline, F2Line);
 // export const GFPie = autoSelect(Wpie, F2Pie);
