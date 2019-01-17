@@ -63,25 +63,35 @@ function g2Factory(name, Chart, convertData = true) {
       const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
+      const changeCustomConfig = ChartProcess.changeCustomConfig;
       // 配置项有变化，重新生成图表
-      if (changeConfig !== false && !G2.Util.isEqual(newConfig, oldConfig)) {
-        // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
-        if (this.isReRendering) {
-          window.cancelAnimationFrame(this.reRenderTimer);
+      if (changeConfig !== false) {
+        let hasConfigChange = false;
+        if (changeCustomConfig && !G2.Util.isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))) {
+          hasConfigChange = true;
+        } else if (!changeCustomConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
+          hasConfigChange = true;
         }
 
-        this.isReRendering = true;
-        this.componentWillUnmount();
+        if (hasConfigChange) {
+          // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
+          if (this.isReRendering) {
+            window.cancelAnimationFrame(this.reRenderTimer);
+          }
 
-        this.reRenderTimer = requestAnimationFrame(() => {
-          this.initSize(nextProps);
+          this.isReRendering = true;
+          this.componentWillUnmount();
 
-          this.initChart(nextProps);
+          this.reRenderTimer = requestAnimationFrame(() => {
+            this.initSize(nextProps);
 
-          this.isReRendering = false;
-        });
+            this.initChart(nextProps);
 
-        return;
+            this.isReRendering = false;
+          });
+
+          return;
+        }
       }
 
       if (newPadding !== oldPadding) {

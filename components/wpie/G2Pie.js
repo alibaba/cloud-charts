@@ -20,11 +20,28 @@ const defaultConfig = {
   },
   autoSort: true,
   cycle: false,
-  select: true,
+  select: false,
+  selectData: null,
   innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
   outerRadius: 0.8, // 饼图半径大小，初始化时可用
   drawPadding: 10,
 };
+
+function selectGeom(config, geom, selectKey) {
+  if (!geom || !selectKey || !Array.isArray(this.data)) {
+    return;
+  }
+
+  // 清除选中效果
+  geom.clearSelected();
+
+  // 找到对应的数据，设置选中
+  this.data.forEach((d) => {
+    if (d.x === selectKey) {
+      geom.setSelected(d);
+    }
+  });
+}
 
 export default {
   beforeInit(props) {
@@ -91,6 +108,12 @@ export default {
     this.data = data;
 
     chart.changeData(data);
+  },
+  changeCustomConfig(objValue, othValue, key, newConfig, oldConfig) {
+    if (key === 'selectData' && objValue !== othValue) {
+      selectGeom.call(this, newConfig, this.geom, objValue);
+      return true;
+    }
   },
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
@@ -206,8 +229,13 @@ export default {
 
     // 下面这一句注释我还没看懂。
     // position若直接使用value导致图例点击某项隐藏，余下展示不为值和不为1
-    chart.intervalStack().position('y').color('x', config.colors).select(!!config.select);
+    this.geom = chart.intervalStack().position('y').color('x', config.colors).select(!!config.select);
 
     chart.render();
+
+    selectGeom.call(this, config, this.geom, config.selectData);
+  },
+  destroy() {
+    this.geom = null;
   }
 };
