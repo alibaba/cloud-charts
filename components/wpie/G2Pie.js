@@ -148,7 +148,7 @@ export default {
     });
     this.totalData = totalData;
 
-    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
+    const drawPadding = config.drawPadding || 0;
 
     // 设置图例
     rectLegend.call(this, chart, config, {
