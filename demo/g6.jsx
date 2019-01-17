@@ -61,7 +61,7 @@ data = {
 };
 
 const edgeLength = 50;
-const number = 10;
+const number = 30;
 const depth = 4;
 
 for (let i = 0; i < number; i++) {
@@ -115,10 +115,10 @@ function mockTreeData(source, rad, depthIndex, nodes = [], edges = []) {
     //
     // deltaRad = deltaRad / 2
 
-    // // 随机跳过一些生成
-    // if (depthIndex !== depth && Math.random() < 0.1) {
-    //   return;
-    // }
+    // 随机跳过一些生成
+    if (depthIndex !== depth && Math.random() < 0.1) {
+      return;
+    }
     mockTreeData(target, rad - deltaRad, depthIndex - 1, nodes, edges);
     mockTreeData(target, rad + deltaRad, depthIndex - 1, nodes, edges);
   }

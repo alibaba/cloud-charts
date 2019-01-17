@@ -42,6 +42,42 @@ let data = [
   }
 ];
 
+const depth = 2;
+function mockData(target, deep = 0) {
+  if (deep < depth) {
+    target.children = [];
+    const totalValue = Math.round(Math.random() * 100) + 100;
+    const loop = Math.round(Math.random() * 3) + 1;
+    let unuseValue = totalValue;
+
+    for(let i = 0; i < loop; i++) {
+      const name = `${target.name}-${i}`;
+      let value = Math.round(Math.random() * totalValue / loop);
+
+      if (i === loop - 1) {
+        value = unuseValue;
+      } else {
+        unuseValue -= value;
+      }
+
+      if (deep !== depth - 1) {
+        value = undefined;
+      }
+
+      target.children.push(mockData({name, value}, deep + 1))
+    }
+  }
+
+  return target;
+}
+
+const multiPieData = mockData({
+  name: 'root',
+  value: 0,
+});
+
+console.log(multiPieData);
+
 class Demo extends React.Component {
 
   state = {
@@ -74,7 +110,7 @@ class Demo extends React.Component {
     const Chart = Widgets[currentChart];
 
     return [
-      <Chart config={{
+      /*<Chart config={{
         xAxis: {type: 'timeCat'},
         // yAxis: [{}, {}],
         label: {
@@ -114,7 +150,9 @@ class Demo extends React.Component {
         legend: false,
       }} data={this.state.chartData} height={400} />,
 
-      <Widgets.Wplaceholder noData height={400} />
+      <Widgets.Wplaceholder noData height={400} />,*/
+
+      <Widgets.WMultiPie height={400} data={multiPieData} />
     ]
   }
 
