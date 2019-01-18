@@ -1,3 +1,10 @@
+### 2.3.8 (2019-01-17)
+
+#### New Features
+
+- 添加多层饼图组件，内部测试中。
+- 饼图添加选中效果，并且可以通过配置项控制选中。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/25/example/523
+
 ### 2.3.7 (2018-12-28)
 
 #### Bug Fixes
