@@ -33,8 +33,7 @@ export default class Wnumber extends React.Component {
     chartLog('Wnumber', 'init');
   }
 
-  renderBottom() {
-    const bottomTitle = this.props.bottomTitle;
+  renderBottom(bottomTitle) {
     if (!!bottomTitle) {
       return(
         <div className={`${prefix}-bottomTitle`}>{bottomTitle}</div>
@@ -42,8 +41,7 @@ export default class Wnumber extends React.Component {
     }
   }
 
-  renderMain() {
-    const { status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio } = this.props;
+  renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children) {
     const numberTrendIcon = getTrendIcon(numberTrend);
     const numberClasses = `${prefix}-number`;
 
@@ -59,7 +57,7 @@ export default class Wnumber extends React.Component {
           </span>
         }
         <span className={numberClasses}>
-          {this.props.children}
+          {children}
         </span>
         {
           unit &&
@@ -85,9 +83,9 @@ export default class Wnumber extends React.Component {
             {rightRatio}
           </span>
         }
-        { this.props.trend &&
+        { trend &&
           <span className={`${prefix}-trend`}>
-            {this.props.trend()}
+            {trend()}
           </span>
         }
       </div>
@@ -95,7 +93,14 @@ export default class Wnumber extends React.Component {
   }
 
   render() {
-    const { className, style, ...otherProps} = this.props;
+    const {
+      className, style,
+      // main props
+      status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children,
+      // bottom props
+      bottomTitle,
+      ...otherProps
+    } = this.props;
 
     const mainClasses = classNames({
       [`${prefix}`]: true,
@@ -104,8 +109,8 @@ export default class Wnumber extends React.Component {
 
     return (
       <div className={mainClasses} style={style} {...otherProps}>
-        {this.renderMain()}
-        {this.renderBottom()}
+        {this.renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children)}
+        {this.renderBottom(bottomTitle)}
       </div>
     );
   }
