@@ -30,16 +30,7 @@ export default class Wcircle extends React.Component {
     chartLog('Wcircle', 'init');
   }
 
-  renderBottom() {
-    const bottomTitle = this.props.bottomTitle;
-    const bottomUnit = this.props.bottomUnit;
-    const bottomNumber = this.props.bottomNumber;
-    const bottomTrend = this.props.bottomTrend;
-
-    const bottomClasses = classNames({
-      [`${prefix}-bottom-block`]: true
-    });
-
+  renderBottom(bottomTitle, bottomUnit, bottomNumber, bottomTrend) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-bottom-number`;
     if (bottomTrend === 'raise') {
@@ -52,7 +43,7 @@ export default class Wcircle extends React.Component {
 
     if (!!bottomTitle || !!bottomUnit ||!!bottomNumber || !!bottomTrend) {
       return(
-        <div className={bottomClasses}>
+        <div className={`${prefix}-bottom-block`}>
           {
             bottomTrend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
           }
@@ -68,11 +59,9 @@ export default class Wcircle extends React.Component {
     }
   }
 
-  renderMain() {
+  renderMain(title, unit, children, trend, type, percent, radius, strokeWidth, status, customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
-
-    const { trend, type, percent, radius, strokeWidth, status, color: customColor, backgroundColor } = this.props;
 
     const style = {};
     if (customColor) {
@@ -151,22 +140,27 @@ export default class Wcircle extends React.Component {
                 trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
               }
               <span className={numberClasses}>
-                {this.props.children}
+                {children}
                 {
-                  this.props.unit && <span className={`${prefix}-unit`}>{this.props.unit}</span>
+                  unit && <span className={`${prefix}-unit`}>{unit}</span>
                 }
               </span>
-              <p className={`${prefix}-title`}>{this.props.title}</p>
+              <p className={`${prefix}-title`}>{title}</p>
             </div>
           </div>
-          {type === 'gauge' && this.renderBottom()}
+          {type === 'gauge' && this.renderBottom(bottomTitle, bottomUnit, bottomNumber, bottomTrend)}
         </div>
       </div>
     );
   }
 
   render() {
-    const { className, ...otherProps } = this.props;
+    const {
+      className, style,
+      trend, type, percent, radius, strokeWidth, status, color, backgroundColor, title, unit, children,
+      bottomTitle, bottomUnit, bottomNumber, bottomTrend,
+      ...otherProps
+    } = this.props;
 
     const mainClasses = classNames({
       [prefix]: true,
@@ -174,8 +168,13 @@ export default class Wcircle extends React.Component {
     });
 
     return (
-      <div className={mainClasses} {...otherProps}>
-        {this.renderMain()}
+      <div className={mainClasses} style={style} {...otherProps}>
+        {
+          this.renderMain(
+            title, unit, children, trend, type, percent, radius, strokeWidth, status, color, backgroundColor,
+            bottomTitle, bottomUnit, bottomNumber, bottomTrend,
+          )
+        }
       </div>
     );
   }
