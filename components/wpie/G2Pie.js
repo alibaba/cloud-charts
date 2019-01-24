@@ -35,6 +35,11 @@ function selectGeom(geom, selectKey) {
   // 清除选中效果
   geom.clearSelected();
 
+  // 如果selectKey为假值，则只清空选中效果。
+  if (selectKey) {
+    return;
+  }
+
   // 使用内部方法直接选中，fix: 数据同时被更新时无法选中的问题
   geom.getShapes().forEach((shape) => {
     const origin = shape.get('origin');
