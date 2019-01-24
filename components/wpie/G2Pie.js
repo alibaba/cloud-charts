@@ -27,7 +27,7 @@ const defaultConfig = {
   drawPadding: 10,
 };
 
-function selectGeom(config, geom, selectKey) {
+function selectGeom(geom, selectKey) {
   if (!geom || !selectKey || !Array.isArray(this.data)) {
     return;
   }
@@ -35,12 +35,20 @@ function selectGeom(config, geom, selectKey) {
   // 清除选中效果
   geom.clearSelected();
 
-  // 找到对应的数据，设置选中
-  this.data.forEach((d) => {
-    if (d.x === selectKey) {
-      geom.setSelected(d);
+  // 使用内部方法直接选中，fix: 数据同时被更新时无法选中的问题
+  geom.getShapes().forEach((shape) => {
+    const origin = shape.get('origin');
+    if (origin && origin._origin && origin._origin.x === selectKey) {
+      geom.setShapeSelected(shape);
     }
   });
+
+  // // 找到对应的数据，设置选中
+  // this.data.forEach((d) => {
+  //   if (d.x === selectKey) {
+  //     geom.setSelected(d);
+  //   }
+  // });
 }
 
 export default {
@@ -111,7 +119,7 @@ export default {
   },
   changeCustomConfig(objValue, othValue, key, newConfig, oldConfig) {
     if (key === 'selectData' && objValue !== othValue) {
-      selectGeom.call(this, newConfig, this.geom, objValue);
+      selectGeom.call(this, this.geom, objValue);
       return true;
     }
   },
@@ -233,7 +241,7 @@ export default {
 
     chart.render();
 
-    selectGeom.call(this, config, this.geom, config.selectData);
+    selectGeom.call(this, this.geom, config.selectData);
   },
   destroy() {
     this.geom = null;
