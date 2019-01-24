@@ -28,7 +28,8 @@ const defaultConfig = {
 };
 
 function selectGeom(geom, selectKey) {
-  if (!geom || !selectKey || !Array.isArray(this.data)) {
+  // if (!geom || !selectKey || !Array.isArray(this.data)) {
+  if (!geom) {
     return;
   }
 
