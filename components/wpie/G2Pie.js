@@ -36,7 +36,7 @@ function selectGeom(geom, selectKey) {
   geom.clearSelected();
 
   // 如果selectKey为假值，则只清空选中效果。
-  if (selectKey) {
+  if (!selectKey) {
     return;
   }
 
