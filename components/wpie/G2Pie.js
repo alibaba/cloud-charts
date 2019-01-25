@@ -18,6 +18,7 @@ const defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
+  coord: null,
   autoSort: true,
   cycle: false,
   select: false,
@@ -26,6 +27,13 @@ const defaultConfig = {
   outerRadius: 0.8, // 饼图半径大小，初始化时可用
   drawPadding: 10,
 };
+
+function transformCoord(coord, transform = {}) {
+  const { type, param } = transform;
+  if (coord[type] && Array.isArray(param)) {
+    coord[type](...param);
+  }
+}
 
 function selectGeom(geom, selectKey) {
   // if (!geom || !selectKey || !Array.isArray(this.data)) {
@@ -153,7 +161,19 @@ export default {
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
     }
-    chart.coord('theta', thetaConfig);
+    const coord = chart.coord('theta', thetaConfig);
+
+    if (config.coord) {
+      const { transform } = config.coord || {};
+
+      if (Array.isArray(transform)) {
+        transform.forEach((t) => {
+          transformCoord(coord, t);
+        });
+      } else if (transform && typeof  transform === 'object') {
+        transformCoord(coord, transform);
+      }
+    }
 
     // 计算得总数据
     let totalData = 0;
