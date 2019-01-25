@@ -1,5 +1,6 @@
 'use strict';
 
+import G2 from '@antv/g2';
 import label from './label';
 
 export default function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
@@ -38,10 +39,29 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
   label(lineGeom, config, yAxisKey);
 
   // 曲线默认点
-  if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
-  } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').size(3).active(false);
+  let pointGeom = null;
+  if (config.symbol) {
+    if (config.area && config.stack) {
+      pointGeom = chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').active(false);
+    } else {
+      pointGeom = chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').active(false);
+    }
+
+    let sizeConfig = config.symbol.size || 3;
+    if (Array.isArray(sizeConfig)) {
+      sizeConfig = [yAxisKey, sizeConfig];
+    } else if (G2.Util.isFunction(sizeConfig)) {
+      // sizeConfig = ['extra', sizeConfig];
+    } else if (typeof sizeConfig === 'object') {
+      // TODO
+    } else {
+      sizeConfig = [sizeConfig];
+    }
+    pointGeom.size(...sizeConfig);
+
+    if (config.symbol.geomStyle) {
+      pointGeom.style('x*y*type*extra', config.symbol.geomStyle);
+    }
   }
 }
 
