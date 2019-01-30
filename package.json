@@ -25,7 +25,7 @@
   "dependencies": {
     "@alife/aisc": "2.8.2",
     "@alife/aisc-core": "0.6.9",
-    "@alife/g2-connect": "^0.1.1",
+    "@alife/g2-connect": "^0.2.0",
     "@antv/g2": "3.1.2",
     "@antv/g2-brush": "^0.0.2",
     "@antv/f2": "3.1.15",
