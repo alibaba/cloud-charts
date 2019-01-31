@@ -51,9 +51,9 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
     if (Array.isArray(sizeConfig)) {
       sizeConfig = [yAxisKey, sizeConfig];
     } else if (G2.Util.isFunction(sizeConfig)) {
-      // sizeConfig = ['extra', sizeConfig];
+      sizeConfig = ['type', sizeConfig];
     } else if (typeof sizeConfig === 'object') {
-      // TODO
+      sizeConfig = [sizeConfig.field, sizeConfig.param];
     } else {
       sizeConfig = [sizeConfig];
     }

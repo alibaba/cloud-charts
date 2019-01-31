@@ -247,7 +247,7 @@ function drawBar(chart, config, colors, field = 'type') {
     } else if (G2.Util.isFunction(size)) {
       sizeConfig = ['x*y*type*facet', size];
     } else if (typeof size === 'object') {
-      // TODO
+      sizeConfig = [sizeConfig.field, sizeConfig.param];
     } else {
       sizeConfig = [size];
     }
