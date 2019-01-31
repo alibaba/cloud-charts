@@ -159,6 +159,10 @@ function g2Factory(name, Chart, convertData = true) {
       // this.chartDom = null;
       // this.chartId = null;
 
+      if (G2.Util.isFunction(this.props.getChartInstance)) {
+        this.props.getChartInstance(null);
+      }
+
       this.afterRenderCallbacks = [];
       this.unmountCallbacks = [];
     }
@@ -198,6 +202,10 @@ function g2Factory(name, Chart, convertData = true) {
       }
 
       this.chart = chart;
+
+      if (G2.Util.isFunction(currentProps.getChartInstance)) {
+        currentProps.getChartInstance(chart);
+      }
 
       this.afterRender(config);
     }
