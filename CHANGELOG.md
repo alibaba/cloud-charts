@@ -1,3 +1,23 @@
+### 2.3.10 (2019-01-31)
+
+#### New Features
+
+- 升级新版g2-connect插件，支持按照数据维度联动，详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/267。
+- 增强线图&柱图 size 设置能力，支持自定义映射字段。
+- tooltip 添加新控制项，允许 tooltip 移出图表外，用于图表较小的场景，详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143。
+- 新增 getChartInstance 方法，用于直接获得图表实例，方便进行联动等操作。
+
+### 2.3.9 (2019-01-25)
+
+#### New Features
+
+- 折线图标记点添加额外样式控制功能。
+- 饼图添加坐标轴自定义处理的功能。
+
+#### Bug Fixes
+
+- 修复饼图selectData为空时无法清空选中的问题。
+
 ### 2.3.8 (2019-01-17)
 
 #### New Features
