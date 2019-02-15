@@ -221,7 +221,7 @@ function g2Factory(name, Chart, convertData = true) {
       window.addEventListener('resize', this.autoResize);
     }
 
-    changeSize(config, w, h) {
+    changeSize(config, w = this._size[0], h = this._size[1]) {
       this.setSize([w, h]);
 
       if (ChartProcess.changeSize) {
