@@ -1,4 +1,5 @@
 import G2 from '@antv/g2';
+import F2 from '@antv/f2';
 import { getLog } from './common/log';
 import { isMobile } from './common/platform';
 
@@ -10,6 +11,7 @@ import { isMobile } from './common/platform';
 let trackable = true;
 export default function track(enable) {
   G2.track(enable);
+  F2.track(enable);
   trackable = enable;
 }
 
