@@ -63,6 +63,7 @@
     "react": "*",
     "react-dom": "*",
     "react-hot-loader": "^3.0.0-beta.7",
+    "stats-webpack-plugin": "^0.7.0",
     "style-loader": "~0.13.1",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"

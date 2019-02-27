@@ -12,6 +12,7 @@ const precss = require('precss');
 const glob = require('glob');
 const autoprefixer = require('autoprefixer');
 const FallbackPort = require('fallback-port');
+// const StatsPlugin = require('stats-webpack-plugin');
 const packageInfo = require('./package');
 
 // 默认开启3000端口,若被占用,则开启其他端口
@@ -49,7 +50,6 @@ const config = {
     alias: {
       '@alife/aisc-widgets': srcPath,
       '@alife/aisc-widgets/lib': srcPath,
-      // '@antv/data-set': '@antv/data-set/lib/index',
       '@antv/data-set$': path.resolve(__dirname, './components/common/dataSet'),
       '@antv/data-set/lib': '@antv/data-set/lib'
     }
@@ -72,22 +72,6 @@ const config = {
       '@alife/aisc': 'var Aisc',
       '@antv/g6': 'var G6',
     },
-    // {
-    //   'react-dom': {
-    //     root: 'ReactDOM',
-    //     commonjs2: 'react-dom',
-    //     commonjs: 'react-dom',
-    //     amd: 'react-dom'
-    //   }
-    // },
-    // {
-    //   '@alife/aisc': {
-    //     root: 'Aisc',
-    //     commonjs2: 'Aisc',
-    //     commonjs: 'Aisc',
-    //     amd: 'Aisc'
-    //   }
-    // }
   ],
 
   module: {
@@ -147,7 +131,12 @@ const config = {
     //     stream.clearLine(1);
     //   }
     // })
-  ]
+  ],
+
+  // stats: {
+  //   modules: true,
+  //   modulesSort: 'size',
+  // }
 };
 
 
@@ -292,8 +281,14 @@ function prod(themeName) {
       minimize: true,
       compress: {warnings: false},
       output: {comments: false}
+    // }),
+    //
+    // new StatsPlugin('stats.json', {
+    //   chunkModules: true,
     })
   );
+
+  // _config.profile = true;
 
   return _config;
 }
