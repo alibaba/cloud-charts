@@ -162,7 +162,7 @@ export default {
 
     // 拖拽缩放
     if (config.zoom) {
-      const button = this.resetButton = new ResetButton(chart);
+      const button = this.resetButton = new ResetButton(chart, this.language);
 
       this.brush = new Brush({
         canvas: chart.get('canvas'),
@@ -171,9 +171,9 @@ export default {
         onBrushstart() {
           chart.hideTooltip();
         },
-        onBrushmove() {
+        onBrushmove: () => {
           chart.hideTooltip();
-          button.show();
+          button.show(this.language);
         }
       });
     }

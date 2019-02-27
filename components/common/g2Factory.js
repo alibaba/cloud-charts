@@ -51,6 +51,8 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     componentDidMount () {
+      this.language = this.props.language || 'zh-cn';
+
       // 设置初始高宽
       this.initSize();
 
@@ -62,6 +64,8 @@ function g2Factory(name, Chart, convertData = true) {
     componentWillReceiveProps(nextProps){
       const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
+
+      this.language = nextProps.language || 'zh-cn';
 
       const changeCustomConfig = ChartProcess.changeCustomConfig;
       // 配置项有变化，重新生成图表

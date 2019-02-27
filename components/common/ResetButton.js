@@ -1,10 +1,22 @@
 'use strict';
 
+import Locale from '../wplaceholder/locale';
+
+const locale = {
+  'zh-cn': {
+    reset: '重置',
+  },
+  'en-us': {
+    reset: 'Reset',
+  }
+};
+
 export default class ResetButton {
-  constructor(chart) {
+  constructor(chart, language) {
     this.chart = chart;
     this.isShow = false;
     this.dom = null;
+    this.language = language;
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -14,7 +26,7 @@ export default class ResetButton {
     this.hide();
   }
 
-  show() {
+  show(language) {
     if (this.isShow) {
       return;
     }
@@ -28,7 +40,7 @@ export default class ResetButton {
       const range = chart.get('plotRange');
       if (wrapper && range && range.tr) {
         this.dom = document.createElement('span');
-        this.dom.innerText = '重置';
+        this.dom.innerText = (locale[this.language] || locale['zh-cn']).reset;
         this.dom.className = 'widgets-reset-button';
         this.dom.style.top = `${range.tr.y}px`;
         this.dom.style.right = `${chart.get('width') - range.tr.x}px`;
@@ -38,6 +50,12 @@ export default class ResetButton {
 
         this.dom.addEventListener('click', this.handleClick);
       }
+    }
+
+    if (language !== this.language) {
+      this.dom.innerText = (locale[language] || locale['zh-cn']).reset;
+
+      this.language = language;
     }
   }
 

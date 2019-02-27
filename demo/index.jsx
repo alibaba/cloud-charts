@@ -82,7 +82,7 @@ class Demo extends React.Component {
 
   state = {
     chartData: data,
-    currentChart: 'Wlinebar',
+    currentChart: 'Wline',
     wdashboardData: 56
   };
 
@@ -110,7 +110,7 @@ class Demo extends React.Component {
     const Chart = Widgets[currentChart];
 
     return [
-      /*<Chart config={{
+      <Chart config={{
         xAxis: {type: 'timeCat'},
         // yAxis: [{}, {}],
         label: {
@@ -123,7 +123,8 @@ class Demo extends React.Component {
         legend:{
           position: 'bottom',
           align: 'center',
-        }
+        },
+        zoom: true,
       }} data={this.state.chartData} height={400} />,
 
       <Chart config={{
@@ -150,7 +151,7 @@ class Demo extends React.Component {
         legend: false,
       }} data={this.state.chartData} height={400} />,
 
-      <Widgets.Wplaceholder noData height={400} />,*/
+      <Widgets.Wplaceholder noData height={400} />,
 
       <Widgets.WMultiPie height={400} data={multiPieData} />
     ]
