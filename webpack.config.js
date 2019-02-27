@@ -118,7 +118,16 @@ const config = {
             '@ali/sass-loader'
           ],
         })
-      }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|svg)((\?|#).*)?$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        }],
+      },
     ]
   },
 
