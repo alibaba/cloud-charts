@@ -79,7 +79,7 @@ export const Wnightingale = WG2Nightingale;
 export const Wradar = WG2Radar;
 export const Wrectangle = WG2Rectangle;
 export const Wfunnel = WG2Funnel;
-export const WMultiPie = WG2MultiPie;
+export const WmultiPie = WG2MultiPie;
 
 // export const GFLine = autoSelect(Wline, F2Line);
 // export const GFPie = autoSelect(Wpie, F2Pie);

@@ -153,7 +153,7 @@ class Demo extends React.Component {
 
       <Widgets.Wplaceholder noData height={400} />,
 
-      <Widgets.WMultiPie height={400} data={multiPieData} />
+      <Widgets.WmultiPie height={400} data={multiPieData} />,
     ]
   }
 
