@@ -10,7 +10,7 @@ export default function (chart, config, componentConfig) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { autoRotate, labelFormatter, customConfig } = config.xAxis || {};
+    const { autoRotate, rotate, labelFormatter, customConfig } = config.xAxis || {};
     const xAxisConfig = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -18,6 +18,13 @@ export default function (chart, config, componentConfig) {
         formatter: labelFormatter,
       }
     };
+
+    if (rotate) {
+      xAxisConfig.label.textStyle = {
+        textAlign: 'start',
+        rotate,
+      }
+    }
 
     // 网格线
     if (config.grid) {
