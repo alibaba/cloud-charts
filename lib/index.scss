@@ -1,35 +1,37 @@
 @import "./theme/index";
 
+$font-path: './font';
+
 /* Widgets 专用字体，仅包含20个字符 */
 @font-face {
   font-family: "DINMediumNumber";
-  src: url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.eot"); /* IE9 */
-  src: url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.woff") format("woff"), /* chrome、firefox */
-  url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-  url("//g.alicdn.com/ls/lib-common/1.0.3/dinmedium/dinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  src: url("#{$font-path}/dinmedium/dinmedium.eot"); /* IE9 */
+  src: url("#{$font-path}/dinmedium/dinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("#{$font-path}/dinmedium/dinmedium.woff") format("woff"), /* chrome、firefox */
+  url("#{$font-path}/dinmedium/dinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("#{$font-path}/dinmedium/dinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
   font-family: "TXDDINMediumNumber";
-  src: url("//g.alicdn.com/ls/lib-common/1.0.4/txddinmedium/txddinmedium.eot"); /* IE9 */
-  src: url("//g.alicdn.com/ls/lib-common/1.0.4/txddinmedium/txddinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinmedium/txddinmedium.woff") format("woff"), /* chrome、firefox */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinmedium/txddinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinmedium/txddinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  src: url("#{$font-path}/txddinmedium/txddinmedium.eot"); /* IE9 */
+  src: url("#{$font-path}/txddinmedium/txddinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("#{$font-path}/txddinmedium/txddinmedium.woff") format("woff"), /* chrome、firefox */
+  url("#{$font-path}/txddinmedium/txddinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("#{$font-path}/txddinmedium/txddinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
   font-family: "TXDDINRegularNumber";
-  src: url("//g.alicdn.com/ls/lib-common/1.0.4/txddinregular/txddinregular.eot"); /* IE9 */
-  src: url("//g.alicdn.com/ls/lib-common/1.0.4/txddinregular/txddinregular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinregular/txddinregular.woff") format("woff"), /* chrome、firefox */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinregular/txddinregular.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-  url("//g.alicdn.com/ls/lib-common/1.0.4/txddinregular/txddinregular.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  src: url("#{$font-path}/txddinregular/txddinregular.eot"); /* IE9 */
+  src: url("#{$font-path}/txddinregular/txddinregular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("#{$font-path}/txddinregular/txddinregular.woff") format("woff"), /* chrome、firefox */
+  url("#{$font-path}/txddinregular/txddinregular.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  url("#{$font-path}/txddinregular/txddinregular.svg#fonteditor") format("svg"); /* iOS 4.1- */
   font-style: normal;
   font-weight: normal;
 }
