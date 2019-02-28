@@ -3,7 +3,6 @@
 import React from 'react';
 import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
-import { geoConicEqualArea } from 'd3-geo';
 import merge from '../common/merge';
 import chinaGeo from './mapData/chinaGeo.json';
 import { color, size } from '../theme/index';
@@ -21,9 +20,7 @@ const defaultConfig = {
   pointColors: color.category_12,
   type: 'china',
   showSouthChinaSea: true,
-  projection() {
-    return geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
-  },
+  projection: null,
   legend: {
     nameFormatter: null, // 可以强制覆盖，手动设置label
   },
@@ -185,10 +182,21 @@ function drawMapBackground(chart, ds, config) {
   const bgMapDataView = ds.createView('bgMap')
     .source(geoData, {
       type: 'GeoJSON'
-    }).transform({
+    });
+
+  let projection = config.projection;
+
+  if (!projection) {
+    projection = bgMapDataView.getGeoProjection('geoConicEqualArea');
+    projection.center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+  }
+
+  bgMapDataView.transform({
       type: 'geo.projection',
       // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
-      projection: config.projection,
+      projection() {
+        return projection;
+      },
       as: ['x', 'y', 'cX', 'cY'],
     });
 
@@ -241,6 +249,8 @@ function drawMapBackground(chart, ds, config) {
 
   this.bgMapDataView = bgMapDataView;
   this.bgMapView = bgMapView;
+
+  this.projection = projection;
 }
 
 // 绘制分级统计地图
@@ -307,7 +317,7 @@ function drawMapPoint(chart, ds, config, data) {
         callback: (point) => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
-          return convertPointPosition.call(this, newPoint, config.projection);
+          return convertPointPosition.call(this, newPoint);
         }
       });
 
@@ -370,7 +380,7 @@ function drawMapLabel(chart, config) {
     // fix 某些地区label位置不好，需要重新定位
     const fixLngLat = fixLngLatMap[row.name];
     if (fixLngLat) {
-      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, config.projection);
+      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, this.projection, true);
       label.x = position[0];
       label.y = position[1];
     }
@@ -432,13 +442,15 @@ function convertMapData(data) {
 }
 
 // 计算数据的坐标点
-export function convertPointPosition(point, projection) {
+export function convertPointPosition(point) {
   if (point.x && point.y) {
     return point;
   }
   if (!this.bgMapDataView) {
     return point;
   }
+
+  const projection = this.projection;
   if (point.lng && point.lat) {
     return getProjectionPosition(point, this.bgMapDataView, projection, Number(point.lng), Number(point.lat));
   }
@@ -464,7 +476,7 @@ export function convertPointPosition(point, projection) {
 }
 
 function getProjectionPosition(point, view, projection, lng, lat) {
-  const projectedCoord = view.geoProjectPosition([lng, lat], projection);
+  const projectedCoord = view.geoProjectPosition([lng, lat], projection, true);
   point.x = projectedCoord[0];
   point.y = projectedCoord[1];
   return point;
