@@ -22,10 +22,10 @@ import G2Rectangle from './wrectangle/G2Rectangle';
 import G2Funnel from './wfunnel/G2Funnel';
 import G2MultiPie from './wmultipie/G2MultiPie';
 
-import F2Line from './wline/F2Line';
-import F2Pie from './wpie/F2Pie';
-import F2Bar from './wbar/F2Bar';
-import F2RangeLine from './wrangeline/F2RangeLine';
+// import F2Line from './wline/F2Line';
+// import F2Pie from './wpie/F2Pie';
+// import F2Bar from './wbar/F2Bar';
+// import F2RangeLine from './wrangeline/F2RangeLine';
 // 未实现，空白占位
 // import G2RangeLine from './wrangeline/G2RangeLine';
 
@@ -85,7 +85,7 @@ export const WmultiPie = WG2MultiPie;
 // export const GFPie = autoSelect(Wpie, F2Pie);
 // export const GFBar = autoSelect(Wbar, F2Bar);
 // export const GFRangeLine = autoSelect(G2RangeLine, F2RangeLine);
-export const GFLine = F2Line;
-export const GFPie = F2Pie;
-export const GFBar = F2Bar;
-export const GFRangeLine = F2RangeLine;
+// export const GFLine = F2Line;
+// export const GFPie = F2Pie;
+// export const GFBar = F2Bar;
+// export const GFRangeLine = F2RangeLine;
