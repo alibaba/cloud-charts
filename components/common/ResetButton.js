@@ -1,7 +1,5 @@
 'use strict';
 
-import Locale from '../wplaceholder/locale';
-
 const locale = {
   'zh-cn': {
     reset: '重置',

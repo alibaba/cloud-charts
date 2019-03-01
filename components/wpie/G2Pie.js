@@ -131,7 +131,7 @@ export default {
 
     chart.changeData(data);
   },
-  changeCustomConfig(objValue, othValue, key, newConfig, oldConfig) {
+  changeCustomConfig(objValue, othValue, key) {
     if (key === 'selectData' && objValue !== othValue) {
       selectGeom.call(this, this.geom, objValue);
       return true;

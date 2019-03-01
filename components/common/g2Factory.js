@@ -44,10 +44,9 @@ function g2Factory(name, Chart, convertData = true) {
 
     componentWillMount() {
       if (this.props.customChart) {
-        this.chartProcess = ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
-      } else {
-        this.chartProcess = ChartProcess;
+        ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       }
+      this.chartProcess = ChartProcess;
     }
 
     componentDidMount() {
@@ -305,7 +304,7 @@ function g2Factory(name, Chart, convertData = true) {
     render() {
       const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} key={this.chartId} className={`${rootClassName + name} ${className}`} style={style} {...otherProps}>
+        <div ref={dom => (this.chartDom = dom)} id={this.chartId} key={this.chartId} className={`${rootClassName + name} ${className}`} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}
         </div>
       );

@@ -89,7 +89,7 @@ export default {
       case 'horizontal-center':
         geom = chart.intervalSymmetric();
         break;
-      case 'horizontal-bottom':
+      // case 'horizontal-bottom':
         // 和 default 时相同
       default:
         geom = chart.interval();

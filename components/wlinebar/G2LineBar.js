@@ -73,8 +73,10 @@ export default {
   init(chart, userConfig, data) {
     const config = userConfig;
 
-    const rawLineData = this.rawLineData = [];
-    const rawBarData = this.rawBarData = [];
+    const rawLineData = [];
+    this.rawLineData = rawLineData;
+    const rawBarData = [];
+    this.rawBarData = rawBarData;
     data.forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);
@@ -204,8 +206,10 @@ export default {
     chart.render();
   },
   changeData(chart, userConfig, data) {
-    const rawLineData = this.rawLineData = [];
-    const rawBarData = this.rawBarData = [];
+    const rawLineData = [];
+    this.rawLineData = rawLineData;
+    const rawBarData = [];
+    this.rawBarData = rawBarData;
     data.forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);

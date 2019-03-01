@@ -1,19 +1,15 @@
 'use strict';
 
-import { size, fonts } from '../theme/index';
-import { pxToNumber, isInvalidNumber } from './common';
-import merge from './merge';
-
 /**
  * 图例变灰设置。
  *
  * @param {object} chart 图表对象，或者是view对象
  * @param {object} config 图表配置项
  * @param {string} [dataKey] 原始数据挂载的key，用于动态获取原始数据
- * @param {boolean} [isOneDataGroup]
+ * //@param {boolean} [isOneDataGroup]
  *
  * */
-export default function (chart, config, dataKey = 'rawData', isOneDataGroup) {
+export default function (chart, config, dataKey = 'rawData') {
   /*
    * indexOrData 有两种可能类型，一种是数字，一种是对象。
    * 当类型是数字时，是对图例项显示控制的过滤。

@@ -3,7 +3,7 @@
 import { size } from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
-import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
+import { legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -272,15 +272,18 @@ class Collapse {
 
     const { itemHeight, collapseRow, wrapperHeight, collapseTop, collapseBottom } = this.config;
 
-    const collapseDom = this.collapseDom = document.createElement('div');
+    const collapseDom = document.createElement('div');
     collapseDom.className = 'widgets-legend-collapse';
     collapseDom.style.paddingTop = `${collapseTop}px`;
     collapseDom.style.paddingBottom = `${collapseBottom}px`;
+    this.collapseDom = collapseDom;
 
-    const collapseUpDom = this.collapseUpDom = document.createElement('div');
+    const collapseUpDom = document.createElement('div');
     collapseUpDom.className = 'legend-collapse-btn collapse-up';
-    const collapseDownDom = this.collapseDownDom = document.createElement('div');
+    this.collapseUpDom = collapseUpDom;
+    const collapseDownDom = document.createElement('div');
     collapseDownDom.className = 'legend-collapse-btn collapse-down';
+    this.collapseDownDom = collapseDownDom;
     collapseDom.appendChild(collapseUpDom);
     collapseDom.appendChild(collapseDownDom);
 

@@ -98,7 +98,8 @@ export default {
       'g2-legend': {},
     });
 
-    const ds = this.ds = new DataSet();
+    const ds = new DataSet();
+    this.ds = ds;
 
     drawMapBackground.call(this, chart, ds, config);
 
@@ -159,7 +160,7 @@ export default {
       drawMapPoint.call(this, chart, ds, config, data);
     }
   },
-  destroy(chart) {
+  destroy() {
     this.bgMapDataView = null;
     this.areaMapDataView = null;
     this.pointMapDataView = null;
@@ -214,7 +215,8 @@ function drawMapBackground(chart, ds, config) {
   // start: 按照投影后尺寸比例调整图表的真实比例
   const longitudeRange = bgMapDataView.range('x');
   const latitudeRange = bgMapDataView.range('y');
-  const ratio = this.bgMapRatio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+  const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+  this.bgMapRatio = ratio;
   const { width: chartWidth, height: chartHeight } = chart._attrs;
   const chartRatio = chartWidth / chartHeight;
 
@@ -260,7 +262,7 @@ function drawMapArea(chart, ds, config, data) {
   if (areaMapDataView) {
     areaMapDataView.origin !== data && areaMapDataView.source(data);
   } else {
-    areaMapDataView = this.areaMapDataView = ds.createView()
+    areaMapDataView = ds.createView()
       .source(data)
       .transform({
         type: 'map',
@@ -301,6 +303,7 @@ function drawMapArea(chart, ds, config, data) {
       areaGeom.style('name*value', config.geomStyle);
     }
 
+    this.areaMapDataView = areaMapDataView;
     this.areaMapView = areaMapView;
   }
 }
@@ -311,7 +314,7 @@ function drawMapPoint(chart, ds, config, data) {
   if (pointMapDataView) {
     pointMapDataView.origin !== data && pointMapDataView.source(data);
   } else {
-    pointMapDataView = this.pointMapDataView = ds.createView()
+    pointMapDataView = ds.createView()
       .source(data)
       .transform({
         type: 'map',
@@ -362,6 +365,7 @@ function drawMapPoint(chart, ds, config, data) {
       });
     }
 
+    this.pointMapDataView = pointMapDataView;
     this.pointMapView = pointMapView;
   }
 }

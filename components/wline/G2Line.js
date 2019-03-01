@@ -162,7 +162,8 @@ export default {
 
     // 拖拽缩放
     if (config.zoom) {
-      const button = this.resetButton = new ResetButton(chart, this.language);
+      const button = new ResetButton(chart, this.language);
+      this.resetButton = button;
 
       this.brush = new Brush({
         canvas: chart.get('canvas'),

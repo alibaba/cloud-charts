@@ -12,7 +12,8 @@ class Tween {
 
   start() {
     this._isPlay = true;
-    this._startTime = this.lastUpdate = Date.now();
+    this._startTime = Date.now();
+    this.lastUpdate = this._startTime;
     this.refresh();
   }
 
