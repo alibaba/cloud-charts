@@ -69,7 +69,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
         const newName = nameFormatter ? nameFormatter(value, {
           ...item,
           color,
-          checked
+          checked,
         }, index) : value;
 
         if (showData) {
@@ -77,7 +77,7 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
           const newValue = valueFormatter ? valueFormatter(dataValue, {
             ...item,
             color,
-            checked
+            checked,
           }, index) : dataValue;
 
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
@@ -153,7 +153,7 @@ function getRawData(config, rawData, name, isOneDataGroup) {
 
     if (Array.isArray(result)) {
       result = {
-        data: result
+        data: result,
       };
     }
 
@@ -258,7 +258,7 @@ function legendCollapse(legendConfig) {
       if (collapseInstance) {
         collapseInstance.destroy();
       }
-    }
+    },
   };
 }
 

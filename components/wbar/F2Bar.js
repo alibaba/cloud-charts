@@ -6,8 +6,7 @@ import merge from '../common/merge';
 
 const colorMap = color.category_12;
 const clientWidth = window.innerWidth;
-const defaultLegendFormatter = (d, titleStyle, valueStyle) =>
-  `<span class="name" style="color: ${titleStyle.fill}; font-size: ${titleStyle.fontSize}px; margin-right: 6px;">
+const defaultLegendFormatter = (d, titleStyle, valueStyle) => `<span class="name" style="color: ${titleStyle.fill}; font-size: ${titleStyle.fontSize}px; margin-right: 6px;">
     ${d.name}
   </span>
   <span class="value" style="color: ${valueStyle.fill}; font-size: ${valueStyle.fontSize}px;">
@@ -20,14 +19,14 @@ const defaultConfig = {
   padding: [10, 10, 10, 10],
   xAxis: {},
   yAxis: {
-    min: 0
+    min: 0,
   },
   tooltip: tooltipConfig,
   legend: {
     ...legendConfig,
     show: true,
     position: 'top',
-    formatter: defaultLegendFormatter
+    formatter: defaultLegendFormatter,
   },
   colors: colorMap,
 
@@ -50,8 +49,8 @@ const barConfig = {
 
     chart.source(data, {
       y: {
-        tickCount: 5
-      }
+        tickCount: 5,
+      },
     });
 
     if (userConfig.xAxis.show === false) {
@@ -68,7 +67,7 @@ const barConfig = {
     } else {
       chart.axis('y', {
         ...yAxisConfig,
-        ...userConfig.yAxis
+        ...userConfig.yAxis,
       });
     }
 
@@ -99,10 +98,10 @@ const barConfig = {
           .html(
             [obj.x, obj.y],
             `<div style='color: ${color.widgetsColorBlue};font-size: 10px'><span>${obj.y}</span></div>`,
-          {
-            align: 'bc',
-            offset: [0, offsetY]
-          }
+            {
+              align: 'bc',
+              offset: [0, offsetY],
+            }
           );
       });
     }
@@ -140,7 +139,7 @@ const barConfig = {
           // 如果还在原来的数据上则什么都不做
           return;
         }
-          // 如果发现当前的点和之前的不一样，则重新画辅助线和tooltip
+        // 如果发现当前的点和之前的不一样，则重新画辅助线和tooltip
         self.removeGuideLine(elem);
         self.currentCanvasData = data;
         self.drawGuideLine(data, elem, canvas, config);
@@ -167,13 +166,13 @@ const barConfig = {
       dataArr.push({
         color: i.color,
         name: i._origin.type,
-        value: i._origin.y
+        value: i._origin.y,
       });
     });
 
     let topContentStr =
       `<div class="top-content" style="display: flex; flex-wrap: wrap; WebkitUserSelect: none;flex-direction: column; width: ${
-      clientWidth
+        clientWidth
       }px; padding: 8px 12px; font-size: 12px; line-height: 1.2 ">`;
 
     topContentStr += `<div style="color: ${valueStyle.fill}">${x}</div>`;
@@ -207,7 +206,7 @@ const barConfig = {
         padding: 8,
         boxSizing: 'border-box',
         width: `${clientWidth}px`,
-        overflow: 'hidden'
+        overflow: 'hidden',
       });
       const parentContainer = document.getElementById(getContainerId(elem.chartId));
       parentContainer.appendChild(topContentDiv);
@@ -249,7 +248,7 @@ const barConfig = {
       resultArr.push({
         color: i.color,
         name: i._origin.type,
-        value: i._origin.y
+        value: i._origin.y,
       });
     });
     elem.renderLegend(resultArr);
@@ -331,7 +330,7 @@ const barConfig = {
     if (topContain) {
       container.removeChild(topContain);
     }
-  }
+  },
 };
 
 export default f2Factory('f2Bar', barConfig);

@@ -29,7 +29,7 @@ const defaultConfig = {
   legend: {
     nameFormatter: null,
     offsetX: 0,
-    offsetY: 0
+    offsetY: 0,
   },
   tooltip: {
     titleFormatter: null,
@@ -46,7 +46,7 @@ export default {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || defaultConfig.padding,
     });
   },
   // 图表绘制主函数，必选
@@ -55,19 +55,19 @@ export default {
 
     const defs = {
       type: {
-        type: 'cat'
-      }
+        type: 'cat',
+      },
     };
 
     defs.y = propertyAssign(propertyMap.yAxis, {
       type: 'linear',
-      tickCount: 5
+      tickCount: 5,
     }, config.yAxis);
 
     chart.source(data, defs);
 
     chart.coord('polar', {
-      radius: config.radius
+      radius: config.radius,
     });
 
     chart.axis('x', {
@@ -78,10 +78,10 @@ export default {
       tickLine: null,
       grid: {
         lineStyle: {
-          lineDash: null
+          lineDash: null,
         },
-        //hideFirstLine: false
-      }
+        // hideFirstLine: false
+      },
     });
     chart.axis('y', {
       label: {
@@ -104,9 +104,9 @@ export default {
       grid: {
         type: 'polygon',
         lineStyle: {
-          lineDash: null
-        }
-      }
+          lineDash: null,
+        },
+      },
     });
 
     // 设置图例
@@ -125,7 +125,7 @@ export default {
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...item,
             itemColor,
-            checked
+            checked,
           }, index) : value;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
@@ -143,7 +143,7 @@ export default {
 
     // tooltip
     rectTooltip.call(this, chart, config, {
-      crosshairs: null
+      crosshairs: null,
     });
 
     const lineShape = config.spline ? 'smooth' : 'line';
@@ -152,5 +152,5 @@ export default {
     drawLine(chart, config, lineShape, areaShape);
 
     chart.render();
-  }
+  },
 };

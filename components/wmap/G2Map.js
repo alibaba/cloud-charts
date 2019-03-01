@@ -40,13 +40,13 @@ const minLabel = ['钓鱼岛', '赤尾屿'];
 
 // 特殊处理一些地区的label
 const fixLngLatMap = {
-  '甘肃': [104.4948862, 35.0248462],
-  '河北': [115.5193875, 38.3062153],
-  '天津': [118.2141694, 38.8206246],
-  '澳门': [113.2573035, 21.7906005],
-  '香港': [114.9040905, 21.9265955],
-  '陕西': [108.5133047, 33.8799429],
-  '上海': [122.2818331, 31.0480268],
+  甘肃: [104.4948862, 35.0248462],
+  河北: [115.5193875, 38.3062153],
+  天津: [118.2141694, 38.8206246],
+  澳门: [113.2573035, 21.7906005],
+  香港: [114.9040905, 21.9265955],
+  陕西: [108.5133047, 33.8799429],
+  上海: [122.2818331, 31.0480268],
 };
 
 export default {
@@ -60,25 +60,25 @@ export default {
 
     return Object.assign({}, props, {
       padding: props.padding || newConfig.padding,
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, config) {
     // 同步度量
     chart.scale({
       longitude: {
-        sync: true
+        sync: true,
       },
       latitude: {
-        sync: true
+        sync: true,
       },
       x: {
         nice: false,
-        sync: true
+        sync: true,
       },
       y: {
         nice: false,
-        sync: true
+        sync: true,
       },
     });
 
@@ -95,7 +95,7 @@ export default {
       position: 'left',
       // 使用container控制图例添加的位置，方便调整样式
       container: `#${this.chartId}-legend`,
-      'g2-legend': {}
+      'g2-legend': {},
     });
 
     const ds = this.ds = new DataSet();
@@ -123,7 +123,7 @@ export default {
       }
     });
     this.setState({
-      customPointLayer
+      customPointLayer,
     });
 
     if (config.labels) {
@@ -163,7 +163,7 @@ export default {
     this.bgMapDataView = null;
     this.areaMapDataView = null;
     this.pointMapDataView = null;
-  }
+  },
 };
 
 // 绘制地图背景
@@ -181,24 +181,25 @@ function drawMapBackground(chart, ds, config) {
 
   const bgMapDataView = ds.createView('bgMap')
     .source(geoData, {
-      type: 'GeoJSON'
+      type: 'GeoJSON',
     });
 
   let projection = config.projection;
 
   if (!projection) {
     projection = bgMapDataView.getGeoProjection('geoConicEqualArea');
-    projection.center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
+    projection.center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0])
+      .translate([0, 0]);
   }
 
   bgMapDataView.transform({
-      type: 'geo.projection',
-      // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
-      projection() {
-        return projection;
-      },
-      as: ['x', 'y', 'cX', 'cY'],
-    });
+    type: 'geo.projection',
+    // 因为G2的投影函数不支持设置投影参数，这里使用自定义的投影函数设置参数
+    projection() {
+      return projection;
+    },
+    as: ['x', 'y', 'cX', 'cY'],
+  });
 
   if (config.type === 'china') {
     // 过滤掉南海诸岛
@@ -206,7 +207,7 @@ function drawMapBackground(chart, ds, config) {
       type: 'filter',
       callback(row) {
         return row.properties.name !== '南海诸岛';
-      }
+      },
     });
   }
 
@@ -244,7 +245,7 @@ function drawMapBackground(chart, ds, config) {
       return bgStroke || color.widgetsMapAreaBorder;
     },
     lineWidth: 1,
-    ...otherBgStyle
+    ...otherBgStyle,
   });
 
   this.bgMapDataView = bgMapDataView;
@@ -274,15 +275,15 @@ function drawMapArea(chart, ds, config, data) {
           return {
             name: newName,
             type: String(type),
-            ...others
+            ...others,
           };
-        }
+        },
       })
       .transform({
         geoDataView: this.bgMapDataView,
         field: 'name',
         type: 'geo.region',
-        as: ['x', 'y']
+        as: ['x', 'y'],
       });
 
     const areaMapView = chart.view();
@@ -293,7 +294,7 @@ function drawMapArea(chart, ds, config, data) {
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
-        value
+        value,
       }));
 
     if (config.geomStyle) {
@@ -318,7 +319,7 @@ function drawMapPoint(chart, ds, config, data) {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
           return convertPointPosition.call(this, newPoint);
-        }
+        },
       });
 
     const pointMapView = chart.view();
@@ -338,7 +339,7 @@ function drawMapPoint(chart, ds, config, data) {
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
-        value
+        value,
       }))
       .active(false);
 
@@ -357,7 +358,7 @@ function drawMapPoint(chart, ds, config, data) {
           textBaseline: 'middle',
           ...textStyle,
         },
-        formatter: formatter || null
+        formatter: formatter || null,
       });
     }
 
@@ -374,7 +375,7 @@ function drawMapLabel(chart, config) {
     const label = {
       name: row.name,
       x: row.cX,
-      y: row.cY
+      y: row.cY,
     };
 
     // fix 某些地区label位置不好，需要重新定位
@@ -411,7 +412,7 @@ function drawMapLabel(chart, config) {
           ...textStyle,
         };
       },
-      formatter: labelConfig.formatter || null
+      formatter: labelConfig.formatter || null,
     })
     .tooltip(false)
     .active(false);
@@ -433,7 +434,7 @@ function convertMapData(data) {
     itemData.forEach((d) => {
       result.push({
         ...d,
-        type: d.type || name
+        type: d.type || name,
       });
     });
   });

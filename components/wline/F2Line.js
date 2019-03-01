@@ -7,8 +7,7 @@ import merge from '../common/merge';
 const clientWidth = window.innerWidth;
 const guideColorMap = [color.widgetsColorRed, color.widgetsColorOrange];
 
-const defaultLegendFormatter = (d, titleStyle, valueStyle) =>
-  `<span class="name" style="color: ${titleStyle.fill}; margin-right: 6px; font-size: ${titleStyle.fontSize}px;">
+const defaultLegendFormatter = (d, titleStyle, valueStyle) => `<span class="name" style="color: ${titleStyle.fill}; margin-right: 6px; font-size: ${titleStyle.fontSize}px;">
     ${d.name}
   </span>
   <span class="value" style="color: ${valueStyle.fill}; font-size: ${valueStyle.fontSize}px;">
@@ -24,13 +23,13 @@ const defaultConfig = {
     // mask: 'YYYY-MM-DD HH:mm:ss'
   },
   yAxis: {
-    min: 0
+    min: 0,
   },
   tooltip: tooltipConfig,
   legend: {
     ...legendConfig,
     position: 'top',
-    formatter: defaultLegendFormatter
+    formatter: defaultLegendFormatter,
   },
   area: false,
   // F2 不支持 stack
@@ -51,7 +50,7 @@ const renderTooltip = (elem, x, dataArr, canvas, config) => {
   const tooltipId = getTooltipId(elem.chartId);
   let topContentStr =
     `<div class="top-content" style="display: flex; flex-wrap: wrap; WebkitUserSelect: none;flex-direction: column; width: ${
-    clientWidth
+      clientWidth
     }px; padding: 8px 12px; font-size: 12px; line-height: 1.2 ">`;
 
   topContentStr += `<div style="color: ${valueStyle.fill}">${x}</div>`;
@@ -87,7 +86,7 @@ const renderTooltip = (elem, x, dataArr, canvas, config) => {
       padding: 8,
       boxSizing: 'border-box',
       width: `${clientWidth}px`,
-      overflow: 'hidden'
+      overflow: 'hidden',
     });
 
     const parent = document.getElementById(getContainerId(elem.chartId));
@@ -111,12 +110,12 @@ const line = {
       x: {
         type: userConfig.xAxis.type || 'cat',
         tickCount: 5,
-        range: [0, 1]
+        range: [0, 1],
       },
       y: {
         tickCount: 4,
-        min: 0
-      }
+        min: 0,
+      },
     };
     // 配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
     if (userConfig.xAxis.show === false) {
@@ -133,7 +132,7 @@ const line = {
     } else {
       chart.axis('y', {
         ...yAxisConfig,
-        ...userConfig.yAxis
+        ...userConfig.yAxis,
       });
     }
 
@@ -157,7 +156,7 @@ const line = {
       .shape(lineShape)
       .color('type')
       .style({
-        lineWidth: 1.5
+        lineWidth: 1.5,
       });
 
     if (userConfig.guides) {
@@ -166,13 +165,13 @@ const line = {
           guide.value.forEach((item) => {
             chart.guide().line([item, 0], [item, 30], {
               lineWidth: 1.5, // 辅助线宽度
-              stroke: guide.color || guideColorMap[index] // 辅助线颜色设置
+              stroke: guide.color || guideColorMap[index], // 辅助线颜色设置
             });
           });
         } else {
           chart.guide().line([guide.value, 0], [guide.value, 30], {
             lineWidth: 1.5, // 辅助线宽度
-            stroke: guide.color || guideColorMap[index] // 辅助线颜色设置
+            stroke: guide.color || guideColorMap[index], // 辅助线颜色设置
           });
         }
       });
@@ -293,7 +292,7 @@ const line = {
       resultArr.push({
         color: i.color,
         name: i._origin.type,
-        value: i._origin.y
+        value: i._origin.y,
       });
     });
     self.renderPoint(chart, config, data, resultArr, canvas, elem);
@@ -320,7 +319,7 @@ const line = {
         resultArr.push({
           color: i.color,
           name: i._origin.type,
-          value: i._origin.y
+          value: i._origin.y,
         });
       });
       if (storePoint && storePoint.x === point.x) {
@@ -344,7 +343,7 @@ const line = {
       resultArr.push({
         color: i.color,
         name: i._origin.type,
-        value: i._origin.y
+        value: i._origin.y,
       });
     });
 
@@ -385,7 +384,7 @@ const line = {
   },
 
   onRepaint(elem, self) {
-  }
+  },
 };
 
 export default f2Factory('F2Line', line);

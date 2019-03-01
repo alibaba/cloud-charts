@@ -13,7 +13,7 @@ const defaultConfig = {
   padding: [20, 20, 20, 20],
   legend: {
     nameFormatter: null,
-    valueFormatter: null
+    valueFormatter: null,
   },
   tooltip: {
     nameFormatter: null,
@@ -53,7 +53,7 @@ function computeData(data) {
     this.dataView = dv;
 
     dv.source(data, {
-      type: 'hierarchy'
+      type: 'hierarchy',
     }).transform({
       type: 'hierarchy.partition', // 根据树形数据生成相邻层次图 Adjacency Diagram 布局
     });
@@ -63,7 +63,7 @@ function computeData(data) {
 
   // 记录最大深度
   let maxDepth = 0;
-  dv.getAllNodes().forEach(function(node) {
+  dv.getAllNodes().forEach((node) => {
     if (node.depth > maxDepth) {
       maxDepth = node.depth;
     }
@@ -124,7 +124,7 @@ export default Object.assign({}, G2Pie, {
           percent,
           itemColor,
           checked,
-          ...item
+          ...item,
         }, index) : value;
 
         if (showData) {
@@ -132,7 +132,7 @@ export default Object.assign({}, G2Pie, {
             percent,
             itemColor,
             checked,
-            ...item
+            ...item,
           }, index) : item.value;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
@@ -149,7 +149,7 @@ export default Object.assign({}, G2Pie, {
         marginLeft: `${Math.max(pxToNumber(size.s5) - (config.drawPadding || 0), 0)}px`,
       },
       'g2-legend-list-item': {
-        marginRight: 0
+        marginRight: 0,
       },
     }, true);
 
@@ -170,13 +170,13 @@ export default Object.assign({}, G2Pie, {
             if (config.tooltip.valueFormatter) {
               item.value = config.tooltip.valueFormatter(item.value, {
                 percent,
-                ...pointData
+                ...pointData,
               }, index, ev.items);
             }
             if (config.tooltip.nameFormatter) {
               item.name = config.tooltip.nameFormatter(item.name, {
                 percent,
-                ...pointData
+                ...pointData,
               }, index, ev.items);
             }
           });
@@ -192,7 +192,7 @@ export default Object.assign({}, G2Pie, {
       .tooltip('name*value*rawValue*depth', (name, value, rawValue, depth) => {
         return {
           name,
-          value: value
+          value,
         };
       });
 

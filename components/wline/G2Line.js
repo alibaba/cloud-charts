@@ -34,7 +34,7 @@ const defaultConfig = {
   },
   legend: {
     align: 'left',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
     titleFormatter: null,
@@ -77,7 +77,7 @@ export default {
     return Object.assign({}, props, {
       // padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -91,24 +91,24 @@ export default {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1]
+        range: [0, 1],
       }, config.xAxis),
       type: {
-        type: 'cat'
-      }
+        type: 'cat',
+      },
     };
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
-          tickCount: 5
+          tickCount: 5,
         }, axis);
       });
     } else {
       defs.y = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
-        tickCount: 5
+        tickCount: 5,
       }, config.yAxis);
     }
 
@@ -121,7 +121,7 @@ export default {
       config.yAxis.forEach((axis, yIndex) => {
         const yAxisConfig = {
           line: {
-            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.widgetsAxisLine
+            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.widgetsAxisLine,
           },
         };
         if (yIndex !== 0) {
@@ -174,7 +174,7 @@ export default {
         onBrushmove: () => {
           chart.hideTooltip();
           button.show(this.language);
-        }
+        },
       });
     }
   },
@@ -186,5 +186,5 @@ export default {
     if (this.resetButton) {
       this.resetButton.destroy();
     }
-  }
+  },
 };

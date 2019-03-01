@@ -10,9 +10,9 @@ const theme = {
   pixelRatio: window.devicePixelRatio,
   guide: {
     line: {
-      lineWidth: 1
-    }
-  }
+      lineWidth: 1,
+    },
+  },
 };
 
 let uniqueId = 0;
@@ -22,7 +22,7 @@ function generateUniqueId() {
 
 const rootClassName = 'aism-widgets ';
 const events = ['MouseOver', 'Selection', 'Click'];
-let requestAnimationFrame = (window && window.requestAnimationFrame) || function() {};
+const requestAnimationFrame = (window && window.requestAnimationFrame) || function () {};
 
 /*
 * g2Factory 函数
@@ -32,7 +32,7 @@ let requestAnimationFrame = (window && window.requestAnimationFrame) || function
 * convertData 控制是否转化数据
 * */
 function f2Factory(name, Chart) {
-  let ChartProcess = Chart;
+  const ChartProcess = Chart;
   const chartName = name;
   const isPieChart = chartName === 'f2Pie';
 
@@ -43,20 +43,23 @@ function f2Factory(name, Chart) {
       config: PropTypes.object,
       data: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]).isRequired,
       plotCfg: PropTypes.object,
-      forceFit: PropTypes.bool
+      forceFit: PropTypes.bool,
     }
 
     static defaultProps = {
       forceFit: false,
       plotCfg: {},
-      config: {}
+      config: {},
     }
 
-    static displayName = 'AismWidgets' + name;
+    static displayName = `AismWidgets${name}`;
 
     hasSetColor = false;
+
     showTooltip = true;
+
     timeoutId = null;
+
     touchY = 0;
 
     constructor(props, context) {
@@ -88,9 +91,9 @@ function f2Factory(name, Chart) {
       const colors = F2.Global.colors;
 
       chartData.forEach(item => {
-        let curObj = {
+        const curObj = {
           name: item.name,
-          data: []
+          data: [],
         };
         item.data.forEach(dataItem => {
           curObj.data.push(dataItem.concat([]));
@@ -104,7 +107,7 @@ function f2Factory(name, Chart) {
         height,
         padding,
         forceFit: width === undefined || forceFit,
-        ...otherProps
+        ...otherProps,
       });
 
       // tooltip、legend 都是自己实现的，将默认的关掉
@@ -124,7 +127,7 @@ function f2Factory(name, Chart) {
           }
         });
       });
-      //把数据处理为g2可以识别的格式
+      // 把数据处理为g2可以识别的格式
       const data = dealData(initData, config);
       ChartProcess.init.call(this, chart, config, data, initData, this);
 
@@ -214,7 +217,7 @@ function f2Factory(name, Chart) {
       }
       this.showTooltip = true;
       if (!tooltip || (tooltip && tooltip.show === false)) {
-        return;
+
       } else {
         this.timeoutId = setTimeout(() => {
           if (this.showTooltip === true && ChartProcess.chartTouchStart) {
@@ -324,10 +327,10 @@ function f2Factory(name, Chart) {
             const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center'
-                })} data-name=${escapeHtml(d[0])}>
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              })} data-name=${escapeHtml(d[0])}>
                 ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
@@ -347,8 +350,8 @@ function f2Factory(name, Chart) {
                 class="legend"
                 data-name=${escapeHtml(i.name)}
               >
-                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: transparent;border: 1px solid ${visible ? dotColor: unCheckStyle.fill}">
-                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ?  dotColor : unCheckStyle.fill}">
+                <span style="display: inline-block; box-sizing: border-box;margin-right: 4px;text-align: center;width: 14px;height: 14px;border-radius: 100%;background-color: transparent;border: 1px solid ${visible ? dotColor : unCheckStyle.fill}">
+                  <span style="display: inline-block; width: 10px;height: 10px; border-radius: 100%;background-color:${visible ? dotColor : unCheckStyle.fill}">
                   </span>
                 </span>
                 ${legendFormatter(i, titleStyle, valueStyle)}
@@ -363,13 +366,13 @@ function f2Factory(name, Chart) {
         // 将图例放置到右边
         const chartContainer = document.querySelector(`#${getContainerId(this.chartId)}`);
         setDomStyle(chartContainer, {
-          flexDirection: 'row'
+          flexDirection: 'row',
         });
 
         setDomStyle(legendContainer, {
           order: 1,
           position: 'relative',
-          marginLeft: '10px'
+          marginLeft: '10px',
         });
         // 构造图例字符串
         let legendStr = '';
@@ -380,11 +383,11 @@ function f2Factory(name, Chart) {
             const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginBottom: '6px'
-                })} data-name=${escapeHtml(d[0])}>
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: '6px',
+              })} data-name=${escapeHtml(d[0])}>
                 ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
@@ -396,10 +399,10 @@ function f2Factory(name, Chart) {
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
                 display: 'flex',
                 flexDirection: 'row',
-                alignItems: 'center'
+                alignItems: 'center',
               })} data-name=${escapeHtml(d.name)}>
-              ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
-            </div>`;
+                ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
+              </div>`;
           });
         }
 
@@ -412,7 +415,7 @@ function f2Factory(name, Chart) {
             flexDirection: 'column',
             justifyContent: 'space-around',
             padding: '15px 0 20px',
-            flexGrow: 1
+            flexGrow: 1,
           })}>${legendStr}</div>`
         );
       }
@@ -430,15 +433,14 @@ function f2Factory(name, Chart) {
           const legendItems = [...legends].map(l => {
             return {
               visible: l.getAttribute('data-close') === 'false',
-              name: l.getAttribute('data-name')
+              name: l.getAttribute('data-name'),
             };
           });
           const curVisible = e.currentTarget.getAttribute('data-close') === 'false';
 
           if (curVisible) {
             legendItems[i].visible = false;
-          }
-          else {
+          } else {
             legendItems[i].visible = true;
           }
           this.filterData(legendItems);
@@ -477,7 +479,7 @@ function f2Factory(name, Chart) {
       const backgroundColor = style.backgroundColor || color.widgetsColorWhite;
       const chartStyle = {
         position: 'relative',
-        'WebkitUserSelect': 'none',
+        WebkitUserSelect: 'none',
         backgroundColor,
         overflow: 'hidden',
       };
@@ -501,25 +503,25 @@ function f2Factory(name, Chart) {
 
       return (
         <div id={`${getContainerId(this.chartId)}`} style={chartStyle}>
-          <div id={`${getLegendId(this.chartId)}`} style={{ width: width }} />
+          <div id={`${getLegendId(this.chartId)}`} style={{ width }} />
           <canvas ref={dom => (this.canvas = dom)} id={this.chartId} className={rootClassName + name} style={canvasStyle} />
         </div>
       );
     }
   }
 
-  //暴露原版类
+  // 暴露原版类
   AismChart.Chart = Chart;
 
   function ChartHOC(props) {
     // 开始初始化图表
-      const newProps = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, props) : props;
+    const newProps = ChartProcess.beforeInit ? ChartProcess.beforeInit.call(this, props) : props;
 
-      if (props.customChart) {
-        Object.assign(newProps, props.customChart)
-      }
+    if (props.customChart) {
+      Object.assign(newProps, props.customChart);
+    }
 
-      return <AismChart {...newProps} />;
+    return <AismChart {...newProps} />;
   }
 
   return ChartHOC;

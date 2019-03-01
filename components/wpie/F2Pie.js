@@ -10,17 +10,17 @@ const defaultConfig = {
   padding: [10, 10, 10, 10],
   xAxis: {
     type: 'timeCat',
-    mask: 'YYYY-MM-DD HH:mm:ss'
+    mask: 'YYYY-MM-DD HH:mm:ss',
   },
   yAxis: {
-    min: 0
+    min: 0,
   },
   tooltip: true,
   legend: {
     ...legendConfig,
     show: true,
     position: 'right',
-    formatter: defaultLegendFormatter
+    formatter: defaultLegendFormatter,
   },
   colors: color.category_12,
 
@@ -45,7 +45,7 @@ const pie = {
     chart.source(data);
     chart.coord('polar', {
       transposed: true,
-      innerRadius: userConfig.innerRadius
+      innerRadius: userConfig.innerRadius,
     });
     chart.axis(false);
 

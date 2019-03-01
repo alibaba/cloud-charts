@@ -9,14 +9,14 @@ const bChartOptions = {
   xAxis: { show: false },
   yAxis: { show: false },
   tooltip: { show: false },
-  showPointFirst: false
+  showPointFirst: false,
 };
 
 const $S = {
   bContainer: {
     margin: 12,
     border: `1px solid ${color.widgetsColorBlue}`,
-    position: 'relative'
+    position: 'relative',
   },
   bMark: {
     height: '100%',
@@ -26,7 +26,7 @@ const $S = {
     borderTopWidth: 0,
     borderBottomWidth: 0,
     boxSizing: 'border-box',
-    zIndex: 1
+    zIndex: 1,
   },
   bTran: {
     position: 'absolute',
@@ -38,7 +38,7 @@ const $S = {
     borderBottomColor: color.widgetsColorBlue,
     borderStyle: 'solid',
     marginTop: -14,
-    marginLeft: -7
+    marginLeft: -7,
   },
   transMark1: {
     position: 'absolute',
@@ -46,7 +46,7 @@ const $S = {
     top: -1,
     height: '100%',
     background: 'rgba(255,255,255,0.7)',
-    zIndex: 1
+    zIndex: 1,
   },
   transMark2: {
     position: 'absolute',
@@ -54,8 +54,8 @@ const $S = {
     top: -1,
     height: '100%',
     background: 'rgba(255,255,255,0.7)',
-    zIndex: 1
-  }
+    zIndex: 1,
+  },
 };
 export default class RangeLine extends React.PureComponent {
   constructor(props) {
@@ -76,7 +76,7 @@ export default class RangeLine extends React.PureComponent {
     const rangeStartIndex = this.getGetRangeStartIndex(rangeStart);
 
     this.state = {
-      rangeStartIndex
+      rangeStartIndex,
     };
   }
 
@@ -129,20 +129,20 @@ export default class RangeLine extends React.PureComponent {
     if (x < 0) {
       x = 0;
     }
-    //设置mark元素的位置
+    // 设置mark元素的位置
     setDomStyle(this.bMark, {
-      left: `${x}px`
+      left: `${x}px`,
     });
-    //同时设置两边的半透明区域的位置
+    // 同时设置两边的半透明区域的位置
     const transMark1 = document.querySelector(`#${this.id}-trans1`);
     const transMark2 = document.querySelector(`#${this.id}-trans2`);
     setDomStyle(transMark1, {
-      width: `${x}px`
+      width: `${x}px`,
     });
     const bMark2Width = this.bContainerWidth - (x + this.bMarkWidth);
 
     setDomStyle(transMark2, {
-      width: `${bMark2Width > 1 ? bMark2Width - 1 : bMark2Width}px`
+      width: `${bMark2Width > 1 ? bMark2Width - 1 : bMark2Width}px`,
     });
   }
 
@@ -161,7 +161,7 @@ export default class RangeLine extends React.PureComponent {
       this.setBMarkPos(x - this.bMarkWidth / 2);
       const rangeStartIndex = Math.round(x / this.bContainerWidth * this.dataLength);
       this.setState({
-        rangeStartIndex
+        rangeStartIndex,
       });
     });
   }
@@ -188,7 +188,7 @@ export default class RangeLine extends React.PureComponent {
     this.bMark.addEventListener('touchend', () => {
       const rangeStartIndex = Math.round(this.bMarkEndX / this.bContainerWidth * this.dataLength);
       this.setState({
-        rangeStartIndex
+        rangeStartIndex,
       });
     });
   }
@@ -201,8 +201,8 @@ export default class RangeLine extends React.PureComponent {
     const topChartData = [
       {
         name: data[0].name,
-        data: data[0].data.slice(rangeStartIndex, rangeStartIndex + rangeLength)
-      }
+        data: data[0].data.slice(rangeStartIndex, rangeStartIndex + rangeLength),
+      },
     ];
 
     return (

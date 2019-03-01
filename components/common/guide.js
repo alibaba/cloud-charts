@@ -7,7 +7,7 @@ import { getStatusColor } from './common';
  *
  * @param {object} chart 图表实例
  * @param {object} config 图表配置项
- * 
+ *
  * */
 export default function (chart, config) {
   const guide = config.guide;
@@ -44,7 +44,7 @@ export function drawGuideLine(chart, guideLine) {
   const guideConfig = {
     top: top || true,
     lineStyle: {
-      stroke: color
+      stroke: color,
     },
     text: {
       content: title || '',
@@ -53,10 +53,10 @@ export function drawGuideLine(chart, guideLine) {
       style: {
         fill: color,
         textAlign: titleAlign || ((titlePosition || 'start') !== 'start' ? 'start' : 'end'),
-        ...style
+        ...style,
       },
       offsetX,
-      offsetY
+      offsetY,
     },
   };
 
@@ -111,8 +111,8 @@ export function drawGuideArea(chart, guideArea) {
   const guideConfig = {
     top: top || true,
     style: {
-      fill: color
-    }
+      fill: color,
+    },
   };
 
   if (axis && Array.isArray(value) && value.length > 1) {

@@ -18,22 +18,30 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
   let lineGeom = null;
 
   if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    chart.areaStack().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape)
+      .active(false);
+    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape)
+      .active(false)
+      .style('x*y*type*extra', {
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape).active(false);
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    chart.area().position(['x', yAxisKey]).color('type', areaColors).shape(areaShape)
+      .active(false);
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape)
+      .active(false)
+      .style('x*y*type*extra', {
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   } else {
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape).active(false).style('x*y*type*extra', {
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.colors).shape(lineShape)
+      .active(false)
+      .style('x*y*type*extra', {
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   }
 
   label(lineGeom, config, yAxisKey);
@@ -42,9 +50,12 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
   let pointGeom = null;
   if (config.symbol) {
     if (config.area && config.stack) {
-      pointGeom = chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors).shape('circle').active(false);
+      pointGeom = chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.colors)
+        .shape('circle')
+        .active(false);
     } else {
-      pointGeom = chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle').active(false);
+      pointGeom = chart.point().position(['x', yAxisKey]).color('type', config.colors).shape('circle')
+        .active(false);
     }
 
     let sizeConfig = config.symbol.size || 3;

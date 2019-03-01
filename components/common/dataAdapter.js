@@ -25,7 +25,7 @@ export default function highchartsDataToG2Data(data, config) {
             extra,
             groupExtra,
             visible,
-            type: dataName
+            type: dataName,
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
           const x = config.xAxis.categories[i];
@@ -36,7 +36,7 @@ export default function highchartsDataToG2Data(data, config) {
             extra: [],
             groupExtra,
             visible,
-            type: dataName
+            type: dataName,
           });
         } else {
           const { x, y, ...extra } = d;
@@ -46,7 +46,7 @@ export default function highchartsDataToG2Data(data, config) {
             extra,
             groupExtra,
             visible,
-            type: dataName
+            type: dataName,
           });
         }
       });
@@ -70,7 +70,7 @@ export default function highchartsDataToG2Data(data, config) {
             facet,
             dodge,
             visible,
-            type: dataName
+            type: dataName,
           });
         } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
           const x = config.xAxis.categories[i];
@@ -83,7 +83,7 @@ export default function highchartsDataToG2Data(data, config) {
             facet,
             dodge,
             visible,
-            type: dataName
+            type: dataName,
           });
         } else {
           const { x, y, ...extra } = d;
@@ -95,7 +95,7 @@ export default function highchartsDataToG2Data(data, config) {
             facet,
             dodge,
             visible,
-            type: dataName
+            type: dataName,
           });
         }
       });

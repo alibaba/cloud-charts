@@ -10,7 +10,7 @@ export function dealData(originData, config) {
           x,
           y,
           extra,
-          type: `${dataName}`
+          type: `${dataName}`,
         });
       } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
         const x = config.xAxis.categories[i];
@@ -19,7 +19,7 @@ export function dealData(originData, config) {
           x,
           y,
           extra: [],
-          type: `${dataName}`
+          type: `${dataName}`,
         });
       } else {
         const { x, y, ...extra } = d;
@@ -27,7 +27,7 @@ export function dealData(originData, config) {
           x,
           y,
           extra,
-          type: `${dataName}`
+          type: `${dataName}`,
         });
       }
     });
@@ -83,6 +83,6 @@ export function getPoint(canvas, clientX, clientY) {
   const bbox = canvas.getBoundingClientRect();
   return {
     x: clientX - bbox.left,
-    y: clientY - bbox.top
+    y: clientY - bbox.top,
   };
 }

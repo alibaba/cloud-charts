@@ -33,7 +33,7 @@ const defaultConfig = {
   },
   legend: {
     align: 'left',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
     titleFormatter: null,
@@ -67,7 +67,7 @@ export default {
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -93,15 +93,15 @@ export default {
         // sync: true,
       }, config.xAxis),
       type: {
-        type: 'cat'
-      }
+        type: 'cat',
+      },
     };
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
-          tickCount: 5
+          tickCount: 5,
         }, axis);
       });
     } else {
@@ -109,7 +109,7 @@ export default {
         type: 'linear',
         tickCount: 5,
         // 单轴时，必须同步度量，否则会两个度量叠加在一起
-        sync: true
+        sync: true,
       }, config.yAxis);
     }
 
@@ -123,7 +123,7 @@ export default {
         const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.widgetsAxisLine;
         const yAxisConfig = {
           line: {
-            stroke: axisColor
+            stroke: axisColor,
           },
         };
         if (yIndex !== 0) {
@@ -163,7 +163,7 @@ export default {
       }
     }
     rectLegend.call(this, chart, config, {
-      'g2-legend': legendStyle
+      'g2-legend': legendStyle,
     });
 
     // tooltip
@@ -244,7 +244,7 @@ export default {
         dom.parentNode.className = '';
       }
     }
-  }
+  },
 };
 
 function drawBar(chart, config, yAxisKey = 'y') {
@@ -273,31 +273,41 @@ function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
   }
 
   if (config.area && config.stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
+      .active(false);
+    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+      .style({
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   } else if (config.area && !config.stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape).active(false);
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
+      .active(false);
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+      .style({
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   } else {
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape).style({
-      lineJoin: 'round',
-      ...geomStyle
-    });
+    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+      .style({
+        lineJoin: 'round',
+        ...geomStyle,
+      });
   }
 
   label(lineGeom, config, yAxisKey, null, 'lineLabel');
 
   // 曲线默认点
   if (config.symbol && config.area && config.stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
+    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors)
+      .shape('circle')
+      .size(3)
+      .active(false);
   } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle').size(3).active(false);
+    chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle')
+      .size(3)
+      .active(false);
   }
 }
 

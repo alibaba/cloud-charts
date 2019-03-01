@@ -42,7 +42,7 @@ function g2Factory(name, Chart, convertData = true) {
       chartLog(name, 'init');
     }
 
-    componentWillMount () {
+    componentWillMount() {
       if (this.props.customChart) {
         this.chartProcess = ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       } else {
@@ -50,7 +50,7 @@ function g2Factory(name, Chart, convertData = true) {
       }
     }
 
-    componentDidMount () {
+    componentDidMount() {
       this.language = this.props.language || 'zh-cn';
 
       // 设置初始高宽
@@ -60,8 +60,10 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     isReRendering = false;
+
     reRenderTimer = null;
-    componentWillReceiveProps(nextProps){
+
+    componentWillReceiveProps(nextProps) {
       const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
 
@@ -134,7 +136,7 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     // 渲染控制，仅 class、style、children 变化会触发渲染
-    shouldComponentUpdate (nextProps) {
+    shouldComponentUpdate(nextProps) {
       const { className: newClass, style: newStyle, children: newChild } = nextProps;
       const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
       return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
@@ -142,7 +144,8 @@ function g2Factory(name, Chart, convertData = true) {
 
     // 准备销毁
     unmountCallbacks = [];
-    componentWillUnmount () {
+
+    componentWillUnmount() {
       // 清空缩放相关变量和事件
       this.resizeRunning = false;
       this.resizeTimer = null;
@@ -185,7 +188,7 @@ function g2Factory(name, Chart, convertData = true) {
         forceFit: forceFit || false,
         // auto-padding 时自带的内边距
         autoPaddingAppend: 3,
-        ...otherProps
+        ...otherProps,
       });
 
       // 1.x 升级 到 2.x 的提示
@@ -216,7 +219,7 @@ function g2Factory(name, Chart, convertData = true) {
 
     // 初始化时适配高宽
     initSize(props) {
-      let currentProps = props || this.props;
+      const currentProps = props || this.props;
 
       const element = this.chartDom;
       const parentSize = getParentSize(element, currentProps.width, currentProps.height);
@@ -237,7 +240,9 @@ function g2Factory(name, Chart, convertData = true) {
 
     // 动态适配高宽，利用 resizeRunning 做节流
     resizeRunning = false;
+
     resizeTimer = null;
+
     autoResize() {
       if (this.resizeRunning) {
         window.cancelAnimationFrame(this.resizeTimer);
@@ -251,7 +256,7 @@ function g2Factory(name, Chart, convertData = true) {
         this.resizeRunning = false;
 
         const parentSize = getParentSize(element, props.width, props.height);
-        if(!(parentSize[0] === _size[0] && parentSize[1] === _size[1])){
+        if (!(parentSize[0] === _size[0] && parentSize[1] === _size[1])) {
           this.changeSize(props.config, parentSize[0], parentSize[1]);
 
           this.afterRender();
@@ -264,7 +269,7 @@ function g2Factory(name, Chart, convertData = true) {
           //   this.chart && this.chart.changeSize(parentSize[0], parentSize[1]);
           // }
         }
-      })
+      });
     }
 
     // 设置高宽
@@ -273,14 +278,15 @@ function g2Factory(name, Chart, convertData = true) {
       this._size = newSize;
 
       if (newSize[0]) {
-        element.style.width = newSize[0] + 'px';
+        element.style.width = `${newSize[0]}px`;
       }
       if (newSize[1]) {
-        element.style.height = newSize[1] + 'px';
+        element.style.height = `${newSize[1]}px`;
       }
     }
 
     afterRenderCallbacks = [];
+
     afterRender(config) {
       if (ChartProcess.afterRender || this.afterRenderCallbacks.length > 0) {
         setTimeout(() => {
@@ -299,7 +305,7 @@ function g2Factory(name, Chart, convertData = true) {
     render() {
       const { className = '', style, children, data, width, height, padding, config, ...otherProps } = this.props;
       return (
-        <div ref={dom => this.chartDom = dom} id={this.chartId} key={this.chartId} className={rootClassName + name + ' ' + className} style={style} {...otherProps}>
+        <div ref={dom => this.chartDom = dom} id={this.chartId} key={this.chartId} className={`${rootClassName + name} ${className}`} style={style} {...otherProps}>
           {children ? <div className={rootChildClassName}>{children}</div> : null}
         </div>
       );
@@ -312,10 +318,10 @@ function g2Factory(name, Chart, convertData = true) {
     config: PropTypes.object,
     data: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.object),
-      PropTypes.object
+      PropTypes.object,
     ]).isRequired,
     event: PropTypes.object,
-    forceFit: PropTypes.bool
+    forceFit: PropTypes.bool,
   };
 
   AiscChart.defaultProps = {
@@ -324,9 +330,9 @@ function g2Factory(name, Chart, convertData = true) {
 
   AiscChart.isG2Chart = true;
 
-  AiscChart.displayName = 'AiscWidgets' + name;
+  AiscChart.displayName = `AiscWidgets${name}`;
 
-  //暴露原版类
+  // 暴露原版类
   AiscChart.Chart = Chart;
 
   return AiscChart;

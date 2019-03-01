@@ -12,17 +12,17 @@ const defaultConfig = {
   padding: [20, 20, 40, 20],
   colors: color.category_12,
   label: {
-    key: 'x'
+    key: 'x',
   },
   legend: {
     nameFormatter: null,
     offsetX: 0,
-    offsetY: 0
+    offsetY: 0,
   },
   tooltip: {
     nameFormatter: null,
-    valueFormatter: null
-  }
+    valueFormatter: null,
+  },
 };
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -33,7 +33,7 @@ export default {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || defaultConfig.padding,
     });
   },
   // 图表绘制主函数，必选
@@ -58,7 +58,7 @@ export default {
           const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
             ...item,
             itemColor,
-            checked
+            checked,
           }, index) : value;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
             '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
@@ -75,7 +75,7 @@ export default {
     // tooltip
     if (config.tooltip) {
       const tooltipCfg = {
-        showTitle: false
+        showTitle: false,
         // crosshairs: {},
       };
       chart.tooltip(tooltipCfg);
@@ -112,21 +112,21 @@ export default {
         grid: {
           align: 'center',
           hideFirstLine: false,
-          hideLastLine: false
+          hideLastLine: false,
         },
         label: {
           offset: 10,
           autoRotate: true,
           textStyle: {
-            textAlign: 'center'
-          }
-        }
+            textAlign: 'center',
+          },
+        },
       });
 
       chart.axis('y', {
         tickLine: null,
         label: null,
-        line: null
+        line: null,
       });
     } else {
       chart.axis(false);
@@ -138,13 +138,13 @@ export default {
       .color('x', config.colors)
       .style({
         lineWidth: 1,
-        stroke: color.widgetsColorWhite
+        stroke: color.widgetsColorWhite,
       });
 
     label(geom, config, config.label.key, {
-      offset: -15
+      offset: -15,
     });
 
     chart.render();
-  }
+  },
 };

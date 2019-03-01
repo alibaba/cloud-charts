@@ -12,7 +12,7 @@ const defaultConfig = {
   legend: {
     // position: 'right',
     nameFormatter: null, // 可以强制覆盖，手动设置label
-    valueFormatter: null
+    valueFormatter: null,
   },
   tooltip: {
     nameFormatter: null,
@@ -94,7 +94,7 @@ export default {
       width: diameter + drawPadding,
       height: diameter + drawPadding,
       // forceFit: true,
-      padding: drawPadding
+      padding: drawPadding,
     });
   },
   changeSize(chart, config, w, h) {
@@ -142,7 +142,7 @@ export default {
 
     const defs = {
       type: {
-        type: 'cat'
+        type: 'cat',
       },
     };
 
@@ -156,7 +156,7 @@ export default {
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
     const thetaConfig = {
-      radius: 1 // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.8
+      radius: 1, // 设置饼图的为100% 大小，具体大小改变在 beforeInit 中diameter的值，目前为0.8
     };
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
@@ -170,7 +170,7 @@ export default {
         transform.forEach((t) => {
           transformCoord(coord, t);
         });
-      } else if (transform && typeof  transform === 'object') {
+      } else if (transform && typeof transform === 'object') {
         transformCoord(coord, transform);
       }
     }
@@ -199,7 +199,7 @@ export default {
           ...raw,
           percent,
           itemColor,
-          checked
+          checked,
         }, index) : value;
 
         if (showData) {
@@ -207,7 +207,7 @@ export default {
             ...raw,
             percent,
             itemColor,
-            checked
+            checked,
           }, index) : item.y;
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
           '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
@@ -224,7 +224,7 @@ export default {
         marginLeft: `${Math.max(pxToNumber(size.s5) - drawPadding, 0)}px`,
       },
       'g2-legend-list-item': {
-        marginRight: 0
+        marginRight: 0,
       },
     }, true);
 
@@ -245,13 +245,13 @@ export default {
             if (config.tooltip.valueFormatter) {
               item.value = config.tooltip.valueFormatter(item.value, {
                 ...raw,
-                percent
+                percent,
               }, index, ev.items);
             }
             if (config.tooltip.nameFormatter) {
               item.name = config.tooltip.nameFormatter(item.name, {
                 ...raw,
-                percent
+                percent,
               }, index, ev.items);
             }
           });
@@ -271,5 +271,5 @@ export default {
   },
   destroy() {
     this.geom = null;
-  }
+  },
 };
