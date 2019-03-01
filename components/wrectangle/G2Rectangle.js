@@ -32,7 +32,7 @@ const defaultConfig = {
   },
   bin: {
     fields: ['x', 'y'],
-    bins: [20, 10],          // 两个方向上的分箱个数
+    bins: [20, 10], // 两个方向上的分箱个数
     // binWidth: [ 10, 1000 ],    // 两个方向上的分箱步长（会覆盖bins的配置）
     // offset: [ 0, 0 ],
 
@@ -59,7 +59,7 @@ export default {
     // }
     return Object.assign({}, props, {
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -77,15 +77,15 @@ export default {
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1]
+        range: [0, 1],
       }, config.xAxis),
       y: propertyAssign(propertyMap.yAxis, {
         type: 'linear',
-        tickCount: 5
+        tickCount: 5,
       }, config.yAxis),
       type: {
-        type: 'cat'
-      }
+        type: 'cat',
+      },
     };
 
     chart.source(rectangleDataView, defs);
@@ -111,7 +111,7 @@ export default {
     const geom = chart.polygon().position('x*y').color('count', config.colors).tooltip('x*y*count', (x, y, count) => ({
       // title: x,
       name: '数量',
-      value: count
+      value: count,
     }));
 
     label(geom, config, 'count', {
@@ -124,5 +124,5 @@ export default {
     if (this.rectangleDataView) {
       this.rectangleDataView.source(data);
     }
-  }
+  },
 };

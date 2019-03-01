@@ -75,8 +75,8 @@ export function propertyAssign(keys, target, source) {
  * @return {array} 宽和高的数组
  * */
 export function getParentSize(element, width, height) {
-  let w = width || '',
-    h = height || '';
+  let w = width || '';
+  let h = height || '';
 
   const parent = element && element.parentElement;
 
@@ -198,8 +198,8 @@ export function beautifyNumber(num, char = ',') {
   }
   const isNegative = num < 0;
   const numberArr = num.toString().split('.');
-  let number = numberArr[0].replace('-', ''),
-    result = '';
+  let number = numberArr[0].replace('-', '');
+  let result = '';
   while (number.length > 3) {
     result = char + number.slice(-3) + result;
     number = number.slice(0, number.length - 3);
@@ -292,7 +292,10 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
   }
 
   // 取默认配置中的padding
-  let top = defaultTop, right = defaultRight, bottom = defaultBottom, left = defaultLeft;
+  let top = defaultTop;
+  let right = defaultRight;
+  let bottom = defaultBottom;
+  const left = defaultLeft;
 
   if (right !== 'auto' && Array.isArray(config.yAxis)) {
     right = 45;
@@ -310,5 +313,5 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
     }
   }
 
-  return [ top, right, bottom, left ];
+  return [top, right, bottom, left];
 }

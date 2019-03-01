@@ -15,7 +15,7 @@ const logMap = {};
 export default function chartLog(name, logType) {
   if (!logMap[name]) {
     logMap[name] = {
-      init: 0
+      init: 0,
     };
   }
 

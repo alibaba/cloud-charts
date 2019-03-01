@@ -6,11 +6,11 @@ export default {
   'zh-cn': {
     loading: '加载中...',
     error: '数据异常',
-    noData: '无数据'
+    noData: '无数据',
   },
   'en-us': {
     loading: 'Loading...',
     error: 'Error',
-    noData: 'No data'
-  }
+    noData: 'No data',
+  },
 };

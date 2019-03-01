@@ -43,7 +43,7 @@ export default {
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: props.padding || config.padding || defaultConfig.padding,
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -57,24 +57,24 @@ export default {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1]
+        range: [0, 1],
       }, config.xAxis),
       type: {
-        type: 'cat'
-      }
+        type: 'cat',
+      },
     };
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
-          tickCount: 5
+          tickCount: 5,
         }, axis);
       });
     } else {
       defs.y = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
-        tickCount: 5
+        tickCount: 5,
       }, config.yAxis);
     }
 
@@ -99,5 +99,5 @@ export default {
     drawLine(chart, config, lineShape, areaShape);
 
     chart.render();
-  }
+  },
 };

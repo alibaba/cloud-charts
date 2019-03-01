@@ -8,7 +8,7 @@ const locale = {
   },
   'en-us': {
     reset: 'Reset',
-  }
+  },
 };
 
 export default class ResetButton {

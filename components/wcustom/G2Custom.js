@@ -1,6 +1,6 @@
 'use strict';
 
 export default {
-  init() {}
+  init() {},
 };
 

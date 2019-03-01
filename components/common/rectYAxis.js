@@ -14,13 +14,13 @@ export default function (chart, config, yField = 'y', componentConfig) {
       title: null, // 不展示坐标轴的标题
       label: {
         formatter: labelFormatter,
-      }
+      },
     };
 
     // 关闭了X轴，需要显示第一条grid
     if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
       yConfig.grid = {
-        hideFirstLine: false
+        hideFirstLine: false,
       };
     }
 

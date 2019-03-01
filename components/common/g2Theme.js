@@ -9,20 +9,20 @@ export const legendHtmlContainer = {
   fontFamily: fonts.fontFamilyTxdMediumNumber,
   fontSize: fonts.fontSizeBaseCaption,
   lineHeight: fonts.fontSizeBaseCaption,
-  color: color.widgetsLegendText
+  color: color.widgetsLegendText,
 };
 export const legendHtmlList = {};
 export const legendHtmlListItem = {
   wordBreak: 'break-all',
   marginTop: 0,
   marginBottom: size.s3,
-  marginRight: size.s3
+  marginRight: size.s3,
 };
 export const legendHtmlMarker = {
   width: '6px',
   height: '6px',
   marginRight: size.s1,
-  verticalAlign: '1px'
+  verticalAlign: '1px',
 };
 
 const widgetsTheme = {
@@ -56,13 +56,13 @@ const widgetsTheme = {
   // },
   shape: {
     line: {
-      lineWidth: 2
+      lineWidth: 2,
     },
     area: {
-      fillOpacity: 0.1
+      fillOpacity: 0.1,
     },
     interval: {
-      fillOpacity: 1
+      fillOpacity: 1,
     },
   },
   label: {
@@ -70,14 +70,14 @@ const widgetsTheme = {
       fill: color.widgetsLabelText,
       fontSize: pxToNumber(fonts.fontSizeBaseCaption),
       fontFamily: fonts.fontFamilyTxdRegularNumber,
-    }
+    },
   },
   innerLabels: {
     textStyle: {
       fill: color.widgetsLabelText,
       fontSize: pxToNumber(fonts.fontSizeBaseCaption),
       fontFamily: fonts.fontFamilyTxdRegularNumber,
-    }
+    },
   },
   axis: {
     bottom: {
@@ -86,21 +86,21 @@ const widgetsTheme = {
         autoRotate: false,
         textStyle: {
           fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber
-        } // 底部标签文本的颜色
+          fontFamily: fonts.fontFamilyTxdRegularNumber,
+        }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine
+        stroke: color.widgetsAxisLine,
       },
-      tickLine: null
+      tickLine: null,
     },
     left: {
       label: {
         offset: 8,
         textStyle: {
           fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber
-        } // 左部标签文本的颜色
+          fontFamily: fonts.fontFamilyTxdRegularNumber,
+        }, // 左部标签文本的颜色
       },
       grid: {
         // 让grid在轴线的下方
@@ -108,58 +108,58 @@ const widgetsTheme = {
         lineStyle: {
           stroke: color.widgetsAxisGrid,
           lineWidth: 1,
-          lineDash: null
+          lineDash: null,
         },
         zeroLineStyle: {
-          stroke: color.widgetsAxisLine
-        }
-      }
+          stroke: color.widgetsAxisLine,
+        },
+      },
     },
     right: {
       label: {
         offset: 8,
         textStyle: {
           fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber
-        } // 右部标签文本的颜色
-      }
+          fontFamily: fonts.fontFamilyTxdRegularNumber,
+        }, // 右部标签文本的颜色
+      },
     },
     circle: {
       label: {
         offset: 8,
         textStyle: {
           fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber
-        } // 底部标签文本的颜色
+          fontFamily: fonts.fontFamilyTxdRegularNumber,
+        }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine
+        stroke: color.widgetsAxisLine,
       },
       tickLine: null,
       grid: {
         lineStyle: {
           stroke: color.widgetsAxisLine,
-        }
-      }
+        },
+      },
     },
     radius: {
       label: {
         offset: 8,
         textStyle: {
           fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber
-        } // 底部标签文本的颜色
+          fontFamily: fonts.fontFamilyTxdRegularNumber,
+        }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine
+        stroke: color.widgetsAxisLine,
       },
       tickLine: null,
       grid: {
         lineStyle: {
           stroke: color.widgetsAxisLine,
-        }
-      }
-    }
+        },
+      },
+    },
   },
   tooltip: {
     offset: 8,
@@ -180,13 +180,13 @@ const widgetsTheme = {
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: color.widgetsTooltipTitle
+      color: color.widgetsTooltipTitle,
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
       marginBottom: 0,
       marginTop: size.s2,
-      listStyle: 'none'
+      listStyle: 'none',
     },
     'g2-tooltip-marker': {
       width: '6px',
@@ -206,44 +206,44 @@ const widgetsTheme = {
       ctx.stroke();
     },
     // 这里必须传数字，所以不能直接引用
-    radius: 4
+    radius: 4,
   },
   tooltipCrosshairsRect: {
     style: {
       fill: color.widgetsTooltipCrossReact,
-      opacity: color.widgetsTooltipCrossReactOpacity
-    }
+      opacity: color.widgetsTooltipCrossReactOpacity,
+    },
   },
   tooltipCrosshairsLine: {
     style: {
       stroke: color.widgetsTooltipCrossLine,
-      lineWidth: 1
-    }
+      lineWidth: 1,
+    },
   },
   legend: {
     top: {
       textStyle: {
-        fill: color.widgetsLegendText
+        fill: color.widgetsLegendText,
       },
-      unCheckColor: color.widgetsLegendUncheck
+      unCheckColor: color.widgetsLegendUncheck,
     },
     right: {
       textStyle: {
-        fill: color.widgetsLegendText
+        fill: color.widgetsLegendText,
       },
-      unCheckColor: color.widgetsLegendUncheck
+      unCheckColor: color.widgetsLegendUncheck,
     },
     bottom: {
       textStyle: {
-        fill: color.widgetsLegendText
+        fill: color.widgetsLegendText,
       },
-      unCheckColor: color.widgetsLegendUncheck
+      unCheckColor: color.widgetsLegendUncheck,
     },
     left: {
       textStyle: {
-        fill: color.widgetsLegendText
+        fill: color.widgetsLegendText,
       },
-      unCheckColor: color.widgetsLegendUncheck
+      unCheckColor: color.widgetsLegendUncheck,
     },
     html: {
       // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
@@ -251,7 +251,7 @@ const widgetsTheme = {
       'g2-legend-list': legendHtmlList,
       'g2-legend-list-item': legendHtmlListItem,
       'g2-legend-marker': legendHtmlMarker,
-    }
+    },
   },
   guide: {
     line: {
@@ -264,16 +264,16 @@ const widgetsTheme = {
           fill: color.colorB16,
           fontSize: fonts.fontSizeBaseCaption,
           fontFamily: fonts.fontFamilyTxdMediumNumber,
-        }
-      }
+        },
+      },
     },
     region: {
       style: {
         fill: color.colorB16, // 辅助框填充的颜色
-        fillOpacity: 0.1 // 辅助框的背景透明度
-      } // 辅助框的图形样式属性
+        fillOpacity: 0.1, // 辅助框的背景透明度
+      }, // 辅助框的图形样式属性
     },
-  }
+  },
 };
 
 // 设置全局G2主题

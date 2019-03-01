@@ -31,7 +31,7 @@ const defaultConfig = {
   },
   legend: {
     align: 'left',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
     titleFormatter: null,
@@ -59,7 +59,7 @@ export default {
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -72,15 +72,15 @@ export default {
       }, config.xAxis),
       y: propertyAssign(propertyMap.yAxis, {
         type: 'linear',
-        tickCount: 5
+        tickCount: 5,
       }, config.yAxis),
       type: {
         type: 'cat',
-        sync: true
+        sync: true,
       },
       facet: {
-        sync: true
-      }
+        sync: true,
+      },
     };
 
     chart.source(data, defs);
@@ -105,13 +105,13 @@ export default {
     guide(chart, config);
 
     // if (config.polar) {
-      // chart.coord('theta', {
-      //   inner: 0.6
-      // });
-      //
-      // chart.point().position('name*0').color('name').shape('circle');
-      // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
-      // chart.point().position('name*value').color('name').shape('circle');
+    // chart.coord('theta', {
+    //   inner: 0.6
+    // });
+    //
+    // chart.point().position('name*0').color('name').shape('circle');
+    // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
+    // chart.point().position('name*value').color('name').shape('circle');
 
     // 横向柱状图
     if (!config.column) {
@@ -135,8 +135,8 @@ export default {
             fontSize: 12,
             textAlign: 'center',
             rotate: 90,
-            fill: color.widgetsAxisLabel
-          }
+            fill: color.widgetsAxisLabel,
+          },
         },
         eachView(view, facet) {
           let yAxisCustomConfig = null;
@@ -149,11 +149,11 @@ export default {
                 label: {
                   formatter: (...args) => {
                     args[1] = Object.assign({
-                      facet: facet.colValue || facet.rowValue
+                      facet: facet.colValue || facet.rowValue,
                     }, args[1]);
                     return labelFormatter(...args);
                   },
-                }
+                },
               };
             }
           }
@@ -161,7 +161,7 @@ export default {
           rectYAxis.call(self, view, config, 'y', yAxisCustomConfig);
 
           drawBar(view, config, config.colors, 'type*facet');
-        }
+        },
       });
     } else {
       drawBar(chart, config, config.colors);
@@ -195,7 +195,7 @@ export default {
         onBrushmove: () => {
           chart.hideTooltip();
           button.show(this.language);
-        }
+        },
       });
     }
   },
@@ -207,7 +207,7 @@ export default {
     if (this.resetButton) {
       this.resetButton.destroy();
     }
-  }
+  },
 };
 
 function drawBar(chart, config, colors, field = 'type') {
@@ -218,12 +218,12 @@ function drawBar(chart, config, colors, field = 'type') {
       {
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-        dodgeBy: 'dodge'
+        dodgeBy: 'dodge',
       },
       {
         type: 'stack',
         reverseOrder: !stackReverse, // 层叠顺序倒序
-      }
+      },
     ]);
   } else if (stack) {
     // 堆叠

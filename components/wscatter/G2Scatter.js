@@ -22,7 +22,7 @@ const defaultConfig = {
     autoRotate: false,
   },
   yAxis: {
-    min: 0
+    min: 0,
   },
   jitter: false,
   tooltip: true,
@@ -41,7 +41,7 @@ const setAxis = (chart, config) => {
         stroke: color.widgetsAxisGrid,
         lineWidth: 1,
         // lineDash: [3, 3]
-      }
+      },
     };
   }
 
@@ -50,8 +50,8 @@ const setAxis = (chart, config) => {
     xAxis.grid = {
       lineStyle: {
         stroke: color.widgetsAxisGrid,
-        lineWidth: 1
-      }
+        lineWidth: 1,
+      },
     };
   }
 
@@ -66,20 +66,20 @@ const setSource = (chart, config, data) => {
     x: propertyAssign(
       propertyMap.xAxis,
       {
-        type: config.jitter ? 'cat' : 'linear'
+        type: config.jitter ? 'cat' : 'linear',
       },
       config.xAxis
     ),
     type: {
-      type: 'cat'
-    }
+      type: 'cat',
+    },
   };
 
   defs.y = propertyAssign(
     propertyMap.yAxis,
     {
       type: 'linear',
-      tickCount: 5
+      tickCount: 5,
     },
     config.yAxis
   );
@@ -111,14 +111,14 @@ export default {
     const preConfig = {};
     if (config.jitter) {
       preConfig.xAxis = {
-        type: 'cat'
+        type: 'cat',
       };
     }
     const newConfig = merge({}, defaultConfig, preConfig, config);
 
     return Object.assign({}, props, {
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -139,5 +139,5 @@ export default {
     guide(chart, config);
 
     chartRender(chart, config);
-  }
+  },
 };

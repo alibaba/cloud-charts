@@ -24,7 +24,7 @@ function Shoot(canvas, map, config) {
       toBegin: 0.3, // 到达目标点的时间（瞬时）
       toTime: 0.1, // 到达点显示所用时间（持续）
       toStop: 0, // 到达点停留持续时间（持续）
-      toFade: 0.1// 到达点消失所用时间（持续）
+      toFade: 0.1, // 到达点消失所用时间（持续）
     },
     fromRadius: 3, // 出发点半径
     toRadius: 3, // 到达点半径
@@ -34,26 +34,26 @@ function Shoot(canvas, map, config) {
       fromPoint: '46, 133, 255', // 出发点颜色
       fromShadow: '46, 133, 255', // 出发点阴影颜色
       toPoint: '46, 133, 255', // 到达点颜色
-      toShadow: '46, 133, 255'// 到达点阴影颜色
+      toShadow: '46, 133, 255', // 到达点阴影颜色
     },
     lineWidth: 2, // 飞线宽度
     lineColor: {
       from: '46, 133, 255', // 线出发颜色
-      to: '46, 133, 255' // 线到达颜色
+      to: '46, 133, 255', // 线到达颜色
     },
     bullet: {
       r: 2.5, // 弹头半径
       length: 20, // 弹头长度
       color: 'rgb(46, 133, 255)',
-      shadowColor: 'rgb(46, 133, 255)'
+      shadowColor: 'rgb(46, 133, 255)',
     },
     keys: {
       from: 'from',
       to: 'to',
       fromValue: 'fromValue',
       toValue: 'toValue',
-      curvature: 'curvature' // 曲率半径，值越大越平坦
-    }
+      curvature: 'curvature', // 曲率半径，值越大越平坦
+    },
   }, config);
 
   canvas.width = this.config.width;
@@ -82,31 +82,30 @@ Shoot.prototype = {
     if (!data) {
       return;
     }
-    const self = this,
-      dTime = self.config.dTime,
-      // 由于要保证interval时间内完成全部动画
-      interval = self.config.interval,
-      autoUpdate = self.config.autoUpdate,
-      maxFps = self.config.maxFps,
-      times = (interval / dTime) >> 0,
-      keys = self.config.keys,
-      sCtx = self.sCtx,
-      shoots = [],
-      shootMap = {},
-      time = self.config.shootTime,
-      l = data.length;
-
-    let fCo,
-      tCo,
-      s;
+    const self = this;
+    const dTime = self.config.dTime;
+    // 由于要保证interval时间内完成全部动画
+    const interval = self.config.interval;
+    const autoUpdate = self.config.autoUpdate;
+    const maxFps = self.config.maxFps;
+    const times = (interval / dTime) >> 0;
+    const keys = self.config.keys;
+    const sCtx = self.sCtx;
+    const shoots = [];
+    const shootMap = {};
+    const time = self.config.shootTime;
+    const l = data.length;
+    let fCo;
+    let tCo;
+    let s;
 
     // 先清除画布
     self.clear(sCtx);
 
     for (let i = 0; i < l; i++) {
-      const d = data[i],
-        fromCityName = d[keys.from],
-        toCityName = d[keys.to];
+      const d = data[i];
+      const fromCityName = d[keys.from];
+      const toCityName = d[keys.to];
 
       if (typeof fromCityName === 'object') {
         fCo = fromCityName;
@@ -156,7 +155,7 @@ Shoot.prototype = {
     this.tween = tween(this.uuid, {
       duration: interval,
       autoUpdate,
-      maxFps
+      maxFps,
     }, (t) => {
       self.clear(sCtx);
       shoots.forEach((shootFunction) => {
@@ -165,35 +164,34 @@ Shoot.prototype = {
     });
   },
   emit(fCo, tCo, data, color, time) {
-    const self = this,
-      keys = self.config.keys,
-      sCtx = self.sCtx,
-      // 发射出现时间段
-      fromTime = time.fromTime,
-      // 发射停留时间段
-      fromStop = time.fromStop,
-      // 发射消失时间段
-      fromFade = time.fromFade,
+    const self = this;
+    const keys = self.config.keys;
+    const sCtx = self.sCtx;
+    // 发射出现时间段
+    const fromTime = time.fromTime;
+    // 发射停留时间段
+    const fromStop = time.fromStop;
+    // 发射消失时间段
+    const fromFade = time.fromFade;
 
-      // 击中开始时间点
-      toBegin = time.toBegin,
-      // 击中出现时间段
-      toTime = time.toTime,
-      // 击中停留时间段
-      toStop = time.toStop,
-      // 击中消失时间段
-      toFade = time.toFade,
+    // 击中开始时间点
+    const toBegin = time.toBegin;
+    // 击中出现时间段
+    const toTime = time.toTime;
+    // 击中停留时间段
+    const toStop = time.toStop;
+    // 击中消失时间段
+    const toFade = time.toFade;
 
-      // 发射消失时间点
-      fromFadeBegin = fromTime + fromStop,
-      // 命中消失时间点
-      toFadeBegin = toBegin + toTime + toStop,
-      // 发射半径
-      fr = self.config.fromRadius,
-      tr = self.config.toRadius,
-      h = data[keys.curvature] || random(),
-      shootDurable = self.config.shootDurable;
-
+    // 发射消失时间点
+    const fromFadeBegin = fromTime + fromStop;
+    // 命中消失时间点
+    const toFadeBegin = toBegin + toTime + toStop;
+    // 发射半径
+    const fr = self.config.fromRadius;
+    const tr = self.config.toRadius;
+    const h = data[keys.curvature] || random();
+    const shootDurable = self.config.shootDurable;
     let s;
 
     s = function (t) {
@@ -257,10 +255,10 @@ Shoot.prototype = {
   },
 
   from(co, r, color, zoom) {
-    const self = this,
-      c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`,
-      b = self.config.fromBorder,
-      sCtx = self.sCtx;
+    const self = this;
+    const c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`;
+    const b = self.config.fromBorder;
+    const sCtx = self.sCtx;
 
     return function (t) {
       if (t > 1 || t < 0) {
@@ -300,12 +298,12 @@ Shoot.prototype = {
     };
   },
   to(co, r, color, zoom, n, anticlockwise) {
-    const self = this,
-      c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`,
-      b = self.config.toBorder,
-      sCtx = self.sCtx,
-      sin = Math.sin,
-      cos = Math.cos;
+    const self = this;
+    const c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`;
+    const b = self.config.toBorder;
+    const sCtx = self.sCtx;
+    const sin = Math.sin;
+    const cos = Math.cos;
 
     return function (t) {
       let rad = 0;
@@ -363,41 +361,41 @@ Shoot.prototype = {
     };
   },
   track(ctx, fCo, tCo, fade, color, h, overview) {
-    const self = this,
-      cos = Math.cos,
-      atan = Math.atan,
-      pow2 = function (x) {
-        return Math.pow(x, 2);
-      },
-      sqrt = Math.sqrt,
-      fColor = `rgba(${color.fColor || self.config.lineColor.from},`,
-      tColor = `rgba(${color.tColor || self.config.lineColor.to},`,
+    const self = this;
+    const cos = Math.cos;
+    const atan = Math.atan;
+    const pow2 = function (x) {
+      return Math.pow(x, 2);
+    };
+    const sqrt = Math.sqrt;
+    const fColor = `rgba(${color.fColor || self.config.lineColor.from},`;
+    const tColor = `rgba(${color.tColor || self.config.lineColor.to},`;
 
-      // (x1, y1) 出发点，(x2, y2) 到达点
-      x1 = fCo.x,
-      y1 = fCo.y,
-      x2 = tCo.x,
-      y2 = tCo.y,
+    // (x1, y1) 出发点，(x2, y2) 到达点
+    const x1 = fCo.x;
+    const y1 = fCo.y;
+    const x2 = tCo.x;
+    const y2 = tCo.y;
 
-      // 求法线方程
-      // y = j * x + k
-      dx = (x1 + x2) / 2,
-      dy = (y1 + y2) / 2,
-      j = (x1 - x2) / (y2 - y1),
-      k = dy - j * dx,
-      // d用来控制弧线的弧度
-      d = sqrt(pow2(x1 - x2) + pow2(y1 - y2)) / h,
-      rad = atan(j),
-      cx = d * cos(rad),
-      // 渐变
-      gradient = ctx.createLinearGradient(x1, y1, x2, y2),
-      bulletR = this.config.bullet.r,
-      bulletLen = this.config.bullet.length,
-      shootDurable = self.config.shootDurable;
+    // 求法线方程
+    // y = j * x + k
+    const dx = (x1 + x2) / 2;
+    const dy = (y1 + y2) / 2;
+    const j = (x1 - x2) / (y2 - y1);
+    const k = dy - j * dx;
+    // d用来控制弧线的弧度
+    const d = sqrt(pow2(x1 - x2) + pow2(y1 - y2)) / h;
+    const rad = atan(j);
+    const cx = d * cos(rad);
+    // 渐变
+    const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+    const bulletR = this.config.bullet.r;
+    const bulletLen = this.config.bullet.length;
+    const shootDurable = self.config.shootDurable;
 
     // 控制点坐标
-    let x3 = (x1 + x2) / 2 + cx,
-      y3 = j * x3 + k;
+    let x3 = (x1 + x2) / 2 + cx;
+    let y3 = j * x3 + k;
 
     if (isNaN(j)) {
       // 水平方向
@@ -417,17 +415,17 @@ Shoot.prototype = {
 
     return function (t) {
       // 移动点坐标
-      let x0,
-        y0,
-        // 贝塞尔曲线切线斜率
-        kx,
-        ky,
-        // 蒙板起始坐标
-        rx,
-        ry,
-        // 蒙板半径
-        r,
-        gradientOpacity = 0.7;
+      let x0;
+      let y0;
+      // 贝塞尔曲线切线斜率
+      let kx;
+      let ky;
+      // 蒙板起始坐标
+      let rx;
+      let ry;
+      // 蒙板半径
+      let r;
+      let gradientOpacity = 0.7;
 
       if (t > 1 || t < 0) {
         return;
@@ -497,14 +495,14 @@ Shoot.prototype = {
       if (shootDurable) {
         self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
       } else if (!fade && !overview) {
-          // ky/kx 为切线斜率
+        // ky/kx 为切线斜率
         self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
       }
     };
   },
   drawBullet(x, y, a, color, r, len) {
-    const self = this,
-      sCtx = self.sCtx;
+    const self = this;
+    const sCtx = self.sCtx;
 
     sCtx.save();
 
@@ -540,7 +538,7 @@ Shoot.prototype = {
   },
   destroy() {
     this.clear(this.sCtx);
-  }
+  },
 };
 
 export default Shoot;

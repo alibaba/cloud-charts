@@ -15,7 +15,7 @@ export const xAxisConfig = {
     const cfg = {
       fill: color.widgetsAxisLabel,
       offset: 6,
-      fontSize: 10
+      fontSize: 10,
     };
     if (index === 0) {
       cfg.textAlign = 'left';
@@ -26,15 +26,15 @@ export const xAxisConfig = {
     cfg.text = text; // cfg.text 支持文本格式化处理
     return cfg;
   },
-  grid: null
+  grid: null,
 };
 
 export const yAxisConfig = {
   custom: true,
   label: {
-    fontSize: 10
+    fontSize: 10,
   },
-  labelOffset: -1
+  labelOffset: -1,
 };
 
 export const legendConfig = {
@@ -58,19 +58,19 @@ export const legendConfig = {
   },
   marker: {
     radius: 14,
-  }
+  },
 };
 
 export const tooltipConfig = {
   background: {
-    fill: color.widgetsTooltipBackground
+    fill: color.widgetsTooltipBackground,
   },
   // aisc-widgets 移动端特有，更 F2 无关
   border: {
     color: color.widgetsTooltipBorder,
     style: 'solid',
     width: '1px 0 1px',
-  }
+  },
 };
 
 export const appendPadding = [12, 0];

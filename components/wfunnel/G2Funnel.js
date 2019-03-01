@@ -13,7 +13,7 @@ const defaultConfig = {
   padding: [40, 0, 0, 0],
   legend: {
     align: 'left',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
     nameFormatter: null,
@@ -35,7 +35,7 @@ export default {
     // TODO 处理padding
     return Object.assign({}, props, {
       padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
-      config: newConfig
+      config: newConfig,
     });
   },
   init(chart, userConfig, data) {
@@ -45,7 +45,7 @@ export default {
     const defs = {
       type: {
         type: 'cat',
-      }
+      },
     };
 
     chart.source(data, defs);

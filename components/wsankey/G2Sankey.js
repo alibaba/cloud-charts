@@ -9,10 +9,10 @@ const defaultConfig = {
   padding: ['auto', 40, 'auto', 'auto'],
   legend: {
     align: 'left',
-    nameFormatter: null, //可以强制覆盖，手动设置label
+    nameFormatter: null, // 可以强制覆盖，手动设置label
   },
   tooltip: {
-    nameFormatter: null
+    nameFormatter: null,
   },
   labels: true,
   // textStyle: {
@@ -26,7 +26,7 @@ export default {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding
+      padding: props.padding || config.padding || defaultConfig.padding,
     });
   },
   init(chart, userConfig, data) {
@@ -34,10 +34,10 @@ export default {
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',
-      edges: d => d.links
+      edges: d => d.links,
     });
     dv.transform({
-      type: 'diagram.sankey'
+      type: 'diagram.sankey',
     });
 
     chart.legend(config.legend);
@@ -47,7 +47,7 @@ export default {
     chart.axis(false);
     chart.scale({
       x: { sync: true },
-      y: { sync: true }
+      y: { sync: true },
     });
 
     // edge view
@@ -69,7 +69,7 @@ export default {
       .color('name')
       .tooltip(false)
       .style({
-        stroke: 'transparent'
+        stroke: 'transparent',
       });
 
     if (config.labels) {
@@ -79,10 +79,10 @@ export default {
           textAlign: 'start',
         },
         offset: 0,
-        formatter: v => `    ${v}`
+        formatter: v => `    ${v}`,
       });
     }
 
     chart.render();
-  }
+  },
 };

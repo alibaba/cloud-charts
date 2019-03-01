@@ -16,14 +16,14 @@ export default function (chart, config, componentConfig) {
       label: {
         autoRotate,
         formatter: labelFormatter,
-      }
+      },
     };
 
     if (rotate) {
       xAxisConfig.label.textStyle = {
         textAlign: 'start',
         rotate,
-      }
+      };
     }
 
     // 网格线
