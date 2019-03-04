@@ -18,13 +18,14 @@ const defaultConfig = {
   },
   yAxis: {
     labelFormatter: null, // 可以强制覆盖，手动设置label
-    max: 100,
+    // max: 100,
     min: 0,
   },
   radius: 0.8,
   area: false,
   symbol: false,
   label: false,
+  spline: false,
   // stack: false,
   legend: {
     nameFormatter: null,
@@ -54,6 +55,11 @@ export default {
     const config = merge({}, defaultConfig, userConfig);
 
     const defs = {
+      x: propertyAssign(propertyMap.xAxis, {
+        // type: 'cat',
+        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+        // range: [0, 1],
+      }, config.xAxis),
       type: {
         type: 'cat',
       },
