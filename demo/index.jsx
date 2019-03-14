@@ -157,7 +157,9 @@ class Demo extends React.Component {
 
       <Widgets.Wplaceholder noData height={400} />,
 
-      <Widgets.WmultiPie height={400} data={multiPieData} />,
+      <Widgets.WmultiPie height={400} config={{
+        innerRadius: 0.5
+      }} data={multiPieData} />,
 
       <Widgets.Wicon type="ais" status="normal" />,
 

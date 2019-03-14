@@ -19,10 +19,10 @@ const defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
-  autoSort: true,
+  // autoSort: true,
   cycle: false,
-  innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
-  outerRadius: 0.8, // 饼图半径大小，初始化时可用
+  innerRadius: null, // 内环半径大小，仅cycle为true时可用
+  // outerRadius: 0.8, // 饼图半径大小，初始化时可用
   drawPadding: 10,
 };
 
@@ -92,19 +92,38 @@ function computeData(data) {
   // 挂载转换后的数据
   this.data = source;
 
-  return source;
+  return {
+    source,
+    maxDepth,
+  };
+}
+
+const radiusMap = {
+  2: -0.05,
+  3: -0.07,
+};
+
+function getInnerRadius(maxDepth, innerRadius) {
+  if (innerRadius) {
+    return innerRadius;
+  }
+  return radiusMap[maxDepth] || 0;
 }
 
 export default Object.assign({}, G2Pie, {
   init(chart, userConfig, data) {
     const config = merge({}, defaultConfig, userConfig);
 
-    const source = computeData.call(this, data);
+    const { source, maxDepth } = computeData.call(this, data);
 
     chart.source(source);
 
+    // if (config.cycle) {
+    //   thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
+    // }
+
     chart.coord('polar', {
-      innerRadius: 0, // 用于空心部分的半径设置
+      innerRadius: getInnerRadius(maxDepth, config.innerRadius), // 用于空心部分的半径设置
     });
 
     chart.axis(false);
@@ -199,7 +218,7 @@ export default Object.assign({}, G2Pie, {
     chart.render();
   },
   changeData(chart, config, data) {
-    const source = computeData.call(this, data);
+    const { source, maxDepth } = computeData.call(this, data);
 
     chart.changeData(source);
   },
