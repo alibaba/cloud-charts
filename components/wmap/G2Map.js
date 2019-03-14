@@ -18,6 +18,7 @@ const defaultConfig = {
   },
   areaColors: color.order_10,
   pointColors: color.category_12,
+  heatColors: 'rgb(0,0,255)-rgb(0,255,0)-rgb(255,255,0)-rgb(255,0,0)',
   type: 'china',
   showSouthChinaSea: true,
   projection: null,
@@ -30,6 +31,11 @@ const defaultConfig = {
   },
   labels: false,
 };
+
+export const AREA_NAME = 'WidgetsMapArea';
+export const POINT_NAME = 'WidgetsMapPoint';
+export const HEAT_MAP_NAME = 'WidgetsMapHeatMap';
+export const CUSTOM_NAME = 'WidgetsMapCustom';
 
 // const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
 
@@ -113,13 +119,16 @@ export default {
         data = convertMapData(data);
       }
       const layerConfig = Object.assign({}, config, child.props);
-      if (child.type.displayName === 'WidgetsMapArea') {
+      if (child.type.displayName === AREA_NAME) {
         drawMapArea.call(this, chart, ds, layerConfig, data);
       }
-      if (child.type.displayName === 'WidgetsMapPoint') {
+      if (child.type.displayName === POINT_NAME) {
         drawMapPoint.call(this, chart, ds, layerConfig, data);
       }
-      if (child.type.displayName === 'WidgetsMapCustom') {
+      if (child.type.displayName === HEAT_MAP_NAME) {
+        drawHeatMap.call(this, chart, ds, layerConfig, data);
+      }
+      if (child.type.displayName === CUSTOM_NAME) {
         customPointLayer.push(child.props);
       }
     });
@@ -153,17 +162,21 @@ export default {
     if (config.dataType !== 'g2') {
       data = convertMapData(newData);
     }
-    if (viewName === 'WidgetsMapArea') {
+    if (viewName === AREA_NAME) {
       drawMapArea.call(this, chart, ds, config, data);
     }
-    if (viewName === 'WidgetsMapPoint') {
+    if (viewName === POINT_NAME) {
       drawMapPoint.call(this, chart, ds, config, data);
+    }
+    if (viewName === HEAT_MAP_NAME) {
+      drawHeatMap.call(this, chart, ds, config, data);
     }
   },
   destroy() {
     this.bgMapDataView = null;
     this.areaMapDataView = null;
     this.pointMapDataView = null;
+    this.heatMapDataView = null;
   },
 };
 
@@ -367,6 +380,71 @@ function drawMapPoint(chart, ds, config, data) {
 
     this.pointMapDataView = pointMapDataView;
     this.pointMapView = pointMapView;
+  }
+}
+
+// 绘制热力图
+function drawHeatMap(chart, ds, config, data) {
+  let heatMapDataView = this.heatMapDataView;
+  if (heatMapDataView) {
+    heatMapDataView.origin !== data && heatMapDataView.source(data);
+  } else {
+    heatMapDataView = ds.createView()
+      .source(data)
+      .transform({
+        type: 'map',
+        callback: (point) => {
+          const newPoint = Object.assign({}, point);
+          newPoint.type = String(newPoint.type);
+          return convertPointPosition.call(this, newPoint);
+        },
+      });
+
+    const heatMapView = chart.view();
+    heatMapView.source(heatMapDataView);
+    chart.legend('value', false);
+
+    let sizeConfig = config.size || 16;
+    if (Array.isArray(sizeConfig)) {
+      sizeConfig = ['value', sizeConfig];
+    } else if (G2.Util.isFunction(sizeConfig)) {
+      sizeConfig = ['name*value', sizeConfig];
+    } else {
+      sizeConfig = [sizeConfig];
+    }
+    const heatMapGeom = heatMapView.heatmap().position('x*y')
+      .color('value', config.heatColors)
+      .size(...sizeConfig)
+      .tooltip('name*value', (name, value) => ({
+        name,
+        value,
+      }))
+      // heatmap 不支持 opacity，似乎不支持 style
+      .style('name*value', {
+        // opacity(name, value) {
+        //   return 0.5;
+        // },
+        ...(config.geomStyle || {})
+      })
+      .active(false);
+
+    // if (config.labels) {
+    //   const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
+    //   heatMapGeom.label('name', {
+    //     offset: `${offset - Number(size.s3.replace('px', ''))}`,
+    //     textStyle: {
+    //       fill: color.widgetsMapLabel,
+    //       // 需要去掉 px 的字符串
+    //       fontSize: size.s3.replace('px', ''),
+    //       textBaseline: 'middle',
+    //       ...textStyle,
+    //     },
+    //     formatter: formatter || null,
+    //   });
+    // }
+
+    this.heatMapDataView = heatMapDataView;
+    this.heatMapView = heatMapView;
   }
 }
 

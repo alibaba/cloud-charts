@@ -78,6 +78,10 @@ const multiPieData = mockData({
 
 console.log(multiPieData);
 
+function randomData() {
+  return Math.round(Math.random()*100);
+}
+
 class Demo extends React.Component {
 
   state = {
@@ -163,7 +167,52 @@ class Demo extends React.Component {
       }} data={[{
         "name":"机房1",
         "data":[[1483372800000,1892],[1483459200000,7292],[1483545600000,5714],[1483632000000,5354],[1483718400000,2014],[1483804800000,22],[1483891200000,11023],[1483977600000,5218],[1484064000000,8759],[1484150400000,9981],[1484236800000,4533],[1484323200000,11398],[1484409600000,1064],[1484496000000,6494]]
-      }]} />
+      }]} />,
+
+      <Widgets.Wmap height={300} config={{
+      }}>
+        <Widgets.Wmap.HeatMap data={[{
+          name: '热力',
+          data: [
+            { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
+            { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
+            // {name: '北京',value: randomData() },
+            {name: '天津',value: randomData() },
+            {name: '上海',value: randomData() },
+            {name: '重庆',value: randomData() },
+            {name: '河北省',value: randomData() },
+            {name: '河南省',value: randomData() },
+            {name: '云南省',value: randomData() },
+            {name: '辽宁省',value: randomData() },
+            {name: '黑龙江省',value: randomData() },
+            {name: '湖南省',value: randomData() },
+            {name: '安徽省',value: randomData() },
+            {name: '山东省',value: randomData() },
+            {name: '新疆维吾尔自治区',value: randomData() },
+            {name: '江苏省',value: randomData() },
+            {name: '浙江省',value: randomData() },
+            {name: '江西省',value: randomData() },
+            {name: '湖北省',value: randomData() },
+            {name: '广西壮族自治区',value: randomData() },
+            {name: '甘肃省',value: randomData() },
+            {name: '山西省',value: randomData() },
+            {name: '内蒙古自治区',value: randomData() },
+            {name: '陕西省',value: randomData() },
+            {name: '吉林省',value: randomData() },
+            {name: '福建省',value: randomData() },
+            {name: '贵州省',value: randomData() },
+            {name: '广东省',value: randomData() },
+            {name: '青海省',value: randomData() },
+            {name: '西藏自治区',value: randomData() },
+            {name: '四川省',value: randomData() },
+            {name: '宁夏回族自治区',value: randomData() },
+            {name: '海南省',value: randomData() },
+            {name: '台湾省',value: randomData() },
+            {name: '香港',value: randomData() },
+            {name: '澳门',value: randomData() }
+          ]
+        }]} />
+      </Widgets.Wmap>
     ]
   }
 

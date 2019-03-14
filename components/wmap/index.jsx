@@ -1,6 +1,6 @@
 import React from 'react';
 import g2Factory from "../common/g2Factory";
-import G2Map, { convertPointPosition } from "./G2Map";
+import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
 import SouthChinaSea from './mapData/southChinaSea';
 import { color } from '../theme/index';
 
@@ -146,18 +146,24 @@ delete Map.propTypes.data;
  * @return {null}
  */
 Map.Area = function WidgetsMapArea() { return null; };
-Map.Area.displayName = 'WidgetsMapArea';
+Map.Area.displayName = AREA_NAME;
 
 /**
  * @return {null}
  */
 Map.Point = function WidgetsMapPoint() { return null; };
-Map.Point.displayName = 'WidgetsMapPoint';
+Map.Point.displayName = POINT_NAME;
+
+/**
+ * @return {null}
+ */
+Map.HeatMap = function WidgetsMapHeatMap() { return null; };
+Map.HeatMap.displayName = HEAT_MAP_NAME;
 
 /**
  * @return {null}
  */
 Map.Custom = function WidgetsMapCustom() { return null; };
-Map.Custom.displayName = 'WidgetsMapCustom';
+Map.Custom.displayName = CUSTOM_NAME;
 
 export default Map;
