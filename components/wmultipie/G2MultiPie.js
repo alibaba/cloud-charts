@@ -47,7 +47,9 @@ function computeData(data) {
   let dv = null;
   if (this.dataView) {
     dv = this.dataView;
-    dv.source(data);
+    dv.source(data, {
+      type: 'hierarchy',
+    });
   } else {
     dv = new DataView();
     this.dataView = dv;
