@@ -207,7 +207,7 @@ export default Object.assign({}, G2Pie, {
 
     chart.polygon()
       .position('x*y')
-      .color('name')
+      .color('name', config.colors)
       .tooltip('name*value*rawValue*depth', (name, value) => {
         return {
           name,
