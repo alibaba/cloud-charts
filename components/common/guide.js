@@ -38,7 +38,9 @@ export default function (chart, config) {
 
 export function drawGuideLine(chart, guideLine) {
   const { top, text = {}, status, axis, value, start, end } = guideLine;
-  const { title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {} } = text;
+  const {
+    title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {}
+  } = typeof text === 'object' ? text : { title: text };
   const color = getStatusColor(status);
 
   const guideConfig = {
