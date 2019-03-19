@@ -15,24 +15,30 @@ export default function (chart, config) {
     return;
   }
 
-  if (guide.line) {
-    if (Array.isArray(guide.line)) {
-      guide.line.forEach((line) => {
+  const { line: guideLine, area: guideArea, ...other } = guide;
+
+  if (guideLine) {
+    if (Array.isArray(guideLine)) {
+      guideLine.forEach((line) => {
         drawGuideLine(chart, line);
       });
     } else {
-      drawGuideLine(chart, guide.line);
+      drawGuideLine(chart, guideLine);
     }
   }
 
-  if (guide.area) {
-    if (Array.isArray(guide.area)) {
-      guide.area.forEach((area) => {
+  if (guideArea) {
+    if (Array.isArray(guideArea)) {
+      guideArea.forEach((area) => {
         drawGuideArea(chart, area);
       });
     } else {
-      drawGuideArea(chart, guide.area);
+      drawGuideArea(chart, guideArea);
     }
+  }
+
+  if (!guideLine && !guideArea && Object.keys(other).length > 0) {
+    console.warn('guide 定义异常，请使用 guide.line 或 guide.area');
   }
 }
 

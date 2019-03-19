@@ -321,24 +321,30 @@ function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
     return;
   }
 
-  if (guide.line) {
-    if (Array.isArray(guide.line)) {
-      guide.line.forEach((line) => {
+  const { line: guideLine, area: guideArea, ...other } = guide;
+
+  if (guideLine) {
+    if (Array.isArray(guideLine)) {
+      guideLine.forEach((line) => {
         drawGuideLine(getGuideView(config, line, lineView, rawLineData, barView, rawBarData), line);
       });
     } else {
-      drawGuideLine(getGuideView(config, guide.line, lineView, rawLineData, barView, rawBarData), guide.line);
+      drawGuideLine(getGuideView(config, guideLine, lineView, rawLineData, barView, rawBarData), guideLine);
     }
   }
 
-  if (guide.area) {
-    if (Array.isArray(guide.area)) {
-      guide.area.forEach((area) => {
+  if (guideArea) {
+    if (Array.isArray(guideArea)) {
+      guideArea.forEach((area) => {
         drawGuideArea(getGuideView(config, area, lineView, rawLineData, barView, rawBarData), area);
       });
     } else {
-      drawGuideArea(getGuideView(config, guide.area, lineView, rawLineData, barView, rawBarData), guide.area);
+      drawGuideArea(getGuideView(config, guideArea, lineView, rawLineData, barView, rawBarData), guideArea);
     }
+  }
+  
+  if (!guideLine && !guideArea && Object.keys(other).length > 0) {
+    console.warn('guide 定义异常，请使用 guide.line 或 guide.area');
   }
 }
 
