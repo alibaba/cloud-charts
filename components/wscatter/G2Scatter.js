@@ -24,6 +24,7 @@ const defaultConfig = {
   yAxis: {
     min: 0,
   },
+  size: 4,
   jitter: false,
   tooltip: true,
   legend: true,
@@ -88,21 +89,7 @@ const setSource = (chart, config, data) => {
 };
 
 const chartRender = (chart, config) => {
-  const geom = chart
-    .point()
-    .color('type', config.colors)
-    .position('x*y')
-    .size(4)
-    .shape('circle')
-    .active(false);
 
-  if (config.jitter) {
-    geom.adjust('jitter');
-  }
-
-  label(geom, config);
-
-  chart.render();
 };
 
 export default {
@@ -123,6 +110,8 @@ export default {
   },
   init(chart, userConfig, data) {
     const config = userConfig;
+    const { colors, jitter, size, geomStyle } = config;
+
     setSource(chart, config, data);
 
     setAxis(chart, config);
@@ -138,6 +127,35 @@ export default {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    chartRender(chart, config);
+    const geom = chart
+      .point()
+      .color('type', colors)
+      .position('x*y')
+      .shape('circle')
+      .style('x*y*type*extra', geomStyle || {})
+      .active(false);
+
+    if (jitter) {
+      geom.adjust('jitter');
+    }
+
+    label(geom, config);
+
+    // TODO 暂时没有更好的方案
+    if (size) {
+      let sizeConfig = size || 4;
+      if (Array.isArray(size)) {
+        sizeConfig = ['y', size];
+      } else if (G2.Util.isFunction(size)) {
+        sizeConfig = ['x*y*type*facet', size];
+      } else if (typeof size === 'object') {
+        sizeConfig = [sizeConfig.field, sizeConfig.param];
+      } else {
+        sizeConfig = [size];
+      }
+      geom.size(...sizeConfig);
+    }
+
+    chart.render();
   },
 };
