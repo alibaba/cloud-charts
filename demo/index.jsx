@@ -42,6 +42,36 @@ let data = [
   }
 ];
 
+let boxData = [
+  {
+    "name":"柱1",
+    "data":[["一", [1, 9, 16, 22, 24]],["二",[2, 8, 12, 21, 28]]]
+  },
+  {
+    "name":"柱2",
+    "data":[["一",[1, 5, 8, 12, 16]],["二",[3, 10, 17, 28, 30]]]
+  },
+  {
+    "name":"柱3",
+    "data":[["一",[2, 8, 12, 19, 26]],["二",[1, 7, 10, 17, 22]]]
+  }
+];
+
+boxData = [
+  {
+    "name":"柱1",
+    "data":[["一", [1, 9, 16, 22, 24]]]
+  },
+  {
+    "name":"柱2",
+    "data":[["二",[3, 10, 17, 28, 30]]]
+  },
+  {
+    "name":"柱3",
+    "data":[["三",[2, 8, 12, 19, 26]]]
+  }
+];
+
 const depth = 2;
 function mockData(target, deep = 0) {
   if (deep < depth) {
@@ -214,7 +244,13 @@ class Demo extends React.Component {
             {name: '澳门',value: randomData() }
           ]
         }]} />
-      </Widgets.Wmap>
+      </Widgets.Wmap>,
+
+      <Widgets.Wbox height={400} config={{
+        // column: false,
+        grid: true,
+        zoom: true,
+      }} data={boxData} />
     ]
   }
 
