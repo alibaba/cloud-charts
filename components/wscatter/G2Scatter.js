@@ -120,7 +120,7 @@ export default {
       crosshairs: null,
     });
 
-    rectLegend.call(this, chart, config);
+    rectLegend.call(this, chart, config, null, false, 'type');
 
     legendFilter.call(this, chart, config);
 

@@ -8,7 +8,7 @@ import { legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme'
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
 * */
-export default function (chart, config, componentConfig, isOneDataGroup) {
+export default function (chart, config, componentConfig, isOneDataGroup, field) {
   // 设置图例
   if (config.legend !== false) {
     const {
@@ -119,7 +119,11 @@ export default function (chart, config, componentConfig, isOneDataGroup) {
       // Object.assign(legendConfig['g2-legend'], style);
     }
 
-    chart.legend(legendConfig);
+    if (field) {
+      chart.legend(field, legendConfig);
+    } else {
+      chart.legend(legendConfig);
+    }
 
     if (this.afterRenderCallbacks && legendConfig.autoCollapse) {
       const legendCollapseInfo = legendCollapse.call(this, legendConfig);
