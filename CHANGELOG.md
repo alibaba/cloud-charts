@@ -1,3 +1,18 @@
+### 2.3.16 (2019-03-21)
+
+#### New Features
+
+- 新增 箱型图(盒须图) 组件，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/298。
+- 散点图 新增 气泡图 功能，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/147/example/529。
+- 辅助标记(Guide) 增强配置兼容性，添加更多错误配置提示。
+- 多重饼图支持颜色配置。
+
+#### Bug Fixes
+
+- 修复 多重饼图 动态更新数据报错的问题。
+- 修复 拖拽缩放 在数据更新后失效的问题。
+- 修复 数字翻牌器 传入非数字报错的问题。
+
 ### 2.3.15 (2019-03-14)
 
 #### New Features
