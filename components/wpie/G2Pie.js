@@ -2,7 +2,7 @@
 
 import merge from '../common/merge';
 import { color, size } from '../theme/index';
-import { pxToNumber, numberDecimal } from '../common/common';
+import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';
 
@@ -65,13 +65,17 @@ function selectGeom(geom, selectKey) {
   // });
 }
 
+function paddingNumber(value) {
+  return isInvalidNumber(value) ? 0 : Number(value);
+}
+
 export default {
   beforeInit(props) {
     const { config } = props;
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
+    const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
 
     const boxHeight = element.offsetHeight - padding[0] - padding[2];
     const boxWidth = element.offsetWidth - padding[1] - padding[3];
@@ -100,7 +104,7 @@ export default {
   changeSize(chart, config, w, h) {
     const padding = config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = config.drawPadding || defaultConfig.drawPadding;
+    const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
 
     const boxHeight = h - padding[0] - padding[2];
     const boxWidth = w - padding[1] - padding[3];
