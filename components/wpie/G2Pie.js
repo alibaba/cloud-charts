@@ -77,8 +77,9 @@ export default {
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
     const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
 
-    const boxHeight = element.offsetHeight - padding[0] - padding[2];
-    const boxWidth = element.offsetWidth - padding[1] - padding[3];
+    // fix: padding 为 auto 时会计算错误
+    const boxHeight = element.offsetHeight - paddingNumber(padding[0]) - paddingNumber(padding[2]);
+    const boxWidth = element.offsetWidth - paddingNumber(padding[1]) - paddingNumber(padding[3]);
     // 饼本体大小，向下取整
     const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
@@ -106,8 +107,8 @@ export default {
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
     const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
 
-    const boxHeight = h - padding[0] - padding[2];
-    const boxWidth = w - padding[1] - padding[3];
+    const boxHeight = h - paddingNumber(padding[0]) - paddingNumber(padding[2]);
+    const boxWidth = w - paddingNumber(padding[1]) - paddingNumber(padding[3]);
     // 饼本体大小，向下取整
     const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
