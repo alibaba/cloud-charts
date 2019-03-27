@@ -78,26 +78,31 @@ export default {
 
     // 设置图例
     rectLegend.call(this, chart, config);
+    chart.legend('x', false);
+    chart.legend('y', false);
 
     legendFilter.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config, {
       showTitle: false,
+      crosshairs: null,
     });
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    chart.polygon().position('x*y').color('type', config.colors).tooltip('x*y*value', (x, y, value) => {
+    const geom = chart.polygon().position('x*y').color('type', config.colors).tooltip('x*y*extra', (x, y, extra) => {
       return {
-        name: `${x} -> ${y}`,
-        value,
+        name: `${x} - ${y}`,
+        value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
       };
     }).style({
       lineWidth: 1,
       stroke: '#fff'
     });
+
+    // label(geom, config, 'extra');
 
     // drawBar(chart, config, config.colors);
 

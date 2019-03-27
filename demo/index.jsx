@@ -72,6 +72,48 @@ boxData = [
   }
 ];
 
+let heatmapData = [
+  {
+    name: '无',
+    data: [
+      ['aws1', 'aws1'],
+      ['aws2', 'aws2'],
+      ['aws3', 'aws3'],
+      ['aws4', 'aws4'],
+      ['aws5', 'aws5'],
+    ],
+  },
+  {
+    name: '正常',
+    data: [
+      ['aws1', 'aws2', 234],
+      ['aws1', 'aws3', 234],
+      ['aws1', 'aws4', 234],
+      ['aws1', 'aws5', 234],
+
+      ['aws2', 'aws1', 234],
+      ['aws2', 'aws3', 234],
+      ['aws2', 'aws4', 234],
+      ['aws2', 'aws5', 234],
+
+      ['aws3', 'aws1', 234],
+      ['aws3', 'aws2', 234],
+      ['aws3', 'aws4', 234],
+      ['aws3', 'aws5', 234],
+
+      ['aws4', 'aws1', 234],
+      ['aws4', 'aws2', 234],
+      ['aws4', 'aws3', 234],
+      ['aws4', 'aws5', 234],
+
+      ['aws5', 'aws1', 234],
+      ['aws5', 'aws2', 234],
+      ['aws5', 'aws3', 234],
+      ['aws5', 'aws4', 234],
+    ],
+  }
+];
+
 const depth = 2;
 function mockData(target, deep = 0) {
   if (deep < depth) {
@@ -250,7 +292,11 @@ class Demo extends React.Component {
         // column: false,
         grid: true,
         zoom: true,
-      }} data={boxData} />
+      }} data={boxData} />,
+
+      <Widgets.Wheatmap height={400} config={{
+        label: true,
+      }} data={heatmapData} />
     ]
   }
 
