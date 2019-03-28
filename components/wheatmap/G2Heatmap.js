@@ -104,8 +104,6 @@ export default {
 
     // label(geom, config, 'extra');
 
-    // drawBar(chart, config, config.colors);
-
     chart.render();
   },
   // changeData(chart, config, data) {
@@ -115,49 +113,3 @@ export default {
   // },
 };
 
-function drawBar(chart, config, colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
-  let geom = null;
-  if (dodgeStack) {
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([
-      {
-        type: 'dodge',
-        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-        dodgeBy: 'dodge',
-      },
-      {
-        type: 'stack',
-        reverseOrder: !stackReverse, // 层叠顺序倒序
-      },
-    ]);
-  } else if (stack) {
-    // 堆叠
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
-      type: 'stack',
-      reverseOrder: !stackReverse, // 层叠顺序倒序
-    }]);
-  } else {
-    // 分组
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
-      type: 'dodge',
-      marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    }]);
-  }
-
-  // TODO 暂时没有更好的方案
-  if (size) {
-    let sizeConfig = size || 20;
-    if (Array.isArray(size)) {
-      sizeConfig = ['y', size];
-    } else if (G2.Util.isFunction(size)) {
-      sizeConfig = ['x*y*type*facet', size];
-    } else if (typeof size === 'object') {
-      sizeConfig = [sizeConfig.field, sizeConfig.param];
-    } else {
-      sizeConfig = [size];
-    }
-    geom.size(...sizeConfig);
-  }
-
-  label(geom, config);
-}

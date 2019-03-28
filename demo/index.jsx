@@ -89,27 +89,28 @@ let heatmapData = [
       ['aws1', 'aws2', 234],
       ['aws1', 'aws3', 234],
       ['aws1', 'aws4', 234],
-      ['aws1', 'aws5', 234],
-
       ['aws2', 'aws1', 234],
       ['aws2', 'aws3', 234],
       ['aws2', 'aws4', 234],
       ['aws2', 'aws5', 234],
-
       ['aws3', 'aws1', 234],
-      ['aws3', 'aws2', 234],
       ['aws3', 'aws4', 234],
       ['aws3', 'aws5', 234],
-
       ['aws4', 'aws1', 234],
       ['aws4', 'aws2', 234],
-      ['aws4', 'aws3', 234],
       ['aws4', 'aws5', 234],
-
       ['aws5', 'aws1', 234],
       ['aws5', 'aws2', 234],
       ['aws5', 'aws3', 234],
       ['aws5', 'aws4', 234],
+    ],
+  },
+  {
+    name: '异常',
+    data: [
+      ['aws1', 'aws5', 234],
+      ['aws3', 'aws2', 234],
+      ['aws4', 'aws3', 234],
     ],
   }
 ];
@@ -295,7 +296,7 @@ class Demo extends React.Component {
       }} data={boxData} />,
 
       <Widgets.Wheatmap height={400} config={{
-        label: true,
+        
       }} data={heatmapData} />
     ]
   }
