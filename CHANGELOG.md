@@ -1,3 +1,14 @@
+### 2.3.17 (2019-03-28)
+
+#### New Features
+
+- 新增 色块图组件，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/301
+
+#### Bug Fixes
+
+- 修复 饼图padding 设置 auto 时会报错的问题。
+- 修复 饼图 drawPadding 不能设置为 0 的问题。
+
 ### 2.3.16 (2019-03-21)
 
 #### New Features

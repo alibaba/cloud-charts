@@ -36,8 +36,8 @@ const defaultConfig = {
     nameFormatter: null,
     valueFormatter: null,
   },
-  grid: false,
-  label: false,
+  // grid: false,
+  // label: false,
 };
 
 export default {
