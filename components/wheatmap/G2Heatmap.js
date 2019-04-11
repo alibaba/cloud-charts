@@ -99,7 +99,7 @@ export default {
       };
     }).style({
       lineWidth: 1,
-      stroke: '#fff'
+      stroke: color.widgetsMapAreaBorder
     });
 
     // label(geom, config, 'extra');
