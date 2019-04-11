@@ -8,7 +8,7 @@ export const legendHtmlContainer = {
   overflow: 'auto',
   fontFamily: fonts.fontFamilyTxdMediumNumber,
   fontSize: fonts.fontSizeBaseCaption,
-  lineHeight: fonts.fontSizeBaseCaption,
+  lineHeight: 1,
   color: color.widgetsLegendText,
 };
 export const legendHtmlList = {};
@@ -174,7 +174,7 @@ const widgetsTheme = {
       borderRadius: size.s1,
       fontFamily: fonts.fontFamilyTxdMediumNumber,
       fontSize: fonts.fontSizeBaseCaption,
-      lineHeight: fonts.fontSizeBaseCaption,
+      lineHeight: 1,
       color: color.widgetsTooltipText,
       textAlign: 'left',
     },
