@@ -3,7 +3,7 @@
 import { size } from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
-import { legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
+import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -34,7 +34,12 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     } = config.legend || {};
 
     // 因为图例项有下边距，所以bottom设置为0即可
-    const legendStyle = position === 'bottom' ? { bottom: 0 } : { top: size.s3 };
+    const legendStyle = Object.assign({}, legendHtmlContainer);
+    if (position === 'bottom') {
+      legendStyle.bottom = 0;
+    } else {
+      legendStyle.top = size.s3;
+    }
     if (align === 'right') {
       legendStyle.right = 0;
     } else if (align === 'left') {

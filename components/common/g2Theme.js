@@ -196,17 +196,10 @@ const widgetsTheme = {
     },
   },
   tooltipMarker: {
-    symbol: (x, y, r, ctx, marker) => {
-      ctx.fillStyle = color.widgetsTooltipMarkerFill;
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = marker.get('color');
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2, false);
-      ctx.fill();
-      ctx.stroke();
-    },
-    // 这里必须传数字，所以不能直接引用
+    stroke: color.widgetsTooltipMarkerFill,
+    // 如果要让 shadowColor 显示为对应数据颜色，需要 delete G2.Global.tooltipMarker.shadowColor;
     radius: 4,
+    // lineWidth: 2,
   },
   tooltipCrosshairsRect: {
     style: {
