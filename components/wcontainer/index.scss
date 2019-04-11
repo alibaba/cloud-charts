@@ -143,6 +143,7 @@
       // 修复图表无法缩小的问题
       //height: 0;
       //flex-basis: 0;
+      overflow: hidden;
     }
     >.next-row {
       padding: 0;
