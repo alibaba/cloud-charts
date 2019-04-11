@@ -92,7 +92,7 @@
   }
 
   #{$wcontainer-prefix}-main {
-    flex-grow: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,6 +139,10 @@
       &.no-title {
         margin-top: $s2;
       }
+
+      // 修复图表无法缩小的问题
+      //height: 0;
+      //flex-basis: 0;
     }
     >.next-row {
       padding: 0;
