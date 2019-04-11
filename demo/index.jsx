@@ -318,7 +318,7 @@ class Demo extends React.Component {
             })
           }
         </Col>
-        <Col>
+        <Col style={{ background: Widgets.COLORS.widgetsContainerBackground }}>
           {this.renderChart()}
         </Col>
         {/*<div>
