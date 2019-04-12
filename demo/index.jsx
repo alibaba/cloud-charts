@@ -159,7 +159,7 @@ class Demo extends React.Component {
 
   state = {
     chartData: data,
-    currentChart: 'Wline',
+    currentChart: 'Wlinebar',
     wdashboardData: 56
   };
 
@@ -196,7 +196,7 @@ class Demo extends React.Component {
           }
           // type: 'scatter',
         },
-        barLabel: false,
+        // barLabel: false,
         legend:{
           position: 'bottom',
           align: 'center',
@@ -209,14 +209,14 @@ class Demo extends React.Component {
         area: true,
         stack: true,
         label: {
-          position: 'bottom',
+          position: 'middle',
         },
-        lineLabel: {
-          offset: 24,
-        },
-        barLabel: {
-          offset: -12,
-        },
+        // lineLabel: {
+        //   offset: 24,
+        // },
+        // barLabel: {
+        //   offset: -12,
+        // },
         legend:{
           position: 'bottom',
           align: 'left',
