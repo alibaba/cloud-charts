@@ -10,7 +10,9 @@ export const legendHtmlContainer = {
   lineHeight: 1,
   color: color.widgetsLegendText,
 };
-export const legendHtmlList = {};
+export const legendHtmlList = {
+  textAlign: '',
+};
 export const legendHtmlListItem = {
   wordBreak: 'break-all',
   marginTop: 0,
