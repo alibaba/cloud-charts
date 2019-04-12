@@ -64,6 +64,8 @@ export const Util = Object.assign({}, G2.Util, {
   beautifyNumber: common.beautifyNumber,
   getRawData: common.getRawData,
   filterKey: common.filterKey,
+  isEqual: common.isEqual,
+  isEqualWith: common.isEqualWith,
 });
 export const DomUtil = G2.DomUtil;
 export const MatrixUtil = G2.MatrixUtil;

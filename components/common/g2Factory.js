@@ -3,7 +3,7 @@
 import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getParentSize, requestAnimationFrame } from './common';
+import { getParentSize, requestAnimationFrame, isEqual, isEqualWith } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import setG2Theme from './g2Theme';
 import chartLog from './log';
@@ -72,9 +72,9 @@ function g2Factory(name, Chart, convertData = true) {
       // 配置项有变化，重新生成图表
       if (changeConfig !== false) {
         let hasConfigChange = false;
-        if (changeCustomConfig && !G2.Util.isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))) {
+        if (changeCustomConfig && !isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))) {
           hasConfigChange = true;
-        } else if (!changeCustomConfig && !G2.Util.isEqual(newConfig, oldConfig)) {
+        } else if (!changeCustomConfig && !isEqual(newConfig, oldConfig)) {
           hasConfigChange = true;
         }
 

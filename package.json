@@ -26,10 +26,11 @@
     "@alife/aisc": "2.8.2",
     "@alife/aisc-core": "0.6.9",
     "@alife/g2-connect": "^0.3.0",
+    "@antv/data-set": "^0.9.4",
+    "@antv/f2": "3.1.15",
     "@antv/g2": "3.5.3",
     "@antv/g2-brush": "^0.0.2",
-    "@antv/f2": "3.1.15",
-    "@antv/data-set": "^0.9.4",
+    "lodash": "^4.17.11",
     "prop-types": "^15.5.10",
     "sass-variable-loader": "^0.1.2"
   },
