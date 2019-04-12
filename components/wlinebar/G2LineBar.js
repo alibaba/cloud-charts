@@ -12,6 +12,7 @@ import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label from '../common/label';
 import './G2LineBar.scss';
+import { legendHtmlContainer } from '../common/g2Theme';
 
 const defaultConfig = {
   lineColors: color.category_12.slice(1),
@@ -143,6 +144,7 @@ export default {
 
     // 设置图例
     const legendStyle = {
+      ...legendHtmlContainer,
       display: 'inline-block',
       position: 'relative',
     };

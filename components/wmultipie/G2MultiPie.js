@@ -3,6 +3,7 @@
 import { DataView } from '@antv/data-set';
 import merge from '../common/merge';
 import { color, size } from '../theme/index';
+import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';
 import G2Pie from '../wpie/G2Pie';
@@ -165,11 +166,13 @@ export default Object.assign({}, G2Pie, {
         '<span class="g2-legend-text">'}${result}</span></li>`;
       },
       'g2-legend': {
+        ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
         marginLeft: `${Math.max(pxToNumber(size.s5) - (config.drawPadding || 0), 0)}px`,
       },
       'g2-legend-list-item': {
+        ...legendHtmlListItem,
         marginRight: 0,
       },
     }, true);
