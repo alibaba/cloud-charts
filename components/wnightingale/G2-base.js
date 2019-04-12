@@ -4,7 +4,7 @@
 import merge from '../common/merge';
 import { color } from '../theme/index';
 import './G2-base.scss';
-import { noop } from '../common/common';
+import rectLegend from '../common/rectLegend';
 import label from '../common/label';
 
 // 建议将默认配置放在外层，方便后续维护
@@ -15,9 +15,9 @@ const defaultConfig = {
     key: 'x',
   },
   legend: {
+    position: 'bottom',
+    align: 'center',
     nameFormatter: null,
-    offsetX: 0,
-    offsetY: 0,
   },
   tooltip: {
     nameFormatter: null,
@@ -43,34 +43,19 @@ export default {
     chart.coord('polar');
 
     // 设置图例
-    if (config.legend) {
-      chart.legend({
-        useHtml: true,
-        title: null,
-        offsetX: config.legend.offsetX || 0,
-        offsetY: config.legend.offsetY || 0,
-        position: 'bottom',
-        // 这个属性文档里没有，设置为false可以让图例不居中，再手动设置定位样式
-        // autoPosition: false,
-        onHover: noop,
-        itemTpl: (value, itemColor, checked, index) => {
-          const item = (this.rawData && this.rawData[index]) || {};
-          const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-            ...item,
-            itemColor,
-            checked,
-          }, index) : value;
-          return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-            '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-            '<span class="g2-legend-text">'}${result}</span></li>`;
-        },
-        // 'g2-legend': Object.assign({
-        //   top: size.s3,
-        // }, config.legend.align === 'right' ? { right: 0 } : { left: 0 }),
-      });
-    } else {
-      chart.legend(false);
-    }
+    rectLegend.call(this, chart, config, {
+      itemTpl: (value, itemColor, checked, index) => {
+        const item = (this.rawData && this.rawData[index]) || {};
+        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
+          ...item,
+          itemColor,
+          checked,
+        }, index) : value;
+        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+        '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+        '<span class="g2-legend-text">'}${result}</span></li>`;
+      },
+    }, true);
 
     // tooltip
     if (config.tooltip) {

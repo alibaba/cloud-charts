@@ -5,6 +5,7 @@ import { color, size } from '../theme/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';
+import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
 const defaultConfig = {
   colors: color.category_12,
@@ -224,11 +225,13 @@ export default {
         '<span class="g2-legend-text">'}${result}</span></li>`;
       },
       'g2-legend': {
+        ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
         marginLeft: `${Math.max(pxToNumber(size.s5) - drawPadding, 0)}px`,
       },
       'g2-legend-list-item': {
+        ...legendHtmlListItem,
         marginRight: 0,
       },
     }, true);
