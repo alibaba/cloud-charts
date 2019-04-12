@@ -3,7 +3,6 @@
 import { size, color, fonts } from '../theme/index';
 import { pxToNumber } from './common';
 
-// 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
 export const legendHtmlContainer = {
   overflow: 'auto',
   fontFamily: fonts.fontFamilyTxdMediumNumber,

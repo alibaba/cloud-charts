@@ -3,11 +3,12 @@
 import React from 'react';
 import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
-import merge from '../common/merge';
 import chinaGeo from './mapData/chinaGeo.json';
-import { color, size } from '../theme/index';
-import rectLegend from '../common/rectLegend';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
+import { color, size } from '../theme/index';
+import { legendHtmlContainer } from '../common/g2Theme';
+import merge from '../common/merge';
+import rectLegend from '../common/rectLegend';
 import './G2Map.scss';
 
 const defaultConfig = {
@@ -101,7 +102,11 @@ export default {
       position: 'left',
       // 使用container控制图例添加的位置，方便调整样式
       container: `#${this.chartId}-legend`,
-      'g2-legend': {},
+      'g2-legend': {
+        ...legendHtmlContainer,
+        position: 'static',
+        overflow: 'visible',
+      },
     });
 
     const ds = new DataSet();

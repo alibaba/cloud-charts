@@ -20,13 +20,6 @@
     left: 0;
     bottom: 0;
 
-    // 注意！ 这个需要和 g2Factory 中的 g2-legend 的样式一致
-    //overflow: auto;
-    font-family: $font-family-txd-medium-number;
-    font-size: $font-size-base-caption;
-    line-height: $font-size-base-caption;
-    color: $widgets-legend-text;
-
     .g2-legend:last-child .g2-legend-list-item:last-child {
       margin-bottom: 0 !important;
     }
@@ -56,7 +49,7 @@
     margin-top: 0 !important;
   }
 
-  .g2-legend-list-item:last-child {
-    margin-right: 0 !important;
-  }
+  //.g2-legend-list-item:last-child {
+  //  margin-right: 0 !important;
+  //}
 }
