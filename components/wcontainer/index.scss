@@ -141,8 +141,7 @@
       }
 
       // 修复图表无法缩小的问题
-      //height: 0;
-      //flex-basis: 0;
+      // 设置 overflow 以建立一个新的 BFC，让里层图表不会撑开外层
       overflow: hidden;
     }
     >.next-row {
