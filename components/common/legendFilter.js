@@ -12,6 +12,8 @@
 export default function (chart, config, dataKey = 'rawData') {
   /*
    * indexOrData 有两种可能类型，一种是数字，一种是对象。
+   * 2019-04-15 在新版本G2中变为： undefined 或者 对象
+   * 当传入 undefined 时，与旧版的数字对应，是对图例项显示控制的过滤。
    * 当类型是数字时，是对图例项显示控制的过滤。
    * 当类型是对象时，是对渲染数据的过滤。
    * 只有当两者匹配时，图例过滤功能才完整。
@@ -25,6 +27,12 @@ export default function (chart, config, dataKey = 'rawData') {
     // 剩余情况是对象，是数据项过滤
     } else if (typeof indexOrData === 'object' && indexOrData.visible === false) {
       return false;
+    // 新版中indexOrData是undefined，只传入了type
+    } else if (!indexOrData) {
+      const dataItem = rawData.filter(group => group.name === type);
+      if (dataItem[0] && dataItem[0].visible === false) {
+        return false;
+      }
     }
     return true;
   });
