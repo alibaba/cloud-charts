@@ -182,6 +182,9 @@ export default Object.assign({}, G2Pie, {
       const tooltipCfg = {
         showTitle: false,
         // crosshairs: {},
+        itemTpl: '<li data-index={index}>'
+          + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
+          + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
       };
       chart.tooltip(tooltipCfg);
       if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {

@@ -195,6 +195,10 @@ const widgetsTheme = {
       border: 'none',
       marginRight: size.s1,
     },
+    // 如果修改了 tooltip.itemTpl 这里的调整会无效
+    'g2-tooltip-value': {
+      marginLeft: size.s2,
+    },
   },
   tooltipMarker: {
     stroke: color.widgetsTooltipMarkerFill,
