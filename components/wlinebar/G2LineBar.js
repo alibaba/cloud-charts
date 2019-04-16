@@ -4,7 +4,7 @@ import merge from '../common/merge';
 import { color, size } from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import highchartsDataToG2Data from '../common/dataAdapter';
-import { drawGuideArea, drawGuideLine } from '../common/guide';
+import { drawGuideArea, drawGuideLine, drawGuideFilter } from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
@@ -323,7 +323,7 @@ function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
     return;
   }
 
-  const { line: guideLine, area: guideArea, ...other } = guide;
+  const { line: guideLine, area: guideArea, filter: guideFilter, ...other } = guide;
 
   if (guideLine) {
     if (Array.isArray(guideLine)) {
@@ -344,8 +344,18 @@ function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
       drawGuideArea(getGuideView(config, guideArea, lineView, rawLineData, barView, rawBarData), guideArea);
     }
   }
-  
-  if (!guideLine && !guideArea && Object.keys(other).length > 0) {
+
+  if (guideFilter) {
+    if (Array.isArray(guideFilter)) {
+      guideFilter.forEach((filter) => {
+        drawGuideFilter(getGuideView(config, filter, lineView, rawLineData, barView, rawBarData), filter);
+      });
+    } else {
+      drawGuideFilter(getGuideView(config, guideFilter, lineView, rawLineData, barView, rawBarData), guideFilter);
+    }
+  }
+
+  if (!guideLine && !guideArea && !guideFilter && Object.keys(other).length > 0) {
     console.warn('guide 定义异常，请使用 guide.line 或 guide.area');
   }
 }

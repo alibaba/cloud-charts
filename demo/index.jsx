@@ -189,7 +189,7 @@ class Demo extends React.Component {
     return [
       <Chart config={{
         xAxis: {type: 'timeCat'},
-        // yAxis: [{}, {}],
+        yAxis: [{}, {}],
         label: {
           labelFormatter(v) {
             return `value: ${v}`;
@@ -202,6 +202,34 @@ class Demo extends React.Component {
           align: 'center',
         },
         zoom: true,
+        guide: {
+          line: [{
+            // 显示标题相关
+            text: {
+              title: '异常',
+            },
+            status: 'error',
+            // 线位置
+            axis: 'x',
+            value: 1483545600000
+          },
+            {
+              // 显示标题相关
+              text: {
+                title: '警戒线',
+              },
+              status: 'error',
+              // 线位置
+              axis: 'y0',
+              value: 5200
+          }],
+          filter: {
+            status: 'error',
+            // 线位置
+            axis: 'y0',
+            value: [5200, 'max'],
+          }
+        }
       }} data={this.state.chartData} height={400} />,
 
       <Chart config={{
@@ -220,6 +248,34 @@ class Demo extends React.Component {
         legend:{
           position: 'bottom',
           align: 'left',
+        },
+        guide: {
+          line: [{
+            // 显示标题相关
+            text: {
+              title: '异常',
+            },
+            status: 'error',
+            // 线位置
+            axis: 'x',
+            value: 1483545600000
+          },
+            {
+              // 显示标题相关
+              text: {
+                title: '警戒线',
+              },
+              status: 'error',
+              // 线位置
+              axis: 'y',
+              value: 5200
+            }],
+          filter: {
+            status: 'error',
+            // 线位置
+            axis: 'y',
+            value: [10000, 'max'],
+          }
         }
       }} data={this.state.chartData} height={400} />,
 
@@ -296,7 +352,7 @@ class Demo extends React.Component {
       }} data={boxData} />,
 
       <Widgets.Wheatmap height={400} config={{
-        
+
       }} data={heatmapData} />
     ]
   }
