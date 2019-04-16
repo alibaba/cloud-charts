@@ -260,7 +260,7 @@ const widgetsTheme = {
         autoRotate: false,
         style: {
           fill: color.colorB16,
-          fontSize: fonts.fontSizeBaseCaption,
+          fontSize: pxToNumber(fonts.fontSizeBaseCaption),
           fontFamily: fonts.fontFamilyTxdMediumNumber,
         },
       },
