@@ -1,14 +1,17 @@
 *{ margin: 0; padding: 0}
-body{padding: 20px;}
-
-//@import '../src/index';
+body{
+  padding: 20px;
+  background: #f2f3f7;
+}
 
 .chart-list-item {
-  padding: 8px 12px;
-  cursor: pointer;
+  margin-bottom: 20px;
+}
 
-  &.current {
-    color: #fff;
-    background: #2E85FF;
-  }
+.chart-list-item-title {
+  position: relative;
+}
+
+.chart-list-item-title-link {
+
 }

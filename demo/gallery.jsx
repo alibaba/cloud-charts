@@ -30,6 +30,7 @@ const pageList = [
 class Demo extends React.Component {
 
   state = {
+    col: 3,
   };
 
   componentDidMount() {
@@ -64,24 +65,32 @@ class Demo extends React.Component {
   }
 
   render() {
-    const {  } = this.state;
+    const { col } = this.state;
     return (
       <div>
         {
           pageList.map((page) =>{
             return (
               <div key={page.id}>
-                <h2>{page.name}</h2>
-                {
-                  page.examples.map((example) => {
-                    return (
-                      <div key={example.id} style={{ display: 'inline-block', width: '20%', height: 300 }}>
-                        <h3>{example.name}</h3>
-                        <div id={`aisc-example-preview-${example.id}`} />
-                      </div>
-                    );
-                  })
-                }
+                <h2>
+                  {page.name}
+                  <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}`}>详情</a>
+                </h2>
+                <Row type={['wrap', 'no-padding']} gutter={20}>
+                  {
+                    page.examples.map((example) => {
+                      return (
+                        <Col key={example.id} span={24 / col} style={{ minHeight: 200 }} className="chart-list-item">
+                          <h3 className="chart-list-item-title">
+                            {example.name}
+                            <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}/example/${example.id}`}>详情</a>
+                          </h3>
+                          <div id={`aisc-example-preview-${example.id}`} />
+                        </Col>
+                      );
+                    })
+                  }
+                </Row>
               </div>
             );
           })
