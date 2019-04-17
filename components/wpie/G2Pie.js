@@ -5,6 +5,7 @@ import { color, size } from '../theme/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';
+import label from '../common/label';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
 const defaultConfig = {
@@ -26,7 +27,8 @@ const defaultConfig = {
   selectData: null,
   innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
   outerRadius: 0.8, // 饼图半径大小，初始化时可用
-  drawPadding: 10,
+  drawPadding: [10, 10, 10, 10],
+  label: false,
 };
 
 function transformCoord(coord, transform = {}) {
@@ -70,13 +72,26 @@ function paddingNumber(value) {
   return isInvalidNumber(value) ? 0 : Number(value);
 }
 
+function getDrawPadding(drawPadding, label) {
+  if (Array.isArray(drawPadding)) {
+    return drawPadding;
+  } else if (!isInvalidNumber(drawPadding)) {
+    return [drawPadding, drawPadding, drawPadding, drawPadding];
+  } else if (label && label.visible !== false) {
+    // 饼图使用 label 时，调整 drawPadding
+    return defaultConfig.drawPadding.map(p => Math.max(p, 48));
+  } else {
+    return defaultConfig.drawPadding;
+  }
+}
+
 export default {
   beforeInit(props) {
     const { config } = props;
     const element = this.chartDom;
     const padding = props.padding || config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
+    const drawPadding = getDrawPadding(config.drawPadding, config.label);
 
     // fix: padding 为 auto 时会计算错误
     const boxHeight = element.offsetHeight - paddingNumber(padding[0]) - paddingNumber(padding[2]);
@@ -91,14 +106,14 @@ export default {
 
     this.childrenDom = element.querySelector('.aisc-widgets-children');
     if (this.childrenDom) {
-      this.childrenDom.style.width = `${diameter + drawPadding}px`;
+      this.childrenDom.style.width = `${diameter + drawPadding[1] + drawPadding[3]}px`;
       this.childrenDom.style.height = `${boxHeight}px`;
     }
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      width: diameter + drawPadding,
-      height: diameter + drawPadding,
+      width: diameter + drawPadding[1] + drawPadding[3],
+      height: diameter + drawPadding[0] + drawPadding[2],
       // forceFit: true,
       padding: drawPadding,
     });
@@ -106,7 +121,7 @@ export default {
   changeSize(chart, config, w, h) {
     const padding = config.padding || defaultConfig.padding;
     const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = isInvalidNumber(config.drawPadding) ? defaultConfig.drawPadding : config.drawPadding;
+    const drawPadding = getDrawPadding(config.drawPadding, config.label);
 
     const boxHeight = h - paddingNumber(padding[0]) - paddingNumber(padding[2]);
     const boxWidth = w - paddingNumber(padding[1]) - paddingNumber(padding[3]);
@@ -114,11 +129,11 @@ export default {
     const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
 
     if (this.childrenDom) {
-      this.childrenDom.style.width = `${diameter + drawPadding}px`;
+      this.childrenDom.style.width = `${diameter + drawPadding[1] + drawPadding[3]}px`;
       this.childrenDom.style.height = `${boxHeight}px`;
     }
 
-    chart.changeSize(diameter + drawPadding, diameter + drawPadding);
+    chart.changeSize(diameter + drawPadding[1] + drawPadding[3], diameter + drawPadding[0] + drawPadding[2]);
   },
   changeData(chart, config, data) {
     // 更新数据总和值，保证百分比的正常
@@ -275,6 +290,21 @@ export default {
     // 下面这一句注释我还没看懂。
     // position若直接使用value导致图例点击某项隐藏，余下展示不为值和不为1
     this.geom = chart.intervalStack().position('y').color('x', config.colors).select(!!config.select);
+
+    label(this.geom, config, 'y', {
+      offset: 20,
+      formatter: (v, item, index) => {
+        if (config.label.labelFormatter) {
+          const percent = numberDecimal(v / this.totalData, 4);
+
+          return config.label.labelFormatter(v, {
+            ...item,
+            percent,
+          }, index);
+        }
+        return v;
+      }
+    });
 
     chart.render();
 
