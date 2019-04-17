@@ -149,11 +149,25 @@ const multiPieData = mockData({
   value: 0,
 });
 
-console.log(multiPieData);
+// console.log(multiPieData);
 
 function randomData() {
   return Math.round(Math.random()*100);
 }
+
+const pieData = [
+  {
+    "name": "浏览器占比",
+    "data": [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7]
+    ]
+  }
+];
 
 class Demo extends React.Component {
 
@@ -284,7 +298,17 @@ class Demo extends React.Component {
         legend: false,
       }} data={this.state.chartData} height={400} />,
 
-      <Widgets.Wplaceholder noData height={400} />,
+      <Widgets.Wplaceholder noData height={200} />,
+
+      <Widgets.Wpie height={300} config={{
+        // innerRadius: 0.5
+        // drawPadding: [30, 30, 10, 30],
+        label: {
+          labelFormatter(v, item) {
+            return v;
+          }
+        }
+      }} data={pieData} />,
 
       <Widgets.WmultiPie height={400} config={{
         innerRadius: 0.5
