@@ -27,7 +27,7 @@ export default function (geom, config, field = 'y', componentConfig, extraConfig
     return;
   }
 
-  const { type = 'default', position = 'top', offset = 0, autoRotate = true, labelFormatter = null, customConfig } = configLabel || {};
+  const { type = 'default', position = 'top', offset, autoRotate = true, labelFormatter = null, customConfig } = configLabel || {};
   const labelConfig = {
     type,
     position,
@@ -41,12 +41,12 @@ export default function (geom, config, field = 'y', componentConfig, extraConfig
     labelConfig.offset = 0;
   }
 
-  if (!isInvalidNumber(offset)) {
-    labelConfig.offset += Number(offset);
-  }
-
   if (componentConfig) {
     Object.assign(labelConfig, componentConfig);
+  }
+
+  if (!isInvalidNumber(offset)) {
+    labelConfig.offset += Number(offset);
   }
 
   if (customConfig) {
