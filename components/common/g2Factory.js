@@ -88,6 +88,9 @@ function g2Factory(name, Chart, convertData = true) {
           this.componentWillUnmount();
 
           this.reRenderTimer = requestAnimationFrame(() => {
+            if (!this.chartDom) {
+              return;
+            }
             this.initSize(nextProps);
 
             this.initChart(nextProps);
@@ -149,6 +152,8 @@ function g2Factory(name, Chart, convertData = true) {
       this.resizeRunning = false;
       this.resizeTimer = null;
       window.removeEventListener('resize', this.autoResize);
+      // 清除配置变化重新生成图表的定时器
+      window.cancelAnimationFrame(this.reRenderTimer);
 
       if (ChartProcess.destroy) {
         this.chart && ChartProcess.destroy.call(this, this.chart);
