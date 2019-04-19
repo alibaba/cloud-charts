@@ -92,7 +92,7 @@
   }
 
   #{$wcontainer-prefix}-main {
-    flex-grow: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,6 +139,10 @@
       &.no-title {
         margin-top: $s2;
       }
+
+      // 修复图表无法缩小的问题
+      // 设置 overflow 以建立一个新的 BFC，让里层图表不会撑开外层
+      overflow: hidden;
     }
     >.next-row {
       padding: 0;
