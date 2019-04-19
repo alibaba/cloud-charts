@@ -13,5 +13,10 @@ body{
 }
 
 .chart-list-item-title-link {
+  margin-left: 8px;
+  background: var(--color-link-1,#166ae9);
 
+  i {
+    color: #ffffff;
+  }
 }

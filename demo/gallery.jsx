@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import classnames from 'classnames';
-import { Grid } from '@alife/aisc';
+import { Grid, Icon } from '@alife/aisc';
 import * as Widgets from '@alife/aisc-widgets';
 
 window.AiscWidgets = Widgets;
@@ -74,7 +74,7 @@ class Demo extends React.Component {
               <div key={page.id}>
                 <h2>
                   {page.name}
-                  <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}`}>详情</a>
+                  <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                 </h2>
                 <Row type={['wrap', 'no-padding']} gutter={20}>
                   {
@@ -83,7 +83,7 @@ class Demo extends React.Component {
                         <Col key={example.id} span={24 / col} style={{ minHeight: 200 }} className="chart-list-item">
                           <h3 className="chart-list-item-title">
                             {example.name}
-                            <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}/example/${example.id}`}>详情</a>
+                            <a className="chart-list-item-title-link" href={`http://aisc.alibaba-inc.com/site/pc#/cate/4/page/${page.id}/example/${example.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                           </h3>
                           <div id={`aisc-example-preview-${example.id}`} />
                         </Col>
