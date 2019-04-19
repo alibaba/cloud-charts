@@ -1,3 +1,17 @@
+### 2.4.0 (2019-04-18)
+
+#### New Features
+
+- 升级底层 G2 依赖至最新版本 3.5.3。
+- 新增 filter 型辅助标记，可以用于图表部分元素染色。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/144>
+- 新增 饼图蜘蛛型label 功能。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/25/example/537>
+- 色块图组件 分割线颜色适配主题变化。
+
+#### Bug Fixes
+
+- 修复卡片中图表无法动态缩小的问题。
+- 修复可能会出现G2图表初始化报错的问题。
+
 ### 2.3.17 (2019-03-28)
 
 #### New Features
