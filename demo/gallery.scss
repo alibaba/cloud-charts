@@ -26,8 +26,36 @@
 .chart-list-item-title-link {
   margin-left: 8px;
   background: var(--color-link-1,#166ae9);
-
   i {
     color: #ffffff;
   }
+}
+
+.chart-layout-out {
+  width: 100%;
+  position: sticky;
+  top: 60px;
+  padding: 10px 16px;
+  color:var(--color-black);
+  font-size: 14px;
+  border: 1px solid var(--color-n1-5);
+  background: var(--color-n1-3);
+  z-index: 2;
+}
+
+.chart-link-tab {
+  font-size: 14px;
+  padding: 12px;
+  cursor: pointer;
+  &:first-child{
+    padding-left:0;
+  }
+  &.active{
+    color: var(--color-link-1,#166ae9);
+  }
+}
+
+.view-top-tag{
+  position: relative;
+  top: -150px;
 }

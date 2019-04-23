@@ -20,6 +20,7 @@ const TabPane = Tab.TabPane;
 class Demo extends React.Component {
   state = {
     pageList: [],
+    active: ""
   };
 
   componentDidMount() {
@@ -67,15 +68,31 @@ class Demo extends React.Component {
     document.head.appendChild(link);
   }
 
+  toView(page){
+    let dom  = document.querySelector(`#page-${page.id}`);
+    dom.scrollIntoView();
+    this.setState({
+      active: page.id
+    })
+  }
+
   render() {
-    const { pageList } = this.state;
+    const { pageList, active } = this.state;
     return (
       <div>
+        <div className="chart-layout-out">
+          {
+            pageList.map(page => (
+              <span onClick={() => this.toView(page)} className={`chart-link-tab ${active == page.id ? "active" : ""}`}>{page.name}</span>
+            ))
+          }
+        </div>
         {
           pageList.map((page) =>{
             return (
               <div key={page.id}>
                 <div className="page-title">
+                  <div className="view-top-tag" id={`page-${page.id}`} />
                   {page.name}
                   <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                 </div>
