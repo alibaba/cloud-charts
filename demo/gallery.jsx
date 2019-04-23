@@ -56,6 +56,11 @@ class Demo extends React.Component {
           pageList: pageList,
         });
       });
+
+    const link = document.createElement("link");
+    link.href = `http://localhost:9009/demo/gallery.css`;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }
 
   render() {
