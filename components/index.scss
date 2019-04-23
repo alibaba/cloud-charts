@@ -40,6 +40,7 @@ $font-path: './font';
 /* 全局公用样式 */
 .aisc-widgets {
   canvas {
+    position: relative;
     display: block;
   }
 
