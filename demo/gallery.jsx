@@ -18,6 +18,7 @@ const { Row, Col } = Grid;
 class Demo extends React.Component {
   state = {
     pageList: [],
+    active: ""
   };
 
   componentDidMount() {
@@ -57,21 +58,29 @@ class Demo extends React.Component {
           pageList: pageList,
         });
       });
+
+    const link = document.createElement("link");
+    link.href = `http://localhost:9009/demo/gallery.css`;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
   }
 
   toView(page){
     let dom  = document.querySelector(`#page-${page.id}`);
-    dom.scrollIntoView({ block: "start", inline: "start"});
+    dom.scrollIntoView();
+    this.setState({
+      active: page.id
+    })
   }
 
   render() {
-    const { pageList } = this.state;
+    const { pageList, active } = this.state;
     return (
       <div>
         <div className="chart-layout-out">
           {
-            pageList.map(page=>(
-              <span onClick={()=>this.toView(page)} className="chart-link-tab">{page.name}</span>
+            pageList.map(page => (
+              <span onClick={() => this.toView(page)} className={`chart-link-tab ${active == page.id ? "active" : ""}`}>{page.name}</span>
             ))
           }
         </div>
@@ -79,7 +88,8 @@ class Demo extends React.Component {
           pageList.map((page) =>{
             return (
               <div key={page.id}>
-                <h2 id={`page-${page.id}`}>
+                <div className="view-top-tag" id={`page-${page.id}`} />
+                <h2>
                   {page.name}
                   <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                 </h2>

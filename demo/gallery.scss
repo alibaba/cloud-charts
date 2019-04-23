@@ -28,12 +28,23 @@ body{
   color:var(--color-black);
   font-size: 14px;
   border: 1px solid var(--color-n1-5);
-  border-radius: 4px;
-  background: var(--color-white);
+  background: var(--color-n1-3);
+  z-index: 2;
 }
 
 .chart-link-tab {
-  font-size: 13px;
+  font-size: 14px;
   padding: 12px;
   cursor: pointer;
+  &:first-child{
+    padding-left:0;
+  }
+  &.active{
+    color: var(--color-link-1,#166ae9);
+  }
+}
+
+.view-top-tag{
+  position: relative;
+  top: -150px;
 }
