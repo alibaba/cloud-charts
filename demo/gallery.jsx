@@ -6,13 +6,16 @@
  * */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Grid, Icon } from '@alife/aisc';
-import { COLORS } from '@alife/aisc-widgets';
+import { Grid, Icon, Tab } from '@alife/aisc';
 // 如果要在该页面代理本地 Widgets 版本，或者在localhost中查看本页面，则解注释下面两行代码
 // import * as Widgets from '@alife/aisc-widgets';
 // window.AiscWidgets = Widgets;
+// 否则使用下面这一行
+const { COLORS } = window.AiscWidgets;
+
 
 const { Row, Col } = Grid;
+const TabPane = Tab.TabPane;
 
 class Demo extends React.Component {
   state = {
@@ -40,6 +43,7 @@ class Demo extends React.Component {
             description: e.description,
             js: e.compiledHightLightJs,
             css: e.css,
+            riddleId: e.riddleId,
           }));
         });
 
@@ -71,10 +75,10 @@ class Demo extends React.Component {
           pageList.map((page) =>{
             return (
               <div key={page.id}>
-                <h2>
+                <div className="page-title">
                   {page.name}
                   <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
-                </h2>
+                </div>
                 <Row type={['wrap', 'no-padding']} gutter={20}>
                   {
                     page.examples.map((example) => {
@@ -102,16 +106,29 @@ class Card extends React.Component {
   };
 
   render() {
-    const { pageId, id, name, description, js, css } = this.props;
+    const { pageId, id, name, description, js, css, riddleId } = this.props;
 
     return (
-      <div className="chart-list-item" style={{ marginBottom: 20, background: COLORS.widgetsContainerBackground }}>
-        <div className="chart-list-item-title" style={{ paddingLeft: 20, height: 32, lineHeight: '32px' }}>
+      <div className="chart-list-item">
+        <div className="chart-list-item-title">
           {name}
-          <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${pageId}/example/${id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
-
         </div>
-        <div id={`aisc-example-preview-${id}`} />
+        <Tab
+          className="chart-list-item-tab"
+          style={{ background: COLORS.widgetsContainerBackground }}
+          tabBarExtraContent={
+            <a className="chart-list-item-tab-link" href={`/site/pc#/cate/4/page/${pageId}/example/${id}`}>文档</a>
+          }
+        >
+          <TabPane key="chart" tab="图表">
+            <div id={`aisc-example-preview-${id}`} />
+          </TabPane>
+          <TabPane key="js" tab="代码">
+            <pre>
+              <code>{js}</code>
+            </pre>
+          </TabPane>
+        </Tab>
       </div>
     );
   }

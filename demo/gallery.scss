@@ -1,7 +1,6 @@
-*{ margin: 0; padding: 0}
-body{
-  padding: 20px;
-  background: #f2f3f7;
+.page-title {
+  margin: 40px 0 20px 0;
+  font-size: 24px;
 }
 
 .chart-list-item {
@@ -10,6 +9,18 @@ body{
 
 .chart-list-item-title {
   position: relative;
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+}
+
+.chart-list-item-tab .next-tabs-content {
+  padding: 0;
+}
+
+.chart-list-item-tab-link {
+  margin-right: 20px;
+  line-height: 40px;
 }
 
 .chart-list-item-title-link {
