@@ -8,6 +8,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Icon } from '@alife/aisc';
 import { COLORS } from '@alife/aisc-widgets';
+// import './gallery.scss';
 // 如果要在该页面代理本地 Widgets 版本，或者在localhost中查看本页面，则解注释下面两行代码
 // import * as Widgets from '@alife/aisc-widgets';
 // window.AiscWidgets = Widgets;
@@ -58,15 +59,27 @@ class Demo extends React.Component {
       });
   }
 
+  toView(page){
+    let dom  = document.querySelector(`#page-${page.id}`);
+    dom.scrollIntoView({ block: "start", inline: "start"});
+  }
+
   render() {
     const { pageList } = this.state;
     return (
       <div>
+        <div className="chart-layout-out">
+          {
+            pageList.map(page=>(
+              <span onClick={()=>this.toView(page)} className="chart-link-tab">{page.name}</span>
+            ))
+          }
+        </div>
         {
           pageList.map((page) =>{
             return (
               <div key={page.id}>
-                <h2>
+                <h2 id={`page-${page.id}`}>
                   {page.name}
                   <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                 </h2>
