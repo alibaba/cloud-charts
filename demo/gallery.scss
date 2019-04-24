@@ -31,6 +31,17 @@
   }
 }
 
+.chart-list-item .chart-frame {
+  width: 100%;
+  height: 330px;
+  border: none;
+  display: block;
+}
+
+.chart-list-item pre {
+  height: 330px;
+}
+
 .chart-layout-out {
   width: 100%;
   position: sticky;

@@ -48,14 +48,14 @@ class Demo extends React.Component {
           }));
         });
 
-        pageList.forEach((page) => {
-          page.examples.forEach((example) => {
-            const script = document.createElement("script");
-            script.src = `/packages/example${example.id}.js`;
-            script.async = true;
-            document.body.appendChild(script);
-          });
-        });
+        // pageList.forEach((page) => {
+        //   page.examples.forEach((example) => {
+        //     const script = document.createElement("script");
+        //     script.src = `/packages/example${example.id}.js`;
+        //     script.async = true;
+        //     document.body.appendChild(script);
+        //   });
+        // });
 
         this.setState({
           pageList: pageList,
@@ -122,6 +122,51 @@ class Card extends React.Component {
     show: 'view',
   };
 
+  componentDidMount() {
+    if (this.frame) {
+      const { id, css } = this.props;
+      const jsUrl = `/packages/example${id}.js`;
+      const domId = `aisc-example-preview-${id}`;
+
+      const contentDocument = this.frame.contentDocument;
+
+      // 处理样式
+      const links = document.querySelectorAll('link');
+      Array.prototype.forEach.call(links, (link) => {
+        if (link.href.indexOf('aisc/aisc/') > -1 || link.href.indexOf('aisc/aisc-widgets/') > -1) {
+          const css = contentDocument.createElement('link');
+          css.href = link.href;
+          css.rel = 'stylesheet';
+          contentDocument.head.appendChild(css);
+        }
+      });
+
+      // 数据中可能存在的自定义css
+      if (css) {
+        console.log(this.props.name, css)
+        const style = contentDocument.createElement('style');
+        style.innerText = css;
+        contentDocument.head.appendChild(style);
+      }
+
+      // 创建脚本内容
+      const div = contentDocument.createElement('div');
+      div.id = domId;
+      contentDocument.body.appendChild(div);
+
+      const script = contentDocument.createElement('script');
+      script.src = jsUrl;
+      script.async = true;
+      contentDocument.body.appendChild(script);
+
+      // 注入依赖库
+      this.frame.contentWindow.React = window.React;
+      this.frame.contentWindow.ReactDOM = window.ReactDOM;
+      this.frame.contentWindow.Aisc = window.Aisc;
+      this.frame.contentWindow.AiscWidgets = window.AiscWidgets;
+    }
+  }
+
   render() {
     const { pageId, id, name, description, js, css, riddleId } = this.props;
 
@@ -138,7 +183,7 @@ class Card extends React.Component {
           }
         >
           <TabPane key="chart" tab="图表">
-            <div id={`aisc-example-preview-${id}`} />
+            <iframe className="chart-frame" ref={f => (this.frame = f)} seamless src="about:blank" />
           </TabPane>
           <TabPane key="js" tab="代码">
             <pre>
