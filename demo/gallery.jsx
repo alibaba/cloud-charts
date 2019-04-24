@@ -37,15 +37,21 @@ class Demo extends React.Component {
         return Promise.all(detailList);
       })
       .then((details) => {
+        // 记录example个数
+        let index = 0;
         details.forEach((detail, i) => {
-          pageList[i].examples = detail.result.examples.map(e => ({
-            name: e.name,
-            id: e.id,
-            description: e.description,
-            js: e.compiledHightLightJs,
-            css: e.css,
-            riddleId: e.riddleId,
-          }));
+          pageList[i].examples = detail.result.examples.map((e) => {
+            index += 1;
+            return {
+              name: e.name,
+              id: e.id,
+              description: e.description,
+              js: e.compiledHightLightJs,
+              css: e.css,
+              riddleId: e.riddleId,
+              index: index - 1,
+            };
+          });
         });
 
         // pageList.forEach((page) => {
@@ -122,48 +128,53 @@ class Card extends React.Component {
     show: 'view',
   };
 
+  createFramePage = () =>{
+    const { index, name, id, css } = this.props;
+    console.log(name, index, id);
+    const jsUrl = `/packages/example${id}.js`;
+    const domId = `aisc-example-preview-${id}`;
+
+    const contentDocument = this.frame.contentDocument;
+
+    // 处理样式
+    const links = document.querySelectorAll('link');
+    Array.prototype.forEach.call(links, (link) => {
+      if (link.href.indexOf('aisc/aisc/') > -1 || link.href.indexOf('aisc/aisc-widgets/') > -1) {
+        const css = contentDocument.createElement('link');
+        css.href = link.href;
+        css.rel = 'stylesheet';
+        contentDocument.head.appendChild(css);
+      }
+    });
+
+    // 数据中可能存在的自定义css
+    if (css) {
+      const style = contentDocument.createElement('style');
+      style.innerText = css;
+      contentDocument.head.appendChild(style);
+    }
+
+    // 创建脚本内容
+    const div = contentDocument.createElement('div');
+    div.id = domId;
+    contentDocument.body.appendChild(div);
+
+    const script = contentDocument.createElement('script');
+    script.src = jsUrl;
+    script.async = true;
+    contentDocument.body.appendChild(script);
+
+    // 注入依赖库
+    this.frame.contentWindow.React = window.React;
+    this.frame.contentWindow.ReactDOM = window.ReactDOM;
+    this.frame.contentWindow.Aisc = window.Aisc;
+    this.frame.contentWindow.AiscWidgets = window.AiscWidgets;
+  };
+
   componentDidMount() {
     if (this.frame) {
-      const { id, css } = this.props;
-      const jsUrl = `/packages/example${id}.js`;
-      const domId = `aisc-example-preview-${id}`;
-
-      const contentDocument = this.frame.contentDocument;
-
-      // 处理样式
-      const links = document.querySelectorAll('link');
-      Array.prototype.forEach.call(links, (link) => {
-        if (link.href.indexOf('aisc/aisc/') > -1 || link.href.indexOf('aisc/aisc-widgets/') > -1) {
-          const css = contentDocument.createElement('link');
-          css.href = link.href;
-          css.rel = 'stylesheet';
-          contentDocument.head.appendChild(css);
-        }
-      });
-
-      // 数据中可能存在的自定义css
-      if (css) {
-        console.log(this.props.name, css)
-        const style = contentDocument.createElement('style');
-        style.innerText = css;
-        contentDocument.head.appendChild(style);
-      }
-
-      // 创建脚本内容
-      const div = contentDocument.createElement('div');
-      div.id = domId;
-      contentDocument.body.appendChild(div);
-
-      const script = contentDocument.createElement('script');
-      script.src = jsUrl;
-      script.async = true;
-      contentDocument.body.appendChild(script);
-
-      // 注入依赖库
-      this.frame.contentWindow.React = window.React;
-      this.frame.contentWindow.ReactDOM = window.ReactDOM;
-      this.frame.contentWindow.Aisc = window.Aisc;
-      this.frame.contentWindow.AiscWidgets = window.AiscWidgets;
+      const { index } = this.props;
+      setTimeout(this.createFramePage, Math.round(index * 100));
     }
   }
 
