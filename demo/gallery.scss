@@ -1,3 +1,8 @@
+#widgets-gallery {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
 .page-title {
   margin: 40px 0 20px 0;
   font-size: 24px;
@@ -6,9 +11,9 @@
 .chart-list-item-title-link {
   margin-left: 8px;
   background: var(--color-link-1,#166ae9);
-  i {
-    color: #ffffff;
-  }
+}
+.chart-list-item-title-link i {
+  color: #ffffff;
 }
 
 .chart-layout-out {
@@ -27,12 +32,12 @@
   font-size: 14px;
   padding: 12px;
   cursor: pointer;
-  &:first-child{
-    padding-left:0;
-  }
-  &.active{
-    color: var(--color-link-1,#166ae9);
-  }
+}
+.chart-link-tab:first-child{
+  padding-left:0;
+}
+.chart-link-tab.active{
+  color: var(--color-link-1,#166ae9);
 }
 
 .view-top-tag{

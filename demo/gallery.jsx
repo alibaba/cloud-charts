@@ -71,7 +71,7 @@ class Demo extends React.Component {
     dom.scrollIntoView();
     this.setState({
       active: page.id
-    })
+    });
   }
 
   render() {
@@ -104,6 +104,7 @@ class Demo extends React.Component {
   }
 }
 
+const chartHeight = 300;
 const pageChartStyle = `
 body {
   background: transparent;
@@ -111,6 +112,17 @@ body {
 #widgets-gallery {
   overflow: hidden;
 }
+
+/*@media (min-width: 1200px) {
+  .gallery-row .gallery-col {
+    width: 33.33333%;
+    max-width: 33.33333%;
+    -moz-flex: 0 0 33.33333%;
+    -ms-flex: 0 0 33.33333%;
+    flex: 0 0 33.33333%;
+  }
+}*/
+
 .chart-list-item {
   margin-bottom: 20px;
 }
@@ -124,7 +136,7 @@ body {
   padding: 0;
 }
 .chart-list-item-tab .next-tabs-tabpane {
-  height: 320px;
+  height: ${chartHeight}px;
 }
 .chart-list-item-tab pre {
   margin: 0;
@@ -182,11 +194,11 @@ class PageChart extends React.Component {
     const { examples, pageId, pageIndex } = this.props;
 
     return (
-      <Row type={['wrap', 'no-padding']} gutter={20}>
+      <Row type={['wrap', 'no-padding']} gutter={20} className="gallery-row">
         {
           examples.map((example) => {
             return (
-              <Col key={example.id} span={8} style={{ minHeight: 200 }}>
+              <Col key={example.id} span={12} className="gallery-col">
                 <Card {...example} pageId={pageId} pageIndex={pageIndex} />
               </Col>
             );
@@ -205,7 +217,7 @@ class PageChart extends React.Component {
       ref={f => (this.frame = f)}
       seamless
       src="about:blank"
-      style={{ height: Math.ceil(examples.length / 3) * 415 }}
+      style={{ height: Math.ceil(examples.length / 2) * (chartHeight + 95) }}
     />;
   }
 }
@@ -237,7 +249,7 @@ class Card extends React.Component {
           className="chart-list-item-tab"
           style={{ background: COLORS.widgetsContainerBackground }}
           tabBarExtraContent={
-            <a className="chart-list-item-tab-link" href={`/site/pc#/cate/4/page/${pageId}/example/${id}`}>文档</a>
+            <a className="chart-list-item-tab-link" target="_blank" href={`/site/pc#/cate/4/page/${pageId}/example/${id}`}>文档</a>
           }
         >
           <TabPane key="chart" tab="图表">
