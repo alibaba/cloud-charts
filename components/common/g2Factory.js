@@ -260,7 +260,8 @@ function g2Factory(name, Chart, convertData = true) {
         this.resizeRunning = false;
 
         const parentSize = getParentSize(element, props.width, props.height);
-        if (!(parentSize[0] === _size[0] && parentSize[1] === _size[1])) {
+        // 读取的高宽需要是有效值，0 也不可以
+        if (!(parentSize[0] === _size[0] && parentSize[1] === _size[1]) && parentSize[0] && parentSize[1]) {
           this.changeSize(props.config, parentSize[0], parentSize[1]);
 
           this.afterRender();
