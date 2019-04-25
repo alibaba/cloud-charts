@@ -49,25 +49,17 @@ class Demo extends React.Component {
               js: e.compiledHightLightJs,
               css: e.css,
               riddleId: e.riddleId,
-              index: index - 1,
+              index: index,
             };
           });
         });
-
-        // pageList.forEach((page) => {
-        //   page.examples.forEach((example) => {
-        //     const script = document.createElement("script");
-        //     script.src = `/packages/example${example.id}.js`;
-        //     script.async = true;
-        //     document.body.appendChild(script);
-        //   });
-        // });
 
         this.setState({
           pageList: pageList,
         });
       });
 
+    // 下面这块用于注入代理时的css
     const link = document.createElement("link");
     link.href = `http://localhost:9009/demo/gallery.css`;
     link.rel = 'stylesheet';
@@ -94,7 +86,7 @@ class Demo extends React.Component {
           }
         </div>
         {
-          pageList.map((page) =>{
+          pageList.map((page, pageIndex) =>{
             return (
               <div key={page.id}>
                 <div className="page-title">
@@ -102,17 +94,7 @@ class Demo extends React.Component {
                   {page.name}
                   <a className="chart-list-item-title-link" href={`/site/pc#/cate/4/page/${page.id}`} title="详情"><Icon type="arrow-right" size="small" /></a>
                 </div>
-                <Row type={['wrap', 'no-padding']} gutter={20}>
-                  {
-                    page.examples.map((example) => {
-                      return (
-                        <Col key={example.id} span={8} style={{ minHeight: 200 }}>
-                          <Card {...example} pageId={page.id} />
-                        </Col>
-                      );
-                    })
-                  }
-                </Row>
+                <PageChart examples={page.examples} pageId={page.id} pageIndex={pageIndex} />
               </div>
             );
           })
@@ -122,60 +104,125 @@ class Demo extends React.Component {
   }
 }
 
-class Card extends React.Component {
-  state = {
-    // view: 图表展示，js: 脚本代码，css: 样式代码
-    show: 'view',
-  };
+const pageChartStyle = `
+body {
+  background: transparent;
+}
+#widgets-gallery {
+  overflow: hidden;
+}
+.chart-list-item {
+  margin-bottom: 20px;
+}
+.chart-list-item-title {
+  position: relative;
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+}
+.chart-list-item-tab .next-tabs-content {
+  padding: 0;
+}
+.chart-list-item-tab .next-tabs-tabpane {
+  height: 320px;
+}
+.chart-list-item-tab pre {
+  margin: 0;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+.chart-list-item-tab-link {
+  margin-right: 20px;
+  line-height: 40px;
+}
+`;
 
-  createFramePage = () =>{
-    const { index, name, id, css } = this.props;
-    console.log(name, index, id);
-    const jsUrl = `/packages/example${id}.js`;
-    const domId = `aisc-example-preview-${id}`;
-
-    const contentDocument = this.frame.contentDocument;
-
-    // 处理样式
-    const links = document.querySelectorAll('link');
-    Array.prototype.forEach.call(links, (link) => {
-      if (link.href.indexOf('aisc/aisc/') > -1 || link.href.indexOf('aisc/aisc-widgets/') > -1) {
-        const css = contentDocument.createElement('link');
-        css.href = link.href;
-        css.rel = 'stylesheet';
-        contentDocument.head.appendChild(css);
-      }
-    });
-
-    // 数据中可能存在的自定义css
-    if (css) {
-      const style = contentDocument.createElement('style');
-      style.innerText = css;
-      contentDocument.head.appendChild(style);
-    }
-
-    // 创建脚本内容
-    const div = contentDocument.createElement('div');
-    div.id = domId;
-    contentDocument.body.appendChild(div);
-
-    const script = contentDocument.createElement('script');
-    script.src = jsUrl;
-    script.async = true;
-    contentDocument.body.appendChild(script);
-
-    // 注入依赖库
-    this.frame.contentWindow.React = window.React;
-    this.frame.contentWindow.ReactDOM = window.ReactDOM;
-    this.frame.contentWindow.Aisc = window.Aisc;
-    this.frame.contentWindow.AiscWidgets = window.AiscWidgets;
-  };
-
+class PageChart extends React.Component {
   componentDidMount() {
     if (this.frame) {
-      const { index } = this.props;
-      setTimeout(this.createFramePage, Math.round(index * 100));
+      const contentDocument = this.frame.contentDocument;
+
+      // 注入 Aisc & AiscWidgets 样式
+      const links = document.querySelectorAll('link');
+      Array.prototype.forEach.call(links, (link) => {
+        if (link.href.indexOf('aisc/aisc/') > -1 || link.href.indexOf('aisc/aisc-widgets/') > -1) {
+          const css = contentDocument.createElement('link');
+          css.href = link.href;
+          css.rel = 'stylesheet';
+          contentDocument.head.appendChild(css);
+        }
+      });
+
+      // 注入内容块样式
+      const style = contentDocument.createElement('style');
+      style.innerText = pageChartStyle;
+      contentDocument.head.appendChild(style);
+
+      // 注入依赖库
+      this.frame.contentWindow.React = window.React;
+      this.frame.contentWindow.ReactDOM = window.ReactDOM;
+      this.frame.contentWindow.Aisc = window.Aisc;
+      this.frame.contentWindow.AiscWidgets = window.AiscWidgets;
+
+      this.frame.contentWindow.Examples = this.renderExamples();
+
+      // 创建脚本内容
+      const div = contentDocument.createElement('div');
+      div.id = 'widgets-gallery';
+      contentDocument.body.appendChild(div);
+
+      const script = contentDocument.createElement('script');
+      script.innerText = `ReactDOM.render(window.Examples, document.getElementById('widgets-gallery'))`;
+      contentDocument.body.appendChild(script);
     }
+  }
+
+  renderExamples() {
+    const { examples, pageId, pageIndex } = this.props;
+
+    return (
+      <Row type={['wrap', 'no-padding']} gutter={20}>
+        {
+          examples.map((example) => {
+            return (
+              <Col key={example.id} span={8} style={{ minHeight: 200 }}>
+                <Card {...example} pageId={pageId} pageIndex={pageIndex} />
+              </Col>
+            );
+          })
+        }
+      </Row>
+    );
+  }
+
+  render() {
+    const { examples, pageId } = this.props;
+
+    return <iframe
+      name={`page-gallery-${pageId}`}
+      className="chart-frame"
+      ref={f => (this.frame = f)}
+      seamless
+      src="about:blank"
+      style={{ height: Math.ceil(examples.length / 3) * 415 }}
+    />;
+  }
+}
+
+class Card extends React.Component {
+  componentDidMount() {
+    const { pageId, id, index, pageIndex } = this.props;
+    let doc = document;
+    if (window.frames && window.frames[`page-gallery-${pageId}`]) {
+      doc = window.frames[`page-gallery-${pageId}`].document;
+    }
+    setTimeout(() =>{
+      const script = doc.createElement("script");
+      script.src = `/packages/example${id}.js`;
+      script.async = true;
+      doc.body.appendChild(script);
+    }, Math.round(index * 50 + pageIndex * 100));
   }
 
   render() {
@@ -194,7 +241,7 @@ class Card extends React.Component {
           }
         >
           <TabPane key="chart" tab="图表">
-            <iframe className="chart-frame" ref={f => (this.frame = f)} seamless src="about:blank" />
+            <div id={`aisc-example-preview-${id}`} />
           </TabPane>
           <TabPane key="js" tab="代码">
             <pre>

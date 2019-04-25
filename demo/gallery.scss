@@ -3,43 +3,12 @@
   font-size: 24px;
 }
 
-.chart-list-item {
-  margin-bottom: 20px;
-}
-
-.chart-list-item-title {
-  position: relative;
-  height: 32px;
-  line-height: 32px;
-  font-size: 16px;
-}
-
-.chart-list-item-tab .next-tabs-content {
-  padding: 0;
-}
-
-.chart-list-item-tab-link {
-  margin-right: 20px;
-  line-height: 40px;
-}
-
 .chart-list-item-title-link {
   margin-left: 8px;
   background: var(--color-link-1,#166ae9);
   i {
     color: #ffffff;
   }
-}
-
-.chart-list-item .chart-frame {
-  width: 100%;
-  height: 300px;
-  border: none;
-  display: block;
-}
-
-.chart-list-item pre {
-  height: 300px;
 }
 
 .chart-layout-out {
@@ -69,4 +38,11 @@
 .view-top-tag{
   position: relative;
   top: -150px;
+}
+
+.chart-frame {
+  width: 100%;
+  height: 300px;
+  border: none;
+  display: block;
 }
