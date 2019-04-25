@@ -1,0 +1,361 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Grid } from '@alife/aisc';
+const { Row, Col } = Grid;
+
+import { COLORS, Wcontainer, Wminicontainer, Wicon, Wnumber, Wcircle, Wminiline, Wline, Wbar, Wpie } from '@alife/aisc-widgets';
+
+let data = [
+  {
+    "name":"机房",
+    "data":[[1483372800000,2092],[1483459200000,2192],[1483545600000,2214],[1483632000000,2354],[1483718400000,2714],[1483804800000,2922],[1483891200000,2823],[1483977600000,2018],[1484064000000,1259],[1484150400000,1381],[1484236800000,1533],[1484323200000,2398],[1484409600000,2064],[1484496000000,2294]]
+  }
+];
+
+let miniLineOptions = {
+  spline: true,
+  padding: [20, 20, 20, 20]
+};
+
+let pieData = [
+  {
+    "name": "浏览器占比",
+    "data": [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7]
+    ]
+  }
+];
+
+let pieOptions = {
+  padding: [20, 0, 0, 0],
+  cycle: true,
+  outerRadius: 0.9,
+  legend: {
+    valueFormatter: function(value){
+      return value + '%';
+    }
+  },
+  tooltip: {
+    valueFormatter: function(value) {
+      return value + '%';
+    },
+  }
+};
+
+const data1 = [];
+const data2 = [];
+
+let now = Date.now();
+for(var i = 0; i < 125; i++) {
+  let t = now - (125 - i) * 1000;
+  data1.push([t, Math.round(Math.random() * 300) + 300]);
+  data2.push([t, Math.round(Math.random() * 100) + 500]);
+}
+
+let lineOptions = {
+  padding: [40, 5, 24, 36],
+  xAxis: {
+    type: 'time',
+    mask: 'HH:mm:ss'
+  },
+  yAxis: {
+    min: 0,  //Y轴可见最小值，默认为自动计算，一般为0
+  }
+};
+
+const errorLineData1 = [{"name":"机房1","data":[[1516982400000,9490],[1516991040000,9792],[1516999680000,9010],[1517008320000,9934],[1517016960000,9344],[1517025600000,9958],[1517034240000,9250],[1517042880000,9419],[1517051520000,9366],[1517060160000,9723],[1517068800000,15256],[1517077440000,9621],[1517086080000,9023],[1517094720000,9249],[1517103360000,9443],[1517112000000,9264],[1517120640000,9942],[1517129280000,9927],[1517137920000,9858],[1517146560000,9189],[1517155200000,9628],[1517163840000,9600],[1517172480000,9049],[1517181120000,9871],[1517189760000,9806],[1517198400000,9157],[1517207040000,9178],[1517215680000,9817],[1517224320000,9595],[1517232960000,9115]]},{"name":"机房2","data":[[1516982400000,9264],[1516991040000,9344],[1516999680000,9797],[1517008320000,9178],[1517016960000,9173],[1517025600000,9436],[1517034240000,9542],[1517042880000,9109],[1517051520000,9134],[1517060160000,9299],[1517068800000,14109],[1517077440000,9211],[1517086080000,9133],[1517094720000,9315],[1517103360000,9526],[1517112000000,9424],[1517120640000,9058],[1517129280000,9453],[1517137920000,9101],[1517146560000,9677],[1517155200000,9993],[1517163840000,9423],[1517172480000,9109],[1517181120000,9801],[1517189760000,9950],[1517198400000,9136],[1517207040000,9327],[1517215680000,9230],[1517224320000,9028],[1517232960000,9669]]}];
+const errorLineOptions1 = {
+  padding: [40, 5, 24, 44],
+  xAxis: {
+    type: 'time',
+    mask: 'YYYY-MM-DD'
+  },
+  yAxis: {
+    min: 0,
+    max: 16000
+  },
+  guide: {
+    line: {
+      status: 'error',
+      axis: 'y',
+      value: 13000,
+      text: {
+        title: '警戒线',
+        offsetX: -8
+      }
+    },
+    area: {
+      status: 'error',
+      axis: 'y',
+      value: [13000,'max'],
+    }
+  }
+};
+
+const errorLineData2 = [{"name":"机房1","data":[[1514649600000,9536],[1514736000000,9864],[1514822400000,9341],[1514908800000,9019],[1514995200000,9829],[1515081600000,9980],[1515168000000,9970],[1515254400000,9476],[1515340800000,9112],[1515427200000,6938],[1515513600000,9215],[1515600000000,9957],[1515686400000,9343],[1515772800000,9543],[1515859200000,9353],[1515945600000,9626],[1516032000000,9683],[1516118400000,9880],[1516204800000,9282],[1516291200000,9093],[1516377600000,9691],[1516464000000,9305],[1516550400000,3521],[1516636800000,9786],[1516723200000,9352],[1516809600000,9812],[1516896000000,9678],[1516982400000,9278],[1517068800000,9381],[1517155200000,9569]]},{"name":"机房2","data":[[1514649600000,8195],[1514736000000,8292],[1514822400000,8543],[1514908800000,8511],[1514995200000,8026],[1515081600000,8278],[1515168000000,8667],[1515254400000,8564],[1515340800000,8040],[1515427200000,5498],[1515513600000,8311],[1515600000000,8794],[1515686400000,8118],[1515772800000,8019],[1515859200000,8871],[1515945600000,8790],[1516032000000,8276],[1516118400000,8982],[1516204800000,8040],[1516291200000,8539],[1516377600000,8218],[1516464000000,8128],[1516550400000,2407],[1516636800000,8647],[1516723200000,8676],[1516809600000,8263],[1516896000000,8407],[1516982400000,8389],[1517068800000,8944],[1517155200000,8805]]}];
+const errorLineOptions2 = {
+  padding: [40, 5, 24, 44],
+  xAxis: {
+    type: 'time',
+    mask: 'YYYY-MM-DD'
+  },
+  yAxis: {
+    min: 0,
+    max: 12000
+  },
+  guide: {
+    area: [
+      {
+        status: 'warning',
+        axis: 'x',
+        value: ['2018-01-08','2018-01-10'],
+      },
+      {
+        status: 'error',
+        axis: 'x',
+        value: ['2018-01-21','2018-01-23'],
+      }
+    ]
+  }
+};
+
+const barData1 = [
+  {
+    "name":"机型1",
+    "data":[["一",59],["二",23],["三",19],["四",27],["五",77],["六",99],["七",70],["八",61],["九",15]]
+  },{
+    "name":"机型2",
+    "data":[["一",92],["二",15],["三",4],["四",49],["五",64],["六",76],["七",21],["八",99],["九",71]]
+  },{
+    "name":"机型3",
+    "data":[["一",67],["二",8],["三",12],["四",35],["五",89],["六",83],["七",50],["八",72],["九",31]]
+  }
+];
+
+const barData2 = [{
+  "name":"20G",
+  "data":[["一",92],["二",75],["三",84],["四",89],["五",69],["六",76],["七",81],["八",99],["九",71]]
+},{
+  "name":"10G",
+  "data":[["一",67],["二",82],["三",72],["四",85],["五",89],["六",83],["七",90],["八",72],["九",81]]
+}
+];
+
+const barOptions = {
+  padding: [40, 5, 24, 38],
+  // 柱状图的默认颜色也使用 category_12，但是可以更改为 linear_10
+  colors: COLORS.linear_10,
+  xAxis: {
+    labelFormatter(v) {
+      return v + '月';
+    }
+  },
+  yAxis: {
+    min: 0,
+    max: 100,
+    labelFormatter(v) {
+      return v + '%';
+    }
+  },
+  tooltip: {
+    valueFormatter(v) {
+      return v + '%';
+    }
+  }
+};
+
+class Demo extends React.Component{
+  state = {
+    data: [
+      {
+        "name":"机房1",
+        "data": data1
+      },{
+        "name":"机房2",
+        "data": data2
+      }
+    ]
+  };
+
+  componentWillMount() {
+    setInterval(() => {
+      let t = Date.now();
+
+      data1.push([t, Math.round(Math.random() * 300) + 300]);
+      data2.push([t, Math.round(Math.random() * 100) + 500]);
+
+      data1.shift();
+      data2.shift();
+
+      this.setState({
+        data: [
+          {
+            "name":"机房1",
+            "data": data1
+          },{
+            "name":"机房2",
+            "data": data2
+          }
+        ]
+      })
+    }, 1000);
+  }
+
+  render(){
+    return (
+      <div>
+        <Row isMobile type="across" className="demo-card">
+          <Col span="6">
+            <Wcontainer title={false} height={86}>
+              <Wnumber bottomTitle="数据池" >57313</Wnumber>
+              <Wicon type="monitor" size="big" />
+            </Wcontainer>
+          </Col>
+
+          <Col span="6">
+            <Wcontainer title={false} height={86}>
+              <Wnumber bottomTitle="中间件" unit="个">1314</Wnumber>
+              <Wminiline data={data} height={50} />
+            </Wcontainer>
+          </Col>
+
+          <Col span="6">
+            <Wcontainer title={false} height={86}>
+              <Wnumber bottomTitle="本周达标情况" rightRatio="20%" rightRatioTrend="raise">57321</Wnumber>
+            </Wcontainer>
+          </Col>
+          <Col span="6">
+            <Wcontainer title={false} height={86}>
+              <Wnumber bottomTitle="本月达标情况" rightRatio="2%" rightRatioTrend="drop">398321</Wnumber>
+            </Wcontainer>
+          </Col>
+        </Row>
+
+        <Row isMobile type="across" className="demo-card">
+          <Col span="6">
+            <Wminicontainer status="" height={192}>
+              <Wnumber className="mini-card-number" bottomTitle="交易峰值" unit="笔/秒" >325000</Wnumber>
+              <Wminiline config={miniLineOptions} data={data} height={120} />
+            </Wminicontainer>
+          </Col>
+          <Col span="6">
+            <Wminicontainer status="" height={192}>
+              <Wnumber className="mini-card-number" bottomTitle="支付峰值" unit="笔/秒" >256000</Wnumber>
+              <Wminiline config={miniLineOptions} data={data} height={120} />
+            </Wminicontainer>
+          </Col>
+
+          <Col span="6">
+            <Wcontainer title={false} height={192}>
+              <Wcircle type="gauge"
+                       title="CPU使用率"
+                       unit="%"
+                       bottomTitle="CPU核数"
+                       bottomNumber={134}
+                       percent={0.45}>45</Wcircle>
+            </Wcontainer>
+          </Col>
+          <Col span="6">
+            <Wcontainer title={false} height={192}>
+              <Wcircle type="gauge"
+                       status="error"
+                       title="内存使用率"
+                       unit="%"
+                       bottomTitle="内存总数"
+                       bottomNumber={2048}
+                       percent={0.8}>80</Wcircle>
+            </Wcontainer>
+          </Col>
+
+          {/*<Col span="8">
+            <Wcontainer title="硬件研发" height={192} arrange="cross">
+              <Wnumber bottomTitle="读IOPS" >65413</Wnumber>
+              <Wnumber bottomTitle="读IOBPS" numberTrend="raise" >21</Wnumber>
+              <Wnumber bottomTitle="读await" >21345</Wnumber>
+              <Wcontainer.divider />
+              <Wnumber bottomTitle="写IOPS" >65413</Wnumber>
+              <Wnumber bottomTitle="写IOBPS" numberTrend="drop" >21</Wnumber>
+              <Wnumber bottomTitle="写await" >21345</Wnumber>
+            </Wcontainer>
+          </Col>*/}
+        </Row>
+
+        <Row isMobile type="across" className="demo-card">
+          <Col span="12">
+            <Wcontainer title="秒级交易趋势" height={300}>
+              <Wline config={lineOptions} data={this.state.data} />
+            </Wcontainer>
+          </Col>
+          <Col span="12">
+            <Wcontainer title="用户浏览器占比" height={300}>
+              <Wpie config={pieOptions} data={pieData}>
+                <Wnumber bottomTitle="现代浏览器占比" unit="%">72.5</Wnumber>
+              </Wpie>
+            </Wcontainer>
+          </Col>
+        </Row>
+
+        <Row isMobile type="across" className="demo-card">
+          <Col span="12">
+            <Wcontainer title="闲置率对比" height={300}>
+              <Wbar config={barOptions} data={barData1} />
+            </Wcontainer>
+          </Col>
+          <Col span="12">
+            <Wcontainer title="网络覆盖率对比" height={300}>
+              <Wbar config={barOptions} data={barData2} />
+            </Wcontainer>
+          </Col>
+        </Row>
+
+        <Row isMobile type="across" className="demo-card">
+          <Col span="12">
+            <Wcontainer title="数据警戒值" height={300}>
+              <Wline config={errorLineOptions1} data={errorLineData1} />
+            </Wcontainer>
+          </Col>
+          <Col span="12">
+            <Wcontainer title="报警时间区间" height={300}>
+              <Wline config={errorLineOptions2} data={errorLineData2} />
+            </Wcontainer>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<Demo />, document.getElementById('widgets-gallery'));
+
+======================================
+/* CSS */
+
+#widgets-gallery {
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#widgets-gallery .next-row.demo-card {
+  margin-top: 20px;
+}
+#widgets-gallery .next-row.demo-card:first-child {
+  margin-top: 0;
+}
+#widgets-gallery .next-row.demo-card > .next-col {
+  padding: 0 10px;
+}
+#widgets-gallery .next-row.next-row-across>:first-child {
+  padding-left: 0;
+}
+#widgets-gallery .next-row.next-row-across>:last-child {
+  padding-right: 0;
+}
+#widgets-gallery .mini-card-number {
+  padding: 0 20px;
+  margin-bottom: 8px;
+}

@@ -104,7 +104,7 @@ class Demo extends React.Component {
   }
 }
 
-const chartHeight = 300;
+const chartHeight = 328;
 const pageChartStyle = `
 body {
   background: transparent;
