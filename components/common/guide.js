@@ -53,14 +53,14 @@ export default function (chart, config) {
 }
 
 export function drawGuideLine(chart, guideLine) {
-  const { top, text = {}, status, axis, value, start, end } = guideLine;
+  const { top = true, text = {}, status, axis, value, start, end } = guideLine;
   const {
     title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {}
   } = typeof text === 'object' ? text : { title: text };
   const color = getStatusColor(status);
 
   const guideConfig = {
-    top: top || true,
+    top,
     lineStyle: {
       stroke: color,
     },
@@ -123,11 +123,11 @@ export function drawGuideLine(chart, guideLine) {
 }
 
 export function drawGuideArea(chart, guideArea) {
-  const { top, status, axis, value, start, end } = guideArea;
+  const { top = true, status, axis, value, start, end } = guideArea;
   const color = getStatusColor(status);
 
   const guideConfig = {
-    top: top || true,
+    top,
     style: {
       fill: color,
     },
@@ -173,11 +173,11 @@ export function drawGuideArea(chart, guideArea) {
 }
 
 export function drawGuideFilter(chart, guideFilter) {
-  const { top, status, axis, value, start, end, apply } = guideFilter;
+  const { top = true, status, axis, value, start, end, apply } = guideFilter;
   const color = getStatusColor(status);
 
   const guideConfig = {
-    top: top || true,
+    top,
     color,
     apply
   };
