@@ -10,7 +10,8 @@ import { isMobile } from './common/platform';
  * */
 let trackable = true;
 export default function track(enable) {
-  G2.track(enable);
+  // 新版本中 G2 不再打点，所以关闭该指令
+  // G2.track(enable);
   // F2.track(enable);
   trackable = enable;
 }
