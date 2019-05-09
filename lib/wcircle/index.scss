@@ -72,6 +72,7 @@
 
   #{$wcircle-prefix}-number, #{$wcircle-prefix}-bottom-number {
     color: $number-color;
+    vertical-align: bottom;
 
     &.drop {
       color: $red;
