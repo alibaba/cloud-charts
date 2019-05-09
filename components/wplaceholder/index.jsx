@@ -81,7 +81,7 @@ export default class Wplaceholder extends React.Component {
   }
 
   render() {
-    const { className, height = '100%', style, loading, error, noData, ...otherProps } = this.props;
+    const { className, width, height = '100%', style, loading, error, noData, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
       [prefix + '-loading']: !error && loading,
@@ -100,6 +100,7 @@ export default class Wplaceholder extends React.Component {
     return (
       <div className={mainClasses}
            style={{
+             width,
              height,
              ...style
            }}
