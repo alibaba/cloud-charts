@@ -145,7 +145,9 @@ export default class Wcircle extends React.Component {
                   unit && <span className={`${prefix}-unit`}>{unit}</span>
                 }
               </span>
-              <p className={`${prefix}-title`}>{title}</p>
+              {
+                title && <p className={`${prefix}-title`}>{title}</p>
+              }
             </div>
           </div>
           {type === 'gauge' && this.renderBottom(bottomTitle, bottomUnit, bottomNumber, bottomTrend)}
