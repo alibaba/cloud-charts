@@ -1,3 +1,14 @@
+### 2.4.2 (2019-05-09)
+
+#### New Features
+
+- 优化Wcircle展示样式，内容支持居中
+- Wplaceholder支持width属性设置
+
+#### Bug Fixes
+
+- 修复了guide无法设置top层级的问题。
+
 ### 2.4.1 (2019-04-25)
 
 #### Bug Fixes
