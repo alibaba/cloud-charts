@@ -2,7 +2,7 @@
 
 import { DataSet } from '@antv/data-set';
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
@@ -13,7 +13,7 @@ import './G2Rectangle.scss';
 
 const defaultConfig = {
   // 这里需要倒序排列
-  colors: color.order_10.slice().reverse(),
+  colors: themes.order_10.slice().reverse(),
   padding: [40, 10, 32, 44],
   xAxis: {
     labelFormatter: null, // 可以强制覆盖，手动设置label

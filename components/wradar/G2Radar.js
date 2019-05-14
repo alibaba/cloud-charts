@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap, noop } from '../common/common';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
@@ -13,7 +13,7 @@ import './G2Radar.scss';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
   padding: [20, 20, 40, 20],
-  colors: color.category_12,
+  colors: themes.category_12,
   xAxis: {
     labelFormatter: null, // 可以强制覆盖，手动设置label
   },
@@ -94,7 +94,7 @@ export default {
       label: {
         offset: 8,
         textStyle: {
-          fill: color.widgetsAxisLabel,
+          fill: themes['widgets-axis-label'],
           textAlign: 'right', // 文本右对齐
         },
         formatter: config.yAxis.labelFormatter,
@@ -103,7 +103,7 @@ export default {
         //   if (config.yAxis.labelFormatter) {
         //     return config.yAxis.labelFormatter(text, item, index);
         //   }
-        //   return `<span style="color: ${color.widgetsAxisLabel}">${text}</span>`;
+        //   return `<span style="color: ${themes['widgets-axis-label']}">${text}</span>`;
         // }
       },
       line: null,

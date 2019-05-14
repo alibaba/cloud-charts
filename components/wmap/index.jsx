@@ -2,18 +2,10 @@ import React from 'react';
 import g2Factory from "../common/g2Factory";
 import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
 import SouthChinaSea from './mapData/southChinaSea';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 
 const MapBase = g2Factory('G2Map', G2Map, false);
 const rootClassName = 'aisc-widgets ';
-// const southChinaSea = SouthChinaSea({
-//   className: 'aisc-widgets-map-south-china-sea',
-//   fontColor: color.widgetsMapAreaBg,
-//   landColor: color.widgetsMapAreaBg,
-//   lineColor: color.widgetsMapAreaBg,
-//   boxColor: color.widgetsMapAreaBg,
-//   islandColor: color.widgetsMapAreaBg
-// });
 
 class Map extends MapBase {
   constructor(props, context) {
@@ -114,7 +106,7 @@ class Map extends MapBase {
   renderSouthChinaSea(config) {
     if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
       const { fill } = config.background || {};
-      const mapColor = fill || color.widgetsMapAreaBg;
+      const mapColor = fill || themes['widgets-map-area-bg'];
 
       return <SouthChinaSea className="aisc-widgets-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
     } else {

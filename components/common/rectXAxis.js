@@ -1,6 +1,6 @@
 'use strict';
 
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import merge from './merge';
 
 /*
@@ -30,7 +30,7 @@ export default function (chart, config, componentConfig) {
     if (config.grid) {
       xAxisConfig.grid = {
         lineStyle: {
-          stroke: color.widgetsAxisGrid,
+          stroke: themes['widgets-axis-grid'],
           lineWidth: 1,
           // lineDash: null
         },

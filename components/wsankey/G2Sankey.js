@@ -1,7 +1,7 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
 
@@ -56,7 +56,7 @@ export default {
     edgeView.edge()
       .position('x*y')
       .shape('arc')
-      .color(color.widgetsSankeyEdge)
+      .color(themes['widgets-sankey-edge'])
       .opacity(0.5)
       .tooltip('target*source*value', config.tooltip.nameFormatter);
 
@@ -75,7 +75,7 @@ export default {
     if (config.labels) {
       nodeGeom.label('name', {
         textStyle: {
-          fill: color.widgetsSankeyNodeText,
+          fill: themes['widgets-sankey-node-text'],
           textAlign: 'start',
         },
         offset: 0,

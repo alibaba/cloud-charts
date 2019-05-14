@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
@@ -9,7 +9,7 @@ import guide from '../common/guide';
 import drawLine from '../common/drawLine';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   padding: [0, 0, 0, 0],
   xAxis: {
     type: 'time', // 默认为线性

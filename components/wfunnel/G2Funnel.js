@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import guide from '../common/guide';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
@@ -9,7 +9,7 @@ import './G2Funnel.scss';
 import { defaultPadding } from '../common/common';
 
 const defaultConfig = {
-  colors: color.order_10,
+  colors: themes.order_10,
   padding: [40, 0, 0, 0],
   legend: {
     align: 'left',

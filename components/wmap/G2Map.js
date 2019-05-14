@@ -5,7 +5,7 @@ import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
 import chinaGeo from './mapData/chinaGeo.json';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
-import { color, size } from '../theme/index';
+import themes from '../theme/index';
 import { legendHtmlContainer } from '../common/g2Theme';
 import merge from '../common/merge';
 import rectLegend from '../common/rectLegend';
@@ -14,11 +14,11 @@ import './G2Map.scss';
 const defaultConfig = {
   padding: [20, 20, 20, 20],
   background: {
-    fill: color.widgetsMapAreaBg,
-    stroke: color.widgetsMapAreaBorder,
+    fill: themes['widgets-map-area-bg'],
+    stroke: themes['widgets-map-area-border'],
   },
-  areaColors: color.order_10,
-  pointColors: color.category_12,
+  areaColors: themes.order_10,
+  pointColors: themes.category_12,
   heatColors: 'rgb(0,0,255)-rgb(0,255,0)-rgb(255,255,0)-rgb(255,0,0)',
   type: 'china',
   showSouthChinaSea: true,
@@ -256,13 +256,13 @@ function drawMapBackground(chart, ds, config) {
   bgMapView.source(bgMapDataView);
   bgMapView.tooltip(false);
   bgMapView.polygon().position('x*y').style('name', {
-    fill: bgFill || color.widgetsMapAreaBg,
+    fill: bgFill || themes['widgets-map-area-bg'],
     stroke: (name) => {
       // 对一些尺寸非常小的形状特殊处理，以显示出来。
       if (minArea.indexOf(name) > -1) {
-        return bgFill || color.widgetsMapAreaBg;
+        return bgFill || themes['widgets-map-area-bg'];
       }
-      return bgStroke || color.widgetsMapAreaBorder;
+      return bgStroke || themes['widgets-map-area-border'];
     },
     lineWidth: 1,
     ...otherBgStyle,
@@ -371,11 +371,11 @@ function drawMapPoint(chart, ds, config, data) {
     if (config.labels) {
       const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
       pointGeom.label('name', {
-        offset: `${offset - Number(size.s3.replace('px', ''))}`,
+        offset: `${offset - Number(themes.s3.replace('px', ''))}`,
         textStyle: {
-          fill: color.widgetsMapLabel,
+          fill: themes['widgets-map-label'],
           // 需要去掉 px 的字符串
-          fontSize: size.s3.replace('px', ''),
+          fontSize: themes.s3.replace('px', ''),
           textBaseline: 'middle',
           ...textStyle,
         },
@@ -436,11 +436,11 @@ function drawHeatMap(chart, ds, config, data) {
     // if (config.labels) {
     //   const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
     //   heatMapGeom.label('name', {
-    //     offset: `${offset - Number(size.s3.replace('px', ''))}`,
+    //     offset: `${offset - Number(themes.s3.replace('px', ''))}`,
     //     textStyle: {
-    //       fill: color.widgetsMapLabel,
+    //       fill: themes['widgets-map-label'],
     //       // 需要去掉 px 的字符串
-    //       fontSize: size.s3.replace('px', ''),
+    //       fontSize: themes.s3.replace('px', ''),
     //       textBaseline: 'middle',
     //       ...textStyle,
     //     },
@@ -485,14 +485,14 @@ function drawMapLabel(chart, config) {
     .label('name', {
       offset,
       textStyle: (name) => {
-        let fontSize = size.s3;
+        let fontSize = themes.s3;
         // 对一些尺寸非常小的形状特殊处理，以显示出来。
         if (minLabel.indexOf(name) > -1) {
-          fontSize = size.s2;
+          fontSize = themes.s2;
         }
 
         return {
-          fill: color.widgetsMapLabel,
+          fill: themes['widgets-map-label'],
           // 需要去掉 px 的字符串
           fontSize: fontSize.replace('px', ''),
           textBaseline: 'middle',

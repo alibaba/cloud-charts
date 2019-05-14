@@ -2,7 +2,7 @@
 
 import { DataView } from '@antv/data-set';
 import merge from '../common/merge';
-import { color, size } from '../theme/index';
+import themes from '../theme/index';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';
@@ -10,7 +10,7 @@ import G2Pie from '../wpie/G2Pie';
 import './G2MultiPie.scss';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   padding: [20, 20, 20, 20],
   legend: {
     nameFormatter: null,
@@ -169,7 +169,7 @@ export default Object.assign({}, G2Pie, {
         ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        marginLeft: `${Math.max(pxToNumber(size.s5) - (config.drawPadding || 0), 0)}px`,
+        marginLeft: `${Math.max(pxToNumber(themes.s5) - (config.drawPadding || 0), 0)}px`,
       },
       'g2-legend-list-item': {
         ...legendHtmlListItem,

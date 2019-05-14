@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color, size } from '../theme/index';
+import themes from '../theme/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';
@@ -9,7 +9,7 @@ import label from '../common/label';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   padding: [20, 20, 20, 20],
   legend: {
     // position: 'right',
@@ -243,7 +243,7 @@ export default {
         ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        marginLeft: `${Math.max(pxToNumber(size.s5) - drawPadding, 0)}px`,
+        marginLeft: `${Math.max(pxToNumber(themes.s5) - drawPadding, 0)}px`,
       },
       'g2-legend-list-item': {
         ...legendHtmlListItem,

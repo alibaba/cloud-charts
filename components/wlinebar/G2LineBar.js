@@ -1,7 +1,7 @@
 'use strict';
 
 import merge from '../common/merge';
-import { color, size } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import highchartsDataToG2Data from '../common/dataAdapter';
 import { drawGuideArea, drawGuideLine, drawGuideFilter } from '../common/guide';
@@ -15,8 +15,8 @@ import './G2LineBar.scss';
 import { legendHtmlContainer } from '../common/g2Theme';
 
 const defaultConfig = {
-  lineColors: color.category_12.slice(1),
-  barColors: color.linear_10,
+  lineColors: themes.category_12.slice(1),
+  barColors: themes.linear_10,
   padding: [40, 45, 32, 44],
   xAxis: {
     type: 'timeCat', // 默认为线性
@@ -123,7 +123,7 @@ export default {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || color.widgetsAxisLine;
+        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || themes['widgets-axis-line'];
         const yAxisConfig = {
           line: {
             stroke: axisColor,
@@ -152,18 +152,18 @@ export default {
       const { position = 'top', align } = config.legend || {};
 
       if (position === 'top') {
-        legendStyle.top = size.s3;
+        legendStyle.top = themes.s3;
       }
 
       if (align === 'right') {
-        legendStyle.marginLeft = size.s3;
+        legendStyle.marginLeft = themes.s3;
       } else if (align === 'left') {
-        legendStyle.marginRight = size.s3;
+        legendStyle.marginRight = themes.s3;
       } else if (align === 'center') {
-        legendStyle.marginRight = size.s3;
+        legendStyle.marginRight = themes.s3;
       } else {
         // 默认放到左边
-        legendStyle.marginRight = size.s3;
+        legendStyle.marginRight = themes.s3;
       }
     }
     rectLegend.call(this, chart, config, {

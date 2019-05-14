@@ -1,6 +1,6 @@
 'use strict';
 
-import { size } from '../theme/index';
+import themes from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
 import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
@@ -38,7 +38,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     if (position === 'bottom') {
       legendStyle.bottom = 0;
     } else {
-      legendStyle.top = size.s3;
+      legendStyle.top = themes.s3;
     }
     if (align === 'right') {
       legendStyle.right = 0;

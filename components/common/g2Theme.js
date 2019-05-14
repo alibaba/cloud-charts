@@ -1,14 +1,14 @@
 'use strict';
 
-import { size, color, fonts } from '../theme/index';
+import themes from '../theme/index';
 import { pxToNumber } from './common';
 
 export const legendHtmlContainer = {
   overflow: 'auto',
-  fontFamily: fonts.fontFamilyTxdMediumNumber,
-  fontSize: fonts.fontSizeBaseCaption,
+  fontFamily: themes['widgets-font-family-txd-m-number'],
+  fontSize: themes['widgets-font-size-1'],
   lineHeight: 1,
-  color: color.widgetsLegendText,
+  color: themes['widgets-legend-text'],
 };
 export const legendHtmlList = {
   textAlign: '',
@@ -16,19 +16,19 @@ export const legendHtmlList = {
 export const legendHtmlListItem = {
   wordBreak: 'break-all',
   marginTop: 0,
-  marginBottom: size.s3,
-  marginRight: size.s3,
+  marginBottom: themes.s3,
+  marginRight: themes.s3,
 };
 export const legendHtmlMarker = {
   width: '6px',
   height: '6px',
-  marginRight: size.s1,
+  marginRight: themes.s1,
   verticalAlign: '1px',
 };
 
 export const legendTextStyle = {
-  fill: color.widgetsLegendText,
-  fontSize: fonts.fontSizeBaseCaption,
+  fill: themes['widgets-legend-text'],
+  fontSize: themes['widgets-font-size-1'],
 };
 
 const widgetsTheme = {
@@ -73,16 +73,16 @@ const widgetsTheme = {
   },
   label: {
     textStyle: {
-      fill: color.widgetsLabelText,
-      fontSize: pxToNumber(fonts.fontSizeBaseCaption),
-      fontFamily: fonts.fontFamilyTxdRegularNumber,
+      fill: themes['widgets-label-text'],
+      fontSize: pxToNumber(themes['widgets-font-size-1']),
+      fontFamily: themes['widgets-font-family-txd-r-number'],
     },
   },
   innerLabels: {
     textStyle: {
-      fill: color.widgetsLabelText,
-      fontSize: pxToNumber(fonts.fontSizeBaseCaption),
-      fontFamily: fonts.fontFamilyTxdRegularNumber,
+      fill: themes['widgets-label-text'],
+      fontSize: pxToNumber(themes['widgets-font-size-1']),
+      fontFamily: themes['widgets-font-family-txd-r-number'],
     },
   },
   axis: {
@@ -91,12 +91,12 @@ const widgetsTheme = {
         offset: 18,
         autoRotate: false,
         textStyle: {
-          fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber,
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
         }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine,
+        stroke: themes['widgets-axis-line'],
       },
       tickLine: null,
     },
@@ -104,20 +104,20 @@ const widgetsTheme = {
       label: {
         offset: 8,
         textStyle: {
-          fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber,
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
         }, // 左部标签文本的颜色
       },
       grid: {
         // 让grid在轴线的下方
         zIndex: -1,
         lineStyle: {
-          stroke: color.widgetsAxisGrid,
+          stroke: themes['widgets-axis-grid'],
           lineWidth: 1,
           lineDash: null,
         },
         zeroLineStyle: {
-          stroke: color.widgetsAxisLine,
+          stroke: themes['widgets-axis-line'],
         },
       },
     },
@@ -125,8 +125,8 @@ const widgetsTheme = {
       label: {
         offset: 8,
         textStyle: {
-          fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber,
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
         }, // 右部标签文本的颜色
       },
     },
@@ -134,17 +134,17 @@ const widgetsTheme = {
       label: {
         offset: 8,
         textStyle: {
-          fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber,
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
         }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine,
+        stroke: themes['widgets-axis-line'],
       },
       tickLine: null,
       grid: {
         lineStyle: {
-          stroke: color.widgetsAxisLine,
+          stroke: themes['widgets-axis-line'],
         },
       },
     },
@@ -152,17 +152,17 @@ const widgetsTheme = {
       label: {
         offset: 8,
         textStyle: {
-          fill: color.widgetsAxisLabel,
-          fontFamily: fonts.fontFamilyTxdRegularNumber,
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
         }, // 底部标签文本的颜色
       },
       line: {
-        stroke: color.widgetsAxisLine,
+        stroke: themes['widgets-axis-line'],
       },
       tickLine: null,
       grid: {
         lineStyle: {
-          stroke: color.widgetsAxisLine,
+          stroke: themes['widgets-axis-line'],
         },
       },
     },
@@ -170,83 +170,83 @@ const widgetsTheme = {
   tooltip: {
     offset: 8,
     crossLine: {
-      stroke: color.widgetsTooltipCrossLine,
+      stroke: themes['widgets-tooltip-cross-line'],
       // lineWidth: 1,
     },
     'g2-tooltip': {
-      backgroundColor: color.widgetsTooltipBackground,
-      boxShadow: color.widgetsTooltipShadow,
-      padding: size.s3,
-      borderRadius: size.s1,
-      fontFamily: fonts.fontFamilyTxdMediumNumber,
-      fontSize: fonts.fontSizeBaseCaption,
+      backgroundColor: themes['widgets-tooltip-background'],
+      boxShadow: themes['widgets-tooltip-shadow'],
+      padding: themes.s3,
+      borderRadius: themes.s1,
+      fontFamily: themes['widgets-font-family-txd-m-number'],
+      fontSize: themes['widgets-font-size-1'],
       lineHeight: 1,
-      color: color.widgetsTooltipText,
+      color: themes['widgets-tooltip-text'],
       textAlign: 'left',
     },
     'g2-tooltip-title': {
       marginBottom: 0,
-      color: color.widgetsTooltipTitle,
+      color: themes['widgets-tooltip-title'],
     },
     'g2-tooltip-list': {},
     'g2-tooltip-list-item': {
       marginBottom: 0,
-      marginTop: size.s2,
+      marginTop: themes.s2,
       listStyle: 'none',
     },
     'g2-tooltip-marker': {
       width: '6px',
       height: '6px',
       border: 'none',
-      marginRight: size.s1,
+      marginRight: themes.s1,
     },
     // 如果修改了 tooltip.itemTpl 这里的调整会无效
     'g2-tooltip-value': {
-      marginLeft: size.s2,
+      marginLeft: themes.s2,
     },
   },
   tooltipMarker: {
-    stroke: color.widgetsTooltipMarkerFill,
+    stroke: themes['widgets-tooltip-marker-fill'],
     // 如果要让 shadowColor 显示为对应数据颜色，需要 delete G2.Global.tooltipMarker.shadowColor;
     radius: 4,
     // lineWidth: 2,
   },
   tooltipCrosshairsRect: {
     style: {
-      fill: color.widgetsTooltipCrossReact,
-      opacity: color.widgetsTooltipCrossReactOpacity,
+      fill: themes['widgets-tooltip-cross-react'],
+      opacity: themes['widgets-tooltip-cross-react-opacity'],
     },
   },
   tooltipCrosshairsLine: {
     style: {
-      stroke: color.widgetsTooltipCrossLine,
+      stroke: themes['widgets-tooltip-cross-line'],
       lineWidth: 1,
     },
   },
   legend: {
     top: {
       textStyle: {
-        fill: color.widgetsLegendText,
+        fill: themes['widgets-legend-text'],
       },
-      unCheckColor: color.widgetsLegendUncheck,
+      unCheckColor: themes['widgets-legend-uncheck'],
     },
     right: {
       textStyle: {
-        fill: color.widgetsLegendText,
+        fill: themes['widgets-legend-text'],
       },
-      unCheckColor: color.widgetsLegendUncheck,
+      unCheckColor: themes['widgets-legend-uncheck'],
     },
     bottom: {
       textStyle: {
-        fill: color.widgetsLegendText,
+        fill: themes['widgets-legend-text'],
       },
-      unCheckColor: color.widgetsLegendUncheck,
+      unCheckColor: themes['widgets-legend-uncheck'],
     },
     left: {
       textStyle: {
-        fill: color.widgetsLegendText,
+        fill: themes['widgets-legend-text'],
       },
-      unCheckColor: color.widgetsLegendUncheck,
+      unCheckColor: themes['widgets-legend-uncheck'],
     },
     html: {
       // 注意！ 这个需要和 wmap 中的 G2Map.scss .aisc-widgets-map-legend 的样式一致
@@ -259,20 +259,20 @@ const widgetsTheme = {
   guide: {
     line: {
       lineStyle: {
-        stroke: color.colorB16,
+        stroke: themes['color-b1-6'],
       },
       text: {
         autoRotate: false,
         style: {
-          fill: color.colorB16,
-          fontSize: pxToNumber(fonts.fontSizeBaseCaption),
-          fontFamily: fonts.fontFamilyTxdMediumNumber,
+          fill: themes['color-b1-6'],
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fontFamily: themes['widgets-font-family-txd-m-number'],
         },
       },
     },
     region: {
       style: {
-        fill: color.colorB16, // 辅助框填充的颜色
+        fill: themes['color-b1-6'], // 辅助框填充的颜色
         fillOpacity: 0.1, // 辅助框的背景透明度
       }, // 辅助框的图形样式属性
     },

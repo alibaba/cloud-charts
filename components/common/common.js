@@ -1,5 +1,5 @@
 import G2 from '@antv/g2';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 
 // 引入 lodash 的 isEqual 代替
 export isEqual from 'lodash/isEqual';
@@ -130,20 +130,20 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
 }
 
 const statusMap = {
-  error: color.widgetsColorRed,
-  red: color.widgetsColorRed,
+  error: themes['widgets-color-red'],
+  red: themes['widgets-color-red'],
 
-  warning: color.widgetsColorOrange,
-  orange: color.widgetsColorOrange,
+  warning: themes['widgets-color-orange'],
+  orange: themes['widgets-color-orange'],
 
-  normal: color.widgetsColorBlue,
-  blue: color.widgetsColorBlue,
+  normal: themes['widgets-color-blue'],
+  blue: themes['widgets-color-blue'],
 
-  success: color.widgetsColorGreen,
-  green: color.widgetsColorGreen,
+  success: themes['widgets-color-green'],
+  green: themes['widgets-color-green'],
 
-  none: color.widgetsColorGray,
-  gray: color.widgetsColorGray,
+  none: themes['widgets-color-gray'],
+  gray: themes['widgets-color-gray'],
 };
 
 export function getStatusColor(status) {

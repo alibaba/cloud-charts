@@ -2,7 +2,7 @@
 
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
@@ -15,7 +15,7 @@ import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   areaColors: [],
   padding: [40, 5, 32, 44],
   xAxis: {
@@ -121,7 +121,7 @@ export default {
       config.yAxis.forEach((axis, yIndex) => {
         const yAxisConfig = {
           line: {
-            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || color.widgetsAxisLine,
+            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
           },
         };
         if (yIndex !== 0) {

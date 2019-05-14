@@ -2,7 +2,7 @@
 
 import G2 from '@antv/g2';
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
@@ -14,7 +14,7 @@ import label from '../common/label';
 import './G2Heatmap.scss';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   padding: [40, 5, 32, 44],
   xAxis: {
     type: 'cat',
@@ -99,7 +99,7 @@ export default {
       };
     }).style({
       lineWidth: 1,
-      stroke: color.widgetsMapAreaBorder
+      stroke: themes['widgets-map-area-border']
     });
 
     // label(geom, config, 'extra');

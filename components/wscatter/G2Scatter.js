@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -15,7 +15,7 @@ import guide from '../common/guide';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
   padding: [40, 5, 32, 44],
-  colors: color.category_12,
+  colors: themes.category_12,
   xAxis: {
     type: 'linear',
     mask: 'YYYY-MM-DD HH:mm:ss',
@@ -39,7 +39,7 @@ const setAxis = (chart, config) => {
     xAxis.grid = {
       align: 'center', // 网格顶点从两个刻度中间开始
       lineStyle: {
-        stroke: color.widgetsAxisGrid,
+        stroke: themes['widgets-axis-grid'],
         lineWidth: 1,
         // lineDash: [3, 3]
       },
@@ -50,7 +50,7 @@ const setAxis = (chart, config) => {
   if (config.grid && !config.jitter) {
     xAxis.grid = {
       lineStyle: {
-        stroke: color.widgetsAxisGrid,
+        stroke: themes['widgets-axis-grid'],
         lineWidth: 1,
       },
     };

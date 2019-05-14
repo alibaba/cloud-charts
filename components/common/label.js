@@ -1,6 +1,6 @@
 'use strict';
 
-import { size, fonts } from '../theme/index';
+import themes from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
 
@@ -32,7 +32,7 @@ export default function (geom, config, field = 'y', componentConfig, extraConfig
     type,
     position,
     // 默认距离，加上文字一半的大小以居中
-    offset: pxToNumber(size.s1) + pxToNumber(fonts.fontSizeBaseCaption) / 2,
+    offset: pxToNumber(themes.s1) + pxToNumber(themes['widgets-font-size-1']) / 2,
     autoRotate,
     formatter: labelFormatter,
   };

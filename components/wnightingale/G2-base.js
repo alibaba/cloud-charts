@@ -2,7 +2,7 @@
 
 // 引入所需要的库和样式
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import './G2-base.scss';
 import rectLegend from '../common/rectLegend';
 import label from '../common/label';
@@ -10,7 +10,7 @@ import label from '../common/label';
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
   padding: [20, 20, 40, 20],
-  colors: color.category_12,
+  colors: themes.category_12,
   label: {
     key: 'x',
   },
@@ -126,7 +126,7 @@ export default {
       .color('x', config.colors)
       .style({
         lineWidth: 1,
-        stroke: color.widgetsColorWhite,
+        stroke: themes['widgets-color-white'],
       });
 
     label(geom, config, config.label.key, {

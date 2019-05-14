@@ -3,7 +3,7 @@
 import G2 from '@antv/g2';
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
-import { color } from '../theme/index';
+import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
@@ -16,7 +16,7 @@ import ResetButton from '../common/ResetButton';
 import './G2Bar.scss';
 
 const defaultConfig = {
-  colors: color.category_12,
+  colors: themes.category_12,
   padding: [40, 5, 32, 44],
   xAxis: {
     type: 'cat',
@@ -132,10 +132,10 @@ export default {
         rowTitle: {
           offsetX: 15,
           style: {
-            fontSize: 12,
+            fontSize: themes['widgets-font-size-1'],
             textAlign: 'center',
             rotate: 90,
-            fill: color.widgetsAxisLabel,
+            fill: themes['widgets-axis-label'],
           },
         },
         eachView(view, facet) {

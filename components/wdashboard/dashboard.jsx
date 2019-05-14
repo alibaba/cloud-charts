@@ -1,5 +1,5 @@
 import { COLORS, Wminiline, Util } from '@alife/aisc-widgets';
-import { size, color, fonts } from '../theme/index';
+import themes from '../theme/index';
 
 class DashBoard {
   constructor(selector, options) {
@@ -21,7 +21,7 @@ class DashBoard {
     };
     this.defaultOptions = {
       text: '', //仪表盘内部文案，不能与指针共存
-      textColor: color.colorBlack, //仪表盘内部文案
+      textColor: themes.colorBlack, //仪表盘内部文案
       textInDashboard: false,//是否在仪表盘内部显示文案
       textSize: 12,
       url: "",
@@ -35,21 +35,21 @@ class DashBoard {
       dialRadius: 165,//刻度盘圆环外半径
       blankAngle: 0 * Math.PI,//刻度盘空余角度
       angle: 1 * Math.PI,//刻度盘角度(包括空余角度)
-      boardFontColor: color.colorText12,//刻度盘字体颜色
+      boardFontColor: themes.colorText12,//刻度盘字体颜色
       boardFontSize: 12,//刻度盘字体大小
-      borderColor: color.colorTransparent,//刻度表线颜色
-      pointerColor: color.colorText12,//刻度线颜色
-      valuePartColor: color.colorB16,//值域颜色
-      maxPartColor: color.colorFill12,//刻度盘圆环
-      maxValueColor: color.colorTransparent,//最大值标记颜色
-      pointOutColor: color.colorTransparent, // 值域刻度颜色
-      currentValueColor: color.colorTransparent,//当前值刻度线颜色
+      borderColor: themes.colorTransparent,//刻度表线颜色
+      pointerColor: themes.colorText12,//刻度线颜色
+      valuePartColor: themes.colorB16,//值域颜色
+      maxPartColor: themes.colorFill12,//刻度盘圆环
+      maxValueColor: themes.colorTransparent,//最大值标记颜色
+      pointOutColor: themes.colorTransparent, // 值域刻度颜色
+      currentValueColor: themes.colorTransparent,//当前值刻度线颜色
       pointerOutterWidth: 8,// 指针包含的外圆半径
       pointerWidth: 90,// 指针针尖相对于圆心半径
       pointerAngle: 0.6 * Math.PI,// 指针两边与圆心角度
-      pointerPartColor: color.colorB16,// 指针颜色
+      pointerPartColor: themes.colorB16,// 指针颜色
       pointerAreaWidth: 0,
-      pointerAreaColor: color.colorTransparent,
+      pointerAreaColor: themes.colorTransparent,
       dialWidth: 20,//刻度盘圆环宽度
       range: [0, 100],//取值范围,值域
       pointCount: 6,//刻度点 数量
