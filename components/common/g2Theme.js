@@ -26,6 +26,11 @@ export const legendHtmlMarker = {
   verticalAlign: '1px',
 };
 
+export const legendTextStyle = {
+  fill: color.widgetsLegendText,
+  fontSize: fonts.fontSizeBaseCaption,
+};
+
 const widgetsTheme = {
   // 线图只有一个数据时显示点
   showSinglePoint: true,

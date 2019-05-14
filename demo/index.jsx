@@ -214,6 +214,10 @@ class Demo extends React.Component {
         legend:{
           position: 'bottom',
           align: 'center',
+          style: {
+            fontSize: 16,
+            color: '#cc0000',
+          },
         },
         zoom: true,
         guide: {

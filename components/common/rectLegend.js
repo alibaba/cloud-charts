@@ -3,7 +3,7 @@
 import { size } from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
-import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker } from './g2Theme';
+import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
@@ -98,6 +98,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
       'g2-legend-list': Object.assign({}, legendHtmlList),
       'g2-legend-list-item': Object.assign({}, legendHtmlListItem),
       'g2-legend-marker': Object.assign({}, legendHtmlMarker),
+      textStyle: Object.assign({}, legendTextStyle),
     };
 
     if (componentConfig) {
@@ -118,6 +119,10 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
             legendConfig['g2-legend'][key] = `${style[key]}px`;
           } else {
             legendConfig['g2-legend'][key] = style[key];
+          }
+          // fix: 新版G2后，图例文字颜色的设置需要注入 textStyle 中才能生效。
+          if (key === 'color' && legendConfig.textStyle && typeof legendConfig.textStyle === 'object') {
+            legendConfig.textStyle.fill = style[key];
           }
         }
       });
