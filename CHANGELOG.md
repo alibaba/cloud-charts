@@ -1,9 +1,20 @@
+### 2.4.3 (2019-05-16)
+
+#### New Features
+
+- 所有主题相关变量下沉到 @alife/aisc-core 包中，统一维护。
+- 新增阿里云暗色主题包。
+
+#### Bug Fixes
+
+- 修复文字颜色设置不生效的问题。
+
 ### 2.4.2 (2019-05-09)
 
 #### New Features
 
-- 优化Wcircle展示样式，内容支持居中
-- Wplaceholder支持width属性设置
+- 优化Wcircle展示样式，内容支持居中。
+- Wplaceholder支持width属性设置。
 
 #### Bug Fixes
 
