@@ -52,7 +52,7 @@ export function propertyAssign(keys, target, source) {
       // 将部分限制了类型的key属性转换为需要的类型
       if (keyType[key] !== 'number') {
         target[key] = source[key];
-      } else if (!isInvalidNumber(source[key])) {
+      } else if (!isInvalidNumber(source[key]) || source[key] === null) {
         // 是数字时才赋值，否则直接跳过
         target[key] = Number(source[key]);
       }
