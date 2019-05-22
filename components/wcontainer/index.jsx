@@ -46,8 +46,8 @@ export default class Wcontainer extends React.Component {
     );
   }
 
-  renderMainNormal(contentStyle) {
-    const { children: propsChildren, title, fullContent } = this.props;
+  renderMainNormal(contentStyle, fullContent) {
+    const { children: propsChildren, title } = this.props;
 
     const oneChild = React.Children.count(propsChildren) === 1;
     if ((oneChild && propsChildren && propsChildren.type && propsChildren.type.isG2Chart) || fullContent) {
@@ -123,10 +123,10 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, ...otherProps } = this.props;
+    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile,  ...otherProps } = this.props;
     const mainClasses = classNames({
       [`${prefix}`]: true,
-      [`${prefix}-mobile`]: isMobileWithProps(otherProps),
+      [`${prefix}-mobile`]: isMobileWithProps(this.props, isMobile),
       [className]: !!className
     });
 
@@ -143,7 +143,7 @@ export default class Wcontainer extends React.Component {
         ref={o => { this.container = o; }}
       >
         {title && this.renderTitle(title, titleBorder, operation, titleStyle)}
-        {arrange === 'normal' && this.renderMainNormal(contentStyle)}
+        {arrange === 'normal' && this.renderMainNormal(contentStyle, fullContent)}
         {arrange === 'cross' && this.renderMainCross(contentStyle)}
       </div>
     );
