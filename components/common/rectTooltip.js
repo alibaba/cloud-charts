@@ -20,7 +20,7 @@ const sortFun = {
 * 常见直角坐标系的tooltip，包含title、name、value
 * */
 export default function (chart, config, componentConfig) {
-  if (config.tooltip !== false) {
+  if (config.tooltip !== false && config.tooltip.visible !== false) {
     const { sort, showTitle = true, showColon = true, inPlot = true, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
 
     const tooltipConfig = {

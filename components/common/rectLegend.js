@@ -10,7 +10,7 @@ import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMark
 * */
 export default function (chart, config, componentConfig, isOneDataGroup, field) {
   // 设置图例
-  if (config.legend !== false) {
+  if (config.legend !== false && config.legend.visible !== false) {
     const {
       // 自动折叠图例
       autoCollapse = true,
