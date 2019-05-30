@@ -24,12 +24,12 @@ class Map extends MapBase {
   //   }, 0);
   // }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.isReRendering && nextProps.children !== this.props.children) {
-      this.convertChildren(nextProps.children, nextProps.config);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!this.isReRendering && this.props.children !== prevProps.children) {
+      this.convertChildren(this.props.children, this.props.config);
     }
 
-    super.componentWillReceiveProps(nextProps);
+    super.componentDidUpdate(prevProps, prevState, snapshot);
   }
 
   shouldComponentUpdate(nextProps, nextState) {

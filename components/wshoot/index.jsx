@@ -44,9 +44,9 @@ export default class Wshoot extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const newData = nextProps.data;
-    const oldData = this.props.data;
+  componentDidUpdate(prevProps) {
+    const newData = this.props.data;
+    const oldData = prevProps.data;
     if (newData !== oldData) {
       this.shoot.draw(newData);
     }

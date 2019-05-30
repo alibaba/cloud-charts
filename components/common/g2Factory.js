@@ -42,14 +42,12 @@ function g2Factory(name, Chart, convertData = true) {
       chartLog(name, 'init');
     }
 
-    componentWillMount() {
+    componentDidMount() {
       if (this.props.customChart) {
         ChartProcess = Object.assign({}, ChartProcess, this.props.customChart);
       }
       this.chartProcess = ChartProcess;
-    }
 
-    componentDidMount() {
       this.language = this.props.language || 'zh-cn';
 
       // 设置初始高宽
@@ -62,11 +60,11 @@ function g2Factory(name, Chart, convertData = true) {
 
     reRenderTimer = null;
 
-    componentWillReceiveProps(nextProps) {
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = nextProps;
-      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = this.props;
+    componentDidUpdate(prevProps) {
+      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = this.props;
+      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = prevProps;
 
-      this.language = nextProps.language || 'zh-cn';
+      this.language = this.props.language || 'zh-cn';
 
       const changeCustomConfig = ChartProcess.changeCustomConfig;
       // 配置项有变化，重新生成图表
@@ -91,9 +89,9 @@ function g2Factory(name, Chart, convertData = true) {
             if (!this.chartDom) {
               return;
             }
-            this.initSize(nextProps);
+            this.initSize(this.props);
 
-            this.initChart(nextProps);
+            this.initChart(this.props);
 
             this.isReRendering = false;
           });

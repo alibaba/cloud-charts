@@ -34,9 +34,9 @@ export default class Wdashboard extends React.Component {
     this.dashboard.setData(data)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { data: newData, config: newOptions } = nextProps;
-    const { data: oldData, config: oldOptions } = this.props;
+  componentDidUpdate(prevProps) {
+    const { data: newData, config: newOptions } = this.props;
+    const { data: oldData, config: oldOptions } = prevProps;
 
     if (newOptions !== oldOptions) {
       this.dashboard.setOption(Object.assign({}, newOptions))
