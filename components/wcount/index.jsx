@@ -89,13 +89,13 @@ export default class Wcount extends React.Component {
     this.createCountUp(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { /*start: newStart,*/ end: newEnd, /*decimals: newDecimals, duration: newDuration,*/ ...newOptions } = nextProps;
-    const { /*start: oldStart,*/ end: oldEnd, /*decimals: oldDecimals, duration: oldDuration,*/ ...oldOptions } = this.props;
+  componentDidUpdate(prevProps) {
+    const { /*start: newStart,*/ end: newEnd, /*decimals: newDecimals, duration: newDuration,*/ ...newOptions } = this.props;
+    const { /*start: oldStart,*/ end: oldEnd, /*decimals: oldDecimals, duration: oldDuration,*/ ...oldOptions } = prevProps;
 
     // 大部分配置项如果改变了，直接生成新的实例
     if (configChange(newOptions, oldOptions)) {
-      this.createCountUp(nextProps);
+      this.createCountUp(this.props);
     } else if (newEnd !== oldEnd && this.countUp) {
       // 如果只有 end 改变了，更新数据
       this.clipNumber(newOptions, newEnd);
