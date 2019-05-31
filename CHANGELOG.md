@@ -1,3 +1,21 @@
+### 2.4.5 (2019-05-30)
+
+#### New Features
+
+- chore: 升级React生命周期相关函数已适应高版本React。
+
+#### Bug Fixes
+
+- 修复轴属性设置为null时会变为0的问题。
+
+### 2.4.4 (2019-05-23)
+
+#### New Features
+
+- 轴属性设置允许覆盖为null。
+- tooltip & legend 允许使用 visible 属性关闭显示。
+- 去除多余的传递到container元素上的属性。
+
 ### 2.4.3 (2019-05-16)
 
 #### New Features
