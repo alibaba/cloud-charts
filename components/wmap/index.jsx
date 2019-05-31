@@ -39,7 +39,7 @@ class Map extends MapBase {
       return false;
     }
 
-    return super.shouldComponentUpdate(nextProps, nextState) || newLayer !== oldLayer;
+    return newLayer !== oldLayer;
   }
 
   convertChildren(children = this.props.children, config = this.props.config) {

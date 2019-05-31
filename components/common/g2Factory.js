@@ -136,11 +136,11 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     // 渲染控制，仅 class、style、children 变化会触发渲染
-    shouldComponentUpdate(nextProps) {
-      const { className: newClass, style: newStyle, children: newChild } = nextProps;
-      const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
-      return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //   const { className: newClass, style: newStyle, children: newChild } = nextProps;
+    //   const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
+    //   return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
+    // }
 
     // 准备销毁
     unmountCallbacks = [];
