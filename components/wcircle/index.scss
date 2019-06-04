@@ -27,6 +27,13 @@
           transition-property: stroke-dasharray, stroke;
           transition-duration: 0.8s, 0.8s;
         }
+
+        .butt {
+          #{$wcircle-prefix}-svg-bg,
+          #{$wcircle-prefix}-svg-ring {
+            stroke-linecap: butt;
+          }
+        }
       }
 
       #{$wcircle-prefix}-number-block{

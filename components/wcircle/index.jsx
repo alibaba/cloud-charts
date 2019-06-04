@@ -20,7 +20,8 @@ export default class Wcircle extends React.Component {
     unit: '',
     status: 'normal',
     radius: 70,
-    strokeWidth: 6
+    strokeWidth: 6,
+    linecap: 'round',
   };
 
   constructor(props) {
@@ -59,7 +60,7 @@ export default class Wcircle extends React.Component {
     }
   }
 
-  renderMain(title, unit, children, trend, type, percent, radius, strokeWidth, status, customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend) {
+  renderMain({title, unit, children, trend, type, percent, radius, strokeWidth, status, customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend, linecap}) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
 
@@ -119,7 +120,7 @@ export default class Wcircle extends React.Component {
       <div className={`${prefix}-main ${getStatusColorName(status)}`} style={style}>
         <div className={`${prefix}-ratio`}>
           <div className={`${prefix}-ratio-svg`} style={svgStyle}>
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" className={linecap}>
               <path
                 className={`${prefix}-svg-bg`}
                 d={pathString}
@@ -159,7 +160,8 @@ export default class Wcircle extends React.Component {
   render() {
     const {
       className, style,
-      trend, type, percent, radius, strokeWidth, status, color, backgroundColor, title, unit, children,
+      trend, type, percent, title, unit, children,
+      radius, strokeWidth, status, color, backgroundColor, linecap,
       bottomTitle, bottomUnit, bottomNumber, bottomTrend,
       ...otherProps
     } = this.props;
@@ -172,10 +174,24 @@ export default class Wcircle extends React.Component {
     return (
       <div className={mainClasses} style={style} {...otherProps}>
         {
-          this.renderMain(
-            title, unit, children, trend, type, percent, radius, strokeWidth, status, color, backgroundColor,
-            bottomTitle, bottomUnit, bottomNumber, bottomTrend,
-          )
+          this.renderMain({
+            title,
+            unit,
+            children,
+            trend,
+            percent,
+            type,
+            radius,
+            strokeWidth,
+            status,
+            color,
+            backgroundColor,
+            linecap,
+            bottomTitle,
+            bottomUnit,
+            bottomNumber,
+            bottomTrend,
+          })
         }
       </div>
     );
@@ -187,7 +203,7 @@ Wcircle.propTypes = {
   title: PropTypes.node,
   percent: function(props, propName){
     if(!(props[propName] >= 0 && props[propName] <= 1)){
-      return new Error('Validation failed!');
+      return new Error('percent Validation failed!');
     }
   },
   unit: PropTypes.node,
@@ -195,13 +211,13 @@ Wcircle.propTypes = {
   // 半径
   radius: function(props, propName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){
-      return new Error('Validation failed!');
+      return new Error('radius Validation failed!');
     }
   },
   // 粗细
   strokeWidth: function(props, propName){
     if(!(props[propName] >= 2 && props[propName] <= 10)){
-      return new Error('Validation failed!');
+      return new Error('strokeWidth Validation failed!');
     }
   },
   // 趋势
