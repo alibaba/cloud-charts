@@ -9,7 +9,7 @@ export default function (chart, config, yField = 'y', componentConfig) {
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
-    const { labelFormatter, customConfig } = config.yAxis || {};
+    const { alias, labelFormatter, customConfig } = config.yAxis || {};
     const yConfig = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -21,6 +21,24 @@ export default function (chart, config, yField = 'y', componentConfig) {
     if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
       yConfig.grid = {
         hideFirstLine: false,
+      };
+    }
+
+    // 开启坐标轴标题
+    if (alias) {
+      // yConfig.alias = title;
+      yConfig.title = {
+        position: 'center',
+        // offset: 30,
+        textStyle: {
+          rotate: -90,
+        }
+      };
+      if (yField === 'y1') {
+        yConfig.title.textStyle.rotate = 90;
+      }
+      yConfig.label.textStyle = {
+        rotate: 0,
       };
     }
 

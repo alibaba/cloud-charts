@@ -302,7 +302,7 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
   let top = defaultTop;
   let right = defaultRight;
   let bottom = defaultBottom;
-  const left = defaultLeft;
+  let left = defaultLeft;
 
   if (right !== 'auto' && Array.isArray(config.yAxis)) {
     right = 45;
@@ -318,6 +318,25 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
     if (bottom !== 'auto' && position === 'bottom') {
       bottom = 64;
     }
+  }
+
+  // X轴标题
+  if (config.xAxis && config.xAxis.visible !== false && config.xAxis.alias && bottom !== 'auto') {
+    bottom += 12;
+  }
+
+  // Y轴标题
+  if (Array.isArray(config.yAxis)) {
+    config.yAxis.forEach((axis, yIndex) => {
+      if (yIndex === 0 && axis && axis.visible !== false && axis.alias && left !== 'auto') {
+        left += 20;
+      }
+      if (yIndex !== 0 && axis && axis.visible !== false && axis.alias && right !== 'auto') {
+        right += 20;
+      }
+    });
+  } else if (config.yAxis && config.yAxis.visible !== false && config.yAxis.alias && left !== 'auto') {
+    left += 20;
   }
 
   return [top, right, bottom, left];

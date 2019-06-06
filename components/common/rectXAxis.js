@@ -10,7 +10,7 @@ export default function (chart, config, componentConfig) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { autoRotate, rotate, labelFormatter, customConfig } = config.xAxis || {};
+    const { alias, autoRotate, rotate, labelFormatter, customConfig } = config.xAxis || {};
     const xAxisConfig = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -35,6 +35,18 @@ export default function (chart, config, componentConfig) {
           // lineDash: null
         },
         // hideFirstLine: true
+      };
+    }
+
+    // 开启坐标轴标题
+    if (alias) {
+      // xAxisConfig.alias = title;
+      xAxisConfig.title = {
+        position: 'center',
+        offset: 38,
+        textStyle: {
+          rotate: 0,
+        }
       };
     }
 

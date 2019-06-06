@@ -87,6 +87,13 @@ const widgetsTheme = {
   },
   axis: {
     bottom: {
+      title: {
+        textStyle: {
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
+        },
+      },
       label: {
         offset: 18,
         autoRotate: false,
@@ -101,6 +108,13 @@ const widgetsTheme = {
       tickLine: null,
     },
     left: {
+      title: {
+        textStyle: {
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
+        },
+      },
       label: {
         offset: 8,
         textStyle: {
@@ -122,6 +136,13 @@ const widgetsTheme = {
       },
     },
     right: {
+      title: {
+        textStyle: {
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fill: themes['widgets-axis-label'],
+          fontFamily: themes['widgets-font-family-txd-r-number'],
+        },
+      },
       label: {
         offset: 8,
         textStyle: {
