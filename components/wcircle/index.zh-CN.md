@@ -14,9 +14,10 @@ title: Wcircle
 | percent    | 数值，0-1的数值，表示环比                  | Number | 0     |
 | unit       | 单位                                     | String | ''     |
 | status     | 数值状态, 填写 normal(正常)、warning(二级告警)、error(一级告警) |"normal", "warning", "error" | "normal"     |
-|  | 圆环颜色，会覆盖 status 设置预置的颜色。 |String | null |
+| color | 圆环颜色，会覆盖 status 设置预置的颜色。 |String | null |
 | trend      | 数值趋势, 填写 raise或者drop自动处理数字    | "raise", "drop" | ''  |
 | bottomTitle| 底部标题                                   | String| ''  |
 | bottomUnit | 底部单位                                   | String| ''  |
 | bottomNumber| 底部数值                                   | Number| null  |
 | bottomTrend| 底部数值趋势, 填写raise或者drop自动处理数字    | "raise", "drop" | ''  |
+| linecap | 圆环两端圆角，round 为圆角，butt 为直角 | "round", "butt" | "round" |

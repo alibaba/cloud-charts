@@ -1,3 +1,15 @@
+### 2.4.6 (2019-06-06)
+
+#### New Features
+
+- 新增 X&Y轴标题功能，通过 xAxis.alias / yAxis.alias 即可设定标题。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141>
+- 圆环组件增加 linecap 属性，允许将两端圆角设为直角。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/33>
+
+#### Bug Fixes
+
+- 修复图表外层存在css scale时tooltip位置不正确的问题。
+- 修复某些情况下数据无法更新的问题。
+
 ### 2.4.5 (2019-05-30)
 
 #### New Features
