@@ -15,19 +15,19 @@
     }
 
     #{$wcontainer-prefix}-main {
-      padding: 0 $wcontainer-mobile-padding $wcontainer-mobile-padding $wcontainer-mobile-padding;
+      margin: 0 $wcontainer-mobile-padding $wcontainer-mobile-padding $wcontainer-mobile-padding;
 
       &.no-title {
-        padding-bottom: 0;
+        margin-bottom: 0;
       }
 
       &#{$wcontainer-prefix}-main-one-chart {
         // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
         // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
         padding: 0;
-        margin-left: $wcontainer-mobile-padding;
-        margin-right: $wcontainer-mobile-padding;
-        margin-bottom: $wcontainer-mobile-padding;
+        //margin-left: $wcontainer-mobile-padding;
+        //margin-right: $wcontainer-mobile-padding;
+        //margin-bottom: $wcontainer-mobile-padding;
 
         &.no-title {
           margin-top: $wcontainer-padding - $s3;
@@ -96,10 +96,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 $wcontainer-padding $wcontainer-padding $wcontainer-padding;
+    margin: 0 $wcontainer-padding $wcontainer-padding $wcontainer-padding;
 
     &.no-title {
-      padding-bottom: 0;
+      margin-bottom: 0;
     }
 
     &#{$wcontainer-prefix}-cross {
@@ -133,9 +133,9 @@
       // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
       // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
       padding: 0;
-      margin-left: $wcontainer-padding;
-      margin-right: $wcontainer-padding;
-      margin-bottom: $wcontainer-padding;
+      //margin-left: $wcontainer-padding;
+      //margin-right: $wcontainer-padding;
+      //margin-bottom: $wcontainer-padding;
       &.no-title {
         margin-top: $s2;
       }
