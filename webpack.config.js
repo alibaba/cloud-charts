@@ -6,6 +6,7 @@
  */
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
+const fs = require('fs');
 const _ = require('lodash');
 const webpack = require('webpack');
 const precss = require('precss');
@@ -22,6 +23,7 @@ const componentName = 'AiscWidgets';
 const srcPath = path.resolve(__dirname, './components');
 const demoPath = path.resolve(__dirname, './demo');
 const outputPath = path.resolve(__dirname, './build');
+const pluginPath = path.resolve(__dirname, './components/plugins');
 
 const config = {
   // 服务器开启的端口号
@@ -32,6 +34,7 @@ const config = {
   // webpack 编译的入口文件
   entry: {
     index: ['./index.scss', './index.jsx'],
+    ...getPlugins(),
   },
 
   // 输出的文件配置
@@ -71,6 +74,12 @@ const config = {
       },
       '@alife/aisc': 'var Aisc',
       '@antv/g6': 'var G6',
+      '@alife/aisc-widgets': {
+        root: componentName,
+        commonjs2: componentName,
+        commonjs: componentName,
+        amd: componentName
+      }
     },
   ],
 
@@ -162,6 +171,20 @@ function getDevEntry(cwd) {
   return entry;
 }
 
+function getPlugins() {
+  const entry = {};
+  const plugins = fs.readdirSync(pluginPath);
+  plugins.forEach(function (plugin) {
+    var componentStat = fs.lstatSync(pluginPath + '/' + plugin);
+    if (!componentStat.isDirectory()) {
+      return;
+    }
+
+    entry[plugin] = './plugins/' + plugin + '/index.jsx';
+  });
+  return entry;
+}
+
 /**
  * 开发环境及demo编译时的配置
  * @returns {*}
@@ -178,6 +201,7 @@ function dev() {
   };
   _config.externals[0].react = 'var React';
   _config.externals[0]['react-dom'] = 'var ReactDOM';
+  delete _config.externals[0]['@alife/aisc-widgets'];
 
   _config.plugins.push(
     // 进度插件
@@ -260,7 +284,8 @@ function prod(themeName) {
   // build环境
   if (themeName) {
     _config.entry = {
-      [themeName]: _config.entry.index
+      [themeName]: _config.entry.index,
+      ...getPlugins(),
     };
   }
 
@@ -303,7 +328,8 @@ function online(themeName) {
 
   if (themeName) {
     _config.entry = {
-      [themeName]: _config.entry.index
+      [themeName]: _config.entry.index,
+      ...getPlugins(),
     };
   }
 
