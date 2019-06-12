@@ -25,6 +25,9 @@ export * from './g2Charts';
 
 // 打点控制
 export track from './track';
+
+export { plugins, pluginManager } from './plugins';
+
 // import * as highchartsMap from './highchartsMap';
 //
 // export const WG2Line = g2Map.WG2Line;
