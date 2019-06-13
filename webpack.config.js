@@ -34,7 +34,7 @@ const config = {
   // webpack 编译的入口文件
   entry: {
     index: ['./index.scss', './index.jsx'],
-    ...getPlugins(),
+    // ...getPlugins(),
   },
 
   // 输出的文件配置
@@ -279,14 +279,18 @@ function dev() {
  * 发布到cdn及tnpm时的配置
  * @returns {*}
  */
-function prod(themeName) {
+function prod(themeName, isPlugin) {
   const _config = _.cloneDeep(config);
   // build环境
   if (themeName) {
     _config.entry = {
       [themeName]: _config.entry.index,
-      ...getPlugins(),
     };
+  }
+
+  if (isPlugin) {
+    _config.entry = getPlugins();
+    _config.output.library = componentName + '[name]';
   }
 
   _config.plugins.push(
@@ -323,25 +327,19 @@ function prod(themeName) {
  * online 环境
  * @returns {*}
  */
-function online(themeName) {
+function online(themeName, isPlugin) {
   const _config = _.cloneDeep(config);
 
   if (themeName) {
     _config.entry = {
       [themeName]: _config.entry.index,
-      ...getPlugins(),
     };
   }
 
-  // _config.externals = {
-  //   react: { // UMD
-  //     commonjs: "react",
-  //     commonjs2: "react",
-  //     amd: "react",
-  //     root: "React"
-  //   },
-  //   'react-dom': 'ReactDOM'
-  // };
+  if (isPlugin) {
+    _config.entry = getPlugins();
+    _config.output.library = componentName + '[name]';
+  }
 
   _config.plugins.push(
     // 进度插件

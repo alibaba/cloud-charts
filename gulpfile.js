@@ -11,6 +11,7 @@ const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const srcPath = 'components';
+const outputPath = 'build';
 
 const defaultTheme = 'normal';
 
@@ -59,7 +60,7 @@ gulp.task('start', (cb) => {
   });
 });
 
-gulp.task('build:dist', ['clean'], (cb) => {
+gulp.task('build:dist', ['build:plugins'], (cb) => {
   const webpackConfig = config.prod();
   delete webpackConfig.port;
   const compiler = webpack(webpackConfig, (err, stats) => {
@@ -196,13 +197,52 @@ gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) =>
   });
 });
 
+gulp.task('build:plugins', ['clean'], (cb) => {
+  const webpackConfig = config.prod(undefined, true);
+  delete webpackConfig.port;
+  const compiler = webpack(webpackConfig, (err, stats) => {
+    if (err) {
+      gutil.log(err);
+    }
+
+    gutil.log(stats.toString({
+      colors: true,
+      chunks: true,
+      modulesSort: 'size'
+    }));
+  });
+  compiler.plugin('done', (stats) => {
+    if (stats.hasErrors()) {
+      console.log(stats.toString({colors: true}));
+    }
+    // 不会直接重命名，只能用笨方法
+    gulp.src([outputPath + `/*.js`, srcPath + `/*.css`])
+      .pipe(rename(function (path) {
+        path.basename = path.basename.toLowerCase();
+      }))
+      .pipe(gulp.dest('__plugins/'))
+      .on('end', () => {
+        del([outputPath + `/*.js`, srcPath + `/*.css`]).then(() => {
+          gulp.src('__plugins/*')
+            .pipe(gulp.dest(outputPath + '/'))
+            .on('end', () => {
+              // 清空备份
+              del('__plugins').then(() => {
+                cb && cb();
+              });
+            });
+        });
+      });
+  });
+});
+
 gulp.task('default', ['start']);
 // gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
 gulp.task('build', ['build:dist', 'build:lib', 'build:theme']);
 
 gulp.task('online', (cb) => {
   let buildFirstTime = true;
-  const webpackConfig = config.online();
+  const webpackConfig = config.online(undefined, false);
   const port = webpackConfig.port;
   delete webpackConfig.port;
   const compiler = webpack(webpackConfig);
