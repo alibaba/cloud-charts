@@ -14,7 +14,7 @@ import guide from '../common/guide';
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
-  padding: [40, 5, 32, 44],
+  padding: [28, 5, 24, 44],
   colors: themes.category_12,
   xAxis: {
     type: 'linear',

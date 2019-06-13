@@ -10,7 +10,7 @@ import { defaultPadding } from '../common/common';
 
 const defaultConfig = {
   colors: themes.order_10,
-  padding: [40, 0, 0, 0],
+  padding: [28, 0, 0, 0],
   legend: {
     align: 'left',
     nameFormatter: null, // 可以强制覆盖，手动设置label

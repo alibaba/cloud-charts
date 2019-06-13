@@ -173,7 +173,7 @@ class Demo extends React.Component {
 
   state = {
     chartData: data,
-    currentChart: 'Wlinebar',
+    currentChart: 'Wline',
     wdashboardData: 56
   };
 
@@ -216,10 +216,10 @@ class Demo extends React.Component {
         legend:{
           position: 'bottom',
           align: 'center',
-          style: {
-            fontSize: 16,
-            color: '#cc0000',
-          },
+          // style: {
+          //   fontSize: 16,
+          //   color: '#cc0000',
+          // },
         },
         zoom: true,
         guide: {
@@ -303,7 +303,7 @@ class Demo extends React.Component {
       }} data={this.state.chartData} height={400} />,
 
       <Chart config={{
-        xAxis: {type: 'timeCat', alias: '1234567890 X标题' },
+        xAxis: {type: 'timeCat', },
         // legend: false,
       }} data={this.state.chartData} height={400} />,
 

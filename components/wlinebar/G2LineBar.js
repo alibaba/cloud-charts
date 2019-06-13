@@ -17,7 +17,7 @@ import { legendHtmlContainer } from '../common/g2Theme';
 const defaultConfig = {
   lineColors: themes.category_12.slice(1),
   barColors: themes.linear_10,
-  padding: [40, 45, 32, 44],
+  padding: [28, 45, 24, 44],
   xAxis: {
     type: 'timeCat', // 默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效

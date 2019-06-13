@@ -17,7 +17,7 @@ import './G2Line.scss';
 const defaultConfig = {
   colors: themes.category_12,
   areaColors: [],
-  padding: [40, 5, 32, 44],
+  padding: [28, 5, 24, 44],
   xAxis: {
     type: 'time', // 默认为线性
     mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效

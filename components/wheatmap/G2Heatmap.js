@@ -15,7 +15,7 @@ import './G2Heatmap.scss';
 
 const defaultConfig = {
   colors: themes.category_12,
-  padding: [40, 5, 32, 44],
+  padding: [28, 5, 24, 44],
   xAxis: {
     type: 'cat',
     labelFormatter: null, // 可以强制覆盖，手动设置label

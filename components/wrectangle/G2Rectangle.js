@@ -14,7 +14,7 @@ import './G2Rectangle.scss';
 const defaultConfig = {
   // 这里需要倒序排列
   colors: themes.order_10.slice().reverse(),
-  padding: [40, 10, 32, 44],
+  padding: [28, 10, 24, 44],
   xAxis: {
     labelFormatter: null, // 可以强制覆盖，手动设置label
     autoRotate: false,

@@ -313,16 +313,16 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
   if (config.legend !== false) {
     const { position = 'top' } = config.legend || {};
     if (top !== 'auto' && position === 'bottom') {
-      top = 16;
+      top = 10;
     }
     if (bottom !== 'auto' && position === 'bottom') {
-      bottom = 64;
+      bottom = 48;
     }
   }
 
   // X轴标题
   if (config.xAxis && config.xAxis.visible !== false && config.xAxis.alias && bottom !== 'auto') {
-    bottom += 12;
+    bottom += 14;
   }
 
   // Y轴标题
