@@ -151,9 +151,9 @@ export default {
     if (config.legend !== false) {
       const { position = 'top', align } = config.legend || {};
 
-      if (position === 'top') {
-        legendStyle.top = themes.s3;
-      }
+      // if (position === 'top') {
+      //   legendStyle.top = themes.s3;
+      // }
 
       if (align === 'right') {
         legendStyle.marginLeft = themes.s3;

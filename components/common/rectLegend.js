@@ -36,9 +36,9 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     // 因为图例项有下边距，所以bottom设置为0即可
     const legendStyle = Object.assign({}, legendHtmlContainer);
     if (position === 'bottom') {
-      legendStyle.bottom = 0;
+      legendStyle.bottom = `-${themes.s3}`;
     } else {
-      legendStyle.top = themes.s3;
+      legendStyle.top = 0;
     }
     if (align === 'right') {
       legendStyle.right = 0;

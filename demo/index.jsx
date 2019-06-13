@@ -204,9 +204,7 @@ class Demo extends React.Component {
       <Chart config={{
         xAxis: {type: 'timeCat', alias: '3sdf 轴标题'},
         yAxis: [{
-          alias: 'dkgsa Y1标题',
         }, {
-          alias: 'l;ksjd Y2标题',
         }],
         label: {
           labelFormatter(v) {
@@ -256,9 +254,9 @@ class Demo extends React.Component {
 
       <Chart config={{
         xAxis: {type: 'timeCat'},
-        yAxis: {
-          alias: 'dkgsa Y1标题',
-        },
+        // yAxis: {
+        //   alias: 'dkgsa Y1标题',
+        // },
         area: true,
         stack: true,
         label: {
@@ -272,7 +270,7 @@ class Demo extends React.Component {
         // },
         legend:{
           position: 'bottom',
-          align: 'left',
+          align: 'right',
         },
         guide: {
           line: [{
@@ -306,7 +304,7 @@ class Demo extends React.Component {
 
       <Chart config={{
         xAxis: {type: 'timeCat', alias: '1234567890 X标题' },
-        legend: false,
+        // legend: false,
       }} data={this.state.chartData} height={400} />,
 
       <Widgets.Wplaceholder noData height={200} />,
