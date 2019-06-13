@@ -1,3 +1,5 @@
+@import "../theme/index";
+
 .aisc-widgets.G2LineBar {
   > div {
     height: 100%;
@@ -18,7 +20,7 @@
       }
 
       .g2-legend {
-        transform: translate(0, -100%);
+        transform: translate(0, calc(-100% + #{$s3}));
       }
     }
   }

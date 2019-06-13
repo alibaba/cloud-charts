@@ -5,42 +5,19 @@
   display: flex;
   flex-direction: column;
   border-radius: $wcontainer-corner-radius;
+  padding: $wcontainer-padding;
 
   // 移动端适配
   &#{$wcontainer-prefix}-mobile {
+    padding: $wcontainer-mobile-padding;
+
     #{$wcontainer-prefix}-title {
-      margin-left: $wcontainer-mobile-padding;
-      margin-right: $wcontainer-mobile-padding;
-      padding-top: $wcontainer-mobile-padding;
-    }
-
-    #{$wcontainer-prefix}-main {
-      margin: 0 $wcontainer-mobile-padding $wcontainer-mobile-padding $wcontainer-mobile-padding;
-
-      &.no-title {
-        margin-bottom: 0;
-      }
-
-      &#{$wcontainer-prefix}-main-one-chart {
-        // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
-        // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
-        padding: 0;
-        //margin-left: $wcontainer-mobile-padding;
-        //margin-right: $wcontainer-mobile-padding;
-        //margin-bottom: $wcontainer-mobile-padding;
-
-        &.no-title {
-          margin-top: $wcontainer-padding - $s3;
-        }
-      }
+      padding: $wcontainer-mobile-padding;
     }
   }
 
   #{$wcontainer-prefix}-title {
-    margin-left: $wcontainer-padding;
-    margin-right: $wcontainer-padding;
-    padding-top: $wcontainer-padding;
-    padding-bottom: $wcontainer-padding - $s3;
+    padding-bottom: $wcontainer-padding;
     font-size: $wcontainer-title-font-size;
     line-height: 1;
     color: $wcontainer-title-color;
@@ -96,11 +73,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 $wcontainer-padding $wcontainer-padding $wcontainer-padding;
-
-    &.no-title {
-      margin-bottom: 0;
-    }
 
     &#{$wcontainer-prefix}-cross {
       >#{$wcontainer-prefix}-multi-row-container {
@@ -130,16 +102,6 @@
       }
     }
     &#{$wcontainer-prefix}-main-one-chart {
-      // 注意：在版本 2.1.11 后已经修复了这个问题，可以带有padding
-      // 由于内部widgets读取的是 clientWidth 和 clientHeight，所以外部这个不能带有padding，需要使用margin控制
-      padding: 0;
-      //margin-left: $wcontainer-padding;
-      //margin-right: $wcontainer-padding;
-      //margin-bottom: $wcontainer-padding;
-      &.no-title {
-        margin-top: $s2;
-      }
-
       // 修复图表无法缩小的问题
       // 设置 overflow 以建立一个新的 BFC，让里层图表不会撑开外层
       overflow: hidden;
