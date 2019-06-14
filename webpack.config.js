@@ -11,9 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 const webpack = require('webpack');
-const precss = require('precss');
 const glob = require('glob');
-const autoprefixer = require('autoprefixer');
 const FallbackPort = require('fallback-port');
 const packageInfo = require('./package');
 
@@ -37,7 +35,6 @@ const config = {
   // webpack 编译的入口文件
   entry: {
     index: ['./index.scss', './index.jsx'],
-    // ...getPlugins(),
   },
 
   // 输出的文件配置
@@ -138,12 +135,6 @@ const config = {
     }),
   ],
 
-  // devServer: {
-  //   hot: true,
-  //   inline: true,
-  //   quiet: true,
-  //   publicPath: '/build/',
-  // }
 };
 
 
@@ -196,7 +187,6 @@ function dev() {
     filename: '[name].js',
     publicPath: '/demo/'
   };
-  // _config.devServer.publicPath = '/demo/';
   _config.externals[0].react = 'var React';
   _config.externals[0]['react-dom'] = 'var ReactDOM';
   delete _config.externals[0]['@alife/aisc-widgets'];
@@ -229,46 +219,6 @@ function dev() {
 
   return _config;
 }
-
-
-/**
- * 编译到demo文件夹的配置
- * 与dev的区别是不需要调试相关的配置
- */
-// function demo() {
-//   const _config = _.cloneDeep(config);
-//   _config.context = demoPath;
-//   _config.resolve.modules = [demoPath, 'node_modules'];
-//   _config.output = {
-//     path: demoPath,
-//     filename: '[name].js',
-//     publicPath: '/demo/'
-//   };
-//
-//   _config.plugins.push(
-//     new webpack.DefinePlugin({
-//       'process.env': {NODE_ENV: JSON.stringify('production')},
-//       __DEV__: JSON.stringify(JSON.parse('false')),
-//       __VERSION__: JSON.stringify(packageInfo.version),
-//       __THEME__: JSON.stringify('normal')
-//     }),
-//
-//     // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-//     // new webpack.optimize.DedupePlugin(),
-//
-//     new ExtractTextPlugin('[name].css', {allChunks: true})
-//   );
-//
-//   _config.entry = getDevEntry(demoPath);
-//
-//   // 删除dev相关设置
-//   for (const i in _config.entry) {
-//     _config.entry[i] = _config.entry[i].slice(2);
-//   }
-//
-//   return _config;
-// }
-
 
 /**
  * 发布到cdn及tnpm时的配置
@@ -312,8 +262,6 @@ function prod(themeName, isPlugin) {
     })
   );
 
-  // delete _config.devServer;
-
   return _config;
 }
 
@@ -355,8 +303,6 @@ function online(themeName, isPlugin) {
 
   // 添加soure-map
   _config.devtool = 'source-map';
-  // 入口文件添加server 和 hrm
-  // _config.entry = Object.assign(getDevEntry(demoPath), getDevEntry(srcPath));
 
   return _config;
 }

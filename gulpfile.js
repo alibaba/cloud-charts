@@ -28,23 +28,6 @@ gulp.task('start', (cb) => {
   delete webpackConfig.port;
   const compiler = webpack(webpackConfig);
 
-  // compiler.plugin('done', (stats) => {
-  //   if (stats.hasErrors()) {
-  //     console.log(stats.toString({colors: true}));
-  //   }
-  //   // 只有第一次启动start的时候才执行
-  //   if (buildFirstTime) {
-  //     buildFirstTime = false;
-  //     cb && cb();
-  //     // listening
-  //     gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${port}`));
-  //     gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
-  //     open(`http://localhost:${port}/demo/index.html`);
-  //   } else {
-  //     gutil.log('building success!');
-  //   }
-  // });
-
   new WebpackDevServer(compiler, {
     hot: true,
     inline: true,
@@ -88,36 +71,7 @@ gulp.task('build:dist', ['build:plugins'], (cb) => {
 
     cb && cb();
   });
-  // compiler.plugin('done', (stats) => {
-  //   if (stats.hasErrors()) {
-  //     console.log(stats.toString({colors: true}));
-  //   }
-  //   cb && cb();
-  // });
 });
-
-
-// gulp.task('build:demo', ['clean'], (cb) => {
-//     const webpackConfig = config.demo();
-//     delete webpackConfig.port;
-//
-//     const compiler = webpack(webpackConfig, (err, stats) => {
-//         if (err) {
-//             gutil.log(err);
-//         }
-//
-//         gutil.log(stats.toString({
-//             colors: true,
-//             chunks: false
-//         }));
-//     });
-//     compiler.plugin('done', (stats) => {
-//         if (stats.hasErrors()) {
-//             console.log(stats.toString({ colors: true }));
-//         }
-//         cb && cb();
-//     });
-// });
 
 gulp.task('build:lib', ['clean'], () => {
   gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss', srcPath + '/**/*.json'])
@@ -177,12 +131,6 @@ themeList.forEach((theme, index) => {
           gutil.log(`编译主题： ${theme}`);
           cb && cb();
         });
-        // compiler.plugin('done', (stats) => {
-        //   if (stats.hasErrors()) {
-        //     console.log(stats.toString({colors: true}));
-        //   }
-        //   cb && cb();
-        // });
       });
   });
 });
@@ -241,29 +189,6 @@ gulp.task('build:plugins', ['clean'], (cb) => {
         });
       });
   });
-  // compiler.plugin('done', (stats) => {
-  //   if (stats.hasErrors()) {
-  //     console.log(stats.toString({colors: true}));
-  //   }
-  //   // 不会直接重命名，只能用笨方法
-  //   gulp.src([outputPath + `/*.js`, srcPath + `/*.css`])
-  //     .pipe(rename(function (path) {
-  //       path.basename = path.basename.toLowerCase();
-  //     }))
-  //     .pipe(gulp.dest('__plugins/'))
-  //     .on('end', () => {
-  //       del([outputPath + `/*.js`, srcPath + `/*.css`]).then(() => {
-  //         gulp.src('__plugins/*')
-  //           .pipe(gulp.dest(outputPath + '/'))
-  //           .on('end', () => {
-  //             // 清空备份
-  //             del('__plugins').then(() => {
-  //               cb && cb();
-  //             });
-  //           });
-  //       });
-  //     });
-  // });
 });
 
 gulp.task('default', ['start']);
@@ -276,23 +201,6 @@ gulp.task('online', (cb) => {
   const port = webpackConfig.port;
   delete webpackConfig.port;
   const compiler = webpack(webpackConfig);
-
-  // compiler.plugin('done', (stats) => {
-  //   if (stats.hasErrors()) {
-  //     console.log(stats.toString({colors: true}));
-  //   }
-  //   // 只有第一次启动start的时候才执行
-  //   if (buildFirstTime) {
-  //     buildFirstTime = false;
-  //     cb && cb();
-  //     // listening
-  //     gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${port}`));
-  //     gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
-  //     // open(`http://localhost:${port}/demo/index.html`);
-  //   } else {
-  //     gutil.log('building success!');
-  //   }
-  // });
 
   new WebpackDevServer(compiler, {
     hot: true,
