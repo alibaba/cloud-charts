@@ -5,6 +5,8 @@
  * webpack配置文档请查看:https://webpack.github.io/docs/configuration.html
  */
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
@@ -276,6 +278,19 @@ function prod(themeName, isPlugin) {
   const _config = _.cloneDeep(config);
 
   _config.mode = 'production';
+
+  _config.optimization = {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+  };
 
   // build环境
   if (themeName) {
