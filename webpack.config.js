@@ -4,7 +4,7 @@
  * 说明: webpack的配置请在该文件进行修改
  * webpack配置文档请查看:https://webpack.github.io/docs/configuration.html
  */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
@@ -13,7 +13,6 @@ const precss = require('precss');
 const glob = require('glob');
 const autoprefixer = require('autoprefixer');
 const FallbackPort = require('fallback-port');
-// const StatsPlugin = require('stats-webpack-plugin');
 const packageInfo = require('./package');
 
 // 默认开启3000端口,若被占用,则开启其他端口
@@ -30,6 +29,8 @@ const config = {
   port: fallbackPort.getPort(),
 
   context: srcPath,
+
+  mode: 'development',
 
   // webpack 编译的入口文件
   entry: {
@@ -92,25 +93,26 @@ const config = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          // fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true
-              }
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              // publicPath: '../',
+              hmr: process.env.NODE_ENV === 'development',
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: loader => [precss, autoprefixer]
-              }
-            },
-            '@ali/sass-loader'
-          ],
-        })
+          },
+          'css-loader',
+          // {
+          //   loader: 'postcss-loader',
+          //   options: {
+          //     ident: 'postcss',
+          //     plugins: loader => [precss, autoprefixer]
+          //   }
+          // },
+          '@ali/sass-loader'
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf|svg)((\?|#).*)?$/,
@@ -126,26 +128,19 @@ const config = {
   },
 
   plugins: [
-    // 允许错误不打断程序
-    new webpack.NoEmitOnErrorsPlugin()
-    // Webpack gives IDs to identify your modules. With this plugin,
-    // Webpack will analyze and prioritize often used modules assigning them the smallest ids.
-    // new webpack.optimize.OccurenceOrderPlugin(),
-
-    // 进度插件
-    // new webpack.ProgressPlugin((percentage, msg) => {
-    //   const stream = process.stderr;
-    //   if (stream.isTTY && percentage < 0.71) {
-    //     stream.cursorTo(0);
-    //     stream.write(`📦   ${msg}`);
-    //     stream.clearLine(1);
-    //   }
-    // })
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      // chunkFilename: '[id].css',
+    }),
   ],
 
-  // stats: {
-  //   modules: true,
-  //   modulesSort: 'size',
+  // devServer: {
+  //   hot: true,
+  //   inline: true,
+  //   quiet: true,
+  //   publicPath: '/build/',
   // }
 };
 
@@ -199,6 +194,7 @@ function dev() {
     filename: '[name].js',
     publicPath: '/demo/'
   };
+  // _config.devServer.publicPath = '/demo/';
   _config.externals[0].react = 'var React';
   _config.externals[0]['react-dom'] = 'var ReactDOM';
   delete _config.externals[0]['@alife/aisc-widgets'];
@@ -215,16 +211,13 @@ function dev() {
     }),
 
     new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify('development')},
       __DEV__: JSON.stringify(JSON.parse('true')),
       __VERSION__: JSON.stringify(packageInfo.version),
       __THEME__: JSON.stringify('normal')
     }),
 
     // 代码热替换
-    new webpack.HotModuleReplacementPlugin(),
-
-    new ExtractTextPlugin('[name].css', {allChunks: true})
+    // new webpack.HotModuleReplacementPlugin(),
   );
 
   // 添加soure-map
@@ -281,6 +274,9 @@ function dev() {
  */
 function prod(themeName, isPlugin) {
   const _config = _.cloneDeep(config);
+
+  _config.mode = 'production';
+
   // build环境
   if (themeName) {
     _config.entry = {
@@ -295,30 +291,13 @@ function prod(themeName, isPlugin) {
 
   _config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false')),
       __VERSION__: JSON.stringify(packageInfo.version),
       __THEME__: JSON.stringify(themeName || 'index')
-    }),
-    // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-    // new webpack.optimize.DedupePlugin(),
-
-
-    new ExtractTextPlugin('[name].css', {allChunks: true}),
-
-    // 压缩代码
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {warnings: false},
-      output: {comments: false}
-    // }),
-    //
-    // new StatsPlugin('stats.json', {
-    //   chunkModules: true,
     })
   );
 
-  // _config.profile = true;
+  // delete _config.devServer;
 
   return _config;
 }
@@ -353,23 +332,10 @@ function online(themeName, isPlugin) {
     }),
 
     new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify('production')},
       __DEV__: JSON.stringify(JSON.parse('false')),
       __VERSION__: JSON.stringify(packageInfo.version),
       __THEME__: JSON.stringify('index')
-    }),
-    // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块。
-    // new webpack.optimize.DedupePlugin(),
-
-
-    new ExtractTextPlugin('[name].css', {allChunks: true})
-
-    // 压缩代码
-    // new webpack.optimize.UglifyJsPlugin({
-    //   minimize: true,
-    //   compress: {warnings: false},
-    //   output: {comments: false}
-    // })
+    })
   );
 
   // 添加soure-map

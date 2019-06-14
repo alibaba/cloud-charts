@@ -202,7 +202,7 @@ class Demo extends React.Component {
 
     return [
       <Chart config={{
-        xAxis: {type: 'timeCat', alias: '3sdf 轴标题'},
+        xAxis: {type: 'timeCat', alias: '3424532 轴标题'},
         yAxis: [{
         }, {
         }],
