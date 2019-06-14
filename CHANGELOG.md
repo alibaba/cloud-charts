@@ -1,3 +1,11 @@
+### 2.5.0 (2019-06-13)
+
+#### New Features
+
+- 新增插件机制，用于添加某些无法直接整合在图表库中的功能。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/304>
+- 新增世界地图插件，增强了展示能力。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/305>
+- 调整 Wcontainer 卡片内边距逻辑，微调图表的内边距。对外部调整更友好。
+
 ### 2.4.6 (2019-06-06)
 
 #### New Features
