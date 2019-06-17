@@ -5,7 +5,9 @@
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
-    "lint": "./node_modules/.bin/eslint --fix ./"
+    "lint": "./node_modules/.bin/eslint --fix ./",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": {
     "name": "业枫",
@@ -37,6 +39,10 @@
   "devDependencies": {
     "@ali/babel-preset-fusion": "^2.0.0",
     "@ali/sass-loader": "^3.2.1",
+    "@storybook/addon-actions": "^5.1.8",
+    "@storybook/addon-links": "^5.1.8",
+    "@storybook/addons": "^5.1.8",
+    "@storybook/react": "^5.1.8",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
