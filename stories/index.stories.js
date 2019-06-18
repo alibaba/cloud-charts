@@ -6,6 +6,8 @@ import { linkTo } from '@storybook/addon-links';
 
 import { Button, Welcome } from '@storybook/react/demo';
 
+import * as Widgets from '@alife/aisc-widgets';
+
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
 storiesOf('Button', module)
@@ -16,4 +18,11 @@ storiesOf('Button', module)
         😀 😎 👍 💯
       </span>
     </Button>
+  ))
+  .add('widgets', () => (
+    <div>
+      {
+        Object.keys(Widgets).map(key => <div>{key}</div>)
+      }
+    </div>
   ));
