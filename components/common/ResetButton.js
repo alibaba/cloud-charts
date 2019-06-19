@@ -63,6 +63,7 @@ export default class ResetButton {
       this.chart.repaint();
       this.dom.style.display = 'none';
       this.isShow = false;
+      this.chart.emit('zoom:reset');
     }
   }
 

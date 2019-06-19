@@ -190,12 +190,39 @@ export default {
         canvas: chart.get('canvas'),
         chart,
         type: 'X',
-        onBrushstart() {
+        onBrushstart(startPoint) {
           chart.hideTooltip();
+          chart.emit('zoom:start', startPoint);
         },
         onBrushmove: () => {
           chart.hideTooltip();
           button.show(this.language);
+        },
+        onBrushend: (ev) => {
+          this.brush.container.clear(); // clear the brush
+          const type = this.brush.type;
+          const xScale = this.brush.xScale;
+          const yScale = this.brush.yScale;
+          // filter data
+          if (type === 'X') {
+            xScale && chart.filter(xScale.field, val => {
+              return ev[xScale.field].indexOf(val) > -1;
+            });
+          } else if (type === 'Y') {
+            yScale && chart.filter(yScale.field, val => {
+              return ev[yScale.field].indexOf(val) > -1;
+            });
+          } else {
+            xScale && chart.filter(xScale.field, val => {
+              return ev[xScale.field].indexOf(val) > -1;
+            });
+            yScale && chart.filter(yScale.field, val => {
+              return ev[yScale.field].indexOf(val) > -1;
+            });
+          }
+          chart.repaint();
+
+          chart.emit('zoom:end', ev);
         },
       });
     }

@@ -78,6 +78,16 @@ storiesOf('Wline', module)
     <Wcontainer className="demos">
       <Wline height="300" config={{
         zoom: true,
-      }} data={data}/>
+      }} data={data} event={{
+        'zoom:start': (s) => {
+          action('zoom:start')(s);
+        },
+        'zoom:end': (s) => {
+          action('zoom:end')(s);
+        },
+        'zoom:reset': (s) => {
+          action('zoom:reset')(s);
+        }
+      }}/>
     </Wcontainer>
   ));
