@@ -74,12 +74,6 @@ const config = {
       },
       '@alife/aisc': 'var Aisc',
       '@antv/g6': 'var G6',
-      '@alife/aisc-widgets': {
-        root: componentName,
-        commonjs2: componentName,
-        commonjs: componentName,
-        amd: componentName
-      }
     },
   ],
 
@@ -189,7 +183,6 @@ function dev() {
   };
   _config.externals[0].react = 'var React';
   _config.externals[0]['react-dom'] = 'var ReactDOM';
-  delete _config.externals[0]['@alife/aisc-widgets'];
 
   _config.plugins.push(
     // 进度插件
@@ -252,6 +245,12 @@ function prod(themeName, isPlugin) {
   if (isPlugin) {
     _config.entry = getPlugins();
     _config.output.library = componentName + '[name]';
+    _config.externals[0]['@alife/aisc-widgets'] = {
+      root: componentName,
+      commonjs2: componentName,
+      commonjs: componentName,
+      amd: componentName
+    };
   }
 
   _config.plugins.push(
@@ -281,6 +280,12 @@ function online(themeName, isPlugin) {
   if (isPlugin) {
     _config.entry = getPlugins();
     _config.output.library = componentName + '[name]';
+    _config.externals[0]['@alife/aisc-widgets'] = {
+      root: componentName,
+      commonjs2: componentName,
+      commonjs: componentName,
+      amd: componentName
+    };
   }
 
   _config.plugins.push(
