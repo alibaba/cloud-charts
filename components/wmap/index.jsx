@@ -115,7 +115,7 @@ class Map extends MapBase {
   }
 
   render() {
-    const { className = '', style, children, data, width, height, padding, geoData, config, ...otherProps } = this.props;
+    const { className = '', style, children, data, width, height, padding, geoData, config, animate, language, customChart, ...otherProps } = this.props;
     const { customPointLayer } = this.state;
     return (
       <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>
