@@ -78,7 +78,7 @@ export default {
     this.rawLineData = rawLineData;
     const rawBarData = [];
     this.rawBarData = rawBarData;
-    data.forEach((d) => {
+    (data || []).forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);
       } else if (d.type === 'bar') {
@@ -212,7 +212,7 @@ export default {
     this.rawLineData = rawLineData;
     const rawBarData = [];
     this.rawBarData = rawBarData;
-    data.forEach((d) => {
+    (data || []).forEach((d) => {
       if (d.type === 'line') {
         rawLineData.push(d);
       } else if (d.type === 'bar') {
