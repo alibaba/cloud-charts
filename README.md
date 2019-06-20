@@ -102,13 +102,19 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 1. git clone project
 2. $ tnpm i
 3. fie start
+
+// storybook
+npm run storybook
+
 //发布日常
-4. fie publish -d
+$ fie publish -d
+
 //发布线上
-5. fie publish -o
+$ fie publish -o
+
 //发布tnpm
-6. npm run build
-7. tnpm publish
+$ npm run build
+$ tnpm publish
 ```
 
 ### 组件命名规范
