@@ -16,48 +16,47 @@ const data = [
   }
 ];
 
-storiesOf('Wbar', module)
-  .add('柱状图', () => (
-    <Wcontainer className="demos">
-      <Wbar height="300" config={{}} data={data}/>
-    </Wcontainer>
-  ))
-  .add('堆叠柱状图', () => (
-    <Wcontainer className="demos">
-      <Wbar height="300" config={{
-        stack: true,
-      }} data={data}/>
-    </Wcontainer>
-  ))
-  .add('横向柱状图', () => (
-    <Wcontainer className="demos">
-      <Wbar height="300" config={{
-        column: false
-      }} data={data}/>
-    </Wcontainer>
-  ))
-  .add('带网格线', () => (
-    <Wcontainer className="demos">
-      <Wbar height="300" config={{
-        grid: true,
-      }} data={data}/>
-    </Wcontainer>
-  ))
-
-  .add('拖拽缩放', () => (
-    <Wcontainer className="demos">
-      <Wbar height="300" config={{
-        zoom: true,
-      }} data={data} event={{
-        'zoom:start': (s) => {
-          action('zoom:start')(s);
-        },
-        'zoom:end': (s) => {
-          action('zoom:end')(s);
-        },
-        'zoom:reset': (s) => {
-          action('zoom:reset')(s);
-        }
-      }}/>
-    </Wcontainer>
-  ));
+const stories = storiesOf('Wbar', module);
+stories.add('柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{}} data={data}/>
+  </Wcontainer>
+));
+stories.add('堆叠柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{
+      stack: true,
+    }} data={data}/>
+  </Wcontainer>
+));
+stories.add('横向柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{
+      column: false
+    }} data={data}/>
+  </Wcontainer>
+));
+stories.add('带网格线', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{
+      grid: true,
+    }} data={data}/>
+  </Wcontainer>
+));
+stories.add('拖拽缩放', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{
+      zoom: true,
+    }} data={data} event={{
+      'zoom:start': (s) => {
+        action('zoom:start')(s);
+      },
+      'zoom:end': (s) => {
+        action('zoom:end')(s);
+      },
+      'zoom:reset': (s) => {
+        action('zoom:reset')(s);
+      }
+    }}/>
+  </Wcontainer>
+));
