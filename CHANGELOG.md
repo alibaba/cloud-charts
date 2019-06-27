@@ -1,3 +1,14 @@
+### 2.5.1 (2019-06-20)
+
+#### New Features
+
+- chore: 升级打包框架至 Webpack4，并添加 StoryBook 作为开发调试框架。
+- 添加拖拽缩放的事件回调，包括 zoom:start, zoom:end, zoom:reset。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145>
+
+#### Bug Fixes
+
+- 修复npm引用时会报错的问题。
+
 ### 2.5.0 (2019-06-13)
 
 #### New Features
