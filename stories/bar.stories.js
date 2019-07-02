@@ -19,28 +19,28 @@ const data = [
 const stories = storiesOf('Wbar', module);
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{}} data={data}/>
+    <Wbar height="300" config={{}} data={data} />
   </Wcontainer>
 ));
 stories.add('堆叠柱状图', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={{
       stack: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('横向柱状图', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={{
       column: false
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('带网格线', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={{
       grid: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('拖拽缩放', () => (
@@ -57,6 +57,6 @@ stories.add('拖拽缩放', () => (
       'zoom:reset': (s) => {
         action('zoom:reset')(s);
       }
-    }}/>
+    }} />
   </Wcontainer>
 ));

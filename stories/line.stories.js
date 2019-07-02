@@ -20,28 +20,28 @@ const data = [
 const stories = storiesOf('Wline', module);
 stories.add('折线图', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{}} data={data}/>
+    <Wline height="300" config={{}} data={data} />
   </Wcontainer>
 ));
 stories.add('平滑曲线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       spline: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('带点折线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       symbol: true
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('面积折线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       area: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('面积曲线图', () => (
@@ -49,7 +49,7 @@ stories.add('面积曲线图', () => (
     <Wline height="300" config={{
       area: true,
       spline: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('堆叠面积图', () => (
@@ -57,21 +57,21 @@ stories.add('堆叠面积图', () => (
     <Wline height="300" config={{
       area: true,
       stack: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('带网格线', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       grid: true,
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('双轴折线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       yAxis: [{}, {}],
-    }} data={data}/>
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('拖拽缩放', () => (
@@ -88,6 +88,6 @@ stories.add('拖拽缩放', () => (
       'zoom:reset': (s) => {
         action('zoom:reset')(s);
       }
-    }}/>
+    }} />
   </Wcontainer>
 ));
