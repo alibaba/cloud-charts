@@ -6,7 +6,9 @@ title: Wmap
 cols: 1
 ---
 
-> 根据国家地图法，所有对外披露的地图应优先使用高德服务绘制，如要使用本组件且页面对外披露，需要向国家相关部门送审，详情见：<https://pinkong.bbs.taobao.com/detail.html?postId=8064073>
+> 根据国家地图法，所有对外披露的地图应优先使用高德服务绘制。
+> 如要使用本组件且页面对外披露，需要向国家相关部门送审。
+> 详情见：[《关于地图类产品执行地图审核制度的说明》](https://pinkong.bbs.taobao.com/detail.html?postId=8064073)
 
 ## 介绍
 
