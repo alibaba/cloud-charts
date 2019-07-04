@@ -31,6 +31,7 @@ const defaultConfig = {
     valueFormatter: null,
   },
   labels: false,
+  label: false,
 };
 
 export const AREA_NAME = 'WidgetsMapArea';
@@ -141,7 +142,7 @@ export default {
       customPointLayer,
     });
 
-    if (config.labels) {
+    if (config.labels || config.label) {
       drawMapLabel.call(this, chart, config);
     }
 
@@ -368,8 +369,14 @@ function drawMapPoint(chart, ds, config, data) {
       pointGeom.style('name*value', config.geomStyle);
     }
 
-    if (config.labels) {
-      const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
+    if (config.labels || config.label) {
+      let labelConfig = {};
+      if (typeof config.labels === 'object') {
+        labelConfig = config.labels;
+      } else if (typeof config.label === 'object') {
+        labelConfig = config.label;
+      }
+      const { offset = 0, textStyle = {}, formatter } = labelConfig;
       pointGeom.label('name', {
         offset: `${offset - Number(themes.s3.replace('px', ''))}`,
         textStyle: {
@@ -433,21 +440,6 @@ function drawHeatMap(chart, ds, config, data) {
       })
       .active(false);
 
-    // if (config.labels) {
-    //   const { offset = 0, textStyle = {}, formatter } = typeof config.labels === 'object' ? config.labels : {};
-    //   heatMapGeom.label('name', {
-    //     offset: `${offset - Number(themes.s3.replace('px', ''))}`,
-    //     textStyle: {
-    //       fill: themes['widgets-map-label'],
-    //       // 需要去掉 px 的字符串
-    //       fontSize: themes.s3.replace('px', ''),
-    //       textBaseline: 'middle',
-    //       ...textStyle,
-    //     },
-    //     formatter: formatter || null,
-    //   });
-    // }
-
     this.heatMapDataView = heatMapDataView;
     this.heatMapView = heatMapView;
   }
@@ -455,7 +447,7 @@ function drawHeatMap(chart, ds, config, data) {
 
 // 绘制背景地图标签
 function drawMapLabel(chart, config) {
-  const labelConfig = config.labels;
+  const labelConfig = config.labels || config.label;
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
   const labelData = this.bgMapDataView.rows.map((row) => {
