@@ -28,6 +28,8 @@ WorldMap.Point = Wmap.Point;
 WorldMap.HeatMap = Wmap.HeatMap;
 WorldMap.Custom = Wmap.Custom;
 
+WorldMap.isG2Chart = true;
+
 if (pluginManager) {
   pluginManager.register('WorldMap', WorldMap);
 }
