@@ -247,9 +247,9 @@ function prod(themeName, isPlugin) {
     _config.output.library = componentName + '[name]';
     _config.externals[0]['@alife/aisc-widgets'] = {
       root: componentName,
-      commonjs2: componentName,
-      commonjs: componentName,
-      amd: componentName
+      commonjs2: '@alife/aisc-widgets',
+      commonjs: '@alife/aisc-widgets',
+      amd: '@alife/aisc-widgets'
     };
   }
 
@@ -282,9 +282,9 @@ function online(themeName, isPlugin) {
     _config.output.library = componentName + '[name]';
     _config.externals[0]['@alife/aisc-widgets'] = {
       root: componentName,
-      commonjs2: componentName,
-      commonjs: componentName,
-      amd: componentName
+      commonjs2: '@alife/aisc-widgets',
+      commonjs: '@alife/aisc-widgets',
+      amd: '@alife/aisc-widgets'
     };
   }
 
