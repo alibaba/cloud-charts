@@ -33,13 +33,9 @@ class Map extends MapBase {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { customPointLayer: newLayer } = nextState;
-    const { customPointLayer: oldLayer } = this.state;
-    if (this.isReRendering || !this.chart) {
-      return false;
-    }
-
-    return newLayer !== oldLayer;
+    // const { customPointLayer: newLayer } = nextState;
+    // const { customPointLayer: oldLayer } = this.state;
+    return !(this.isReRendering || !this.chart);
   }
 
   convertChildren(children = this.props.children, config = this.props.config) {

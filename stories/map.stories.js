@@ -239,3 +239,56 @@ stories.add('混合使用', () => (
     </Wmap>
   </Wcontainer>
 ));
+
+class Dynamic extends React.Component {
+  state = {
+    data: pointData,
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      action('setData')([
+        {
+          name: '正常',
+          data: [
+            { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
+            { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
+            { name: '上海', lng: 121.4648, lat: 31.2891, value: 40 },
+          ]
+        },
+      ]);
+      this.setState({
+        data: [
+          {
+            name: '正常',
+            data: [
+              { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
+              { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
+              { name: '上海', lng: 121.4648, lat: 31.2891, value: 40 },
+            ]
+          },
+          // {
+          //   name: '异常',
+          //   data: [
+          //     ,
+          //     { name: '广州', lng: 113.5107, lat: 23.2196, value: 30 },
+          //   ]
+          // },
+        ],
+      });
+    }, 2000);
+  }
+
+  render() {
+    return (
+      <Wcontainer className="demos" height={400}>
+        <Wmap config={{}}>
+          <Wmap.Point data={this.state.data} />
+        </Wmap>
+      </Wcontainer>
+    );
+  }
+}
+stories.add('动态数据', () => (
+  <Dynamic />
+));
