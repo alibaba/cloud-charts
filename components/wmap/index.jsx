@@ -59,6 +59,12 @@ class Map extends MapBase {
     });
   }
 
+  changeSize(config, w, h) {
+    super.changeSize(config, w, h);
+
+    this.forceUpdate();
+  }
+
   renderCustomPointLayer(layer, layerIndex) {
     if (!this.chart) {
       return null;

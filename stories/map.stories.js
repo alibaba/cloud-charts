@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -227,6 +227,31 @@ stories.add('散点地图', () => (
       <Wmap.Point data={pointData} />
     </Wmap>
   </Wcontainer>
+));
+
+function Resize() {
+  const [ width, useWidth ] = useState(800);
+  return (
+    <Wcontainer className="demos" width={width} height={600} title="动态改变大小" operation={
+      <button onClick={() => {
+        const w = width > 700 ? 600 : 800;
+        useWidth(w);
+        action('resize')(w);
+        window.dispatchEvent(new Event('resize'));
+      }}>resize</button>
+    }>
+      <Wmap config={{
+        // labels: true,
+      }}>
+        <Wmap.Area data={areaData} />
+        <Wmap.Point data={pointData} />
+        <Wmap.Custom data={customPointData} render={(point, index) => <span>{index} : {point.name}</span>} />
+      </Wmap>
+    </Wcontainer>
+  );
+}
+stories.add('动态改变大小', () => (
+  <Resize />
 ));
 stories.add('混合使用', () => (
   <Wcontainer className="demos" height={600}>
