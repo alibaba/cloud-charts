@@ -66,6 +66,7 @@ export const Util = Object.assign({}, G2.Util, {
   filterKey: common.filterKey,
   isEqual: common.isEqual,
   isEqualWith: common.isEqualWith,
+  merge: common.merge,
 });
 export const DomUtil = G2.DomUtil;
 export const MatrixUtil = G2.MatrixUtil;

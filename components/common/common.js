@@ -4,6 +4,7 @@ import themes from '../theme/index';
 // 引入 lodash 的 isEqual 代替
 export isEqual from 'lodash/isEqual';
 export isEqualWith from 'lodash/isEqualWith';
+export merge from './merge';
 
 export const requestAnimationFrame = (window && window.requestAnimationFrame) || G2.DomUtil.requestAnimationFrame;
 
