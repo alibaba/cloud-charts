@@ -8,6 +8,7 @@ import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
+import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
@@ -82,6 +83,8 @@ export default {
         sync: true,
       },
     };
+
+    rectAutoTickCount(chart, config, defs, !config.column);
 
     chart.source(data, defs);
 
