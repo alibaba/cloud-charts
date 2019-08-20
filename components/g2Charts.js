@@ -4,6 +4,7 @@ import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
 import g2Factory from './common/g2Factory';
+import setG2Theme from "./common/g2Theme";
 // import { autoSelect } from './common/platform';
 
 // 引入组件
@@ -30,6 +31,31 @@ import G2Heatmap from './wheatmap/G2Heatmap';
 // import F2RangeLine from './wrangeline/F2RangeLine';
 // 未实现，空白占位
 // import G2RangeLine from './wrangeline/G2RangeLine';
+
+// 设置G2主题
+setG2Theme(G2);
+
+/**
+ * 在G2初始化前，替换 G.Canvas.getPointByClient 函数，适配CSS缩放的场景。
+ * */
+const rawGetPointByClient = G2.G.Canvas.prototype.getPointByClient;
+// 由于需要运行时this指针，这个函数不可改为箭头函数。
+G2.G.Canvas.prototype.getPointByClient = function(clientX, clientY) {
+  // 获取原函数返回的坐标值
+  const raw = rawGetPointByClient.call(this, clientX, clientY);
+  // 获取设定高宽和真实高宽。
+  // 当设定的高宽不等于getBoundingClientRect获取的高宽时，说明存在缩放。
+  const el = this.get('el');
+  const bbox = el.getBoundingClientRect();
+  const setWidth = this.get('width');
+  const setHeight = this.get('height');
+  const { width: realWidth, height: realHeight } = bbox;
+  // 除以缩放比（真实高宽 / 设定高宽）获得真实的坐标。
+  return {
+    x: raw.x / (realWidth / setWidth),
+    y: raw.y / (realHeight / setHeight),
+  };
+};
 
 // 暴露所有基础图表
 export const WG2Line = g2Factory('G2Line', G2Line);
