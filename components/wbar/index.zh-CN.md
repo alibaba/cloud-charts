@@ -40,3 +40,5 @@ cols: 1
 | facet        | 是否分面                                                     | object \| boolean | false              |
 | zoom         | 是否开启拖拽缩放。在非堆叠时生效。                           | boolean           | false              |
 | size         | 手动设定柱宽。默认不设置为自动适配。                         | number            | null               |
+| polar        | 是否为极坐标柱图                                          | boolean           | false              |
+| innerRadius  | 极坐标下柱子底部距原点的距离。范围从0到1                      | number            | 0                  |

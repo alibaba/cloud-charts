@@ -29,6 +29,16 @@ stories.add('堆叠柱状图', () => (
     }} data={data} />
   </Wcontainer>
 ));
+stories.add('极坐标堆叠柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{
+      stack: true,
+      size: 2 * 360 / 9,
+      polar: true,
+      innerRadius: 0.2,
+    }} data={data} />
+  </Wcontainer>
+));
 stories.add('横向柱状图', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={{

@@ -50,6 +50,7 @@ const defaultConfig = {
   size: null,
   label: false,
   polar: false,
+  innerRadius: 0,
 };
 
 export default {
@@ -102,24 +103,28 @@ export default {
     legendFilter.call(this, chart, config);
 
     // tooltip
-    rectTooltip.call(this, chart, config);
+    rectTooltip.call(this, chart, config, {
+      crosshairs: config.polar ? undefined : {},
+    });
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    // if (config.polar) {
-    // chart.coord('theta', {
-    //   inner: 0.6
-    // });
-    //
-    // chart.point().position('name*0').color('name').shape('circle');
-    // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
-    // chart.point().position('name*value').color('name').shape('circle');
+    // 设置坐标系：极坐标/直角坐标
+    const chartCoord = config.polar
+      ? chart.coord('polar', {
+        innerRadius: config.innerRadius || 0
+      })
+      : chart.coord();
 
     // 横向柱状图
     if (!config.column) {
-      chart.coord().transpose();
+      chartCoord.transpose();
     }
+
+    // chart.point().position('name*0').color('name').shape('circle');
+    // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
+    // chart.point().position('name*value').color('name').shape('circle');
 
     if (config.facet) {
       const facetConfig = typeof config.facet === 'object' ? config.facet : {
@@ -252,9 +257,9 @@ export default {
 
 function drawBar(chart, config, colors, field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
-  let geom = null;
+  let geom = chart.interval().position(['x', 'y']);
   if (dodgeStack) {
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([
+    geom = geom.color(field, colors).adjust([
       {
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
@@ -267,13 +272,13 @@ function drawBar(chart, config, colors, field = 'type') {
     ]);
   } else if (stack) {
     // 堆叠
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
+    geom = geom.color(field, colors).adjust([{
       type: 'stack',
       reverseOrder: !stackReverse, // 层叠顺序倒序
     }]);
   } else {
     // 分组
-    geom = chart.interval().position(['x', 'y']).color(field, colors).adjust([{
+    geom = geom.color(field, colors).adjust([{
       type: 'dodge',
       marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
