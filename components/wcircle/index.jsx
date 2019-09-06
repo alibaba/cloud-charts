@@ -60,7 +60,7 @@ export default class Wcircle extends React.Component {
     }
   }
 
-  renderMain({title, unit, children, trend, type, percent, radius, strokeWidth, status, customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend, linecap}) {
+  renderMain({title, unit, children, trend, type, percent, radius, strokeWidth, status, color: customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend, linecap}) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
 
