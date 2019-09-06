@@ -136,10 +136,12 @@ function g2Factory(name, Chart, convertData = true) {
     componentWillUnmount() {
       // 清空缩放相关变量和事件
       this.resizeRunning = false;
-      this.resizeTimer = null;
+      window.cancelAnimationFrame(this.resizeTimer);
       window.removeEventListener('resize', this.autoResize);
       // 清除配置变化重新生成图表的定时器
       window.cancelAnimationFrame(this.reRenderTimer);
+      // 清除afterRender的定时器
+      clearTimeout(this.afterRenderTimer);
 
       if (this.chartProcess.destroy) {
         this.chart && this.chartProcess.destroy.call(this, this.chart);
@@ -270,9 +272,11 @@ function g2Factory(name, Chart, convertData = true) {
 
     afterRenderCallbacks = [];
 
+    afterRenderTimer = null;
+
     afterRender(config) {
       if (this.chartProcess.afterRender || this.afterRenderCallbacks.length > 0) {
-        setTimeout(() => {
+        this.afterRenderTimer = setTimeout(() => {
           if (this.chart && this.chartProcess.afterRender) {
             this.chartProcess.afterRender.call(this, this.chart, config || this.props.config);
           }
