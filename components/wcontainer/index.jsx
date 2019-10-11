@@ -60,7 +60,7 @@ export default class Wcontainer extends React.Component {
 
     return (
       <div className={`${prefix}-main ${title ? '' : 'no-title'}`} style={contentStyle}>
-        <Row align="center">
+        <Row type="no-padding" align="center">
           {React.Children.map(propsChildren, (child, i) => {
             if (!child) {
               return child;
