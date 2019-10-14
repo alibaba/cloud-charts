@@ -11,7 +11,7 @@ import { getStatusColor } from './common';
  * */
 export default function (chart, config) {
   const guide = config.guide;
-  if (!guide) {
+  if (!guide || guide.visible === false) {
     return;
   }
 
