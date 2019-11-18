@@ -138,10 +138,7 @@ export default {
       crosshairs: null,
     });
 
-    const lineShape = config.spline ? 'smooth' : 'line';
-    const areaShape = config.spline ? 'smooth' : 'area';
-
-    drawLine(chart, config, lineShape, areaShape);
+    drawLine(chart, config);
 
     chart.render();
   },

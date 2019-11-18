@@ -92,11 +92,7 @@ export default {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    // 区域、堆叠、平滑曲线
-    const lineShape = config.spline ? 'smooth' : 'line';
-    const areaShape = config.spline ? 'smooth' : 'area';
-
-    drawLine(chart, config, lineShape, areaShape);
+    drawLine(chart, config);
 
     chart.render();
   },

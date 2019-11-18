@@ -3,7 +3,9 @@
 import G2 from '@antv/g2';
 import label from './label';
 
-export default function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
+
+export default function drawLine(chart, config, yAxisKey = 'y') {
   const lineWidth = config.lineWidth;
   const geomStyle = config.geomStyle || {};
   if (lineWidth && geomStyle.lineWidth === undefined) {
@@ -13,6 +15,15 @@ export default function drawLine(chart, config, lineShape, areaShape, yAxisKey =
   let areaColors = config.areaColors || config.colors;
   if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.colors, config.areaColors);
+  }
+
+  // 区域、堆叠、平滑曲线
+  let lineShape = config.spline ? 'smooth' : 'line';
+  const areaShape = config.spline ? 'smooth' : 'area';
+
+  // 阶梯折线，目前区域图不支持阶梯，需特殊说明
+  if (config.step) {
+    lineShape = stepNames.indexOf(config.step) > -1 ? config.step : 'hv';
   }
 
   let lineGeom = null;

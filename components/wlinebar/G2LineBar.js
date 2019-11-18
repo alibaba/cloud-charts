@@ -185,21 +185,18 @@ export default {
     lineView.source(lineData);
     this.lineView = lineView;
 
-    const lineShape = config.spline ? 'smooth' : 'line';
-    const areaShape = config.spline ? 'smooth' : 'area';
-
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
         if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
           drawBar(barView, config, `y${yIndex}`);
         }
         if (getDataIndexColor(config.lineColors, rawLineData, yIndex)) {
-          drawLine(lineView, config, lineShape, areaShape, `y${yIndex}`);
+          drawLine(lineView, config, `y${yIndex}`);
         }
       });
     } else {
       drawBar(barView, config);
-      drawLine(lineView, config, lineShape, areaShape);
+      drawLine(lineView, config);
     }
 
     // 绘制辅助线，辅助背景区域
