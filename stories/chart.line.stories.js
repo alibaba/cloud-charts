@@ -3,6 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
+import { withKnobs, select } from "@storybook/addon-knobs";
 
 import { Wline, Wcontainer } from '@alife/aisc-widgets';
 
@@ -18,6 +19,8 @@ const data = [
 ];
 
 const stories = storiesOf('Wline', module);
+stories.addDecorator(withKnobs);
+
 stories.add('折线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{}} data={data} />
@@ -89,5 +92,21 @@ stories.add('拖拽缩放', () => (
         action('zoom:reset')(s);
       }
     }} />
+  </Wcontainer>
+));
+
+const stepOptions = {
+  '关闭': null,
+  '默认': true,
+  '水平-垂直': 'hv',
+  '垂直-水平': 'vh',
+  '水平-垂直-水平': 'hvh',
+  '垂直-水平-垂直': 'vhv',
+};
+stories.add('阶梯折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      step: select('阶梯形状', stepOptions, null),
+    }} data={data} />
   </Wcontainer>
 ));
