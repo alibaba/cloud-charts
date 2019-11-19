@@ -303,7 +303,7 @@ export default {
           }, index);
         }
         return v;
-      }
+      },
     });
 
     chart.render();

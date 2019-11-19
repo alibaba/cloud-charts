@@ -163,7 +163,7 @@ export default {
   },
   changeData(chart, newConfig, viewName, newData) {
     const config = merge({}, defaultConfig, newConfig);
-    const ds = this.ds;
+    const { ds } = this;
     let data = newData;
     if (config.dataType !== 'g2') {
       data = convertMapData(newData);
@@ -204,7 +204,7 @@ function drawMapBackground(chart, ds, config) {
       type: 'GeoJSON',
     });
 
-  let projection = config.projection;
+  let { projection } = config;
 
   if (!projection) {
     projection = bgMapDataView.getGeoProjection('geoConicEqualArea');
@@ -277,7 +277,7 @@ function drawMapBackground(chart, ds, config) {
 
 // 绘制分级统计地图
 function drawMapArea(chart, ds, config, data) {
-  let areaMapDataView = this.areaMapDataView;
+  let { areaMapDataView } = this;
   if (areaMapDataView) {
     areaMapDataView.origin !== data && areaMapDataView.source(data);
   } else {
@@ -329,7 +329,7 @@ function drawMapArea(chart, ds, config, data) {
 
 // 绘制散点图
 function drawMapPoint(chart, ds, config, data) {
-  let pointMapDataView = this.pointMapDataView;
+  let { pointMapDataView } = this;
   if (pointMapDataView) {
     pointMapDataView.origin !== data && pointMapDataView.source(data);
   } else {
@@ -397,7 +397,7 @@ function drawMapPoint(chart, ds, config, data) {
 
 // 绘制热力图
 function drawHeatMap(chart, ds, config, data) {
-  let heatMapDataView = this.heatMapDataView;
+  let { heatMapDataView } = this;
   if (heatMapDataView) {
     heatMapDataView.origin !== data && heatMapDataView.source(data);
   } else {
@@ -436,7 +436,7 @@ function drawHeatMap(chart, ds, config, data) {
         // opacity(name, value) {
         //   return 0.5;
         // },
-        ...(config.geomStyle || {})
+        ...(config.geomStyle || {}),
       })
       .active(false);
 
@@ -530,12 +530,12 @@ export function convertPointPosition(point) {
     return point;
   }
 
-  const projection = this.projection;
+  const { projection } = this;
   if (point.lng && point.lat) {
     return getProjectionPosition(point, this.bgMapDataView, projection, Number(point.lng), Number(point.lat));
   }
   if (point.name) {
-    let name = point.name;
+    let { name } = point;
     if (!/^\w/.test(name)) {
       if (name === '\u963F\u62C9' || name === '\u5F20\u5BB6') {
         // 阿拉、张家 两个开头的需要截取三个字符

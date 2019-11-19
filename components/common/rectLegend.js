@@ -316,7 +316,7 @@ class Collapse {
       return;
     }
 
-    let moveOffset = this.moveOffset;
+    let { moveOffset } = this;
 
     // 上一页
     if (e.target.classList.contains('collapse-up')) {

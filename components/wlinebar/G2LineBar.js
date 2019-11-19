@@ -272,14 +272,14 @@ function drawBar(chart, config, yAxisKey = 'y') {
 
 function drawLine(chart, config, yAxisKey = 'y') {
   let lineGeom = null;
-  const lineWidth = config.lineWidth;
+  const { lineWidth } = config;
   const geomStyle = {};
   if (lineWidth !== undefined) {
     geomStyle.lineWidth = lineWidth;
   }
 
   // 区域、堆叠、平滑曲线
-  let lineShape = config.spline ? 'smooth' : 'line';
+  const lineShape = config.spline ? 'smooth' : 'line';
   const areaShape = config.spline ? 'smooth' : 'area';
 
   if (config.area && config.stack) {
@@ -322,7 +322,7 @@ function drawLine(chart, config, yAxisKey = 'y') {
 }
 
 function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
-  const guide = config.guide;
+  const { guide } = config;
   if (!guide) {
     return;
   }

@@ -33,7 +33,7 @@ export default class ResetButton {
       this.dom.style.display = 'block';
       this.isShow = true;
     } else {
-      const chart = this.chart;
+      const { chart } = this;
       const wrapper = chart.get('wrapperEl');
       const range = chart.get('plotRange');
       if (wrapper && range && range.tr) {

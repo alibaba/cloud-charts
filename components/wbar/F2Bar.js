@@ -160,7 +160,7 @@ const barConfig = {
     }
     const { titleStyle, valueStyle } = config.legend;
     const dataArr = [];
-    const x = data[0]._origin.x;
+    const { x } = data[0]._origin;
     const tooltipId = getTooltipId(elem.chartId);
     data.forEach((i) => {
       dataArr.push({

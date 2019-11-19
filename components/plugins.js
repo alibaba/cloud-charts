@@ -15,7 +15,7 @@ const pluginManager = {
       console.warn(`plugin: ${name} not find!`);
     }
     return plugins[name];
-  }
+  },
 };
 
 export { plugins, pluginManager };

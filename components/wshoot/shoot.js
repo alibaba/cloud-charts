@@ -83,14 +83,14 @@ Shoot.prototype = {
       return;
     }
     const self = this;
-    const dTime = self.config.dTime;
+    const { dTime } = self.config;
     // 由于要保证interval时间内完成全部动画
-    const interval = self.config.interval;
-    const autoUpdate = self.config.autoUpdate;
-    const maxFps = self.config.maxFps;
+    const { interval } = self.config;
+    const { autoUpdate } = self.config;
+    const { maxFps } = self.config;
     const times = (interval / dTime) >> 0;
-    const keys = self.config.keys;
-    const sCtx = self.sCtx;
+    const { keys } = self.config;
+    const { sCtx } = self;
     const shoots = [];
     const shootMap = {};
     const time = self.config.shootTime;
@@ -165,23 +165,23 @@ Shoot.prototype = {
   },
   emit(fCo, tCo, data, color, time) {
     const self = this;
-    const keys = self.config.keys;
-    const sCtx = self.sCtx;
+    const { keys } = self.config;
+    const { sCtx } = self;
     // 发射出现时间段
-    const fromTime = time.fromTime;
+    const { fromTime } = time;
     // 发射停留时间段
-    const fromStop = time.fromStop;
+    const { fromStop } = time;
     // 发射消失时间段
-    const fromFade = time.fromFade;
+    const { fromFade } = time;
 
     // 击中开始时间点
-    const toBegin = time.toBegin;
+    const { toBegin } = time;
     // 击中出现时间段
-    const toTime = time.toTime;
+    const { toTime } = time;
     // 击中停留时间段
-    const toStop = time.toStop;
+    const { toStop } = time;
     // 击中消失时间段
-    const toFade = time.toFade;
+    const { toFade } = time;
 
     // 发射消失时间点
     const fromFadeBegin = fromTime + fromStop;
@@ -191,7 +191,7 @@ Shoot.prototype = {
     const fr = self.config.fromRadius;
     const tr = self.config.toRadius;
     const h = data[keys.curvature] || random();
-    const shootDurable = self.config.shootDurable;
+    const { shootDurable } = self.config;
     let s;
 
     s = function (t) {
@@ -258,7 +258,7 @@ Shoot.prototype = {
     const self = this;
     const c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`;
     const b = self.config.fromBorder;
-    const sCtx = self.sCtx;
+    const { sCtx } = self;
 
     return function (t) {
       if (t > 1 || t < 0) {
@@ -301,9 +301,9 @@ Shoot.prototype = {
     const self = this;
     const c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`;
     const b = self.config.toBorder;
-    const sCtx = self.sCtx;
-    const sin = Math.sin;
-    const cos = Math.cos;
+    const { sCtx } = self;
+    const { sin } = Math;
+    const { cos } = Math;
 
     return function (t) {
       let rad = 0;
@@ -362,12 +362,12 @@ Shoot.prototype = {
   },
   track(ctx, fCo, tCo, fade, color, h, overview) {
     const self = this;
-    const cos = Math.cos;
-    const atan = Math.atan;
+    const { cos } = Math;
+    const { atan } = Math;
     const pow2 = function (x) {
       return Math.pow(x, 2);
     };
-    const sqrt = Math.sqrt;
+    const { sqrt } = Math;
     const fColor = `rgba(${color.fColor || self.config.lineColor.from},`;
     const tColor = `rgba(${color.tColor || self.config.lineColor.to},`;
 
@@ -391,7 +391,7 @@ Shoot.prototype = {
     const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
     const bulletR = this.config.bullet.r;
     const bulletLen = this.config.bullet.length;
-    const shootDurable = self.config.shootDurable;
+    const { shootDurable } = self.config;
 
     // 控制点坐标
     let x3 = (x1 + x2) / 2 + cx;
@@ -502,7 +502,7 @@ Shoot.prototype = {
   },
   drawBullet(x, y, a, color, r, len) {
     const self = this;
-    const sCtx = self.sCtx;
+    const { sCtx } = self;
 
     sCtx.save();
 

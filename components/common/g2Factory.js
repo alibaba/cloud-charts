@@ -59,7 +59,7 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.language = this.props.language || 'zh-cn';
 
-      const changeCustomConfig = this.chartProcess.changeCustomConfig;
+      const { changeCustomConfig } = this.chartProcess;
       // 配置项有变化，重新生成图表
       if (changeConfig !== false) {
         let hasConfigChange = false;

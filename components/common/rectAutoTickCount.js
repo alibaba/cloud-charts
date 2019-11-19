@@ -1,7 +1,7 @@
 'use strict';
 
 import themes from '../theme/index';
-import {pxToNumber, isInvalidNumber} from './common';
+import { pxToNumber, isInvalidNumber } from './common';
 
 /**
  * 常见直角坐标系自动计算标签个数。

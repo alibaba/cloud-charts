@@ -179,9 +179,9 @@ export default {
         },
         onBrushend: (ev) => {
           this.brush.container.clear(); // clear the brush
-          const type = this.brush.type;
-          const xScale = this.brush.xScale;
-          const yScale = this.brush.yScale;
+          const { type } = this.brush;
+          const { xScale } = this.brush;
+          const { yScale } = this.brush;
           // filter data
           if (type === 'X') {
             xScale && chart.filter(xScale.field, val => {

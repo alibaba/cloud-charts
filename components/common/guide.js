@@ -10,7 +10,7 @@ import { getStatusColor } from './common';
  *
  * */
 export default function (chart, config) {
-  const guide = config.guide;
+  const { guide } = config;
   if (!guide || guide.visible === false) {
     return;
   }
@@ -55,7 +55,7 @@ export default function (chart, config) {
 export function drawGuideLine(chart, guideLine) {
   const { top = true, text = {}, status, axis, value, start, end } = guideLine;
   const {
-    title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {}
+    title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style = {},
   } = typeof text === 'object' ? text : { title: text };
   const color = getStatusColor(status);
 
@@ -179,7 +179,7 @@ export function drawGuideFilter(chart, guideFilter) {
   const guideConfig = {
     top,
     color,
-    apply
+    apply,
   };
 
   if (axis && Array.isArray(value) && value.length > 1) {

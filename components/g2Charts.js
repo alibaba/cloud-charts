@@ -4,7 +4,7 @@ import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
 import g2Factory from './common/g2Factory';
-import setG2Theme from "./common/g2Theme";
+import setG2Theme from './common/g2Theme';
 // import { autoSelect } from './common/platform';
 
 // 引入组件
@@ -40,7 +40,7 @@ setG2Theme(G2);
  * */
 const rawGetPointByClient = G2.G.Canvas.prototype.getPointByClient;
 // 由于需要运行时this指针，这个函数不可改为箭头函数。
-G2.G.Canvas.prototype.getPointByClient = function(clientX, clientY) {
+G2.G.Canvas.prototype.getPointByClient = function (clientX, clientY) {
   // 获取原函数返回的坐标值
   const raw = rawGetPointByClient.call(this, clientX, clientY);
   // 获取设定高宽和真实高宽。
@@ -94,9 +94,9 @@ export const Util = Object.assign({}, G2.Util, {
   isEqualWith: common.isEqualWith,
   merge: common.merge,
 });
-export const DomUtil = G2.DomUtil;
-export const MatrixUtil = G2.MatrixUtil;
-export const PathUtil = G2.PathUtil;
+export const { DomUtil } = G2;
+export const { MatrixUtil } = G2;
+export const { PathUtil } = G2;
 
 // 暴露图表组件
 export const Wline = WG2Line;

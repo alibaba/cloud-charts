@@ -6,7 +6,7 @@ import label from './label';
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
 export default function drawLine(chart, config, yAxisKey = 'y') {
-  const lineWidth = config.lineWidth;
+  const { lineWidth } = config;
   const geomStyle = config.geomStyle || {};
   if (lineWidth && geomStyle.lineWidth === undefined) {
     geomStyle.lineWidth = lineWidth;

@@ -97,10 +97,11 @@ export default {
         name: `${x} - ${y}`,
         value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
       };
-    }).style({
-      lineWidth: 1,
-      stroke: themes['widgets-map-area-border']
-    });
+    })
+      .style({
+        lineWidth: 1,
+        stroke: themes['widgets-map-area-border'],
+      });
 
     // label(geom, config, 'extra');
 

@@ -88,7 +88,7 @@ function f2Factory(name, Chart) {
       const { width, height, data: chartData, forceFit, config, ...otherProps } = this.props;
       const { padding, legend, xAxis, yAxis, width: configWidth } = config;
       const initData = [];
-      const colors = F2.Global.colors;
+      const { colors } = F2.Global;
 
       chartData.forEach(item => {
         const curObj = {
@@ -294,7 +294,7 @@ function f2Factory(name, Chart) {
     };
 
     renderLegend = (legendData, legendItems) => {
-      const config = this.props.config;
+      const { config } = this.props;
       const { show, position, titleStyle, valueStyle, unCheckStyle } = config.legend;
 
       if (show === false) {
@@ -302,7 +302,7 @@ function f2Factory(name, Chart) {
       }
 
       this.lastData = legendData;
-      const colors = theme.colors;
+      const { colors } = theme;
       const legendContainer = document.querySelector(`#${getLegendId(this.chartId)}`);
       const legendFormatter = this.config.legend.formatter;
       const isInit = !legendItems;
@@ -327,10 +327,10 @@ function f2Factory(name, Chart) {
             const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              })} data-name=${escapeHtml(d[0])}>
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            })} data-name=${escapeHtml(d[0])}>
                 ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
@@ -383,11 +383,11 @@ function f2Factory(name, Chart) {
             const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: '6px',
-              })} data-name=${escapeHtml(d[0])}>
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: '6px',
+            })} data-name=${escapeHtml(d[0])}>
                 ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });
@@ -397,10 +397,10 @@ function f2Factory(name, Chart) {
             const dotColor = visible ? colors[i] : unCheckStyle.fill;
             legendStr += `
               <div class="legend" data-close=${visible ? 'false' : 'true'} ${setInlineDomStyle({
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              })} data-name=${escapeHtml(d.name)}>
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            })} data-name=${escapeHtml(d.name)}>
                 ${this.getLegendCircle(dotColor)} ${legendFormatter(d, titleStyle, valueStyle)}
               </div>`;
           });

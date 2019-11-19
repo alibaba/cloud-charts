@@ -32,7 +32,7 @@ export default function (chart, config, yField = 'y', componentConfig) {
         // offset: 30,
         textStyle: {
           rotate: -90,
-        }
+        },
       };
       if (yField === 'y1') {
         yConfig.title.textStyle.rotate = 90;

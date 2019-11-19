@@ -46,7 +46,7 @@ export default function (chart, config, componentConfig) {
         offset: 38,
         textStyle: {
           rotate: 0,
-        }
+        },
       };
     }
 

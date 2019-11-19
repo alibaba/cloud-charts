@@ -93,7 +93,7 @@ export default {
     // tooltip
     rectTooltip.call(this, chart, config, {
       crosshairs: {
-        type: 'rect'
+        type: 'rect',
       },
     });
 
@@ -108,7 +108,6 @@ export default {
     drawBox(chart, config, config.colors);
 
     chart.render();
-
   },
 };
 
@@ -117,18 +116,19 @@ function drawBox(chart, config, colors, field = 'type') {
   let geom = null;
 
   // 分组
-  geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors).style(field, {
-    lineWidth: 2,
+  geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors)
+    .style(field, {
+      lineWidth: 2,
     // fill: (type) => {
     //
     // }
-  });
+    });
 
   if (dodge !== false) {
     geom.adjust([{
       type: 'dodge',
       marginRatio: marginRatio || 0.5, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    }])
+    }]);
   }
 
   // TODO 暂时没有更好的方案
