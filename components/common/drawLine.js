@@ -22,7 +22,7 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
   const areaShape = config.spline ? 'smooth' : 'area';
 
   // 阶梯折线，目前区域图不支持阶梯，需特殊说明
-  if (config.step) {
+  if (config.step && !config.area) {
     lineShape = stepNames.indexOf(config.step) > -1 ? config.step : 'hv';
   }
 
