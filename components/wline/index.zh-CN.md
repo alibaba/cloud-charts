@@ -34,6 +34,8 @@ cols: 1
 | area    | 是否为面积曲线                                  | boolean           | false              |
 | stack   | 是否为堆栈曲线，仅 area 为 true 时有效                | boolean           | false              |
 | spline  | 是否为平滑曲线                                  | boolean           | false              |
+| step | 是否为阶梯折线。可选项为'hv', 'vh', 'hvh', 'vhv'。设置为true默认为 'hv'。h对应horizontal，水平。v对应vertical，垂直。hv为先水平再垂直画线，其余类似。目前和area面积曲线冲突，不可同时使用。 | boolean \| string | false |
 | grid    | 是否显示网格线                                  | boolean           | false              |
 | symbol  | 是否显示线上的点                                 | boolean           | false              |
+| zoom | 是否开启拖拽缩放 | boolean | false |
 
