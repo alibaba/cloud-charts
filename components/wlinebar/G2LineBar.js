@@ -270,13 +270,17 @@ function drawBar(chart, config, yAxisKey = 'y') {
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
 }
 
-function drawLine(chart, config, lineShape, areaShape, yAxisKey = 'y') {
+function drawLine(chart, config, yAxisKey = 'y') {
   let lineGeom = null;
   const lineWidth = config.lineWidth;
   const geomStyle = {};
   if (lineWidth !== undefined) {
     geomStyle.lineWidth = lineWidth;
   }
+
+  // 区域、堆叠、平滑曲线
+  let lineShape = config.spline ? 'smooth' : 'line';
+  const areaShape = config.spline ? 'smooth' : 'area';
 
   if (config.area && config.stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
