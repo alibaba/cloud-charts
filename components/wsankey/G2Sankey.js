@@ -21,6 +21,10 @@ const defaultConfig = {
   // }
 };
 
+function getEdges(d) {
+  return d.links;
+}
+
 export default {
   beforeInit(props) {
     const { config } = props;
@@ -34,11 +38,13 @@ export default {
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',
-      edges: d => d.links,
+      edges: getEdges,
     });
     dv.transform({
       type: 'diagram.sankey',
     });
+
+    this.sankeyDataView = dv;
 
     chart.legend(config.legend);
     chart.tooltip({
@@ -52,6 +58,7 @@ export default {
 
     // edge view
     const edgeView = chart.view();
+    this.edgeView = edgeView;
     edgeView.source(dv.edges);
     edgeView.edge()
       .position('x*y')
@@ -62,6 +69,7 @@ export default {
 
     // node view
     const nodeView = chart.view();
+    this.nodeView = nodeView;
     nodeView.source(dv.nodes);
 
     const nodeGeom = nodeView.polygon()
@@ -84,5 +92,16 @@ export default {
     }
 
     chart.render();
+  },
+  changeData(chart, newConfig, data) {
+    if (this.sankeyDataView && this.nodeView && this.edgeView) {
+      this.sankeyDataView.source(data, {
+        type: 'graph',
+        edges: getEdges,
+      });
+      this.edgeView.source(this.sankeyDataView.edges);
+      this.nodeView.source(this.sankeyDataView.nodes);
+      chart.render();
+    }
   },
 };
