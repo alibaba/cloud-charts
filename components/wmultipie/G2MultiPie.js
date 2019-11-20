@@ -226,7 +226,7 @@ export default Object.assign({}, G2Pie, {
     chart.render();
   },
   changeData(chart, config, data) {
-    const { source, maxDepth } = computeData.call(this, data);
+    const { source } = computeData.call(this, data);
 
     chart.changeData(source);
   },

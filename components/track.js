@@ -1,4 +1,4 @@
-import G2 from '@antv/g2';
+// import G2 from '@antv/g2';
 // import F2 from '@antv/f2';
 import { getLog } from './common/log';
 import { isMobile } from './common/platform';

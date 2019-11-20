@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import merge from '../common/merge';
 import themes from '../theme/index';
-import { propertyAssign, propertyMap, noop } from '../common/common';
+import { propertyAssign, propertyMap } from '../common/common';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';

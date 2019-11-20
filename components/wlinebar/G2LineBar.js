@@ -152,7 +152,7 @@ export default {
       position: 'relative',
     };
     if (config.legend !== false) {
-      const { position = 'top', align } = config.legend || {};
+      const { align } = config.legend || {};
 
       // if (position === 'top') {
       //   legendStyle.top = themes.s3;

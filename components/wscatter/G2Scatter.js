@@ -1,6 +1,7 @@
 'use strict';
 
 // 引入所需要的库和样式
+import G2 from '@antv/g2';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -89,10 +90,6 @@ const setSource = (chart, config, data) => {
   rectAutoTickCount(chart, config, defs, false);
 
   chart.source(data, defs);
-};
-
-const chartRender = (chart, config) => {
-
 };
 
 export default {

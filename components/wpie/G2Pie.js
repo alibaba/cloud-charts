@@ -72,12 +72,12 @@ function paddingNumber(value) {
   return isInvalidNumber(value) ? 0 : Number(value);
 }
 
-function getDrawPadding(drawPadding, label) {
+function getDrawPadding(drawPadding, labelConfig) {
   if (Array.isArray(drawPadding)) {
     return drawPadding;
   } else if (!isInvalidNumber(drawPadding)) {
     return [drawPadding, drawPadding, drawPadding, drawPadding];
-  } else if (label && label.visible !== false) {
+  } else if (labelConfig && labelConfig.visible !== false) {
     // 饼图使用 label 时，调整 drawPadding
     return defaultConfig.drawPadding.map(p => Math.max(p, 48));
   } else {

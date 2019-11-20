@@ -424,7 +424,7 @@ function drawHeatMap(chart, ds, config, data) {
     } else {
       sizeConfig = [sizeConfig];
     }
-    const heatMapGeom = heatMapView.heatmap().position('x*y')
+    heatMapView.heatmap().position('x*y')
       .color('value', config.heatColors)
       .size(...sizeConfig)
       .tooltip('name*value', (name, value) => ({

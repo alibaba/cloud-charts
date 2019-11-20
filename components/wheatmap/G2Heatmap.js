@@ -1,6 +1,6 @@
 'use strict';
 
-import G2 from '@antv/g2';
+// import G2 from '@antv/g2';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -10,7 +10,7 @@ import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-import label from '../common/label';
+// import label from '../common/label';
 import './G2Heatmap.scss';
 
 const defaultConfig = {
@@ -92,7 +92,7 @@ export default {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    const geom = chart.polygon().position('x*y').color('type', config.colors).tooltip('x*y*extra', (x, y, extra) => {
+    chart.polygon().position('x*y').color('type', config.colors).tooltip('x*y*extra', (x, y, extra) => {
       return {
         name: `${x} - ${y}`,
         value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
