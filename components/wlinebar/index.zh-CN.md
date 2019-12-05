@@ -35,6 +35,8 @@ cols: 1
 | padding    | 图表边距                                     | array             | [32, 45, 32, 45]            |
 | area       | 是否为面积曲线                                  | boolean           | false                       |
 | stack      | 是否为堆栈图，折线堆栈仅 area 为 true 时有效，柱状堆栈可直接开启   | boolean           | false                       |
+| stackReverse | 是否倒序堆叠                                                 | boolean           | true               |
+| dodgeStack   | 是否为分组堆叠图                                             | boolean           | false              |
 | spline     | 是否为平滑曲线                                  | boolean           | false                       |
 | grid       | 是否显示网格线                                  | boolean           | false                       |
 | symbol     | 是否显示线上的点                                 | boolean           | false                       |
