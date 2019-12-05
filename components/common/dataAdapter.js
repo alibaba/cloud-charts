@@ -14,7 +14,7 @@ export default function highchartsDataToG2Data(data, config) {
         return;
       }
 
-      const { name: dataName, yAxis: yIndex = 0, visible, ...groupExtra } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, dodge, visible, ...groupExtra } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -24,6 +24,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra,
             groupExtra,
+            dodge,
             visible,
             type: dataName,
           });
@@ -35,6 +36,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra: [],
             groupExtra,
+            dodge,
             visible,
             type: dataName,
           });
@@ -45,6 +47,7 @@ export default function highchartsDataToG2Data(data, config) {
             [`y${yIndex}`]: y,
             extra,
             groupExtra,
+            dodge,
             visible,
             type: dataName,
           });

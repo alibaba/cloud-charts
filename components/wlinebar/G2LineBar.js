@@ -43,8 +43,10 @@ const defaultConfig = {
     valueFormatter: null,
   },
   area: false,
+  dodgeStack: false,
   stack: false, // 仅Area有效
   stackReverse: true,
+  marginRatio: 0,
   spline: false,
   grid: false,
   symbol: false,
@@ -254,16 +256,30 @@ export default {
 };
 
 function drawBar(chart, config, yAxisKey = 'y') {
+  const { stack, stackReverse, marginRatio, dodgeStack } = config;
+
   let intervalGeom = null;
-  if (config.stack) {
+  if (dodgeStack) {
+    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([
+      {
+        type: 'dodge',
+        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+        dodgeBy: 'dodge',
+      },
+      {
+        type: 'stack',
+        reverseOrder: !stackReverse, // 层叠顺序倒序
+      },
+    ]);
+  } else if (stack) {
     intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'stack',
-      reverseOrder: !config.stackReverse, // 层叠顺序倒序
+      reverseOrder: !stackReverse, // 层叠顺序倒序
     }]);
   } else {
     intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
       type: 'dodge',
-      marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
     }]);
   }
 
@@ -282,7 +298,9 @@ function drawLine(chart, config, yAxisKey = 'y') {
   const lineShape = config.spline ? 'smooth' : 'line';
   const areaShape = config.spline ? 'smooth' : 'area';
 
-  if (config.area && config.stack) {
+  const stack = config.stack || config.dodgeStack;
+
+  if (config.area && stack) {
     chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
       .active(false);
     lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
@@ -290,7 +308,7 @@ function drawLine(chart, config, yAxisKey = 'y') {
         lineJoin: 'round',
         ...geomStyle,
       });
-  } else if (config.area && !config.stack) {
+  } else if (config.area && !stack) {
     chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
       .active(false);
     lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
@@ -309,7 +327,7 @@ function drawLine(chart, config, yAxisKey = 'y') {
   label(lineGeom, config, yAxisKey, null, 'lineLabel');
 
   // 曲线默认点
-  if (config.symbol && config.area && config.stack) {
+  if (config.symbol && config.area && stack) {
     chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors)
       .shape('circle')
       .size(3)
