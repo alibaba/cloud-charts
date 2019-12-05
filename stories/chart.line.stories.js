@@ -110,3 +110,19 @@ stories.add('阶梯折线图', () => (
     }} data={data} />
   </Wcontainer>
 ));
+
+const singleData = [
+  {
+    "name":"机房A",
+    "data":[[1483632000000,4854]]
+  }, {
+    "name":"机房B",
+    "yAxis": 1,
+    "data":[[1483632000000,6548]]
+  }
+];
+stories.add('单个点折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{}} data={singleData} />
+  </Wcontainer>
+));
