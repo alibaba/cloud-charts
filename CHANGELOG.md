@@ -1,3 +1,37 @@
+### 2.5.10 (2019-12-05)
+
+#### New Features
+
+- Wlinebar 线柱图 新增 柱图分组堆叠的功能。
+
+### 2.5.9 (2019-11-20)
+
+#### New Features
+
+- Wline 折线图 新增 阶梯折线功能。
+- Wsankey 桑基图支持动态更新数据。
+- chore: 移动scss依赖项到 devDependencies 中。
+
+### 2.5.8 (2019-10-14)
+
+#### New Features
+
+- Wcontainer 内部 Row 组件type属性改为 no-padding。
+- Guide 辅助线能通过 visible 属性关闭。
+
+### 2.5.7 (2019-09-06)
+
+#### Bug Fixes
+
+- 修复 Wcircle 组件颜色无法自定义的问题。
+- 修复实例的customChart属性会污染所有同类型图表的问题。
+
+### 2.5.6 (2019-08-28)
+
+#### New Features
+
+- Wbar 新增极坐标系展示功能。
+
 ### 2.5.5 (2019-08-01)
 
 #### New Features
