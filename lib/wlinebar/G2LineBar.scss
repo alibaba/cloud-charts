@@ -4,17 +4,17 @@
   > div {
     height: 100%;
 
-    &.left {
+    &.widgets-legend-align-left {
       text-align: left;
     }
-    &.center {
+    &.widgets-legend-align-center {
       text-align: center;
     }
-    &.right {
+    &.widgets-legend-align-right {
       text-align: right;
     }
 
-    &.position-bottom {
+    &.widgets-legend-position-bottom {
       canvas {
         position: static;
       }
