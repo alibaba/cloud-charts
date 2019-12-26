@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "2.5.11",
+  "version": "2.5.12",
   "main": "./build/index.js",
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
