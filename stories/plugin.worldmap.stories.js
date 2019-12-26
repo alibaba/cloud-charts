@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -11,7 +11,7 @@ const { WorldMap } = plugins;
 const areaData = [
   {
     "name":"一",
-    "data":[{"name":"China","value":106.3},{"name":"India","value":107.6},{"name":"Saudi Arabia","value":130.1},{"name":"Afghanistan","value":106.5}]
+    "data":[{"name":"China","value":106.3},{"name":"Saudi Arabia","value":130.1},{"name":"Afghanistan","value":106.5}]
   },
   {
     "name":"二",
@@ -19,7 +19,7 @@ const areaData = [
   },
   {
     "name":"三",
-    "data":[{"name":"Russia","value":86.8},{"name":"Japan","value":94.7},{"name":"France","value":94.8},{"name":"Ukraine","value":86.3},{"name":"Kazakhstan","value":93.4}]
+    "data":[{"name":"Russia","value":86.8},{"name":"India","value":107.6},{"name":"Japan","value":94.7},{"name":"France","value":94.8},{"name":"Ukraine","value":86.3},{"name":"Kazakhstan","value":93.4}]
   }
 ];
 
@@ -59,6 +59,15 @@ stories.add('基础世界地图', () => (
     <WorldMap config={{}} />
   </Wcontainer>
 ));
+stories.add('面积世界地图', () => (
+  <Wcontainer className="demos" height={600}>
+    <WorldMap config={{
+      // labels: true,
+    }}>
+      <WorldMap.Area data={areaData} />
+    </WorldMap>
+  </Wcontainer>
+));
 stories.add('带数据世界地图', () => (
   <Wcontainer className="demos" height={600}>
     <WorldMap config={{
@@ -70,3 +79,30 @@ stories.add('带数据世界地图', () => (
     </WorldMap>
   </Wcontainer>
 ));
+stories.add('自定义点世界地图数据更新', () => {
+  const [ d, setD ] = useState(() => customPointData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newData = [
+        { name: '哈尔滨', lng: 127.9688, lat: 45.368, value: 10 },
+        { name: '上海', lng: 121.4648, lat: 31.2891, value: 80 },
+        { name: '杭州', lng: 119.5313, lat: 29.8773, value: 40 },
+        { name: '北京', lng: 116.4551, lat: 40.2539, value: 10 },
+        { name: '广州', lng: 113.5107, lat: 23.2196, value: 60 },
+      ];
+      setD(newData);
+      action('更新数据')(newData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Wcontainer className="demos" height={800}>
+      <WorldMap config={{
+        // labels: true,
+      }}>
+        <WorldMap.Custom data={d} render={(point, index) => <span>{index} : {point.name} - {point.value}</span>} />
+      </WorldMap>
+    </Wcontainer>
+  );
+});
