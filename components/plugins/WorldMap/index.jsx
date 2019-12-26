@@ -2,6 +2,8 @@ import React from 'react';
 import { Wmap, DataSet, pluginManager } from '@alife/aisc-widgets';
 import worldGeo from './data/world-without-antarctic.json';
 
+const defaultWorldProjection = DataSet.View.prototype.getGeoProjection('geoEquirectangular');
+
 function WorldMap (props) {
   const { geoData, children, config, ...other } = props;
   const newConfig = Object.assign({}, config || {});
@@ -9,9 +11,7 @@ function WorldMap (props) {
     newConfig.showSouthChinaSea = false;
   }
   if (!newConfig.projection) {
-    const projection = DataSet.View.prototype.getGeoProjection('geoEquirectangular');
-
-    newConfig.projection = projection;
+    newConfig.projection = defaultWorldProjection;
   }
   if (!newConfig.padding) {
     newConfig.padding = [0, 0, 0, 0];
