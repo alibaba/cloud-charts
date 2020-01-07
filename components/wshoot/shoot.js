@@ -78,6 +78,17 @@ Shoot.prototype = {
     ctx.clearRect(0, 0, width, height);
   },
 
+  changeSize(w, h) {
+    this.config.width = w;
+    this.config.height = h;
+
+    this.canvas.width = w;
+    this.canvas.height = h;
+
+    // 更新uuid让动画更新
+    this.uuid = generateUniqueId();
+  },
+
   draw(data) {
     if (!data) {
       return;
@@ -157,7 +168,7 @@ Shoot.prototype = {
       autoUpdate,
       maxFps,
     }, (t) => {
-      self.clear(sCtx);
+      self.clear(self.sCtx);
       shoots.forEach((shootFunction) => {
         shootFunction(t * times - shootFunction.index);
       });
@@ -166,7 +177,6 @@ Shoot.prototype = {
   emit(fCo, tCo, data, color, time) {
     const self = this;
     const { keys } = self.config;
-    const { sCtx } = self;
     // 发射出现时间段
     const { fromTime } = time;
     // 发射停留时间段
@@ -213,7 +223,7 @@ Shoot.prototype = {
         // 轨迹
         if (t >= fromTime && t < toBegin) {
           // 出发 - 到达瞬间
-          self.track(sCtx, fCo, tCo, false, color, h)((t - fromTime) / (toBegin - fromTime));
+          self.track(fCo, tCo, false, color, h)((t - fromTime) / (toBegin - fromTime));
         } else if (t > toBegin && t < toFadeBegin) {
           // 到达后停留
           // TODO add by kaihong.tkh
@@ -221,13 +231,13 @@ Shoot.prototype = {
             let time = -(t - fromTime) / (toBegin - fromTime);
             time -= Math.floor(time);
             time = 1 - time;
-            self.track(sCtx, fCo, tCo, true, color, h)(time);
+            self.track(fCo, tCo, true, color, h)(time);
           } else {
-            self.track(sCtx, fCo, tCo, true, color, h)(0);
+            self.track(fCo, tCo, true, color, h)(0);
           }
         } else if (t > toFadeBegin && t < toFadeBegin + toFade) {
           // 停留后消失时间
-          self.track(sCtx, fCo, tCo, true, color, h)((t - toFadeBegin) / toFade);
+          self.track(fCo, tCo, true, color, h)((t - toFadeBegin) / toFade);
         }
 
 
@@ -360,8 +370,9 @@ Shoot.prototype = {
       sCtx.restore();
     };
   },
-  track(ctx, fCo, tCo, fade, color, h, overview) {
+  track(fCo, tCo, fade, color, h, overview) {
     const self = this;
+    const { sCtx: ctx } = self;
     const { cos } = Math;
     const { atan } = Math;
     const pow2 = function (x) {

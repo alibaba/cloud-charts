@@ -45,10 +45,14 @@ export default class Wshoot extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const newData = this.props.data;
-    const oldData = prevProps.data;
+    const { data: newData, width: newWidth, height: newHeight } = this.props;
+    const { data: oldData, width: oldWidth, height: oldHeight } = prevProps;
     if (newData !== oldData) {
       this.shoot.draw(newData);
+    }
+
+    if (newWidth !== oldWidth || newHeight !== oldHeight) {
+      this.shoot.changeSize(newWidth, newHeight);
     }
   }
 
@@ -57,7 +61,7 @@ export default class Wshoot extends React.Component {
   }
 
   render() {
-    const { className, ...otherProps } = this.props;
+    const { className, data, config, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
       [className]: !!className
