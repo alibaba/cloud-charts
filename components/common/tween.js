@@ -6,6 +6,7 @@ class Tween {
     this.refresh = this.refresh.bind(this);
     this.lastUpdate = null;
     this.interval = 1000 / maxFps;
+    this.timer = null;
 
     this.start();
   }
@@ -24,9 +25,9 @@ class Tween {
   refresh() {
     if (this._isPlay && this.config.autoUpdate) {
       if (window.requestAnimationFrame) {
-        window.requestAnimationFrame(this.refresh);
+        this.timer = window.requestAnimationFrame(this.refresh);
       } else {
-        setTimeout(this.refresh, 1000 / 60);
+        this.timer = setTimeout(this.refresh, 1000 / 60);
       }
 
       const now = Date.now();
@@ -58,6 +59,18 @@ class Tween {
 
     if (elapsed === 1) {
       this.stop();
+    }
+  }
+
+  destroy() {
+    this.stop();
+
+    if (this.timer) {
+      if (window.requestAnimationFrame) {
+        window.cancelAnimationFrame(this.timer);
+      } else {
+        clearTimeout(this.timer);
+      }
     }
   }
 }

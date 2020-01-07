@@ -538,6 +538,7 @@ Shoot.prototype = {
   },
   destroy() {
     this.clear(this.sCtx);
+    this.tween.destroy();
   },
 };
 
