@@ -37,6 +37,7 @@ const defaultConfig = {
 export const AREA_NAME = 'WidgetsMapArea';
 export const POINT_NAME = 'WidgetsMapPoint';
 export const HEAT_MAP_NAME = 'WidgetsMapHeatMap';
+export const SHOOT_NAME = 'WidgetsMapShoot';
 export const CUSTOM_NAME = 'WidgetsMapCustom';
 
 // const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
@@ -116,15 +117,26 @@ export default {
     drawMapBackground.call(this, chart, ds, config);
 
     const customPointLayer = [];
+    const shootLayer = [];
     React.Children.forEach(this.props.children, (child) => {
       if (!child) {
         return;
       }
+      const layerConfig = Object.assign({}, config, child.props);
+      if (child.type.displayName === SHOOT_NAME) {
+        shootLayer.push(child.props);
+        return;
+      }
+      if (child.type.displayName === CUSTOM_NAME) {
+        customPointLayer.push(child.props);
+        return;
+      }
+
+      // G2 图层需要转化数据格式
       let { data } = child.props;
-      if (config.dataType !== 'g2') {
+      if (layerConfig.dataType !== 'g2') {
         data = convertMapData(data);
       }
-      const layerConfig = Object.assign({}, config, child.props);
       if (child.type.displayName === AREA_NAME) {
         drawMapArea.call(this, chart, ds, layerConfig, data);
       }
@@ -134,12 +146,10 @@ export default {
       if (child.type.displayName === HEAT_MAP_NAME) {
         drawHeatMap.call(this, chart, ds, layerConfig, data);
       }
-      if (child.type.displayName === CUSTOM_NAME) {
-        customPointLayer.push(child.props);
-      }
     });
     this.setState({
       customPointLayer,
+      shootLayer,
     });
 
     if (config.labels || config.label) {

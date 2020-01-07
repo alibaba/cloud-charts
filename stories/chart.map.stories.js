@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -316,4 +316,55 @@ class Dynamic extends React.Component {
 }
 stories.add('动态数据', () => (
   <Dynamic />
+));
+
+const shootData = [
+  { name: '北京', lng: 116.4551, lat: 40.2539 },
+  { name: '杭州', lng: 119.5313, lat: 29.8773 },
+  { name: '上海', lng: 121.4648, lat: 31.2891 },
+  { name: '广州', lng: 113.5107, lat: 23.2196 },
+  { name: '哈尔滨', lng: 127.9688, lat: 45.368 },
+  { name: '三亚', lng: 109.3716, lat: 18.3698 },
+  { name: '喀什', lng: 77.168, lat: 37.8534 },
+  { name: '自定义点', x: 20, y: 20 },
+];
+function ShootDemo() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const dataLen = shootData.length;
+    const changeData = () => {
+      const newData = [];
+      const len = Math.round(Math.random() * 10) + 10;
+      for (let i = 0; i < len; i++) {
+        let fIndex = Math.round(Math.random() * (dataLen - 1));
+        let tIndex = (fIndex + Math.round(Math.random() * (dataLen / 2)) + 1) % dataLen;
+        if (fIndex === tIndex) {
+          tIndex = fIndex + 1;
+        }
+        newData.push({
+          from: Object.assign({}, shootData[fIndex]),
+          to: Object.assign({}, shootData[tIndex]),
+        });
+      }
+
+      setData(newData);
+    };
+
+    changeData();
+    const timer = setInterval(() => {
+      changeData();
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos" height={500}>
+      <Wmap>
+        <Wmap.Shoot data={data} />
+        <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />
+      </Wmap>
+    </Wcontainer>
+  );
+}
+stories.add('飞线地图', () => (
+  <ShootDemo />
 ));

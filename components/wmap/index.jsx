@@ -1,6 +1,7 @@
 import React from 'react';
 import g2Factory from "../common/g2Factory";
-import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
+import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, SHOOT_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
+import Wshoot from "../wshoot/index";
 import SouthChinaSea from './mapData/southChinaSea';
 import themes from '../theme/index';
 
@@ -12,17 +13,10 @@ class Map extends MapBase {
     super(props, context);
 
     this.state = {
-      customPointLayer: []
+      customPointLayer: [],
+      shootLayer: [],
     };
   }
-
-  // componentDidMount() {
-  //   super.componentDidMount();
-  //
-  //   setTimeout(() => {
-  //     this.convertChildren();
-  //   }, 0);
-  // }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.isReRendering && this.props.children !== prevProps.children) {
@@ -33,19 +27,22 @@ class Map extends MapBase {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // const { customPointLayer: newLayer } = nextState;
-    // const { customPointLayer: oldLayer } = this.state;
     return !(this.isReRendering || !this.chart);
   }
 
   convertChildren(children = this.props.children, config = this.props.config) {
     const customPointLayer = [];
+    const shootLayer = [];
     React.Children.forEach(children, (child) => {
       if (!child) {
         return;
       }
-      if (child.type.displayName === 'WidgetsMapCustom') {
+      if (child.type.displayName === CUSTOM_NAME) {
         customPointLayer.push(child.props);
+        return;
+      }
+      if (child.type.displayName === SHOOT_NAME) {
+        shootLayer.push(child.props);
         return;
       }
 
@@ -55,7 +52,8 @@ class Map extends MapBase {
       this.chartProcess.changeData.call(this, this.chart, layerConfig, child.type.displayName, data);
     });
     this.setState({
-      customPointLayer
+      customPointLayer,
+      shootLayer,
     });
   }
 
@@ -84,8 +82,7 @@ class Map extends MapBase {
       <div key={layerIndex} className="aisc-widgets-map-custom-container" style={layerStyle}>
         {
           Array.isArray(data) && data.map((d, i) => {
-            let point = convertPointPosition.call(this, d);
-            point = this.bgMapView.getXY(point);
+            const point = this.convertPosition(d);
             if (!point) {
               return null;
             }
@@ -105,6 +102,58 @@ class Map extends MapBase {
     );
   }
 
+  convertPosition(d) {
+    if (!d) {
+      return;
+    }
+    // if (d.x && d.y) {
+    //   return d;
+    // }
+    let point = convertPointPosition.call(this, { ...d });
+    return this.bgMapView.getXY(point);
+  }
+
+  renderShootLayer(shootProps, shootIndex) {
+    if (!this.chart) {
+      return null;
+    }
+    const width = this.chart.get('width');
+    const height = this.chart.get('height');
+    const [ cW, cH ] = this._size;
+    const layerStyle = {
+      left: (cW - width) / 2,
+      top: (cH - height) / 2,
+      width,
+      height,
+    };
+
+    if (Array.isArray(shootProps.data)) {
+      shootProps.data.forEach((d) => {
+        const fromPosition = this.convertPosition(d.from);
+        const toPosition = this.convertPosition(d.to);
+        if (fromPosition) {
+          d.from.x = fromPosition.x;
+          d.from.y = fromPosition.y;
+        }
+        if (toPosition) {
+          d.to.x = toPosition.x;
+          d.to.y = toPosition.y;
+        }
+      });
+    }
+
+    return (
+      <Wshoot
+        key={shootIndex}
+        className="aisc-widgets-map-shoot"
+        width={width}
+        height={height}
+        style={layerStyle}
+        {...shootProps}
+      />
+    );
+  }
+
   renderSouthChinaSea(config) {
     if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
       const { fill } = config.background || {};
@@ -118,10 +167,15 @@ class Map extends MapBase {
 
   render() {
     const { className = '', style, children, data, width, height, padding, geoData, config, animate, language, customChart, ...otherProps } = this.props;
-    const { customPointLayer } = this.state;
+    const { customPointLayer, shootLayer } = this.state;
     return (
       <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>
         {this.renderSouthChinaSea(config)}
+        {
+          shootLayer.length > 0 && shootLayer.map((shoot, i) => {
+            return this.renderShootLayer(shoot, i);
+          })
+        }
         {
           customPointLayer.length > 0 && customPointLayer.map((layer, i) => {
             return this.renderCustomPointLayer(layer, i);
@@ -153,6 +207,12 @@ Map.Point.displayName = POINT_NAME;
  */
 Map.HeatMap = function WidgetsMapHeatMap() { return null; };
 Map.HeatMap.displayName = HEAT_MAP_NAME;
+
+/**
+ * @return {null}
+ */
+Map.Shoot = function WidgetsMapShoot() { return null; };
+Map.Shoot.displayName = SHOOT_NAME;
 
 /**
  * @return {null}
