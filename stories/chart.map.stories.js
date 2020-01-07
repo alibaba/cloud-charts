@@ -329,6 +329,7 @@ const shootData = [
   { name: '自定义点', x: 20, y: 20 },
 ];
 function ShootDemo() {
+  const [ width, useWidth ] = useState(800);
   const [data, setData] = useState([]);
   useEffect(() => {
     const dataLen = shootData.length;
@@ -347,6 +348,8 @@ function ShootDemo() {
         });
       }
 
+      action('setData')(newData);
+
       setData(newData);
     };
 
@@ -357,7 +360,14 @@ function ShootDemo() {
     return () => clearInterval(timer);
   }, []);
   return (
-    <Wcontainer className="demos" height={500}>
+    <Wcontainer className="demos" width={width} height={600} title="点击右侧测试改变大小" operation={
+      <button onClick={() => {
+        const w = width > 700 ? 600 : 800;
+        useWidth(w);
+        action('resize')(w);
+        window.dispatchEvent(new Event('resize'));
+      }}>resize</button>
+    }>
       <Wmap>
         <Wmap.Shoot data={data} />
         <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />

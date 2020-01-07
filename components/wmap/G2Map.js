@@ -116,22 +116,11 @@ export default {
 
     drawMapBackground.call(this, chart, ds, config);
 
-    const customPointLayer = [];
-    const shootLayer = [];
     React.Children.forEach(this.props.children, (child) => {
       if (!child) {
         return;
       }
       const layerConfig = Object.assign({}, config, child.props);
-      if (child.type.displayName === SHOOT_NAME) {
-        shootLayer.push(child.props);
-        return;
-      }
-      if (child.type.displayName === CUSTOM_NAME) {
-        customPointLayer.push(child.props);
-        return;
-      }
-
       // G2 图层需要转化数据格式
       let { data } = child.props;
       if (layerConfig.dataType !== 'g2') {
@@ -146,10 +135,6 @@ export default {
       if (child.type.displayName === HEAT_MAP_NAME) {
         drawHeatMap.call(this, chart, ds, layerConfig, data);
       }
-    });
-    this.setState({
-      customPointLayer,
-      shootLayer,
     });
 
     if (config.labels || config.label) {

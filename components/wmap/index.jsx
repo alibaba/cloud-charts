@@ -18,6 +18,12 @@ class Map extends MapBase {
     };
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+
+    this.convertChildren(this.props.children, this.props.config, true);
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.isReRendering && this.props.children !== prevProps.children) {
       this.convertChildren(this.props.children, this.props.config);
@@ -30,7 +36,15 @@ class Map extends MapBase {
     return !(this.isReRendering || !this.chart);
   }
 
-  convertChildren(children = this.props.children, config = this.props.config) {
+  convertPosition(d) {
+    if (!d) {
+      return;
+    }
+    let point = convertPointPosition.call(this, d);
+    return this.bgMapView.getXY(point);
+  }
+
+  convertChildren(children = this.props.children, config = this.props.config, isInit = false) {
     const customPointLayer = [];
     const shootLayer = [];
     React.Children.forEach(children, (child) => {
@@ -38,18 +52,48 @@ class Map extends MapBase {
         return;
       }
       if (child.type.displayName === CUSTOM_NAME) {
-        customPointLayer.push(child.props);
+        let newData = child.props.data;
+        if (Array.isArray(newData)) {
+          newData = newData.map((d) => {
+            const position = this.convertPosition(d ? { ...d } : null);
+            if (!position) {
+              return null;
+            }
+            return { ...d, x: position.x, y: position.y };
+          });
+        }
+        customPointLayer.push({ ...child.props, data: newData });
         return;
       }
       if (child.type.displayName === SHOOT_NAME) {
-        shootLayer.push(child.props);
+        let newData = child.props.data;
+        if (Array.isArray(newData)) {
+          newData = newData.map((d) => {
+            let from = { ...d.from };
+            let to = { ...d.to };
+            const fromPosition = this.convertPosition(from);
+            const toPosition = this.convertPosition(to);
+            if (fromPosition) {
+              from.x = fromPosition.x;
+              from.y = fromPosition.y;
+            }
+            if (toPosition) {
+              to.x = toPosition.x;
+              to.y = toPosition.y;
+            }
+            return { ...d, from, to };
+          });
+        }
+        shootLayer.push({ ...child.props, data: newData });
         return;
       }
 
-      const { data, ...propsConfig } = child.props;
-      const layerConfig = Object.assign({}, config, propsConfig);
+      if (!isInit) {
+        const { data, ...propsConfig } = child.props;
+        const layerConfig = Object.assign({}, config, propsConfig);
 
-      this.chartProcess.changeData.call(this, this.chart, layerConfig, child.type.displayName, data);
+        this.chartProcess.changeData.call(this, this.chart, layerConfig, child.type.displayName, data);
+      }
     });
     this.setState({
       customPointLayer,
@@ -60,7 +104,7 @@ class Map extends MapBase {
   changeSize(config, w, h) {
     super.changeSize(config, w, h);
 
-    this.forceUpdate();
+    this.convertChildren(this.props.children, this.props.config, true);
   }
 
   renderCustomPointLayer(layer, layerIndex) {
@@ -82,14 +126,13 @@ class Map extends MapBase {
       <div key={layerIndex} className="aisc-widgets-map-custom-container" style={layerStyle}>
         {
           Array.isArray(data) && data.map((d, i) => {
-            const point = this.convertPosition(d);
-            if (!point) {
+            if (!d) {
               return null;
             }
 
             const pointStyle = {
-              left: point.x,
-              top: point.y,
+              left: d.x,
+              top: d.y,
             };
             return (
               <div key={i} className="aisc-widgets-map-custom-point" style={pointStyle}>
@@ -100,17 +143,6 @@ class Map extends MapBase {
         }
       </div>
     );
-  }
-
-  convertPosition(d) {
-    if (!d) {
-      return;
-    }
-    // if (d.x && d.y) {
-    //   return d;
-    // }
-    let point = convertPointPosition.call(this, { ...d });
-    return this.bgMapView.getXY(point);
   }
 
   renderShootLayer(shootProps, shootIndex) {
@@ -126,21 +158,6 @@ class Map extends MapBase {
       width,
       height,
     };
-
-    if (Array.isArray(shootProps.data)) {
-      shootProps.data.forEach((d) => {
-        const fromPosition = this.convertPosition(d.from);
-        const toPosition = this.convertPosition(d.to);
-        if (fromPosition) {
-          d.from.x = fromPosition.x;
-          d.from.y = fromPosition.y;
-        }
-        if (toPosition) {
-          d.to.x = toPosition.x;
-          d.to.y = toPosition.y;
-        }
-      });
-    }
 
     return (
       <Wshoot
@@ -181,7 +198,7 @@ class Map extends MapBase {
             return this.renderCustomPointLayer(layer, i);
           })
         }
-        <div className="aisc-widgets-map-legend" id={this.chartId + '-legend'}></div>
+        <div className="aisc-widgets-map-legend" id={this.chartId + '-legend'} />
       </div>
     );
   }
