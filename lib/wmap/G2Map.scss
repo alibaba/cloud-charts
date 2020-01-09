@@ -42,6 +42,16 @@
     transform: translate(-50%, -50%);
   }
 
+  .aisc-widgets-map-shoot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+  }
+
   // 已在最外层css设置，这里去掉
   //// fix 在开发项目中被 display: inline-block 导致canvas上移两个像素的问题
   //canvas {
