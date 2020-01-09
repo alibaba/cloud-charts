@@ -26,6 +26,7 @@ function WorldMap (props) {
 WorldMap.Area = Wmap.Area;
 WorldMap.Point = Wmap.Point;
 WorldMap.HeatMap = Wmap.HeatMap;
+WorldMap.Shoot = Wmap.Shoot;
 WorldMap.Custom = Wmap.Custom;
 
 WorldMap.isG2Chart = true;
