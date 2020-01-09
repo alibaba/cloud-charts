@@ -8,6 +8,37 @@ import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMark
 /*
 * 常见直角坐标系的legend，仅包含name和align设置。
 * */
+
+/*
+* 提取渐变色中的第一个颜色，具体逻辑来自 G2 内部
+* */
+// const regexTags = /[MLHVQTCSAZ]([^MLHVQTCSAZ]*)/ig;
+// const regexDot = /[^\s\,]+/ig;
+const regexLG = /^l\s*\(\s*([\d.]+)\s*\)\s*(.*)/i;
+const regexRG = /^r\s*\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)\s*(.*)/i;
+// const regexPR = /^p\s*\(\s*([axyn])\s*\)\s*(.*)/i;
+const regexColorStop = /[\d.]+:(#[^\s]+|[^\)]+\))/ig;
+
+// 取匹配出来的第一个颜色
+function getFirstStop(steps) {
+  return steps.match(regexColorStop)[0].split(':')[1];
+}
+function getColor(color) {
+  if (color[1] === '(' || color[2] === '(') {
+    if (color[0] === 'l') {
+      // 线性 regexLG.test(color)
+      return getFirstStop(regexLG.exec(color)[2]);
+    } else if (color[0] === 'r') {
+      // 径向 regexRG.test(color)
+      return getFirstStop(regexRG.exec(color)[4]);
+    } else if (color[0] === 'p') {
+      // regexPR.test(color)
+      // return parsePattern(color, self, context);
+    }
+  }
+  return color;
+}
+
 export default function (chart, config, componentConfig, isOneDataGroup, field) {
   // 设置图例
   if (config.legend !== false && config.legend.visible !== false) {
@@ -86,12 +117,12 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
           }, index) : dataValue;
 
           return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-          '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+          `<i class="g2-legend-marker" style="background-color:${getColor(color)};"></i>` +
           '<span class="g2-legend-text">'}${newName}</span><span class="g2-legend-value">${newValue}</span></li>`;
         }
 
         return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-          '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+          `<i class="g2-legend-marker" style="background-color:${getColor(color)};"></i>` +
           '<span class="g2-legend-text">'}${newName}</span></li>`;
       },
       'g2-legend': legendStyle,
