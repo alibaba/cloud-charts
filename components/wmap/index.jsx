@@ -149,6 +149,7 @@ class Map extends MapBase {
     if (!this.chart) {
       return null;
     }
+    const { className, style } = shootProps;
     const width = this.chart.get('width');
     const height = this.chart.get('height');
     const [ cW, cH ] = this._size;
@@ -157,12 +158,13 @@ class Map extends MapBase {
       top: (cH - height) / 2,
       width,
       height,
+      ...(style || {})
     };
 
     return (
       <Wshoot
         key={shootIndex}
-        className="aisc-widgets-map-shoot"
+        className={`aisc-widgets-map-shoot ${className || ''}`}
         width={width}
         height={height}
         style={layerStyle}
