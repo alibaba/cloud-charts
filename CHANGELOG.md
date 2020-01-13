@@ -1,3 +1,13 @@
+### 2.5.14 (2020-01-13)
+
+#### New Features
+
+- Wmap 飞线Shoot组件 可以自定义 className 和 style。
+
+#### Bug Fixes
+
+- Wmap 设置多层飞线组件后渲染可能会互相影响的问题。
+
 ### 2.5.13 (2020-01-09)
 
 #### New Features
