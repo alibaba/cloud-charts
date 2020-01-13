@@ -61,7 +61,7 @@ export default class Wshoot extends React.Component {
   }
 
   render() {
-    const { className, data, config, ...otherProps } = this.props;
+    const { className, data, config, getPosition, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
       [className]: !!className
