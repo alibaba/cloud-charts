@@ -36,13 +36,13 @@ class Map extends MapBase {
     return !(this.isReRendering || !this.chart);
   }
 
-  convertPosition(d) {
+  convertPosition = (d) => {
     if (!d) {
       return;
     }
     let point = convertPointPosition.call(this, d);
     return this.bgMapView.getXY(point);
-  }
+  };
 
   convertChildren(children = this.props.children, config = this.props.config, isInit = false) {
     const customPointLayer = [];
@@ -66,25 +66,26 @@ class Map extends MapBase {
         return;
       }
       if (child.type.displayName === SHOOT_NAME) {
-        let newData = child.props.data;
-        if (Array.isArray(newData)) {
-          newData = newData.map((d) => {
-            let from = { ...d.from };
-            let to = { ...d.to };
-            const fromPosition = this.convertPosition(from);
-            const toPosition = this.convertPosition(to);
-            if (fromPosition) {
-              from.x = fromPosition.x;
-              from.y = fromPosition.y;
-            }
-            if (toPosition) {
-              to.x = toPosition.x;
-              to.y = toPosition.y;
-            }
-            return { ...d, from, to };
-          });
-        }
-        shootLayer.push({ ...child.props, data: newData });
+        // let newData = child.props.data;
+        // if (Array.isArray(newData)) {
+        //   newData = newData.map((d) => {
+        //     let from = { ...d.from };
+        //     let to = { ...d.to };
+        //     const fromPosition = this.convertPosition(from);
+        //     const toPosition = this.convertPosition(to);
+        //     if (fromPosition) {
+        //       from.x = fromPosition.x;
+        //       from.y = fromPosition.y;
+        //     }
+        //     if (toPosition) {
+        //       to.x = toPosition.x;
+        //       to.y = toPosition.y;
+        //     }
+        //     return { ...d, from, to };
+        //   });
+        // }
+        // shootLayer.push({ ...child.props, data: newData });
+        shootLayer.push(child.props);
         return;
       }
 
@@ -168,6 +169,7 @@ class Map extends MapBase {
         width={width}
         height={height}
         style={layerStyle}
+        getPosition={this.convertPosition}
         {...shootProps}
       />
     );

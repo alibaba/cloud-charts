@@ -36,8 +36,8 @@ export default class Wshoot extends React.Component {
   shoot = null;
 
   componentDidMount() {
-    const { width, height, config } = this.props;
-    this.shoot = new Shoot(this.canvas, {}, {
+    const { width, height, config, getPosition } = this.props;
+    this.shoot = new Shoot(this.canvas, getPosition, {
       width,
       height,
       ...config

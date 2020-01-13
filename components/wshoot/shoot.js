@@ -8,9 +8,9 @@ function generateUniqueId() {
 
 const PI = 2 * Math.PI;
 
-function Shoot(canvas, map, config) {
+function Shoot(canvas, getPosition, config) {
   this.uuid = generateUniqueId();
-  this.map = map;
+  this.getPosition = getPosition;
   this.config = merge({
     autoUpdate: true,
     maxFps: 60,
@@ -106,6 +106,7 @@ Shoot.prototype = {
     const shootMap = {};
     const time = self.config.shootTime;
     const l = data.length;
+    const getPosition = self.getPosition;
     let fCo;
     let tCo;
     let s;
@@ -115,22 +116,36 @@ Shoot.prototype = {
 
     for (let i = 0; i < l; i++) {
       const d = data[i];
-      const fromCityName = d[keys.from];
-      const toCityName = d[keys.to];
+      fCo = { ...d[keys.from] };
+      tCo = { ...d[keys.to] };
 
-      if (typeof fromCityName === 'object') {
-        fCo = fromCityName;
+      // 设置了 getPosition 函数，需要处理一遍
+      if (getPosition) {
+        const fP = getPosition(fCo);
+        fCo.x = fP.x;
+        fCo.y = fP.y;
+
+        const tP = getPosition(tCo);
+        tCo.x = tP.x;
+        tCo.y = tP.y;
+      }
+
+      // const fromCityName = d[keys.from];
+      // const toCityName = d[keys.to];
+      //
+      // if (typeof fromCityName === 'object') {
+      //   fCo = fromCityName;
       // } else {
       //   // 获取出发城市在画布上的坐标
       //   fCo = self.map.getCoord(fromCityName);
-      }
-
-      if (typeof toCityName === 'object') {
-        tCo = toCityName;
+      // }
+      //
+      // if (typeof toCityName === 'object') {
+      //   tCo = toCityName;
       // } else {
       //   // 获取到达城市在画布上的坐标
       //   tCo = self.map.getCoord(toCityName);
-      }
+      // }
 
       if (fCo && tCo) {
         const color = {};
@@ -149,14 +164,14 @@ Shoot.prototype = {
         }
 
         shootMap[s.index].forEach((city) => {
-          if (city === toCityName) {
+          if (city === tCo) {
             // 正在被攻击
             s.shooting = true;
           }
         });
 
         if (!s.shooting) {
-          shootMap[s.index].push(toCityName);
+          shootMap[s.index].push(tCo);
         }
 
         shoots.push(s);
@@ -549,7 +564,7 @@ Shoot.prototype = {
   },
   destroy() {
     this.clear(this.sCtx);
-    this.tween.destroy();
+    this.tween && this.tween.destroy();
   },
 };
 

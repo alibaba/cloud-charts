@@ -329,6 +329,7 @@ const shootData = [
   { name: '自定义点', x: 20, y: 20 },
 ];
 function ShootDemo() {
+  const log = action('setData');
   const [ width, useWidth ] = useState(800);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -348,7 +349,7 @@ function ShootDemo() {
         });
       }
 
-      action('setData')(newData);
+      log(newData);
 
       setData(newData);
     };
@@ -377,4 +378,64 @@ function ShootDemo() {
 }
 stories.add('飞线地图', () => (
   <ShootDemo />
+));
+
+function DoubleShootDemo() {
+  const log = action('setData');
+  const log2 = action('setDoubleData');
+  const shootConfig = {
+    maxFps: 30,
+  };
+  const [data, setData] = useState([]);
+  const [doubleData, setDoubleData] = useState([]);
+  useEffect(() => {
+    const dataLen = shootData.length;
+    const changeData = () => {
+      const newData = [];
+      const newDoubleData = [];
+      const len = Math.round(Math.random() * 10) + 10;
+      for (let i = 0; i < len; i++) {
+        let fIndex = Math.round(Math.random() * (dataLen - 1));
+        let tIndex = (fIndex + Math.round(Math.random() * (dataLen / 2)) + 1) % dataLen;
+        if (fIndex === tIndex) {
+          tIndex = fIndex + 1;
+        }
+        newData.push({
+          from: Object.assign({}, shootData[fIndex]),
+          to: Object.assign({}, shootData[tIndex]),
+        });
+        newDoubleData.push({
+          from: Object.assign({}, shootData[fIndex]),
+          to: Object.assign({}, shootData[tIndex]),
+        });
+      }
+
+      log(newData);
+      setData(newData);
+
+      setTimeout(() => {
+        setDoubleData(newDoubleData);
+        log2(newDoubleData);
+      }, 4000);
+    };
+
+    changeData();
+    const timer = setInterval(() => {
+      changeData();
+    }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <Wcontainer className="demos" height={600}>
+      <Wmap>
+        <Wmap.Shoot data={data} config={shootConfig} debug={1} />
+        <Wmap.Shoot data={doubleData} config={shootConfig} debug={2} />
+        <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />
+      </Wmap>
+    </Wcontainer>
+  );
+}
+stories.add('双层飞线地图', () => (
+  <DoubleShootDemo />
 ));
