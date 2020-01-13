@@ -260,27 +260,36 @@ function drawBar(chart, config, yAxisKey = 'y') {
 
   let intervalGeom = null;
   if (dodgeStack) {
-    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([
-      {
-        type: 'dodge',
-        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-        dodgeBy: 'dodge',
-      },
-      {
+    intervalGeom = chart.interval()
+      .position(['x', yAxisKey])
+      .color('type', config.barColors)
+      .adjust([
+        {
+          type: 'dodge',
+          marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+          dodgeBy: 'dodge',
+        },
+        {
+          type: 'stack',
+          reverseOrder: !stackReverse, // 层叠顺序倒序
+        },
+      ]);
+  } else if (stack) {
+    intervalGeom = chart.interval()
+      .position(['x', yAxisKey])
+      .color('type', config.barColors)
+      .adjust([{
         type: 'stack',
         reverseOrder: !stackReverse, // 层叠顺序倒序
-      },
-    ]);
-  } else if (stack) {
-    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
-      type: 'stack',
-      reverseOrder: !stackReverse, // 层叠顺序倒序
-    }]);
+      }]);
   } else {
-    intervalGeom = chart.interval().position(['x', yAxisKey]).color('type', config.barColors).adjust([{
-      type: 'dodge',
-      marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    }]);
+    intervalGeom = chart.interval()
+      .position(['x', yAxisKey])
+      .color('type', config.barColors)
+      .adjust([{
+        type: 'dodge',
+        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      }]);
   }
 
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
@@ -301,23 +310,38 @@ function drawLine(chart, config, yAxisKey = 'y') {
   const stack = config.stack || config.dodgeStack;
 
   if (config.area && stack) {
-    chart.areaStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
+    chart.areaStack()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape(areaShape)
       .active(false);
-    lineGeom = chart.lineStack().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+    lineGeom = chart.lineStack()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape(lineShape)
       .style({
         lineJoin: 'round',
         ...geomStyle,
       });
   } else if (config.area && !stack) {
-    chart.area().position(['x', yAxisKey]).color('type', config.lineColors).shape(areaShape)
+    chart.area()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape(areaShape)
       .active(false);
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+    lineGeom = chart.line()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape(lineShape)
       .style({
         lineJoin: 'round',
         ...geomStyle,
       });
   } else {
-    lineGeom = chart.line().position(['x', yAxisKey]).color('type', config.lineColors).shape(lineShape)
+    lineGeom = chart.line()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape(lineShape)
       .style({
         lineJoin: 'round',
         ...geomStyle,
@@ -328,12 +352,18 @@ function drawLine(chart, config, yAxisKey = 'y') {
 
   // 曲线默认点
   if (config.symbol && config.area && stack) {
-    chart.point().adjust('stack').position(['x', yAxisKey]).color('type', config.lineColors)
+    chart.point()
+      .adjust('stack')
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
       .shape('circle')
       .size(3)
       .active(false);
   } else if (config.symbol) {
-    chart.point().position(['x', yAxisKey]).color('type', config.lineColors).shape('circle')
+    chart.point()
+      .position(['x', yAxisKey])
+      .color('type', config.lineColors)
+      .shape('circle')
       .size(3)
       .active(false);
   }
