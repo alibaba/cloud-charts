@@ -173,7 +173,7 @@ export default {
     }
     rectLegend.call(this, chart, config, {
       'g2-legend': legendStyle,
-    });
+    }, false, 'type');
 
     // tooltip
     rectTooltip.call(this, chart, config);

@@ -98,7 +98,7 @@ export default {
     rectXAxis.call(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config);
+    rectLegend.call(this, chart, config, null, false, 'type');
 
     legendFilter.call(this, chart, config);
 
