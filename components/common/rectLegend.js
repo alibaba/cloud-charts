@@ -59,6 +59,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
       onHover = null,
       clickable = true,
       onClick = null,
+      defaultClickBehavior = true,
       // 自定义配置
       customConfig,
       style = {},
@@ -99,6 +100,8 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
       onHover,
       clickable,
       onClick,
+      // 隐藏属性，设置了 onClick 时依然保留默认点击行为
+      defaultClickHandlerEnabled: defaultClickBehavior,
       itemTpl: (value, color, checked, index) => {
         const item = getRawData(config, this.rawData, value, isOneDataGroup);
 
