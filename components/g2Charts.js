@@ -17,7 +17,7 @@ import G2Scatter from './wscatter/G2Scatter';
 import G2Map from './wmap/index';
 import G2Custom from './wcustom/G2Custom';
 import G2Sankey from './wsankey/G2Sankey';
-import G2Nightingale from './wnightingale/G2-base';
+import G2Nightingale from './wnightingale/G2Nightingale';
 import G2Radar from './wradar/G2Radar';
 import G2Rectangle from './wrectangle/G2Rectangle';
 import G2Funnel from './wfunnel/G2Funnel';

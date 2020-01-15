@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import merge from '../common/merge';
 import themes from '../theme/index';
-import './G2-base.scss';
+import './G2Nightingale.scss';
 import rectLegend from '../common/rectLegend';
 import label from '../common/label';
 
