@@ -147,7 +147,7 @@ export default {
       if (Array.isArray(size)) {
         sizeConfig = ['y', size];
       } else if (G2.Util.isFunction(size)) {
-        sizeConfig = ['x*y*type*facet', size];
+        sizeConfig = ['x*y*type*extra', size];
       } else if (typeof size === 'object') {
         sizeConfig = [sizeConfig.field, sizeConfig.param];
       } else {
