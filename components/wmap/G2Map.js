@@ -9,6 +9,7 @@ import themes from '../theme/index';
 import { legendHtmlContainer } from '../common/g2Theme';
 import merge from '../common/merge';
 import rectLegend from '../common/rectLegend';
+import getGeomSizeConfig from "../common/geomSize";
 import './G2Map.scss';
 
 const defaultConfig = {
@@ -341,14 +342,7 @@ function drawMapPoint(chart, ds, config, data) {
 
     const pointMapView = chart.view();
     pointMapView.source(pointMapDataView);
-    let sizeConfig = config.size || 4;
-    if (Array.isArray(sizeConfig)) {
-      sizeConfig = ['value', sizeConfig];
-    } else if (G2.Util.isFunction(sizeConfig)) {
-      sizeConfig = ['name*value', sizeConfig];
-    } else {
-      sizeConfig = [sizeConfig];
-    }
+    const sizeConfig = getGeomSizeConfig(config.size, 4, 'value', 'name*value');
     const pointGeom = pointMapView.point().position('x*y')
       .shape('circle')
       .color('type', config.pointColors)
@@ -411,14 +405,7 @@ function drawHeatMap(chart, ds, config, data) {
     heatMapView.source(heatMapDataView);
     chart.legend('value', false);
 
-    let sizeConfig = config.size || 16;
-    if (Array.isArray(sizeConfig)) {
-      sizeConfig = ['value', sizeConfig];
-    } else if (G2.Util.isFunction(sizeConfig)) {
-      sizeConfig = ['name*value', sizeConfig];
-    } else {
-      sizeConfig = [sizeConfig];
-    }
+    const sizeConfig = getGeomSizeConfig(config.size, 16, 'value', 'name*value');
     heatMapView.heatmap().position('x*y')
       .color('value', config.heatColors)
       .size(...sizeConfig)

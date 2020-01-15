@@ -1,7 +1,7 @@
 'use strict';
 
-import G2 from '@antv/g2';
 import label from './label';
+import getGeomSizeConfig from './geomSize';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -92,16 +92,7 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
         .active(false);
     }
 
-    let sizeConfig = config.symbol.size || 3;
-    if (Array.isArray(sizeConfig)) {
-      sizeConfig = [yAxisKey, sizeConfig];
-    } else if (G2.Util.isFunction(sizeConfig)) {
-      sizeConfig = ['type', sizeConfig];
-    } else if (typeof sizeConfig === 'object') {
-      sizeConfig = [sizeConfig.field, sizeConfig.param];
-    } else {
-      sizeConfig = [sizeConfig];
-    }
+    const sizeConfig = getGeomSizeConfig(config.symbol.size, 3, yAxisKey, 'type');
     pointGeom.size(...sizeConfig);
 
     if (config.symbol.geomStyle) {

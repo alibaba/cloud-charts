@@ -1,7 +1,6 @@
 'use strict';
 
 // 引入所需要的库和样式
-import G2 from '@antv/g2';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -13,6 +12,7 @@ import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import guide from '../common/guide';
+import getGeomSizeConfig from "../common/geomSize";
 
 // 建议将默认配置放在外层，方便后续维护
 const defaultConfig = {
@@ -141,18 +141,8 @@ export default {
 
     label(geom, config);
 
-    // TODO 暂时没有更好的方案
     if (size) {
-      let sizeConfig = size || 4;
-      if (Array.isArray(size)) {
-        sizeConfig = ['y', size];
-      } else if (G2.Util.isFunction(size)) {
-        sizeConfig = ['x*y*type*extra', size];
-      } else if (typeof size === 'object') {
-        sizeConfig = [sizeConfig.field, sizeConfig.param];
-      } else {
-        sizeConfig = [size];
-      }
+      const sizeConfig = getGeomSizeConfig(size, 4, 'y', 'x*y*type*extra');
       geom.size(...sizeConfig);
     }
 

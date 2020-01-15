@@ -1,6 +1,5 @@
 'use strict';
 
-import G2 from '@antv/g2';
 import Brush from '@antv/g2-brush';
 import merge from '../common/merge';
 import themes from '../theme/index';
@@ -14,6 +13,7 @@ import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label from '../common/label';
 import ResetButton from '../common/ResetButton';
+import getGeomSizeConfig from "../common/geomSize";
 import './G2Bar.scss';
 
 const defaultConfig = {
@@ -284,18 +284,8 @@ function drawBar(chart, config, colors, field = 'type') {
     }]);
   }
 
-  // TODO 暂时没有更好的方案
   if (size) {
-    let sizeConfig = size || 20;
-    if (Array.isArray(size)) {
-      sizeConfig = ['y', size];
-    } else if (G2.Util.isFunction(size)) {
-      sizeConfig = ['x*y*type*facet', size];
-    } else if (typeof size === 'object') {
-      sizeConfig = [sizeConfig.field, sizeConfig.param];
-    } else {
-      sizeConfig = [size];
-    }
+    const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*facet*extra');
     geom.size(...sizeConfig);
   }
 
