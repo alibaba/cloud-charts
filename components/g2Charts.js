@@ -4,7 +4,6 @@ import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
 import g2Factory from './common/g2Factory';
-import setG2Theme from './common/g2Theme';
 // import { autoSelect } from './common/platform';
 
 // 引入组件
@@ -31,9 +30,6 @@ import G2Heatmap from './wheatmap/G2Heatmap';
 // import F2RangeLine from './wrangeline/F2RangeLine';
 // 未实现，空白占位
 // import G2RangeLine from './wrangeline/G2RangeLine';
-
-// 设置G2主题
-setG2Theme(G2);
 
 /**
  * 在G2初始化前，替换 G.Canvas.getPointByClient 函数，适配CSS缩放的场景。
