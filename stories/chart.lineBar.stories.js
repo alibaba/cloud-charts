@@ -3,6 +3,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
+import { withKnobs, select } from "@storybook/addon-knobs";
 
 import { Wlinebar, Wcontainer } from '@alife/aisc-widgets';
 
@@ -32,6 +33,7 @@ const data = [
 ];
 
 const stories = storiesOf('Wlinebar', module);
+stories.addDecorator(withKnobs);
 stories.add('线柱图', () => (
   <Wcontainer className="demos">
     <Wlinebar height="300" config={{}} data={data} />
@@ -152,6 +154,10 @@ class NewData extends React.Component {
           "xAxis":{"type":"timeCat"},
           "yAxis":[{},{}],
           "stack":true,
+          legend: {
+            position: 'bottom',
+            align: 'center',
+          }
         }} data={this.state.data} />
       </Wcontainer>
     );
@@ -212,5 +218,25 @@ stories.add('双轴分组堆叠线柱图', () => (
       area: true,
       dodgeStack: true,
     }} data={dodgeStackData} />
+  </Wcontainer>
+));
+
+const positionOptions = {
+  '顶部': 'top',
+  '底部': 'bottom',
+};
+const alignOptions = {
+  '左': 'left',
+  '中': 'center',
+  '右': 'right',
+};
+stories.add('图例位置测试', () => (
+  <Wcontainer className="demos">
+    <Wlinebar height="300" config={{
+      legend: {
+        position: select('上下位置', positionOptions, 'top'),
+        align: select('左右分布', alignOptions, 'left'),
+      }
+    }} data={data} />
   </Wcontainer>
 ));

@@ -13,7 +13,7 @@ import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label from '../common/label';
 import './G2LineBar.scss';
-import { legendHtmlContainer } from '../common/g2Theme';
+import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
 const defaultConfig = {
   lineColors: themes.category_12.slice(1),
@@ -153,8 +153,11 @@ export default {
       display: 'inline-block',
       position: 'relative',
     };
+    const legendItemStyle = {
+      ...legendHtmlListItem,
+    };
     if (config.legend !== false) {
-      const { align } = config.legend || {};
+      const { position, align } = config.legend || {};
 
       // if (position === 'top') {
       //   legendStyle.top = themes.s3;
@@ -170,9 +173,20 @@ export default {
         // 默认放到左边
         legendStyle.marginRight = themes.s3;
       }
+
+      if (position === 'bottom') {
+        legendStyle.top = '100%';
+        legendStyle.transform = 'translate(0, -100%)';
+        legendStyle.overflow = 'visible';
+        legendStyle.verticalAlign = 'top';
+
+        legendItemStyle.marginBottom = 0;
+        legendItemStyle.marginTop = themes.s3;
+      }
     }
     rectLegend.call(this, chart, config, {
       'g2-legend': legendStyle,
+      'g2-legend-list-item': legendItemStyle,
     }, false, 'type');
 
     // tooltip
@@ -240,9 +254,6 @@ export default {
       if (dom && dom.parentNode) {
         dom.parentNode.className = '';
 
-        if (position === 'bottom') {
-          dom.parentNode.classList.add('widgets-legend-position-bottom');
-        }
         dom.parentNode.classList.add(`widgets-legend-align-${align || 'left'}`);
       }
     } else {
