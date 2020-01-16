@@ -1,5 +1,3 @@
-@import "../theme/index";
-
 .aisc-widgets.G2LineBar {
   > div {
     height: 100%;
@@ -12,16 +10,6 @@
     }
     &.widgets-legend-align-right {
       text-align: right;
-    }
-
-    &.widgets-legend-position-bottom {
-      canvas {
-        position: static;
-      }
-
-      .g2-legend {
-        transform: translate(0, calc(-100% + #{$s3}));
-      }
     }
   }
 
