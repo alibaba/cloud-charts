@@ -1,10 +1,10 @@
 import G2 from '@antv/g2';
 
 import normal from './normal';
-import dark from './dark';
-import aone from './aone';
-import aliyun from './aliyun';
-import aliyunDark from './aliyun-dark';
+// import dark from './dark';
+// import aone from './aone';
+// import aliyun from './aliyun';
+// import aliyunDark from './aliyun-dark';
 import setG2Theme from "../common/g2Theme";
 
 // 横杠连接符转为小驼峰
@@ -24,10 +24,10 @@ function convertKey(themes) {
 
 const themeMap = {
   normal: convertKey(normal),
-  dark: convertKey(dark),
-  aone: convertKey(aone),
-  aliyun: convertKey(aliyun),
-  aliyunDark: convertKey(aliyunDark),
+  // dark: convertKey(dark),
+  // aone: convertKey(aone),
+  // aliyun: convertKey(aliyun),
+  // aliyunDark: convertKey(aliyunDark),
 };
 // 默认为亮色主题包
 themeMap.default = themeMap.normal;
