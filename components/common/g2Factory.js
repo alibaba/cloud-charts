@@ -76,7 +76,7 @@ function g2Factory(name, Chart, convertData = true) {
           }
 
           this.isReRendering = true;
-          this.componentWillUnmount();
+          this.destroy();
 
           this.reRenderTimer = requestAnimationFrame(() => {
             if (!this.chartDom) {
@@ -133,7 +133,7 @@ function g2Factory(name, Chart, convertData = true) {
     // 准备销毁
     unmountCallbacks = [];
 
-    componentWillUnmount() {
+    destroy() {
       // 清空缩放相关变量和事件
       this.resizeRunning = false;
       window.cancelAnimationFrame(this.resizeTimer);
@@ -164,6 +164,10 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.afterRenderCallbacks = [];
       this.unmountCallbacks = [];
+    }
+
+    componentWillUnmount() {
+      this.destroy();
     }
 
     initChart(props) {
