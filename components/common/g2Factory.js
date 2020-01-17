@@ -53,6 +53,27 @@ function g2Factory(name, Chart, convertData = true) {
 
     reRenderTimer = null;
 
+    rerender() {
+      // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
+      if (this.isReRendering) {
+        window.cancelAnimationFrame(this.reRenderTimer);
+      }
+
+      this.isReRendering = true;
+      this.destroy();
+
+      this.reRenderTimer = requestAnimationFrame(() => {
+        if (!this.chartDom) {
+          return;
+        }
+        this.initSize(this.props);
+
+        this.initChart(this.props);
+
+        this.isReRendering = false;
+      });
+    }
+
     componentDidUpdate(prevProps) {
       const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = this.props;
       const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = prevProps;
@@ -70,24 +91,7 @@ function g2Factory(name, Chart, convertData = true) {
         }
 
         if (hasConfigChange) {
-          // 修复 变化过快时 chart.destroy 方法无法清除dom，导致dom重复的问题。
-          if (this.isReRendering) {
-            window.cancelAnimationFrame(this.reRenderTimer);
-          }
-
-          this.isReRendering = true;
-          this.destroy();
-
-          this.reRenderTimer = requestAnimationFrame(() => {
-            if (!this.chartDom) {
-              return;
-            }
-            this.initSize(this.props);
-
-            this.initChart(this.props);
-
-            this.isReRendering = false;
-          });
+          this.rerender();
 
           return;
         }
