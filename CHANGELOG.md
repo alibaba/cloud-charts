@@ -1,3 +1,15 @@
+### 2.5.15 (2020-01-16)
+
+#### New Features
+
+- 新增 图例 defaultClickBehavior 属性，可以在设置了图例 onClick 时保留默认点击行为。
+- 统一抽象 size 属性，允许更多自定义配置。
+- Wmap.Shoot 地图飞线允许设置自定义 className 和 style。
+
+#### Bug Fixes
+
+- 散点图 size 属性回调参数不符合预期的问题。
+
 ### 2.5.14 (2020-01-13)
 
 #### New Features
