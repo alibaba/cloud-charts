@@ -1,6 +1,7 @@
 @import "../../theme/index";
 $wicon-prefix: '.aisc-wicon';
 
+$white: $widgets-color-white;
 $blue: $widgets-color-blue;
 $orange: $widgets-color-orange;
 $red: $widgets-color-red;
@@ -15,6 +16,8 @@ $icon-font-name: "icon" !default;
 
 $icon-font-family: WidgetsIcon !default;
 $icon-prefix: 'aisc-wicon' !default;
+
+$icon-size-1: $s1;
 
 // ------------------- 图标尺寸 ---------------------- //
 
