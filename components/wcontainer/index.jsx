@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import Grid from '@alife/aisc/lib/grid/index';
 
 import Divider from './views/divider';
-import Wcircle from "../wcircle";
 import chartLog from "../common/log";
 import { isMobileWithProps } from '../common/platform';
 import './index.scss';
