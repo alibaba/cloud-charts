@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
@@ -55,8 +55,9 @@ function ThemeDemo() {
     阿里云暗色: 'aliyunDark',
   }, 'normal');
 
-  console.log(theme);
-  setTheme(theme);
+  useMemo(() => {
+    setTheme(theme);
+  }, [theme]);
 
   return (
     <div>

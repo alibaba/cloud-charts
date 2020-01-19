@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { getParentSize, requestAnimationFrame, isEqual, isEqualWith } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
+import eventBus from "../common/eventBus";
 
 // 图表唯一id
 let uniqueId = 0;
@@ -33,6 +34,7 @@ function g2Factory(name, Chart, convertData = true) {
       this.chartId = generateUniqueId();
 
       this.autoResize = this.autoResize.bind(this);
+      this.rerender = this.rerender.bind(this);
 
       // 图表初始化时记录日志
       chartLog(name, 'init');
@@ -47,6 +49,8 @@ function g2Factory(name, Chart, convertData = true) {
       this.initSize();
 
       this.initChart(this.props);
+
+      eventBus.on('setTheme', this.rerender);
     }
 
     isReRendering = false;
@@ -172,6 +176,8 @@ function g2Factory(name, Chart, convertData = true) {
 
     componentWillUnmount() {
       this.destroy();
+
+      eventBus.off('setTheme', this.rerender);
     }
 
     initChart(props) {

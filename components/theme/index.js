@@ -1,10 +1,11 @@
 import G2 from '@antv/g2';
+import eventBus from "../common/eventBus";
 
 import normal from './normal';
-// import dark from './dark';
-// import aone from './aone';
-// import aliyun from './aliyun';
-// import aliyunDark from './aliyun-dark';
+import dark from './dark';
+import aone from './aone';
+import aliyun from './aliyun';
+import aliyunDark from './aliyun-dark';
 import setG2Theme from "../common/g2Theme";
 
 // 横杠连接符转为小驼峰
@@ -24,10 +25,10 @@ function convertKey(themes) {
 
 const themeMap = {
   normal: convertKey(normal),
-  // dark: convertKey(dark),
-  // aone: convertKey(aone),
-  // aliyun: convertKey(aliyun),
-  // aliyunDark: convertKey(aliyunDark),
+  dark: convertKey(dark),
+  aone: convertKey(aone),
+  aliyun: convertKey(aliyun),
+  aliyunDark: convertKey(aliyunDark),
 };
 // 默认为亮色主题包
 themeMap.default = themeMap.normal;
@@ -35,7 +36,7 @@ themeMap.default = themeMap.normal;
 const themes = {};
 let currentTheme = '';
 
-export function setTheme(theme = 'default') {
+export function setTheme(theme = 'default', refreshChart = true) {
   if (typeof theme === 'string' && themeMap[theme] && theme === currentTheme) {
     console.log('重复设置主题');
     return;
@@ -50,8 +51,12 @@ export function setTheme(theme = 'default') {
   G2.Util.deepMix(themes, newTheme);
 
   setG2Theme(themes);
+
+  if (refreshChart) {
+    eventBus.emitEvent('setTheme');
+  }
 }
 
-setTheme();
+setTheme('default', false);
 
 export default themes;
