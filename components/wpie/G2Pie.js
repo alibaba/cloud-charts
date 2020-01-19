@@ -203,7 +203,7 @@ export default {
     });
     this.totalData = totalData;
 
-    const drawPadding = config.drawPadding || 0;
+    const drawPadding = getDrawPadding(config.drawPadding, config.label);
 
     // 设置图例
     rectLegend.call(this, chart, config, {
@@ -243,7 +243,7 @@ export default {
         ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        marginLeft: `${Math.max(pxToNumber(themes.s5) - drawPadding, 0)}px`,
+        marginLeft: `${Math.max(pxToNumber(themes.s5) - drawPadding[1], 0)}px`,
       },
       'g2-legend-list-item': {
         ...legendHtmlListItem,
