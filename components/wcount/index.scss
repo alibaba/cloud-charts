@@ -1,8 +1,6 @@
-@import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wcount-prefix} {
-  @include wcount-font;
-
+  font-family: $font-family;
   color: $color;
 }
