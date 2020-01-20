@@ -167,6 +167,7 @@ export default class Wcircle extends React.Component {
     } = this.props;
 
     const mainClasses = classNames({
+      'aisc-widgets': true,
       [prefix]: true,
       [className]: !!className
     });

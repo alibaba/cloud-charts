@@ -1,18 +1,18 @@
 @import "../../theme/index";
 $wcircle-prefix: '.aisc-wcircle';
 
-$text-family: $font-family-txd-medium-number;
-$text-size-l: $font-size-xlarge-number;
-$text-size-m: $widgets-font-size-4;
-$text-size-s: $widgets-font-size-1;
+$text-family: getVar(font-family-txd-medium-number, $font-family-txd-medium-number);
+$text-size-l: getVar(font-size-xlarge-number, $font-size-xlarge-number);
+$text-size-m: getVar(widgets-font-size-4, $widgets-font-size-4);
+$text-size-s: getVar(widgets-font-size-1, $widgets-font-size-1);
 
-$text-color-1: $widgets-color-text-1;
-$text-color-2: $widgets-color-text-2;
-$number-color: $widgets-circle-number;
-$blue: $widgets-color-blue;
-$orange: $widgets-color-orange;
-$red: $widgets-color-red;
-$empty: $widgets-mini-card-empty;
+$text-color-1: getVar(widgets-color-text-1, $widgets-color-text-1);
+$text-color-2: getVar(widgets-color-text-2, $widgets-color-text-2);
+$number-color: getVar(widgets-circle-number, $widgets-circle-number);
+$blue: getVar(widgets-color-blue, $widgets-color-blue);
+$orange: getVar(widgets-color-orange, $widgets-color-orange);
+$red: getVar(widgets-color-red, $widgets-color-red);
+$empty: getVar(widgets-mini-card-empty, $widgets-mini-card-empty);
 
-$size-1: $s1;
-$size-2: $s2;
+$size-1: getVar(s1, $s1);
+$size-2: getVar(s2, $s2);

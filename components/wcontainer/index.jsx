@@ -124,6 +124,7 @@ export default class Wcontainer extends React.Component {
   render() {
     const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile,  ...otherProps } = this.props;
     const mainClasses = classNames({
+      'aisc-widgets': true,
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(this.props, isMobile),
       [className]: !!className

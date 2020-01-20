@@ -1,5 +1,5 @@
 @import "../../theme/index";
 $wcount-prefix: '.aisc-wdashboard';
 
-$font-family: $font-family-txd-medium-number;
-$color: $widgets-color-text-1;
+$font-family: getVar(font-family-txd-medium-number, $font-family-txd-medium-number);
+$color: getVar(widgets-color-text-1, $widgets-color-text-1);

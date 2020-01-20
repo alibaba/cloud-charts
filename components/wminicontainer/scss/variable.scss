@@ -1,13 +1,13 @@
 @import "../../theme/index";
 $wminicontainer-prefix: '.aisc-wminicontainer';
 
-$wminicontainer-bg-color: $widgets-container-background;
+$wminicontainer-bg-color: getVar(widgets-container-background, $widgets-container-background);
 
-$blue: $widgets-color-blue;
-$orange: $widgets-color-orange;
-$red: $widgets-color-red;
+$blue: getVar(widgets-color-blue, $widgets-color-blue);
+$orange: getVar(widgets-color-orange, $widgets-color-orange);
+$red: getVar(widgets-color-red, $widgets-color-red);
 
-$wcontainer-padding: $s5;
-$wcontainer-mobile-padding: $s3;
+$wcontainer-padding: getVar(s5, $s5);
+$wcontainer-mobile-padding: getVar(s3, $s3);
 
-$wminicontainer-corner-radius: $corner-radius-r1;
+$wminicontainer-corner-radius: getVar(corner-radius-r1, $corner-radius-r1);

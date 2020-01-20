@@ -28,6 +28,7 @@ export default class Wicon extends React.Component {
   render() {
     const { type, size, className, status, reverse, ...other } = this.props;
     const classes = classNames({
+      'aisc-widgets': true,
       // [`next-icon`]: true,
       [`${prefix}-${type}`]: !!type,
       [`${prefix}`]: true,

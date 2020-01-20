@@ -27,6 +27,7 @@ export default class Wminicontainer extends React.Component {
   render() {
     const { height = 80, className, status, style, isMobile, ...otherProps } = this.props;
     const mainClasses = classNames({
+      'aisc-widgets': true,
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(otherProps, isMobile),
       [`${prefix}-${getStatusColorName(status)}`]: !!status,

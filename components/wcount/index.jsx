@@ -156,6 +156,7 @@ export default class Wcount extends React.Component {
     const { className, ...otherProps } = this.props;
 
     const mainClasses = classNames({
+      'aisc-widgets': true,
       [prefix]: true,
       [className]: !!className
     });

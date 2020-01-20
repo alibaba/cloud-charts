@@ -50,10 +50,10 @@ $font-path: './font';
     padding: 4px;
 
     font-size: 12px;
-    color: $widgets-color-blue;
-    background: $widgets-color-white;
+    color: getVar(widgets-color-blue, $widgets-color-blue);
+    background: getVar(widgets-color-white, $widgets-color-white);
 
-    border: 1px solid $widgets-color-gray;
+    border: 1px solid getVar(widgets-color-gray, $widgets-color-gray);
     border-radius: 2px;
 
     cursor: pointer;
@@ -61,17 +61,17 @@ $font-path: './font';
   }
 
   .g2-tooltip-item-value {
-    margin-left: $s2;
+    margin-left: getVar(s2, $s2);
   }
 
   .g2-legend-value {
-    margin-left: $s2;
+    margin-left: getVar(s2, $s2);
   }
 
   $legend-collapse-arrow-width: 10px;
   $legend-collapse-arrow-height: 8px;
-  $legend-collapse-arrow-color: $widgets-color-text-3;
-  $legend-collapse-arrow-disable: $widgets-color-disable;
+  $legend-collapse-arrow-color: getVar(widgets-color-text-3, $widgets-color-text-3);
+  $legend-collapse-arrow-disable: getVar(widgets-color-disable, $widgets-color-disable);
   .widgets-legend-collapse {
     position: absolute;
     top: 0;
@@ -128,19 +128,19 @@ $font-path: './font';
   }
 
   ::-webkit-scrollbar {
-    background: $widgets-scrollbar-bg;
+    background: getVar(widgets-scrollbar-bg, $widgets-scrollbar-bg);
     width: 8px;
     height: 8px;
     padding: 0 3px;
     // border-radius: 3px;
   }
   ::-webkit-scrollbar-corner {
-    background: $widgets-scrollbar-bg;
+    background: getVar(widgets-scrollbar-bg, $widgets-scrollbar-bg);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: $widgets-scrollbar-thumb;
+    background: getVar(widgets-scrollbar-thumb, $widgets-scrollbar-thumb);
     border-radius: 3px;
   }
 }

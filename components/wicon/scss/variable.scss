@@ -1,12 +1,12 @@
 @import "../../theme/index";
 $wicon-prefix: '.aisc-wicon';
 
-$white: $widgets-color-white;
-$blue: $widgets-color-blue;
-$orange: $widgets-color-orange;
-$red: $widgets-color-red;
-$green: $widgets-color-green;
-$gray: $widgets-color-gray;
+$white: getVar(widgets-color-white, $widgets-color-white);
+$blue: getVar(widgets-color-blue, $widgets-color-blue);
+$orange: getVar(widgets-color-orange, $widgets-color-orange);
+$red: getVar(widgets-color-red, $widgets-color-red);
+$green: getVar(widgets-color-green, $widgets-color-green);
+$gray: getVar(widgets-color-gray, $widgets-color-gray);
 
 //$icon-font-path: "//at.alicdn.com/t/font_180585_30ih4fhuc34" !default;
 $icon-font-path: "./font_180585_2frjb4evzia" !default;
@@ -17,41 +17,41 @@ $icon-font-name: "icon" !default;
 $icon-font-family: WidgetsIcon !default;
 $icon-prefix: 'aisc-wicon' !default;
 
-$icon-size-1: $s1;
+$icon-size-1: getVar(s1, $s1);
 
 // ------------------- 图标尺寸 ---------------------- //
 
 /// Icon XXS
 /// @export
-$icon-xxs: $s2 !default;
+$icon-xxs: getVar(s2, $s2) !default;
 
 /// Icon XS
 /// @export
-$icon-xs: $s3 !default;
+$icon-xs: getVar(s3, $s3) !default;
 
 /// Icon S
 /// @export
-$icon-s: $s4 !default;
+$icon-s: getVar(s4, $s4) !default;
 
 /// Icon M
 /// @export
-$icon-m: $s5 !default;
+$icon-m: getVar(s5, $s5) !default;
 
 /// Icon L
 /// @export
-$icon-l: $s6 !default;
+$icon-l: getVar(s6, $s6) !default;
 
 /// Icon XL
 /// @export
-$icon-xl: $s8 !default;
+$icon-xl: getVar(s8, $s8) !default;
 
 /// Icon XXL
 /// @export
-$icon-xxl: $s12 !default;
+$icon-xxl: getVar(s12, $s12) !default;
 
 /// Icon XXXL
 /// @export
-$icon-xxxl: $s16 !default;
+$icon-xxxl: getVar(s16, $s16) !default;
 
 // ------------------- 图标 unicode 值 ---------------------- //
 

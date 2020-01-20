@@ -84,6 +84,7 @@ export default class Wplaceholder extends React.Component {
     const { className, width, height = '100%', style, loading, error, noData, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
+      'aisc-widgets': true,
       [prefix + '-loading']: !error && loading,
       [prefix + '-no-data']: !error && !loading && noData,
       [prefix + '-error']: !!error,
