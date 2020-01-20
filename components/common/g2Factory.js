@@ -181,9 +181,7 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     initChart(props) {
-      if (this.chartProcess.getDefaultConfig) {
-        this.defaultConfig = this.chartProcess.getDefaultConfig();
-      }
+      this.defaultConfig = this.chartProcess.getDefaultConfig();
       let currentProps = props || this.props;
       // 开始初始化图表
       currentProps = this.chartProcess.beforeInit ? this.chartProcess.beforeInit.call(this, currentProps) : currentProps;
