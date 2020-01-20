@@ -56,9 +56,9 @@ function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
     return [drawPadding, drawPadding, drawPadding, drawPadding];
   } else if (labelConfig && labelConfig.visible !== false) {
     // 饼图使用 label 时，调整 drawPadding
-    return defaultDrawPadding.drawPadding.map(p => Math.max(p, 48));
+    return defaultDrawPadding.map(p => Math.max(p, 48));
   } else {
-    return defaultDrawPadding.drawPadding;
+    return defaultDrawPadding;
   }
 }
 
