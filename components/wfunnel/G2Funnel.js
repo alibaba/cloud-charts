@@ -8,33 +8,34 @@ import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
 import { defaultPadding } from '../common/common';
 
-const defaultConfig = {
-  colors: themes.order_10,
-  padding: [28, 0, 0, 0],
-  legend: {
-    align: 'left',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  // 主方向，从上到下(vertical)、从左到右(horizontal)
-  direction: 'vertical',
-  // 排列位置 start,center,end
-  align: 'center',
-  // 尖顶漏斗图
-  pyramid: false,
-};
-
 export default {
+  getDefaultConfig() {
+    return {
+      colors: themes.order_10,
+      padding: [28, 0, 0, 0],
+      legend: {
+        align: 'left',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      // 主方向，从上到下(vertical)、从左到右(horizontal)
+      direction: 'vertical',
+      // 排列位置 start,center,end
+      align: 'center',
+      // 尖顶漏斗图
+      pyramid: false,
+    };
+  },
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
       config: newConfig,
     });
   },

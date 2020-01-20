@@ -14,25 +14,6 @@ import label from '../common/label';
 import guide from '../common/guide';
 import getGeomSizeConfig from "../common/geomSize";
 
-// 建议将默认配置放在外层，方便后续维护
-const defaultConfig = {
-  padding: [28, 5, 24, 44],
-  colors: themes.category_12,
-  xAxis: {
-    type: 'linear',
-    mask: 'YYYY-MM-DD HH:mm:ss',
-    autoRotate: false,
-  },
-  yAxis: {
-    min: 0,
-  },
-  size: 4,
-  jitter: false,
-  tooltip: true,
-  legend: true,
-  label: false,
-};
-
 const setAxis = (chart, config) => {
   // 设置X轴
   const xAxis = {};
@@ -93,6 +74,25 @@ const setSource = (chart, config, data) => {
 };
 
 export default {
+  getDefaultConfig() {
+    return {
+      padding: [28, 5, 24, 44],
+      colors: themes.category_12,
+      xAxis: {
+        type: 'linear',
+        mask: 'YYYY-MM-DD HH:mm:ss',
+        autoRotate: false,
+      },
+      yAxis: {
+        min: 0,
+      },
+      size: 4,
+      jitter: false,
+      tooltip: true,
+      legend: true,
+      label: false,
+    };
+  },
   beforeInit(props) {
     const { config } = props;
     const preConfig = {};
@@ -101,10 +101,10 @@ export default {
         type: 'cat',
       };
     }
-    const newConfig = merge({}, defaultConfig, preConfig, config);
+    const newConfig = merge({}, this.defaultConfig, preConfig, config);
 
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
       config: newConfig,
     });
   },

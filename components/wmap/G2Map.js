@@ -12,29 +12,6 @@ import rectLegend from '../common/rectLegend';
 import getGeomSizeConfig from "../common/geomSize";
 import './G2Map.scss';
 
-const defaultConfig = {
-  padding: [20, 20, 20, 20],
-  background: {
-    fill: themes['widgets-map-area-bg'],
-    stroke: themes['widgets-map-area-border'],
-  },
-  areaColors: themes.order_10,
-  pointColors: themes.category_12,
-  heatColors: 'rgb(0,0,255)-rgb(0,255,0)-rgb(255,255,0)-rgb(255,0,0)',
-  type: 'china',
-  showSouthChinaSea: true,
-  projection: null,
-  legend: {
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  labels: false,
-  label: false,
-};
-
 export const AREA_NAME = 'WidgetsMapArea';
 export const POINT_NAME = 'WidgetsMapPoint';
 export const HEAT_MAP_NAME = 'WidgetsMapHeatMap';
@@ -60,9 +37,33 @@ const fixLngLatMap = {
 };
 
 export default {
+  getDefaultConfig() {
+    return {
+      padding: [20, 20, 20, 20],
+      background: {
+        fill: themes['widgets-map-area-bg'],
+        stroke: themes['widgets-map-area-border'],
+      },
+      areaColors: themes.order_10,
+      pointColors: themes.category_12,
+      heatColors: 'rgb(0,0,255)-rgb(0,255,0)-rgb(255,255,0)-rgb(255,0,0)',
+      type: 'china',
+      showSouthChinaSea: true,
+      projection: null,
+      legend: {
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      labels: false,
+      label: false,
+    };
+  },
   beforeInit(props) {
     const { config, geoData } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
     if (geoData) {
       this.geoData = geoData;
     }
@@ -158,7 +159,7 @@ export default {
     chart.changeSize(width, height);
   },
   changeData(chart, newConfig, viewName, newData) {
-    const config = merge({}, defaultConfig, newConfig);
+    const config = merge({}, this.defaultConfig, newConfig);
     const { ds } = this;
     let data = newData;
     if (config.dataType !== 'g2') {

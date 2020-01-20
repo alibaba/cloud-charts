@@ -5,36 +5,37 @@ import themes from '../theme/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
 
-const defaultConfig = {
-  padding: ['auto', 40, 'auto', 'auto'],
-  legend: {
-    align: 'left',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
-    nameFormatter: null,
-  },
-  labels: true,
-  // textStyle: {
-  //   fill: '#545454',
-  //   textAlign: 'start'
-  // }
-};
-
 function getEdges(d) {
   return d.links;
 }
 
 export default {
+  getDefaultConfig() {
+    return {
+      padding: ['auto', 40, 'auto', 'auto'],
+      legend: {
+        align: 'left',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      tooltip: {
+        nameFormatter: null,
+      },
+      labels: true,
+      // textStyle: {
+      //   fill: '#545454',
+      //   textAlign: 'start'
+      // }
+    };
+  },
   beforeInit(props) {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
+      padding: props.padding || config.padding || this.defaultConfig.padding,
     });
   },
   init(chart, userConfig, data) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = merge({}, this.defaultConfig, userConfig);
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',

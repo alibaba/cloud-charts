@@ -13,41 +13,42 @@ import legendFilter from '../common/legendFilter';
 // import label from '../common/label';
 import './G2Heatmap.scss';
 
-const defaultConfig = {
-  colors: themes.category_12,
-  padding: [28, 5, 24, 44],
-  xAxis: {
-    type: 'cat',
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    categories: null,
-    autoRotate: false,
-  },
-  yAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    max: null,
-    min: null,
-  },
-  legend: {
-    align: 'left',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
-    titleFormatter: null,
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  // grid: false,
-  // label: false,
-};
-
 export default {
+  getDefaultConfig() {
+    return {
+      colors: themes.category_12,
+      padding: [28, 5, 24, 44],
+      xAxis: {
+        type: 'cat',
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        categories: null,
+        autoRotate: false,
+      },
+      yAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        max: null,
+        min: null,
+      },
+      legend: {
+        align: 'left',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      // grid: false,
+      // label: false,
+    };
+  },
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
       config: newConfig,
     });
   },

@@ -12,46 +12,47 @@ import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Rectangle.scss';
 
-const defaultConfig = {
-  // 这里需要倒序排列
-  colors: themes.order_10.slice().reverse(),
-  padding: [28, 10, 24, 44],
-  xAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    autoRotate: false,
-    max: null,
-    min: null,
-  },
-  yAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    max: null,
-    min: null,
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  bin: {
-    fields: ['x', 'y'],
-    bins: [20, 10], // 两个方向上的分箱个数
-    // binWidth: [ 10, 1000 ],    // 两个方向上的分箱步长（会覆盖bins的配置）
-    // offset: [ 0, 0 ],
-
-  },
-  grid: false,
-  label: false,
-};
-
 export default {
+  getDefaultConfig() {
+    return {
+      // 这里需要倒序排列
+      colors: themes.order_10.slice().reverse(),
+      padding: [28, 10, 24, 44],
+      xAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        autoRotate: false,
+        max: null,
+        min: null,
+      },
+      yAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        max: null,
+        min: null,
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      bin: {
+        fields: ['x', 'y'],
+        bins: [20, 10], // 两个方向上的分箱个数
+        // binWidth: [ 10, 1000 ],    // 两个方向上的分箱步长（会覆盖bins的配置）
+        // offset: [ 0, 0 ],
+
+      },
+      grid: false,
+      label: false,
+    };
+  },
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
 
     // TODO 处理padding
-    // let defaultPaddingTop = defaultConfig.padding[0];
-    // let defaultPaddingRight = defaultConfig.padding[1];
-    // const defaultPaddingBottom = defaultConfig.padding[2];
-    // const defaultPaddingLeft = defaultConfig.padding[3];
+    // let defaultPaddingTop = this.defaultConfig.padding[0];
+    // let defaultPaddingRight = this.defaultConfig.padding[1];
+    // const defaultPaddingBottom = this.defaultConfig.padding[2];
+    // const defaultPaddingLeft = this.defaultConfig.padding[3];
     // if (defaultPaddingRight !== 'auto' && Array.isArray(newConfig.yAxis)) {
     //   defaultPaddingRight = 44;
     // }
@@ -59,7 +60,7 @@ export default {
     //   defaultPaddingTop = 16;
     // }
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
       config: newConfig,
     });
   },

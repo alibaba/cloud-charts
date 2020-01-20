@@ -9,24 +9,6 @@ import rectLegend from '../common/rectLegend';
 import G2Pie from '../wpie/G2Pie';
 import './G2MultiPie.scss';
 
-const defaultConfig = {
-  colors: themes.category_12,
-  padding: [20, 20, 20, 20],
-  legend: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  // autoSort: true,
-  cycle: false,
-  innerRadius: null, // 内环半径大小，仅cycle为true时可用
-  // outerRadius: 0.8, // 饼图半径大小，初始化时可用
-  drawPadding: 10,
-};
-
 function getParentList(node, target = []) {
   const parentNode = node.parent;
   // 需要存储根节点，所以一直到 parentNode===null（此时在根节点上）
@@ -115,7 +97,7 @@ function getInnerRadius(maxDepth, innerRadius) {
 
 export default Object.assign({}, G2Pie, {
   init(chart, userConfig, data) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = merge({}, this.defaultConfig, userConfig);
 
     const { source, maxDepth } = computeData.call(this, data);
 

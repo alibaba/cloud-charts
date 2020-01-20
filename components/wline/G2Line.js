@@ -15,55 +15,56 @@ import ResetButton from '../common/ResetButton';
 import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
-const defaultConfig = {
-  colors: themes.category_12,
-  areaColors: [],
-  padding: [28, 5, 24, 44],
-  xAxis: {
-    type: 'time', // 默认为线性
-    mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    categories: null,
-    autoRotate: false,
-    max: null,
-    min: null,
-  },
-  yAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    max: null,
-    min: null,
-  },
-  legend: {
-    align: 'left',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
-    titleFormatter: null,
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  area: false,
-  stack: false, // 仅Area有效
-  spline: false,
-  grid: false,
-  symbol: false,
-  zoom: false,
-  label: false,
-  step: null,
-  // TODO
-  // mini: false,
-  // dataConfig: {
-  //   nameKey: 'name',
-  //   valueKey: 'value',
-  //   // valueKey: ['value1', 'value2'],
-  //   typeKey: 'type'
-  // }
-};
-
 export default {
+  getDefaultConfig() {
+    return {
+      colors: themes.category_12,
+      areaColors: [],
+      padding: [28, 5, 24, 44],
+      xAxis: {
+        type: 'time', // 默认为线性
+        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        categories: null,
+        autoRotate: false,
+        max: null,
+        min: null,
+      },
+      yAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        max: null,
+        min: null,
+      },
+      legend: {
+        align: 'left',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      area: false,
+      stack: false, // 仅Area有效
+      spline: false,
+      grid: false,
+      symbol: false,
+      zoom: false,
+      label: false,
+      step: null,
+      // TODO
+      // mini: false,
+      // dataConfig: {
+      //   nameKey: 'name',
+      //   valueKey: 'value',
+      //   // valueKey: ['value1', 'value2'],
+      //   typeKey: 'type'
+      // }
+    };
+  },
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
 
     // // TODO 处理padding
     // let defaultPaddingTop = defaultConfig.padding[0];
@@ -78,7 +79,7 @@ export default {
     // }
     return Object.assign({}, props, {
       // padding: props.padding || config.padding || [defaultPaddingTop, defaultPaddingRight, defaultPaddingBottom, defaultPaddingLeft],
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...defaultConfig.padding),
+      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
       config: newConfig,
     });
   },

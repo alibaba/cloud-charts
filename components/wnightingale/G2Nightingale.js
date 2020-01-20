@@ -7,38 +7,38 @@ import './G2Nightingale.scss';
 import rectLegend from '../common/rectLegend';
 import label from '../common/label';
 
-// 建议将默认配置放在外层，方便后续维护
-const defaultConfig = {
-  padding: [20, 20, 40, 20],
-  colors: themes.category_12,
-  label: {
-    key: 'x',
-  },
-  legend: {
-    position: 'bottom',
-    align: 'center',
-    nameFormatter: null,
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-};
-
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。
 export default {
+  getDefaultConfig() {
+    return {
+      padding: [20, 20, 40, 20],
+      colors: themes.category_12,
+      label: {
+        key: 'x',
+      },
+      legend: {
+        position: 'bottom',
+        align: 'center',
+        nameFormatter: null,
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+    };
+  },
   // 初始化前对props的预处理函数
   beforeInit(props) {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
+      padding: props.padding || config.padding || this.defaultConfig.padding,
     });
   },
   // 图表绘制主函数，必选
   init(chart, userConfig, data) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = merge({}, this.defaultConfig, userConfig);
     chart.source(data);
     chart.coord('polar');
 

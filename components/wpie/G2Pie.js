@@ -8,29 +8,6 @@ import rectLegend from '../common/rectLegend';
 import label from '../common/label';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
-const defaultConfig = {
-  colors: themes.category_12,
-  padding: [20, 20, 20, 20],
-  legend: {
-    // position: 'right',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-    valueFormatter: null,
-  },
-  tooltip: {
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-  coord: null,
-  autoSort: true,
-  cycle: false,
-  select: false,
-  selectData: null,
-  innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
-  outerRadius: 0.8, // 饼图半径大小，初始化时可用
-  drawPadding: [10, 10, 10, 10],
-  label: false,
-};
-
 function transformCoord(coord, transform = {}) {
   const { type, param } = transform;
   if (coord[type] && Array.isArray(param)) {
@@ -72,26 +49,50 @@ function paddingNumber(value) {
   return isInvalidNumber(value) ? 0 : Number(value);
 }
 
-function getDrawPadding(drawPadding, labelConfig) {
+function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
   if (Array.isArray(drawPadding)) {
     return drawPadding;
   } else if (!isInvalidNumber(drawPadding)) {
     return [drawPadding, drawPadding, drawPadding, drawPadding];
   } else if (labelConfig && labelConfig.visible !== false) {
     // 饼图使用 label 时，调整 drawPadding
-    return defaultConfig.drawPadding.map(p => Math.max(p, 48));
+    return defaultDrawPadding.drawPadding.map(p => Math.max(p, 48));
   } else {
-    return defaultConfig.drawPadding;
+    return defaultDrawPadding.drawPadding;
   }
 }
 
 export default {
+  getDefaultConfig() {
+    return {
+      colors: themes.category_12,
+      padding: [20, 20, 20, 20],
+      legend: {
+        // position: 'right',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+        valueFormatter: null,
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      coord: null,
+      autoSort: true,
+      cycle: false,
+      select: false,
+      selectData: null,
+      innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
+      outerRadius: 0.8, // 饼图半径大小，初始化时可用
+      drawPadding: [10, 10, 10, 10],
+      label: false,
+    };
+  },
   beforeInit(props) {
     const { config } = props;
     const element = this.chartDom;
-    const padding = props.padding || config.padding || defaultConfig.padding;
-    const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = getDrawPadding(config.drawPadding, config.label);
+    const padding = props.padding || config.padding || this.defaultConfig.padding;
+    const outerRadius = Math.max(Math.min(config.outerRadius || this.defaultConfig.outerRadius, 1), 0.01);
+    const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
     // fix: padding 为 auto 时会计算错误
     const boxHeight = element.offsetHeight - paddingNumber(padding[0]) - paddingNumber(padding[2]);
@@ -119,9 +120,9 @@ export default {
     });
   },
   changeSize(chart, config, w, h) {
-    const padding = config.padding || defaultConfig.padding;
-    const outerRadius = Math.max(Math.min(config.outerRadius || defaultConfig.outerRadius, 1), 0.01);
-    const drawPadding = getDrawPadding(config.drawPadding, config.label);
+    const padding = config.padding || this.defaultConfig.padding;
+    const outerRadius = Math.max(Math.min(config.outerRadius || this.defaultConfig.outerRadius, 1), 0.01);
+    const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
     const boxHeight = h - paddingNumber(padding[0]) - paddingNumber(padding[2]);
     const boxWidth = w - paddingNumber(padding[1]) - paddingNumber(padding[3]);
@@ -159,7 +160,7 @@ export default {
     }
   },
   init(chart, userConfig, data) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = merge({}, this.defaultConfig, userConfig);
 
     const defs = {
       type: {
@@ -203,7 +204,7 @@ export default {
     });
     this.totalData = totalData;
 
-    const drawPadding = getDrawPadding(config.drawPadding, config.label);
+    const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
     // 设置图例
     rectLegend.call(this, chart, config, {

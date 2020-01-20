@@ -10,50 +10,50 @@ import rectTooltip from '../common/rectTooltip';
 import drawLine from '../common/drawLine';
 import './G2Radar.scss';
 
-// 建议将默认配置放在外层，方便后续维护
-const defaultConfig = {
-  padding: [20, 20, 40, 20],
-  colors: themes.category_12,
-  xAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  yAxis: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    // max: 100,
-    min: 0,
-  },
-  radius: 0.8,
-  area: false,
-  symbol: false,
-  label: false,
-  spline: false,
-  // stack: false,
-  legend: {
-    position: 'bottom',
-    align: 'center',
-    nameFormatter: null,
-  },
-  tooltip: {
-    titleFormatter: null,
-    nameFormatter: null,
-    valueFormatter: null,
-  },
-};
-
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。
 export default {
+  getDefaultConfig() {
+    return {
+      padding: [20, 20, 40, 20],
+      colors: themes.category_12,
+      xAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+      },
+      yAxis: {
+        labelFormatter: null, // 可以强制覆盖，手动设置label
+        // max: 100,
+        min: 0,
+      },
+      radius: 0.8,
+      area: false,
+      symbol: false,
+      label: false,
+      spline: false,
+      // stack: false,
+      legend: {
+        position: 'bottom',
+        align: 'center',
+        nameFormatter: null,
+      },
+      tooltip: {
+        titleFormatter: null,
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+    };
+  },
   // 初始化前对props的预处理函数
   beforeInit(props) {
     const { config } = props;
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
+      padding: props.padding || config.padding || this.defaultConfig.padding,
     });
   },
   // 图表绘制主函数，必选
   init(chart, userConfig, data) {
-    const config = merge({}, defaultConfig, userConfig);
+    const config = merge({}, this.defaultConfig, userConfig);
 
     const defs = {
       x: propertyAssign(propertyMap.xAxis, {

@@ -8,41 +8,42 @@ import rectTooltip from '../common/rectTooltip';
 import guide from '../common/guide';
 import drawLine from '../common/drawLine';
 
-const defaultConfig = {
-  colors: themes.category_12,
-  padding: [0, 0, 0, 0],
-  xAxis: {
-    type: 'time', // 默认为线性
-    mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
-    categories: null,
-    max: null,
-    min: null,
-  },
-  yAxis: {
-    max: null,
-    min: null,
-  },
-  tooltip: false,
-  area: false,
-  spline: false,
-  symbol: false,
-  label: false,
-  // dataConfig: {
-  //   nameKey: 'name',
-  //   valueKey: 'value',
-  //   // valueKey: ['value1', 'value2'],
-  //   typeKey: 'type'
-  // }
-};
-
 export default {
+  getDefaultConfig() {
+    return {
+      colors: themes.category_12,
+      padding: [0, 0, 0, 0],
+      xAxis: {
+        type: 'time', // 默认为线性
+        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        categories: null,
+        max: null,
+        min: null,
+      },
+      yAxis: {
+        max: null,
+        min: null,
+      },
+      tooltip: false,
+      area: false,
+      spline: false,
+      symbol: false,
+      label: false,
+      // dataConfig: {
+      //   nameKey: 'name',
+      //   valueKey: 'value',
+      //   // valueKey: ['value1', 'value2'],
+      //   typeKey: 'type'
+      // }
+    };
+  },
   beforeInit(props) {
     const { config } = props;
-    const newConfig = merge({}, defaultConfig, config);
+    const newConfig = merge({}, this.defaultConfig, config);
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: props.padding || config.padding || defaultConfig.padding,
+      padding: props.padding || config.padding || this.defaultConfig.padding,
       config: newConfig,
     });
   },
