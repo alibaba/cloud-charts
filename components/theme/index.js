@@ -73,6 +73,9 @@ const themeMap = {
     css: convertCSS(aliyunDarkStyle),
   },
 };
+// alias index as normal
+themeMap.index = themeMap.normal;
+
 // 默认为亮色主题包
 themeMap.default = themeMap.normal;
 
