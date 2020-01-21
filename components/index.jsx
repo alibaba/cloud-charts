@@ -1,4 +1,4 @@
-import themes, { setTheme } from './theme/index';
+import themes, { getTheme, setTheme } from './theme/index';
 import './index.scss';
 
 export const version = __VERSION__;
@@ -20,7 +20,7 @@ export Wdashboard from './wdashboard/index';
 export const COLORS = themes;
 export const THEMES = themes;
 
-export { setTheme };
+export { getTheme, setTheme };
 
 // 暴露所有图表组件、底层依赖的G2、工具类
 export * from './g2Charts';

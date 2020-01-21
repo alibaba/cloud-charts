@@ -31,7 +31,13 @@ function setThemeStyle(css) {
   style.innerText = css;
 }
 
-// 横杠连接符转为小驼峰
+/**
+ * 将主题包中横杠连接符变量克隆转为小驼峰写法
+ *
+ * @param {Object} themes 主题包
+ *
+ * @return {Object} themes
+ * */
 function convertKey(themes) {
   Object.keys(themes).forEach((key) => {
     if (key.indexOf('-') > -1) {
@@ -55,22 +61,27 @@ const themeMap = {
   normal: {
     js: convertKey(normal),
     css: convertCSS(normalStyle),
+    rawCSS: normalStyle,
   },
   dark: {
     js: convertKey(dark),
     css: convertCSS(darkStyle),
+    rawCSS: darkStyle,
   },
   aone: {
     js: convertKey(aone),
     css: convertCSS(aoneStyle),
+    rawCSS: aoneStyle,
   },
   aliyun: {
     js: convertKey(aliyun),
     css: convertCSS(aliyunStyle),
+    rawCSS: aliyunStyle,
   },
   aliyunDark: {
     js: convertKey(aliyunDark),
     css: convertCSS(aliyunDarkStyle),
+    rawCSS: aliyunDarkStyle,
   },
 };
 // alias index as normal
@@ -80,19 +91,32 @@ themeMap.index = themeMap.normal;
 themeMap.default = themeMap.normal;
 
 const themes = {};
-let currentTheme = '';
+let currentThemeName = '';
+
+export function getTheme(name) {
+  if (!name) {
+    return themes;
+  } else if (themeMap[name]) {
+    return themeMap[name].js;
+  }
+}
 
 export function setTheme(theme = 'default', refreshChart = true) {
-  if (typeof theme === 'string' && themeMap[theme] && theme === currentTheme) {
-    console.log('重复设置主题');
+  if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
     return;
   }
   let newTheme = {};
   if (G2.Util.isObject(theme)) {
-    newTheme = theme;
+    // 传入对象，直接覆盖对应的key和css
+    newTheme = convertKey(theme);
+
+    // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
+    const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
+    setThemeStyle(convertCSS(newCSS));
   } else if (themeMap[theme]) {
+    // 传入字符串名字，设置对应主题包
     newTheme = themeMap[theme].js;
-    currentTheme = theme;
+    currentThemeName = theme;
 
     setThemeStyle(themeMap[theme].css);
   } else {
