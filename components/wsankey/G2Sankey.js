@@ -34,8 +34,9 @@ export default {
       padding: props.padding || config.padding || this.defaultConfig.padding,
     });
   },
-  init(chart, userConfig, data) {
+  init(chart, userConfig, rawData) {
     const config = merge({}, this.defaultConfig, userConfig);
+    const data = merge({}, rawData);
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',
@@ -94,8 +95,10 @@ export default {
 
     chart.render();
   },
-  changeData(chart, newConfig, data) {
+  changeData(chart, newConfig, rawData) {
     if (this.sankeyDataView && this.nodeView && this.edgeView) {
+      const data = merge({}, rawData);
+
       this.sankeyDataView.source(data, {
         type: 'graph',
         edges: getEdges,
