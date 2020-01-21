@@ -32,6 +32,7 @@ function g2Factory(name, Chart, convertData = true) {
       this.chart = null;
       this.chartDom = null;
       this.chartId = generateUniqueId();
+      this.defaultConfig = {};
 
       this.autoResize = this.autoResize.bind(this);
       this.rerender = this.rerender.bind(this);
@@ -181,7 +182,9 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     initChart(props) {
-      this.defaultConfig = this.chartProcess.getDefaultConfig();
+      if (this.chartProcess.getDefaultConfig) {
+        this.defaultConfig = this.chartProcess.getDefaultConfig();
+      }
       let currentProps = props || this.props;
       // 开始初始化图表
       currentProps = this.chartProcess.beforeInit ? this.chartProcess.beforeInit.call(this, currentProps) : currentProps;
