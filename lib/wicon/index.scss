@@ -1,11 +1,5 @@
-@import "../theme/index";
 @import "./scss/variable.scss";
 @import "./scss/mixin.scss";
-
-// 覆盖内部变量
-//$icon-prefix: 'aisc-wicon';
-//$icon-font-family: WidgetsIcon;
-//@import "~@alife/aisc/lib/icon/style/index.scss";
 
 @font-face {
   font-family: $icon-font-family;
@@ -23,23 +17,23 @@
     border-radius: 50%;
 
     &#{$wicon-prefix}-gray{
-      color: $widgets-color-white;
+      color: $white;
       background-color: $gray;
     }
     &#{$wicon-prefix}-blue{
-      color: $widgets-color-white;
+      color: $white;
       background-color: $blue;
     }
     &#{$wicon-prefix}-orange{
-      color: $widgets-color-white;
+      color: $white;
       background-color: $orange;
     }
     &#{$wicon-prefix}-red{
-      color: $widgets-color-white;
+      color: $white;
       background-color: $red;
     }
     &#{$wicon-prefix}-green{
-      color: $widgets-color-white;
+      color: $white;
       background-color: $green;
     }
   }
@@ -82,10 +76,10 @@
     text-align: center;
   }
   &-left {
-    margin-right: $s1;
+    margin-right: $icon-size-1;
   }
   &-right {
-    margin-left: $s1;
+    margin-left: $icon-size-1;
   }
 
   &-xxs {
@@ -130,6 +124,17 @@
   }
 
   @-webkit-keyframes loadingCircle {
+    0% {
+      transform-origin: 50% 50%;
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform-origin: 50% 50%;
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loadingCircle {
     0% {
       transform-origin: 50% 50%;
       transform: rotate(0deg);

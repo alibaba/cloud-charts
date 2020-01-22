@@ -3,12 +3,12 @@
 
 #{$wminicontainer-prefix} {
   background: $wminicontainer-bg-color;
-  padding-top: 20px;
+  padding-top: $wcontainer-padding;
   border-radius: $wminicontainer-corner-radius;
 
   // 移动端适配
   &#{$wminicontainer-prefix}-mobile {
-    padding-top: 12px;
+    padding-top: $wcontainer-mobile-padding;
   }
 }
 

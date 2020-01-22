@@ -1,4 +1,3 @@
-@import './scss/mixin.scss';
 @import './scss/variable.scss';
 #{$wcontainer-prefix} {
   background: $wcontainer-bg-color;
@@ -37,7 +36,7 @@
         // 适配字体大小，直接使用em
         width: 0.25em;
         height: 1em;
-        background: $widgets-color-blue;
+        background: $wcontainer-title-border-color;
         border-radius: 0.125em;
       }
     }
@@ -45,7 +44,7 @@
     //#{$wcontainer-prefix}-title-border {
     //  display: inline-block;
     //
-    //  width: $s1;
+    //  width: $wcontainer-cross-size-1;
     //  height: $s4;
     //  margin-right: $s2;
     //  vertical-align: -2px;
@@ -56,13 +55,13 @@
     >#{$wcontainer-prefix}-operation {
       float: right;
 
-      font-size: $font-size-base-caption;
+      font-size: $wcontainer-extra-font-size;
 
       a {
-        color: $widgets-color-text-2;
+        color: $wcontainer-extra-color;
 
         &:hover {
-          color: $widgets-color-text-1;
+          color: $wcontainer-extra-color-hover;
         }
       }
     }
@@ -88,9 +87,9 @@
             border-bottom: none;
           }
           .next-col {
-            margin-right: $s1;
-            margin-left: $s1;
-            padding-left: $s3;
+            margin-right: $wcontainer-cross-size-1;
+            margin-left: $wcontainer-cross-size-1;
+            padding-left: $wcontainer-cross-size-2;
             border-left: 1px solid $wcontainer-split-line;
             &:first-child {
               border-left: none;

@@ -52,7 +52,7 @@ function ThemeDemo() {
     暗色: 'dark',
     Aone: 'aone',
     阿里云: 'aliyun',
-    阿里云暗色: 'aliyunDark',
+    阿里云暗色: 'aliyun-dark',
     自定义: {
       'widgets-container-background': '#f2f3f7',
     },

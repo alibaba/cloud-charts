@@ -1,8 +1,10 @@
-@import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wcircle-prefix} {
-  @include wcircle-font;
+  font-family: $text-family;
+  font-size: $text-size-l;
+  line-height: 1;
+  color: $text-color-1;
 
   #{$wcircle-prefix}-main {
 
@@ -13,7 +15,7 @@
         display: inline-block;
         vertical-align: top;
         #{$wcircle-prefix}-svg-bg{
-          stroke: $widgets-mini-card-empty;
+          stroke: $empty;
           stroke-linejoin: round;
           stroke-linecap: round;
           //opacity: 0.1;
@@ -52,14 +54,14 @@
         #{$wcircle-prefix}-number-middle {}
 
         #{$wcircle-prefix}-unit {
-          margin-left: $s1;
-          font-size: 12px;
+          margin-left: $size-1;
+          font-size: $text-size-s;
         }
         #{$wcircle-prefix}-title {
-          font-size: 12px;
+          font-size: $text-size-s;
           margin: 2px 0 0 0;
           line-height: 1;
-          color: $widgets-color-text-2;
+          color: $text-color-2;
         }
       }
 
@@ -90,12 +92,12 @@
   }
 
   #{$wcircle-prefix}-trend {
-    margin-left: $s2;
+    margin-left: $size-2;
   }
 
   #{$wcircle-prefix}-leftIcon{
     position:relative;
-    margin-right: $s1 / 2;
+    margin-right: $size-1 / 2;
 
     >.drop {
       color: $red;
@@ -106,23 +108,22 @@
   }
 
   #{$wcircle-prefix}-bottom-block {
-    @include wcircle-font;
-    font-size: 18px;
+    font-size: $text-size-m;
     width: 100%;
     position: absolute;
     top: 100%;
     margin-top: -28px;
     text-align: center;
     #{$wcircle-prefix}-bottom-number {
-      //margin-left: $s1;
-      //font-size: 12px;
+      //margin-left: $size-1;
+      //font-size: $text-size-s;
     }
     #{$wcircle-prefix}-bottom-unit {
-      margin-left: $s1;
-      font-size: 12px;
+      margin-left: $size-1;
+      font-size: $text-size-s;
     }
     #{$wcircle-prefix}-title {
-      font-size: 12px;
+      font-size: $text-size-s;
       margin: 2px 0 0 0;
       line-height: 1;
       color: $widgets-color-text-2;

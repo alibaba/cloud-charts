@@ -1,9 +1,10 @@
-@import "../theme/index";
-@import "./scss/mixin.scss";
 @import "./scss/variable.scss";
 
 #{$wnumber-prefix} {
-  @include wnumber-font;
+  font-family: $font-family;
+  font-size: $font-size-l;
+  line-height: 1;
+  color: $color-1;
 
   #{$wnumber-prefix}-main {
     position: relative;
@@ -16,7 +17,7 @@
 
     #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
-      margin-right: $s1 / 2;
+      margin-right: $size-1 / 2;
 
       >.drop {
         color: $red;
@@ -26,22 +27,22 @@
       }
     }
     #{$wnumber-prefix}-unit {
-      margin-left: $s1;
-      font-size: 12px;
+      margin-left: $size-1;
+      font-size: $font-size-s;
     }
 
     #{$wnumber-prefix}-rightTitle {
-      @include subTitle-font;
-      margin-left: $s1;
-      font-size: 12px;
+      margin-left: $size-1;
+      font-size: $font-size-s;
+      color: $color-2;
     }
 
     #{$wnumber-prefix}-rightRatio {
-      @include subTitle-font;
       position: absolute;
       right: 0;
       top: 12px;
-      font-size: 16px;
+      font-size: $font-size-m;
+      color: $color-2;
 
       &.drop {
         color: $red;
@@ -52,12 +53,12 @@
     }
 
     #{$wnumber-prefix}-trend {
-      margin-left: $s2;
+      margin-left: $size-2;
     }
   }
   #{$wnumber-prefix}-bottomTitle {
-    @include subTitle-font;
-    font-size: 12px;
-    margin-top: $s1;
+    font-size: $font-size-s;
+    margin-top: $size-1;
+    color: $color-2;
   }
 }
