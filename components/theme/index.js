@@ -78,7 +78,7 @@ const themeMap = {
     css: convertCSS(aliyunStyle),
     rawCSS: aliyunStyle,
   },
-  aliyunDark: {
+  'aliyun-dark': {
     js: convertKey(aliyunDark),
     css: convertCSS(aliyunDarkStyle),
     rawCSS: aliyunDarkStyle,
@@ -87,8 +87,8 @@ const themeMap = {
 // alias index as normal
 themeMap.index = themeMap.normal;
 
-// 默认为亮色主题包
-themeMap.default = themeMap.normal;
+// 默认主题包
+themeMap.default = themeMap[__THEME__];
 
 const themes = {};
 let currentThemeName = '';

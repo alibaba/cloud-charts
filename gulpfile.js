@@ -106,7 +106,7 @@ const themeList = ['dark', 'aone', 'aliyun', 'aliyun-dark', 'aops', 'aopsDark'];
 
 // 生成主题对应任务
 themeList.forEach((theme, index) => {
-  const preTask = ['build:themeBak'];
+  const preTask = [];
   for (let i = 0; i < themeList.length; i++) {
     if (i < index) {
       preTask.push(`build:theme:${themeList[i]}`);
@@ -114,13 +114,13 @@ themeList.forEach((theme, index) => {
   }
 
   gulp.task(`build:theme:${theme}`, preTask, (cb) => {
-    // 设置主题文件
-    gulp.src([srcPath + `/theme/${theme}.js`, srcPath + `/theme/${theme}.scss`])
-      .pipe(rename({
-        basename: defaultTheme
-      }))
-      .pipe(gulp.dest(srcPath + '/theme/'))
-      .on('end', () => {
+    // // 设置主题文件
+    // gulp.src([srcPath + `/theme/${theme}.js`, srcPath + `/theme/${theme}.scss`])
+    //   .pipe(rename({
+    //     basename: defaultTheme
+    //   }))
+    //   .pipe(gulp.dest(srcPath + '/theme/'))
+    //   .on('end', () => {
         // 编译主题
         const webpackConfig = config.prod(theme);
         delete webpackConfig.port;
@@ -131,29 +131,30 @@ themeList.forEach((theme, index) => {
           gutil.log(`编译主题： ${theme}`);
           cb && cb();
         });
-      });
+  //     });
   });
 });
 
-// 备份原始文件
-gulp.task('build:themeBak', ['build:dist', 'build:lib'], (cb) => {
-  gulp.src([srcPath + `/theme/**.js`, srcPath + `/theme/**.scss`])
-    .pipe(gulp.dest('__temp'))
-    .on('end', cb);
-});
+// // 备份原始文件
+// gulp.task('build:themeBak', ['build:dist', 'build:lib'], (cb) => {
+//   gulp.src([srcPath + `/theme/**.js`, srcPath + `/theme/**.scss`])
+//     .pipe(gulp.dest('__temp'))
+//     .on('end', cb);
+// });
 
 gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) => {
-  //返回备份档
-  del(srcPath + '/theme').then(() => {
-    gulp.src('__temp/*')
-      .pipe(gulp.dest(srcPath + '/theme'))
-      .on('end', () => {
-        // 清空备份
-        del('__temp').then(() => {
-          cb && cb();
-        });
-      });
-  });
+  cb && cb();
+  // //返回备份档
+  // del(srcPath + '/theme').then(() => {
+  //   gulp.src('__temp/*')
+  //     .pipe(gulp.dest(srcPath + '/theme'))
+  //     .on('end', () => {
+  //       // 清空备份
+  //       del('__temp').then(() => {
+  //         cb && cb();
+  //       });
+  //     });
+  // });
 });
 
 gulp.task('build:plugins', ['clean'], (cb) => {
