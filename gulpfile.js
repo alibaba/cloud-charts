@@ -102,7 +102,7 @@ gulp.task('build:lib', ['clean'], () => {
 //     });
 // });
 
-const themeList = ['dark', 'aone', 'aliyun', 'aliyun-dark', 'aops', 'aopsDark'];
+const themeList = ['dark', 'aone', 'aliyun', 'aliyun-dark'];
 
 // 生成主题对应任务
 themeList.forEach((theme, index) => {
