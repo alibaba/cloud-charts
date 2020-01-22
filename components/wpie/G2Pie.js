@@ -49,7 +49,7 @@ function paddingNumber(value) {
   return isInvalidNumber(value) ? 0 : Number(value);
 }
 
-function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
+export function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
   if (Array.isArray(drawPadding)) {
     return drawPadding;
   } else if (!isInvalidNumber(drawPadding)) {

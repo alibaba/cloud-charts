@@ -6,7 +6,7 @@ import themes from '../theme/index';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';
-import G2Pie from '../wpie/G2Pie';
+import G2Pie, { getDrawPadding } from '../wpie/G2Pie';
 import './G2MultiPie.scss';
 
 function getParentList(node, target = []) {
@@ -96,6 +96,24 @@ function getInnerRadius(maxDepth, innerRadius) {
 }
 
 export default Object.assign({}, G2Pie, {
+  getDefaultConfig() {
+    return {
+      colors: themes.category_12,
+      padding: [20, 20, 20, 20],
+      legend: {
+        // position: 'right',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
+        valueFormatter: null,
+      },
+      tooltip: {
+        nameFormatter: null,
+        valueFormatter: null,
+      },
+      innerRadius: null, // 内环半径大小，仅cycle为true时可用
+      outerRadius: 0.8, // 饼图半径大小，初始化时可用
+      drawPadding: [10, 10, 10, 10],
+    };
+  },
   init(chart, userConfig, data) {
     const config = merge({}, this.defaultConfig, userConfig);
 
@@ -112,6 +130,9 @@ export default Object.assign({}, G2Pie, {
     });
 
     chart.axis(false);
+
+    const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
+    console.log(drawPadding)
 
     rectLegend.call(this, chart, config, {
       autoCollapse: false,
@@ -151,7 +172,7 @@ export default Object.assign({}, G2Pie, {
         ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        marginLeft: `${Math.max(pxToNumber(themes.s5) - (config.drawPadding || 0), 0)}px`,
+        marginLeft: `${Math.max(pxToNumber(themes.s5) - drawPadding[1], 0)}px`,
       },
       'g2-legend-list-item': {
         ...legendHtmlListItem,
