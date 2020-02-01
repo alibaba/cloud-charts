@@ -132,7 +132,6 @@ export default Object.assign({}, G2Pie, {
     chart.axis(false);
 
     const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
-    console.log(drawPadding)
 
     rectLegend.call(this, chart, config, {
       autoCollapse: false,
