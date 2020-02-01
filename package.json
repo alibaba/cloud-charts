@@ -2,6 +2,8 @@
   "name": "@alife/aisc-widgets",
   "version": "2.6.0",
   "main": "./build/index.js",
+  "browser": "./build/index.js",
+  "sideEffects": ["*.less", "*.scss", "*.css"],
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
