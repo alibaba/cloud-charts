@@ -79,7 +79,19 @@ gulp.task('build:lib', ['clean'], () => {
     .pipe(gulp.dest('lib'));
 
   return gulp.src(srcPath + '/**/*.js?(x)')
-    .pipe(babel())
+    .pipe(babel({
+        babelrc: false,
+        "presets": [
+          [
+            "@ali/babel-preset-fusion",
+            {
+              // modules: true
+            }
+          ]
+        ],
+        "plugins": []
+      }
+    ))
     .pipe(gulp.dest('lib'));
 });
 
