@@ -19,7 +19,7 @@ const srcPath = 'components';
 const outputPath = 'build';
 
 gulp.task('clean', (cb) => {
-  del(['lib']).then(() => {
+  del(['build', 'lib']).then(() => {
     cb();
   });
 });
