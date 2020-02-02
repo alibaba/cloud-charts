@@ -8,16 +8,18 @@ const gutil = require('gulp-util');
 const webpack = require('webpack');
 const babel = require('gulp-babel');
 const rename = require("gulp-rename");
+const replace = require("gulp-replace");
 const del = require('del');
 const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
 const sassExtract = require('sass-extract');
+const packageInfo = require('./package');
 const config = require('./webpack.config');
 const srcPath = 'components';
 const outputPath = 'build';
 
 gulp.task('clean', (cb) => {
-  del(['build', 'lib']).then(() => {
+  del(['lib']).then(() => {
     cb();
   });
 });
@@ -93,18 +95,30 @@ gulp.task('build:dist', ['build:plugins', 'build:theme-sass'], (cb) => {
 });
 
 gulp.task('build:lib', ['clean'], () => {
-  gulp.src([srcPath + '/**/*.less', srcPath + '/**/*.scss', srcPath + '/**/*.json'])
+  gulp.src([
+    srcPath + '/**/*.less',
+    srcPath + '/**/*.scss',
+    srcPath + '/**/*.json',
+    srcPath + '/**/*.woff',
+    srcPath + '/**/*.woff2',
+    srcPath + '/**/*.eot',
+    srcPath + '/**/*.ttf',
+    srcPath + '/**/*.otf',
+    srcPath + '/**/*.svg',
+  ])
   // .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('lib'));
 
   return gulp.src(srcPath + '/**/*.js?(x)')
+    .pipe(replace('__VERSION__', JSON.stringify(packageInfo.version)))
+    .pipe(replace('__THEME__', JSON.stringify('normal')))
     .pipe(babel({
         babelrc: false,
         "presets": [
           [
             "@ali/babel-preset-fusion",
             {
-              // modules: true
+              modules: false
             }
           ]
         ],

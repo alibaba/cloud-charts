@@ -2,8 +2,12 @@
   "name": "@alife/aisc-widgets",
   "version": "2.6.0",
   "main": "./build/index.js",
-  "browser": "./build/index.js",
-  "sideEffects": ["*.less", "*.scss", "*.css"],
+  "browser": "./lib/index.js",
+  "sideEffects": [
+    "*.less",
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
@@ -59,6 +63,7 @@
     "gulp": "~3.9.1",
     "gulp-babel": "~6.1.2",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^1.0.0",
     "gulp-sass": "^3.1.0",
     "gulp-util": "~3.0.7",
     "lodash": "^4.17.11",
