@@ -1,6 +1,8 @@
 'use strict';
 
 const path = require('path');
+const fs = require('fs');
+const glob = require('glob');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const webpack = require('webpack');
@@ -9,6 +11,7 @@ const rename = require("gulp-rename");
 const del = require('del');
 const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
+const sassExtract = require('sass-extract');
 const config = require('./webpack.config');
 const srcPath = 'components';
 const outputPath = 'build';
@@ -53,7 +56,25 @@ gulp.task('start', (cb) => {
   });
 });
 
-gulp.task('build:dist', ['build:plugins'], (cb) => {
+gulp.task('build:theme-sass', (cb) => {
+  glob.sync(`${srcPath}/theme/*.scss`).forEach((item) => {
+    if (item.indexOf('index.scss') > -1) {
+      return;
+    }
+    gutil.log(item);
+    const rendered = sassExtract.renderSync({
+      file: item
+    }, {
+      plugins: [{ plugin: 'sass-extract-js', options: { camelCase: false } }]
+    });
+
+    fs.writeFileSync('./' + item.replace(/\.scss$/, '.style.js'), `export default ${JSON.stringify(rendered.vars)};`);
+  });
+
+  cb && cb()
+});
+
+gulp.task('build:dist', ['build:plugins', 'build:theme-sass'], (cb) => {
   const webpackConfig = config.prod();
   delete webpackConfig.port;
   webpack(webpackConfig, (err, stats) => {
@@ -159,7 +180,7 @@ gulp.task('build:plugins', ['clean'], (cb) => {
 
 gulp.task('default', ['start']);
 // gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
-gulp.task('build', ['build:dist', 'build:lib', 'build:theme']);
+gulp.task('build', ['build:plugins', 'build:theme-sass', 'build:dist', 'build:lib', 'build:theme']);
 
 gulp.task('online', (cb) => {
   let buildFirstTime = true;
