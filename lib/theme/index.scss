@@ -1,7 +1,5 @@
 @import "./normal";
 
-$theme-list: 'normal', 'dark';
-
 @function getVar($name, $value) {
   @return var(--#{$name}, #{$value});
 }
