@@ -72,7 +72,6 @@
     "sass-extract": "^2.1.0",
     "sass-extract-js": "^0.4.0",
     "sass-extract-loader": "^1.1.0",
-    "sass-variable-loader": "^0.1.2",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.3",
     "webpack": "^4.34.0",
