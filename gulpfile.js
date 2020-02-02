@@ -13,8 +13,6 @@ const config = require('./webpack.config');
 const srcPath = 'components';
 const outputPath = 'build';
 
-const defaultTheme = 'normal';
-
 gulp.task('clean', (cb) => {
   del(['build', 'lib']).then(() => {
     cb();
@@ -95,25 +93,6 @@ gulp.task('build:lib', ['clean'], () => {
     .pipe(gulp.dest('lib'));
 });
 
-
-// const theme = 'dark';
-//
-// gulp.task('build:themeFile', ['build:dist', 'build:lib'], (cb) => {
-//   // 备份原始文件
-//   gulp.src([srcPath + `/theme/**.js`, srcPath + `/theme/**.scss`])
-//     .pipe(gulp.dest('__temp'))
-//     .on('end', () => {
-//
-//       // 设置主题文件
-//       gulp.src([srcPath + `/theme/${theme}.js`, srcPath + `/theme/${theme}.scss`])
-//         .pipe(rename({
-//           basename: defaultTheme
-//         }))
-//         .pipe(gulp.dest(srcPath + '/theme/'))
-//         .on('end', cb);
-//     });
-// });
-
 const themeList = ['dark', 'aone', 'aliyun', 'aliyun-dark'];
 
 // 生成主题对应任务
@@ -126,47 +105,21 @@ themeList.forEach((theme, index) => {
   }
 
   gulp.task(`build:theme:${theme}`, preTask, (cb) => {
-    // // 设置主题文件
-    // gulp.src([srcPath + `/theme/${theme}.js`, srcPath + `/theme/${theme}.scss`])
-    //   .pipe(rename({
-    //     basename: defaultTheme
-    //   }))
-    //   .pipe(gulp.dest(srcPath + '/theme/'))
-    //   .on('end', () => {
-        // 编译主题
-        const webpackConfig = config.prod(theme);
-        delete webpackConfig.port;
-        webpack(webpackConfig, (err, stats) => {
-          if (err || stats.hasErrors()) {
-            gutil.log(err);
-          }
-          gutil.log(`编译主题： ${theme}`);
-          cb && cb();
-        });
-  //     });
+    // 编译主题
+    const webpackConfig = config.prod(theme);
+    delete webpackConfig.port;
+    webpack(webpackConfig, (err, stats) => {
+      if (err || stats.hasErrors()) {
+        gutil.log(err);
+      }
+      gutil.log(`编译主题： ${theme}`);
+      cb && cb();
+    });
   });
 });
 
-// // 备份原始文件
-// gulp.task('build:themeBak', ['build:dist', 'build:lib'], (cb) => {
-//   gulp.src([srcPath + `/theme/**.js`, srcPath + `/theme/**.scss`])
-//     .pipe(gulp.dest('__temp'))
-//     .on('end', cb);
-// });
-
 gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) => {
   cb && cb();
-  // //返回备份档
-  // del(srcPath + '/theme').then(() => {
-  //   gulp.src('__temp/*')
-  //     .pipe(gulp.dest(srcPath + '/theme'))
-  //     .on('end', () => {
-  //       // 清空备份
-  //       del('__temp').then(() => {
-  //         cb && cb();
-  //       });
-  //     });
-  // });
 });
 
 gulp.task('build:plugins', ['clean'], (cb) => {
