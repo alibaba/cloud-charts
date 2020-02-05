@@ -164,6 +164,14 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     }
 
     if (field) {
+      // fix: 修复 legend 设置了 field 后，内部 options 变为 { [field]: options }，无法读取 onClick 的问题
+      if (onClick) {
+        chart.legend({
+          onClick,
+          // 隐藏属性，设置了 onClick 时依然保留默认点击行为
+          defaultClickHandlerEnabled: defaultClickBehavior,
+        });
+      }
       chart.legend(field, legendConfig);
     } else {
       chart.legend(legendConfig);
