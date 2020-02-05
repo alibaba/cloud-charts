@@ -9,7 +9,7 @@ import themes from '../theme/index';
 import { legendHtmlContainer } from '../common/g2Theme';
 import merge from '../common/merge';
 import rectLegend from '../common/rectLegend';
-import getGeomSizeConfig from "../common/geomSize";
+import getGeomSizeConfig from '../common/geomSize';
 import './G2Map.scss';
 
 export const AREA_NAME = 'WidgetsMapArea';
@@ -118,11 +118,15 @@ export default {
 
     drawMapBackground.call(this, chart, ds, config);
 
-    React.Children.forEach(this.props.children, (child) => {
+    React.Children.forEach(this.props.children, child => {
       if (!child) {
         return;
       }
-      const layerConfig = Object.assign({}, config, child.props);
+      const layerConfig = Object.assign(
+        {},
+        config,
+        child.props.config || child.props
+      );
       // G2 图层需要转化数据格式
       let { data } = child.props;
       if (layerConfig.dataType !== 'g2') {
@@ -193,19 +197,22 @@ function drawMapBackground(chart, ds, config) {
     // 自带中国地图数据
     geoData = chinaGeo;
   } else {
-    console.warn('map: no geo data, can\'t draw the map!');
+    console.warn("map: no geo data, can't draw the map!");
   }
 
-  const bgMapDataView = ds.createView('bgMap')
-    .source(geoData, {
-      type: 'GeoJSON',
-    });
+  const bgMapDataView = ds.createView('bgMap').source(geoData, {
+    type: 'GeoJSON',
+  });
 
   let { projection } = config;
 
   if (!projection) {
     projection = bgMapDataView.getGeoProjection('geoConicEqualArea');
-    projection.center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0])
+    projection
+      .center([0, 36.4])
+      .parallels([25, 47])
+      .scale(1000)
+      .rotate([-105, 0])
       .translate([0, 0]);
   }
 
@@ -231,7 +238,9 @@ function drawMapBackground(chart, ds, config) {
   // start: 按照投影后尺寸比例调整图表的真实比例
   const longitudeRange = bgMapDataView.range('x');
   const latitudeRange = bgMapDataView.range('y');
-  const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
+  const ratio =
+    (longitudeRange[1] - longitudeRange[0]) /
+    (latitudeRange[1] - latitudeRange[0]);
   this.bgMapRatio = ratio;
   const { width: chartWidth, height: chartHeight } = chart._attrs;
   const chartRatio = chartWidth / chartHeight;
@@ -248,23 +257,27 @@ function drawMapBackground(chart, ds, config) {
   }
   // end: 按照投影后尺寸比例调整图表的真实比例
 
-  const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } = config.background || {};
+  const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } =
+    config.background || {};
 
   const bgMapView = chart.view();
   bgMapView.source(bgMapDataView);
   bgMapView.tooltip(false);
-  bgMapView.polygon().position('x*y').style('name', {
-    fill: bgFill || themes['widgets-map-area-bg'],
-    stroke: (name) => {
-      // 对一些尺寸非常小的形状特殊处理，以显示出来。
-      if (minArea.indexOf(name) > -1) {
-        return bgFill || themes['widgets-map-area-bg'];
-      }
-      return bgStroke || themes['widgets-map-area-border'];
-    },
-    lineWidth: 1,
-    ...otherBgStyle,
-  });
+  bgMapView
+    .polygon()
+    .position('x*y')
+    .style('name', {
+      fill: bgFill || themes['widgets-map-area-bg'],
+      stroke: name => {
+        // 对一些尺寸非常小的形状特殊处理，以显示出来。
+        if (minArea.indexOf(name) > -1) {
+          return bgFill || themes['widgets-map-area-bg'];
+        }
+        return bgStroke || themes['widgets-map-area-border'];
+      },
+      lineWidth: 1,
+      ...otherBgStyle,
+    });
 
   this.bgMapDataView = bgMapDataView;
   this.bgMapView = bgMapView;
@@ -278,7 +291,8 @@ function drawMapArea(chart, ds, config, data) {
   if (areaMapDataView) {
     areaMapDataView.origin !== data && areaMapDataView.source(data);
   } else {
-    areaMapDataView = ds.createView()
+    areaMapDataView = ds
+      .createView()
       .source(data)
       .transform({
         type: 'map',
@@ -306,7 +320,9 @@ function drawMapArea(chart, ds, config, data) {
 
     const areaMapView = chart.view();
     areaMapView.source(areaMapDataView);
-    const areaGeom = areaMapView.polygon().position('x*y')
+    const areaGeom = areaMapView
+      .polygon()
+      .position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
       .color('type', config.areaColors.join('-'))
       // .opacity('value')
@@ -330,11 +346,12 @@ function drawMapPoint(chart, ds, config, data) {
   if (pointMapDataView) {
     pointMapDataView.origin !== data && pointMapDataView.source(data);
   } else {
-    pointMapDataView = ds.createView()
+    pointMapDataView = ds
+      .createView()
       .source(data)
       .transform({
         type: 'map',
-        callback: (point) => {
+        callback: point => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
           return convertPointPosition.call(this, newPoint);
@@ -344,7 +361,9 @@ function drawMapPoint(chart, ds, config, data) {
     const pointMapView = chart.view();
     pointMapView.source(pointMapDataView);
     const sizeConfig = getGeomSizeConfig(config.size, 4, 'value', 'name*value');
-    const pointGeom = pointMapView.point().position('x*y')
+    const pointGeom = pointMapView
+      .point()
+      .position('x*y')
       .shape('circle')
       .color('type', config.pointColors)
       .size(...sizeConfig)
@@ -391,11 +410,12 @@ function drawHeatMap(chart, ds, config, data) {
   if (heatMapDataView) {
     heatMapDataView.origin !== data && heatMapDataView.source(data);
   } else {
-    heatMapDataView = ds.createView()
+    heatMapDataView = ds
+      .createView()
       .source(data)
       .transform({
         type: 'map',
-        callback: (point) => {
+        callback: point => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
           return convertPointPosition.call(this, newPoint);
@@ -406,8 +426,15 @@ function drawHeatMap(chart, ds, config, data) {
     heatMapView.source(heatMapDataView);
     chart.legend('value', false);
 
-    const sizeConfig = getGeomSizeConfig(config.size, 16, 'value', 'name*value');
-    heatMapView.heatmap().position('x*y')
+    const sizeConfig = getGeomSizeConfig(
+      config.size,
+      16,
+      'value',
+      'name*value'
+    );
+    heatMapView
+      .heatmap()
+      .position('x*y')
       .color('value', config.heatColors)
       .size(...sizeConfig)
       .tooltip('name*value', (name, value) => ({
@@ -433,7 +460,7 @@ function drawMapLabel(chart, config) {
   const labelConfig = config.labels || config.label;
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
-  const labelData = this.bgMapDataView.rows.map((row) => {
+  const labelData = this.bgMapDataView.rows.map(row => {
     const label = {
       name: row.name,
       x: row.cX,
@@ -443,7 +470,11 @@ function drawMapLabel(chart, config) {
     // fix 某些地区label位置不好，需要重新定位
     const fixLngLat = fixLngLatMap[row.name];
     if (fixLngLat) {
-      const position = this.bgMapDataView.geoProjectPosition(fixLngLat, this.projection, true);
+      const position = this.bgMapDataView.geoProjectPosition(
+        fixLngLat,
+        this.projection,
+        true
+      );
       label.x = position[0];
       label.y = position[1];
     }
@@ -451,15 +482,18 @@ function drawMapLabel(chart, config) {
     return label;
   });
 
-  const { offset = 0, textStyle = {} } = typeof labelConfig === 'object' ? labelConfig : {};
+  const { offset = 0, textStyle = {} } =
+    typeof labelConfig === 'object' ? labelConfig : {};
 
   const labelMapView = chart.view();
   labelMapView.source(labelData);
-  labelMapView.point().position('x*y')
+  labelMapView
+    .point()
+    .position('x*y')
     .size(0)
     .label('name', {
       offset,
-      textStyle: (name) => {
+      textStyle: name => {
         let fontSize = themes.s3;
         // 对一些尺寸非常小的形状特殊处理，以显示出来。
         if (minLabel.indexOf(name) > -1) {
@@ -488,12 +522,12 @@ function convertMapData(data) {
     return [];
   }
   const result = [];
-  data.forEach((item) => {
+  data.forEach(item => {
     const { name = '', data: itemData } = item;
     if (!Array.isArray(itemData)) {
       return;
     }
-    itemData.forEach((d) => {
+    itemData.forEach(d => {
       result.push({
         ...d,
         type: d.type || name,
@@ -515,7 +549,13 @@ export function convertPointPosition(point) {
 
   const { projection } = this;
   if (point.lng && point.lat) {
-    return getProjectionPosition(point, this.bgMapDataView, projection, Number(point.lng), Number(point.lat));
+    return getProjectionPosition(
+      point,
+      this.bgMapDataView,
+      projection,
+      Number(point.lng),
+      Number(point.lat)
+    );
   }
   if (point.name) {
     let { name } = point;
@@ -523,13 +563,20 @@ export function convertPointPosition(point) {
       if (name === '\u963F\u62C9' || name === '\u5F20\u5BB6') {
         // 阿拉、张家 两个开头的需要截取三个字符
         name = name.slice(0, 3);
-      } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) { // 以"省" / "自治区"结尾的不截断
+      } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) {
+        // 以"省" / "自治区"结尾的不截断
         name = name.slice(0, 2);
       }
     }
     const position = positionMap[name];
     if (position) {
-      return getProjectionPosition(point, this.bgMapDataView, projection, position.lng, position.lat);
+      return getProjectionPosition(
+        point,
+        this.bgMapDataView,
+        projection,
+        position.lng,
+        position.lat
+      );
     }
   }
   if (!point.x || !point.y) {
@@ -549,14 +596,16 @@ function getProjectionPosition(point, view, projection, lng, lat) {
 function mapTooltip(chart, config) {
   // tooltip
   if (config.tooltip !== false) {
-    const { nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
+    const { nameFormatter, valueFormatter, customConfig } =
+      config.tooltip || {};
 
     const tooltipCfg = {
       showTitle: false,
       crosshairs: null,
-      itemTpl: '<li data-index={index}>'
-      + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
-      + '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
+      itemTpl:
+        '<li data-index={index}>' +
+        '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
+        '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
     };
 
     if (customConfig) {
@@ -566,7 +615,7 @@ function mapTooltip(chart, config) {
     chart.tooltip(tooltipCfg);
 
     if (nameFormatter || valueFormatter) {
-      chart.on('tooltip:change', (ev) => {
+      chart.on('tooltip:change', ev => {
         ev.items.forEach((item, index) => {
           const raw = item.point._origin || {};
 
