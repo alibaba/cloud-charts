@@ -33,10 +33,24 @@ stories.add('极坐标堆叠柱状图', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={{
       stack: true,
-      size: 2 * 360 / 9,
+      // size: 2 * 360 / 9,
       polar: true,
       innerRadius: 0.2,
     }} data={data} />
+  </Wcontainer>
+));
+
+const yuData = data.slice(0, 1);
+yuData[0].data = yuData[0].data.slice(0, 5).sort((a, b) => {
+  return a[1] - b[1];
+});
+stories.add('玉玦图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="360" config={{
+      polar: true,
+      column: false,
+      innerRadius: 0.2,
+    }} data={yuData} />
   </Wcontainer>
 ));
 stories.add('横向柱状图', () => (
