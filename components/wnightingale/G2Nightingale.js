@@ -12,8 +12,10 @@ import label from '../common/label';
 export default {
   getDefaultConfig() {
     return {
-      padding: [20, 20, 40, 20],
+      padding: [20, 20, 20, 20],
       colors: themes.category_12,
+      cycle: false,
+      innerRadius: 0.5, // 内环半径大小，仅cycle为true时可用
       label: {
         key: 'x',
       },
@@ -40,7 +42,9 @@ export default {
   init(chart, userConfig, data) {
     const config = merge({}, this.defaultConfig, userConfig);
     chart.source(data);
-    chart.coord('polar');
+    chart.coord('polar', {
+      innerRadius: config.cycle ? Math.max(Math.min(config.innerRadius, 1), 0) : 0,
+    });
 
     // 设置图例
     rectLegend.call(this, chart, config, {
