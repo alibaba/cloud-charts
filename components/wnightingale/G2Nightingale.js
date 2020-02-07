@@ -133,7 +133,7 @@ export default {
         stroke: themes['widgets-color-white'],
       });
 
-    label(geom, config, config.label.key, {
+    label(geom, config, config.label.key || 'x', {
       offset: -15,
     });
 
