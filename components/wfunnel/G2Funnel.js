@@ -72,6 +72,7 @@ export default {
 
     switch (drawType) {
       case 'vertical-left':
+      case 'vertical-start':
         chart.coord('rect').transpose().scale(1, -1);
         geom = chart.interval();
         break;
@@ -80,10 +81,12 @@ export default {
         geom = chart.intervalSymmetric();
         break;
       case 'vertical-right':
+      case 'vertical-end':
         chart.coord('rect').transpose().scale(-1, -1);
         geom = chart.interval();
         break;
       case 'horizontal-top':
+      case 'horizontal-start':
         chart.coord('rect').reflect('y');
         geom = chart.interval();
         break;
@@ -91,6 +94,7 @@ export default {
         geom = chart.intervalSymmetric();
         break;
       // case 'horizontal-bottom':
+      // case 'horizontal-end':
         // 和 default 时相同
       default:
         geom = chart.interval();
