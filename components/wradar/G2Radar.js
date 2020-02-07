@@ -117,19 +117,7 @@ export default {
     });
 
     // 设置图例
-    rectLegend.call(this, chart, config, {
-      itemTpl: (value, itemColor, checked, index) => {
-        const item = (this.rawData && this.rawData[index]) || {};
-        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-          ...item,
-          itemColor,
-          checked,
-        }, index) : value;
-        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-        '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-        '<span class="g2-legend-text">'}${result}</span></li>`;
-      },
-    }, true);
+    rectLegend.call(this, chart, config);
 
     legendFilter.call(this, chart, config);
 

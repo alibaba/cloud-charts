@@ -316,6 +316,13 @@ function getG2ThemeConfig(themes) {
           fillOpacity: 0.1, // 辅助框的背景透明度
         }, // 辅助框的图形样式属性
       },
+      text: {
+        style: {
+          fill: themes['color-b1-6'],
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fontFamily: themes['widgets-font-family-txd-m-number'],
+        }
+      },
     },
   };
 }

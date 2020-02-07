@@ -5,6 +5,7 @@ import merge from '../common/merge';
 import themes from '../theme/index';
 import './G2Nightingale.scss';
 import rectLegend from '../common/rectLegend';
+import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -12,8 +13,10 @@ import label from '../common/label';
 export default {
   getDefaultConfig() {
     return {
-      padding: [20, 20, 40, 20],
+      padding: [20, 20, 20, 20],
       colors: themes.category_12,
+      cycle: false,
+      innerRadius: 0.5, // 内环半径大小，仅cycle为true时可用
       label: {
         key: 'x',
       },
@@ -40,60 +43,18 @@ export default {
   init(chart, userConfig, data) {
     const config = merge({}, this.defaultConfig, userConfig);
     chart.source(data);
-    chart.coord('polar');
+    chart.coord('polar', {
+      innerRadius: config.cycle ? Math.max(Math.min(config.innerRadius, 1), 0) : 0,
+    });
 
     // 设置图例
-    rectLegend.call(this, chart, config, {
-      itemTpl: (value, itemColor, checked, index) => {
-        const item = (this.rawData && this.rawData[index]) || {};
-        const result = config.legend.nameFormatter ? config.legend.nameFormatter(value, {
-          ...item,
-          itemColor,
-          checked,
-        }, index) : value;
-        return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-        '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-        '<span class="g2-legend-text">'}${result}</span></li>`;
-      },
-    }, true);
+    rectLegend.call(this, chart, config, null, true);
 
     // tooltip
-    if (config.tooltip) {
-      const tooltipCfg = {
-        showTitle: false,
-        // crosshairs: {},
-        itemTpl: '<li data-index={index}>'
-          + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
-          + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
-      };
-      chart.tooltip(tooltipCfg);
-      if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', (ev) => {
-          ev.items.forEach((item, index) => {
-            const raw = (this.rawData && this.rawData[index]) || {};
-
-            if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(
-                item.value,
-                raw,
-                index,
-                ev.items
-              );
-            }
-            if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(
-                item.name,
-                raw,
-                index,
-                ev.items
-              );
-            }
-          });
-        });
-      }
-    } else {
-      chart.tooltip(false);
-    }
+    rectTooltip.call(this, chart, config, {
+      showTitle: false,
+      crosshairs: null,
+    });
 
     if (config.axis) {
       chart.axis('x', {
@@ -129,7 +90,7 @@ export default {
         stroke: themes['widgets-color-white'],
       });
 
-    label(geom, config, config.label.key, {
+    label(geom, config, config.label.key || 'x', {
       offset: -15,
     });
 

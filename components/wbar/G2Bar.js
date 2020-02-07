@@ -131,6 +131,28 @@ export default {
       chartCoord.transpose();
     }
 
+    // 玉玦图，需要手动添加 数据标记
+    if (config.polar && !config.column && config.dataType !== 'g2') {
+      this.rawData[0].data.forEach((d, i) => {
+        let x = d.x;
+        if (Array.isArray(d)) {
+          x = d[0];
+        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
+          x = config.xAxis.categories[i];
+          // const y = isNaN(d) ? d[0] : d;
+        }
+
+        chart.guide().text({
+          position: [x, 0],
+          content: `${x}  `,
+          style: {
+            fill: themes['widgets-axis-label'],
+            textAlign: 'right'
+          }
+        });
+      });
+    }
+
     // chart.point().position('name*0').color('name').shape('circle');
     // chart.interval().position('name*value').color('name').shape('line').size(8); // 线状柱状图
     // chart.point().position('name*value').color('name').shape('circle');
