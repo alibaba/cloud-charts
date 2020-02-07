@@ -40,7 +40,7 @@ require('@antv/data-set/lib/transform/subset');
 // require('@antv/data-set/lib/transform/kde');
 // binning
 // require('@antv/data-set/lib/transform/bin/hexagon');
-// require('@antv/data-set/lib/transform/bin/histogram');
+require('@antv/data-set/lib/transform/bin/histogram');
 // require('@antv/data-set/lib/transform/bin/quantile');
 require('@antv/data-set/lib/transform/bin/rectangle');
 // geo

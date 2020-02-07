@@ -53,6 +53,7 @@ export default {
       label: false,
       polar: false,
       innerRadius: 0,
+      histogram: false,
     };
   },
   beforeInit(props) {
@@ -69,26 +70,33 @@ export default {
     const config = userConfig;
 
     // 设置数据度量
-    const defs = {
-      x: propertyAssign(propertyMap.xAxis, {
-        type: 'cat',
-      }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
-        type: 'linear',
-        tickCount: 5,
-      }, config.yAxis),
-      type: {
-        type: 'cat',
-        sync: true,
-      },
-      facet: {
-        sync: true,
-      },
-    };
+    if (!config.histogram) {
+      const defs = {
+        x: propertyAssign(propertyMap.xAxis, {
+          type: 'cat',
+        }, config.xAxis),
+        y: propertyAssign(propertyMap.yAxis, {
+          type: 'linear',
+          tickCount: 5,
+        }, config.yAxis),
+        type: {
+          type: 'cat',
+          sync: true,
+        },
+        facet: {
+          sync: true,
+        },
+      };
 
-    rectAutoTickCount(chart, config, defs, !config.column);
+      rectAutoTickCount(chart, config, defs, !config.column);
 
-    chart.source(data, defs);
+      chart.source(data, defs);
+    } else {
+      const { tickInterval = 1 } = config.histogram;
+      chart.source(data, {
+        x: { tickInterval }
+      });
+    }
 
     // 设置单个Y轴
     if (!config.facet) {
@@ -257,34 +265,41 @@ export default {
 };
 
 function drawBar(chart, config, colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
-  let geom = chart.interval().position(['x', 'y']);
-  if (dodgeStack) {
-    geom = geom.color(field, colors).adjust([
-      {
-        type: 'dodge',
-        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-        dodgeBy: 'dodge',
-      },
-      {
+  const { stack, stackReverse, marginRatio, dodgeStack, size, histogram } = config;
+  let geom;
+
+  if (histogram) {
+    geom = chart.intervalStack().position('x*y').color(field);
+  } else {
+    geom = chart.interval().position(['x', 'y']);
+
+    if (dodgeStack) {
+      geom = geom.color(field, colors).adjust([
+        {
+          type: 'dodge',
+          marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+          dodgeBy: 'dodge',
+        },
+        {
+          type: 'stack',
+          reverseOrder: !stackReverse, // 层叠顺序倒序
+        },
+      ]);
+    } else if (stack) {
+      // 堆叠
+      geom = geom.color(field, colors).adjust([{
         type: 'stack',
         reverseOrder: !stackReverse, // 层叠顺序倒序
-      },
-    ]);
-  } else if (stack) {
-    // 堆叠
-    geom = geom.color(field, colors).adjust([{
-      type: 'stack',
-      reverseOrder: !stackReverse, // 层叠顺序倒序
-    }]);
-  } else {
-    // 分组
-    geom = geom.color(field, colors).adjust([{
-      type: 'dodge',
-      marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    }]);
+      }]);
+    } else {
+      // 分组
+      geom = geom.color(field, colors).adjust([{
+        type: 'dodge',
+        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      }]);
+    }
   }
-
+  
   if (size) {
     const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*facet*extra');
     geom.size(...sizeConfig);
