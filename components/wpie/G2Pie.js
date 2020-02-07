@@ -253,7 +253,7 @@ export default {
     }, true);
 
     // tooltip
-    if (config.tooltip) {
+    if (config.tooltip !== false && config.tooltip.visible !== false) {
       const tooltipCfg = {
         showTitle: false,
         // crosshairs: {},
