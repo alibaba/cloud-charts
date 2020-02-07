@@ -117,7 +117,7 @@ export default {
     });
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, true);
+    rectLegend.call(this, chart, config);
 
     legendFilter.call(this, chart, config);
 
