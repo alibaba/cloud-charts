@@ -74,6 +74,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     }
     if (align === 'right') {
       legendStyle.right = 0;
+      legendStyle.textAlign = 'right';
     } else if (align === 'left') {
       legendStyle.left = 0;
     } else if (align === 'center') {
