@@ -58,7 +58,7 @@ function computerAxis(chart, axisConfig, def, isVertical, len) {
   }
 
   if (tickCount) {
-    console.log(tickCount);
+    // console.log(tickCount);
     def.tickCount = tickCount;
   }
 }
