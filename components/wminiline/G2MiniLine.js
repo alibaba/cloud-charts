@@ -3,6 +3,7 @@
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
+import autoTimeMask from '../common/autoTimeMask';
 import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
 import guide from '../common/guide';
@@ -15,7 +16,7 @@ export default {
       padding: [0, 0, 0, 0],
       xAxis: {
         type: 'time', // 默认为线性
-        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        mask: 'auto', // 上述type为time时，此字段生效
         categories: null,
         max: null,
         min: null,
@@ -78,6 +79,8 @@ export default {
         tickCount: 5,
       }, config.yAxis);
     }
+
+    autoTimeMask(defs, this.rawData);
 
     chart.source(data, defs);
 

@@ -35,10 +35,24 @@ function getTimeIndex(t) {
 
 /**
  * 自动计算时间格式。
+ * @param defs {object} 数据列定义
  * @param data {array} G2图表实例
- * @param def {object} 数据列定义
  * */
-export default function(data, def) {
+export default function (defs, data) {
+  const def = defs.x;
+  if (
+    (def.type === 'time' || def.type === 'timeCat') &&
+    def.mask === 'auto' &&
+    Array.isArray(data) &&
+    data[0] &&
+    Array.isArray(data[0].data)
+  ) {
+    def.mask = getAutoMask(data[0].data, def);
+  }
+}
+
+// 取数据的跨度和间距两种值，跨度决定上限，间距决定下限。
+function getAutoMask(def, data) {
   if (data.length < 2) {
     return defaultMask;
   }

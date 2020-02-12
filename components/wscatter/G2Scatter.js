@@ -6,13 +6,14 @@ import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
+import autoTimeMask from '../common/autoTimeMask';
 import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import guide from '../common/guide';
-import getGeomSizeConfig from "../common/geomSize";
+import getGeomSizeConfig from '../common/geomSize';
 
 const setAxis = (chart, config) => {
   // 设置X轴
@@ -68,7 +69,9 @@ const setSource = (chart, config, data) => {
     config.yAxis
   );
 
-  rectAutoTickCount.call(this, chart, config, defs, false);
+  autoTimeMask(defs, this.rawData);
+
+  rectAutoTickCount(chart, config, defs, false);
 
   chart.source(data, defs);
 };
@@ -80,7 +83,7 @@ export default {
       colors: themes.category_12,
       xAxis: {
         type: 'linear',
-        mask: 'YYYY-MM-DD HH:mm:ss',
+        mask: 'auto',
         autoRotate: false,
       },
       yAxis: {

@@ -74,7 +74,7 @@ export default {
       },
     };
 
-    rectAutoTickCount.call(this, chart, config, defs, false);
+    rectAutoTickCount(chart, config, defs, false);
 
     chart.source(data, defs);
 
