@@ -68,7 +68,7 @@ const setSource = (chart, config, data) => {
     config.yAxis
   );
 
-  rectAutoTickCount(chart, config, defs, false);
+  rectAutoTickCount.call(this, chart, config, defs, false);
 
   chart.source(data, defs);
 };

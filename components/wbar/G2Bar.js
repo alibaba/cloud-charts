@@ -88,7 +88,7 @@ export default {
         },
       };
 
-      rectAutoTickCount(chart, config, defs, !config.column);
+      rectAutoTickCount.call(this, chart, config, defs, !config.column);
 
       chart.source(data, defs);
     } else {

@@ -2,6 +2,7 @@
 
 import themes from '../theme/index';
 import { pxToNumber, isInvalidNumber } from './common';
+import getAutoMask from './autoTimeMask';
 
 /**
  * 常见直角坐标系自动计算标签个数。
@@ -16,7 +17,7 @@ export default function (chart, config, defs, transpose) {
   const yLen = transpose ? chart.get('width') : chart.get('height');
 
   // 坐标系不翻转时为横向，翻转时为纵向
-  computerAxis(chart, config.xAxis, defs.x, transpose, xLen);
+  computerAxis(chart, config.xAxis, defs.x, transpose, xLen, this.rawData);
 
   // 坐标系不翻转时为纵向，翻转时为横向
   if (Array.isArray(config.yAxis)) {
@@ -29,7 +30,19 @@ export default function (chart, config, defs, transpose) {
 }
 
 // 计算口径 horizontal 横向 ? vertical 纵向
-function computerAxis(chart, axisConfig, def, isVertical, len) {
+function computerAxis(chart, axisConfig, def, isVertical, len, rawData) {
+  // 取数据的跨度和间距两种值，跨度决定上限，间距决定下限。
+  if (
+    !isVertical &&
+    (def.type === 'time' || def.type === 'timeCat') &&
+    def.mask === 'auto' &&
+    Array.isArray(rawData) &&
+    rawData[0] &&
+    Array.isArray(rawData[0].data)
+  ) {
+    def.mask = getAutoMask(rawData[0].data, def);
+  }
+
   // 轴设定为不显示 或 tickCount 不是 auto 时，跳过
   if (axisConfig === false || (axisConfig && axisConfig.visible === false) || axisConfig.tickCount !== 'auto') {
     return;
