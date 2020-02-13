@@ -86,12 +86,13 @@ export default function highchartsDataToG2Data(data, config) {
           as: ['x', 'y'],
         });
 
+        const factor = normalize
+          ? dv.rows.reduce((acc, cur) => acc + cur.y, 0)
+          : 1;
         newData.push(
           ...dv.rows.map(({ x, y }) => ({
             x,
-            y:
-              y /
-              (normalize ? dv.rows.reduce((acc, cur) => acc + cur.y, 0) : 1),
+            y: y / factor,
             extra: [],
             groupExtra,
             facet,
