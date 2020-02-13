@@ -131,7 +131,7 @@ stories.add('直方图', () => (
       config={{
         histogram: {
           binWidth: 1, // default: 1
-          tickInterval: 4, // default: 4
+          tickInterval: 4, // default: 1
           normalize: true, // default: false
         },
       }}
