@@ -1,6 +1,7 @@
 'use strict';
 
 import Brush from '@antv/g2-brush';
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
@@ -16,7 +17,7 @@ import ResetButton from '../common/ResetButton';
 import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
-export default {
+export default g2Factory('G2Line', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -228,4 +229,4 @@ export default {
       this.resetButton.destroy();
     }
   },
-};
+});

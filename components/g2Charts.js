@@ -54,7 +54,7 @@ G2.G.Canvas.prototype.getPointByClient = function (clientX, clientY) {
 };
 
 // 暴露所有基础图表
-export const WG2Line = g2Factory('G2Line', G2Line);
+// export const WG2Line = g2Factory('G2Line', G2Line);
 export const WG2MiniLine = g2Factory('G2MiniLine', G2MiniLine);
 export const WG2Bar = g2Factory('G2Bar', G2Bar);
 export const WG2LineBar = g2Factory('G2LineBar', G2LineBar, false);
@@ -95,7 +95,7 @@ export const { MatrixUtil } = G2;
 export const { PathUtil } = G2;
 
 // 暴露图表组件
-export const Wline = WG2Line;
+export const Wline = G2Line;
 export const Wminiline = WG2MiniLine;
 export const Wbar = WG2Bar;
 export const Wlinebar = WG2LineBar;
