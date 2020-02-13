@@ -25,9 +25,10 @@
   "files": [
     "package.json",
     "README.md",
-    "HISTORY.md",
+    "CHANGELOG.md",
     "lib",
     "components",
+    "font",
     "build"
   ],
   "dependencies": {},
