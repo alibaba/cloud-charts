@@ -25,8 +25,11 @@ module.exports = {
       id: '基础线图',
       // 会直接传输给组件的props，自行定义
       config: {
+        config: {
+          area: true,
+        },
         data: lineData
       }
     },
   ]
-}
+};
