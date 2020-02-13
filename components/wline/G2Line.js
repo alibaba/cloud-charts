@@ -7,6 +7,7 @@ import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
+import autoTimeMask from '../common/autoTimeMask';
 import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
@@ -23,7 +24,7 @@ export default {
       padding: [28, 5, 24, 44],
       xAxis: {
         type: 'time', // 默认为线性
-        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        mask: 'auto', // 上述type为time时，此字段生效
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
         autoRotate: false,
@@ -114,6 +115,8 @@ export default {
         tickCount: 5,
       }, config.yAxis);
     }
+
+    autoTimeMask(defs, this.rawData);
 
     rectAutoTickCount(chart, config, defs, false);
 

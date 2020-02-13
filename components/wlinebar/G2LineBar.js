@@ -7,6 +7,7 @@ import highchartsDataToG2Data from '../common/dataAdapter';
 import { drawGuideArea, drawGuideLine, drawGuideFilter } from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
+import autoTimeMask from '../common/autoTimeMask';
 import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
@@ -119,6 +120,8 @@ export default {
         sync: true,
       }, config.yAxis);
     }
+
+    autoTimeMask(defs, this.rawData);
 
     rectAutoTickCount(chart, config, defs, false);
 
