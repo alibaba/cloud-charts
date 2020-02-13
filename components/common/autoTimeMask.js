@@ -47,7 +47,7 @@ export default function (defs, data) {
     data[0] &&
     Array.isArray(data[0].data)
   ) {
-    def.mask = getAutoMask(data[0].data, def);
+    def.mask = getAutoMask(def, data[0].data);
   }
 }
 
