@@ -4,8 +4,8 @@ import { View } from '@antv/data-set';
 
 // 直方图数据转换
 function parseHistItem(oneData, config) {
-  const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
-  const { binWidth = 1, normalize = false } = config.histogram;
+  const { name: dataName, visible, ...groupExtra } = oneData;
+  const { binWidth, normalize } = config;
 
   const dv = new View().source(oneData.data.map(value => ({ value })));
   dv.transform({
@@ -22,8 +22,6 @@ function parseHistItem(oneData, config) {
     y: y / factor,
     extra: [],
     groupExtra,
-    facet,
-    dodge,
     visible,
     type: dataName,
   }));
@@ -123,7 +121,10 @@ export default function highchartsDataToG2Data(data, config, chartName) {
       const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
 
       // 若为直方图
-      if (oneData.data.every(x => typeof x === 'number') && config.histogram) {
+      if (
+        oneData.data.every(x => typeof x === 'number') &&
+        chartName === 'G2Histogram'
+      ) {
         newData.push(...parseHistItem(oneData, config));
         return;
       }
