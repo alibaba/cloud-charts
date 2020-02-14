@@ -95,7 +95,11 @@ const themeMap = {
 themeMap.index = themeMap.normal;
 
 // 默认主题包
-themeMap.default = themeMap[__THEME__];
+if (process.env.NODE_ENV === 'production') {
+  themeMap.default = themeMap[__THEME__];
+} else {
+  themeMap.default = themeMap.normal;
+}
 
 const themes = {};
 let currentThemeName = '';

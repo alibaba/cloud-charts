@@ -14,9 +14,8 @@ module.exports = {
   plugins: [
     // your custom plugins
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(JSON.parse('true')),
       __VERSION__: JSON.stringify(packageInfo.version),
-      __THEME__: JSON.stringify('normal')
+      __THEME__: JSON.stringify('index')
     }),
   ],
   module: {

@@ -25,8 +25,87 @@ module.exports = {
       id: '基础线图',
       // 会直接传输给组件的props，自行定义
       config: {
-        data: lineData
+        data: lineData,
+      }
+    },
+    {
+      id: '平滑曲线图',
+      config: {
+        config: {
+          spline: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '带点折线图',
+      config: {
+        config: {
+          symbol: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '面积折线图',
+      config: {
+        config: {
+          area: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '面积曲线图',
+      config: {
+        config: {
+          area: true,
+          spline: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '堆叠面积图',
+      config: {
+        config: {
+          area: true,
+          stack: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '双轴折线图',
+      config: {
+        config: {
+          yAxis: [{}, {}],
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '阶梯折线图',
+      config: {
+        config: {
+          step: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '单点线图',
+      config: {
+        data: [
+          {
+            "name":"机房A",
+            "data":[[1483632000000,4854]]
+          }, {
+            "name":"机房B",
+            "data":[[1483632000000,6548]]
+          }
+        ],
       }
     },
   ]
-}
+};

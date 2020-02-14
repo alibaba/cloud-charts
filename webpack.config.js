@@ -196,9 +196,8 @@ function dev() {
     }),
 
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(JSON.parse('true')),
       __VERSION__: JSON.stringify(packageInfo.version),
-      __THEME__: JSON.stringify('normal')
+      __THEME__: JSON.stringify('index')
     }),
 
     // 代码热替换
@@ -255,7 +254,6 @@ function prod(themeName, isPlugin) {
 
   _config.plugins.push(
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(JSON.parse('false')),
       __VERSION__: JSON.stringify(packageInfo.version),
       __THEME__: JSON.stringify(themeName || 'index')
     })
@@ -300,7 +298,6 @@ function online(themeName, isPlugin) {
     }),
 
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(JSON.parse('false')),
       __VERSION__: JSON.stringify(packageInfo.version),
       __THEME__: JSON.stringify('index')
     })
