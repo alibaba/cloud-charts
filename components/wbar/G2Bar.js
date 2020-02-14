@@ -13,7 +13,7 @@ import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label from '../common/label';
 import ResetButton from '../common/ResetButton';
-import getGeomSizeConfig from "../common/geomSize";
+import getGeomSizeConfig from '../common/geomSize';
 import './G2Bar.scss';
 
 export default {
@@ -53,7 +53,6 @@ export default {
       label: false,
       polar: false,
       innerRadius: 0,
-      histogram: false,
     };
   },
   beforeInit(props) {
@@ -62,7 +61,11 @@ export default {
 
     // TODO 处理padding
     return Object.assign({}, props, {
-      padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
+      padding: defaultPadding(
+        props.padding || config.padding,
+        newConfig,
+        ...this.defaultConfig.padding
+      ),
       config: newConfig,
     });
   },
@@ -70,33 +73,34 @@ export default {
     const config = userConfig;
 
     // 设置数据度量
-    if (!config.histogram) {
-      const defs = {
-        x: propertyAssign(propertyMap.xAxis, {
+    const defs = {
+      x: propertyAssign(
+        propertyMap.xAxis,
+        {
           type: 'cat',
-        }, config.xAxis),
-        y: propertyAssign(propertyMap.yAxis, {
+        },
+        config.xAxis
+      ),
+      y: propertyAssign(
+        propertyMap.yAxis,
+        {
           type: 'linear',
           tickCount: 5,
-        }, config.yAxis),
-        type: {
-          type: 'cat',
-          sync: true,
         },
-        facet: {
-          sync: true,
-        },
-      };
+        config.yAxis
+      ),
+      type: {
+        type: 'cat',
+        sync: true,
+      },
+      facet: {
+        sync: true,
+      },
+    };
 
-      rectAutoTickCount(chart, config, defs, !config.column);
+    rectAutoTickCount(chart, config, defs, !config.column);
 
-      chart.source(data, defs);
-    } else {
-      const { tickInterval = 1 } = config.histogram;
-      chart.source(data, {
-        x: { tickInterval }
-      });
-    }
+    chart.source(data, defs);
 
     // 设置单个Y轴
     if (!config.facet) {
@@ -122,8 +126,8 @@ export default {
     // 设置坐标系：极坐标/直角坐标
     const chartCoord = config.polar
       ? chart.coord('polar', {
-        innerRadius: config.innerRadius || 0,
-      })
+          innerRadius: config.innerRadius || 0,
+        })
       : chart.coord();
 
     // 横向柱状图
@@ -137,7 +141,11 @@ export default {
         let x = d.x;
         if (Array.isArray(d)) {
           x = d[0];
-        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
+        } else if (
+          config.xAxis &&
+          config.xAxis.categories &&
+          config.xAxis.categories[i]
+        ) {
           x = config.xAxis.categories[i];
           // const y = isNaN(d) ? d[0] : d;
         }
@@ -147,8 +155,8 @@ export default {
           content: `${x}  `,
           style: {
             fill: themes['widgets-axis-label'],
-            textAlign: 'right'
-          }
+            textAlign: 'right',
+          },
         });
       });
     }
@@ -158,11 +166,14 @@ export default {
     // chart.point().position('name*value').color('name').shape('circle');
 
     if (config.facet) {
-      const facetConfig = typeof config.facet === 'object' ? config.facet : {
-        type: 'mirror',
-        transpose: false,
-        padding: [20, 0, 20, 0],
-      };
+      const facetConfig =
+        typeof config.facet === 'object'
+          ? config.facet
+          : {
+              type: 'mirror',
+              transpose: false,
+              padding: [20, 0, 20, 0],
+            };
       const self = this;
       chart.facet(facetConfig.type, {
         fields: ['facet'],
@@ -187,9 +198,12 @@ export default {
               yAxisCustomConfig = {
                 label: {
                   formatter: (...args) => {
-                    args[1] = Object.assign({
-                      facet: facet.colValue || facet.rowValue,
-                    }, args[1]);
+                    args[1] = Object.assign(
+                      {
+                        facet: facet.colValue || facet.rowValue,
+                      },
+                      args[1]
+                    );
                     return labelFormatter(...args);
                   },
                 },
@@ -237,27 +251,31 @@ export default {
           chart.hideTooltip();
           button.show(this.language);
         },
-        onBrushend: (ev) => {
+        onBrushend: ev => {
           this.brush.container.clear(); // clear the brush
           const { type } = this.brush;
           const { xScale } = this.brush;
           const { yScale } = this.brush;
           // filter data
           if (type === 'X') {
-            xScale && chart.filter(xScale.field, val => {
-              return ev[xScale.field].indexOf(val) > -1;
-            });
+            xScale &&
+              chart.filter(xScale.field, val => {
+                return ev[xScale.field].indexOf(val) > -1;
+              });
           } else if (type === 'Y') {
-            yScale && chart.filter(yScale.field, val => {
-              return ev[yScale.field].indexOf(val) > -1;
-            });
+            yScale &&
+              chart.filter(yScale.field, val => {
+                return ev[yScale.field].indexOf(val) > -1;
+              });
           } else {
-            xScale && chart.filter(xScale.field, val => {
-              return ev[xScale.field].indexOf(val) > -1;
-            });
-            yScale && chart.filter(yScale.field, val => {
-              return ev[yScale.field].indexOf(val) > -1;
-            });
+            xScale &&
+              chart.filter(xScale.field, val => {
+                return ev[xScale.field].indexOf(val) > -1;
+              });
+            yScale &&
+              chart.filter(yScale.field, val => {
+                return ev[yScale.field].indexOf(val) > -1;
+              });
           }
           chart.repaint();
 
@@ -287,41 +305,39 @@ export default {
 };
 
 function drawBar(chart, config, colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size, histogram } = config;
-  let geom;
+  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
+  let geom = chart.interval().position(['x', 'y']);
 
-  if (histogram) {
-    geom = chart.intervalStack().position('x*y').color(field);
-  } else {
-    geom = chart.interval().position(['x', 'y']);
-
-    if (dodgeStack) {
-      geom = geom.color(field, colors).adjust([
-        {
-          type: 'dodge',
-          marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-          dodgeBy: 'dodge',
-        },
-        {
-          type: 'stack',
-          reverseOrder: !stackReverse, // 层叠顺序倒序
-        },
-      ]);
-    } else if (stack) {
-      // 堆叠
-      geom = geom.color(field, colors).adjust([{
-        type: 'stack',
-        reverseOrder: !stackReverse, // 层叠顺序倒序
-      }]);
-    } else {
-      // 分组
-      geom = geom.color(field, colors).adjust([{
+  if (dodgeStack) {
+    geom = geom.color(field, colors).adjust([
+      {
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-      }]);
-    }
+        dodgeBy: 'dodge',
+      },
+      {
+        type: 'stack',
+        reverseOrder: !stackReverse, // 层叠顺序倒序
+      },
+    ]);
+  } else if (stack) {
+    // 堆叠
+    geom = geom.color(field, colors).adjust([
+      {
+        type: 'stack',
+        reverseOrder: !stackReverse, // 层叠顺序倒序
+      },
+    ]);
+  } else {
+    // 分组
+    geom = geom.color(field, colors).adjust([
+      {
+        type: 'dodge',
+        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      },
+    ]);
   }
-  
+
   if (size) {
     const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*facet*extra');
     geom.size(...sizeConfig);
