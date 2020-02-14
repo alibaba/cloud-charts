@@ -22,6 +22,7 @@ import G2Rectangle from './wrectangle/G2Rectangle';
 import G2Funnel from './wfunnel/G2Funnel';
 import G2MultiPie from './wmultipie/G2MultiPie';
 import G2Box from './wbox/G2Box';
+import G2Candlestick from './wcandlestick/G2Candlestick';
 import G2Heatmap from './wheatmap/G2Heatmap';
 
 // import F2Line from './wline/F2Line';
@@ -69,6 +70,7 @@ export const WG2Rectangle = g2Factory('G2Rectangle', G2Rectangle, false);
 export const WG2Funnel = g2Factory('G2Funnel', G2Funnel);
 export const WG2MultiPie = g2Factory('G2MultiPie', G2MultiPie, false);
 export const WG2Box = g2Factory('G2Box', G2Box);
+export const WG2Candlestick = g2Factory('G2Candlestick', G2Candlestick);
 export const WG2Heatmap = g2Factory('G2Heatmap', G2Heatmap);
 
 // 暴露基础图表库
@@ -110,6 +112,7 @@ export const Wrectangle = WG2Rectangle;
 export const Wfunnel = WG2Funnel;
 export const WmultiPie = WG2MultiPie;
 export const Wbox = WG2Box;
+export const Wcandlestick = WG2Candlestick;
 export const Wheatmap = WG2Heatmap;
 
 // export const GFLine = autoSelect(Wline, F2Line);

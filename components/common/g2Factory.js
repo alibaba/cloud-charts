@@ -3,10 +3,15 @@
 import G2 from '@antv/g2';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getParentSize, requestAnimationFrame, isEqual, isEqualWith } from './common';
+import {
+  getParentSize,
+  requestAnimationFrame,
+  isEqual,
+  isEqualWith,
+} from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
-import eventBus from "../common/eventBus";
+import eventBus from '../common/eventBus';
 
 // 图表唯一id
 let uniqueId = 0;
@@ -42,7 +47,11 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     componentDidMount() {
-      this.chartProcess = Object.assign({}, Chart, this.props.customChart || {});
+      this.chartProcess = Object.assign(
+        {},
+        Chart,
+        this.props.customChart || {}
+      );
 
       this.language = this.props.language || 'zh-cn';
 
@@ -80,8 +89,21 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     componentDidUpdate(prevProps) {
-      const { data: newData, width: newWidth, height: newHeight, padding: newPadding, config: newConfig, changeConfig = true } = this.props;
-      const { data: oldData, width: oldWidth, height: oldHeight, padding: oldPadding, config: oldConfig } = prevProps;
+      const {
+        data: newData,
+        width: newWidth,
+        height: newHeight,
+        padding: newPadding,
+        config: newConfig,
+        changeConfig = true,
+      } = this.props;
+      const {
+        data: oldData,
+        width: oldWidth,
+        height: oldHeight,
+        padding: oldPadding,
+        config: oldConfig,
+      } = prevProps;
 
       this.language = this.props.language || 'zh-cn';
 
@@ -89,7 +111,10 @@ function g2Factory(name, Chart, convertData = true) {
       // 配置项有变化，重新生成图表
       if (changeConfig !== false) {
         let hasConfigChange = false;
-        if (changeCustomConfig && !isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))) {
+        if (
+          changeCustomConfig &&
+          !isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))
+        ) {
           hasConfigChange = true;
         } else if (!changeCustomConfig && !isEqual(newConfig, oldConfig)) {
           hasConfigChange = true;
@@ -109,11 +134,27 @@ function g2Factory(name, Chart, convertData = true) {
       let needAfterRender = false;
 
       // 数据有变化
-      if (newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)) {
-        const data = convertData && this.chartProcess.convertData !== false && newConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newConfig) : newData;
+      if (
+        newData !== oldData ||
+        (Array.isArray(newData) &&
+          Array.isArray(oldData) &&
+          newData.length !== oldData.length)
+      ) {
+        const data =
+          convertData &&
+          this.chartProcess.convertData !== false &&
+          newConfig.dataType !== 'g2'
+            ? highchartsDataToG2Data(newData, newConfig, name)
+            : newData;
         this.rawData = newData;
         if (this.chartProcess.changeData) {
-          this.chart && this.chartProcess.changeData.call(this, this.chart, newConfig, data);
+          this.chart &&
+            this.chartProcess.changeData.call(
+              this,
+              this.chart,
+              newConfig,
+              data
+            );
         } else {
           this.chart && this.chart.changeData(data);
         }
@@ -156,7 +197,7 @@ function g2Factory(name, Chart, convertData = true) {
         this.chart && this.chartProcess.destroy.call(this, this.chart);
       }
       if (this.unmountCallbacks.length > 0) {
-        this.unmountCallbacks.forEach((cb) => {
+        this.unmountCallbacks.forEach(cb => {
           cb && cb.call(this, this.chart);
         });
       }
@@ -187,8 +228,19 @@ function g2Factory(name, Chart, convertData = true) {
       }
       let currentProps = props || this.props;
       // 开始初始化图表
-      currentProps = this.chartProcess.beforeInit ? this.chartProcess.beforeInit.call(this, currentProps) : currentProps;
-      const { width = this._size[0], height = (this._size[1] || 200), data: initData, padding, forceFit, config, event, ...otherProps } = currentProps;
+      currentProps = this.chartProcess.beforeInit
+        ? this.chartProcess.beforeInit.call(this, currentProps)
+        : currentProps;
+      const {
+        width = this._size[0],
+        height = this._size[1] || 200,
+        data: initData,
+        padding,
+        forceFit,
+        config,
+        event,
+        ...otherProps
+      } = currentProps;
       // 生成图表实例
       const chart = new G2.Chart({
         container: this.chartDom,
@@ -203,17 +255,24 @@ function g2Factory(name, Chart, convertData = true) {
 
       // 1.x 升级 到 2.x 的提示
       if (config.xAxis && config.xAxis.type === 'datetime') {
-        console.warn('配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：aisc.alibaba-inc.com/site/pc#/cate/4/page/137。');
+        console.warn(
+          '配置属性 "config.xAxis.type": "datetime" 在 widgets 2.x 中已被废弃，请使用 "config.xAxis.type": "time"。详情请看：aisc.alibaba-inc.com/site/pc#/cate/4/page/137。'
+        );
       }
 
       // 预处理数据
-      const data = convertData && this.chartProcess.convertData !== false && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
+      const data =
+        convertData &&
+        this.chartProcess.convertData !== false &&
+        config.dataType !== 'g2'
+          ? highchartsDataToG2Data(initData, config, name)
+          : initData;
       this.rawData = initData;
       chart && this.chartProcess.init.call(this, chart, config, data);
 
       // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
       if (chart && event) {
-        Object.keys(event).forEach((eventKey) => {
+        Object.keys(event).forEach(eventKey => {
           chart.on(eventKey, event[eventKey]);
         });
       }
@@ -232,7 +291,11 @@ function g2Factory(name, Chart, convertData = true) {
       const currentProps = props || this.props;
 
       const element = this.chartDom;
-      const parentSize = getParentSize(element, currentProps.width, currentProps.height);
+      const parentSize = getParentSize(
+        element,
+        currentProps.width,
+        currentProps.height
+      );
       this.setSize(parentSize);
 
       window.addEventListener('resize', this.autoResize);
@@ -242,7 +305,8 @@ function g2Factory(name, Chart, convertData = true) {
       this.setSize([w, h]);
 
       if (this.chartProcess.changeSize) {
-        this.chart && this.chartProcess.changeSize.call(this, this.chart, config, w, h);
+        this.chart &&
+          this.chartProcess.changeSize.call(this, this.chart, config, w, h);
       } else {
         this.chart && this.chart.changeSize(w, h);
       }
@@ -268,7 +332,11 @@ function g2Factory(name, Chart, convertData = true) {
 
         const parentSize = getParentSize(element, props.width, props.height);
         // 读取的高宽需要是有效值，0 也不可以
-        if (!(parentSize[0] === _size[0] && parentSize[1] === _size[1]) && parentSize[0] && parentSize[1]) {
+        if (
+          !(parentSize[0] === _size[0] && parentSize[1] === _size[1]) &&
+          parentSize[0] &&
+          parentSize[1]
+        ) {
           this.changeSize(props.config, parentSize[0], parentSize[1]);
 
           this.afterRender();
@@ -294,13 +362,20 @@ function g2Factory(name, Chart, convertData = true) {
     afterRenderTimer = null;
 
     afterRender(config) {
-      if (this.chartProcess.afterRender || this.afterRenderCallbacks.length > 0) {
+      if (
+        this.chartProcess.afterRender ||
+        this.afterRenderCallbacks.length > 0
+      ) {
         this.afterRenderTimer = setTimeout(() => {
           if (this.chart && this.chartProcess.afterRender) {
-            this.chartProcess.afterRender.call(this, this.chart, config || this.props.config);
+            this.chartProcess.afterRender.call(
+              this,
+              this.chart,
+              config || this.props.config
+            );
           }
           if (this.afterRenderCallbacks.length > 0) {
-            this.afterRenderCallbacks.forEach((cb) => {
+            this.afterRenderCallbacks.forEach(cb => {
               cb && cb.call(this, this.chart, config || this.props.config);
             });
           }
@@ -309,10 +384,33 @@ function g2Factory(name, Chart, convertData = true) {
     }
 
     render() {
-      const { className = '', style, children, data, width, height, padding, config, event, animate, language, customChart, getChartInstance, ...otherProps } = this.props;
+      const {
+        className = '',
+        style,
+        children,
+        data,
+        width,
+        height,
+        padding,
+        config,
+        event,
+        animate,
+        language,
+        customChart,
+        getChartInstance,
+        ...otherProps
+      } = this.props;
       return (
-        <div ref={dom => (this.chartDom = dom)} id={this.chartId} key={this.chartId} className={`${rootClassName + name} ${className}`} style={style} {...otherProps}>
-          {children ? <div className={rootChildClassName}>{children}</div> : null}
+        <div
+          ref={dom => (this.chartDom = dom)}
+          id={this.chartId}
+          key={this.chartId}
+          className={`${rootClassName + name} ${className}`}
+          style={style}
+          {...otherProps}>
+          {children ? (
+            <div className={rootChildClassName}>{children}</div>
+          ) : null}
         </div>
       );
     }

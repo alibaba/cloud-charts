@@ -17,20 +17,49 @@ const sortFun = {
 };
 
 /*
-* 常见直角坐标系的tooltip，包含title、name、value
-* */
-export default function (chart, config, componentConfig) {
+ * 常见直角坐标系的tooltip，包含title、name、value
+ * */
+export default function(chart, config, componentConfig) {
   if (config.tooltip !== false && config.tooltip.visible !== false) {
-    const { sort, showTitle = true, showColon = true, inPlot = true, titleFormatter, nameFormatter, valueFormatter, customConfig } = config.tooltip || {};
+    const {
+      sort,
+      showTitle = true,
+      showColon = true,
+      inPlot = true,
+      titleFormatter,
+      nameFormatter,
+      valueFormatter,
+      customConfig,
+    } = config.tooltip || {};
 
     const tooltipConfig = {
-      showTitle,
+      showTitle: config.isCandlestick ? true : showTitle,
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
       inPlot,
-      itemTpl: '<li data-index={index}>'
-        + '<span style="background-color:{color};" class="g2-tooltip-marker"></span>'
-        + `<span class="g2-tooltip-item-name">{name}</span>${showColon ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
+      itemTpl: !config.isCandlestick
+        ? `<li data-index={index}>
+        <span style="background-color:{color};" class="g2-tooltip-marker"></span>
+        <span class="g2-tooltip-item-name">{name}</span>${
+          showColon ? ':' : ''
+        }<span class="g2-tooltip-item-value">{value}</span>
+      </li>`
+        : `<div>
+            ${
+              showTitle
+                ? '<div style="margin:10px 0;"><span style="background-color:{color};width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{group}</div>'
+                : ''
+            }
+            <div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelStart}</span>${
+              showColon ? ':' : ''
+            }<span class="g2-tooltip-item-value">{start}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelEnd}</span>${
+            showColon ? ':' : ''
+          }<span class="g2-tooltip-item-value">{end}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelMax}</span>${
+            showColon ? ':' : ''
+          }<span class="g2-tooltip-item-value">{max}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelMin}</span>${
+            showColon ? ':' : ''
+          }<span class="g2-tooltip-item-value">{min}</span></div>
+          </div>`,
     };
 
     if (componentConfig) {
@@ -44,7 +73,7 @@ export default function (chart, config, componentConfig) {
     chart.tooltip(tooltipConfig);
 
     if (sort || titleFormatter || nameFormatter || valueFormatter) {
-      chart.on('tooltip:change', (ev) => {
+      chart.on('tooltip:change', ev => {
         // 如果设置了合法的排序关键字，则开始排序
         if (G2.Util.isFunction(sort)) {
           ev.items.sort(sort);

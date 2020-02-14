@@ -38,7 +38,6 @@ export default {
         bins: [20, 10], // 两个方向上的分箱个数
         // binWidth: [ 10, 1000 ],    // 两个方向上的分箱步长（会覆盖bins的配置）
         // offset: [ 0, 0 ],
-
       },
       grid: false,
       label: false,
