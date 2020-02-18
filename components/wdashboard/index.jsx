@@ -12,10 +12,10 @@ const prefix = 'aisc-wdashboard';
 export default class Wdashboard extends React.Component {
   static displayName = 'Wdashboard';
 
-  static defaultProps = {
-    range: [0, 100],
-    pointCount: 5,
-  };
+  // static defaultProps = {
+  //   range: [0, 100],
+  //   pointCount: 6,
+  // };
 
   constructor(props) {
     super(props);
@@ -26,11 +26,11 @@ export default class Wdashboard extends React.Component {
 
 
   componentDidMount() {
-    const { data: data, ...options } = this.props;
+    const { data, config } = this.props;
     if (!this.dom) {
       return;
     }
-    this.dashboard = new Dashboard(this.dom, Object.assign({}, options));
+    this.dashboard = new Dashboard(this.dom, Object.assign({}, config));
     this.dashboard.setData(data)
   }
 
@@ -40,7 +40,8 @@ export default class Wdashboard extends React.Component {
 
     if (newOptions !== oldOptions) {
       this.dashboard.setOption(Object.assign({}, newOptions))
-    } else if (newData !== oldData && this.dashboard) {
+    }
+    if (newData !== oldData && this.dashboard) {
       this.dashboard.setData(newData)
     }
   }
@@ -62,7 +63,7 @@ export default class Wdashboard extends React.Component {
   }
 }
 
-Wdashboard.propTypes = {
-  range: PropTypes.array, //取值范围
-  pointCount: PropTypes.number, // 刻度个数
-};
+// Wdashboard.propTypes = {
+//   range: PropTypes.array, //取值范围
+//   pointCount: PropTypes.number, // 刻度个数
+// };

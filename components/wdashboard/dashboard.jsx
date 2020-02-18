@@ -27,14 +27,11 @@ class DashBoard {
       url: "",
       urlLength: 60,//icon长宽
       urlBottom: 30,
-      textLength: 20,//文字长度
-      // unit: "",//仪表盘内部文案单位，text不为false生效
-      // unitColor: "#A0A1B5", //仪表盘内部文案，不能与指针共存
-      // unitSize: 24,
+      // textLength: 20,//文字长度
       radius: 135,//刻度表线半径
       dialRadius: 165,//刻度盘圆环外半径
       blankAngle: 0 * Math.PI,//刻度盘空余角度
-      angle: 1 * Math.PI,//刻度盘角度(包括空余角度)
+      angle: 1.5 * Math.PI,//刻度盘角度(包括空余角度)
       boardFontColor: themes.colorText12,//刻度盘字体颜色
       boardFontSize: 12,//刻度盘字体大小
       borderColor: themes.colorTransparent,//刻度表线颜色
@@ -241,7 +238,7 @@ class DashBoard {
     this.context.textAlign = "center";
     this.context.fillStyle = this.options.boardFontColor;
     this.context.font = this.options.boardFontSize + `px ${COLORS.fontFamilyTxdMediumNumber}`;
-    this.context.fillText(text, tx, ty, this.options.textLength);
+    this.context.fillText(text, tx, ty);
     this.context.restore();
   }
 

@@ -1,10 +1,10 @@
-import React from 'react';
-
+import React, { useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
+import { withKnobs, number, array } from "@storybook/addon-knobs";
 
-import { Wpie, Wnumber, Wcontainer } from '@alife/aisc-widgets';
+import { Wpie, Wnumber, Wcontainer, Wdashboard } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -19,6 +19,18 @@ const data = [
     ]
   }
 ];
+
+function WdashboardDemo() {
+  const data = number('仪表盘数字', 20);
+  const arr = array('值域范围', [0, 100],);
+  const [count, setCount] = useState(data);
+  const [range, setRange] = useState(arr);
+  useMemo(() => {
+    setRange(arr.map(Number));
+    setCount(data);
+  }, [data, arr]);
+  return <Wdashboard data={count} config={{range}} className="demos"/>;
+}
 
 const stories = storiesOf('Wpie', module);
 stories.add('饼图', () => (
@@ -66,3 +78,8 @@ stories.add('带标签环图', () => (
     }} data={data} />
   </Wcontainer>
 ));
+stories.add('仪表盘', () => (
+  <WdashboardDemo data={11} className="demos"/>
+));
+
+stories.addDecorator(withKnobs);
