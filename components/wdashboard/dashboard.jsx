@@ -1,4 +1,3 @@
-import { COLORS, Wminiline, Util } from '@alife/aisc-widgets';
 import themes from '../theme/index';
 
 class DashBoard {
@@ -210,13 +209,13 @@ class DashBoard {
     this.context.save();
     this.context.textAlign = "center";
     this.context.fillStyle = this.options.textColor;
-    this.context.font = textSize + `px ${COLORS.fontFamilyTxdMediumNumber}`;
+    this.context.font = textSize + `px ${themes.fontFamilyTxdMediumNumber}`;
     this.context.fillText(text, this.default.x, yArr[0]);
     this.context.restore();
     this.context.save();
     this.context.textAlign = "center";
     this.context.fillStyle = this.options.unitColor;
-    this.context.font = this.options.unitSize + `px ${COLORS.fontFamilyTxdMediumNumber}`;
+    this.context.font = this.options.unitSize + `px ${themes.fontFamilyTxdMediumNumber}`;
     this.context.fillText(unit, this.default.x, yArr[1]);
     this.context.restore();
   }
@@ -237,7 +236,7 @@ class DashBoard {
     }
     this.context.textAlign = "center";
     this.context.fillStyle = this.options.boardFontColor;
-    this.context.font = this.options.boardFontSize + `px ${COLORS.fontFamilyTxdMediumNumber}`;
+    this.context.font = this.options.boardFontSize + `px ${themes.fontFamilyTxdMediumNumber}`;
     this.context.fillText(text, tx, ty);
     this.context.restore();
   }
