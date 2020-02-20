@@ -63,7 +63,7 @@ export function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
   }
 }
 
-export default /*#__PURE__*/ g2Factory('G2Pie', {
+export const G2PieBase = {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -315,4 +315,6 @@ export default /*#__PURE__*/ g2Factory('G2Pie', {
   destroy() {
     this.geom = null;
   },
-});
+};
+
+export default /*#__PURE__*/ g2Factory('G2Pie', G2PieBase);
