@@ -20,7 +20,9 @@ const sortFun = {
  * 常见直角坐标系的tooltip，包含title、name、value
  * */
 export default function(chart, config, componentConfig) {
-  if (config.tooltip !== false && config.tooltip.visible !== false) {
+  if (config.tooltip === false || (config.tooltip && config.tooltip.visible === false)) {
+    chart.tooltip(false);
+  } else {
     const {
       sort,
       showTitle = true,
@@ -99,7 +101,5 @@ export default function(chart, config, componentConfig) {
         });
       });
     }
-  } else {
-    chart.tooltip(false);
   }
 }

@@ -309,10 +309,10 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
     right = 45;
   }
 
-  if (top !== 'auto' && (config.legend === false || config.legend.visible === false)) {
+  if (top !== 'auto' && (config.legend === false || (config.legend && config.legend.visible === false))) {
     top = 16;
   }
-  if (config.legend !== false && config.legend.visible !== false) {
+  if (config.legend !== false && !(config.legend && config.legend.visible === false)) {
     const { position = 'top' } = config.legend || {};
     if (top !== 'auto' && position === 'bottom') {
       top = 10;
