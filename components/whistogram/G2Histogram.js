@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { defaultPadding } from '../common/common';
@@ -13,7 +14,7 @@ import label from '../common/label';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Histogram.scss';
 
-export default {
+export default g2Factory('G2Histogram', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -139,7 +140,7 @@ export default {
   changeData(chart, config, data) {
     chart.changeData(data);
   },
-};
+});
 
 function drawHist(chart, config, colors, field = 'type') {
   const { size } = config;

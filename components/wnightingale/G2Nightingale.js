@@ -1,6 +1,7 @@
 'use strict';
 
 // 引入所需要的库和样式
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import './G2Nightingale.scss';
@@ -10,7 +11,7 @@ import label from '../common/label';
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。
-export default {
+export default g2Factory('G2Nightingale', {
   getDefaultConfig() {
     return {
       padding: [20, 20, 20, 20],
@@ -96,4 +97,4 @@ export default {
 
     chart.render();
   },
-};
+});

@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import guide from '../common/guide';
@@ -8,7 +9,7 @@ import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
 import { defaultPadding } from '../common/common';
 
-export default {
+export default g2Factory('G2Funnel', {
   getDefaultConfig() {
     return {
       colors: themes.order_10,
@@ -106,4 +107,4 @@ export default {
 
     chart.render();
   },
-};
+});

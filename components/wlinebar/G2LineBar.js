@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
@@ -16,7 +17,8 @@ import label from '../common/label';
 import './G2LineBar.scss';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
-export default {
+export default g2Factory('G2LineBar', {
+  convertData: false,
   getDefaultConfig() {
     return {
       lineColors: themes.category_12.slice(1),
@@ -268,7 +270,7 @@ export default {
       }
     }
   },
-};
+});
 
 function drawBar(chart, config, yAxisKey = 'y') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;

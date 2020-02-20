@@ -1,6 +1,7 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
+import g2Factory from '../common/g2Factory';
 import themes from '../theme/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
@@ -9,7 +10,8 @@ function getEdges(d) {
   return d.links;
 }
 
-export default {
+export default g2Factory('G2Sankey', {
+  convertData: false,
   getDefaultConfig() {
     return {
       padding: ['auto', 40, 'auto', 'auto'],
@@ -108,4 +110,4 @@ export default {
       chart.render();
     }
   },
-};
+});

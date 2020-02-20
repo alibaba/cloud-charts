@@ -1,6 +1,7 @@
 'use strict';
 
 // 引入所需要的库和样式
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -76,7 +77,7 @@ const setSource = (chart, config, data) => {
   chart.source(data, defs);
 };
 
-export default {
+export default g2Factory('G2Scatter', {
   getDefaultConfig() {
     return {
       padding: [28, 5, 24, 44],
@@ -151,4 +152,4 @@ export default {
 
     chart.render();
   },
-};
+});

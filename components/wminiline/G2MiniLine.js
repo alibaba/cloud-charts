@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap } from '../common/common';
@@ -9,7 +10,7 @@ import rectTooltip from '../common/rectTooltip';
 import guide from '../common/guide';
 import drawLine from '../common/drawLine';
 
-export default {
+export default g2Factory('G2MiniLine', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -100,4 +101,4 @@ export default {
 
     chart.render();
   },
-};
+});

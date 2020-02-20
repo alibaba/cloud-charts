@@ -57,23 +57,23 @@ G2.G.Canvas.prototype.getPointByClient = function (clientX, clientY) {
 
 // 暴露所有基础图表
 // export const WG2Line = g2Factory('G2Line', G2Line);
-export const WG2MiniLine = g2Factory('G2MiniLine', G2MiniLine);
-export const WG2Bar = g2Factory('G2Bar', G2Bar);
-export const WG2Histogram = g2Factory('G2Histogram', G2Histogram);
-export const WG2LineBar = g2Factory('G2LineBar', G2LineBar, false);
-export const WG2Pie = g2Factory('G2Pie', G2Pie);
-export const WG2Scatter = g2Factory('G2Scatter', G2Scatter);
-export const WG2Map = G2Map;
-export const WG2Custom = g2Factory('G2Custom', G2Custom);
-export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
-export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
-export const WG2Radar = g2Factory('G2Radar', G2Radar);
-export const WG2Rectangle = g2Factory('G2Rectangle', G2Rectangle, false);
-export const WG2Funnel = g2Factory('G2Funnel', G2Funnel);
-export const WG2MultiPie = g2Factory('G2MultiPie', G2MultiPie, false);
-export const WG2Box = g2Factory('G2Box', G2Box);
-export const WG2Candlestick = g2Factory('G2Candlestick', G2Candlestick);
-export const WG2Heatmap = g2Factory('G2Heatmap', G2Heatmap);
+// export const WG2MiniLine = g2Factory('G2MiniLine', G2MiniLine);
+// export const WG2Bar = g2Factory('G2Bar', G2Bar);
+// export const WG2Histogram = g2Factory('G2Histogram', G2Histogram);
+// export const WG2LineBar = g2Factory('G2LineBar', G2LineBar, false);
+// export const WG2Pie = g2Factory('G2Pie', G2Pie);
+// export const WG2Scatter = g2Factory('G2Scatter', G2Scatter);
+// export const WG2Map = G2Map;
+// export const WG2Custom = g2Factory('G2Custom', G2Custom);
+// export const WG2Sankey = g2Factory('G2Sankey', G2Sankey, false);
+// export const WG2Nightingale = g2Factory('G2Nightingale', G2Nightingale);
+// export const WG2Radar = g2Factory('G2Radar', G2Radar);
+// export const WG2Rectangle = g2Factory('G2Rectangle', G2Rectangle, false);
+// export const WG2Funnel = g2Factory('G2Funnel', G2Funnel);
+// export const WG2MultiPie = g2Factory('G2MultiPie', G2MultiPie, false);
+// export const WG2Box = g2Factory('G2Box', G2Box);
+// export const WG2Candlestick = g2Factory('G2Candlestick', G2Candlestick);
+// export const WG2Heatmap = g2Factory('G2Heatmap', G2Heatmap);
 
 // 暴露基础图表库
 export { G2, DataSet };
@@ -100,23 +100,23 @@ export const { PathUtil } = G2;
 
 // 暴露图表组件
 export const Wline = G2Line;
-export const Wminiline = WG2MiniLine;
-export const Wbar = WG2Bar;
-export const Whistogram = WG2Histogram;
-export const Wlinebar = WG2LineBar;
-export const Wpie = WG2Pie;
-export const Wscatter = WG2Scatter;
-export const Wmap = WG2Map;
-export const Wcustom = WG2Custom;
-export const Wsankey = WG2Sankey;
-export const Wnightingale = WG2Nightingale;
-export const Wradar = WG2Radar;
-export const Wrectangle = WG2Rectangle;
-export const Wfunnel = WG2Funnel;
-export const WmultiPie = WG2MultiPie;
-export const Wbox = WG2Box;
-export const Wcandlestick = WG2Candlestick;
-export const Wheatmap = WG2Heatmap;
+export const Wminiline = G2MiniLine;
+export const Wbar = G2Bar;
+export const Whistogram = G2Histogram;
+export const Wlinebar = G2LineBar;
+export const Wpie = G2Pie;
+export const Wscatter = G2Scatter;
+export const Wmap = G2Map;
+export const Wcustom = G2Custom;
+export const Wsankey = G2Sankey;
+export const Wnightingale = G2Nightingale;
+export const Wradar = G2Radar;
+export const Wrectangle = G2Rectangle;
+export const Wfunnel = G2Funnel;
+export const WmultiPie = G2MultiPie;
+export const Wbox = G2Box;
+export const Wcandlestick = G2Candlestick;
+export const Wheatmap = G2Heatmap;
 
 // export const GFLine = autoSelect(Wline, F2Line);
 // export const GFPie = autoSelect(Wpie, F2Pie);

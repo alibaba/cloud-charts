@@ -1,6 +1,7 @@
 'use strict';
 
 import Brush from '@antv/g2-brush';
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -16,7 +17,7 @@ import ResetButton from '../common/ResetButton';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Bar.scss';
 
-export default {
+export default g2Factory('G2Bar', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -302,7 +303,7 @@ export default {
       this.resetButton.destroy();
     }
   },
-};
+});
 
 function drawBar(chart, config, colors, field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack, size } = config;

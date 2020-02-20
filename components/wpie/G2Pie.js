@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
@@ -62,7 +63,7 @@ export function getDrawPadding(drawPadding, labelConfig, defaultDrawPadding) {
   }
 }
 
-export default {
+export default g2Factory('G2Pie', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -314,4 +315,4 @@ export default {
   destroy() {
     this.geom = null;
   },
-};
+});
