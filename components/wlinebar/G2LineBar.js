@@ -17,7 +17,7 @@ import label from '../common/label';
 import './G2LineBar.scss';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 
-export default g2Factory('G2LineBar', {
+export default /*#__PURE__*/ g2Factory('G2LineBar', {
   convertData: false,
   getDefaultConfig() {
     return {

@@ -10,7 +10,7 @@ function getEdges(d) {
   return d.links;
 }
 
-export default g2Factory('G2Sankey', {
+export default /*#__PURE__*/ g2Factory('G2Sankey', {
   convertData: false,
   getDefaultConfig() {
     return {

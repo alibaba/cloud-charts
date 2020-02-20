@@ -17,7 +17,7 @@ import ResetButton from '../common/ResetButton';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Bar.scss';
 
-export default g2Factory('G2Bar', {
+export default /*#__PURE__*/ g2Factory('G2Bar', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,

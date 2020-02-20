@@ -14,7 +14,7 @@ import legendFilter from '../common/legendFilter';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Candlestick.scss';
 
-export default g2Factory('G2Candlestick', {
+export default /*#__PURE__*/ g2Factory('G2Candlestick', {
   getDefaultConfig() {
     return {
       colors: [themes.widgetsColorRed, themes.widgetsColorGreen],

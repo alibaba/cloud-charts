@@ -13,7 +13,7 @@ import './G2Radar.scss';
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。
-export default g2Factory('G2Radar', {
+export default /*#__PURE__*/ g2Factory('G2Radar', {
   getDefaultConfig() {
     return {
       padding: [20, 20, 40, 20],

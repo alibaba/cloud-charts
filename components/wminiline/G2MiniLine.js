@@ -10,7 +10,7 @@ import rectTooltip from '../common/rectTooltip';
 import guide from '../common/guide';
 import drawLine from '../common/drawLine';
 
-export default g2Factory('G2MiniLine', {
+export default /*#__PURE__*/ g2Factory('G2MiniLine', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,

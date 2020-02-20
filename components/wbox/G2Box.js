@@ -15,7 +15,7 @@ import getGeomSizeConfig from "../common/geomSize";
 // import label from '../common/label';
 import './G2Box.scss';
 
-export default g2Factory('G2Box', {
+export default /*#__PURE__*/ g2Factory('G2Box', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,

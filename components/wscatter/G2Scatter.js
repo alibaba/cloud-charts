@@ -77,7 +77,7 @@ const setSource = (chart, config, data) => {
   chart.source(data, defs);
 };
 
-export default g2Factory('G2Scatter', {
+export default /*#__PURE__*/ g2Factory('G2Scatter', {
   getDefaultConfig() {
     return {
       padding: [28, 5, 24, 44],

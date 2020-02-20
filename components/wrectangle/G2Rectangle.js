@@ -13,7 +13,7 @@ import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Rectangle.scss';
 
-export default g2Factory('G2Rectangle', {
+export default /*#__PURE__*/ g2Factory('G2Rectangle', {
   convertData: false,
   getDefaultConfig() {
     return {

@@ -9,7 +9,7 @@ import rectLegend from '../common/rectLegend';
 import './G2Funnel.scss';
 import { defaultPadding } from '../common/common';
 
-export default g2Factory('G2Funnel', {
+export default /*#__PURE__*/ g2Factory('G2Funnel', {
   getDefaultConfig() {
     return {
       colors: themes.order_10,

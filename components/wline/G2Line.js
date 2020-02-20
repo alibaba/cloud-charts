@@ -17,7 +17,7 @@ import ResetButton from '../common/ResetButton';
 import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
-export default g2Factory('G2Line', {
+export default /*#__PURE__*/ g2Factory('G2Line', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,

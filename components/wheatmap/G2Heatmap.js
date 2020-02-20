@@ -14,7 +14,7 @@ import legendFilter from '../common/legendFilter';
 // import label from '../common/label';
 import './G2Heatmap.scss';
 
-export default g2Factory('G2Heatmap', {
+export default /*#__PURE__*/ g2Factory('G2Heatmap', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,

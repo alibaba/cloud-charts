@@ -96,7 +96,7 @@ function getInnerRadius(maxDepth, innerRadius) {
   return radiusMap[maxDepth] || 0;
 }
 
-export default g2Factory('G2MultiPie', Object.assign({}, G2Pie, {
+export default /*#__PURE__*/ g2Factory('G2MultiPie', Object.assign({}, G2Pie, {
   convertData: false,
   getDefaultConfig() {
     return {

@@ -14,7 +14,7 @@ import label from '../common/label';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Histogram.scss';
 
-export default g2Factory('G2Histogram', {
+export default /*#__PURE__*/ g2Factory('G2Histogram', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
