@@ -16,65 +16,8 @@ import label from '../common/label';
 import guide from '../common/guide';
 import getGeomSizeConfig from '../common/geomSize';
 
-const setAxis = (chart, config) => {
-  // 设置X轴
-  const xAxis = {};
-
-  if (config.jitter) {
-    xAxis.grid = {
-      align: 'center', // 网格顶点从两个刻度中间开始
-      lineStyle: {
-        stroke: themes['widgets-axis-grid'],
-        lineWidth: 1,
-        // lineDash: [3, 3]
-      },
-    };
-  }
-
-  // 扰动点图不能打开垂直网格线
-  if (config.grid && !config.jitter) {
-    xAxis.grid = {
-      lineStyle: {
-        stroke: themes['widgets-axis-grid'],
-        lineWidth: 1,
-      },
-    };
-  }
-
-  rectXAxis.call(this, chart, config, xAxis);
-
-  // 设置单个Y轴
-  rectYAxis.call(this, chart, config);
-};
-
 const setSource = (chart, config, data) => {
-  const defs = {
-    x: propertyAssign(
-      propertyMap.xAxis,
-      {
-        type: config.jitter ? 'cat' : 'linear',
-      },
-      config.xAxis
-    ),
-    type: {
-      type: 'cat',
-    },
-  };
 
-  defs.y = propertyAssign(
-    propertyMap.yAxis,
-    {
-      type: 'linear',
-      tickCount: 5,
-    },
-    config.yAxis
-  );
-
-  autoTimeMask(defs, this.rawData);
-
-  rectAutoTickCount(chart, config, defs, false);
-
-  chart.source(data, defs);
 };
 
 export default /*#__PURE__*/ g2Factory('G2Scatter', {
@@ -116,9 +59,62 @@ export default /*#__PURE__*/ g2Factory('G2Scatter', {
     const config = userConfig;
     const { colors, jitter, size, geomStyle } = config;
 
-    setSource(chart, config, data);
+    const defs = {
+      x: propertyAssign(
+        propertyMap.xAxis,
+        {
+          type: config.jitter ? 'cat' : 'linear',
+        },
+        config.xAxis
+      ),
+      type: {
+        type: 'cat',
+      },
+    };
 
-    setAxis(chart, config);
+    defs.y = propertyAssign(
+      propertyMap.yAxis,
+      {
+        type: 'linear',
+        tickCount: 5,
+      },
+      config.yAxis
+    );
+
+    autoTimeMask(defs, this.rawData);
+
+    rectAutoTickCount(chart, config, defs, false);
+
+    chart.source(data, defs);
+
+    // 设置X轴
+    const xAxis = {};
+
+    if (config.jitter) {
+      xAxis.grid = {
+        align: 'center', // 网格顶点从两个刻度中间开始
+        lineStyle: {
+          stroke: themes['widgets-axis-grid'],
+          lineWidth: 1,
+          // lineDash: [3, 3]
+        },
+      };
+    }
+
+    // 扰动点图不能打开垂直网格线
+    if (config.grid && !config.jitter) {
+      xAxis.grid = {
+        lineStyle: {
+          stroke: themes['widgets-axis-grid'],
+          lineWidth: 1,
+        },
+      };
+    }
+
+    rectXAxis.call(this, chart, config, xAxis);
+
+    // 设置单个Y轴
+    rectYAxis.call(this, chart, config);
 
     rectTooltip.call(this, chart, config, {
       crosshairs: null,
