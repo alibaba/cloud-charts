@@ -147,7 +147,7 @@ function drawHist(chart, config, colors, field = 'type') {
   const geom = chart
     .intervalStack()
     .position('x*y')
-    .color(field);
+    .color(field, colors);
 
   if (size) {
     const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*extra');
