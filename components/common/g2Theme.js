@@ -84,10 +84,10 @@ function getG2ThemeConfig(themes) {
         lineWidth: 2,
       },
       area: {
-        fillOpacity: 0.1,
+        fillOpacity: themes['widgets-shape-area-opacity'],
       },
       interval: {
-        fillOpacity: 1,
+        fillOpacity: themes['widgets-shape-interval-opacity'],
       },
     },
     label: {
@@ -313,7 +313,7 @@ function getG2ThemeConfig(themes) {
       region: {
         style: {
           fill: themes['color-b1-6'], // 辅助框填充的颜色
-          fillOpacity: 0.1, // 辅助框的背景透明度
+          fillOpacity: themes['widgets-guide-region-opacity'], // 辅助框的背景透明度
         }, // 辅助框的图形样式属性
       },
       text: {
