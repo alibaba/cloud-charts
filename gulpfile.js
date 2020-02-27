@@ -132,7 +132,7 @@ const themeList = ['dark', 'aone', 'aliyun', 'aliyun-dark'];
 
 // 生成主题对应任务
 themeList.forEach((theme, index) => {
-  const preTask = [];
+  const preTask = ['build:plugins', 'build:theme-sass'];
   for (let i = 0; i < themeList.length; i++) {
     if (i < index) {
       preTask.push(`build:theme:${themeList[i]}`);
