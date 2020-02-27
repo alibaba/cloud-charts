@@ -5,16 +5,16 @@ export const version = __VERSION__;
 export const VERSION = __VERSION__;
 
 // 业务组件，没有依赖其它图表库
-export Wnumber from './wnumber/index';
-export Wcontainer from './wcontainer/index';
-export Wicon from './wicon/index';
-export Wcircle from './wcircle/index';
-export Wminicontainer from './wminicontainer/index';
-export Wshoot from './wshoot/index';
-export Wplaceholder from './wplaceholder/index';
-export Wperline from './wperline/index';
-export Wcount from './wcount/index';
-// export Wdashboard from './wdashboard/index';
+export { default as Wnumber } from './wnumber/index';
+export { default as Wcontainer } from './wcontainer/index';
+export { default as Wicon } from './wicon/index';
+export { default as Wcircle } from './wcircle/index';
+export { default as Wminicontainer } from './wminicontainer/index';
+export { default as Wshoot } from './wshoot/index';
+export { default as Wplaceholder } from './wplaceholder/index';
+export { default as Wperline } from './wperline/index';
+export { default as Wcount } from './wcount/index';
+export { default as Wdashboard } from './wdashboard/index';
 
 // 暴露颜色值
 export const COLORS = themes;
@@ -26,7 +26,7 @@ export { getTheme, setTheme };
 export * from './g2Charts';
 
 // 打点控制
-export track from './track';
+export { default as track } from './track';
 
 export { plugins, pluginManager } from './plugins';
 

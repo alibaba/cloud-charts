@@ -1,19 +1,20 @@
-"use strict";
+'use strict';
 
-import merge from "../common/merge";
-import themes from "../theme/index";
-import { defaultPadding } from "../common/common";
-import guide from "../common/guide";
-import rectXAxis from "../common/rectXAxis";
-import rectYAxis from "../common/rectYAxis";
-import rectTooltip from "../common/rectTooltip";
-import rectLegend from "../common/rectLegend";
-import legendFilter from "../common/legendFilter";
-import label from "../common/label";
-import getGeomSizeConfig from "../common/geomSize";
-import "./G2Histogram.scss";
+import g2Factory from '../common/g2Factory';
+import merge from '../common/merge';
+import themes from '../theme/index';
+import { defaultPadding } from '../common/common';
+import guide from '../common/guide';
+import rectXAxis from '../common/rectXAxis';
+import rectYAxis from '../common/rectYAxis';
+import rectTooltip from '../common/rectTooltip';
+import rectLegend from '../common/rectLegend';
+import legendFilter from '../common/legendFilter';
+import label from '../common/label';
+import getGeomSizeConfig from '../common/geomSize';
+import './G2Histogram.scss';
 
-export default {
+export default /*#__PURE__*/ g2Factory('G2Histogram', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -138,14 +139,14 @@ export default {
   },
   changeData(chart, config, data) {
     chart.changeData(data);
-  }
-};
+  },
+});
 
 function drawHist(chart, config, colors, field = "type") {
   const { size } = config;
   const geom = chart
     .intervalStack()
-    .position("x*y")
+    .position('x*y')
     .color(field, colors);
 
   if (size) {

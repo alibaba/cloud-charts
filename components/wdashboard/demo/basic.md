@@ -16,7 +16,7 @@ basic use.
 
 ````jsx
 import {
-  Wcount
+  Wdashboard
 } from '@alife/aisc-widgets'
 
 class Demo extends React.Component{
@@ -35,7 +35,7 @@ class Demo extends React.Component{
   render(){
     return (
       <div>
-        <Wcount start={0} end={this.state.value} />
+        <Wdashboard data={this.state.value} />
       </div>
     );
   }

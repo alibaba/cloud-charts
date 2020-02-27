@@ -1,13 +1,7 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "2.6.0",
+  "version": "2.6.2",
   "main": "./build/index.js",
-  "browser": "./lib/index.js",
-  "sideEffects": [
-    "*.less",
-    "*.scss",
-    "*.css"
-  ],
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
@@ -36,10 +30,10 @@
   "dependencies": {},
   "devDependencies": {
     "@ali/babel-preset-fusion": "^2.0.0",
-    "@ali/ice-chart-develop-cli": "^1.3.1",
+    "@ali/ice-chart-develop-cli": "^1.4.1",
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc": "2.9.32",
-    "@alife/aisc-core": "1.2.0",
+    "@alife/aisc-core": "1.2.7-beta.4",
     "@alife/g2-connect": "^0.3.0",
     "@antv/data-set": "^0.9.4",
     "@antv/f2": "3.1.15",

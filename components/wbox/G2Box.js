@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -14,7 +15,7 @@ import getGeomSizeConfig from "../common/geomSize";
 // import label from '../common/label';
 import './G2Box.scss';
 
-export default {
+export default /*#__PURE__*/ g2Factory('G2Box', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -110,7 +111,7 @@ export default {
 
     chart.render();
   },
-};
+});
 
 function drawBox(chart, config, colors, field = 'type') {
   const { dodge, marginRatio, size } = config;

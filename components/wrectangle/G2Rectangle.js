@@ -1,6 +1,7 @@
 'use strict';
 
 import { DataSet } from '@antv/data-set';
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -12,7 +13,8 @@ import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Rectangle.scss';
 
-export default {
+export default /*#__PURE__*/ g2Factory('G2Rectangle', {
+  convertData: false,
   getDefaultConfig() {
     return {
       // 这里需要倒序排列
@@ -128,4 +130,4 @@ export default {
       this.rectangleDataView.source(data);
     }
   },
-};
+});

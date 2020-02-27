@@ -1,6 +1,7 @@
 'use strict';
 
 // import G2 from '@antv/g2';
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -13,7 +14,7 @@ import legendFilter from '../common/legendFilter';
 // import label from '../common/label';
 import './G2Heatmap.scss';
 
-export default {
+export default /*#__PURE__*/ g2Factory('G2Heatmap', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -113,5 +114,5 @@ export default {
   // },
   // destroy() {
   // },
-};
+});
 

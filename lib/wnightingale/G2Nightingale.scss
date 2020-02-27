@@ -1,9 +1,22 @@
-.aisc-widgets.G2Nightingale > div {
-  .g2-tooltip-list > li:first-child {
-    margin-top: 0 !important;
+.aisc-widgets.G2Nightingale {
+  position: relative;
+  box-sizing: border-box;
+
+  .aisc-widgets-children {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 
-  .g2-legend-list-item:last-child {
-    margin-bottom: 1px !important;
+  & > div {
+    .g2-tooltip-list > li:first-child {
+      margin-top: 0 !important;
+    }
+
+    .g2-legend-list-item:last-child {
+      margin-bottom: 1px !important;
+    }
   }
 }

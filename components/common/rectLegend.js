@@ -41,7 +41,9 @@ function getColor(color) {
 
 export default function (chart, config, componentConfig, isOneDataGroup, field) {
   // 设置图例
-  if (config.legend !== false && config.legend.visible !== false) {
+  if (config.legend === false || (config.legend && config.legend.visible === false)) {
+    chart.legend(false);
+  } else {
     const {
       // 自动折叠图例
       autoCollapse = true,
@@ -186,8 +188,6 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
         this.unmountCallbacks.push(legendCollapseInfo.unmount);
       }
     }
-  } else {
-    chart.legend(false);
   }
 }
 

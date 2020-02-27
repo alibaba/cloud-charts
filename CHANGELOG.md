@@ -1,3 +1,31 @@
+### 2.6.1 (2020-02-20)
+
+#### Bug Fixes
+
+- 多重饼图尺寸错误的问题。
+- npm引用在某些构建系统中报错的问题。
+
+### 2.6.0 (2020-02-20)
+
+#### New Features
+
+- 新增「动态切换主题」功能，不刷线页面也能切换主题，更加简单易用，详见：https://widgets.alibaba-inc.com/quickstart/theme
+- 新增「自动计算时间格式」功能，已在 线图、迷你线图、散点图 中默认开启，其余图表可以手动开启。
+- 新增图表：Whistogram 直方图，详见：https://widgets.alibaba-inc.com/example/Whistogram
+- 新增图表：Wcandlestick 烛型图，详见：https://widgets.alibaba-inc.com/example/Wcandlestick
+- Wnightingale 玫瑰图 新增「玫瑰环图」功能。详见：https://widgets.alibaba-inc.com/example/Wnightingale/Wnightingale-circle
+- Wbar 柱状图 新增「玉玦图」功能。详见：https://widgets.alibaba-inc.com/example/Recommendation/Wbar-radial
+- Wmap 区域地图&散点地图 支持props传入 config 配置项。
+- Wfunnel 漏斗图配置项优化，`config.align` 可以使用 start/end 指代之前的 left/right 或 top/bottom。
+- chore: 优化npm引入方式，支持手动按需引入。
+
+#### Bug Fixes
+
+- 饼图图例和图形间距异常的问题。
+- 桑基图重新渲染可能导致递归栈溢出的问题。
+- 图例过长折行时右对齐不生效的问题。
+- 雷达图 图例逻辑配置错误的问题。
+
 ### 2.5.15 (2020-01-16)
 
 #### New Features

@@ -1,5 +1,6 @@
 'use strict';
 
+import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -13,7 +14,7 @@ import legendFilter from '../common/legendFilter';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Candlestick.scss';
 
-export default {
+export default /*#__PURE__*/ g2Factory('G2Candlestick', {
   getDefaultConfig() {
     return {
       colors: [themes.widgetsColorRed, themes.widgetsColorGreen],
@@ -120,7 +121,7 @@ export default {
 
     chart.render();
   },
-};
+});
 
 function drawCandle(chart, config, colors, field = 'type') {
   const { size } = config;
