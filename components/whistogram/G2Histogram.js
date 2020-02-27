@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-import merge from '../common/merge';
-import themes from '../theme/index';
-import { defaultPadding } from '../common/common';
-import guide from '../common/guide';
-import rectXAxis from '../common/rectXAxis';
-import rectYAxis from '../common/rectYAxis';
-import rectTooltip from '../common/rectTooltip';
-import rectLegend from '../common/rectLegend';
-import legendFilter from '../common/legendFilter';
-import label from '../common/label';
-import getGeomSizeConfig from '../common/geomSize';
-import './G2Histogram.scss';
+import merge from "../common/merge";
+import themes from "../theme/index";
+import { defaultPadding } from "../common/common";
+import guide from "../common/guide";
+import rectXAxis from "../common/rectXAxis";
+import rectYAxis from "../common/rectYAxis";
+import rectTooltip from "../common/rectTooltip";
+import rectLegend from "../common/rectLegend";
+import legendFilter from "../common/legendFilter";
+import label from "../common/label";
+import getGeomSizeConfig from "../common/geomSize";
+import "./G2Histogram.scss";
 
 export default {
   getDefaultConfig() {
@@ -19,24 +19,24 @@ export default {
       colors: themes.category_12,
       padding: [28, 5, 24, 44],
       xAxis: {
-        type: 'cat',
+        type: "cat",
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
-        autoRotate: false,
+        autoRotate: false
       },
       yAxis: {
         labelFormatter: null, // 可以强制覆盖，手动设置label
         max: null,
-        min: null,
+        min: null
       },
       legend: {
-        align: 'left',
-        nameFormatter: null, // 可以强制覆盖，手动设置label
+        align: "left",
+        nameFormatter: null // 可以强制覆盖，手动设置label
       },
       tooltip: {
         titleFormatter: null,
         nameFormatter: null,
-        valueFormatter: null,
+        valueFormatter: null
       },
       column: true,
       grid: false,
@@ -44,12 +44,12 @@ export default {
       label: false,
       polar: false,
       innerRadius: 0,
-      // 分享粒度
+      // 分箱粒度
       binWidth: 1,
       // 坐标轴粒度
       tickInterval: 1,
       // 是否归一化
-      normalize: false,
+      normalize: false
     };
   },
   beforeInit(props) {
@@ -63,7 +63,7 @@ export default {
         newConfig,
         ...this.defaultConfig.padding
       ),
-      config: newConfig,
+      config: newConfig
     });
   },
   init(chart, userConfig, data) {
@@ -72,7 +72,7 @@ export default {
     // 设置数据度量
     const { tickInterval } = config;
     chart.source(data, {
-      x: { tickInterval },
+      x: { tickInterval }
     });
 
     // 设置Y轴
@@ -82,13 +82,13 @@ export default {
     rectXAxis.call(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend.call(this, chart, config, null, false, "type");
 
     legendFilter.call(this, chart, config);
 
     // tooltip
     rectTooltip.call(this, chart, config, {
-      crosshairs: config.polar ? undefined : {},
+      crosshairs: config.polar ? undefined : {}
     });
 
     // 绘制辅助线，辅助背景区域
@@ -96,8 +96,8 @@ export default {
 
     // 设置坐标系：极坐标/直角坐标
     const chartCoord = config.polar
-      ? chart.coord('polar', {
-          innerRadius: config.innerRadius || 0,
+      ? chart.coord("polar", {
+          innerRadius: config.innerRadius || 0
         })
       : chart.coord();
 
@@ -107,7 +107,7 @@ export default {
     }
 
     // 玉玦图，需要手动添加 数据标记
-    if (config.polar && !config.column && config.dataType !== 'g2') {
+    if (config.polar && !config.column && config.dataType !== "g2") {
       this.rawData[0].data.forEach((d, i) => {
         let x = d.x;
         if (Array.isArray(d)) {
@@ -125,9 +125,9 @@ export default {
           position: [x, 0],
           content: `${x}  `,
           style: {
-            fill: themes['widgets-axis-label'],
-            textAlign: 'right',
-          },
+            fill: themes["widgets-axis-label"],
+            textAlign: "right"
+          }
         });
       });
     }
@@ -138,18 +138,18 @@ export default {
   },
   changeData(chart, config, data) {
     chart.changeData(data);
-  },
+  }
 };
 
-function drawHist(chart, config, colors, field = 'type') {
+function drawHist(chart, config, colors, field = "type") {
   const { size } = config;
   const geom = chart
     .intervalStack()
-    .position('x*y')
-    .color(field);
+    .position("x*y")
+    .color(field, colors);
 
   if (size) {
-    const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*extra');
+    const sizeConfig = getGeomSizeConfig(size, 20, "y", "x*y*type*extra");
     geom.size(...sizeConfig);
   }
 
