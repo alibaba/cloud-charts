@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select } from "@storybook/addon-knobs";
 
-import { setTheme, Wcontainer, Wline, Wbar, Wlinebar } from '@alife/aisc-widgets';
+import { setTheme, getTheme, Wcontainer, Wline, Wbar, Wlinebar } from '@alife/aisc-widgets';
 
 
 const data = [
@@ -56,7 +56,7 @@ function ThemeDemo() {
     自定义: {
       'widgets-container-background': '#f2f3f7',
     },
-  }, 'normal');
+  }, getTheme().name);
 
   useMemo(() => {
     setTheme(theme);
