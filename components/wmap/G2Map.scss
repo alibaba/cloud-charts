@@ -31,13 +31,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-
     z-index: 1;
+    pointer-events: none;
   }
   .aisc-widgets-map-custom-point {
     position: absolute;
     // 将元素中心位置对齐到坐标点
     transform: translate(-50%, -50%);
+    pointer-events: auto;
   }
 
   .aisc-widgets-map-shoot {
