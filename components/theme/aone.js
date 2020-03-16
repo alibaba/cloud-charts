@@ -73,6 +73,7 @@ const order_turquoise_10 = [
   themesVar['widgets-color-linear-turquoise-10'],
 ];
 const themes = {
+  name: 'aone',
   category_12,
   linear_10,
   order_10,
