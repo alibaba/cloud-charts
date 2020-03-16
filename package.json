@@ -30,7 +30,7 @@
   "dependencies": {},
   "devDependencies": {
     "@ali/babel-preset-fusion": "^2.0.0",
-    "@ali/ice-chart-develop-cli": "^1.4.1",
+    "@ali/ice-chart-develop-cli": "^1.4.3",
     "@ali/sass-loader": "^3.2.1",
     "@alife/aisc": "2.9.32",
     "@alife/aisc-core": "1.2.7-beta.4",
