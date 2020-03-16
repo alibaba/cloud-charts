@@ -604,7 +604,7 @@ function mapTooltip(chart, config) {
       crosshairs: null,
       itemTpl:
         '<li data-index={index}>' +
-        '<span style="background-color:{color};" class="g2-tooltip-marker"></span>' +
+        '<svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>' +
         '<span class="g2-tooltip-item-name">{name}</span>:<span class="g2-tooltip-item-value">{value}</span></li>',
     };
 
