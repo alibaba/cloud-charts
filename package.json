@@ -37,7 +37,7 @@
     "@alife/g2-connect": "^0.3.0",
     "@antv/data-set": "^0.9.4",
     "@antv/f2": "3.1.15",
-    "@antv/g2": "3.5.3",
+    "@antv/g2": "3.5.13",
     "@antv/g2-brush": "^0.0.2",
     "@storybook/addon-actions": "^5.2.6",
     "@storybook/addon-knobs": "^5.2.6",
