@@ -18,7 +18,7 @@ export default /*#__PURE__*/ g2Factory('G2Candlestick', {
   getDefaultConfig() {
     return {
       colors: [themes.widgetsColorRed, themes.widgetsColorGreen],
-      padding: [28, 5, 24, 44],
+      padding: [28, 'auto', 'auto', 'auto'],
       xAxis: {
         type: 'time',
         mask: 'YYYY-MM-DD',

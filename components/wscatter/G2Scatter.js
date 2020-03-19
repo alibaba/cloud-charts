@@ -23,7 +23,7 @@ const setSource = (chart, config, data) => {
 export default /*#__PURE__*/ g2Factory('G2Scatter', {
   getDefaultConfig() {
     return {
-      padding: [28, 5, 24, 44],
+      padding: [28, 'auto', 'auto', 'auto'],
       colors: themes.category_12,
       xAxis: {
         type: 'linear',

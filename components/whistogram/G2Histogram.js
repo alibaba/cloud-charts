@@ -18,7 +18,7 @@ export default /*#__PURE__*/ g2Factory('G2Histogram', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
-      padding: [28, 5, 24, 44],
+      padding: [28, 'auto', 'auto', 'auto'],
       xAxis: {
         type: "cat",
         labelFormatter: null, // 可以强制覆盖，手动设置label

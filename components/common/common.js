@@ -317,7 +317,7 @@ export function defaultPadding(padding, config, defaultTop, defaultRight, defaul
     if (top !== 'auto' && position === 'bottom') {
       top = 10;
     }
-    if (bottom !== 'auto' && position === 'bottom') {
+    if (position === 'bottom') {
       bottom = 48;
     }
   }
