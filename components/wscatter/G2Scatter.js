@@ -144,6 +144,9 @@ export default /*#__PURE__*/ g2Factory('G2Scatter', {
     if (size) {
       const sizeConfig = getGeomSizeConfig(size, 4, 'y', 'x*y*type*extra');
       geom.size(...sizeConfig);
+      chart.legend('x', false);
+      chart.legend('y', false);
+      chart.legend('extra', false);
     }
 
     chart.render();
