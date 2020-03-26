@@ -1,6 +1,5 @@
 'use strict';
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './index.scss';
 
@@ -17,4 +16,3 @@ export default class Wcircle extends React.Component {
 
     return (<i className={mainClasses} />);
   }
-}

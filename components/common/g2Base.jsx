@@ -2,7 +2,6 @@
 
 import G2 from '@antv/g2';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getParentSize, requestAnimationFrame, isEqual, isEqualWith } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
