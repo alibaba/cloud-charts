@@ -59,13 +59,25 @@ gulp.task('start', (cb) => {
 });
 
 gulp.task('build:theme-sass', (cb) => {
+  const nodeModulesPath = path.resolve(__dirname, 'node_modules');
   glob.sync(`${srcPath}/theme/*.scss`).forEach((item) => {
     if (item.indexOf('index.scss') > -1) {
       return;
     }
     gutil.log(item);
+    // 读取对应的文件，并将 ~ 替换到 node_modules
+    const file = fs
+      .readFileSync(item, {
+        encoding: 'utf-8'
+      })
+      .replace('~@alife', './@alife');
+
+    // 改为传入替换后的字符串编译
     const rendered = sassExtract.renderSync({
-      file: item
+      data: file,
+      includePaths: [
+        nodeModulesPath
+      ],
     }, {
       plugins: [{ plugin: 'sass-extract-js', options: { camelCase: false } }]
     });
