@@ -26,17 +26,18 @@ function getLegendHtmlListItem(themes) {
   return {
     wordBreak: 'break-all',
     marginTop: 0,
-    marginBottom: themes.s3,
-    marginRight: themes.s3,
+    marginBottom: themes['widgets-font-size-1'],
+    marginRight: themes['widgets-font-size-1'],
   };
 }
 
 export const legendHtmlMarker = {};
 function getLegendHtmlMarker(themes) {
+  const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
   return {
-    width: '6px',
-    height: '6px',
-    marginRight: themes.s1,
+    width: `${fontSize1 / 2}px`,
+    height: `${fontSize1 / 2}px`,
+    marginRight: `${fontSize1 / 3}px`,
     verticalAlign: '1px',
   };
 }
@@ -50,6 +51,8 @@ function getLegendTextStyle(themes) {
 }
 
 function getG2ThemeConfig(themes) {
+  const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
+
   return {
     // 线图只有一个数据时显示点
     showSinglePoint: true,
@@ -93,14 +96,14 @@ function getG2ThemeConfig(themes) {
     label: {
       textStyle: {
         fill: themes['widgets-label-text'],
-        fontSize: pxToNumber(themes['widgets-font-size-1']),
+        fontSize: fontSize1,
         fontFamily: themes['widgets-font-family-txd-r-number'],
       },
     },
     innerLabels: {
       textStyle: {
         fill: themes['widgets-label-text'],
-        fontSize: pxToNumber(themes['widgets-font-size-1']),
+        fontSize: fontSize1,
         fontFamily: themes['widgets-font-family-txd-r-number'],
       },
     },
@@ -108,15 +111,16 @@ function getG2ThemeConfig(themes) {
       bottom: {
         title: {
           textStyle: {
-            fontSize: pxToNumber(themes['widgets-font-size-1']),
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           },
         },
         label: {
-          offset: 18,
+          offset: fontSize1 * 1.5,
           autoRotate: false,
           textStyle: {
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           }, // 底部标签文本的颜色
@@ -129,14 +133,15 @@ function getG2ThemeConfig(themes) {
       left: {
         title: {
           textStyle: {
-            fontSize: pxToNumber(themes['widgets-font-size-1']),
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           },
         },
         label: {
-          offset: 8,
+          offset: fontSize1 * 2 / 3,
           textStyle: {
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           }, // 左部标签文本的颜色
@@ -157,14 +162,15 @@ function getG2ThemeConfig(themes) {
       right: {
         title: {
           textStyle: {
-            fontSize: pxToNumber(themes['widgets-font-size-1']),
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           },
         },
         label: {
-          offset: 8,
+          offset: fontSize1 * 2 / 3,
           textStyle: {
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           }, // 右部标签文本的颜色
@@ -172,8 +178,9 @@ function getG2ThemeConfig(themes) {
       },
       circle: {
         label: {
-          offset: 8,
+          offset: fontSize1 * 2 / 3,
           textStyle: {
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           }, // 底部标签文本的颜色
@@ -190,8 +197,9 @@ function getG2ThemeConfig(themes) {
       },
       radius: {
         label: {
-          offset: 8,
+          offset: fontSize1 * 2 / 3,
           textStyle: {
+            fontSize: fontSize1,
             fill: themes['widgets-axis-label'],
             fontFamily: themes['widgets-font-family-txd-r-number'],
           }, // 底部标签文本的颜色
@@ -216,7 +224,7 @@ function getG2ThemeConfig(themes) {
       'g2-tooltip': {
         backgroundColor: themes['widgets-tooltip-background'],
         boxShadow: themes['widgets-tooltip-shadow'],
-        padding: themes.s3,
+        padding: themes['widgets-font-size-1'],
         borderRadius: themes.s1,
         fontFamily: themes['widgets-font-family-txd-m-number'],
         fontSize: themes['widgets-font-size-1'],
@@ -235,14 +243,14 @@ function getG2ThemeConfig(themes) {
         listStyle: 'none',
       },
       'g2-tooltip-marker': {
-        width: '6px',
-        height: '6px',
+        width: `${fontSize1 / 2}px`,
+        height: `${fontSize1 / 2}px`,
         border: 'none',
-        marginRight: themes.s1,
+        marginRight: `${fontSize1 / 3}px`,
       },
       // 如果修改了 tooltip.itemTpl 这里的调整会无效
       'g2-tooltip-value': {
-        marginLeft: themes.s2,
+        marginLeft: `${fontSize1 * 2 / 3}px`,
       },
     },
     tooltipMarker: {
@@ -299,27 +307,27 @@ function getG2ThemeConfig(themes) {
     guide: {
       line: {
         lineStyle: {
-          stroke: themes['color-b1-6'],
+          stroke: themes['widgets-color-blue'],
         },
         text: {
           autoRotate: false,
           style: {
-            fill: themes['color-b1-6'],
-            fontSize: pxToNumber(themes['widgets-font-size-1']),
+            fill: themes['widgets-color-blue'],
+            fontSize: fontSize1,
             fontFamily: themes['widgets-font-family-txd-m-number'],
           },
         },
       },
       region: {
         style: {
-          fill: themes['color-b1-6'], // 辅助框填充的颜色
+          fill: themes['widgets-color-blue'], // 辅助框填充的颜色
           fillOpacity: themes['widgets-guide-region-opacity'], // 辅助框的背景透明度
         }, // 辅助框的图形样式属性
       },
       text: {
         style: {
-          fill: themes['color-b1-6'],
-          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          fill: themes['widgets-color-blue'],
+          fontSize: fontSize1,
           fontFamily: themes['widgets-font-family-txd-m-number'],
         }
       },
