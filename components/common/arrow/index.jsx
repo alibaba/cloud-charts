@@ -16,3 +16,4 @@ export default class Wcircle extends React.Component {
 
     return (<i className={mainClasses} />);
   }
+}
