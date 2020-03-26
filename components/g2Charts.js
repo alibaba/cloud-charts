@@ -45,14 +45,52 @@ G2.G.Canvas.prototype.getPointByClient = function (clientX, clientY) {
   // 当设定的高宽不等于getBoundingClientRect获取的高宽时，说明存在缩放。
   const el = this.get('el');
   const bbox = el.getBoundingClientRect();
-  const setWidth = this.get('width');
-  const setHeight = this.get('height');
+  const setWidth = Number(this.get('width'));
+  const setHeight = Number(this.get('height'));
   const { width: realWidth, height: realHeight } = bbox;
   // 除以缩放比（真实高宽 / 设定高宽）获得真实的坐标。
   return {
     x: raw.x / (realWidth / setWidth),
     y: raw.y / (realHeight / setHeight),
   };
+};
+
+const rawGet = G2.Chart.prototype._getAutoPadding;
+G2.Chart.prototype._getAutoPadding = function () {
+  // console.log('autoPadding');
+  const legendController = this.get('legendController');
+  if (legendController && legendController.legends) {
+    const frontPlot = this.get('frontPlot');
+    // console.log('before', frontPlot.getBBox());
+    const { top, right, bottom, left } = this.get('wrapperEl').getBoundingClientRect();
+    const chartHeight = Number(this.get('height'));
+    Object.keys(legendController.legends).forEach(function (position) {
+      legendController.legends[position].forEach(function (legend) {
+        if (legend.get('useHtml') && legend.get('legendWrapper')) {
+          // console.log(legend.get('legendWrapper').getBoundingClientRect());
+          const legendRect = legend.get('legendWrapper').getBoundingClientRect();
+          // 由于默认开启图例自动折叠，图例高度不高于整个图表高度的 三分之一，这里是一个粗略的估算值
+          const h = Math.min(legendRect.bottom - legendRect.top, Math.round(chartHeight / 3));
+          frontPlot.addShape('rect', {
+            // visible: false,
+            attrs: {
+              x: legendRect.left - left,
+              y: legendRect.top - top - h,
+              width: legendRect.right - legendRect.left,
+              height: h,
+              lineWidth: 0,
+              // stroke: 'black',
+              // radius: 2
+            }
+          });
+        }
+      });
+    });
+
+    // console.log('after', frontPlot.getBBox());
+  }
+
+  return rawGet.call(this);
 };
 
 // 暴露所有基础图表
