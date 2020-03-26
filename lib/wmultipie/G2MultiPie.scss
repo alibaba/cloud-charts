@@ -1,5 +1,3 @@
-@import "../theme/index";
-
 .aisc-widgets.G2MultiPie {
   position: relative;
   text-align: center;
@@ -25,6 +23,7 @@
 
     // hack掉图例的高度限制，比用legend.maxLength逻辑要简单
     .g2-legend {
+      max-width: none !important;
       max-height: 100% !important;
     }
 
