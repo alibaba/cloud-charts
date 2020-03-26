@@ -1,8 +1,8 @@
 @import "../../theme/index";
 $wcircle-prefix: '.aisc-wcircle';
 
-$text-family: getVar(font-family-txd-medium-number, $font-family-txd-medium-number);
-$text-size-l: getVar(font-size-xlarge-number, $font-size-xlarge-number);
+$text-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+$text-size-l: getVar(widgets-font-size-7, $widgets-font-size-7);
 $text-size-m: getVar(widgets-font-size-4, $widgets-font-size-4);
 $text-size-s: getVar(widgets-font-size-1, $widgets-font-size-1);
 

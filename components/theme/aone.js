@@ -82,8 +82,8 @@ const themes = {
 };
 Object.assign(themes, themesVar);
 
-themes.fontFamilyNumber = themesVar['widgets-font-family-number'];
-themes.fontFamilyTxdMediumNumber = themesVar['widgets-font-family-txd-m-number'];
-themes.fontFamilyTxdRegularNumber = themesVar['widgets-font-family-txd-r-number'];
+// themes.fontFamilyNumber = themesVar['widgets-font-family-number'];
+// themes.fontFamilyTxdMediumNumber = themesVar['widgets-font-family-txd-m-number'];
+// themes.fontFamilyTxdRegularNumber = themesVar['widgets-font-family-txd-r-number'];
 
 export default themes;

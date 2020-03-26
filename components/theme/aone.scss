@@ -1,40 +1,40 @@
-@import "../../node_modules/@alife/aisc-core/green/scss/index";
+@import "~@alife/aisc-core/green/scss/index.scss";
 
-$font-family-number: $widgets-font-family-number !default;
-$font-family-txd-medium-number: $widgets-font-family-txd-m-number !default;
-$font-family-txd-regular-number: $widgets-font-family-txd-m-number !default;
+//$font-family-number: $widgets-font-family-number !default;
+//$font-family-txd-medium-number: $widgets-font-family-txd-m-number !default;
+//$font-family-txd-regular-number: $widgets-font-family-txd-m-number !default;
 
-$font-size-large-number: $widgets-font-size-6 !default;
-$font-size-xlarge-number: $widgets-font-size-7 !default;
-
-// 字体大小 - 文字
-$widgets-text-font-size-1: $widgets-font-size-1 !default;
-$widgets-text-font-size-2: $widgets-font-size-2 !default;
-$widgets-text-font-size-3: $widgets-font-size-3 !default;
-$widgets-text-font-size-4: $widgets-font-size-4 !default;
-
-// 字体大小 - 数字
-$widgets-number-font-size-1: $widgets-font-size-1 !default;
-$widgets-number-font-size-2: $widgets-font-size-2 !default;
-$widgets-number-font-size-3: $widgets-font-size-3 !default;
-$widgets-number-font-size-4: $widgets-font-size-5 !default;
-$widgets-number-font-size-5: $widgets-font-size-6 !default;
-$widgets-number-font-size-6: $widgets-font-size-7 !default;
-
-// 移动端字体大小 - 文字
-$widgets-mobile-text-font-size-1: $widgets-font-size-1 !default;
-$widgets-mobile-text-font-size-2: $widgets-font-size-2 !default;
-$widgets-mobile-text-font-size-3: $widgets-font-size-3 !default;
-$widgets-mobile-text-font-size-4: $widgets-font-size-4 !default;
-
-// 移动端字体大小 - 数字
-$widgets-mobile-number-font-size-1: $widgets-font-size-2 !default;
-$widgets-mobile-number-font-size-2: $widgets-font-size-2 !default;
-$widgets-mobile-number-font-size-3: $widgets-font-size-2 !default;
-$widgets-mobile-number-font-size-4: $widgets-font-size-4 !default;
-$widgets-mobile-number-font-size-5: $widgets-font-size-5 !default;
-$widgets-mobile-number-font-size-6: $widgets-font-size-6 !default;
-
+//$font-size-large-number: $widgets-font-size-6 !default;
+//$font-size-xlarge-number: $widgets-font-size-7 !default;
+//
+//// 字体大小 - 文字
+//$widgets-text-font-size-1: $widgets-font-size-1 !default;
+//$widgets-text-font-size-2: $widgets-font-size-2 !default;
+//$widgets-text-font-size-3: $widgets-font-size-3 !default;
+//$widgets-text-font-size-4: $widgets-font-size-4 !default;
+//
+//// 字体大小 - 数字
+//$widgets-number-font-size-1: $widgets-font-size-1 !default;
+//$widgets-number-font-size-2: $widgets-font-size-2 !default;
+//$widgets-number-font-size-3: $widgets-font-size-3 !default;
+//$widgets-number-font-size-4: $widgets-font-size-5 !default;
+//$widgets-number-font-size-5: $widgets-font-size-6 !default;
+//$widgets-number-font-size-6: $widgets-font-size-7 !default;
+//
+//// 移动端字体大小 - 文字
+//$widgets-mobile-text-font-size-1: $widgets-font-size-1 !default;
+//$widgets-mobile-text-font-size-2: $widgets-font-size-2 !default;
+//$widgets-mobile-text-font-size-3: $widgets-font-size-3 !default;
+//$widgets-mobile-text-font-size-4: $widgets-font-size-4 !default;
+//
+//// 移动端字体大小 - 数字
+//$widgets-mobile-number-font-size-1: $widgets-font-size-2 !default;
+//$widgets-mobile-number-font-size-2: $widgets-font-size-2 !default;
+//$widgets-mobile-number-font-size-3: $widgets-font-size-2 !default;
+//$widgets-mobile-number-font-size-4: $widgets-font-size-4 !default;
+//$widgets-mobile-number-font-size-5: $widgets-font-size-5 !default;
+//$widgets-mobile-number-font-size-6: $widgets-font-size-6 !default;
+//
 //// 纯颜色
 //$widgets-color-white: #FFFFFF !default;
 //$widgets-color-black: #000000 !default;
