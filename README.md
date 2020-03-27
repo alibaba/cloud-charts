@@ -1,8 +1,12 @@
-# Aisc-Widgets
+# TXD-Widgets 让图表更简单
 
----
+> 我们不用很麻烦很累就可以画出好看的图表📈🎉
 
-Aisc-Widgets 是一个基于日常业务沉淀的简便图表库，底层为G2封装。特点是简单易用，有丰富的业务积累，同时可以使用Highcharts的数据格式。
+TXD-Widgets 是一个面向业务的开箱即用图表库，只为让前端图表更简单。
+
+特点是简单易用，有丰富的业务积累，同时可以使用Highcharts的数据格式。
+
+[官方网站](https://widgets.alibaba-inc.com/) - [图表示例](https://widgets.alibaba-inc.com/example) - [API文档](https://widgets.alibaba-inc.com/documentation) - [可视化编辑](https://widgets.alibaba-inc.com/studio) 
 
 ## 安装
 
@@ -12,8 +16,8 @@ Aisc-Widgets 是一个基于日常业务沉淀的简便图表库，底层为G2�
 
 ```html
 <!-- 引入在线资源 -->
-<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/2.2.3/index.css">
-<script src="https://g.alicdn.com/aisc/aisc-widgets/2.2.3/index.js"></script>
+<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/2.6.4/index.css">
+<script src="https://g.alicdn.com/aisc/aisc-widgets/2.6.4/index.js"></script>
 ```
 
 ```html
@@ -118,4 +122,4 @@ $ fie publish -o
 
 ### 组件命名规范
 
-前缀w，使用驼峰命名。
+前缀W，使用驼峰命名。
