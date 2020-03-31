@@ -72,6 +72,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
     const legendItemStyle = Object.assign({}, legendHtmlListItem);
     if (position === 'bottom') {
       legendStyle.bottom = 0;
+      legendStyle.overflow = 'visible';
       // 置于下方时设置margin top
       legendItemStyle.marginBottom = 0;
       legendItemStyle.marginTop = themes['widgets-font-size-1']

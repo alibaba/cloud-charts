@@ -183,7 +183,7 @@ export default /*#__PURE__*/ g2Factory('G2LineBar', {
       if (position === 'bottom') {
         legendStyle.top = '100%';
         legendStyle.transform = 'translate(0, -100%)';
-        // legendStyle.overflow = 'visible';
+        legendStyle.overflow = 'visible';
         legendStyle.verticalAlign = 'top';
 
         // legendItemStyle.marginBottom = 0;
