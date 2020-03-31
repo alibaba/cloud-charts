@@ -159,40 +159,40 @@ export default /*#__PURE__*/ g2Factory('G2LineBar', {
       display: 'inline-block',
       position: 'relative',
     };
-    const legendItemStyle = {
-      ...legendHtmlListItem,
-    };
+    // const legendItemStyle = {
+    //   ...legendHtmlListItem,
+    // };
     if (config.legend !== false) {
       const { position, align } = config.legend || {};
 
       // if (position === 'top') {
-      //   legendStyle.top = themes.s3;
+      //   legendStyle.top = themes['widgets-font-size-1'];
       // }
 
       if (align === 'right') {
-        legendStyle.marginLeft = themes.s3;
+        legendStyle.marginLeft = themes['widgets-font-size-1'];
       } else if (align === 'left') {
-        legendStyle.marginRight = themes.s3;
+        legendStyle.marginRight = themes['widgets-font-size-1'];
       } else if (align === 'center') {
-        legendStyle.marginRight = themes.s3;
+        legendStyle.marginRight = themes['widgets-font-size-1'];
       } else {
         // 默认放到左边
-        legendStyle.marginRight = themes.s3;
+        legendStyle.marginRight = themes['widgets-font-size-1'];
       }
 
       if (position === 'bottom') {
         legendStyle.top = '100%';
         legendStyle.transform = 'translate(0, -100%)';
-        legendStyle.overflow = 'visible';
+        // legendStyle.overflow = 'visible';
         legendStyle.verticalAlign = 'top';
 
-        legendItemStyle.marginBottom = 0;
-        legendItemStyle.marginTop = themes.s3;
+        // legendItemStyle.marginBottom = 0;
+        // legendItemStyle.marginTop = themes['widgets-font-size-1'];
       }
     }
     rectLegend.call(this, chart, config, {
       'g2-legend': legendStyle,
-      'g2-legend-list-item': legendItemStyle,
+      // 'g2-legend-list-item': legendItemStyle,
     }, false, 'type');
 
     // tooltip

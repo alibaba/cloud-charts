@@ -3,10 +3,11 @@ import G2 from '@antv/g2';
 
 import { pxToNumber } from './common';
 
+// 这个需要和 components/common/rectLegend.js 里的设置同步
 export const legendHtmlContainer = {};
 function getLegendHtmlContainer(themes) {
   return {
-    overflow: 'auto',
+    overflow: 'visible',
     fontFamily: themes['widgets-font-family-txd-m-number'],
     fontSize: themes['widgets-font-size-1'],
     lineHeight: 1,
@@ -21,6 +22,7 @@ function getLegendHtmlList(themes) {
   };
 }
 
+// 这个需要和 components/common/rectLegend.js 里的设置同步
 export const legendHtmlListItem = {};
 function getLegendHtmlListItem(themes) {
   return {

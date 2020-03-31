@@ -69,8 +69,12 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
 
     // 因为图例项有下边距，所以bottom设置为0即可
     const legendStyle = Object.assign({}, legendHtmlContainer);
+    const legendItemStyle = Object.assign({}, legendHtmlListItem);
     if (position === 'bottom') {
-      legendStyle.bottom = `-${themes.s3}`;
+      legendStyle.bottom = 0;
+      // 置于下方时设置margin top
+      legendItemStyle.marginBottom = 0;
+      legendItemStyle.marginTop = themes['widgets-font-size-1']
     } else {
       legendStyle.top = 0;
     }
@@ -133,7 +137,7 @@ export default function (chart, config, componentConfig, isOneDataGroup, field) 
       },
       'g2-legend': legendStyle,
       'g2-legend-list': Object.assign({}, legendHtmlList),
-      'g2-legend-list-item': Object.assign({}, legendHtmlListItem),
+      'g2-legend-list-item': legendItemStyle,
       'g2-legend-marker': Object.assign({}, legendHtmlMarker),
       textStyle: Object.assign({}, legendTextStyle),
     };
