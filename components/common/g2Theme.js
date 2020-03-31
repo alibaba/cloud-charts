@@ -7,7 +7,7 @@ import { pxToNumber } from './common';
 export const legendHtmlContainer = {};
 function getLegendHtmlContainer(themes) {
   return {
-    overflow: 'visible',
+    overflow: 'hidden',
     fontFamily: themes['widgets-font-family-txd-m-number'],
     fontSize: themes['widgets-font-size-1'],
     lineHeight: 1,

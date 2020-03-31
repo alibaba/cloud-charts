@@ -3,8 +3,9 @@ import G2 from '@antv/g2';
 import * as DataSet from '@antv/data-set';
 import g2Connect from '@alife/g2-connect';
 import * as common from './common/common';
-import g2Factory from './common/g2Factory';
+// import g2Factory from './common/g2Factory';
 // import { autoSelect } from './common/platform';
+import themes from "./theme/index";
 
 // 引入组件
 // import G2Line from './wline/G2Line';
@@ -63,11 +64,13 @@ G2.Chart.prototype._getAutoPadding = function () {
     const frontPlot = this.get('frontPlot');
     // console.log('before', frontPlot.getBBox());
     const { top, right, bottom, left } = this.get('wrapperEl').getBoundingClientRect();
+    // console.log('canvas', this.get('wrapperEl').getBoundingClientRect());
     const chartHeight = Number(this.get('height'));
     Object.keys(legendController.legends).forEach(function (position) {
+      const legendPosition = position.split('-')[0] || 'top';
       legendController.legends[position].forEach(function (legend) {
         if (legend.get('useHtml') && legend.get('legendWrapper')) {
-          // console.log(legend.get('legendWrapper').getBoundingClientRect());
+          // console.log('legendWrapper', legend.get('legendWrapper').getBoundingClientRect());
           const legendRect = legend.get('legendWrapper').getBoundingClientRect();
           // 由于默认开启图例自动折叠，图例高度不高于整个图表高度的 三分之一，这里是一个粗略的估算值
           const h = Math.min(legendRect.bottom - legendRect.top, Math.round(chartHeight / 3));
@@ -75,10 +78,12 @@ G2.Chart.prototype._getAutoPadding = function () {
             // visible: false,
             attrs: {
               x: legendRect.left - left,
-              y: legendRect.top - top - h,
+              // 由于 axis label 不计算 auto padding，所以需要单独加上 axis label 的 offset
+              y: legendRect.top - top + (legendPosition === 'top' ? -h : (h + common.pxToNumber(themes['widgets-font-size-1']) * 1.5)),
               width: legendRect.right - legendRect.left,
               height: h,
               lineWidth: 0,
+              // fill: 'rgba(200, 100, 100, 0.3)',
               // stroke: 'black',
               // radius: 2
             }
