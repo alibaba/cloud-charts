@@ -35,33 +35,16 @@ export default function(chart, config, componentConfig) {
     } = config.tooltip || {};
 
     const tooltipConfig = {
-      showTitle: config.isCandlestick ? true : showTitle,
+      showTitle,
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {},
       inPlot,
-      itemTpl: !config.isCandlestick
-        ? `<li data-index={index}>
+      itemTpl: `<li data-index={index}>
         <svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>
         <span class="g2-tooltip-item-name">{name}</span>${
           showColon ? ':' : ''
         }<span class="g2-tooltip-item-value">{value}</span>
-      </li>`
-        : `<div>
-            ${
-              showTitle
-                ? '<div style="margin:10px 0;"><span style="background-color:{color};width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{group}</div>'
-                : ''
-            }
-            <div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelStart}</span>${
-              showColon ? ':' : ''
-            }<span class="g2-tooltip-item-value">{start}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelEnd}</span>${
-            showColon ? ':' : ''
-          }<span class="g2-tooltip-item-value">{end}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelMax}</span>${
-            showColon ? ':' : ''
-          }<span class="g2-tooltip-item-value">{max}</span></div><div style="margin:8px 0 0;"><span class="g2-tooltip-item-name">{labelMin}</span>${
-            showColon ? ':' : ''
-          }<span class="g2-tooltip-item-value">{min}</span></div>
-          </div>`,
+      </li>`,
     };
 
     if (componentConfig) {

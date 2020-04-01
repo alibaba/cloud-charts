@@ -128,24 +128,7 @@ export default function highchartsDataToG2Data(data, config, chartName) {
         newData.push(...parseHistItem(oneData, config));
         return;
       }
-
-      // 若为烛形图
-      if (
-        chartName === 'G2Candlestick' &&
-        oneData.data.every(
-          x =>
-            Array.isArray(x) &&
-            x[1] &&
-            x[1].start &&
-            x[1].end &&
-            x[1].max &&
-            x[1].min
-        )
-      ) {
-        newData.push(...parseCandlestickItem(oneData, config));
-        return;
-      }
-
+      
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
           const [x, y, ...extra] = d;
