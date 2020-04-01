@@ -245,7 +245,7 @@ export const G2PieBase = {
         ...legendHtmlContainer,
         position: 'static',
         // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        marginLeft: `${Math.max(pxToNumber(themes.s5) - drawPadding[1], 0)}px`,
+        marginLeft: `${Math.max(pxToNumber(themes['widgets-font-size-4']) - drawPadding[1], 0)}px`,
       },
       'g2-legend-list-item': {
         ...legendHtmlListItem,

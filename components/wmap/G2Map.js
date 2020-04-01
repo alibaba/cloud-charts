@@ -387,11 +387,11 @@ function drawMapPoint(chart, ds, config, data) {
       }
       const { offset = 0, textStyle = {}, formatter } = labelConfig;
       pointGeom.label('name', {
-        offset: `${offset - Number(themes.s3.replace('px', ''))}`,
+        offset: `${offset - Number(themes['widgets-font-size-1'].replace('px', ''))}`,
         textStyle: {
           fill: themes['widgets-map-label'],
           // 需要去掉 px 的字符串
-          fontSize: themes.s3.replace('px', ''),
+          fontSize: themes['widgets-font-size-1'].replace('px', ''),
           textBaseline: 'middle',
           ...textStyle,
         },
@@ -494,16 +494,16 @@ function drawMapLabel(chart, config) {
     .label('name', {
       offset,
       textStyle: name => {
-        let fontSize = themes.s3;
+        let fontSize = themes['widgets-font-size-1'].replace('px', '');
         // 对一些尺寸非常小的形状特殊处理，以显示出来。
         if (minLabel.indexOf(name) > -1) {
-          fontSize = themes.s2;
+          fontSize = String(Number(fontSize) * 2 / 3);
         }
 
         return {
           fill: themes['widgets-map-label'],
           // 需要去掉 px 的字符串
-          fontSize: fontSize.replace('px', ''),
+          fontSize: fontSize,
           textBaseline: 'middle',
           ...textStyle,
         };

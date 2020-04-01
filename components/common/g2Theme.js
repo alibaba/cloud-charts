@@ -241,7 +241,7 @@ function getG2ThemeConfig(themes) {
       'g2-tooltip-list': {},
       'g2-tooltip-list-item': {
         marginBottom: 0,
-        marginTop: themes.s2,
+        marginTop: `${fontSize1 * 2 / 3}px`,
         listStyle: 'none',
       },
       'g2-tooltip-marker': {
