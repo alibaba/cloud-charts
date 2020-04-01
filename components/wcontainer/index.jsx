@@ -13,6 +13,10 @@ import './index.scss';
 const { Row, Col } = Grid;
 const prefix = 'aisc-wcontainer';
 
+// const errorText = {
+//   'Invalid Time': '',
+// };
+
 export default class Wcontainer extends React.Component {
   static displayName = 'Wcontainer';
 
@@ -25,9 +29,18 @@ export default class Wcontainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { criticalError: null };
 
     // 图表初始化时记录日志
     chartLog('Wcontainer', 'init');
+  }
+
+  componentDidCatch(error, info) {
+    if (this.props.onError) {
+      this.props.onError(error, info);
+    }
+    // Display fallback UI
+    this.setState({ criticalError: error });
   }
 
   renderTitle(title, titleBorder, operation, titleStyle) {
@@ -121,6 +134,21 @@ export default class Wcontainer extends React.Component {
     );
   }
 
+  renderError() {
+    const { title } = this.props;
+    const { stack } = this.state.criticalError;
+
+    return (
+      <div className={`${prefix}-main ${prefix}-main-critical-error ${title ? '' : 'no-title'}`}>
+        <pre>
+          {
+            stack ? stack : this.state.criticalError.toString()
+          }
+        </pre>
+      </div>
+    );
+  }
+
   render() {
     const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile,  ...otherProps } = this.props;
     const mainClasses = classNames({
@@ -129,6 +157,8 @@ export default class Wcontainer extends React.Component {
       [`${prefix}-mobile`]: isMobileWithProps(this.props, isMobile),
       [className]: !!className
     });
+
+    const criticalError = this.state.criticalError;
 
     return (
       <div
@@ -143,8 +173,11 @@ export default class Wcontainer extends React.Component {
         ref={o => { this.container = o; }}
       >
         {title && this.renderTitle(title, titleBorder, operation, titleStyle)}
-        {arrange === 'normal' && this.renderMainNormal(contentStyle, fullContent)}
-        {arrange === 'cross' && this.renderMainCross(contentStyle)}
+        {
+          criticalError && this.renderError()
+        }
+        {!criticalError && arrange === 'normal' && this.renderMainNormal(contentStyle, fullContent)}
+        {!criticalError && arrange === 'cross' && this.renderMainCross(contentStyle)}
       </div>
     );
   }
