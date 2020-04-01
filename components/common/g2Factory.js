@@ -442,4 +442,37 @@ function g2Factory(name, Chart, convertData = true) {
   return AiscChart;
 }
 
+// function errorWrap(Component) {
+//   class ErrorBoundary extends React.Component {
+//     constructor(props) {
+//       super(props);
+//       this.state = { error: null };
+//     }
+//
+//     componentDidCatch(error, info) {
+//       // Display fallback UI
+//       this.setState({ error: error.stack });
+//     }
+//
+//     render() {
+//       if (this.state.error) {
+//         // You can render any custom fallback UI
+//         return <p>{this.state.error}</p>;
+//       }
+//       const {forwardedRef, ...rest} = this.props;
+//
+//       // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
+//       return <Component ref={forwardedRef} {...rest} />;
+//     }
+//   }
+//
+//   // if (React.forwardRef) {
+//   //   return React.forwardRef((props, ref) => {
+//   //     return <ErrorBoundary {...props} forwardedRef={ref} />;
+//   //   });
+//   // }
+//
+//   return ErrorBoundary;
+// }
+
 export default g2Factory;
