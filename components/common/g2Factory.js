@@ -11,7 +11,8 @@ import {
 } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
-import eventBus from '../common/eventBus';
+import eventBus from './eventBus';
+import './g2Hacker';
 
 // 图表唯一id
 let uniqueId = 0;
