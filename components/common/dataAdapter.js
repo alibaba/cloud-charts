@@ -1,52 +1,52 @@
 'use strict';
 
-import { View } from '@antv/data-set';
-
-// 直方图数据转换
-function parseHistItem(oneData, config) {
-  const { name: dataName, visible, ...groupExtra } = oneData;
-  const { binWidth, normalize } = config;
-
-  const dv = new View().source(oneData.data.map(value => ({ value })));
-  dv.transform({
-    type: 'bin.histogram',
-    field: 'value',
-    binWidth,
-    as: ['x', 'y'],
-  });
-
-  const factor = normalize ? dv.rows.reduce((acc, cur) => acc + cur.y, 0) : 1;
-
-  return dv.rows.map(({ x, y }) => ({
-    x,
-    y: y / factor,
-    extra: [],
-    groupExtra,
-    visible,
-    type: dataName,
-  }));
-}
-
-// 烛形图数据转换
-function parseCandlestickItem(oneData, config) {
-  const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
-
-  return oneData.data.map(([date, { start, end, max, min, ...extra }]) => ({
-    x: date,
-    y: [start, end, max, min],
-    start,
-    end,
-    max,
-    min,
-    trend: start <= end ? 'up' : 'down',
-    extra,
-    groupExtra,
-    facet,
-    dodge,
-    visible,
-    type: dataName,
-  }));
-}
+// import { View } from '@antv/data-set';
+//
+// // 直方图数据转换
+// function parseHistItem(oneData, config) {
+//   const { name: dataName, visible, ...groupExtra } = oneData;
+//   const { binWidth, normalize } = config;
+//
+//   const dv = new View().source(oneData.data.map(value => ({ value })));
+//   dv.transform({
+//     type: 'bin.histogram',
+//     field: 'value',
+//     binWidth,
+//     as: ['x', 'y'],
+//   });
+//
+//   const factor = normalize ? dv.rows.reduce((acc, cur) => acc + cur.y, 0) : 1;
+//
+//   return dv.rows.map(({ x, y }) => ({
+//     x,
+//     y: y / factor,
+//     extra: [],
+//     groupExtra,
+//     visible,
+//     type: dataName,
+//   }));
+// }
+//
+// // 烛形图数据转换
+// function parseCandlestickItem(oneData, config) {
+//   const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
+//
+//   return oneData.data.map(([date, { start, end, max, min, ...extra }]) => ({
+//     x: date,
+//     y: [start, end, max, min],
+//     start,
+//     end,
+//     max,
+//     min,
+//     trend: start <= end ? 'up' : 'down',
+//     extra,
+//     groupExtra,
+//     facet,
+//     dodge,
+//     visible,
+//     type: dataName,
+//   }));
+// }
 
 export default function highchartsDataToG2Data(data, config, chartName) {
   if (!data) {
@@ -120,15 +120,15 @@ export default function highchartsDataToG2Data(data, config, chartName) {
 
       const { name: dataName, facet, dodge, visible, ...groupExtra } = oneData;
 
-      // 若为直方图
-      if (
-        oneData.data.every(x => typeof x === 'number') &&
-        chartName === 'G2Histogram'
-      ) {
-        newData.push(...parseHistItem(oneData, config));
-        return;
-      }
-      
+      // // 若为直方图
+      // if (
+      //   oneData.data.every(x => typeof x === 'number') &&
+      //   chartName === 'G2Histogram'
+      // ) {
+      //   newData.push(...parseHistItem(oneData, config));
+      //   return;
+      // }
+
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
           const [x, y, ...extra] = d;
@@ -159,6 +159,14 @@ export default function highchartsDataToG2Data(data, config, chartName) {
             visible,
             type: dataName,
           });
+        } else if (!isNaN(d)) {
+          newData.push({
+            x: d,
+            y: d,
+            groupExtra,
+            visible,
+            type: dataName,
+          })
         } else {
           const { x, y, ...extra } = d;
           newData.push({

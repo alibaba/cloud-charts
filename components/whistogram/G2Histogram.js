@@ -1,9 +1,10 @@
 'use strict';
+import { View } from '@antv/data-set';
 
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../theme/index';
-import { defaultPadding } from '../common/common';
+import { defaultPadding, propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -14,16 +15,47 @@ import label from '../common/label';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Histogram.scss';
 
+function computerData(config, data) {
+  const { bins, binWidth, offset } = config.bin;
+
+  const dv = new View().source(data);
+  dv.transform({
+    type: 'bin.histogram',
+    field: 'x',
+    bins,
+    binWidth,
+    offset,
+    groupBy: ['type', 'visible'],
+    as: ['x', 'y'],
+  });
+
+  if (config.normalize) {
+    const total = dv.rows.reduce((acc, cur) => acc + cur.y, 0);
+    dv.transform({
+      type: 'map',
+      callback(row) {
+        row.y = row.y / total;
+        return row;
+      },
+    });
+  }
+
+  return dv;
+}
+
 export default /*#__PURE__*/ g2Factory('G2Histogram', {
+  // convertData: false,
   getDefaultConfig() {
     return {
       colors: themes.category_12,
       padding: [28, 'auto', 'auto', 'auto'],
       xAxis: {
-        type: "cat",
+        // type: "cat",
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
-        autoRotate: false
+        autoRotate: false,
+        // 坐标轴粒度
+        // tickInterval: 1,
       },
       yAxis: {
         labelFormatter: null, // 可以强制覆盖，手动设置label
@@ -43,12 +75,13 @@ export default /*#__PURE__*/ g2Factory('G2Histogram', {
       grid: false,
       size: null,
       label: false,
-      polar: false,
       innerRadius: 0,
       // 分箱粒度
-      binWidth: 1,
-      // 坐标轴粒度
-      tickInterval: 1,
+      bin: {
+        // bins: 10, // 分箱个数
+        binWidth: 1, // 分箱步长（会覆盖bins的配置）
+        offset: 0,
+      },
       // 是否归一化
       normalize: false
     };
@@ -71,10 +104,24 @@ export default /*#__PURE__*/ g2Factory('G2Histogram', {
     const config = userConfig;
 
     // 设置数据度量
-    const { tickInterval } = config;
-    chart.source(data, {
-      x: { tickInterval }
-    });
+    const defs = {
+      x: propertyAssign(propertyMap.xAxis, {
+        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+        // range: [0, 1],
+      }, config.xAxis),
+      y: propertyAssign(propertyMap.yAxis, {
+        type: 'linear',
+        // tickCount: 5,
+      }, config.yAxis),
+      type: {
+        type: 'cat',
+      },
+    };
+
+    const dataView = computerData(config, data);
+    this.dataView = dataView;
+
+    chart.source(dataView, defs);
 
     // 设置Y轴
     rectYAxis.call(this, chart, config);
@@ -107,38 +154,15 @@ export default /*#__PURE__*/ g2Factory('G2Histogram', {
       chartCoord.transpose();
     }
 
-    // 玉玦图，需要手动添加 数据标记
-    if (config.polar && !config.column && config.dataType !== "g2") {
-      this.rawData[0].data.forEach((d, i) => {
-        let x = d.x;
-        if (Array.isArray(d)) {
-          x = d[0];
-        } else if (
-          config.xAxis &&
-          config.xAxis.categories &&
-          config.xAxis.categories[i]
-        ) {
-          x = config.xAxis.categories[i];
-          // const y = isNaN(d) ? d[0] : d;
-        }
-
-        chart.guide().text({
-          position: [x, 0],
-          content: `${x}  `,
-          style: {
-            fill: themes["widgets-axis-label"],
-            textAlign: "right"
-          }
-        });
-      });
-    }
-
     drawHist(chart, config, config.colors);
 
     chart.render();
   },
   changeData(chart, config, data) {
-    chart.changeData(data);
+    if (this.dataView) {
+      this.dataView.source(data);
+    }
+    // chart.changeData(data);
   },
 });
 
