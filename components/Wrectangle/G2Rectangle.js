@@ -19,7 +19,7 @@ export default /*#__PURE__*/ g2Factory('G2Rectangle', {
     return {
       // 这里需要倒序排列
       colors: themes.order_10.slice().reverse(),
-      padding: [28, 'auto', 'auto', 'auto'],
+      padding: ['auto', 'auto', 'auto', 'auto'],
       xAxis: {
         labelFormatter: null, // 可以强制覆盖，手动设置label
         autoRotate: false,

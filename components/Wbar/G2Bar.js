@@ -21,7 +21,7 @@ export default /*#__PURE__*/ g2Factory('G2Bar', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
-      padding: [28, 'auto', 'auto', 'auto'],
+      padding: ['auto', 'auto', 'auto', 'auto'],
       xAxis: {
         type: 'cat',
         labelFormatter: null, // 可以强制覆盖，手动设置label
