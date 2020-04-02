@@ -20,3 +20,5 @@ $wcontainer-corner-radius: getVar(corner-radius-r1, $corner-radius-r1);
 
 $wcontainer-cross-size-1: getVar(s1, $s1);
 $wcontainer-cross-size-2: getVar(s3, $s3);
+
+$wcontainer-error-color: getVar(widgets-color-red, $widgets-color-red);
