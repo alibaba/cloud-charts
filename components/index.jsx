@@ -44,7 +44,7 @@ export const { PathUtil } = G2;
 // 基础图表组件
 export { default as Wline} from './wline/G2Line';
 export { default as Wminiline} from './wminiline/G2MiniLine';
-export { default as Wbar} from './wbar/G2Bar';
+export { default as Wbar} from './Wbar/G2Bar';
 export { default as Whistogram} from './whistogram/G2Histogram';
 export { default as Wlinebar} from './wlinebar/G2LineBar';
 export { default as Wpie} from './wpie/G2Pie';
