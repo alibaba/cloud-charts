@@ -24,7 +24,8 @@ export default class Wcontainer extends React.Component {
     arrange: 'normal',
     height: '100%',
     operation: '',
-    titleBorder: true
+    titleBorder: true,
+    catchError: true,
   };
 
   constructor(props) {
@@ -33,15 +34,22 @@ export default class Wcontainer extends React.Component {
 
     // 图表初始化时记录日志
     chartLog('Wcontainer', 'init');
+
+    if (props.catchError) {
+      this.componentDidCatch = (error, info) => {
+        const { onError } = this.props;
+        let customError = null;
+        if (onError) {
+          customError = onError(error, info);
+        }
+        if (customError !== false) {
+          this.setState({ criticalError: error });
+        }
+      };
+    }
   }
 
-  componentDidCatch(error, info) {
-    if (this.props.onError) {
-      this.props.onError(error, info);
-    }
-    // Display fallback UI
-    this.setState({ criticalError: error });
-  }
+  // componentDidCatch
 
   renderTitle(title, titleBorder, operation, titleStyle) {
     const titleBorderCls = titleBorder ? `${prefix}-title-border` : '';
