@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import classnames from 'classnames';
 import { Grid } from '@alife/aisc';
 import * as Widgets from '@alife/aisc-widgets';
-import Wplaceholder from '../components/wplaceholder';
+import Wplaceholder from '../components/Wplaceholder';
 
 const { Row, Col } = Grid;
 const chartList = [

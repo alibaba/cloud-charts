@@ -1,6 +1,6 @@
 import React from 'react';
 import { setDomStyle, generateUniqueId } from '../common/f2Utils';
-import Line from '../wline/F2Line';
+import Line from '../Wline/F2Line';
 import { color } from '../theme/';
 
 const bChartOptions = {

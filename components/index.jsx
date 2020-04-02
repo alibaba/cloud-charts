@@ -23,16 +23,16 @@ export { plugins, pluginManager } from './plugins';
 export { default as Util } from './Util';
 
 // 业务组件，没有依赖其它图表库
-export { default as Wnumber } from './wnumber/index';
-export { default as Wcontainer } from './wcontainer/index';
-export { default as Wicon } from './wicon/index';
-export { default as Wcircle } from './wcircle/index';
-export { default as Wminicontainer } from './wminicontainer/index';
-export { default as Wshoot } from './wshoot/index';
-export { default as Wplaceholder } from './wplaceholder/index';
-export { default as Wperline } from './wperline/index';
-export { default as Wcount } from './wcount/index';
-export { default as Wdashboard } from './wdashboard/index';
+export { default as Wnumber } from './Wnumber/index';
+export { default as Wcontainer } from './Wcontainer/index';
+export { default as Wicon } from './Wicon/index';
+export { default as Wcircle } from './Wcircle/index';
+export { default as Wminicontainer } from './Wminicontainer/index';
+export { default as Wshoot } from './Wshoot/index';
+export { default as Wplaceholder } from './Wplaceholder/index';
+export { default as Wperline } from './Wperline/index';
+export { default as Wcount } from './Wcount/index';
+export { default as Wdashboard } from './Wdashboard/index';
 
 // 基础图表库依赖
 export { G2, DataSet };
@@ -42,24 +42,24 @@ export const { MatrixUtil } = G2;
 export const { PathUtil } = G2;
 
 // 基础图表组件
-export { default as Wline} from './wline/G2Line';
-export { default as Wminiline} from './wminiline/G2MiniLine';
+export { default as Wline} from './Wline/G2Line';
+export { default as Wminiline} from './Wminiline/G2MiniLine';
 export { default as Wbar} from './Wbar/G2Bar';
-export { default as Whistogram} from './whistogram/G2Histogram';
-export { default as Wlinebar} from './wlinebar/G2LineBar';
-export { default as Wpie} from './wpie/G2Pie';
-export { default as Wscatter} from './wscatter/G2Scatter';
-export { default as Wmap} from './wmap/index';
-export { default as Wcustom} from './wcustom/G2Custom';
-export { default as Wsankey} from './wsankey/G2Sankey';
-export { default as Wnightingale} from './wnightingale/G2Nightingale';
-export { default as Wradar} from './wradar/G2Radar';
-export { default as Wrectangle} from './wrectangle/G2Rectangle';
-export { default as Wfunnel} from './wfunnel/G2Funnel';
-export { default as WmultiPie} from './wmultipie/G2MultiPie';
-export { default as Wbox} from './wbox/G2Box';
-export { default as Wcandlestick} from './wcandlestick/G2Candlestick';
-export { default as Wheatmap} from './wheatmap/G2Heatmap';
+export { default as Whistogram} from './Whistogram/G2Histogram';
+export { default as Wlinebar} from './Wlinebar/G2LineBar';
+export { default as Wpie} from './Wpie/G2Pie';
+export { default as Wscatter} from './Wscatter/G2Scatter';
+export { default as Wmap} from './Wmap/index';
+export { default as Wcustom} from './Wcustom/G2Custom';
+export { default as Wsankey} from './Wsankey/G2Sankey';
+export { default as Wnightingale} from './Wnightingale/G2Nightingale';
+export { default as Wradar} from './Wradar/G2Radar';
+export { default as Wrectangle} from './Wrectangle/G2Rectangle';
+export { default as Wfunnel} from './Wfunnel/G2Funnel';
+export { default as WmultiPie} from './Wmultipie/G2MultiPie';
+export { default as Wbox} from './Wbox/G2Box';
+export { default as Wcandlestick} from './Wcandlestick/G2Candlestick';
+export { default as Wheatmap} from './Wheatmap/G2Heatmap';
 
 
 // import * as highchartsMap from './highchartsMap';

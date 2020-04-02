@@ -1,7 +1,7 @@
 import React from 'react';
 import g2Factory from "../common/g2Factory";
 import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, SHOOT_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
-import Wshoot from "../wshoot/index";
+import Wshoot from "../Wshoot/index";
 import SouthChinaSea from './mapData/southChinaSea';
 import themes from '../theme/index';
 

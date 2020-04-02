@@ -7,7 +7,7 @@ import themes from '../theme/index';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';
-import { getDrawPadding, G2PieBase } from '../wpie/G2Pie';
+import { getDrawPadding, G2PieBase } from '../Wpie/G2Pie';
 import './G2MultiPie.scss';
 
 function getParentList(node, target = []) {
