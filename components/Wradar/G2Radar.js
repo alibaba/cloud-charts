@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';

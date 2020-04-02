@@ -2,7 +2,7 @@
 
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import autoTimeMask from '../common/autoTimeMask';
 import legendFilter from '../common/legendFilter';

@@ -2,7 +2,7 @@
 
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
 import rectLegend from '../common/rectLegend';

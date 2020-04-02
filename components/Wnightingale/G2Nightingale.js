@@ -3,7 +3,7 @@
 // 引入所需要的库和样式
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import './G2Nightingale.scss';
 import rectLegend from '../common/rectLegend';
 import rectTooltip from '../common/rectTooltip';

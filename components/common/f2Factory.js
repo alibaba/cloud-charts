@@ -2,7 +2,7 @@ import F2 from '@antv/f2';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dealData, setDomStyle, setInlineDomStyle, escapeHtml, getTooltipId, getLegendId, getContainerId } from './f2Utils';
-import { color } from '../theme/';
+import { color } from '../themes/';
 
 F2.Global.pixelRatio = window.devicePixelRatio;
 

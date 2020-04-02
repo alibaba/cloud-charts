@@ -3,7 +3,7 @@ import { View } from '@antv/data-set';
 
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import { defaultPadding, propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';

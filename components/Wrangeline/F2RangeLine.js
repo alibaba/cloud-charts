@@ -1,7 +1,7 @@
 import React from 'react';
 import { setDomStyle, generateUniqueId } from '../common/f2Utils';
 import Line from '../Wline/F2Line';
-import { color } from '../theme/';
+import { color } from '../themes/';
 
 const bChartOptions = {
   padding: [0, 0, 0, 0],

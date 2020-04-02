@@ -2,7 +2,7 @@
 
 import { DataSet } from '@antv/data-set';
 import g2Factory from '../common/g2Factory';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
 

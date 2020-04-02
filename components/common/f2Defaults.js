@@ -1,4 +1,4 @@
-import { color } from '../theme/';
+import { color } from '../themes/';
 
 export const xAxisConfig = {
   // 设置坐标轴线的样式，如果值为 null，则不显示坐标轴线，图形属性

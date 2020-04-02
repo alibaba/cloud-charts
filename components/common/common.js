@@ -1,5 +1,5 @@
 import G2 from '@antv/g2';
-import themes from '../theme/index';
+import themes from '../themes/index';
 
 // 引入 lodash 的 isEqual 代替
 export isEqual from 'lodash/isEqual';

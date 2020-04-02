@@ -3,7 +3,7 @@ import g2Factory from "../common/g2Factory";
 import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, SHOOT_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
 import Wshoot from "../Wshoot/index";
 import SouthChinaSea from './mapData/southChinaSea';
-import themes from '../theme/index';
+import themes from '../themes/index';
 
 const MapBase = g2Factory('G2Map', G2Map, false);
 const rootClassName = 'aisc-widgets ';

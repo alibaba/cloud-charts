@@ -1,4 +1,4 @@
-import themes from '../theme/index';
+import themes from '../themes/index';
 
 class DashBoard {
   constructor(selector, options) {

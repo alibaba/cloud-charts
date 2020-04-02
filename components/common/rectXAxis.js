@@ -1,6 +1,6 @@
 'use strict';
 
-import themes from '../theme/index';
+import themes from '../themes/index';
 import merge from './merge';
 
 /*

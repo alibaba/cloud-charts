@@ -144,4 +144,7 @@ export function setTheme(theme = 'default', refreshChart = true) {
 
 setTheme('default', false);
 
+themes.getTheme = getTheme;
+themes.setTheme = setTheme;
+
 export default themes;

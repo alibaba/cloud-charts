@@ -3,7 +3,7 @@
 import { DataView } from '@antv/data-set';
 import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
-import themes from '../theme/index';
+import themes from '../themes/index';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
 import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';

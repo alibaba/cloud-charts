@@ -1,5 +1,5 @@
 import f2Factory from '../common/f2Factory';
-import { color } from '../theme/';
+import { color } from '../themes/';
 import { legendConfig } from '../common/f2Defaults';
 import merge from '../common/merge';
 

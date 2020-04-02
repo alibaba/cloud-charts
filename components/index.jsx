@@ -1,7 +1,7 @@
 // 引入依赖库
 import G2 from '@antv/g2';
 import * as DataSet from '@antv/data-set';
-import themes, { getTheme, setTheme } from './theme/index';
+import themes from './themes/index';
 import './index.scss';
 
 export const version = __VERSION__;
@@ -10,8 +10,7 @@ export const VERSION = __VERSION__;
 // 主题包和颜色值
 export const COLORS = themes;
 export const THEMES = themes;
-
-export { getTheme, setTheme };
+export { themes };
 
 // 打点控制
 export { default as track } from './track';
