@@ -1,3 +1,16 @@
+### 2.6.5 (2020-04-02)
+
+#### New Features
+
+- 新增图例方向支持自动计算padding功能，目前所有直角坐标系图表默认全部使用 auto padding。
+- 新增npm按需加载能力，大幅调整文件结构，现在可以使用 tree-shaking 来精简图表库尺寸了。详情：https://widgets.alibaba-inc.com/quickstart/tree-shaking
+- Wcontainer 卡片新增捕获包裹组件的报错并提示的功能，防止图表库报错导致页面崩溃。
+- 调整 Wcandlestick 烛形图的配置项和数据格式，更贴近其它组件的用法。
+- 优化 Whistogram 直方图逻辑和配置项，支持更多分箱算法配置。
+- chore: 优化主题包逻辑，为后续图表设计器打下基础。
+- chore: 升级 G2 版本至 3.5.14。
+- 在 npm 中添加8个组件的 gui.schema.json 文件，方便搭建系统使用。
+
 ### 2.6.4 (2020-03-26)
 
 #### New Features
