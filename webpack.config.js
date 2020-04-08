@@ -97,13 +97,6 @@ const config = {
             },
           },
           'css-loader',
-          // {
-          //   loader: 'postcss-loader',
-          //   options: {
-          //     ident: 'postcss',
-          //     plugins: loader => [precss, autoprefixer]
-          //   }
-          // },
           '@ali/sass-loader'
         ],
       },

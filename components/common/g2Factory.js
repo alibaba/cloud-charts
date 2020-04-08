@@ -269,6 +269,8 @@ function g2Factory(name, Chart, convertData = true) {
           ? highchartsDataToG2Data(initData, config, name)
           : initData;
       this.rawData = initData;
+
+      // 生命绘制逻辑
       chart && this.chartProcess.init.call(this, chart, config, data);
 
       // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
