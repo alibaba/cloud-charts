@@ -77,7 +77,7 @@ function g2Factory(name, Chart, convertData = true) {
       this.isReRendering = true;
       this.destroy();
 
-      this.reRenderTimer = requestAnimationFrame(() => {
+      // this.reRenderTimer = requestAnimationFrame(() => {
         if (!this.chartDom) {
           return;
         }
@@ -86,7 +86,30 @@ function g2Factory(name, Chart, convertData = true) {
         this.initChart(this.props);
 
         this.isReRendering = false;
-      });
+      // });
+    }
+
+    isEqualCustomizer = (objValue, othValue, key) => {
+      const { isChangeEqual } = this.chartProcess;
+
+      const res = isChangeEqual ? isChangeEqual.call(this, objValue, othValue, key) : undefined;
+      if (res !== undefined) {
+        return res;
+      }
+      // 默认忽略全部function
+      if (typeof objValue === 'function' && typeof othValue === 'function') {
+        return true;
+      }
+    };
+
+    checkConfigChange(newConfig, oldConfig) {
+      let hasConfigChange = false;
+
+      if (!isEqualWith(newConfig, oldConfig, this.isEqualCustomizer)) {
+        hasConfigChange = true;
+      }
+
+      return hasConfigChange;
     }
 
     componentDidUpdate(prevProps) {
@@ -108,20 +131,9 @@ function g2Factory(name, Chart, convertData = true) {
 
       this.language = this.props.language || 'zh-cn';
 
-      const { changeCustomConfig } = this.chartProcess;
       // 配置项有变化，重新生成图表
       if (changeConfig !== false) {
-        let hasConfigChange = false;
-        if (
-          changeCustomConfig &&
-          !isEqualWith(newConfig, oldConfig, changeCustomConfig.bind(this))
-        ) {
-          hasConfigChange = true;
-        } else if (!changeCustomConfig && !isEqual(newConfig, oldConfig)) {
-          hasConfigChange = true;
-        }
-
-        if (hasConfigChange) {
+        if (this.checkConfigChange(newConfig, oldConfig)) {
           this.rerender();
 
           return;
@@ -444,38 +456,5 @@ function g2Factory(name, Chart, convertData = true) {
 
   return AiscChart;
 }
-
-// function errorWrap(Component) {
-//   class ErrorBoundary extends React.Component {
-//     constructor(props) {
-//       super(props);
-//       this.state = { error: null };
-//     }
-//
-//     componentDidCatch(error, info) {
-//       // Display fallback UI
-//       this.setState({ error: error.stack });
-//     }
-//
-//     render() {
-//       if (this.state.error) {
-//         // You can render any custom fallback UI
-//         return <p>{this.state.error}</p>;
-//       }
-//       const {forwardedRef, ...rest} = this.props;
-//
-//       // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
-//       return <Component ref={forwardedRef} {...rest} />;
-//     }
-//   }
-//
-//   // if (React.forwardRef) {
-//   //   return React.forwardRef((props, ref) => {
-//   //     return <ErrorBoundary {...props} forwardedRef={ref} />;
-//   //   });
-//   // }
-//
-//   return ErrorBoundary;
-// }
 
 export default g2Factory;
