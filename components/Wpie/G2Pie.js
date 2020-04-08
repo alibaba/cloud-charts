@@ -154,7 +154,7 @@ export const G2PieBase = {
 
     chart.changeData(data);
   },
-  changeCustomConfig(objValue, othValue, key) {
+  isChangeEqual(objValue, othValue, key) {
     if (key === 'selectData' && objValue !== othValue) {
       selectGeom.call(this, this.geom, objValue);
       return true;
