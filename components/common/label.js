@@ -27,14 +27,25 @@ export default function (geom, config, field = 'y', componentConfig, extraConfig
     return;
   }
 
-  const { type = 'default', position = 'top', offset, autoRotate = true, labelFormatter = null, customConfig } = configLabel || {};
+  const {
+    type = 'default',
+    position = 'top',
+    offset,
+    autoRotate = true,
+    labelFormatter = null,
+    customConfig,
+    style,
+    textStyle,
+  } = configLabel || {};
   const labelConfig = {
     type,
     position,
     // 默认距离 4，加上文字一半的大小以居中，转换为字号 12/3 + 12/2 = 12 * 5/6
-    offset: pxToNumber(themes['widgets-font-size-1']) * 5 / 6,
+    offset: (pxToNumber(themes['widgets-font-size-1']) * 5) / 6,
     autoRotate,
     formatter: labelFormatter,
+    style,
+    textStyle,
   };
 
   if (position === 'middle') {

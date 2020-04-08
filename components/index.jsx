@@ -41,25 +41,25 @@ export const { MatrixUtil } = G2;
 export const { PathUtil } = G2;
 
 // 基础图表组件
-export { default as Wline} from './Wline/G2Line';
-export { default as Wminiline} from './Wminiline/G2MiniLine';
-export { default as Wbar} from './Wbar/G2Bar';
-export { default as Whistogram} from './Whistogram/G2Histogram';
-export { default as Wlinebar} from './Wlinebar/G2LineBar';
-export { default as Wpie} from './Wpie/G2Pie';
-export { default as Wscatter} from './Wscatter/G2Scatter';
-export { default as Wmap} from './Wmap/index';
-export { default as Wcustom} from './Wcustom/G2Custom';
-export { default as Wsankey} from './Wsankey/G2Sankey';
-export { default as Wnightingale} from './Wnightingale/G2Nightingale';
-export { default as Wradar} from './Wradar/G2Radar';
-export { default as Wrectangle} from './Wrectangle/G2Rectangle';
-export { default as Wfunnel} from './Wfunnel/G2Funnel';
-export { default as WmultiPie} from './Wmultipie/G2MultiPie';
-export { default as Wbox} from './Wbox/G2Box';
-export { default as Wcandlestick} from './Wcandlestick/G2Candlestick';
-export { default as Wheatmap} from './Wheatmap/G2Heatmap';
-
+export { default as Wline } from './Wline/G2Line';
+export { default as Wminiline } from './Wminiline/G2MiniLine';
+export { default as Wbar } from './Wbar/G2Bar';
+export { default as Whistogram } from './Whistogram/G2Histogram';
+export { default as Wlinebar } from './Wlinebar/G2LineBar';
+export { default as Wpie } from './Wpie/G2Pie';
+export { default as Wscatter } from './Wscatter/G2Scatter';
+export { default as Wmap } from './Wmap/index';
+export { default as Wcustom } from './Wcustom/G2Custom';
+export { default as Wsankey } from './Wsankey/G2Sankey';
+export { default as Wnightingale } from './Wnightingale/G2Nightingale';
+export { default as Wradar } from './Wradar/G2Radar';
+export { default as Wrectangle } from './Wrectangle/G2Rectangle';
+export { default as Wfunnel } from './Wfunnel/G2Funnel';
+export { default as WmultiPie } from './Wmultipie/G2MultiPie';
+export { default as Wbox } from './Wbox/G2Box';
+export { default as Wcandlestick } from './Wcandlestick/G2Candlestick';
+export { default as Wheatmap } from './Wheatmap/G2Heatmap';
+export { default as Wtreemap } from './Wtreemap/G2Treemap';
 
 // import * as highchartsMap from './highchartsMap';
 //

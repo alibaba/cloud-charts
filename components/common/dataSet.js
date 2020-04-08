@@ -60,7 +60,7 @@ require('@antv/data-set/lib/transform/diagram/sankey');
 // require('@antv/data-set/lib/transform/hierarchy/pack');
 require('@antv/data-set/lib/transform/hierarchy/partition');
 // require('@antv/data-set/lib/transform/hierarchy/tree');
-// require('@antv/data-set/lib/transform/hierarchy/treemap');
+require('@antv/data-set/lib/transform/hierarchy/treemap');
 // tag cloud
 // require('@antv/data-set/lib/transform/tag-cloud');
 // waffle
