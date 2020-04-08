@@ -451,6 +451,8 @@ function g2Factory(name, Chart, convertData = true) {
 
   AiscChart.displayName = `AiscWidgets${name}`;
 
+  AiscChart.baseClassName = rootClassName + name;
+
   // 暴露原版类
   AiscChart.Chart = Chart;
 

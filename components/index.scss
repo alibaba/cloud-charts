@@ -44,6 +44,14 @@ $font-path: '../font';
     display: block;
   }
 
+  &.widgets-error-info {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    font-size: 1em;
+    color: getVar(widgets-color-red, $widgets-color-red);
+  }
+
   .widgets-reset-button {
     position: absolute;
     z-index: 1;
