@@ -5,7 +5,7 @@ import g2Factory from '../common/g2Factory';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { defaultPadding, propertyAssign, propertyMap } from '../common/common';
-import rectTooltip from './rectTooltip';
+import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Treemap.scss';
 
@@ -136,7 +136,7 @@ function drawTreemap(chart, config, colors, field = 'name') {
     .polygon()
     .position('x*y')
     .color(field, colors)
-    .tooltip('name*value', (name, count) => ({ name, count }))
+    .tooltip('name*value', (name, count) => ({ name, value: count, title: name }))
     .style(config.borderStyle);
 
   label(geom, config, 'name', null, null, true);
