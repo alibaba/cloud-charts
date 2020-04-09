@@ -20,11 +20,19 @@ export default /*#__PURE__*/ g2Factory('G2Treemap', {
         nameFormatter: null,
         valueFormatter: null,
       },
-      label: true,
+      label: {
+        offset: 0,
+        textStyle: {
+          fill: '#fff',
+        },
+      },
       innerRadius: 0,
       polar: false,
       // 区块的 border 样式，包含 lineWidth lineDash stroke 等属性
-      borderStyle: {},
+      borderStyle: {
+        lineWidth: 1,
+        stroke: '#fff',
+      },
     };
   },
   beforeInit(props) {
@@ -129,24 +137,7 @@ function drawTreemap(chart, config, colors, field = 'name') {
     .position('x*y')
     .color(field, colors)
     .tooltip('name*value', (name, count) => ({ name, count }))
-    .style({
-      lineWidth: 1,
-      stroke: '#fff',
-      ...config.borderStyle,
-    });
+    .style(config.borderStyle);
 
-  label(geom, config, 'name', {
-    offset: 0,
-    style: {
-      textBaseline: 'middle',
-    },
-    content: (obj) => {
-      if (obj.name !== 'root') {
-        return obj.name;
-      }
-    },
-    // layout: {
-    //   type: 'limit-in-shape',
-    // },
-  });
+  label(geom, config, 'name', null, null, true);
 }
