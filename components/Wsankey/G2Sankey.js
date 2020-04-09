@@ -2,6 +2,7 @@
 
 import { DataSet } from '@antv/data-set';
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import merge from '../common/merge';
 import './G2Sankey.scss';
@@ -10,7 +11,7 @@ function getEdges(d) {
   return d.links;
 }
 
-export default /*#__PURE__*/ g2Factory('G2Sankey', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Sankey', {
   convertData: false,
   getDefaultConfig() {
     return {
@@ -110,4 +111,4 @@ export default /*#__PURE__*/ g2Factory('G2Sankey', {
       chart.render();
     }
   },
-});
+}));

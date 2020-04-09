@@ -2,6 +2,7 @@
 
 import Brush from '@antv/g2-brush';
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
@@ -17,7 +18,7 @@ import ResetButton from '../common/ResetButton';
 import drawLine from '../common/drawLine';
 import './G2Line.scss';
 
-export default /*#__PURE__*/ g2Factory('G2Line', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Line', {
   getDefaultConfig() {
     return {
       colors: themes.category_12,
@@ -229,4 +230,4 @@ export default /*#__PURE__*/ g2Factory('G2Line', {
       this.resetButton.destroy();
     }
   },
-});
+}));

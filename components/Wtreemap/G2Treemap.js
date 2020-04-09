@@ -2,6 +2,7 @@
 import { View } from '@antv/data-set';
 
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { defaultPadding, propertyAssign, propertyMap } from '../common/common';
@@ -9,7 +10,7 @@ import rectTooltip from './rectTooltip';
 import label from '../common/label';
 import './G2Treemap.scss';
 
-export default /*#__PURE__*/ g2Factory('G2Treemap', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Treemap', {
   convertData: false,
   getDefaultConfig() {
     return {
@@ -67,7 +68,7 @@ export default /*#__PURE__*/ g2Factory('G2Treemap', {
       this.dataView.source(data);
     }
   },
-});
+}));
 
 // 数据分箱
 function processDataView(config, data) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import g2Factory from "../common/g2Factory";
+import errorWrap from '../common/errorWrap';
 import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, SHOOT_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
 import Wshoot from "../Wshoot/index";
 import SouthChinaSea from './mapData/southChinaSea';
@@ -211,34 +212,36 @@ class Map extends MapBase {
 // 地图不需要校验data
 delete Map.propTypes.data;
 
-/**
- * @return {null}
- */
-Map.Area = function WidgetsMapArea() { return null; };
-Map.Area.displayName = AREA_NAME;
+const MapClass = errorWrap(Map);
 
 /**
  * @return {null}
  */
-Map.Point = function WidgetsMapPoint() { return null; };
-Map.Point.displayName = POINT_NAME;
+MapClass.Area = function WidgetsMapArea() { return null; };
+MapClass.Area.displayName = AREA_NAME;
 
 /**
  * @return {null}
  */
-Map.HeatMap = function WidgetsMapHeatMap() { return null; };
-Map.HeatMap.displayName = HEAT_MAP_NAME;
+MapClass.Point = function WidgetsMapPoint() { return null; };
+MapClass.Point.displayName = POINT_NAME;
 
 /**
  * @return {null}
  */
-Map.Shoot = function WidgetsMapShoot() { return null; };
-Map.Shoot.displayName = SHOOT_NAME;
+MapClass.HeatMap = function WidgetsMapHeatMap() { return null; };
+MapClass.HeatMap.displayName = HEAT_MAP_NAME;
 
 /**
  * @return {null}
  */
-Map.Custom = function WidgetsMapCustom() { return null; };
-Map.Custom.displayName = CUSTOM_NAME;
+MapClass.Shoot = function WidgetsMapShoot() { return null; };
+MapClass.Shoot.displayName = SHOOT_NAME;
 
-export default Map;
+/**
+ * @return {null}
+ */
+MapClass.Custom = function WidgetsMapCustom() { return null; };
+MapClass.Custom.displayName = CUSTOM_NAME;
+
+export default MapClass;
