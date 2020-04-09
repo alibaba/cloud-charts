@@ -7,8 +7,7 @@ import merge from '../common/merge';
 import themes from '../themes/index';
 import { defaultPadding } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
-import label from '../common/label';
-import './G2Treemap.scss';
+import './G2Hierarchy.scss';
 
 export default /*#__PURE__*/ errorWrap(
   g2Factory('G2Treemap', {
@@ -30,21 +29,18 @@ export default /*#__PURE__*/ errorWrap(
             shadowColor: 'rgba(0,0,0,0.6)',
           },
         },
-        // label 文本展现的策略
-        labelRender: (depth, brand, name, value, xRange, yRange) => {
-          // 只有第一级显示文本，矩形面积太小时不显示文本
-          if (depth === 1 && xRange[1] - xRange[0] > 0.04 && yRange[1] - yRange[0] > 0.04) {
-            return brand;
+        // label 文本展示的策略
+        labelRender: (depth, name, value, xRange, yRange) => {
+          // 根据矩形大小判断是否渲染 label
+          if (xRange[1] - xRange[0] > 0.03 && yRange[1] - yRange[0] > 0.05) {
+            return name;
           }
           return;
         },
         innerRadius: 0,
         polar: false,
         // 区块的 border 样式，包含 lineWidth lineDash stroke 等属性
-        borderStyle: {
-          lineWidth: 1,
-          stroke: '#fff',
-        },
+        borderStyle: {},
       };
     },
     beforeInit(props) {
@@ -71,11 +67,7 @@ export default /*#__PURE__*/ errorWrap(
       // tooltip
       rectTooltip.call(this, chart, config, { crosshairs: false });
 
-      if (nodes.some((x) => x.brand)) {
-        drawNestedTreemap(chart, config, config.colors);
-      } else {
-        drawTreemap(chart, config, config.colors);
-      }
+      drawHierarchy(chart, config, config.colors);
 
       chart.render();
     },
@@ -89,12 +81,9 @@ export default /*#__PURE__*/ errorWrap(
 
 // 数据分箱
 function processDataView(config, data) {
-  const dv = new View().source(resetParentValue(data), { type: 'hierarchy' });
+  const dv = new View().source(data, { type: 'hierarchy' });
   dv.transform({
-    field: 'value',
-    type: 'hierarchy.treemap',
-    tile: 'treemapResquarify',
-    as: ['x', 'y'],
+    type: 'hierarchy.partition',
   });
 
   return dv;
@@ -105,23 +94,14 @@ function parseDataView(dv) {
   const nodes = [];
 
   for (const node of dv.getAllNodes()) {
-    if (node.data.name === 'root') {
-      continue;
-    }
-
     const eachNode = {
       name: node.data.name,
+      value: node.value,
+      depth: node.depth,
       x: node.x,
       y: node.y,
-      value: getNodeValue(node),
-      depth: node.depth,
+      path: getNodePath(node).join('/'),
     };
-
-    if (!node.data.brand && node.parent) {
-      eachNode.brand = node.parent.data.brand;
-    } else {
-      eachNode.brand = node.data.brand;
-    }
 
     nodes.push(eachNode);
   }
@@ -130,7 +110,7 @@ function parseDataView(dv) {
 }
 
 // 简单矩形树图
-function drawTreemap(chart, config, colors, field = 'name') {
+function drawHierarchy(chart, config, colors, field = 'name') {
   // 设置坐标系：极坐标/直角坐标
   if (config.polar) {
     chart.coord('polar', {
@@ -140,41 +120,6 @@ function drawTreemap(chart, config, colors, field = 'name') {
     chart.coord();
   }
 
-  chart.scale({
-    x: { nice: true },
-    y: { nice: true },
-  });
-  chart.axis(false);
-  chart.legend(false);
-
-  const geom = chart
-    .polygon()
-    .position('x*y')
-    .color(field, colors)
-    .tooltip('name*value', (name, count) => ({ name, value: count, title: name }))
-    .style(config.borderStyle);
-
-  label(geom, config, 'name', null, null, true);
-}
-
-// 嵌套矩形树图
-function drawNestedTreemap(chart, config, colors, field = 'brand') {
-  // 设置坐标系：极坐标/直角坐标
-  if (config.polar) {
-    chart
-      .coord('polar', {
-        innerRadius: config.innerRadius || 0,
-      })
-      .reflect();
-  } else {
-    // 习惯性最小的在最下面
-    chart.coord().scale(1, -1);
-  }
-
-  chart.scale({
-    x: { nice: false },
-    y: { nice: false },
-  });
   chart.axis(false);
   chart.legend(false);
 
@@ -182,18 +127,17 @@ function drawNestedTreemap(chart, config, colors, field = 'brand') {
     .polygon()
     .position('x*y')
     .color(field, colors)
-    .tooltip('name*value*brand', (name, value, brand) => ({
+    .tooltip('name*value*path', (name, value, path) => ({
       name,
       value,
-      title: brand,
+      title: path,
     }))
     .style(config.borderStyle)
     .label(
-      'depth*brand*name*value*x*y',
-      (depth, brand, name, value, xs, ys) =>
+      'depth*name*value*x*y',
+      (depth, name, value, xs, ys) =>
         config.labelRender(
           depth,
-          brand,
           name,
           value,
           [Math.min(...xs), Math.max(...xs)],
@@ -203,24 +147,10 @@ function drawNestedTreemap(chart, config, colors, field = 'brand') {
     );
 }
 
-// 此方法对原始数据进行处理，返回新的副本
-function resetParentValue({ brand, name, value, children }) {
-  const result = { name, value };
-  if (brand) {
-    result.brand = brand;
+// 获取节点的路径
+function getNodePath(n) {
+  if (!n.parent) {
+    return [n.data.name];
   }
-  if (children) {
-    // DataView 会通过子节点累加 value 值，所以先置为 null
-    result.value = null;
-    result.children = children.map(resetParentValue);
-  }
-  return result;
-}
-
-// 计算当前节点 value
-function getNodeValue(n) {
-  if (n.data.value === null && n.children) {
-    return n.children.map(getNodeValue).reduce((pre, cur) => pre + cur, 0);
-  }
-  return n.data.value;
+  return [...getNodePath(n.parent), n.data.name];
 }

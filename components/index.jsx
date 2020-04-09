@@ -60,6 +60,7 @@ export { default as Wbox } from './Wbox/G2Box';
 export { default as Wcandlestick } from './Wcandlestick/G2Candlestick';
 export { default as Wheatmap } from './Wheatmap/G2Heatmap';
 export { default as Wtreemap } from './Wtreemap/G2Treemap';
+export { default as Whierarchy } from './Whierarchy/G2Hierarchy';
 
 // import * as highchartsMap from './highchartsMap';
 //

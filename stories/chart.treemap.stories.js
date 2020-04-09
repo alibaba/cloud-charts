@@ -2,7 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { Wtreemap, Wcontainer } from '@alife/aisc-widgets';
-import mobile from './mobile.json';
+import mobile from './data/mobile.json';
 
 const data = {
   name: 'root',
