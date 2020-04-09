@@ -2,6 +2,7 @@
 
 import { DataSet } from '@antv/data-set';
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -13,7 +14,7 @@ import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Rectangle.scss';
 
-export default /*#__PURE__*/ g2Factory('G2Rectangle', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Rectangle', {
   convertData: false,
   getDefaultConfig() {
     return {
@@ -130,4 +131,4 @@ export default /*#__PURE__*/ g2Factory('G2Rectangle', {
       this.rectangleDataView.source(data);
     }
   },
-});
+}));

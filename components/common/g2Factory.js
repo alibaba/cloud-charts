@@ -31,6 +31,7 @@ const rootChildClassName = 'aisc-widgets-children';
  * @param {object} Chart 组件原生代码组
  * @param {boolean} convertData 控制是否转化数据
  * */
+/*#__PURE__*/
 function g2Factory(name, Chart, convertData = true) {
   class AiscChart extends React.Component {
     constructor(props, context) {

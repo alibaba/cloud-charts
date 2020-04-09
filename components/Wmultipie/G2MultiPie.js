@@ -2,6 +2,7 @@
 
 import { DataView } from '@antv/data-set';
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
@@ -96,7 +97,7 @@ function getInnerRadius(maxDepth, innerRadius) {
   return radiusMap[maxDepth] || 0;
 }
 
-export default /*#__PURE__*/ g2Factory('G2MultiPie', Object.assign({}, G2PieBase, {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({}, G2PieBase, {
   convertData: false,
   getDefaultConfig() {
     return {
@@ -234,4 +235,4 @@ export default /*#__PURE__*/ g2Factory('G2MultiPie', Object.assign({}, G2PieBase
 
     chart.changeData(source);
   },
-}));
+})));

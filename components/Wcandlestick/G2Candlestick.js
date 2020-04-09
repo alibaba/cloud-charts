@@ -1,6 +1,7 @@
 'use strict';
 
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -80,7 +81,7 @@ function computeDataType(data) {
   return data;
 }
 
-export default /*#__PURE__*/ g2Factory('G2Candlestick', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Candlestick', {
   // convertData: false,
   getDefaultConfig() {
     return {
@@ -215,7 +216,7 @@ export default /*#__PURE__*/ g2Factory('G2Candlestick', {
   changeData(chart, data) {
     chart.changeData(computeDataType(data));
   }
-});
+}));
 
 function drawCandle(chart, config, colors) {
   const { size } = config;

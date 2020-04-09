@@ -2,6 +2,7 @@
 
 // 引入所需要的库和样式
 import g2Factory from '../common/g2Factory';
+import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
@@ -20,7 +21,7 @@ const setSource = (chart, config, data) => {
 
 };
 
-export default /*#__PURE__*/ g2Factory('G2Scatter', {
+export default /*#__PURE__*/ errorWrap(g2Factory('G2Scatter', {
   getDefaultConfig() {
     return {
       padding: ['auto', 'auto', 'auto', 'auto'],
@@ -151,4 +152,4 @@ export default /*#__PURE__*/ g2Factory('G2Scatter', {
 
     chart.render();
   },
-});
+}));
