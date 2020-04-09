@@ -24,7 +24,7 @@ export default function (chart, config) {
       crosshairs: false,
       inPlot,
       itemTpl: `<li data-index={index}>
-        <span style="background-color:{color};" class="g2-tooltip-marker"></span>
+        <svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>
         <span class="g2-tooltip-item-name">{name}</span>${
           showColon ? ':' : ''
         }<span class="g2-tooltip-item-value">{count}</span>

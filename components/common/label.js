@@ -17,7 +17,14 @@ import merge from './merge';
 
 const defaultConfigKey = 'label';
 
-export default function (geom, config, field = 'y', componentConfig, extraConfigKey) {
+export default function (
+  geom,
+  config,
+  field = 'y',
+  componentConfig,
+  extraConfigKey,
+  useCustomOffset = false,
+) {
   let configLabel = config[defaultConfigKey];
   if (extraConfigKey && config[extraConfigKey] !== undefined) {
     configLabel = config[extraConfigKey];
@@ -62,6 +69,10 @@ export default function (geom, config, field = 'y', componentConfig, extraConfig
 
   if (customConfig) {
     merge(labelConfig, customConfig);
+  }
+
+  if (useCustomOffset) {
+    labelConfig.offset = Number(offset);
   }
 
   geom.label(field, labelConfig);
