@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function errorWrap(Component) {
+export default /*#__PURE__*/ function errorWrap(Component) {
   class ErrorBoundary extends React.Component {
     constructor(props) {
       super(props);
@@ -21,10 +21,12 @@ export default function errorWrap(Component) {
       this.setState({ error: error.stack });
     }
 
+    // 低版本React中，复制可能用到的属性。
     oldReactRef = (chartInstance) => {
       if (chartInstance) {
         // 复制旧版本可能用到的属性
         this.chart = chartInstance.chart;
+        this.chartId = chartInstance.chartId;
         this.chartDom = chartInstance.chartDom;
         this._size = chartInstance._size;
       }
