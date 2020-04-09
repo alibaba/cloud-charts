@@ -9,8 +9,10 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    // 2018-08-17 设置 max-width 让南海诸岛能根据图表大小缩放
-    max-width: 14%;
+    // 2018-09-17 设置 max-width 让南海诸岛能根据图表大小缩放
+    // 2020-04-09 等比例缩放，并限制最小高宽
+    min-width: 64px;
+    min-height: 88px;
   }
 
   .aisc-widgets-map-legend {
