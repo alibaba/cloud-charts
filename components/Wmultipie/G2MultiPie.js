@@ -86,7 +86,7 @@ function computeData(data) {
 }
 
 const radiusMap = {
-  2: -0.05,
+  2: -0.2,
   3: -0.07,
 };
 
