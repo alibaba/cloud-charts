@@ -5,7 +5,7 @@ import g2Factory from '../common/g2Factory';
 import errorWrap from '../common/errorWrap';
 import merge from '../common/merge';
 import themes from '../themes/index';
-import { defaultPadding, propertyAssign, propertyMap } from '../common/common';
+import { defaultPadding } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
 import label from '../common/label';
 import './G2Treemap.scss';
@@ -29,6 +29,14 @@ export default /*#__PURE__*/ errorWrap(
             shadowBlur: 2,
             shadowColor: 'rgba(0,0,0,0.6)',
           },
+        },
+        // 控制 label 展现形态的方法
+        labelRender: (depth, brand, name, value) => {
+          // 只有第一级显示文本，数值太小时不显示文本
+          if (depth === 1 && value > 0.2) {
+            return brand;
+          }
+          return;
         },
         innerRadius: 0,
         polar: false,
@@ -90,21 +98,7 @@ export default /*#__PURE__*/ errorWrap(
 
 // 数据分箱
 function processDataView(config, data) {
-  // 对原始数据进行处理，返回新的副本
-  const rebuildData = ({ brand, name, value, children }) => {
-    const result = { name, value };
-    if (brand) {
-      result.brand = brand;
-    }
-    if (children) {
-      // DataView 会通过子节点累加 value 值，所以先置为 null
-      result.value = null;
-      result.children = children.map(rebuildData);
-    }
-    return result;
-  };
-
-  const dv = new View().source(rebuildData(data), { type: 'hierarchy' });
+  const dv = new View().source(resetParentValue(data), { type: 'hierarchy' });
   dv.transform({
     field: 'value',
     type: 'hierarchy.treemap',
@@ -118,13 +112,6 @@ function processDataView(config, data) {
 // 将 DataSet 处理后的结果转换为 G2 接受的数据
 function parseDataView(dv) {
   const nodes = [];
-
-  const getNodeValue = (n) => {
-    if (n.data.value === null && n.children) {
-      return n.children.map(getNodeValue).reduce((pre, cur) => pre + cur, 0);
-    }
-    return n.data.value;
-  };
 
   for (const node of dv.getAllNodes()) {
     if (node.data.name === 'root') {
@@ -173,7 +160,11 @@ function drawTreemap(chart, config, colors, field = 'name') {
 // 嵌套矩形树图
 function drawNestedTreemap(chart, config, colors, field = 'brand') {
   // 习惯性最小的在最下面
-  chart.coord().scale(1, -1);
+  if (config.polar) {
+    chart.coord('polar').reflect();
+  } else {
+    chart.coord().scale(1, -1);
+  }
 
   chart.scale({
     x: { nice: false },
@@ -182,7 +173,7 @@ function drawNestedTreemap(chart, config, colors, field = 'brand') {
   chart.axis(false);
   chart.legend(false);
 
-  const geom = chart
+  chart
     .polygon()
     .position('x*y')
     .color(field, colors)
@@ -192,14 +183,27 @@ function drawNestedTreemap(chart, config, colors, field = 'brand') {
       title: brand,
     }))
     .style(config.borderStyle)
-    .label(
-      'depth*brand*name*value',
-      function (depth, brand, name, value) {
-        // 只有第一级显示文本，数值太小时不显示文本
-        if (depth === 1 && value > 0.2) {
-          return brand;
-        }
-      },
-      config.label,
-    );
+    .label('depth*brand*name*value', config.labelRender, config.label);
+}
+
+// 此方法对原始数据进行处理，返回新的副本
+function resetParentValue({ brand, name, value, children }) {
+  const result = { name, value };
+  if (brand) {
+    result.brand = brand;
+  }
+  if (children) {
+    // DataView 会通过子节点累加 value 值，所以先置为 null
+    result.value = null;
+    result.children = children.map(resetParentValue);
+  }
+  return result;
+}
+
+// 计算当前节点 value
+function getNodeValue(n) {
+  if (n.data.value === null && n.children) {
+    return n.children.map(getNodeValue).reduce((pre, cur) => pre + cur, 0);
+  }
+  return n.data.value;
 }

@@ -31,15 +31,44 @@ const data = {
 };
 
 const stories = storiesOf('Wtreemap', module);
+
 stories.add('矩形树图', () => (
   <Wcontainer className="demos">
-    <Wtreemap height="500" data={data} />
+    <Wtreemap height="600" data={data} />
   </Wcontainer>
 ));
+
+stories.add('极坐标矩形树图', () => (
+  <Wcontainer className="demos">
+    <Wtreemap
+      height="1000"
+      config={{
+        polar: true,
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));
+
 stories.add('嵌套矩形树图', () => (
   <Wcontainer className="demos">
     <Wtreemap
-      height="500"
+      height="600"
+      data={{
+        name: 'root',
+        children: mobile,
+      }}
+    />
+  </Wcontainer>
+));
+
+stories.add('极坐标嵌套矩形树图', () => (
+  <Wcontainer className="demos">
+    <Wtreemap
+      height="1000"
+      config={{
+        polar: true,
+      }}
       data={{
         name: 'root',
         children: mobile,
