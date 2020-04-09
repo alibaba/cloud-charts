@@ -71,15 +71,6 @@ export default /*#__PURE__*/ errorWrap(
       // tooltip
       rectTooltip.call(this, chart, config, { crosshairs: false });
 
-      // 设置坐标系：极坐标/直角坐标
-      if (config.polar) {
-        chart.coord('polar', {
-          innerRadius: config.innerRadius || 0,
-        });
-      } else {
-        chart.coord();
-      }
-
       if (nodes.some((x) => x.brand)) {
         drawNestedTreemap(chart, config, config.colors);
       } else {
@@ -140,6 +131,15 @@ function parseDataView(dv) {
 
 // 简单矩形树图
 function drawTreemap(chart, config, colors, field = 'name') {
+  // 设置坐标系：极坐标/直角坐标
+  if (config.polar) {
+    chart.coord('polar', {
+      innerRadius: config.innerRadius || 0,
+    });
+  } else {
+    chart.coord();
+  }
+
   chart.scale({
     x: { nice: true },
     y: { nice: true },
@@ -159,10 +159,15 @@ function drawTreemap(chart, config, colors, field = 'name') {
 
 // 嵌套矩形树图
 function drawNestedTreemap(chart, config, colors, field = 'brand') {
-  // 习惯性最小的在最下面
+  // 设置坐标系：极坐标/直角坐标
   if (config.polar) {
-    chart.coord('polar').reflect();
+    chart
+      .coord('polar', {
+        innerRadius: config.innerRadius || 0,
+      })
+      .reflect();
   } else {
+    // 习惯性最小的在最下面
     chart.coord().scale(1, -1);
   }
 
