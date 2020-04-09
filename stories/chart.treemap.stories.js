@@ -30,14 +30,20 @@ const data = {
   ],
 };
 
-// const data = {
-//   name: 'root',
-//   children: mobile,
-// };
-
 const stories = storiesOf('Wtreemap', module);
 stories.add('矩形树图', () => (
   <Wcontainer className="demos">
-    <Wtreemap height="500" config={{}} data={data} />
+    <Wtreemap height="500" data={data} />
+  </Wcontainer>
+));
+stories.add('嵌套矩形树图', () => (
+  <Wcontainer className="demos">
+    <Wtreemap
+      height="500"
+      data={{
+        name: 'root',
+        children: mobile,
+      }}
+    />
   </Wcontainer>
 ));
