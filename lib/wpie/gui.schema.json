@@ -31,7 +31,7 @@
     }
   },
   "select": {
-    "name": "是否允许鼠标选中效果",
+    "name": "是否允许鼠标选中",
     "type": "switch",
     "default": false,
     "description": ""

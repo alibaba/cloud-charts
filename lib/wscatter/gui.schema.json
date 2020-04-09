@@ -140,7 +140,7 @@
       "autoRotate": {
         "name": "标签自动旋转",
         "type": "switch",
-        "default": false,
+        "default": true,
         "description": ""
       }
     }
