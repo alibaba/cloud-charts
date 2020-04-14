@@ -16,6 +16,7 @@ class Map extends MapBase {
     this.state = {
       customPointLayer: [],
       shootLayer: [],
+      southChinaSeaKey: 0,
     };
   }
 
@@ -35,6 +36,16 @@ class Map extends MapBase {
 
   shouldComponentUpdate(nextProps, nextState) {
     return !(this.isReRendering || !this.chart);
+  }
+
+  rerender() {
+    // fix 动态切换主题后南海诸岛地图没有更新
+    if (this.props.config.showSouthChinaSea === undefined || this.props.config.showSouthChinaSea) {
+      this.setState({
+        southChinaSeaKey: this.state.southChinaSeaKey + 1,
+      });
+    }
+    return super.rerender();
   }
 
   convertPosition = (d) => {
@@ -178,10 +189,11 @@ class Map extends MapBase {
 
   renderSouthChinaSea(config) {
     if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
+      const { southChinaSeaKey } = this.state;
       const { fill } = config.background || {};
       const mapColor = fill || themes['widgets-map-area-bg'];
 
-      return <SouthChinaSea className="aisc-widgets-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
+      return <SouthChinaSea key={southChinaSeaKey} className="aisc-widgets-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
     } else {
       return null;
     }
