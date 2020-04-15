@@ -62,7 +62,7 @@ gulp.task('start', (cb) => {
 
 gulp.task('build:theme-sass', (cb) => {
   const nodeModulesPath = path.resolve(__dirname, 'node_modules');
-  glob.sync(`${srcPath}/theme/*.scss`).forEach((item) => {
+  glob.sync(`${srcPath}/themes/*.scss`).forEach((item) => {
     if (item.indexOf('index.scss') > -1) {
       return;
     }
