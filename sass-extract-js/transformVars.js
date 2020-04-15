@@ -39,6 +39,7 @@ function getSassValue(sassVar, options) {
         r, g, b, a, hex
       } = value;
       const hasAlpha = a !== 1;
+      // 原版不支持保留 hex 字符串，这里手动添加新功能
       if (options.hex && !hasAlpha) {
         return hex;
       }
