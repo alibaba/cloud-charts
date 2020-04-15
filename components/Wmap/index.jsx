@@ -39,7 +39,7 @@ class Map extends MapBase {
   }
 
   rerender() {
-    // fix 动态切换主题后南海诸岛地图没有更新
+    // fix: 动态切换主题后南海诸岛地图没有更新
     if (this.props.config.showSouthChinaSea === undefined || this.props.config.showSouthChinaSea) {
       this.setState({
         southChinaSeaKey: this.state.southChinaSeaKey + 1,
