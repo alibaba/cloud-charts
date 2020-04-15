@@ -13,6 +13,8 @@ const del = require('del');
 const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
 const sassExtract = require('sass-extract');
+const createSassExtractJsPlugin = require('./sass-extract-js/plugin');
+const sassExtractJsPlugin = createSassExtractJsPlugin({ camelCase: false, hex: true });
 const packageInfo = require('./package');
 const config = require('./webpack.config');
 const srcPath = 'components';
@@ -79,7 +81,7 @@ gulp.task('build:theme-sass', (cb) => {
         nodeModulesPath
       ],
     }, {
-      plugins: [{ plugin: 'sass-extract-js', options: { camelCase: false } }]
+      plugins: [sassExtractJsPlugin]
     });
 
     fs.writeFileSync('./' + item.replace(/\.scss$/, '.style.js'), `export default ${JSON.stringify(rendered.vars)};`);
