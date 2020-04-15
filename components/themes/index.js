@@ -1,18 +1,7 @@
 import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
-
-import normal from './normal';
-import dark from './dark';
-import aone from './aone';
-import aliyun from './aliyun';
-import aliyunDark from './aliyun-dark';
 import setG2Theme from "../common/g2Theme";
-
-// const normalStyle = require('sass-extract-loader?{"plugins":[{ plugin: "sass-extract-js", options: { camelCase: false } }]}!./normal.scss');
-// const darkStyle = require('sass-extract-loader?{"plugins":[{ plugin: "sass-extract-js", options: { camelCase: false } }]}!./dark.scss');
-// const aoneStyle = require('sass-extract-loader?{"plugins":[{ plugin: "sass-extract-js", options: { camelCase: false } }]}!./aone.scss');
-// const aliyunStyle = require('sass-extract-loader?{"plugins":[{ plugin: "sass-extract-js", options: { camelCase: false } }]}!./aliyun.scss');
-// const aliyunDarkStyle = require('sass-extract-loader?{"plugins":[{ plugin: "sass-extract-js", options: { camelCase: false } }]}!./aliyun-dark.scss');
+import { setThemeStyle, convertKey, convertCSS, convertJsStyle } from './themeTools';
 
 // [theme].style 文件根据 [theme].scss 自动生成，请勿直接修改
 import normalStyle from './normal.style';
@@ -21,72 +10,29 @@ import aoneStyle from './aone.style';
 import aliyunStyle from './aliyun.style';
 import aliyunDarkStyle from './aliyun-dark.style';
 
-const widgetsThemeStyleId = 'widgets-theme-var';
-
-function getStyleElement() {
-  let el = document.getElementById(widgetsThemeStyleId);
-  if (!el) {
-    el = document.createElement('style');
-    el.setAttribute('id', widgetsThemeStyleId);
-    document.head.appendChild(el);
-  }
-  return el;
-}
-
-function setThemeStyle(css) {
-  const style = getStyleElement();
-  style.innerText = css;
-}
-
-/**
- * 将主题包中横杠连接符变量克隆转为小驼峰写法
- *
- * @param {Object} themes 主题包
- *
- * @return {Object} themes
- * */
-function convertKey(themes) {
-  Object.keys(themes).forEach((key) => {
-    if (key.indexOf('-') > -1) {
-      const newKey = key.replace(/-(\w)/g, (all, letter) => {
-        return letter.toUpperCase();
-      });
-      if (!themes[newKey]) {
-        themes[newKey] = themes[key];
-      }
-    }
-  });
-  return themes;
-}
-
-function convertCSS(theme) {
-  const varList = Object.keys(theme).map(key => `--${key}: ${theme[key]}`);
-  return `.aisc-widgets {${varList.join(';')}}`;
-}
-
 const themeMap = {
   normal: {
-    js: convertKey(normal),
+    js: convertKey(convertJsStyle('normal', normalStyle)),
     css: convertCSS(normalStyle),
     rawCSS: normalStyle,
   },
   dark: {
-    js: convertKey(dark),
+    js: convertKey(convertJsStyle('dark', darkStyle)),
     css: convertCSS(darkStyle),
     rawCSS: darkStyle,
   },
   aone: {
-    js: convertKey(aone),
+    js: convertKey(convertJsStyle('aone', aoneStyle)),
     css: convertCSS(aoneStyle),
     rawCSS: aoneStyle,
   },
   aliyun: {
-    js: convertKey(aliyun),
+    js: convertKey(convertJsStyle('aliyun', aliyunStyle)),
     css: convertCSS(aliyunStyle),
     rawCSS: aliyunStyle,
   },
   'aliyun-dark': {
-    js: convertKey(aliyunDark),
+    js: convertKey(convertJsStyle('aliyun-dark', aliyunDarkStyle)),
     css: convertCSS(aliyunDarkStyle),
     rawCSS: aliyunDarkStyle,
   },
