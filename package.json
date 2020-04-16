@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@alife/aisc": "2.9.32",
-    "@alife/aisc-core": "1.2.7-beta.5",
+    "@alife/aisc-core": "1.2.7-beta.6",
     "@alife/g2-connect": "^0.3.0",
     "@antv/data-set": "^0.9.4",
     "@antv/f2": "3.1.15",
