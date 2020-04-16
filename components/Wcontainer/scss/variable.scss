@@ -13,10 +13,12 @@ $wcontainer-extra-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 $wcontainer-extra-color-hover: getVar(widgets-color-text-1, $widgets-color-text-1);
 $wcontainer-extra-font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
 
-$wcontainer-padding: getVar(s5, $s5);
-$wcontainer-mobile-padding: getVar(s3, $s3);
+$wcontainer-padding: getVar(widgets-container-padding, $widgets-container-padding);
+$wcontainer-mobile-padding: getVar(widgets-container-mobile-padding, $widgets-container-mobile-padding);
 
-$wcontainer-corner-radius: getVar(corner-radius-r1, $corner-radius-r1);
+$wcontainer-corner-radius: getVar(widgets-container-corner-radius, $widgets-container-corner-radius);
+
+$wcontainer-shadow: getVar(widgets-container-shadow, $widgets-container-shadow);
 
 $wcontainer-cross-size-1: getVar(s1, $s1);
 $wcontainer-cross-size-2: getVar(s3, $s3);

@@ -226,8 +226,8 @@ function getG2ThemeConfig(themes) {
       'g2-tooltip': {
         backgroundColor: themes['widgets-tooltip-background'],
         boxShadow: themes['widgets-tooltip-shadow'],
-        padding: themes['widgets-font-size-1'],
-        borderRadius: themes.s1,
+        padding: themes['widgets-tooltip-padding'],
+        borderRadius: themes['widgets-tooltip-corner-radius'],
         fontFamily: themes['widgets-font-family-txd-m-number'],
         fontSize: themes['widgets-font-size-1'],
         lineHeight: 1,

@@ -89,7 +89,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Nightingale', {
       .color('x', config.colors)
       .style({
         lineWidth: 1,
-        stroke: themes['widgets-color-white'],
+        stroke: themes['widgets-color-background'],
       });
 
     label(geom, config, config.label.key || 'x', {
