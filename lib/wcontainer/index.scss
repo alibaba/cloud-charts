@@ -5,6 +5,7 @@
   flex-direction: column;
   border-radius: $wcontainer-corner-radius;
   padding: $wcontainer-padding;
+  box-shadow: $wcontainer-shadow;
 
   // 移动端适配
   &#{$wcontainer-prefix}-mobile {
