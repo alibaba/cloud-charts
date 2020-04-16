@@ -1,140 +1,121 @@
 @import "~@alife/aisc-core/aliyun/scss/index.scss";
 
-//$font-family-number: $widgets-font-family-number !default;
-//$font-family-txd-medium-number: $widgets-font-family-txd-m-number !default;
-//$font-family-txd-regular-number: $widgets-font-family-txd-m-number !default;
+$widgets-font-family-number: DINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$widgets-font-family-txd-m-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$widgets-font-family-txd-r-number: TXDDINRegularNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
 
-//$font-size-large-number: $widgets-font-size-6 !default;
-//$font-size-xlarge-number: $widgets-font-size-7 !default;
-//
-//// 字体大小 - 文字
-//$widgets-text-font-size-1: $widgets-font-size-1 !default;
-//$widgets-text-font-size-2: $widgets-font-size-2 !default;
-//$widgets-text-font-size-3: $widgets-font-size-3 !default;
-//$widgets-text-font-size-4: $widgets-font-size-4 !default;
-//
-//// 字体大小 - 数字
-//$widgets-number-font-size-1: $widgets-font-size-1 !default;
-//$widgets-number-font-size-2: $widgets-font-size-2 !default;
-//$widgets-number-font-size-3: $widgets-font-size-3 !default;
-//$widgets-number-font-size-4: $widgets-font-size-5 !default;
-//$widgets-number-font-size-5: $widgets-font-size-6 !default;
-//$widgets-number-font-size-6: $widgets-font-size-7 !default;
-//
-//// 移动端字体大小 - 文字
-//$widgets-mobile-text-font-size-1: $widgets-font-size-1 !default;
-//$widgets-mobile-text-font-size-2: $widgets-font-size-2 !default;
-//$widgets-mobile-text-font-size-3: $widgets-font-size-3 !default;
-//$widgets-mobile-text-font-size-4: $widgets-font-size-4 !default;
-//
-//// 移动端字体大小 - 数字
-//$widgets-mobile-number-font-size-1: $widgets-font-size-2 !default;
-//$widgets-mobile-number-font-size-2: $widgets-font-size-2 !default;
-//$widgets-mobile-number-font-size-3: $widgets-font-size-2 !default;
-//$widgets-mobile-number-font-size-4: $widgets-font-size-4 !default;
-//$widgets-mobile-number-font-size-5: $widgets-font-size-5 !default;
-//$widgets-mobile-number-font-size-6: $widgets-font-size-6 !default;
-//
-//// 纯颜色
-//$widgets-color-white: #FFFFFF !default;
-//$widgets-color-black: #000000 !default;
-//
-//$widgets-color-text-1: #333333 !default;
-//$widgets-color-text-2: #666666 !default;
-//$widgets-color-text-3: #999999 !default;
-//$widgets-color-disable: #CCCCCC !default;
-//
-//$widgets-color-blue: #00C1DE !default;
-//$widgets-color-yellow: #FFE000 !default;
-//$widgets-color-orange: #FB8C00 !default;
-//$widgets-color-red: #F45428 !default;
-//$widgets-color-purple: #7281FF !default;
-//$widgets-color-green: #2DB445 !default;
-//$widgets-color-gray: #DCDEE3 !default;
-//
-//$widgets-color-category-1: $widgets-color-blue !default;
-//$widgets-color-category-2: #4083FF !default;
-//$widgets-color-category-3: #FACC00 !default;
-//$widgets-color-category-4: #9979F2 !default;
-//$widgets-color-category-5: #006CD9 !default;
-//$widgets-color-category-6: #4AD051 !default;
-//$widgets-color-category-7: #5C60E6 !default;
-//$widgets-color-category-8: #CD5C97 !default;
-//$widgets-color-category-9: #52D7FF !default;
-//$widgets-color-category-10: #9B5CE6 !default;
-//$widgets-color-category-11: #E65C5C !default;
-//$widgets-color-category-12: #9B5CE6 !default;
-//
-//$widgets-color-linear-1: $widgets-color-blue !default;
-//$widgets-color-linear-2: #19C7E1 !default;
-//$widgets-color-linear-3: #33CDE5 !default;
-//$widgets-color-linear-4: #4CD3E7 !default;
-//$widgets-color-linear-5: #66DAEB !default;
-//$widgets-color-linear-6: #7FE0EE !default;
-//$widgets-color-linear-7: #99E6F2 !default;
-//$widgets-color-linear-8: #B2ECF5 !default;
-//$widgets-color-linear-9: #CCF3F8 !default;
-//$widgets-color-linear-10: #E5F8FB !default;
-//
-//$widgets-color-linear-turquoise-1: #4083FF !default;
-//$widgets-color-linear-turquoise-2: #528FFF !default;
-//$widgets-color-linear-turquoise-3: #669CFF !default;
-//$widgets-color-linear-turquoise-4: #79A7FF !default;
-//$widgets-color-linear-turquoise-5: #8CB4FF !default;
-//$widgets-color-linear-turquoise-6: #9FC0FF !default;
-//$widgets-color-linear-turquoise-7: #B3CDFF !default;
-//$widgets-color-linear-turquoise-8: #C5D9FF !default;
-//$widgets-color-linear-turquoise-9: #D9E6FF !default;
-//$widgets-color-linear-turquoise-10: #EBF2FF !default;
-//
-//// 图例 Legend
-//$widgets-legend-uncheck: #CCCCCC !default;
-//$widgets-legend-text: #333333 !default;
-//
-//// label
-//$widgets-label-text: #333333 !default;
-//
-//// 提示信息 tooltip
-//$widgets-tooltip-background: #ffffff !default;
-//$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2) !default;
-//$widgets-tooltip-cross-line: #dddddd !default;
-//$widgets-tooltip-cross-react: #CCD6EC !default;
-//$widgets-tooltip-cross-react-opacity: 0.3 !default;
-//$widgets-tooltip-title: #999999 !default;
-//$widgets-tooltip-text: #333333 !default;
-//$widgets-tooltip-marker-fill: $widgets-color-white !default;
-//$widgets-tooltip-border: #D8D8D8;
-//
-//// 轴 Axis
-//$widgets-axis-label: #999999 !default;
-//$widgets-axis-line: #DCDEE3 !default;
-//$widgets-axis-grid: #F2F3F7 !default;
-//
-//// 业务颜色
-//$widgets-mini-card-empty: #F2F3F7 !default;
-//$widgets-circle-number: currentColor !default;
-//
-//// 地图特有
-//$widgets-map-area-bg: #DCDEE3 !default;
-//$widgets-map-area-border: #ffffff !default;
-//$widgets-map-label: #666666 !default;
-//
-//// 卡片
-//$widgets-container-background: $widgets-color-white !default;
-//$widgets-container-padding: 20px !default;
-//$widgets-mobile-container-padding: 12px !default;
-//$widgets-container-title: #333333 !default;
-//$widgets-container-split-line: #DCDEE3 !default;
-//
-//// 桑基图
-//$widgets-sankey-edge: #DCDEE3 !default;
-//$widgets-sankey-node-text: #999999 !default;
-//
-//// 表格颜色
-//$widgets-table-header: #ECF4FF !default;
-//$widgets-table-body-zebra: #F5F9FE !default;
-//$widgets-table-split: #ECF4FF !default;
-//
-//// 滚动条颜色
-//$widgets-scrollbar-bg: #EBECF0 !default;
-//$widgets-scrollbar-thumb: #C4C6CF !default;
+// 字体大小 - 文字
+$widgets-font-size-1: 12px !default;
+$widgets-font-size-2: 14px !default;
+$widgets-font-size-3: 16px !default;
+$widgets-font-size-4: 18px !default;
+$widgets-font-size-5: 24px !default;
+$widgets-font-size-6: 28px !default;
+$widgets-font-size-7: 32px !default;
+
+// 纯颜色
+$widgets-color-white: #FFFFFF !default;
+$widgets-color-black: #000000 !default;
+
+$widgets-color-text-1: #262626 !default;
+$widgets-color-text-2: #595959 !default;
+$widgets-color-text-3: #8c8c8c !default;
+$widgets-color-disable: #BFBFBF !default;
+
+$widgets-color-blue: #0070CC;
+$widgets-color-yellow: #FECB00;
+$widgets-color-orange: #FA8C15;
+$widgets-color-red: #E62412;
+$widgets-color-purple: #826AF9;
+$widgets-color-green: #15AD31;
+$widgets-color-gray: #D9D9D9;
+
+$widgets-color-category-1: $widgets-color-blue;
+$widgets-color-category-2: #17C393;
+$widgets-color-category-3: #FECB00;
+$widgets-color-category-4: #5B6E90;
+$widgets-color-category-5: #826AF9;
+$widgets-color-category-6: #FF7D51;
+$widgets-color-category-7: #33A4EA;
+$widgets-color-category-8: #4AD051;
+$widgets-color-category-9: #945FB9;
+$widgets-color-category-10: #2E85FF;
+$widgets-color-category-11: #E65C5C;
+$widgets-color-category-12: #FF9845;
+
+$widgets-color-linear-1: $widgets-color-blue;
+$widgets-color-linear-2: #167DD2;
+$widgets-color-linear-3: #2A89D7;
+$widgets-color-linear-4: #3E95DD;
+$widgets-color-linear-5: #57A4E3;
+$widgets-color-linear-6: #72B3E8;
+$widgets-color-linear-7: #8DC2EE;
+$widgets-color-linear-8: #AAD3F4;
+$widgets-color-linear-9: #C8E3F9;
+$widgets-color-linear-10: #E7F4FF;
+
+$widgets-color-linear-turquoise-1: #5CCDBB !default;
+$widgets-color-linear-turquoise-2: #6BD2C2 !default;
+$widgets-color-linear-turquoise-3: #7CD7C9 !default;
+$widgets-color-linear-turquoise-4: #8CDCCF !default;
+$widgets-color-linear-turquoise-5: #9DE1D6 !default;
+$widgets-color-linear-turquoise-6: #ADE6DD !default;
+$widgets-color-linear-turquoise-7: #BEEBE4 !default;
+$widgets-color-linear-turquoise-8: #CDF0EA !default;
+$widgets-color-linear-turquoise-9: #DEF5F1 !default;
+$widgets-color-linear-turquoise-10: #EEFAF8 !default;
+
+// 图例 Legend
+$widgets-legend-uncheck: #BFBFBF !default;
+$widgets-legend-text: #595959;
+
+// label
+$widgets-label-text: #595959;
+
+// 提示信息 tooltip
+$widgets-tooltip-background: $widgets-color-white !default;
+$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-cross-line: #dddddd !default;
+$widgets-tooltip-cross-react: #D9D9D9;
+$widgets-tooltip-cross-react-opacity: 0.3 !default;
+$widgets-tooltip-title: #8C8C8C;
+$widgets-tooltip-text: #333333;
+$widgets-tooltip-marker-fill: $widgets-color-white !default;
+$widgets-tooltip-border: #D8D8D8;
+
+// 轴 Axis
+$widgets-axis-label: #8C8C8C;
+$widgets-axis-line: #E5E5E5;
+$widgets-axis-grid: #F0F0F0;
+
+// 图形元素 geom
+$widgets-shape-area-opacity: 0.1 !default;
+$widgets-shape-interval-opacity: 0.9;
+$widgets-guide-region-opacity: 0.1 !default;
+
+// 业务颜色
+$widgets-mini-card-empty: #F7F7F7 !default;
+$widgets-circle-number: currentColor !default;
+
+// 地图特有
+$widgets-map-area-bg: #EDEDED;
+$widgets-map-area-border: $widgets-color-white !default;
+$widgets-map-label: #595959 !default;
+
+// 卡片
+$widgets-container-background: $widgets-color-white !default;
+$widgets-container-title: #262626 !default;
+$widgets-container-split-line: #E5E5E5 !default;
+
+// 桑基图
+$widgets-sankey-edge: #E5E5E5 !default;
+$widgets-sankey-node-text: #8C8C8C !default;
+
+// 表格颜色
+$widgets-table-header: #ECF4FF !default;
+$widgets-table-body-zebra: #F5F9FE !default;
+$widgets-table-split: #ECF4FF !default;
+
+// 滚动条颜色
+$widgets-scrollbar-bg: #EBECF0 !default;
+$widgets-scrollbar-thumb: #C4C6CF !default;
