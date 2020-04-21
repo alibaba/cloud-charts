@@ -158,7 +158,7 @@ export default class Wcontainer extends React.Component {
   }
 
   render() {
-    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile,  ...otherProps } = this.props;
+    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile, catchError, ...otherProps } = this.props;
     const mainClasses = classNames({
       'aisc-widgets': true,
       [`${prefix}`]: true,
@@ -166,7 +166,7 @@ export default class Wcontainer extends React.Component {
       [className]: !!className
     });
 
-    const criticalError = this.state.criticalError;
+    const criticalError = catchError && this.state.criticalError;
 
     return (
       <div
