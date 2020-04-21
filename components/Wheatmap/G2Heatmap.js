@@ -95,15 +95,21 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    chart.polygon().position('x*y').color('type', config.colors).tooltip('x*y*extra', (x, y, extra) => {
-      return {
-        name: `${x} - ${y}`,
-        value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
-      };
-    })
-      .style({
+    const geomStyle = config.geomStyle || {};
+
+    chart.polygon()
+      .position('x*y')
+      .color('type', config.colors)
+      .tooltip('x*y*extra', (x, y, extra) => {
+        return {
+          name: `${x} - ${y}`,
+          value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
+        };
+      })
+      .style('x*y*type*extra', {
         lineWidth: 1,
         stroke: themes['widgets-map-area-border'],
+        ...geomStyle,
       });
 
     // label(geom, config, 'extra');
