@@ -74,7 +74,9 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
     chart.source(data, defs);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis.call(this, chart, config, undefined, {
+      grid: null,
+    });
 
     // 设置X轴
     rectXAxis.call(this, chart, config);
