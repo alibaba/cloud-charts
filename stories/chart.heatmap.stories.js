@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Util, Wheatmap, Wcontainer } from '@alife/aisc-widgets';
+import { Util, Wheatmap, Wcontainer, themes } from '@alife/aisc-widgets';
 
 const stories = storiesOf('Wheatmap', module);
 
@@ -54,7 +54,57 @@ stories.add('基础色块图', () => (
   </Wcontainer>
 ));
 
-// mock 数据开始
+// 最终数据格式如下：
+// 列表需要按照时间顺序排序，否则展示会错乱
+// [
+//   // 正常状态，x 对应X轴数据，y 对应Y轴数据，type 用于区分颜色，extra 用于渲染 tooltip
+//   {
+//     "x": "0",
+//     "y": "6",
+//     "extra": {
+//       "time": "2020-04-22 06:00:00",
+//       "value": "正常"
+//     },
+//     "type": "正常"
+//   },
+//   // 异常，extra 中的数据格式可以自定义，在 config 中对应即可
+//   {
+//     "x": "4",
+//     "y": "6",
+//     "extra": {
+//       "time": "2020-04-22 06:04:00",
+//       "value": {
+//         "list": [
+//           {
+//             "time": "10:00:00",
+//             "status": "正常"
+//           },
+//           {
+//             "time": "10:00:20",
+//             "status": "异常"
+//           },
+//           {
+//             "time": "10:00:40",
+//             "status": "正常"
+//           }
+//         ]
+//       }
+//     },
+//     "type": "异常"
+//   },
+//   // 无数据状态
+//   {
+//     "x": "6",
+//     "y": "6",
+//     "extra": {
+//       "time": "2020-04-22 06:06:00",
+//       "value": "无数据"
+//     },
+//     "type": "无数据"
+//   },
+// ];
+
+// === mock 数据开始 ===
 const timeStatusData = [
   {
     name: '正常',
@@ -94,6 +144,10 @@ for (let i = 0; i < 6 * 60; i++) {
     },
   };
 
+  if (t.getTime() === now) {
+    d.extra.highlight = true;
+  }
+
   if (t.getTime() > now) {
     // timeStatusData[2].data.unshift([`${t.getMinutes()}m`, `${t.getHours()}h`, '无数据']);
     // timeStatusData[2].data.unshift([String(t.getMinutes()), String(t.getHours()), '无数据', timeStr]);
@@ -105,7 +159,20 @@ for (let i = 0; i < 6 * 60; i++) {
     // }, timeStr]);
     d.type = '异常';
     d.extra.value = {
-      list: [],
+      list: [
+        {
+          time: '10:00:00',
+          status: '正常',
+        },
+        {
+          time: '10:00:20',
+          status: '异常',
+        },
+        {
+          time: '10:00:40',
+          status: '正常',
+        },
+      ],
     };
   } else {
     // timeStatusArrData.unshift([String(t.getMinutes()), String(t.getHours()), '正常', timeStr]);
@@ -115,18 +182,21 @@ for (let i = 0; i < 6 * 60; i++) {
 
   timeStatusArrData.unshift(d);
 }
-// mock 数据结束
+// === mock 数据结束 ===
 
+const normalColor = '#c9e6fd';
+const errorColor = Util.getStatusColor('error');
+const noneColor = Util.getStatusColor('none');
 const timeStatusConfig = {
-  colors(name) {
-    if (name === '正常') {
-      return Util.getStatusColor('normal');
+  colors(type) {
+    if (type === '正常') {
+      return normalColor;
     }
-    if (name === '异常') {
-      return Util.getStatusColor('error');
+    if (type === '异常') {
+      return errorColor;
     }
-    if (name === '无数据') {
-      return Util.getStatusColor('none');
+    if (type === '无数据') {
+      return noneColor;
     }
   },
   xAxis: {
@@ -141,16 +211,31 @@ const timeStatusConfig = {
     },
   },
   tooltip: {
+    // tooltip 开头内容，这里展示完整的时间戳
     nameFormatter(name, raw, i, arr) {
       const data = arr[i].point._origin;
       return data.extra.time;
     },
     valueFormatter(v) {
+      // tooltip 内容需自行定义，返回 html 字符串，不支持 React 组件
       if (typeof v === 'object') {
-        return '异常';
+        const list = v.list.map((item) => {
+          return `<span style="color: ${item.status === '异常' ? errorColor : ''}">${item.time}: ${item.status}</span>`;
+        }).join('<br />');
+
+        return `<br />详情：<br />${list}`;
       }
       return v;
     }
+  },
+  geomStyle: {
+    stroke(x,y,type,extra) {
+      // 高亮点
+      if (extra.highlight) {
+        return Util.getStatusColor('normal');
+      }
+      return themes['widgets-map-area-border'];
+    },
   },
   dataType: 'g2',
 };
