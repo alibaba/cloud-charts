@@ -42,6 +42,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
       },
       // grid: false,
       // label: false,
+      coordinate: null,
     };
   },
   beforeInit(props) {
@@ -72,6 +73,14 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
     };
 
     chart.source(data, defs);
+
+    if (config.coordinate) {
+      const { type = 'rect', reflect } = config.coordinate;
+      const coord = chart.coord(type);
+      if (reflect) {
+        coord.reflect(reflect);
+      }
+    }
 
     // 设置单个Y轴
     rectYAxis.call(this, chart, config, undefined, {
