@@ -1,3 +1,21 @@
+### 2.6.8 (2020-04-23)
+
+#### New Features
+
+- Wheatmap 色块图新增 geomStyle 支持，新增坐标系相关配置。
+
+### 2.6.7 (2020-04-16)
+
+#### New Features
+
+- Wcircle 圆环组件新增“success”状态。
+- Wcontainer 卡片的 titleBorder 颜色跟随主色。
+- 优化主题变量，并重新内置到库内维护。
+
+#### Bug Fixes
+
+- Wmap 地图南海诸岛不响应主题切换的问题。
+
 ### 2.6.6 (2020-04-09)
 
 #### New Features
