@@ -41,9 +41,9 @@ export default /*#__PURE__*/ errorWrap(
         innerRadius: 0,
         polar: false,
         // 区块的 border 样式，包含 lineWidth lineDash stroke 等属性
-        borderStyle: {
+        geomStyle: {
           lineWidth: 1,
-          stroke: '#fff',
+          stroke: themes['widgets-color-background'],
         },
       };
     },
@@ -152,7 +152,7 @@ function drawTreemap(chart, config, colors, field = 'name') {
     .position('x*y')
     .color(field, colors)
     .tooltip('name*value', (name, count) => ({ name, value: count, title: name }))
-    .style(config.borderStyle);
+    .style(config.geomStyle);
 
   label(geom, config, 'name', null, null, true);
 }
@@ -187,7 +187,7 @@ function drawNestedTreemap(chart, config, colors, field = 'brand') {
       value,
       title: brand,
     }))
-    .style(config.borderStyle)
+    .style(config.geomStyle)
     .label(
       'depth*brand*name*value*x*y',
       (depth, brand, name, value, xs, ys) =>
