@@ -8,6 +8,7 @@ import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import themes from '../themes/index';
 import { legendHtmlContainer } from '../common/g2Theme';
 import merge from '../common/merge';
+import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import getGeomSizeConfig from '../common/geomSize';
 import './G2Map.scss';
@@ -98,7 +99,27 @@ export default {
 
     chart.axis(false);
 
-    mapTooltip.call(this, chart, config);
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
+        showTitle: false,
+        crosshairs: null,
+      },
+      (ev) => {
+        ev.items.forEach((item, index) => {
+          const raw = item.point._origin || {};
+
+          if (config.tooltip.valueFormatter) {
+            item.value = config.tooltip.valueFormatter(item.value, raw, index, ev.items);
+          }
+          if (config.tooltip.nameFormatter) {
+            item.name = config.tooltip.nameFormatter(item.name, raw, index, ev.items);
+          }
+        });
+      }
+    );
 
     // 设置图例
     rectLegend.call(this, chart, config, {

@@ -216,7 +216,14 @@ stories.add('带标签基础地图', () => (
 ));
 stories.add('区块地图', () => (
   <Wcontainer className="demos" height={400}>
-    <Wmap config={{}}>
+    <Wmap config={{
+      tooltip: {
+        nameFormatter(n, ...args) {
+          console.log(args);
+          return n;
+        }
+      }
+    }}>
       <Wmap.Area data={areaData} />
     </Wmap>
   </Wcontainer>

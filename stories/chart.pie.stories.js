@@ -35,7 +35,14 @@ function WdashboardDemo() {
 const stories = storiesOf('Wpie', module);
 stories.add('饼图', () => (
   <Wcontainer className="demos">
-    <Wpie height="300" config={{}} data={data} />
+    <Wpie height="300" config={{
+      tooltip: {
+        valueFormatter(n, ...args) {
+          console.log(args);
+          return n;
+        }
+      }
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('标签饼图', () => (

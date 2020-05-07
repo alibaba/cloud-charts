@@ -6,6 +6,7 @@ import merge from '../common/merge';
 import themes from '../themes/index';
 import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
 import './G2Pie.scss';
+import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import label from '../common/label';
 import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
@@ -256,40 +257,70 @@ export const G2PieBase = {
     }, true);
 
     // tooltip
-    if (config.tooltip !== false && config.tooltip.visible !== false) {
-      const tooltipCfg = {
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
         showTitle: false,
-        // crosshairs: {},
-        itemTpl: '<li data-index={index}>'
-          + '<svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>'
-          + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
-      };
-      chart.tooltip(tooltipCfg);
-      if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', (ev) => {
-          const raw = (this.rawData && this.rawData[0]) || {};
+        crosshairs: null,
+      },
+      (ev) => {
+        const raw = (this.rawData && this.rawData[0]) || {};
 
-          ev.items.forEach((item, index) => {
-            const percent = numberDecimal(item.value / this.totalData, 4);
+        ev.items.forEach((item, index) => {
+          const percent = numberDecimal(item.value / this.totalData, 4);
 
-            if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, {
-                ...raw,
-                percent,
-              }, index, ev.items);
-            }
-            if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, {
-                ...raw,
-                percent,
-              }, index, ev.items);
-            }
-          });
+          if (config.tooltip.valueFormatter) {
+            item.value = config.tooltip.valueFormatter(item.value, {
+              ...raw,
+              percent,
+            }, index, ev.items);
+          }
+          if (config.tooltip.nameFormatter) {
+            item.name = config.tooltip.nameFormatter(item.name, {
+              ...raw,
+              percent,
+            }, index, ev.items);
+          }
         });
       }
-    } else {
-      chart.tooltip(false);
-    }
+    );
+
+    // if (config.tooltip !== false && config.tooltip.visible !== false) {
+    //   const tooltipCfg = {
+    //     showTitle: false,
+    //     // crosshairs: {},
+    //     itemTpl: '<li data-index={index}>'
+    //       + '<svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>'
+    //       + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
+    //   };
+    //   chart.tooltip(tooltipCfg);
+    //   if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+    //     chart.on('tooltip:change', (ev) => {
+    //       const raw = (this.rawData && this.rawData[0]) || {};
+    //
+    //       ev.items.forEach((item, index) => {
+    //         const percent = numberDecimal(item.value / this.totalData, 4);
+    //
+    //         if (config.tooltip.valueFormatter) {
+    //           item.value = config.tooltip.valueFormatter(item.value, {
+    //             ...raw,
+    //             percent,
+    //           }, index, ev.items);
+    //         }
+    //         if (config.tooltip.nameFormatter) {
+    //           item.name = config.tooltip.nameFormatter(item.name, {
+    //             ...raw,
+    //             percent,
+    //           }, index, ev.items);
+    //         }
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   chart.tooltip(false);
+    // }
 
     // 下面这一句注释我还没看懂。
     // position若直接使用value导致图例点击某项隐藏，余下展示不为值和不为1

@@ -58,7 +58,14 @@ stories.add('多重饼图', () => (
     </div>
     <div style={{ width: '33.33%' }}>
       <Wcontainer className="demos">
-        <WmultiPie height="300" config={{}} data={multiPieData2} />
+        <WmultiPie height="300" config={{
+          tooltip: {
+            valueFormatter(n, ...args) {
+              console.log(args);
+              return n;
+            }
+          }
+        }} data={multiPieData2} />
       </Wcontainer>
     </div>
     <div style={{ width: '33.33%' }}>

@@ -10,6 +10,7 @@ import { pxToNumber, numberDecimal } from '../common/common';
 import rectLegend from '../common/rectLegend';
 import { getDrawPadding, G2PieBase } from '../Wpie/G2Pie';
 import './G2MultiPie.scss';
+import rectTooltip from "../common/rectTooltip";
 
 function getParentList(node, target = []) {
   const parentNode = node.parent;
@@ -184,40 +185,70 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({},
     }, true);
 
     // tooltip
-    if (config.tooltip) {
-      const tooltipCfg = {
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
         showTitle: false,
-        // crosshairs: {},
-        itemTpl: '<li data-index={index}>'
-          + '<svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>'
-          + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
-      };
-      chart.tooltip(tooltipCfg);
-      if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
-        chart.on('tooltip:change', (ev) => {
-          ev.items.forEach((item, index) => {
-            const pointData = item.point._origin;
-            const rootNode = pointData.parent[0];
-            const percent = numberDecimal(item.value / rootNode.value, 4);
+        crosshairs: null,
+      },
+      (ev) => {
+        ev.items.forEach((item, index) => {
+          const pointData = item.point._origin;
+          const rootNode = pointData.parent[0];
+          const percent = numberDecimal(item.value / rootNode.value, 4);
 
-            if (config.tooltip.valueFormatter) {
-              item.value = config.tooltip.valueFormatter(item.value, {
-                percent,
-                ...pointData,
-              }, index, ev.items);
-            }
-            if (config.tooltip.nameFormatter) {
-              item.name = config.tooltip.nameFormatter(item.name, {
-                percent,
-                ...pointData,
-              }, index, ev.items);
-            }
-          });
+          if (config.tooltip.valueFormatter) {
+            item.value = config.tooltip.valueFormatter(item.value, {
+              percent,
+              ...pointData,
+            }, index, ev.items);
+          }
+          if (config.tooltip.nameFormatter) {
+            item.name = config.tooltip.nameFormatter(item.name, {
+              percent,
+              ...pointData,
+            }, index, ev.items);
+          }
         });
       }
-    } else {
-      chart.tooltip(false);
-    }
+    );
+
+    // if (config.tooltip) {
+    //   const tooltipCfg = {
+    //     showTitle: false,
+    //     // crosshairs: {},
+    //     itemTpl: '<li data-index={index}>'
+    //       + '<svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>'
+    //       + `<span class="g2-tooltip-item-name">{name}</span>${config.tooltip.showColon !== false ? ':' : ''}<span class="g2-tooltip-item-value">{value}</span></li>`,
+    //   };
+    //   chart.tooltip(tooltipCfg);
+    //   if (config.tooltip.nameFormatter || config.tooltip.valueFormatter) {
+    //     chart.on('tooltip:change', (ev) => {
+    //       ev.items.forEach((item, index) => {
+    //         const pointData = item.point._origin;
+    //         const rootNode = pointData.parent[0];
+    //         const percent = numberDecimal(item.value / rootNode.value, 4);
+    //
+    //         if (config.tooltip.valueFormatter) {
+    //           item.value = config.tooltip.valueFormatter(item.value, {
+    //             percent,
+    //             ...pointData,
+    //           }, index, ev.items);
+    //         }
+    //         if (config.tooltip.nameFormatter) {
+    //           item.name = config.tooltip.nameFormatter(item.name, {
+    //             percent,
+    //             ...pointData,
+    //           }, index, ev.items);
+    //         }
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   chart.tooltip(false);
+    // }
 
     chart.polygon()
       .position('x*y')
