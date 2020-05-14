@@ -65,7 +65,7 @@
       "showData": {
         "name": "显示数据",
         "type": "switch",
-        "default": false,
+        "default": true,
         "description": ""
       }
     }
