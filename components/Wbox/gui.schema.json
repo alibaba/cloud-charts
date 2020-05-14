@@ -1,28 +1,4 @@
 {
-  "stack": {
-    "name": "堆叠图",
-    "type": "switch",
-    "default": false,
-    "description": ""
-  },
-  "label": {
-    "name": "显示数值",
-    "type": "switch",
-    "default": false,
-    "description": ""
-  },
-  "grid": {
-    "name": "显示网格线",
-    "type": "switch",
-    "default": false,
-    "description": ""
-  },
-  "zoom": {
-    "name": "拖拽缩放",
-    "type": "switch",
-    "default": false,
-    "description": ""
-  },
   "xAxis": {
     "name": "X轴",
     "type": "group",

@@ -61,6 +61,12 @@
     "default": false,
     "description": ""
   },
+  "label": {
+    "name": "显示数值",
+    "type": "switch",
+    "default": false,
+    "description": ""
+  },
   "grid": {
     "name": "显示网格线",
     "type": "switch",
