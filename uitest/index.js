@@ -15,6 +15,6 @@ function setDefaultViewAndWait(d) {
 }
 
 module.exports = [
-  // setDefaultViewAndWait(lineTest),
+  setDefaultViewAndWait(lineTest),
   setDefaultViewAndWait(barTest),
 ];
