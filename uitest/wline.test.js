@@ -15,7 +15,7 @@ module.exports = {
   // 用于设定组件名称，基准测试名称会以此为准，一旦设定不可修改
   name: 'Wline',
   // 用于指定组件的根目录， source + main = 组件的执行文件
-  source: path.join(__dirname, '..', 'components', 'wline'),
+  source: path.join(__dirname, '..', 'components', 'Wline'),
   // 指定组件的执行文件地址，可为 jsx,js,tsx 结尾，注意需要为上述 source 的相对地址
   main: 'G2Line.js',
   // 放置测试用例的数组
@@ -76,6 +76,15 @@ module.exports = {
       }
     },
     {
+      id: '带标签折线图',
+      config: {
+        config: {
+          label: true,
+        },
+        data: lineData,
+      }
+    },
+    {
       id: '双轴折线图',
       config: {
         config: {
@@ -89,6 +98,22 @@ module.exports = {
       config: {
         config: {
           step: true,
+        },
+        data: lineData,
+      }
+    },
+    {
+      id: '虚线折线图',
+      config: {
+        config: {
+          geomStyle: {
+            lineDash(x, y, type) {
+              if (type === '机房B') {
+                return [4, 4];
+              }
+              return null;
+            }
+          }
         },
         data: lineData,
       }
