@@ -1,5 +1,7 @@
 const lineTest = require('./wline.test.js');
 const barTest = require('./wbar.test.js');
+const pieTest = require('./wpie.test.js');
+const linebarTest = require('./wlinebar.test.js');
 
 function setDefaultViewAndWait(d) {
   d.cases.forEach((c) => {
@@ -17,4 +19,6 @@ function setDefaultViewAndWait(d) {
 module.exports = [
   setDefaultViewAndWait(lineTest),
   setDefaultViewAndWait(barTest),
+  setDefaultViewAndWait(pieTest),
+  setDefaultViewAndWait(linebarTest),
 ];
