@@ -1,3 +1,16 @@
+### 2.6.10 (2020-05-14)
+
+#### New Features
+
+- docs: 调整内置 gui.schema 配置。
+
+### 2.6.9 (2020-05-08)
+
+#### New Features
+
+- Wfunnel 新增 label 和 percent 配置项。
+- Wtreemap 微调样式以适应主题，borderStyle 配置项改为 geomStyle。
+
 ### 2.6.8 (2020-04-23)
 
 #### New Features
