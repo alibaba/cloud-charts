@@ -16,10 +16,15 @@ const sortFun = {
   },
 };
 
-/*
- * 常见直角坐标系的tooltip，包含title、name、value
+/**
+ * rectTooltip 直角坐标系的tooltip配置
+ *
+ * @param {Chart} chart 图表实例
+ * @param {Object} config 配置项
+ * @param {Object} componentConfig 组件的自定义配置
+ * @param {boolean} onTooltipChange 自定义 tooltip:change 事件
  * */
-export default function(chart, config, componentConfig, handleTooltipChange) {
+export default function(chart, config, componentConfig, onTooltipChange) {
   if (config.tooltip === false || (config.tooltip && config.tooltip.visible === false)) {
     chart.tooltip(false);
   } else {
@@ -65,8 +70,8 @@ export default function(chart, config, componentConfig, handleTooltipChange) {
     chart.tooltip(tooltipConfig);
 
     if (sort || titleFormatter || nameFormatter || valueFormatter) {
-      if (handleTooltipChange) {
-        chart.on('tooltip:change', handleTooltipChange);
+      if (onTooltipChange) {
+        chart.on('tooltip:change', onTooltipChange);
       } else {
         chart.on('tooltip:change', ev => {
           // 如果设置了合法的排序关键字，则开始排序

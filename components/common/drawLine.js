@@ -5,6 +5,13 @@ import getGeomSizeConfig from './geomSize';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
+/**
+ * drawLine 绘制线图逻辑
+ *
+ * @param {Chart} chart 图表实例
+ * @param {Object} config 配置项
+ * @param {string} yAxisKey 数据映射字段
+ * */
 export default function drawLine(chart, config, yAxisKey = 'y') {
   const { lineWidth } = config;
   const geomStyle = config.geomStyle || {};

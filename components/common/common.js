@@ -8,28 +8,6 @@ export merge from './merge';
 
 export const requestAnimationFrame = (window && window.requestAnimationFrame) || G2.DomUtil.requestAnimationFrame;
 
-// name: 类型 ，相当于type
-// stash: 每组类型的一些信息集，注意，要符合G2语法
-// Util: G2的Util
-// dotDom: 图例的图标dom
-// chart: chart实例
-// export function g2LegendFilter(name, stash, Util, dotDom, chart, filterString='type'){
-//   let obj = stash[name];
-//   let filterNames = [];
-//   obj.isChecked = obj.isChecked ? false : true;
-//   Util.each(stash, function (v) {
-//     if (v.isChecked) {
-//       dotDom[v.index].style.background = v.color;
-//       filterNames.push(v.name);
-//     } else {
-//       dotDom[v.index].style.background = '#999';
-//     }
-//   });
-//
-//   chart.filter(filterString, filterNames);
-//   chart.repaint();
-// }
-
 export const propertyMap = {
   xAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
   yAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
@@ -42,7 +20,15 @@ const keyType = {
   maxLimit: 'number',
   tickCount: 'number',
 };
-
+/**
+ * 向目标对象拷贝指定的key的值
+ *
+ * @param {string[]} keys 判断的key
+ * @param {Object} target 目标对象
+ * @param {Object} source 源对象
+ *
+ * @return {Object} 目标对象
+ * */
 export function propertyAssign(keys, target, source) {
   if (!source) {
     return target;
@@ -105,6 +91,13 @@ export function getParentSize(element, width, height) {
   return [w, h];
 }
 
+/**
+ * 将像素字符串转为数值
+ *
+ * @param {string} px 像素字符串
+ *
+ * @return {number} 数值
+ * */
 export function pxToNumber(px) {
   return Number(px.replace('px', ''));
 }
@@ -133,6 +126,13 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
   }
 }
 
+/**
+ * 根据状态获得颜色值
+ *
+ * @param {string} status 状态字符串
+ *
+ * @return {string} 颜色值
+ * */
 export function getStatusColor(status) {
   // map 放入函数内，以响应 theme 的动态变化
   const statusMap = {
@@ -162,6 +162,13 @@ const statusColorMap = {
   success: 'green',
   none: 'gray',
 };
+/**
+ * 根据状态获得颜色名称
+ *
+ * @param {string} status 状态字符串
+ *
+ * @return {string} 颜色名称
+ * */
 export function getStatusColorName(status) {
   return statusColorMap[status] || status || statusColorMap.normal;
 }

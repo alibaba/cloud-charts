@@ -6,10 +6,6 @@ import merge from './merge';
 import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
-* 常见直角坐标系的legend，仅包含name和align设置。
-* */
-
-/*
 * 提取渐变色中的第一个颜色，具体逻辑来自 G2 内部
 * */
 // const regexTags = /[MLHVQTCSAZ]([^MLHVQTCSAZ]*)/ig;
@@ -39,6 +35,15 @@ function getColor(color) {
   return color;
 }
 
+/**
+ * rectLegend 直角坐标系legend配置。
+ *
+ * @param {Chart} chart 图表实例
+ * @param {Object} config 配置项
+ * @param {Object} componentConfig 组件的自定义配置
+ * @param {boolean} isOneDataGroup 数据是否为单组形式，类似饼图和漏斗图
+ * @param {string} field 数据映射字段
+ * */
 export default function (chart, config, componentConfig, isOneDataGroup, field) {
   // 设置图例
   if (config.legend === false || (config.legend && config.legend.visible === false)) {

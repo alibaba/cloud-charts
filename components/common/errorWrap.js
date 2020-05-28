@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * errorWrap 错误捕获HOC
+ *
+ * @param {React.Component} Component 组件
+ *
+ * @return {React.Component}
+ * */
 export default /*#__PURE__*/ function errorWrap(Component) {
   class ErrorBoundary extends React.Component {
     constructor(props) {

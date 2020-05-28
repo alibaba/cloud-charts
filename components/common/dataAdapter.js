@@ -1,5 +1,13 @@
 'use strict';
 
+/**
+ * drawLine 绘制线图逻辑
+ *
+ * @param {Object|Array} data 原始数据
+ * @param {Object} config 配置项
+ *
+ * @return {Array} json-array 型数据
+ * */
 export default function highchartsDataToG2Data(data, config) {
   if (!data) {
     return [];

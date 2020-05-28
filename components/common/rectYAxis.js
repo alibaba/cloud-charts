@@ -2,9 +2,14 @@
 
 import merge from './merge';
 
-/*
-* 常见直角坐标系的单个Y轴设置。
-* */
+/**
+ * rectYAxis 直角坐标系的单个Y轴配置
+ *
+ * @param {Chart} chart 图表实例
+ * @param {Object} config 配置项
+ * @param {string} yField 数据映射字段
+ * @param {Object} componentConfig 组件的自定义配置
+ * */
 export default function (chart, config, yField = 'y', componentConfig) {
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);

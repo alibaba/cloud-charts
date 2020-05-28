@@ -6,7 +6,6 @@
  * @param {object} chart 图表对象，或者是view对象
  * @param {object} config 图表配置项
  * @param {string} [dataKey] 原始数据挂载的key，用于动态获取原始数据
- * //@param {boolean} [isOneDataGroup]
  *
  * */
 export default function (chart, config, dataKey = 'rawData') {

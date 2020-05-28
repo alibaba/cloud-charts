@@ -3,9 +3,13 @@
 import themes from '../themes/index';
 import merge from './merge';
 
-/*
-* 常见直角坐标系的X轴设置。
-* */
+/**
+ * rectXAxis 直角坐标系的X轴配置
+ *
+ * @param {Chart} chart 图表实例
+ * @param {Object} config 配置项
+ * @param {Object} componentConfig 组件的自定义配置
+ * */
 export default function (chart, config, componentConfig) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
