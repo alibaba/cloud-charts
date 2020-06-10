@@ -275,6 +275,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2LineBar', {
 
 function drawBar(chart, config, yAxisKey = 'y') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
+  const geomStyle = config.barGeomStyle || {};
 
   let intervalGeom = null;
   if (dodgeStack) {
@@ -310,13 +311,17 @@ function drawBar(chart, config, yAxisKey = 'y') {
       }]);
   }
 
+  intervalGeom.style({
+    ...geomStyle,
+  });
+
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
 }
 
 function drawLine(chart, config, yAxisKey = 'y') {
   let lineGeom = null;
   const { lineWidth } = config;
-  const geomStyle = {};
+  const geomStyle = config.lineGeomStyle || {};
   if (lineWidth !== undefined) {
     geomStyle.lineWidth = lineWidth;
   }

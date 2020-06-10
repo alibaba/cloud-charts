@@ -57,6 +57,9 @@ stories.add('块可选饼图', () => (
   <Wcontainer className="demos">
     <Wpie height="300" config={{
       select: true,
+      geomStyle: {
+        cursor: 'pointer',
+      }
     }} data={data} />
   </Wcontainer>
 ));

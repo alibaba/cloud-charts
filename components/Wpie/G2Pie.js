@@ -341,6 +341,11 @@ export const G2PieBase = {
       },
     });
 
+    const geomStyle = config.geomStyle || {};
+    this.geom.style('x*y*type*extra', {
+      ...geomStyle,
+    });
+
     chart.render();
 
     selectGeom.call(this, this.geom, config.selectData);

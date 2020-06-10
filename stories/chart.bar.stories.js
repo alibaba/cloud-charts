@@ -130,3 +130,23 @@ stories.add('拖拽缩放', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('点击下钻', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{
+        zoom: true,
+        geomStyle: {
+          cursor: 'pointer',
+        },
+      }}
+      data={data}
+      event={{
+        'interval:click': s => {
+          action('interval:click')(s);
+        },
+      }}
+    />
+  </Wcontainer>
+));

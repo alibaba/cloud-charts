@@ -308,6 +308,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Bar', {
 
 function drawBar(chart, config, colors, field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
+  const geomStyle = config.geomStyle || {};
   let geom = chart.interval().position(['x', 'y']);
 
   if (dodgeStack) {
@@ -339,6 +340,10 @@ function drawBar(chart, config, colors, field = 'type') {
       },
     ]);
   }
+
+  geom.style('x*y*type*extra', {
+    ...geomStyle,
+  });
 
   if (size) {
     const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*facet*extra');
