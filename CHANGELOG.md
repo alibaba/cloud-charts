@@ -1,3 +1,13 @@
+### 2.6.12 (2020-06-11)
+
+#### New Features
+
+- 基础图表添加 geomStyle 配置项。
+
+#### Bug Fixes
+
+- 修复 Wmap 自动计算padding的bug。
+
 ### 2.6.11 (2020-05-28)
 
 #### Bug Fixes
