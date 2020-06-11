@@ -258,6 +258,9 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({},
           name,
           value,
         };
+      })
+      .style('name*value*rawValue*depth', {
+        ...(config.geomStyle || {}),
       });
 
     chart.render();

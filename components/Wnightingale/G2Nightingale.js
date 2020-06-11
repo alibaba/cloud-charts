@@ -83,13 +83,15 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Nightingale', {
       chart.axis(false);
     }
 
+    const geomStyle = config.geomStyle || {};
     const geom = chart
       .interval()
       .position('x*y')
       .color('x', config.colors)
-      .style({
+      .style('x*y*extra', {
         lineWidth: 1,
         stroke: themes['widgets-color-background'],
+        ...geomStyle
       });
 
     label(geom, config, config.label.key || 'x', {

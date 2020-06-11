@@ -162,6 +162,11 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Funnel', {
       },
     });
 
+    const geomStyle = config.geomStyle || {};
+    geom.style('x*y*type*extra', {
+      ...geomStyle,
+    });
+
     renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
 
     chart.render();

@@ -120,6 +120,11 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Rectangle', {
       value: count,
     }));
 
+    const geomStyle = config.geomStyle || {};
+    geom.style('x*y*count*extra', {
+      ...geomStyle,
+    });
+
     label(geom, config, 'count', {
       offset: 0,
     });

@@ -36,7 +36,14 @@ const stories = storiesOf('Wlinebar', module);
 stories.addDecorator(withKnobs);
 stories.add('线柱图', () => (
   <Wcontainer className="demos">
-    <Wlinebar height="300" config={{}} data={data} />
+    <Wlinebar height="300" config={{
+      barGeomStyle: {
+        cursor: 'pointer',
+      },
+      lineGeomStyle: {
+        cursor: 'pointer',
+      },
+    }} data={data} />
   </Wcontainer>
 ));
 stories.add('平滑线柱图', () => (

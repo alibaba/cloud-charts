@@ -169,6 +169,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Histogram', {
 
 function drawHist(chart, config, colors, field = "type") {
   const { size } = config;
+  const geomStyle = config.geomStyle || {};
   const geom = chart
     .intervalStack()
     .position('x*y')
@@ -178,6 +179,10 @@ function drawHist(chart, config, colors, field = "type") {
     const sizeConfig = getGeomSizeConfig(size, 20, "y", "x*y*type*extra");
     geom.size(...sizeConfig);
   }
+
+  geom.style('x*y*type*extra', {
+    ...geomStyle,
+  });
 
   label(geom, config);
 }
