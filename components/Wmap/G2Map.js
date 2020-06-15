@@ -125,6 +125,7 @@ export default {
     rectLegend.call(this, chart, config, {
       autoCollapse: false,
       position: 'left',
+      paddingIgnore: true,
       // 使用container控制图例添加的位置，方便调整样式
       container: `#${this.chartId}-legend`,
       'g2-legend': {

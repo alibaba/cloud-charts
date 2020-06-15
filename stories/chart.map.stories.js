@@ -217,6 +217,7 @@ stories.add('带标签基础地图', () => (
 stories.add('区块地图', () => (
   <Wcontainer className="demos" height={400}>
     <Wmap config={{
+      padding: ['auto','auto','auto','auto'],
       tooltip: {
         nameFormatter(n, ...args) {
           console.log(args);

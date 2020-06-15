@@ -53,7 +53,8 @@ G2.Chart.prototype._getAutoPadding = function () {
     Object.keys(legendController.legends).forEach(function (position) {
       const legendPosition = position.split('-')[0] || 'top';
       legendController.legends[position].forEach(function (legend) {
-        if (legend.get('useHtml') && legend.get('legendWrapper') && !legend.get('container')) {
+        // 通过自定义的属性 paddingIgnore 判断是否需要响应自动计算padding
+        if (legend.get('useHtml') && legend.get('legendWrapper') && !legend.get('paddingIgnore')) {
           const legendRect = legend.get('legendWrapper').getBoundingClientRect();
           // 由于默认开启图例自动折叠，图例高度不高于整个图表高度的 三分之一，这里是一个粗略的估算值
           const h = Math.min(legendRect.bottom - legendRect.top, Math.round(chartHeight / 3));
