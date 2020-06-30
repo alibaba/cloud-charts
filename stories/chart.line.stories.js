@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select } from "@storybook/addon-knobs";
 
-import { Wline, Wcontainer } from '@alife/aisc-widgets';
+import { Wline, Wcontainer, Util } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -125,4 +125,132 @@ stories.add('单个点折线图', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{}} data={singleData} />
   </Wcontainer>
+));
+
+// 齐全度展示图
+const attendData = [
+  {
+    x: 1483372800000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483459200000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483545600000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483632000000,
+    y: 1,
+    type: 'error',
+  },
+  {
+    x: 1483718400000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483804800000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483891200000,
+    y: 1,
+    type: 'normal',
+  },
+  {
+    x: 1483977600000,
+    y: 1,
+    type: 'error'
+  }
+].map(d => {
+  return {
+    ...d,
+    detail: [
+      { name: 'all', value: 100 },
+      { name: '111', value: 80 },
+      { name: '222', value: 20 },
+    ],
+  };
+});
+
+const attendCustomChart = {
+  // 不转换格式
+  convertData: false,
+  init(chart, config, data) {
+    chart.source(data, {
+      x: {
+        type: 'timeCat',
+        mask: 'YYYY-MM-DD HH:mm:ss',
+      },
+      // 柱高度为 0～1，设置 Y 轴跨度为 -1～2，保证柱高度占中心三分之一
+      y: {
+        min: -1,
+        max: 2,
+      }
+    });
+
+    // 关闭坐标轴
+    chart.axis(false);
+
+    // 关闭图例
+    chart.legend(false);
+
+    chart.tooltip({
+      crosshairs: {
+        type: 'y'
+      },
+      inPlot: false,
+    });
+
+    // 自定义 tooltip 展示
+    chart.on('tooltip:change', function(ev) {
+      const items = ev.items; // tooltip显示的项
+      const origin = items[0]; // 将一条数据改成多条数据
+      const detail = origin.point._origin.detail;
+      items.splice(0); // 清空
+      detail.forEach((d) => {
+        const color = d.value < 100 ? Util.getStatusColor('error') : Util.getStatusColor('success');
+        items.push(Object.assign({}, origin, {
+          name: d.name,
+          value: d.value,
+          color: color,
+          marker: {
+            ...origin.marker,
+            fill: color,
+          },
+        }));
+      });
+    });
+
+    // 柱图模拟多色直线
+    chart.interval()
+      .position('x*y')
+      .shape('funnel')
+      .color('type', (type) => {
+        if (type === 'error') {
+          return Util.getStatusColor('error');
+        }
+        return Util.getStatusColor('success');
+      });
+
+    chart.render();
+  }
+};
+
+function Attend() {
+  return (
+    <Wcontainer>
+      <Wline height="24" data={attendData} customChart={attendCustomChart} />
+    </Wcontainer>
+  );
+}
+stories.add('齐全度展示图', () => (
+  <Attend />
 ));
