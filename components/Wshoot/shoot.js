@@ -9,7 +9,7 @@ function generateUniqueId() {
 const PI = 2 * Math.PI;
 
 function Shoot(canvas, getPosition, config) {
-  this.uuid = generateUniqueId();
+  // this.uuid = generateUniqueId();
   this.getPosition = getPosition;
   this.config = merge({
     autoUpdate: true,
@@ -86,11 +86,11 @@ Shoot.prototype = {
     this.canvas.height = h;
 
     // 更新uuid让动画更新
-    this.uuid = generateUniqueId();
+    // this.uuid = generateUniqueId();
   },
 
   draw(data) {
-    if (!data) {
+    if (!data || data.length === 0) {
       return;
     }
     const self = this;
@@ -178,7 +178,7 @@ Shoot.prototype = {
       }
     }
 
-    this.tween = tween(this.uuid, {
+    this.tween = tween(generateUniqueId(), {
       duration: interval,
       autoUpdate,
       maxFps,
