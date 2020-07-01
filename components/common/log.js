@@ -29,12 +29,12 @@ export function getLog() {
   return logMap;
 }
 
+let trackable = window.AiscWidgetsTrackEnable !== false;
 /**
  * 打点控制函数
  *
  * @param {bool} enable 是否开启打点
  * */
-let trackable = true;
 export function track(enable) {
   // 新版本中 G2 不再打点，所以关闭该指令
   // G2.track(enable);
