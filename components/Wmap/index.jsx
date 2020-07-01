@@ -4,6 +4,8 @@ import errorWrap from '../common/errorWrap';
 import G2Map, { AREA_NAME, POINT_NAME, HEAT_MAP_NAME, SHOOT_NAME, CUSTOM_NAME, convertPointPosition } from "./G2Map";
 import Wshoot from "../Wshoot/index";
 import SouthChinaSea from './mapData/southChinaSea';
+import { provinceName, positionMap } from './mapData/chinaGeoInfo';
+import chinaGeo from './mapData/chinaGeo.json';
 import themes from '../themes/index';
 
 const MapBase = g2Factory('G2Map', G2Map, false);
@@ -255,5 +257,17 @@ MapClass.Shoot.displayName = SHOOT_NAME;
  */
 MapClass.Custom = function WidgetsMapCustom() { return null; };
 MapClass.Custom.displayName = CUSTOM_NAME;
+
+// 南海诸岛组件
+MapClass.SouthChinaSea = SouthChinaSea;
+
+// 中国地图 Geo 数据
+MapClass.chinaGeoData = chinaGeo;
+
+// 省份全称转简称数据
+MapClass.provinceName = provinceName;
+
+// 省市经纬度数据
+MapClass.positionMap = positionMap;
 
 export default MapClass;
