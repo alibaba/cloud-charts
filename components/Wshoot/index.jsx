@@ -46,12 +46,15 @@ export default class Wshoot extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { data: newData, width: newWidth, height: newHeight } = this.props;
+    const { data: newData, width: newWidth, height: newHeight, getPosition } = this.props;
     const { data: oldData, width: oldWidth, height: oldHeight } = prevProps;
+    // 更新 getPosition 函数
+    this.shoot.getPosition = getPosition;
+    // 绘制飞线
     if (newData !== oldData) {
       this.shoot.draw(newData);
     }
-
+    // 调整尺寸
     if (newWidth !== oldWidth || newHeight !== oldHeight) {
       this.shoot.changeSize(newWidth, newHeight);
     }
