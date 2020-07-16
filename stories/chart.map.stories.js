@@ -331,10 +331,15 @@ const shootData = [
   { name: '杭州', lng: 119.5313, lat: 29.8773 },
   { name: '上海', lng: 121.4648, lat: 31.2891 },
   { name: '广州', lng: 113.5107, lat: 23.2196 },
+  { name: '四川省' },
+  { name: '西安' },
   { name: '哈尔滨', lng: 127.9688, lat: 45.368 },
   { name: '三亚', lng: 109.3716, lat: 18.3698 },
   { name: '喀什', lng: 77.168, lat: 37.8534 },
-  { name: '自定义点', x: 20, y: 20 },
+  { name: '自定义点1', x: -120, y: -120 },
+  // { name: '自定义点2', x: 140, y: -120 },
+  // { name: '自定义点3', x: 140, y: 120 },
+  // { name: '自定义点4', x: -120, y: 120 },
 ];
 function ShootDemo() {
   const log = action('setData');
@@ -349,7 +354,7 @@ function ShootDemo() {
         let fIndex = Math.round(Math.random() * (dataLen - 1));
         let tIndex = (fIndex + Math.round(Math.random() * (dataLen / 2)) + 1) % dataLen;
         if (fIndex === tIndex) {
-          tIndex = fIndex + 1;
+          tIndex = (fIndex + 1) % dataLen;
         }
         newData.push({
           from: Object.assign({}, shootData[fIndex]),
