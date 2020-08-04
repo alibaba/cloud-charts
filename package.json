@@ -19,7 +19,7 @@
     "lint": "./node_modules/.bin/eslint --fix ./",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "package.json",
