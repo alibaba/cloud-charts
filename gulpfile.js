@@ -10,7 +10,6 @@ const babel = require('gulp-babel');
 const rename = require("gulp-rename");
 const replace = require("gulp-replace");
 const del = require('del');
-const open = require('open');
 const WebpackDevServer = require('webpack-dev-server');
 const sassExtract = require('sass-extract');
 const createSassExtractJsPlugin = require('./sass-extract-js/plugin');
@@ -53,7 +52,6 @@ gulp.task('start', (cb) => {
       // listening
       gutil.log('[webpack-dev-server]', gutil.colors.magenta(`http://localhost:${port}`));
       gutil.log('[webpack-dev-server]', 'To stop service, press [Ctrl + C] ..');
-      open(`http://localhost:${port}/demo/index.html`);
     } else {
       gutil.log('building success!');
     }
