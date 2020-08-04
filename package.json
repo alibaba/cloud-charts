@@ -19,7 +19,6 @@
     "lint": "./node_modules/.bin/eslint --fix ./",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "install": "npm install --registry=https://registry.npm.taobao.org",
     "prepublishOnly": "gulp build"
   },
   "files": [
