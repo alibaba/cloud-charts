@@ -1,0 +1,12 @@
+*.iml
+node_modules/
+tmp/
+temp/
+*.log
+.DS_Store
+.idea
+coverage
+.vs
+
+build
+demo/*.js
