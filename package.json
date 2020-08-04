@@ -19,7 +19,7 @@
     "lint": "./node_modules/.bin/eslint --fix ./",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "prepublishOnly": "./node_modules/.bin/gulp build"
+    "prepublishOnly": "node_modules/.bin/gulp build"
   },
   "files": [
     "package.json",
