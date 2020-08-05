@@ -8,6 +8,4 @@ temp/
 coverage
 .vs
 
-build
-lib
 demo/*.js
