@@ -18,9 +18,7 @@
     "online": "./node_modules/.bin/gulp online",
     "lint": "./node_modules/.bin/eslint --fix ./",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "preinstall": "npm cache verify",
-    "prepublishOnly": "npx -p gulp@3.9.1 gulp build"
+    "build-storybook": "build-storybook"
   },
   "files": [
     "package.json",
