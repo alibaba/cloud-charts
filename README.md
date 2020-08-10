@@ -2,6 +2,8 @@
 
 面向中后台的开箱即用图表库，让前端图表更简单。
 
+[Live Demo](https://alibaba.github.io/cloud-charts/)
+
 - 简单上手，开箱即用。
 
 - React ES6 语法。
