@@ -167,12 +167,12 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Candlestick', {
     // 设置X轴
     rectXAxis.call(this, chart, config);
 
+    chart.legend('x', false);
+    chart.legend('y', false);
     // 设置图例
     rectLegend.call(this, chart, config, {
       // useHtml: false,
     }, true, 'trend');
-    chart.legend('x', false);
-    chart.legend('y', false);
 
     legendFilter.call(this, chart, config);
 
