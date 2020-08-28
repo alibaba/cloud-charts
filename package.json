@@ -1,8 +1,7 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "2.6.18",
+  "version": "2.6.19",
   "main": "./build/index.js",
-  "module": "./lib/index.js",
   "sideEffects": false,
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
