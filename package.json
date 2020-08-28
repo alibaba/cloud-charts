@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/cloud-charts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "charts",
     "g2",
@@ -12,6 +12,8 @@
   },
   "license": "MIT",
   "main": "./build/index.js",
+  "module": "./lib/index.js",
+  "sideEffects": false,
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
