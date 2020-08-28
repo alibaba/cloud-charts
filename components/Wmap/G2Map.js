@@ -582,7 +582,7 @@ export function convertPointPosition(point) {
   if (point.name) {
     let { name } = point;
     if (!/^\w/.test(name)) {
-      if (name === '\u963F\u62C9' || name === '\u5F20\u5BB6') {
+      if (/^\u963F\u62C9/.test(name) || /^\u5F20\u5BB6/.test(name)) {
         // 阿拉、张家 两个开头的需要截取三个字符
         name = name.slice(0, 3);
       } else if (!/\u7701$/.test(name) && !/\u81ea\u6cbb\u533a$/.test(name)) {
