@@ -1,3 +1,25 @@
+### 2.6.19 (2020-08-28)
+
+#### New Features
+
+- chore: package 去除 module 字段。
+
+### 2.6.18 (2020-08-28)
+
+#### Bug Fixes
+
+- 地图组件某些城市定位错误的问题。
+
+### 2.6.17 (2020-08-13)
+
+#### New Features
+
+- chore: 添加 sideEffects 设置。
+
+#### Bug Fixes
+
+- 某些组件关闭图例后依然有canvas图例。
+
 ### 2.6.16 (2020-07-23)
 
 #### New Features
