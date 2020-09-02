@@ -1,0 +1,19 @@
+{
+  "name": "@alicloud/console-charts",
+  "version": "0.1.0",
+  "keywords": [
+    "charts",
+    "g2",
+    "react"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/cloud-charts/tree/console-charts"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "author": "maplor"
+}

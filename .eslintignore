@@ -1,0 +1,36 @@
+# 忽略目录
+build/
+_site/
+config/
+demo/
+docs/
+font/
+guide/
+lib/
+site/
+spec/
+_bak/
+stories/
+
+# node 覆盖率文件
+coverage/
+node_modules/
+
+# 忽略文件
+**/*.min.js
+**/*-min.js
+
+# 工程构建脚本
+fie.config.js
+gulpfile.js
+webpack.config.js
+postcss.config.js
+
+# 第三方库
+components/common/merge.js
+components/wcount/lib/
+
+# 地图数据
+components/wmap/mapData/
+
+template/
