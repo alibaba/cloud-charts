@@ -1,4 +1,17 @@
-import React from 'react';
+import * as React from "react";
+
+type BaseProps = {
+  propTypes?: React.ReactPropTypes;
+  defaultProps?: any;
+  forwardedRef?: React.Ref<any>
+}
+
+interface ChartInstance {
+  chart: any;
+  chartId: string;
+  chartDom: HTMLDivElement;
+  _size: number[];
+}
 
 /**
  * 快速生成图表组件的工厂函数
@@ -8,10 +21,17 @@ import React from 'react';
  *
  * @return {React.Component} 包装后的组件
  * */
-export default function factory(Chart, name, defaultConfig) {
-  class ConsoleChartsBase extends React.PureComponent {
+export default function factory(Chart: React.ComponentClass<any, any>, name: string, defaultConfig: object) {
+  class ConsoleChartsBase extends React.PureComponent<BaseProps> {
+    static displayName: string = name;
+
+    public chart: any;
+    public chartId: string;
+    public chartDom: HTMLDivElement;
+    public _size: number[];
+
     // 低版本React中，复制可能用到的属性。
-    oldReactRef = (chartInstance) => {
+    oldReactRef = (chartInstance: ChartInstance) => {
       if (chartInstance) {
         // 复制旧版本可能用到的属性
         this.chart = chartInstance.chart;
@@ -29,20 +49,14 @@ export default function factory(Chart, name, defaultConfig) {
   }
 
   if (React.forwardRef) {
-    const forwardRefFunc = function (props, ref) {
+    const forwardRefFunc = function (props: React.PropsWithoutRef<any>, ref: React.Ref<any>) {
       return <ConsoleChartsBase {...props} forwardedRef={ref} />;
     };
     const result = React.forwardRef(forwardRefFunc);
     result.displayName = name;
-    result.propTypes = Chart.propTypes;
-    result.defaultProps = Chart.defaultProps;
 
     return result;
   }
-
-  ConsoleChartsBase.displayName = name;
-  ConsoleChartsBase.propTypes = Chart.propTypes;
-  ConsoleChartsBase.defaultProps = Chart.defaultProps;
 
   return ConsoleChartsBase;
 }
