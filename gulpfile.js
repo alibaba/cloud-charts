@@ -130,34 +130,34 @@ gulp.task('build:lib', ['clean'], () => {
     .pipe(gulp.dest('lib'));
 });
 
-const themeList = ['dark'];
-
-// 生成主题对应任务
-themeList.forEach((theme, index) => {
-  const preTask = ['build:plugins', 'build:theme-sass'];
-  for (let i = 0; i < themeList.length; i++) {
-    if (i < index) {
-      preTask.push(`build:theme:${themeList[i]}`);
-    }
-  }
-
-  gulp.task(`build:theme:${theme}`, preTask, (cb) => {
-    // 编译主题
-    const webpackConfig = config.prod(theme);
-    delete webpackConfig.port;
-    webpack(webpackConfig, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        gutil.log(err);
-      }
-      gutil.log(`编译主题： ${theme}`);
-      cb && cb();
-    });
-  });
-});
-
-gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) => {
-  cb && cb();
-});
+// const themeList = ['dark'];
+//
+// // 生成主题对应任务
+// themeList.forEach((theme, index) => {
+//   const preTask = ['build:plugins', 'build:theme-sass'];
+//   for (let i = 0; i < themeList.length; i++) {
+//     if (i < index) {
+//       preTask.push(`build:theme:${themeList[i]}`);
+//     }
+//   }
+//
+//   gulp.task(`build:theme:${theme}`, preTask, (cb) => {
+//     // 编译主题
+//     const webpackConfig = config.prod(theme);
+//     delete webpackConfig.port;
+//     webpack(webpackConfig, (err, stats) => {
+//       if (err || stats.hasErrors()) {
+//         gutil.log(err);
+//       }
+//       gutil.log(`编译主题： ${theme}`);
+//       cb && cb();
+//     });
+//   });
+// });
+//
+// gulp.task('build:theme', themeList.map(theme => `build:theme:${theme}`), (cb) => {
+//   cb && cb();
+// });
 
 gulp.task('build:plugins', ['clean'], (cb) => {
   const webpackConfig = config.prod(undefined, true);
@@ -196,7 +196,7 @@ gulp.task('build:plugins', ['clean'], (cb) => {
 
 gulp.task('default', ['start']);
 // gulp.task('build', ['build:dist', 'build:lib', 'build:demo']);
-gulp.task('build', ['build:plugins', 'build:theme-sass', 'build:dist', 'build:lib', 'build:theme']);
+gulp.task('build', ['build:plugins', 'build:theme-sass', 'build:dist', 'build:lib']);
 
 gulp.task('online', (cb) => {
   let buildFirstTime = true;
