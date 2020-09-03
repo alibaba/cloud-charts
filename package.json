@@ -12,7 +12,7 @@
   "module": "es/index.js",
   "scripts": {
     "start": "build-scripts start",
-    "build": "build-scripts build",
+    "build": "build-scripts build --skip-demo",
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./"
   },
@@ -40,11 +40,6 @@
   },
   "peerDependencies": {
     "react": "^16.3.0"
-  },
-  "componentConfig": {
-    "name": "ConsoleCharts",
-    "title": "demo component",
-    "category": "Chart"
   },
   "publishConfig": {
     "access": "public"
