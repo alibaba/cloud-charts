@@ -1,5 +1,6 @@
 import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
+import { themeLog } from "../common/log";
 import setG2Theme from "../common/g2Theme";
 import { setThemeStyle, convertKey, convertCSS, convertJsStyle } from './themeTools';
 
@@ -70,12 +71,16 @@ export function setTheme(theme = 'default', refreshChart = true) {
     // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
     const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
     setThemeStyle(convertCSS(newCSS));
+    // 打点
+    themeLog('customTheme');
   } else if (themeMap[theme]) {
     // 传入字符串名字，设置对应主题包
     newTheme = themeMap[theme].js;
     currentThemeName = theme;
 
     setThemeStyle(themeMap[theme].css);
+    // 打点
+    themeLog(theme === 'default' ? 'index' : theme);
   } else {
     return;
   }
