@@ -10,7 +10,6 @@
   ],
   "main": "lib/index.js",
   "module": "es/index.js",
-  "stylePath": "style.js",
   "scripts": {
     "start": "build-scripts start",
     "build": "build-scripts build",
