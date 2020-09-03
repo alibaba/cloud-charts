@@ -26,11 +26,4 @@ gulpfile.js
 webpack.config.js
 postcss.config.js
 
-# 第三方库
-components/common/merge.js
-components/wcount/lib/
-
-# 地图数据
-components/wmap/mapData/
-
 template/

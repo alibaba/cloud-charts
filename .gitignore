@@ -1,11 +1,25 @@
-*.iml
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
 node_modules/
+
+# production
+build/
+dist/
 tmp/
-temp/
-*.log
+lib/
+es/
+
+# misc
+.idea/
+.happypack
 .DS_Store
-.idea
+*.swp
+*.dia~
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 coverage
 .vs
-
-demo/*.js
