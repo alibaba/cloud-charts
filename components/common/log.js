@@ -29,6 +29,11 @@ export function getLog() {
   return logMap;
 }
 
+let currentTheme = '';
+export function themeLog(name) {
+  currentTheme = name;
+}
+
 let trackable = window.CloudChartsTrackEnable !== false;
 /**
  * 打点控制函数
@@ -54,6 +59,6 @@ setTimeout(() => {
 
     const image = new Image();
     // 统计 版本、主题、当前域名、图表初始化次数
-    image.src = `${logUrl}?version=${__VERSION__}&theme=${__THEME__}&t=${Date.now()}&host=${location && location.host}&chartinit=${chartInit}&uamobile=${isMobile}`;
+    image.src = `${logUrl}?version=${__VERSION__}&theme=${currentTheme || __THEME__}&t=${Date.now()}&host=${location && location.host}&chartinit=${chartInit}&uamobile=${isMobile}`;
   }
 }, 3000);
