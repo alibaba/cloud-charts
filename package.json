@@ -14,7 +14,6 @@
   "scripts": {
     "start": "build-scripts start",
     "build": "build-scripts build",
-    "test": "build-scripts test",
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./"
   },
