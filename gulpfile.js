@@ -125,7 +125,7 @@ gulp.task('build:lib', ['clean'], () => {
 
   return gulp.src(srcPath + '/**/*.js?(x)')
     .pipe(replace('__VERSION__', JSON.stringify(packageInfo.version)))
-    .pipe(replace('__THEME__', JSON.stringify('normal')))
+    .pipe(replace('__THEME__', JSON.stringify('index')))
     .pipe(babel({
         babelrc: false,
         "presets": [
