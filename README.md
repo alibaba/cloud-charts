@@ -1,5 +1,7 @@
 # CloudCharts
 
+![CloudCharts](https://img.alicdn.com/tfs/TB1FfqtTGL7gK0jSZFBXXXZZpXa-2764-1488.png)
+
 面向中后台的开箱即用图表库，让前端图表更简单。
 
 [WebSite](https://cloud-charts.netlify.app/) | [国内镜像](http://cloud-charts.gitee.io/)
