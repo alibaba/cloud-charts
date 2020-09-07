@@ -8,7 +8,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const packageInfo = require('../package');
-const srcPath = path.resolve(__dirname, '../components');
+const srcPath = path.resolve(__dirname, '../src');
 
 module.exports = {
   plugins: [
@@ -40,10 +40,11 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@alife/aisc-widgets': srcPath,
-      '@alife/aisc-widgets/lib': srcPath,
-      '@antv/data-set$': path.resolve(__dirname, '../components/common/dataSet'),
-      '@antv/data-set/lib': '@antv/data-set/lib'
+      '@alicloud/cloud-charts': srcPath,
+      // '@alife/aisc-widgets': srcPath,
+      // '@alife/aisc-widgets/lib': srcPath,
+      // '@antv/data-set$': path.resolve(__dirname, '../components/common/dataSet'),
+      // '@antv/data-set/lib': '@antv/data-set/lib'
     }
   },
 };

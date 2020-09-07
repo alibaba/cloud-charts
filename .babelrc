@@ -1,8 +1,0 @@
-{
-    "presets": [
-        "@ali/babel-preset-fusion"
-    ],
-    "plugins": [
-
-    ]
-}
