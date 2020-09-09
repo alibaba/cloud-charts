@@ -7,8 +7,7 @@ import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './comm
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
 import eventBus from './eventBus';
-import './g2Hacker';
-import { ViewPadding } from "@antv/g2/esm/interface";
+// import './g2Hacker';
 
 // 图表唯一id
 let uniqueId = 0;
@@ -41,7 +40,7 @@ export interface BaseProps {
   language?: 'zh-cn' | 'en-us';
   getChartInstance?: (chart: G2.Chart) => void;
   // G2 顶层属性
-  padding?: ViewPadding;
+  padding?: G2.Types.ViewPadding;
   localRefresh?: boolean;
   renderer?: 'canvas' | 'svg';
 }

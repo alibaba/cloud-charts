@@ -41,42 +41,42 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
-      .active(false);
+      // .active(false);
     lineGeom = chart.lineStack()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      .active(false)
-      .style('x*y*type*extra', {
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      // .active(false)
+      // .style('x*y*type*extra', {
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   } else if (config.area && !config.stack) {
     chart.area()
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
-      .active(false);
+      // .active(false);
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      .active(false)
-      .style('x*y*type*extra', {
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      // .active(false)
+      // .style('x*y*type*extra', {
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   } else {
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      .active(false)
-      .style('x*y*type*extra', {
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      // .active(false)
+      // .style('x*y*type*extra', {
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   }
 
   label(lineGeom, config, yAxisKey);
@@ -90,13 +90,13 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
-        .active(false);
+        // .active(false);
     } else {
       pointGeom = chart.point()
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
-        .active(false);
+        // .active(false);
     }
 
     const sizeConfig = getGeomSizeConfig(config.symbol.size, 3, yAxisKey, 'type');

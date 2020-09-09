@@ -45,27 +45,27 @@ export function setTheme(theme = 'default', refreshChart = true) {
   if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
     return;
   }
-  let newTheme = {};
-  if (G2.Util.isObject(theme)) {
-    // 传入对象，直接覆盖对应的key和css
-    newTheme = convertKey(theme);
-
-    // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
-    const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
-    setThemeStyle(convertCSS(newCSS));
-    // 打点
-    themeLog('customTheme');
-  } else if (themeMap[theme]) {
-    // 传入字符串名字，设置对应主题包
-    newTheme = themeMap[theme].js;
-    currentThemeName = theme;
-
-    setThemeStyle(themeMap[theme].css);
-    // 打点
-    themeLog(theme === 'default' ? 'index' : theme);
-  } else {
-    return;
-  }
+  // let newTheme = {};
+  // if (G2.Util.isObject(theme)) {
+  //   // 传入对象，直接覆盖对应的key和css
+  //   newTheme = convertKey(theme);
+  //
+  //   // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
+  //   const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
+  //   setThemeStyle(convertCSS(newCSS));
+  //   // 打点
+  //   themeLog('customTheme');
+  // } else if (themeMap[theme]) {
+  //   // 传入字符串名字，设置对应主题包
+  //   newTheme = themeMap[theme].js;
+  //   currentThemeName = theme;
+  //
+  //   setThemeStyle(themeMap[theme].css);
+  //   // 打点
+  //   themeLog(theme === 'default' ? 'index' : theme);
+  // } else {
+  //   return;
+  // }
   // TODO 暂时不设置主题
   // G2.Util.deepMix(themes, newTheme);
   //
