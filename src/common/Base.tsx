@@ -27,12 +27,12 @@ type ChartData = any;
 
 type Size = number | string;
 
-export interface BaseProps {
+export interface ChartProps<ChartConfig> {
   className?: string;
   style?: React.CSSProperties;
   width?: Size;
   height?: Size;
-  config?: BaseChartConfig;
+  config?: ChartConfig;
   data?: ChartData;
   event?: {
     [eventKey: string]: () => void;
@@ -49,7 +49,7 @@ export interface BaseProps {
  * React 图表基类
  * */
 /*#__PURE__*/
-class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
+class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartProps<ChartConfig>> {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -74,18 +74,18 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
 
   readonly chartId: string;
 
-  public defaultConfig: BaseChartConfig;
+  public defaultConfig: ChartConfig;
 
   protected language: string;
 
   protected rawData: ChartData;
 
-  constructor(props: ChartProps) {
+  constructor(props: ChartProps<ChartConfig>) {
     super(props);
     this.chart = null;
     this.chartDom = null;
     this.chartId = generateUniqueId();
-    this.defaultConfig = {};
+    this.defaultConfig = ({} as ChartConfig);
 
     this.autoResize = this.autoResize.bind(this);
     this.rerender = this.rerender.bind(this);
@@ -98,25 +98,25 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
 
   protected convertData: boolean = true;
 
-  protected getDefaultConfig(): BaseChartConfig {
-    return {};
+  protected getDefaultConfig(): ChartConfig {
+    return ({} as ChartConfig);
   }
 
-  protected beforeInit?(props: ChartProps): ChartProps;
+  protected beforeInit?(props: ChartProps<ChartConfig>): ChartProps<ChartConfig>;
 
-  protected init(chart: G2.Chart, config: BaseChartConfig, data: ChartData): void { };
+  protected init(chart: G2.Chart, config: ChartConfig, data: ChartData): void { };
 
   protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
-  protected changeData(config: BaseChartConfig, data: ChartData): void {
+  protected changeData(config: ChartConfig, data: ChartData): void {
     this.chart && this.chart.changeData(data);
   };
 
-  protected changeSize(config: BaseChartConfig, width: number, height: number): void {
+  protected changeSize(config: ChartConfig, width: number, height: number): void {
     this.chart && this.chart.changeSize(width, height);
   };
 
-  protected afterRender?(config: BaseChartConfig): void;
+  protected afterRender?(config: ChartConfig): void;
 
   protected destroy?(): void;
 
@@ -172,7 +172,7 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
     return undefined;
   };
 
-  checkConfigChange(newConfig: BaseChartConfig, oldConfig: BaseChartConfig): boolean {
+  checkConfigChange(newConfig: ChartConfig, oldConfig: ChartConfig): boolean {
     let hasConfigChange = false;
 
     if (!isEqualWith(newConfig, oldConfig, this.isEqualCustomizer)) {
@@ -182,7 +182,7 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
     return hasConfigChange;
   }
 
-  componentDidUpdate(prevProps: ChartProps) {
+  componentDidUpdate(prevProps: ChartProps<ChartConfig>) {
     const {
       data: newData,
       width: newWidth,
@@ -308,7 +308,7 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
   initChart() {
     this.defaultConfig = this.getDefaultConfig();
     // 合并默认配置项
-    let currentProps: ChartProps = {
+    let currentProps: ChartProps<ChartConfig> = {
       ...this.props,
       config: merge({}, this.defaultConfig, this.props.config),
     };
@@ -381,7 +381,7 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
     window.addEventListener('resize', this.autoResize);
   }
 
-  handleChangeSize(config: BaseChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
+  handleChangeSize(config: ChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
     this.setSize([w, h]);
 
     // 强制转换为数字
@@ -440,11 +440,11 @@ class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
     }
   }
 
-  protected afterRenderCallbacks: ((chart: G2.Chart, config: BaseChartConfig) => void)[] = [];
+  protected afterRenderCallbacks: ((chart: G2.Chart, config: ChartConfig) => void)[] = [];
 
   protected afterRenderTimer: any = null;
 
-  handleAfterRender(config?: BaseChartConfig) {
+  handleAfterRender(config?: ChartConfig) {
     if (this.afterRender || this.afterRenderCallbacks.length > 0) {
       this.afterRenderTimer = setTimeout(() => {
         if (this.chart && this.afterRender) {

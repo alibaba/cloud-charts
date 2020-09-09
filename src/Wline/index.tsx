@@ -1,7 +1,7 @@
 'use strict';
 
 import * as G2 from '@antv/g2';
-import Base, { BaseChartConfig, BaseProps } from "../common/Base";
+import Base, { BaseChartConfig } from "../common/Base";
 // import Brush from '@antv/g2-brush';
 // import g2Factory from '../common/g2Factory';
 // import errorWrap from '../common/errorWrap';
@@ -56,11 +56,11 @@ interface WlineConfig extends BaseChartConfig {
   step: null,
 }
 
-interface LinePorps extends BaseProps {
-  config?: WlineConfig;
-}
+// interface LinePorps extends BaseProps {
+//   config?: WlineConfig;
+// }
 
-class Wline extends Base<LinePorps> {
+class Wline extends Base<WlineConfig> {
   getDefaultConfig(): WlineConfig {
     return {
       // colors: themes.category_12,
