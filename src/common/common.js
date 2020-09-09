@@ -3,8 +3,9 @@ import themes from '../themes/index';
 
 // 引入 lodash 的 isEqual 代替
 export { default as isEqual } from 'lodash/isEqual';
-export { default as isEqualWith} from 'lodash/isEqualWith';
-export { default as merge } from './merge';
+export { default as isEqualWith } from 'lodash/isEqualWith';
+export { default as merge } from 'lodash/merge';
+// export { default as merge } from './merge';
 
 export const requestAnimationFrame = (window && window.requestAnimationFrame) || G2.DomUtil.requestAnimationFrame;
 
