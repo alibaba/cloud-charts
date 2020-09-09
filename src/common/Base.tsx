@@ -348,6 +348,9 @@ class Base extends React.Component<BaseProps> {
     // 生命绘制逻辑
     chart && this.init(chart, config, data);
 
+    // 开始渲染
+    chart.render();
+
     // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
     if (chart && event) {
       Object.keys(event).forEach(eventKey => {
