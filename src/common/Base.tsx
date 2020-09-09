@@ -3,7 +3,7 @@
 import * as G2 from '@antv/g2';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { getParentSize, requestAnimationFrame, isEqualWith } from './common';
+import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
 import eventBus from './eventBus';
@@ -19,7 +19,8 @@ function generateUniqueId(): string {
 const rootClassName = 'cloud-charts ';
 const rootChildClassName = 'cloud-charts-children';
 
-interface ChartConfig {
+export interface BaseChartConfig {
+  padding?: string[];
   dataType?: string;
 }
 
@@ -27,12 +28,12 @@ type ChartData = any;
 
 type Size = number | string;
 
-interface BaseProps {
+export interface BaseProps {
   className?: string;
   style?: React.StyleHTMLAttributes<HTMLStyleElement>;
   width?: Size;
   height?: Size;
-  config?: ChartConfig;
+  config?: BaseChartConfig;
   data?: ChartData;
   event?: {
     [eventKey: string]: () => void;
@@ -59,7 +60,7 @@ class Base extends React.Component<BaseProps> {
       PropTypes.object,
     ]).isRequired,
     event: PropTypes.object,
-    forceFit: PropTypes.bool,
+    // forceFit: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -74,7 +75,7 @@ class Base extends React.Component<BaseProps> {
 
   readonly chartId: string;
 
-  public defaultConfig: ChartConfig;
+  public defaultConfig: BaseChartConfig;
 
   protected language: string;
 
@@ -98,25 +99,25 @@ class Base extends React.Component<BaseProps> {
 
   protected convertData: boolean = true;
 
-  protected getDefaultConfig(): ChartConfig {
+  protected getDefaultConfig(): BaseChartConfig {
     return {};
   }
 
-  protected beforeInit?: (props: BaseProps) => BaseProps;
+  protected beforeInit?(props: BaseProps): BaseProps;
 
-  protected init: (chart: G2.Chart, config: ChartConfig, data: ChartData) => void;
+  protected init(chart: G2.Chart, config: BaseChartConfig, data: ChartData): void { };
 
   protected isChangeEqual?: (objValue: any, othValue: any, key: number | string) => undefined | boolean;
 
-  protected changeData(config: ChartConfig, data: ChartData): void {
+  protected changeData(config: BaseChartConfig, data: ChartData): void {
     this.chart && this.chart.changeData(data);
   };
 
-  protected changeSize(config: ChartConfig, width: number, height: number): void {
+  protected changeSize(config: BaseChartConfig, width: number, height: number): void {
     this.chart && this.chart.changeSize(width, height);
   };
 
-  protected afterRender?: (config: ChartConfig) => void;
+  protected afterRender?: (config: BaseChartConfig) => void;
 
   protected destroy?: () => void;
 
@@ -172,7 +173,7 @@ class Base extends React.Component<BaseProps> {
     return undefined;
   };
 
-  checkConfigChange(newConfig: ChartConfig, oldConfig: ChartConfig): boolean {
+  checkConfigChange(newConfig: BaseChartConfig, oldConfig: BaseChartConfig): boolean {
     let hasConfigChange = false;
 
     if (!isEqualWith(newConfig, oldConfig, this.isEqualCustomizer)) {
@@ -307,11 +308,13 @@ class Base extends React.Component<BaseProps> {
 
   initChart() {
     this.defaultConfig = this.getDefaultConfig();
-    let currentProps = this.props;
+    let currentProps = { ...this.props };
+    // 合并默认配置项
+    currentProps.config = merge({}, this.defaultConfig, currentProps.config);
     // 开始初始化图表
-    currentProps = this.beforeInit
-      ? this.beforeInit(currentProps)
-      : currentProps;
+    if (this.beforeInit) {
+      currentProps = this.beforeInit(currentProps);
+    }
     const {
       width,
       height,
@@ -325,8 +328,8 @@ class Base extends React.Component<BaseProps> {
     // 生成图表实例
     const chart = new G2.Chart({
       container: this.chartDom,
-      width: (this.size[0] as number),
-      height: (this.size[1] || 200 as number),
+      width: this.size[0],
+      height: this.size[1] || 200,
       padding,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
@@ -374,7 +377,7 @@ class Base extends React.Component<BaseProps> {
     window.addEventListener('resize', this.autoResize);
   }
 
-  handleChangeSize(config: ChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
+  handleChangeSize(config: BaseChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
     this.setSize([w, h]);
 
     // 强制转换为数字
@@ -433,11 +436,11 @@ class Base extends React.Component<BaseProps> {
     }
   }
 
-  protected afterRenderCallbacks: ((chart: G2.Chart, config: ChartConfig) => void)[] = [];
+  protected afterRenderCallbacks: ((chart: G2.Chart, config: BaseChartConfig) => void)[] = [];
 
   protected afterRenderTimer: any = null;
 
-  handleAfterRender(config?: ChartConfig) {
+  handleAfterRender(config?: BaseChartConfig) {
     if (this.afterRender || this.afterRenderCallbacks.length > 0) {
       this.afterRenderTimer = setTimeout(() => {
         if (this.chart && this.afterRender) {
