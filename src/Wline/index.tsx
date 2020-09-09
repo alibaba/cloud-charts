@@ -2,17 +2,17 @@
 
 import * as G2 from '@antv/g2';
 import Base, { BaseChartConfig, BaseProps } from "../common/Base";
-import Brush from '@antv/g2-brush';
-import g2Factory from '../common/g2Factory';
-import errorWrap from '../common/errorWrap';
-import merge from '../common/merge';
+// import Brush from '@antv/g2-brush';
+// import g2Factory from '../common/g2Factory';
+// import errorWrap from '../common/errorWrap';
+// import merge from '../common/merge';
 // import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
-import rectAutoTickCount from '../common/rectAutoTickCount';
+// import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
@@ -56,11 +56,11 @@ interface WlineConfig extends BaseChartConfig {
   step: null,
 }
 
-interface Wline extends BaseProps {
+interface LinePorps extends BaseProps {
   config?: WlineConfig;
 }
 
-class Wline extends Base {
+class Wline extends Base<LinePorps> {
   getDefaultConfig(): WlineConfig {
     return {
       // colors: themes.category_12,
@@ -108,7 +108,7 @@ class Wline extends Base {
       config.xAxis.type = 'time';
     }
 
-    const defs = {
+    const defs: Record<string, G2.Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余

@@ -29,7 +29,7 @@ type Size = number | string;
 
 export interface BaseProps {
   className?: string;
-  style?: React.StyleHTMLAttributes<HTMLStyleElement>;
+  style?: React.CSSProperties;
   width?: Size;
   height?: Size;
   config?: BaseChartConfig;
@@ -49,7 +49,7 @@ export interface BaseProps {
  * React 图表基类
  * */
 /*#__PURE__*/
-class Base extends React.Component<BaseProps> {
+class Base<ChartProps extends BaseProps> extends React.Component<ChartProps> {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -80,8 +80,8 @@ class Base extends React.Component<BaseProps> {
 
   protected rawData: ChartData;
 
-  constructor(props: BaseProps, context: any) {
-    super(props, context);
+  constructor(props: ChartProps) {
+    super(props);
     this.chart = null;
     this.chartDom = null;
     this.chartId = generateUniqueId();
@@ -102,11 +102,11 @@ class Base extends React.Component<BaseProps> {
     return {};
   }
 
-  protected beforeInit?(props: BaseProps): BaseProps;
+  protected beforeInit?(props: ChartProps): ChartProps;
 
   protected init(chart: G2.Chart, config: BaseChartConfig, data: ChartData): void { };
 
-  protected isChangeEqual?: (objValue: any, othValue: any, key: number | string) => undefined | boolean;
+  protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
   protected changeData(config: BaseChartConfig, data: ChartData): void {
     this.chart && this.chart.changeData(data);
@@ -116,9 +116,9 @@ class Base extends React.Component<BaseProps> {
     this.chart && this.chart.changeSize(width, height);
   };
 
-  protected afterRender?: (config: BaseChartConfig) => void;
+  protected afterRender?(config: BaseChartConfig): void;
 
-  protected destroy?: () => void;
+  protected destroy?(): void;
 
 
   // 基类自己的生命周期
@@ -182,7 +182,7 @@ class Base extends React.Component<BaseProps> {
     return hasConfigChange;
   }
 
-  componentDidUpdate(prevProps: BaseProps) {
+  componentDidUpdate(prevProps: ChartProps) {
     const {
       data: newData,
       width: newWidth,
@@ -307,9 +307,11 @@ class Base extends React.Component<BaseProps> {
 
   initChart() {
     this.defaultConfig = this.getDefaultConfig();
-    let currentProps = { ...this.props };
     // 合并默认配置项
-    currentProps.config = merge({}, this.defaultConfig, currentProps.config);
+    let currentProps: ChartProps = {
+      ...this.props,
+      config: merge({}, this.defaultConfig, this.props.config),
+    };
     // 开始初始化图表
     if (this.beforeInit) {
       currentProps = this.beforeInit(currentProps);
