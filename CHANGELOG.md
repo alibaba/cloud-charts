@@ -1,3 +1,9 @@
+### 0.1.3 (2020-09-10)
+
+#### Bug Fixes
+
+- npm引用时tree-shaking无法正确保留css的问题。
+
 ### 0.1.2 (2020-09-03)
 
 #### New Features
