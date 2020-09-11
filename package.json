@@ -13,7 +13,11 @@
   "license": "MIT",
   "main": "./build/index.js",
   "module": "./lib/index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "build/*",
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "start": "./node_modules/.bin/gulp start",
     "build": "./node_modules/.bin/gulp build",
