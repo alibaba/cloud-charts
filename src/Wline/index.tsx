@@ -1,13 +1,13 @@
 'use strict';
 
-import * as G2 from '@antv/g2';
+import { Chart, Types } from '@antv/g2';
 import Base, { BaseChartConfig } from "../common/Base";
 // import Brush from '@antv/g2-brush';
 // import g2Factory from '../common/g2Factory';
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
-// import themes from '../themes/index';
-import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
+import themes from '../themes/index';
+import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';
@@ -31,34 +31,30 @@ interface WlineConfig extends BaseChartConfig {
     autoRotate?: boolean,
     max?: number | null,
     min?: number | null,
-  },
+  } | boolean,
   yAxis?: {
     labelFormatter: null, // 可以强制覆盖，手动设置label
     max: null,
     min: null,
-  },
-  legend: {
+  } | boolean,
+  legend?: {
     align: 'left',
     nameFormatter: null, // 可以强制覆盖，手动设置label
-  },
-  tooltip: {
+  } | boolean,
+  tooltip?: {
     titleFormatter: null,
     nameFormatter: null,
     valueFormatter: null,
-  },
-  area: false,
-  stack: false, // 仅Area有效
-  spline: false,
-  grid: false,
-  symbol: false,
-  zoom: false,
-  label: false,
-  step: null,
+  } | boolean,
+  area?: boolean,
+  stack?: boolean, // 仅Area有效
+  spline?: boolean,
+  grid?: boolean,
+  symbol?: boolean,
+  zoom?: boolean,
+  label?: boolean,
+  step?: null,
 }
-
-// interface LinePorps extends BaseProps {
-//   config?: WlineConfig;
-// }
 
 class Wline extends Base<WlineConfig> {
   getDefaultConfig(): WlineConfig {
@@ -101,14 +97,9 @@ class Wline extends Base<WlineConfig> {
       // }
     };
   }
-  init(chart: G2.Chart, userConfig: WlineConfig, data: any) {
-    const config = userConfig;
+  init(chart: Chart, config: WlineConfig, data: any) {
 
-    if (config.xAxis && config.xAxis.type === 'datetime') {
-      config.xAxis.type = 'time';
-    }
-
-    const defs: Record<string, G2.Types.ScaleOption> = {
+    const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
@@ -134,7 +125,7 @@ class Wline extends Base<WlineConfig> {
     }
 
     autoTimeMask(defs, this.rawData);
-
+    
     // rectAutoTickCount(chart, config, defs, false);
 
     chart.scale(defs);
@@ -145,18 +136,18 @@ class Wline extends Base<WlineConfig> {
     rectXAxis.call(this, chart, config);
 
     if (Array.isArray(config.yAxis)) {
-      // config.yAxis.forEach((axis, yIndex) => {
-      //   const yAxisConfig = {
-      //     line: {
-      //       stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
-      //     },
-      //   };
-      //   if (yIndex !== 0) {
-      //     yAxisConfig.grid = null;
-      //   }
-      //
-      //   rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
-      // });
+      config.yAxis.forEach((axis, yIndex) => {
+        const yAxisConfig = {
+          line: {
+            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
+          },
+        };
+        if (yIndex !== 0) {
+          yAxisConfig.grid = null;
+        }
+
+        rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
+      });
     } else {
       // 设置单个Y轴
       rectYAxis.call(this, chart, config);
