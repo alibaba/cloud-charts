@@ -23,7 +23,7 @@ export interface BaseChartConfig {
   dataType?: string;
 }
 
-type ChartData = any;
+export type ChartData = any;
 
 type Size = number | string;
 
@@ -48,7 +48,6 @@ export interface ChartProps<ChartConfig> {
 /**
  * React 图表基类
  * */
-/*#__PURE__*/
 class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartProps<ChartConfig>> {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -108,8 +107,8 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
 
   protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
-  protected changeData(config: ChartConfig, data: ChartData): void {
-    this.chart && this.chart.changeData(data);
+  protected changeData(chart: G2.Chart, config: ChartConfig, data: ChartData): void {
+    chart && chart.changeData(data);
   };
 
   protected changeSize(config: ChartConfig, width: number, height: number): void {
@@ -229,7 +228,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
           ? highchartsDataToG2Data(newData, newConfig)
           : newData;
       this.rawData = newData;
-      this.changeData(newConfig, data);
+      this.changeData(this.chart, newConfig, data);
       // if (this.chartProcess.changeData) {
       //   this.chart &&
       //     this.chartProcess.changeData.call(
@@ -285,7 +284,6 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
       });
     }
 
-    this.chart && this.chart.off();
     this.chart && this.chart.destroy && this.chart.destroy();
     this.chart = null;
     // this.chartDom = null;
