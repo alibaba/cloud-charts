@@ -1,5 +1,8 @@
 'use strict';
 
+import { Types } from "@antv/g2";
+import { ChartData } from "./Base";
+
 const defaultMask = 'YYYY-MM-DD HH:mm:ss';
 const MINUTE_MS = 60 * 1000;
 const HOUR_MS = 3600 * 1000;
@@ -24,7 +27,8 @@ const maskMap = [
   ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm', 'HH:mm'],
   ['YYYY-MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'HH:mm:ss', 'mm:ss', 'mm:ss'],
 ];
-function getTimeIndex(t) {
+
+function getTimeIndex(t: number): number {
   for (let i = 0; i < timeList.length; i++) {
     if (t >= timeList[i]) {
       return i;
@@ -38,7 +42,7 @@ function getTimeIndex(t) {
  * @param defs {object} 数据列定义
  * @param data {array} G2图表实例
  * */
-export default function (defs, data) {
+export default function (defs: Record<string, Types.ScaleOption>, data: ChartData): void {
   const def = defs.x;
   if (
     (def.type === 'time' || def.type === 'timeCat') &&
@@ -52,7 +56,7 @@ export default function (defs, data) {
 }
 
 // 取数据的跨度和间距两种值，跨度决定上限，间距决定下限。
-function getAutoMask(def, data) {
+function getAutoMask(def: Types.ScaleOption, data: any): string {
   if (data.length < 2) {
     return defaultMask;
   }
