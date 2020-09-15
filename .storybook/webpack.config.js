@@ -36,12 +36,17 @@ module.exports = {
           },
         }],
       },
+      {
+        test: /\.(ts|tsx)$/,
+        use: ['awesome-typescript-loader'],
+      }
     ],
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     alias: {
-      '@alicloud/cloud-charts': srcPath,
-      // '@alife/aisc-widgets': srcPath,
+      // '@alicloud/cloud-charts': srcPath,
+      '@alife/aisc-widgets': srcPath,
       // '@alife/aisc-widgets/lib': srcPath,
       // '@antv/data-set$': path.resolve(__dirname, '../components/common/dataSet'),
       // '@antv/data-set/lib': '@antv/data-set/lib'
