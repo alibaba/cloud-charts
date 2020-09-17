@@ -1,6 +1,6 @@
 'use strict';
 
-import themes from '../themes/index';
+import themes from '../themes';
 import { pxToNumber, isInvalidNumber } from './common';
 
 /**

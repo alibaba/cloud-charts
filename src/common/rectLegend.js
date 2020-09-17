@@ -1,6 +1,6 @@
 'use strict';
 
-import themes from '../themes/index';
+import themes from '../themes';
 import { pxToNumber, isInvalidNumber } from './common';
 import merge from './merge';
 import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';

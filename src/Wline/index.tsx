@@ -6,7 +6,7 @@ import Base, { BaseChartConfig } from "../common/Base";
 // import g2Factory from '../common/g2Factory';
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
-import themes from '../themes/index';
+import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';

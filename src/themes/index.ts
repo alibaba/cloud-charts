@@ -1,14 +1,20 @@
-import G2 from '@antv/g2';
+// import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
-import { themeLog } from "../common/log";
-import setG2Theme from "../common/g2Theme";
-import { setThemeStyle, convertKey, convertCSS, convertJsStyle } from './themeTools';
+// import { themeLog } from "../common/log";
+// import setG2Theme from "../common/g2Theme";
+import { /*setThemeStyle,*/ convertKey, convertCSS, convertJsStyle } from './themeTools';
 
-// [theme].style 文件根据 [theme].scss 自动生成，请勿直接修改
+// [theme].style 文件1根据 [theme].scss 自动生成，请勿直接修改
 import normalStyle from './normal.style';
 import darkStyle from './dark.style';
 
-const themeMap = {
+const themeMap: {
+  [themeName: string]: {
+    js: {};
+    css: string;
+    rawCSS: {};
+  };
+} = {
   normal: {
     js: convertKey(convertJsStyle('normal', normalStyle)),
     css: convertCSS(normalStyle),
@@ -25,23 +31,28 @@ themeMap.index = themeMap.normal;
 
 // 默认主题包
 if (process.env.NODE_ENV === 'production') {
+  // @ts-ignore
   themeMap.default = themeMap[__THEME__];
 } else {
   themeMap.default = themeMap.normal;
 }
 
-const themes = {};
+const themes = {
+  getTheme,
+  setTheme,
+};
 let currentThemeName = '';
 
-export function getTheme(name) {
+export function getTheme(name?: string) {
   if (!name) {
     return themes;
   } else if (themeMap[name]) {
     return themeMap[name].js;
   }
+  return undefined;
 }
 
-export function setTheme(theme = 'default', refreshChart = true) {
+export function setTheme(theme: string | {} = 'default', refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
     return;
   }
@@ -78,7 +89,7 @@ export function setTheme(theme = 'default', refreshChart = true) {
 
 setTheme('default', false);
 
-themes.getTheme = getTheme;
-themes.setTheme = setTheme;
+// themes.getTheme = getTheme;
+// themes.setTheme = setTheme;
 
 export default themes;

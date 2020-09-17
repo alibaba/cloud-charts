@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types } from "@antv/g2";
-import themes from '../themes/index';
+import themes from '../themes';
 import { merge } from './common';
 
 /**
