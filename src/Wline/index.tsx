@@ -125,7 +125,7 @@ class Wline extends Base<WlineConfig> {
     }
 
     autoTimeMask(defs, this.rawData);
-    
+
     // rectAutoTickCount(chart, config, defs, false);
 
     chart.scale(defs);
@@ -137,9 +137,11 @@ class Wline extends Base<WlineConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const yAxisConfig = {
+        const yAxisConfig: Types.AxisCfg = {
           line: {
-            stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
+            style: {
+              stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
+            },
           },
         };
         if (yIndex !== 0) {
