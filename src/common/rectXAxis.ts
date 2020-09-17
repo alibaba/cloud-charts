@@ -1,8 +1,8 @@
 'use strict';
 
+import { Chart, Types } from "@antv/g2";
 import themes from '../themes/index';
 import { merge } from './common';
-import { Chart, Types } from "@antv/g2";
 
 /**
  * rectXAxis 直角坐标系的X轴配置
