@@ -3,7 +3,11 @@
   "version": "2.6.20",
   "main": "lib/index.js",
   "module": "es/index.js",
-  "sideEffects": false,
+  "sideEffects": [
+    "build/*",
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "start": "build-scripts start",
     "build": "build-scripts build --skip-demo",
