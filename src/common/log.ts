@@ -1,11 +1,17 @@
 import { isMobile } from './platform';
+import { __VERSION__, __THEME__ } from '../constants';
+import { string } from "prop-types";
 
 /**
  * 日志记录
  *
  * 包含 chartLog  getLog 方法
  * */
-const logMap = {};
+const logMap: {
+  [chartName: string]: {
+    init: number;
+  };
+} = {};
 
 /**
  * chartLog 图表日志
@@ -13,7 +19,7 @@ const logMap = {};
  * @param {string} name 图表名称
  * @param {string} logType 单次日志类型
  * */
-export default function chartLog(name, logType) {
+export default function chartLog(name: string, logType: string) {
   if (!logMap[name]) {
     logMap[name] = {
       init: 0,
@@ -30,7 +36,7 @@ export function getLog() {
 }
 
 let currentTheme = '';
-export function themeLog(name) {
+export function themeLog(name: string) {
   currentTheme = name;
 }
 
@@ -40,7 +46,7 @@ let trackable = window.CloudChartsTrackEnable !== false;
  *
  * @param {bool} enable 是否开启打点
  * */
-export function track(enable) {
+export function track(enable: boolean): void {
   // 新版本中 G2 不再打点，所以关闭该指令
   // G2.track(enable);
   // F2.track(enable);
