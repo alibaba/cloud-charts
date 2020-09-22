@@ -10,7 +10,7 @@ function getStyleElement() {
   return el;
 }
 
-export function setThemeStyle(css) {
+export function setThemeStyle(css: string) {
   const style = getStyleElement();
   style.innerText = css;
 }
@@ -22,7 +22,7 @@ export function setThemeStyle(css) {
  *
  * @return {Object} themes
  * */
-export function convertKey(themes) {
+export function convertKey(themes: any) {
   Object.keys(themes).forEach((key) => {
     if (key.indexOf('-') > -1) {
       const newKey = key.replace(/-(\w)/g, (all, letter) => {
@@ -36,12 +36,12 @@ export function convertKey(themes) {
   return themes;
 }
 
-export function convertCSS(theme) {
+export function convertCSS(theme: any) {
   const varList = Object.keys(theme).map(key => `--${key}: ${theme[key]}`);
   return `.cloud-charts {${varList.join(';')}}`;
 }
 
-export function convertJsStyle(name, theme) {
+export function convertJsStyle(name: string, theme: any) {
   const result = {
     name,
     // 分类色阶

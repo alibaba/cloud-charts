@@ -8,11 +8,13 @@ import { /*setThemeStyle,*/ convertKey, convertCSS, convertJsStyle } from './the
 import normalStyle from './normal.style';
 import darkStyle from './dark.style';
 
+type Theme = Partial<typeof normalStyle>;
+
 const themeMap: {
   [themeName: string]: {
-    js: {};
+    js: Theme;
     css: string;
-    rawCSS: {};
+    rawCSS: Theme;
   };
 } = {
   normal: {
@@ -37,7 +39,12 @@ if (process.env.NODE_ENV === 'production') {
   themeMap.default = themeMap.normal;
 }
 
-const themes = {
+interface Themes extends Theme {
+  getTheme: typeof getTheme;
+  setTheme: typeof setTheme;
+}
+
+const themes: Themes = {
   getTheme,
   setTheme,
 };
