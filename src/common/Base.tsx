@@ -111,8 +111,8 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
     chart && chart.changeData(data);
   };
 
-  protected changeSize(config: ChartConfig, width: number, height: number): void {
-    this.chart && this.chart.changeSize(width, height);
+  protected changeSize(chart: G2.Chart, config: ChartConfig, width: number, height: number): void {
+    chart && chart.changeSize(width, height);
   };
 
   protected afterRender?(config: ChartConfig): void;
@@ -383,7 +383,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
     this.setSize([w, h]);
 
     // 强制转换为数字
-    this.changeSize(config, Number(w), Number(h));
+    this.changeSize(this.chart, config, Number(w), Number(h));
 
     // if (this.chartProcess.changeSize) {
     //   this.chart &&
