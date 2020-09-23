@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types } from '@antv/g2';
+import { Chart, Types } from '../common/types';
 import Base, { BaseChartConfig } from "../common/Base";
 // import Brush from '@antv/g2-brush';
 // import g2Factory from '../common/g2Factory';
@@ -9,8 +9,8 @@ import Base, { BaseChartConfig } from "../common/Base";
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide from '../common/guide';
-import rectXAxis from '../common/rectXAxis';
-import rectYAxis from '../common/rectYAxis';
+import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
+import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
 // import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
@@ -23,20 +23,8 @@ import './index.scss';
 interface WlineConfig extends BaseChartConfig {
   colors?: string[];
   areaColors?: string[];
-  xAxis?: {
-    type?: string, // 默认为线性
-    mask?: string, // 上述type为time时，此字段生效
-    labelFormatter?: null, // 可以强制覆盖，手动设置label
-    categories?: (number | string)[] | null,
-    autoRotate?: boolean,
-    max?: number | null,
-    min?: number | null,
-  } | boolean,
-  yAxis?: {
-    labelFormatter: null, // 可以强制覆盖，手动设置label
-    max: null,
-    min: null,
-  } | boolean,
+  xAxis?: Types.ScaleOption & XAxisConfig | boolean,
+  yAxis?: Types.ScaleOption & YAxisConfig | boolean,
   legend?: {
     align: 'left',
     nameFormatter: null, // 可以强制覆盖，手动设置label

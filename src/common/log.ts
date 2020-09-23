@@ -1,6 +1,5 @@
 import { isMobile } from './platform';
 import { __VERSION__, __THEME__ } from '../constants';
-import { string } from "prop-types";
 
 /**
  * 日志记录

@@ -1,8 +1,20 @@
 'use strict';
 
-import { Chart, Types } from "@antv/g2";
+import { Chart, Types } from "./types";
 import themes from '../themes';
 import { merge } from './common';
+
+export interface XAxisConfig {
+  visible?: boolean;
+  alias?: boolean;
+  title?: boolean;
+  autoRotate?: boolean;
+  rotate?: number;
+  autoHide?: boolean;
+  autoEllipsis?: boolean;
+  labelFormatter?(): string;
+  customConfig?: Types.AxisCfg;
+}
 
 /**
  * rectXAxis 直角坐标系的X轴配置
@@ -11,7 +23,11 @@ import { merge } from './common';
  * @param {Object} config 配置项
  * @param {Object} componentConfig 组件的自定义配置
  * */
-export default function (chart: Chart, config: any, componentConfig?: any) {
+export default function (
+  chart: Chart,
+  config: { grid?: boolean; xAxis: XAxisConfig },
+  componentConfig?: Types.AxisCfg
+) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {

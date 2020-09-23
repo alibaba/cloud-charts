@@ -1,6 +1,6 @@
 'use strict';
 
-import { Types } from "@antv/g2";
+import { Types } from "./types";
 import { ChartData } from "./Base";
 
 const defaultMask = 'YYYY-MM-DD HH:mm:ss';

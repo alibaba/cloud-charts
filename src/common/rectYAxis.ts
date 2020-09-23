@@ -1,7 +1,19 @@
 'use strict';
 
-import { Chart, Types } from "@antv/g2";
+import { Chart, Types } from "./types";
 import { merge } from './common';
+
+export interface YAxisConfig {
+  visible?: boolean;
+  alias?: boolean;
+  title?: boolean;
+  autoRotate?: boolean;
+  rotate?: number;
+  autoHide?: boolean;
+  autoEllipsis?: boolean;
+  labelFormatter?(): string;
+  customConfig?: Types.AxisCfg;
+}
 
 /**
  * rectYAxis 直角坐标系的单个Y轴配置
@@ -11,7 +23,12 @@ import { merge } from './common';
  * @param {string} yField 数据映射字段
  * @param {Object} componentConfig 组件的自定义配置
  * */
-export default function (chart: Chart, config: any, yField: string = 'y', componentConfig?: Types.AxisCfg) {
+export default function (
+  chart: Chart,
+  config: { yAxis: YAxisConfig },
+  yField: string = 'y',
+  componentConfig?: Types.AxisCfg
+) {
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
