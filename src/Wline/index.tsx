@@ -13,7 +13,7 @@ import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
 // import rectAutoTickCount from '../common/rectAutoTickCount';
-import rectTooltip from '../common/rectTooltip';
+import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 // import ResetButton from '../common/ResetButton';
@@ -26,11 +26,7 @@ interface WlineConfig extends BaseChartConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | boolean,
   yAxis?: Types.ScaleOption & YAxisConfig | boolean,
   legend?: LegendConfig | boolean,
-  tooltip?: {
-    titleFormatter: null,
-    nameFormatter: null,
-    valueFormatter: null,
-  } | boolean,
+  tooltip?: TooltipConfig | boolean,
   area?: boolean,
   stack?: boolean, // 仅Area有效
   spline?: boolean,
