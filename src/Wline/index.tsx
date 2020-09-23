@@ -8,7 +8,7 @@ import Base, { BaseChartConfig } from "../common/Base";
 // import merge from '../common/merge';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
-import guide from '../common/guide';
+import guide, { GuideConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
@@ -27,6 +27,7 @@ interface WlineConfig extends BaseChartConfig {
   yAxis?: Types.ScaleOption & YAxisConfig | boolean,
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
+  guide?: GuideConfig,
   area?: boolean,
   stack?: boolean, // 仅Area有效
   spline?: boolean,

@@ -37,7 +37,7 @@ export interface TooltipConfig {
  * */
 export default function(
   chart: Chart,
-  config: { tooltip: TooltipConfig },
+  config: { tooltip?: TooltipConfig },
   componentConfig?: Types.TooltipCfg,
   onTooltipChange?: Function
 ) {

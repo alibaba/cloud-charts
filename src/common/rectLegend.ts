@@ -58,7 +58,7 @@ export interface LegendConfig {
  * */
 export default function (
   chart: Chart,
-  config: { legend: LegendConfig },
+  config: { legend?: LegendConfig },
   componentConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
   field: string

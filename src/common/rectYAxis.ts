@@ -25,7 +25,7 @@ export interface YAxisConfig {
  * */
 export default function (
   chart: Chart,
-  config: { yAxis: YAxisConfig },
+  config: { yAxis?: YAxisConfig },
   yField: string = 'y',
   componentConfig?: Types.AxisCfg
 ) {

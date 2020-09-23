@@ -25,7 +25,7 @@ export interface XAxisConfig {
  * */
 export default function (
   chart: Chart,
-  config: { grid?: boolean; xAxis: XAxisConfig },
+  config: { grid?: boolean; xAxis?: XAxisConfig },
   componentConfig?: Types.AxisCfg
 ) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
