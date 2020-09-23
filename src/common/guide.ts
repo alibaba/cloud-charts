@@ -1,6 +1,14 @@
 'use strict';
 
+import { Chart, Types } from "./types";
 import { getStatusColor } from './common';
+
+export interface GuideConfig {
+  visible?: boolean;
+  line?: GuideLineConfig | GuideLineConfig[];
+  area?: GuideAreaConfig | GuideAreaConfig[];
+  filter?: GuideFilterConfig | GuideFilterConfig[];
+}
 
 /**
  * 绘制辅助标记通用函数
@@ -9,7 +17,7 @@ import { getStatusColor } from './common';
  * @param {object} config 图表配置项
  *
  * */
-export default function (chart, config) {
+export default function (chart: Chart, config: { guide?: GuideConfig }) {
   const { guide } = config;
   if (!guide || guide.visible === false) {
     return;
@@ -52,7 +60,10 @@ export default function (chart, config) {
   }
 }
 
-export function drawGuideLine(chart, guideLine) {
+interface GuideLineConfig {
+
+}
+export function drawGuideLine(chart: Chart, guideLine: GuideLineConfig) {
   const { top = true, text = {}, status, axis, value, start, end, style = {} } = guideLine;
   const {
     title, position: titlePosition, align: titleAlign, rotate: titleRotate, offsetX, offsetY, style: textStyle = {},
@@ -123,7 +134,10 @@ export function drawGuideLine(chart, guideLine) {
   }
 }
 
-export function drawGuideArea(chart, guideArea) {
+interface GuideAreaConfig {
+
+}
+export function drawGuideArea(chart: Chart, guideArea: GuideAreaConfig) {
   const { top = true, status, axis, value, start, end, style = {} } = guideArea;
   const color = getStatusColor(status);
 
@@ -174,7 +188,10 @@ export function drawGuideArea(chart, guideArea) {
   }
 }
 
-export function drawGuideFilter(chart, guideFilter) {
+interface GuideFilterConfig {
+
+}
+export function drawGuideFilter(chart: Chart, guideFilter: GuideFilterConfig) {
   const { top = true, status, axis, value, start, end, apply } = guideFilter;
   const color = getStatusColor(status);
 
