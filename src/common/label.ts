@@ -1,8 +1,33 @@
 'use strict';
 
+import { Geometry, Types } from "./types";
 import themes from '../themes';
-import { pxToNumber, isInvalidNumber } from './common';
-import merge from './merge';
+import { merge, pxToNumber, isInvalidNumber } from './common';
+
+export interface LabelConfig {
+  visible?: boolean;
+  /**
+   * 用于声明渲染的 label 类型。
+   * 当用户使用了自定义的 label 类型，需要声明具体的 type 类型，否则会使用默认的 label 类型渲染。
+   */
+  type?: string;
+  /** 相对数据点的偏移距离。 */
+  offset?: number;
+  /** label 相对于数据点在 X 方向的偏移距离。 */
+  offsetX?: number;
+  /** label 相对于数据点在 Y 方向的偏移距离。 */
+  offsetY?: number;
+  /** label 文本图形属性样式。 */
+  style?: Types.LooseObject;
+  /** label 是否自动旋转，默认为 true。 */
+  autoRotate?: boolean;
+  /**
+   * 当且仅当 `autoRotate` 为 false 时生效，用于设置文本的旋转角度，**弧度制**。
+   */
+  rotate?: number;
+
+  customConfig?: Types.GeometryLabelCfg;
+}
 
 /**
  * 图形元素label设置。
@@ -18,11 +43,11 @@ import merge from './merge';
 const defaultConfigKey = 'label';
 
 export default function (
-  geom,
-  config,
+  geom: Geometry,
+  config: { [key: string]: LabelConfig },
   field = 'y',
-  componentConfig,
-  extraConfigKey,
+  componentConfig: Types.GeometryLabelCfg,
+  extraConfigKey: string,
   useCustomOffset = false,
 ) {
   let configLabel = config[defaultConfigKey];
@@ -44,7 +69,7 @@ export default function (
     style,
     textStyle,
   } = configLabel || {};
-  const labelConfig = {
+  const labelConfig: Types.GeometryLabelCfg = {
     type,
     position,
     // 默认距离 4，加上文字一半的大小以居中，转换为字号 12/3 + 12/2 = 12 * 5/6

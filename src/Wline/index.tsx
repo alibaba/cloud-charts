@@ -17,6 +17,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 // import ResetButton from '../common/ResetButton';
+import { LabelConfig } from "../common/label";
 import drawLine from '../common/drawLine';
 import './index.scss';
 
@@ -28,13 +29,13 @@ interface WlineConfig extends BaseChartConfig {
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
   guide?: GuideConfig,
+  label?: LabelConfig | boolean,
   area?: boolean,
   stack?: boolean, // 仅Area有效
   spline?: boolean,
   grid?: boolean,
   symbol?: boolean,
   zoom?: boolean,
-  label?: boolean,
   step?: null,
 }
 
