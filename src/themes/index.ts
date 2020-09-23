@@ -1,5 +1,6 @@
 // import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
+import { __THEME__ } from '../constants';
 // import { themeLog } from "../common/log";
 // import setG2Theme from "../common/g2Theme";
 import { /*setThemeStyle,*/ convertKey, convertCSS, convertJsStyle } from './themeTools';
@@ -10,13 +11,15 @@ import darkStyle from './dark.style';
 
 type Theme = Partial<typeof normalStyle>;
 
-const themeMap: {
+interface ThemesMap {
   [themeName: string]: {
     js: Theme;
     css: string;
     rawCSS: Theme;
   };
-} = {
+}
+
+const themeMap: ThemesMap = {
   normal: {
     js: convertKey(convertJsStyle('normal', normalStyle)),
     css: convertCSS(normalStyle),
@@ -33,7 +36,6 @@ themeMap.index = themeMap.normal;
 
 // 默认主题包
 if (process.env.NODE_ENV === 'production') {
-  // @ts-ignore
   themeMap.default = themeMap[__THEME__];
 } else {
   themeMap.default = themeMap.normal;
