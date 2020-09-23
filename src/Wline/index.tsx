@@ -14,7 +14,7 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
 // import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip from '../common/rectTooltip';
-import rectLegend from '../common/rectLegend';
+import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 // import ResetButton from '../common/ResetButton';
 import drawLine from '../common/drawLine';
@@ -25,10 +25,7 @@ interface WlineConfig extends BaseChartConfig {
   areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | boolean,
   yAxis?: Types.ScaleOption & YAxisConfig | boolean,
-  legend?: {
-    align: 'left',
-    nameFormatter: null, // 可以强制覆盖，手动设置label
-  } | boolean,
+  legend?: LegendConfig | boolean,
   tooltip?: {
     titleFormatter: null,
     nameFormatter: null,
