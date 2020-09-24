@@ -12,3 +12,4 @@ export { default as ConsolePieChart } from './ConsolePieChart';
 export { default as ConsolePlaceholderChart } from './ConsolePlaceholderChart';
 export { default as ConsoleScatterChart } from './ConsoleScatterChart';
 export { default as ConsoleWorldmapChart } from './ConsoleWorldmapChart';
+export { Util, track, themes } from '@alicloud/cloud-charts';
