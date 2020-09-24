@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/console-charts",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "react charts component",
   "files": [
     "demo/",
@@ -17,7 +17,6 @@
     "lint": "eslint --cache --ext .js,.jsx ./"
   },
   "sideEffects": [
-    "dist/*",
     "*.scss",
     "*.css"
   ],
