@@ -1,6 +1,16 @@
 import '@alicloud/cloud-charts/build/index.css';
 
-export { default as LineBase } from './LineBase/index';
-export { default as LineArea } from './LineArea/index';
-export { default as LineAreaStack } from './LineAreaStack/index';
-export { default as LineSmooth } from './LineSmooth/index';
+export { default as ConsoleBarChart } from './ConsoleBarChart';
+export { default as ConsoleCircleChart } from './ConsoleCircleChart';
+export { default as ConsoleCountChart } from './ConsoleCountChart';
+export { default as ConsoleFunnelChart } from './ConsoleFunnelChart';
+export { default as ConsoleHistogramChart } from './ConsoleHistogramChart';
+export { default as ConsoleLinebarChart } from './ConsoleLinebarChart';
+export { default as ConsoleLineChart } from './ConsoleLineChart';
+export { default as ConsoleMapChart } from './ConsoleMapChart';
+export { default as ConsoleMinilineChart } from './ConsoleMinilineChart';
+export { default as ConsoleNumberChart } from './ConsoleNumberChart';
+export { default as ConsolePieChart } from './ConsolePieChart';
+export { default as ConsolePlaceholderChart } from './ConsolePlaceholderChart';
+export { default as ConsoleScatterChart } from './ConsoleScatterChart';
+export { default as ConsoleWorldmapChart } from './ConsoleWorldmapChart';
