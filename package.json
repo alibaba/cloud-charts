@@ -31,6 +31,7 @@
     "package.json",
     "README.md",
     "CHANGELOG.md",
+    "index.d.ts",
     "lib",
     "components",
     "font",
