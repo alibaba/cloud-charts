@@ -16,7 +16,11 @@
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "dist/*",
+    "*.scss",
+    "*.css"
+  ],
   "keywords": [
     "charts",
     "g2",
