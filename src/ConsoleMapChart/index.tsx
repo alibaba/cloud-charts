@@ -1,3 +1,3 @@
-import { Wmap } from '@alicloud/cloud-charts';
+import { Wmap as ConsoleMapChart } from '@alicloud/cloud-charts';
 
-export default Wmap;
+export default ConsoleMapChart;

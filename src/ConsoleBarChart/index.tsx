@@ -1,3 +1,3 @@
-import { Wbar } from '@alicloud/cloud-charts';
+import { Wbar as ConsoleBarChart } from '@alicloud/cloud-charts';
 
-export default Wbar;
+export default ConsoleBarChart;

@@ -1,3 +1,3 @@
-import { Wfunnel } from '@alicloud/cloud-charts';
+import { Wfunnel as ConsoleFunnelChart } from '@alicloud/cloud-charts';
 
-export default Wfunnel;
+export default ConsoleFunnelChart;

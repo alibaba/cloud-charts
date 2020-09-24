@@ -1,3 +1,3 @@
-import { Wcircle } from '@alicloud/cloud-charts';
+import { Wcircle as ConsoleCircleChart } from '@alicloud/cloud-charts';
 
-export default Wcircle;
+export default ConsoleCircleChart;

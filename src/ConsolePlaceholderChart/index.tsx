@@ -1,3 +1,3 @@
-import { Wplaceholder } from '@alicloud/cloud-charts';
+import { Wplaceholder as ConsolePlaceholderChart } from '@alicloud/cloud-charts';
 
-export default Wplaceholder;
+export default ConsolePlaceholderChart;

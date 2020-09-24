@@ -1,3 +1,3 @@
-import { Wpie } from '@alicloud/cloud-charts';
+import { Wpie as ConsolePieChart } from '@alicloud/cloud-charts';
 
-export default Wpie;
+export default ConsolePieChart;

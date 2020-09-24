@@ -1,3 +1,3 @@
-import { Whistogram } from '@alicloud/cloud-charts';
+import { Whistogram as ConsoleHistogramChart } from '@alicloud/cloud-charts';
 
-export default Whistogram;
+export default ConsoleHistogramChart;

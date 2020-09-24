@@ -1,3 +1,3 @@
-import { Wline } from '@alicloud/cloud-charts';
+import { Wline as ConsoleLineChart } from '@alicloud/cloud-charts';
 
-export default Wline;
+export default ConsoleLineChart;

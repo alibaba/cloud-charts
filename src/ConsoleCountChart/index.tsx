@@ -1,3 +1,3 @@
-import { Wcount } from '@alicloud/cloud-charts';
+import { Wcount as ConsoleCountChart } from '@alicloud/cloud-charts';
 
-export default Wcount;
+export default ConsoleCountChart;

@@ -1,3 +1,3 @@
-import { Wminiline } from '@alicloud/cloud-charts';
+import { Wminiline as ConsoleMinilineChart } from '@alicloud/cloud-charts';
 
-export default Wminiline;
+export default ConsoleMinilineChart;

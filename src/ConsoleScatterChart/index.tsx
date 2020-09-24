@@ -1,3 +1,3 @@
-import { Wscatter } from '@alicloud/cloud-charts';
+import { Wscatter as ConsoleScatterChart } from '@alicloud/cloud-charts';
 
-export default Wscatter;
+export default ConsoleScatterChart;

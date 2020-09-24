@@ -1,3 +1,3 @@
-import { Wnumber } from '@alicloud/cloud-charts';
+import { Wnumber as ConsoleNumberChart } from '@alicloud/cloud-charts';
 
-export default Wnumber;
+export default ConsoleNumberChart;
