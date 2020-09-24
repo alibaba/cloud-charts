@@ -1,5 +1,3 @@
-import '@alicloud/cloud-charts/build/index.css';
-
 export { default as ConsoleBarChart } from './ConsoleBarChart';
 export { default as ConsoleCircleChart } from './ConsoleCircleChart';
 export { default as ConsoleCountChart } from './ConsoleCountChart';
