@@ -46,9 +46,9 @@ export default function (
   geom: Geometry,
   config: { [key: string]: LabelConfig },
   field = 'y',
-  componentConfig: Types.GeometryLabelCfg,
-  extraConfigKey: string,
-  useCustomOffset = false,
+  componentConfig?: Types.GeometryLabelCfg,
+  extraConfigKey?: string,
+  useCustomOffset?: boolean,
 ) {
   let configLabel = config[defaultConfigKey];
   if (extraConfigKey && config[extraConfigKey] !== undefined) {

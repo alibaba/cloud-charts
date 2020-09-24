@@ -17,26 +17,25 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 // import ResetButton from '../common/ResetButton';
-import { LabelConfig } from "../common/label";
-import drawLine from '../common/drawLine';
+import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
-interface WlineConfig extends BaseChartConfig {
-  colors?: string[];
-  areaColors?: string[];
+interface WlineConfig extends BaseChartConfig, DrawLineConfig {
+  // colors?: string[];
+  // areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | boolean,
   yAxis?: Types.ScaleOption & YAxisConfig | boolean,
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
   guide?: GuideConfig,
-  label?: LabelConfig | boolean,
-  area?: boolean,
-  stack?: boolean, // 仅Area有效
-  spline?: boolean,
+  // label?: LabelConfig | boolean,
+  // area?: boolean,
+  // stack?: boolean, // 仅Area有效
+  // spline?: boolean,
   grid?: boolean,
-  symbol?: boolean,
+  // symbol?: boolean,
   zoom?: boolean,
-  step?: null,
+  // step?: string | boolean,
 }
 
 class Wline extends Base<WlineConfig> {

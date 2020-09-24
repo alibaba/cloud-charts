@@ -1,9 +1,25 @@
 'use strict';
-
-import label from './label';
+import { Chart, Types } from "./types";
+import label, { LabelConfig } from './label';
 import getGeomSizeConfig from './geomSize';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
+
+export interface DrawLineConfig {
+  colors?: string[];
+  areaColors?: string[];
+  area?: boolean,
+  stack?: boolean, // 仅Area有效
+  spline?: boolean,
+  step?: string | boolean,
+  symbol?: {
+    size?: any;
+    geomStyle?: Types.LooseObject;
+  } | boolean,
+  label?: LabelConfig | boolean,
+  lineWidth?: number;
+  geomStyle?: Types.LooseObject;
+}
 
 /**
  * drawLine 绘制线图逻辑
@@ -12,7 +28,7 @@ const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
  * @param {Object} config 配置项
  * @param {string} yAxisKey 数据映射字段
  * */
-export default function drawLine(chart, config, yAxisKey = 'y') {
+export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey = 'y') {
   const { lineWidth } = config;
   const geomStyle = config.geomStyle || {};
   if (lineWidth && geomStyle.lineWidth === undefined) {
@@ -30,7 +46,7 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
 
   // 阶梯折线，目前区域图不支持阶梯，需特殊说明
   if (config.step && !config.area) {
-    lineShape = stepNames.indexOf(config.step) > -1 ? config.step : 'hv';
+    lineShape = stepNames.indexOf(String(config.step)) > -1 ? (config.step as string) : 'hv';
   }
 
   let lineGeom = null;
@@ -108,7 +124,7 @@ export default function drawLine(chart, config, yAxisKey = 'y') {
   }
 }
 
-function mergeArray(target, ...source) {
+function mergeArray(target: string[], ...source: string[][]) {
   source.forEach((s) => {
     if (!s || s.length === 0) {
       return;
