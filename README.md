@@ -4,7 +4,7 @@
 
 面向中后台的开箱即用图表库，让前端图表更简单。
 
-[WebSite](https://cloud-charts.netlify.app/) | [国内镜像](http://cloud-charts.gitee.io/)
+[WebSite](https://charts.wiki/) | [国内镜像](http://cloud-charts.gitee.io/)
 
 - 简单上手，开箱即用。
 
