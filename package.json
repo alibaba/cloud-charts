@@ -41,8 +41,7 @@
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "wolfy87-eventemitter": "^5.2.8"
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",

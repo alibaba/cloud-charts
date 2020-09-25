@@ -92,7 +92,7 @@ export function setTheme(theme: string | {} = 'default', refreshChart: boolean =
   // setG2Theme(themes);
 
   if (refreshChart) {
-    eventBus.emitEvent('setTheme');
+    eventBus.emit('setTheme');
   }
 }
 
