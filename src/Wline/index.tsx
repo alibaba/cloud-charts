@@ -23,8 +23,8 @@ import './index.scss';
 interface WlineConfig extends BaseChartConfig, DrawLineConfig {
   // colors?: string[];
   // areaColors?: string[];
-  xAxis?: Types.ScaleOption & XAxisConfig | boolean,
-  yAxis?: Types.ScaleOption & YAxisConfig | boolean,
+  xAxis?: Types.ScaleOption & XAxisConfig | false,
+  yAxis?: Types.ScaleOption & YAxisConfig | false,
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
   guide?: GuideConfig,

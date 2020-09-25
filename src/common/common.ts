@@ -31,7 +31,7 @@ const keyType: Types.LooseObject = {
  *
  * @return {Object} 目标对象
  * */
-export function propertyAssign(keys: string[], target: Types.LooseObject, source: Types.LooseObject) {
+export function propertyAssign(keys: string[], target: Types.LooseObject, source: Types.LooseObject | false) {
   if (!source) {
     return target;
   }
