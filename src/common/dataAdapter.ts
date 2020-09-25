@@ -1,7 +1,7 @@
 'use strict';
-import { Types } from "./types";
+import { Types, BaseChartConfig } from "./types";
 
-interface DataAdapterConfig {
+interface DataAdapterConfig extends BaseChartConfig{
   xAxis?: {
     categories?: number[];
   };

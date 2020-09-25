@@ -3,6 +3,7 @@
 import * as G2 from '@antv/g2';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { BaseChartConfig, ChartData, Size } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
@@ -17,15 +18,6 @@ function generateUniqueId(): string {
 
 const rootClassName = 'cloud-charts ';
 const rootChildClassName = 'cloud-charts-children';
-
-export interface BaseChartConfig {
-  padding?: string[];
-  dataType?: string;
-}
-
-export type ChartData = any;
-
-type Size = number | string;
 
 export interface ChartProps<ChartConfig> {
   className?: string;

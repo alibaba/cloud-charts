@@ -1,7 +1,6 @@
 'use strict';
 
-import { Types } from "./types";
-import { ChartData } from "./Base";
+import { Types, ChartData } from "./types";
 
 const defaultMask = 'YYYY-MM-DD HH:mm:ss';
 const MINUTE_MS = 60 * 1000;
