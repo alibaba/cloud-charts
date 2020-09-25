@@ -3,6 +3,7 @@
   "version": "2.6.20",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "types": "lib/index.d.ts",
   "sideEffects": [
     "build/*",
     "*.scss",
@@ -50,6 +51,7 @@
     "@storybook/addon-links": "^5.2.6",
     "@storybook/addons": "^5.2.6",
     "@storybook/react": "^5.2.6",
+    "@types/lodash": "^4.14.161",
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
     "awesome-typescript-loader": "^5.2.1",
