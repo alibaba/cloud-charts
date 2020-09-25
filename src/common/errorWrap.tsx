@@ -1,4 +1,15 @@
-import React from 'react';
+import * as React from 'react';
+import { Chart } from './types';
+
+interface ErrorProps {
+  className?: string;
+  style?: React.CSSProperties;
+  forwardedRef?: React.Ref<any>;
+}
+
+interface ErrorState {
+  errorStack?: string | null;
+}
 
 /**
  * errorWrap 错误捕获HOC
@@ -7,43 +18,53 @@ import React from 'react';
  *
  * @return {React.Component}
  * */
-export default /*#__PURE__*/ function errorWrap(Component) {
-  class ErrorBoundary extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { error: null };
-    }
+export default /*#__PURE__*/function errorWrap(Component: React.ComponentClass) {
+  class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
+    static isG2Chart = true;
+    static displayName = Component.displayName;
+    static propTypes = Component.propTypes;
+    static defaultProps = Component.defaultProps;
+
+    state: ErrorState = { errorStack: null };
+
+    public chart: Chart;
+
+    public chartDom: HTMLDivElement;
+
+    public chartId: string;
+
+    public size: number[];
 
     shouldComponentUpdate() {
-      if (this.state.error) {
+      if (this.state.errorStack) {
         // 在update前重置error标记
         // 为顾及React16.3之前的用户，因此没有将该逻辑放在getDerivedStateFromProps里
-        this.setState({ error: null });
+        this.setState({ errorStack: null });
       }
       return true;
     }
 
-    componentDidCatch(error, info) {
+    componentDidCatch(error: Error/*, info*/) {
       // Display fallback UI
-      this.setState({ error: error.stack });
+      this.setState({ errorStack: error.stack });
     }
 
     // 低版本React中，复制可能用到的属性。
-    oldReactRef = (chartInstance) => {
+    oldReactRef: React.RefCallback<any> = (chartInstance) => {
       if (chartInstance) {
         // 复制旧版本可能用到的属性
         this.chart = chartInstance.chart;
         this.chartId = chartInstance.chartId;
         this.chartDom = chartInstance.chartDom;
-        this._size = chartInstance._size;
+        this.size = chartInstance.size;
       }
     };
 
     render() {
-      if (this.state.error) {
+      if (this.state.errorStack) {
         const { className = '', style } = this.props;
         // You can render any custom fallback UI
-        return <pre className={`${Component.baseClassName} widgets-error-info ${className}`} style={style}>{this.state.error}</pre>;
+        return <pre className={`widgets-error-info ${className}`} style={style}>{this.state.errorStack}</pre>;
       }
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
@@ -53,10 +74,11 @@ export default /*#__PURE__*/ function errorWrap(Component) {
   }
 
   if (React.forwardRef) {
-    const forwardRefFunc = function (props, ref) {
+    const forwardRefFunc = function (props: any, ref: React.Ref<any>) {
       return <ErrorBoundary {...props} forwardedRef={ref} />;
     };
     const result = React.forwardRef(forwardRefFunc);
+    // @ts-ignore
     result.isG2Chart = true;
     result.displayName = Component.displayName;
     result.propTypes = Component.propTypes;
@@ -64,11 +86,6 @@ export default /*#__PURE__*/ function errorWrap(Component) {
 
     return result;
   }
-
-  ErrorBoundary.isG2Chart = true;
-  ErrorBoundary.displayName = Component.displayName;
-  ErrorBoundary.propTypes = Component.propTypes;
-  ErrorBoundary.defaultProps = Component.defaultProps;
 
   return ErrorBoundary;
 }
