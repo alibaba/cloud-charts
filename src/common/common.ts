@@ -1,20 +1,21 @@
-import G2 from '@antv/g2';
+import { Types } from "./types";
 import themes from '../themes';
 
+export { isEqual, isEqualWith, merge } from 'lodash'
 // 引入 lodash 的 isEqual 代替
-export { default as isEqual } from 'lodash/isEqual';
-export { default as isEqualWith } from 'lodash/isEqualWith';
-export { default as merge } from 'lodash/merge';
+// export { } from 'lodash/isEqual';
+// export { default as isEqualWith } from 'lodash/isEqualWith';
+// export { default as merge } from 'lodash/merge';
 // export { default as merge } from './merge';
 
-export const requestAnimationFrame = (window && window.requestAnimationFrame) || G2.DomUtil.requestAnimationFrame;
+export const requestAnimationFrame = window && window.requestAnimationFrame;
 
 export const propertyMap = {
   xAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
   yAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
 };
 
-const keyType = {
+const keyType: Types.LooseObject = {
   min: 'number',
   max: 'number',
   minLimit: 'number',
@@ -30,7 +31,7 @@ const keyType = {
  *
  * @return {Object} 目标对象
  * */
-export function propertyAssign(keys, target, source) {
+export function propertyAssign(keys: string[], target: Types.LooseObject, source: Types.LooseObject) {
   if (!source) {
     return target;
   }
@@ -69,7 +70,7 @@ export function propertyAssign(keys, target, source) {
  *
  * @return {number[]} 宽和高的数组
  * */
-export function getParentSize(element, width, height) {
+export function getParentSize(element: HTMLElement, width: number | string, height: number | string) {
   let w = width || '';
   let h = height || '';
 
@@ -99,7 +100,7 @@ export function getParentSize(element, width, height) {
  *
  * @return {number} 数值
  * */
-export function pxToNumber(px) {
+export function pxToNumber(px: string) {
   return Number(px.replace('px', ''));
 }
 
@@ -110,7 +111,7 @@ export function pxToNumber(px) {
  * @param {array} rawData Highcharts 格式的数据
  * @param {number} dataIndex y轴对应的index
  * */
-export function getDataIndexColor(colors, rawData, dataIndex) {
+export function getDataIndexColor(colors: string[], rawData: any[], dataIndex: number): string | void {
   let colorIndex = null;
   // 找到第一个顺序值和数据中yAxis值匹配的index
   rawData.some((d, i) => {
@@ -122,7 +123,7 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
     return false;
   });
 
-  if (colorIndex !== null) {
+  if (typeof colorIndex === 'number') {
     return colors[colorIndex];
   }
 }
@@ -134,9 +135,9 @@ export function getDataIndexColor(colors, rawData, dataIndex) {
  *
  * @return {string} 颜色值
  * */
-export function getStatusColor(status) {
+export function getStatusColor(status: string) {
   // map 放入函数内，以响应 theme 的动态变化
-  const statusMap = {
+  const statusMap: Types.LooseObject = {
     error: themes['widgets-color-red'],
     red: themes['widgets-color-red'],
 
@@ -156,7 +157,7 @@ export function getStatusColor(status) {
   return statusMap[status] || status || statusMap.normal;
 }
 
-const statusColorMap = {
+const statusColorMap: { [key: string]: string } = {
   error: 'red',
   warning: 'orange',
   normal: 'blue',
@@ -170,7 +171,7 @@ const statusColorMap = {
  *
  * @return {string} 颜色名称
  * */
-export function getStatusColorName(status) {
+export function getStatusColorName(status: string) {
   return statusColorMap[status] || status || statusColorMap.normal;
 }
 
@@ -181,7 +182,7 @@ export function getStatusColorName(status) {
  *
  * @return {boolean} 是否有效数字
  * */
-export function isInvalidNumber(v) {
+export function isInvalidNumber(v: any) {
   return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
 }
 
@@ -193,7 +194,7 @@ export function isInvalidNumber(v) {
  *
  * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回设定小数位的字符串。
  * */
-export function numberDecimal(num, decimal = 2) {
+export function numberDecimal(num: any, decimal = 2) {
   if (isInvalidNumber(num) || isInvalidNumber(decimal)) {
     return '-';
   }
@@ -209,7 +210,7 @@ export function numberDecimal(num, decimal = 2) {
  *
  * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回千分位的字符串。
  * */
-export function beautifyNumber(num, char = ',') {
+export function beautifyNumber(num: any, char = ',') {
   if (isInvalidNumber(num)) {
     return '-';
   }
@@ -249,7 +250,7 @@ export function noop() {}
  *
  * @return {object} 寻找得到的原始数据，没有找到则返回空对象。
  * */
-export function getRawData(config, rawData, item) {
+export function getRawData(config: { dataType?: string }, rawData: any[], item: any) {
   if (!rawData) {
     return {};
   }
@@ -280,8 +281,8 @@ export function getRawData(config, rawData, item) {
  *
  * @return {object} 过滤后的结果
  * */
-export function filterKey(obj, keys) {
-  const result = {};
+export function filterKey(obj: Types.LooseObject, keys: string[]) {
+  const result: Types.LooseObject = {};
   Object.keys(obj).forEach((key) => {
     if (keys.indexOf(key) === -1) {
       result[key] = obj[key];
@@ -303,52 +304,52 @@ export function filterKey(obj, keys) {
  *
  * @return
  * */
-export function defaultPadding(padding, config, defaultTop, defaultRight, defaultBottom, defaultLeft) {
-  if (padding) {
-    return padding;
-  }
-
-  // 取默认配置中的padding
-  let top = defaultTop;
-  let right = defaultRight;
-  let bottom = defaultBottom;
-  let left = defaultLeft;
-
-  if (right !== 'auto' && Array.isArray(config.yAxis)) {
-    right = 45;
-  }
-
-  if (top !== 'auto' && (config.legend === false || (config.legend && config.legend.visible === false))) {
-    top = 16;
-  }
-  if (config.legend !== false && !(config.legend && config.legend.visible === false)) {
-    const { position = 'top' } = config.legend || {};
-    if (top !== 'auto' && position === 'bottom') {
-      top = 10;
-    }
-    if (position === 'bottom') {
-      bottom = 48;
-    }
-  }
-
-  // X轴标题
-  if (config.xAxis && config.xAxis.visible !== false && config.xAxis.alias && bottom !== 'auto') {
-    bottom += 14;
-  }
-
-  // Y轴标题
-  if (Array.isArray(config.yAxis)) {
-    config.yAxis.forEach((axis, yIndex) => {
-      if (yIndex === 0 && axis && axis.visible !== false && axis.alias && left !== 'auto') {
-        left += 20;
-      }
-      if (yIndex !== 0 && axis && axis.visible !== false && axis.alias && right !== 'auto') {
-        right += 20;
-      }
-    });
-  } else if (config.yAxis && config.yAxis.visible !== false && config.yAxis.alias && left !== 'auto') {
-    left += 20;
-  }
-
-  return [top, right, bottom, left];
-}
+// export function defaultPadding(padding, config, defaultTop, defaultRight, defaultBottom, defaultLeft) {
+//   if (padding) {
+//     return padding;
+//   }
+//
+//   // 取默认配置中的padding
+//   let top = defaultTop;
+//   let right = defaultRight;
+//   let bottom = defaultBottom;
+//   let left = defaultLeft;
+//
+//   if (right !== 'auto' && Array.isArray(config.yAxis)) {
+//     right = 45;
+//   }
+//
+//   if (top !== 'auto' && (config.legend === false || (config.legend && config.legend.visible === false))) {
+//     top = 16;
+//   }
+//   if (config.legend !== false && !(config.legend && config.legend.visible === false)) {
+//     const { position = 'top' } = config.legend || {};
+//     if (top !== 'auto' && position === 'bottom') {
+//       top = 10;
+//     }
+//     if (position === 'bottom') {
+//       bottom = 48;
+//     }
+//   }
+//
+//   // X轴标题
+//   if (config.xAxis && config.xAxis.visible !== false && config.xAxis.alias && bottom !== 'auto') {
+//     bottom += 14;
+//   }
+//
+//   // Y轴标题
+//   if (Array.isArray(config.yAxis)) {
+//     config.yAxis.forEach((axis, yIndex) => {
+//       if (yIndex === 0 && axis && axis.visible !== false && axis.alias && left !== 'auto') {
+//         left += 20;
+//       }
+//       if (yIndex !== 0 && axis && axis.visible !== false && axis.alias && right !== 'auto') {
+//         right += 20;
+//       }
+//     });
+//   } else if (config.yAxis && config.yAxis.visible !== false && config.yAxis.alias && left !== 'auto') {
+//     left += 20;
+//   }
+//
+//   return [top, right, bottom, left];
+// }
