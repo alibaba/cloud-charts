@@ -1,4 +1,22 @@
 'use strict';
+import { Types } from "./types";
+
+interface DataAdapterConfig {
+  xAxis?: {
+    categories?: number[];
+  };
+  yAxis?: Types.LooseObject | any[];
+}
+
+type RawDataItem = (number | string)[] | Types.LooseObject;
+interface DataAdapterData {
+  name: string;
+  data?: RawDataItem[];
+  yAxis?: number;
+  dodge?: string;
+  facet?: string;
+  visible?: boolean;
+}
 
 /**
  * drawLine 绘制线图逻辑
@@ -8,14 +26,14 @@
  *
  * @return {Array} json-array 型数据
  * */
-export default function highchartsDataToG2Data(data, config) {
+export default function highchartsDataToG2Data(data: DataAdapterData[], config: DataAdapterConfig) {
   if (!data) {
     return [];
   }
   if (!Array.isArray(data)) {
     data = [data];
   }
-  const newData = [];
+  const newData: Types.LooseObject[] = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach(oneData => {
       if (!oneData || !Array.isArray(oneData.data)) {
@@ -48,7 +66,7 @@ export default function highchartsDataToG2Data(data, config) {
           config.xAxis.categories[i]
         ) {
           const x = config.xAxis.categories[i];
-          const y = isNaN(d) ? d[0] : d;
+          const y = typeof d === 'number' ? d : d[0];
           newData.push({
             x,
             [`y${yIndex}`]: y,
@@ -99,7 +117,7 @@ export default function highchartsDataToG2Data(data, config) {
           config.xAxis.categories[i]
         ) {
           const x = config.xAxis.categories[i];
-          const y = isNaN(d) ? d[0] : d;
+          const y = typeof d === 'number' ? d : d[0];
           newData.push({
             x,
             y,
@@ -110,7 +128,7 @@ export default function highchartsDataToG2Data(data, config) {
             visible,
             type: dataName,
           });
-        } else if (!isNaN(d)) {
+        } else if (typeof d === 'number') {
           newData.push({
             x: d,
             y: d,
