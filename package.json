@@ -28,7 +28,7 @@
     "component"
   ],
   "dependencies": {
-    "@alicloud/cloud-charts": "^0.1.4",
+    "@alicloud/cloud-charts": "^0.1.5",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {
