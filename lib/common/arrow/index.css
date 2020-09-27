@@ -1,0 +1,17 @@
+.cloud-warrow:before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+  border: 8px solid transparent;
+  border-right-width: 5px;
+  border-left-width: 5px; }
+
+.cloud-warrow.cloud-warrow-up:before {
+  border-bottom-color: var(--widgets-color-blue, #3F90FF); }
+
+.cloud-warrow.cloud-warrow-down:before {
+  position: relative;
+  top: 8px;
+  border-top-color: var(--widgets-color-red, #E62412); }

@@ -1,0 +1,16 @@
+.cloud-charts.G2LineBar > div {
+  height: 100%; }
+  .cloud-charts.G2LineBar > div.widgets-legend-align-left {
+    text-align: left; }
+  .cloud-charts.G2LineBar > div.widgets-legend-align-center {
+    text-align: center; }
+  .cloud-charts.G2LineBar > div.widgets-legend-align-right {
+    text-align: right; }
+
+.cloud-charts.G2LineBar canvas {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.cloud-charts.G2LineBar .g2-legend-list-item:last-child {
+  margin-right: 0 !important; }

@@ -1,0 +1,66 @@
+.cloud-wplaceholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; }
+  .cloud-wplaceholder.cloud-wplaceholder-loading .item-1 {
+    animation: wplaceholder-loading-1 1s linear 0s infinite; }
+  .cloud-wplaceholder.cloud-wplaceholder-loading .item-2 {
+    animation: wplaceholder-loading-2 1s linear 0s infinite; }
+  .cloud-wplaceholder.cloud-wplaceholder-loading .item-3 {
+    animation: wplaceholder-loading-3 1s linear 0s infinite; }
+
+@keyframes wplaceholder-loading-1 {
+  0% {
+    height: 20px;
+    y: 12px; }
+  33% {
+    height: 32px;
+    y: 0px; }
+  66% {
+    height: 26px;
+    y: 6px; }
+  100% {
+    height: 20px;
+    y: 12px; } }
+
+@keyframes wplaceholder-loading-2 {
+  0% {
+    height: 32px;
+    y: 0px; }
+  33% {
+    height: 26px;
+    y: 6px; }
+  66% {
+    height: 20px;
+    y: 12px; }
+  100% {
+    height: 32px;
+    y: 0px; } }
+
+@keyframes wplaceholder-loading-3 {
+  0% {
+    height: 26px;
+    y: 6px; }
+  33% {
+    height: 20px;
+    y: 12px; }
+  66% {
+    height: 32px;
+    y: 0px; }
+  100% {
+    height: 26px;
+    y: 6px; } }
+  .cloud-wplaceholder .placeholder-item {
+    fill: var(--widgets-color-gray, #E5E5E5); }
+  .cloud-wplaceholder .cloud-wplaceholder-children {
+    color: var(--widgets-color-disable, #BFBFBF);
+    font-size: var(--widgets-font-size-1, 12px);
+    line-height: 1; }
+  .cloud-wplaceholder .cloud-wplaceholder-children-text {
+    margin-top: var(--s2, 8px); }

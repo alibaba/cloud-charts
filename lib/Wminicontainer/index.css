@@ -1,0 +1,18 @@
+.cloud-wminicontainer {
+  background: var(--widgets-container-background, #FFFFFF);
+  padding-top: var(--s5, 20px);
+  border-radius: var(--corner-radius-r1, 4px); }
+  .cloud-wminicontainer.cloud-wminicontainer-mobile {
+    padding-top: var(--s3, 12px); }
+
+.cloud-wminicontainer-blue {
+  border-top: 2px solid var(--widgets-color-blue, #3F90FF);
+  padding-top: 18px; }
+
+.cloud-wminicontainer-orange {
+  border-top: 2px solid var(--widgets-color-orange, #FA8C15);
+  padding-top: 18px; }
+
+.cloud-wminicontainer-red {
+  border-top: 2px solid var(--widgets-color-red, #E62412);
+  padding-top: 18px; }

@@ -1,0 +1,41 @@
+.cloud-wnumber {
+  font-family: var(--widgets-font-family-txd-m-number, TXDDINMediumNumber, Helvetica Neue, Helvetica, PingFang SC, Microsoft YaHei, Arial, sans-serif);
+  font-size: var(--widgets-font-size-6, 28px);
+  line-height: 1;
+  color: var(--widgets-color-text-1, #262626); }
+  .cloud-wnumber .cloud-wnumber-main {
+    position: relative; }
+    .cloud-wnumber .cloud-wnumber-main.drop {
+      color: var(--widgets-color-red, #E62412); }
+    .cloud-wnumber .cloud-wnumber-main.raise {
+      color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon {
+      position: relative;
+      margin-right: var(--s1, 4px)/2; }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon > .drop, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon > .drop {
+        color: var(--widgets-color-red, #E62412); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon > .raise, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon > .raise {
+        color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-unit {
+      margin-left: var(--s1, 4px);
+      font-size: var(--widgets-font-size-1, 12px); }
+    .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightTitle {
+      margin-left: var(--s1, 4px);
+      font-size: var(--widgets-font-size-1, 12px);
+      color: var(--widgets-color-text-2, #595959); }
+    .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio {
+      position: absolute;
+      right: 0;
+      top: 12px;
+      font-size: var(--widgets-font-size-3, 16px);
+      color: var(--widgets-color-text-2, #595959); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.drop {
+        color: var(--widgets-color-red, #E62412); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.raise {
+        color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-trend {
+      margin-left: var(--s2, 8px); }
+  .cloud-wnumber .cloud-wnumber-bottomTitle {
+    font-size: var(--widgets-font-size-1, 12px);
+    margin-top: var(--s1, 4px);
+    color: var(--widgets-color-text-2, #595959); }

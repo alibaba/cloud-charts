@@ -1,0 +1,773 @@
+@charset "UTF-8";
+@font-face {
+  font-family: WidgetsIcon;
+  src: url("./font_180585_2frjb4evzia.eot");
+  src: url("./font_180585_2frjb4evzia.eot?#iefix") format("embedded-opentype"), url("./font_180585_2frjb4evzia.woff2") format("woff2"), url("./font_180585_2frjb4evzia.ttf") format("truetype"), url("./font_180585_2frjb4evzia.woff") format("woff"), url("./font_180585_2frjb4evzia.svg#articonsvg") format("svg"); }
+
+.cloud-wicon {
+  position: relative;
+  display: inline-block;
+  font-family: WidgetsIcon;
+  font-style: normal;
+  font-weight: normal;
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.1px;
+  -moz-osx-font-smoothing: grayscale; }
+  .cloud-wicon.cloud-wicon-reverse {
+    border-radius: 50%; }
+    .cloud-wicon.cloud-wicon-reverse.cloud-wicon-gray {
+      color: var(--widgets-color-background, #FFFFFF);
+      background-color: var(--widgets-color-gray, #E5E5E5); }
+    .cloud-wicon.cloud-wicon-reverse.cloud-wicon-blue {
+      color: var(--widgets-color-background, #FFFFFF);
+      background-color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wicon.cloud-wicon-reverse.cloud-wicon-orange {
+      color: var(--widgets-color-background, #FFFFFF);
+      background-color: var(--widgets-color-orange, #FA8C15); }
+    .cloud-wicon.cloud-wicon-reverse.cloud-wicon-red {
+      color: var(--widgets-color-background, #FFFFFF);
+      background-color: var(--widgets-color-red, #E62412); }
+    .cloud-wicon.cloud-wicon-reverse.cloud-wicon-green {
+      color: var(--widgets-color-background, #FFFFFF);
+      background-color: var(--widgets-color-green, #15AD31); }
+  .cloud-wicon.cloud-wicon-gray {
+    color: var(--widgets-color-gray, #E5E5E5); }
+  .cloud-wicon.cloud-wicon-blue {
+    color: var(--widgets-color-blue, #3F90FF); }
+  .cloud-wicon.cloud-wicon-orange {
+    color: var(--widgets-color-orange, #FA8C15); }
+  .cloud-wicon.cloud-wicon-red {
+    color: var(--widgets-color-red, #E62412); }
+  .cloud-wicon.cloud-wicon-green {
+    color: var(--widgets-color-green, #15AD31); }
+  .cloud-wicon:before {
+    display: inline-block;
+    speak: none;
+    font-size: var(--s4, 16px);
+    line-height: var(--s4, 16px);
+    vertical-align: middle;
+    text-align: center; }
+  .cloud-wicon-left {
+    margin-right: var(--s1, 4px); }
+  .cloud-wicon-right {
+    margin-left: var(--s1, 4px); }
+  .cloud-wicon-xxs:before {
+    width: var(--s2, 8px);
+    font-size: var(--s2, 8px);
+    line-height: inherit; }
+  .cloud-wicon-xs:before {
+    width: var(--s3, 12px);
+    font-size: var(--s3, 12px);
+    line-height: inherit; }
+  .cloud-wicon-small:before {
+    width: var(--s4, 16px);
+    font-size: var(--s4, 16px);
+    line-height: inherit; }
+  .cloud-wicon-medium:before {
+    width: var(--s5, 20px);
+    font-size: var(--s5, 20px);
+    line-height: inherit; }
+  .cloud-wicon-large:before {
+    width: var(--s6, 24px);
+    font-size: var(--s6, 24px);
+    line-height: inherit; }
+  .cloud-wicon-xl:before {
+    width: var(--s8, 32px);
+    font-size: var(--s8, 32px);
+    line-height: inherit; }
+  .cloud-wicon-xxl:before {
+    width: var(--s12, 48px);
+    font-size: var(--s12, 48px);
+    line-height: inherit; }
+  .cloud-wicon-xxxl:before {
+    width: var(--s16, 64px);
+    font-size: var(--s16, 64px);
+    line-height: inherit; }
+  .cloud-wicon.cloud-wicon-big:before {
+    width: 38px;
+    font-size: 38px;
+    line-height: inherit; }
+  .cloud-wicon.cloud-wicon-xl:before {
+    width: 32px;
+    font-size: 32px;
+    line-height: inherit; }
+  .cloud-wicon.cloud-wicon-large:before {
+    width: 24px;
+    font-size: 24px;
+    line-height: inherit; }
+  .cloud-wicon.cloud-wicon-medium:before {
+    width: 20px;
+    font-size: 20px;
+    line-height: inherit; }
+  .cloud-wicon.cloud-wicon-small:before {
+    width: 16px;
+    font-size: 16px;
+    line-height: inherit; }
+
+@-webkit-keyframes loadingCircle {
+  0% {
+    transform-origin: 50% 50%;
+    transform: rotate(0deg); }
+  100% {
+    transform-origin: 50% 50%;
+    transform: rotate(360deg); } }
+
+@keyframes loadingCircle {
+  0% {
+    transform-origin: 50% 50%;
+    transform: rotate(0deg); }
+  100% {
+    transform-origin: 50% 50%;
+    transform: rotate(360deg); } }
+  .cloud-wicon-form::before {
+    content: ""; }
+  .cloud-wicon-help::before {
+    content: ""; }
+  .cloud-wicon-refresh::before {
+    content: ""; }
+  .cloud-wicon-atm::before {
+    content: ""; }
+  .cloud-wicon-3column::before {
+    content: ""; }
+  .cloud-wicon-4column::before {
+    content: ""; }
+  .cloud-wicon-discount::before {
+    content: ""; }
+  .cloud-wicon-print::before {
+    content: ""; }
+  .cloud-wicon-bags::before {
+    content: ""; }
+  .cloud-wicon-gifts::before {
+    content: ""; }
+  .cloud-wicon-auto::before {
+    content: ""; }
+  .cloud-wicon-atm-away::before {
+    content: ""; }
+  .cloud-wicon-scanning::before {
+    content: ""; }
+  .cloud-wicon-compare::before {
+    content: ""; }
+  .cloud-wicon-similar-product::before {
+    content: ""; }
+  .cloud-wicon-image-text::before {
+    content: ""; }
+  .cloud-wicon-dollar::before {
+    content: ""; }
+  .cloud-wicon-office::before {
+    content: ""; }
+  .cloud-wicon-bad::before {
+    content: ""; }
+  .cloud-wicon-good::before {
+    content: ""; }
+  .cloud-wicon-skip::before {
+    content: ""; }
+  .cloud-wicon-store::before {
+    content: ""; }
+  .cloud-wicon-personal-center::before {
+    content: ""; }
+  .cloud-wicon-error::before {
+    content: ""; }
+  .cloud-wicon-success::before {
+    content: ""; }
+  .cloud-wicon-display::before {
+    content: ""; }
+  .cloud-wicon-category::before {
+    content: ""; }
+  .cloud-wicon-ais::before {
+    content: ""; }
+  .cloud-wicon-loading::before {
+    content: "";
+    -webkit-animation: loadingCircle 2s infinite linear;
+    animation: loadingCircle 2s infinite linear; }
+  .cloud-wicon-favorite::before {
+    content: ""; }
+  .cloud-wicon-USB::before {
+    content: ""; }
+  .cloud-wicon-histore-01::before {
+    content: ""; }
+  .cloud-wicon-huanj-01::before {
+    content: ""; }
+  .cloud-wicon-mysql-01::before {
+    content: ""; }
+  .cloud-wicon-oracle-01::before {
+    content: ""; }
+  .cloud-wicon-oceanbase-01::before {
+    content: ""; }
+  .cloud-wicon-postgresql-01::before {
+    content: ""; }
+  .cloud-wicon-cart::before {
+    content: ""; }
+  .cloud-wicon-cry::before {
+    content: ""; }
+  .cloud-wicon-phone::before {
+    content: ""; }
+  .cloud-wicon-Minus-circular::before {
+    content: ""; }
+  .cloud-wicon-add－circular::before {
+    content: ""; }
+  .cloud-wicon-Minus－circular::before {
+    content: ""; }
+  .cloud-wicon-add-circular::before {
+    content: ""; }
+  .cloud-wicon-minus-circular::before {
+    content: ""; }
+  .cloud-wicon-ashbin::before {
+    content: ""; }
+  .cloud-wicon-warning::before {
+    content: ""; }
+  .cloud-wicon-picture::before {
+    content: ""; }
+  .cloud-wicon-search::before {
+    content: ""; }
+  .cloud-wicon-survey::before {
+    content: ""; }
+  .cloud-wicon-time::before {
+    content: ""; }
+  .cloud-wicon-calendar::before {
+    content: ""; }
+  .cloud-wicon-edit::before {
+    content: ""; }
+  .cloud-wicon-prompt::before {
+    content: ""; }
+  .cloud-wicon-security::before {
+    content: ""; }
+  .cloud-wicon-share::before {
+    content: ""; }
+  .cloud-wicon-compass::before {
+    content: ""; }
+  .cloud-wicon-stop::before {
+    content: ""; }
+  .cloud-wicon-play::before {
+    content: ""; }
+  .cloud-wicon-map::before {
+    content: ""; }
+  .cloud-wicon-all::before {
+    content: ""; }
+  .cloud-wicon-set::before {
+    content: ""; }
+  .cloud-wicon-browse::before {
+    content: ""; }
+  .cloud-wicon-account::before {
+    content: ""; }
+  .cloud-wicon-lights::before {
+    content: ""; }
+  .cloud-wicon-filter::before {
+    content: ""; }
+  .cloud-wicon-computer::before {
+    content: ""; }
+  .cloud-wicon-operation::before {
+    content: ""; }
+  .cloud-wicon-pin::before {
+    content: ""; }
+  .cloud-wicon-attachment::before {
+    content: ""; }
+  .cloud-wicon-cut::before {
+    content: ""; }
+  .cloud-wicon-service::before {
+    content: ""; }
+  .cloud-wicon-credit-level::before {
+    content: ""; }
+  .cloud-wicon-Upload::before {
+    content: ""; }
+  .cloud-wicon-upload::before {
+    content: ""; }
+  .cloud-wicon-download::before {
+    content: ""; }
+  .cloud-wicon-process::before {
+    content: ""; }
+  .cloud-wicon-table::before {
+    content: ""; }
+  .cloud-wicon-text::before {
+    content: ""; }
+  .cloud-wicon-move::before {
+    content: ""; }
+  .cloud-wicon-History::before {
+    content: ""; }
+  .cloud-wicon-history::before {
+    content: ""; }
+  .cloud-wicon-training::before {
+    content: ""; }
+  .cloud-wicon-box::before {
+    content: ""; }
+  .cloud-wicon-file::before {
+    content: ""; }
+  .cloud-wicon-comments::before {
+    content: ""; }
+  .cloud-wicon-email::before {
+    content: ""; }
+  .cloud-wicon-VPN::before {
+    content: ""; }
+  .cloud-wicon-IP::before {
+    content: ""; }
+  .cloud-wicon-mobile-phone::before {
+    content: ""; }
+  .cloud-wicon-link::before {
+    content: ""; }
+  .cloud-wicon-arrow-left::before {
+    content: ""; }
+  .cloud-wicon-arrow-right::before {
+    content: ""; }
+  .cloud-wicon-arrow-double-right::before {
+    content: ""; }
+  .cloud-wicon-arrow-double-left::before {
+    content: ""; }
+  .cloud-wicon-arrow-up::before {
+    content: ""; }
+  .cloud-wicon-arrow-down::before {
+    content: ""; }
+  .cloud-wicon-arrow-up-full::before {
+    content: ""; }
+  .cloud-wicon-arrow-down-full::before {
+    content: ""; }
+  .cloud-wicon-descending::before {
+    content: ""; }
+  .cloud-wicon-ascending::before {
+    content: ""; }
+  .cloud-wicon-sorting::before {
+    content: ""; }
+  .cloud-wicon-close::before {
+    content: ""; }
+  .cloud-wicon-select::before {
+    content: ""; }
+  .cloud-wicon-add::before {
+    content: ""; }
+  .cloud-wicon-minus::before {
+    content: ""; }
+  .cloud-wicon-list::before {
+    content: ""; }
+  .cloud-wicon-open-list::before {
+    content: ""; }
+  .cloud-wicon-menu::before {
+    content: ""; }
+  .cloud-wicon-furl-list::before {
+    content: ""; }
+  .cloud-wicon-nav-list::before {
+    content: ""; }
+  .cloud-wicon-credit-level-filling::before {
+    content: ""; }
+  .cloud-wicon-email-filling::before {
+    content: ""; }
+  .cloud-wicon-account-filling::before {
+    content: ""; }
+  .cloud-wicon-favorites-filling::before {
+    content: ""; }
+  .cloud-wicon-success-filling::before {
+    content: ""; }
+  .cloud-wicon-delete-filling::before {
+    content: ""; }
+  .cloud-wicon-arrow-up-filling::before {
+    content: ""; }
+  .cloud-wicon-arrow-down-filling::before {
+    content: ""; }
+  .cloud-wicon-left-arrow-filling::before {
+    content: ""; }
+  .cloud-wicon-right-arrow-filling::before {
+    content: ""; }
+  .cloud-wicon-subscript::before {
+    content: ""; }
+  .cloud-wicon-semi-select::before {
+    content: ""; }
+  .cloud-wicon-nav-more::before {
+    content: ""; }
+  .cloud-wicon-ellipsis::before {
+    content: ""; }
+  .cloud-wicon-switching-English::before {
+    content: ""; }
+  .cloud-wicon-switching-Chinese::before {
+    content: ""; }
+  .cloud-wicon-feedback::before {
+    content: ""; }
+  .cloud-wicon-feedbackhover::before {
+    content: ""; }
+  .cloud-wicon-favorites::before {
+    content: ""; }
+  .cloud-wicon-down::before {
+    content: ""; }
+  .cloud-wicon-up::before {
+    content: ""; }
+  .cloud-wicon-copy::before {
+    content: ""; }
+  .cloud-wicon-windowed::before {
+    content: ""; }
+  .cloud-wicon-QRcode::before {
+    content: ""; }
+  .cloud-wicon-heat::before {
+    content: ""; }
+  .cloud-wicon-bug::before {
+    content: ""; }
+  .cloud-wicon-custom::before {
+    content: ""; }
+  .cloud-wicon-dingding::before {
+    content: ""; }
+  .cloud-wicon-networkinterface::before {
+    content: ""; }
+  .cloud-wicon-sorting2::before {
+    content: ""; }
+  .cloud-wicon-database::before {
+    content: ""; }
+  .cloud-wicon-ram::before {
+    content: ""; }
+  .cloud-wicon-structure::before {
+    content: ""; }
+  .cloud-wicon-module::before {
+    content: ""; }
+  .cloud-wicon-monitor::before {
+    content: ""; }
+  .cloud-wicon-save::before {
+    content: ""; }
+  .cloud-wicon-harddisk::before {
+    content: ""; }
+  .cloud-wicon-create::before {
+    content: ""; }
+  .cloud-wicon-home::before {
+    content: ""; }
+  .cloud-wicon-requestaccess::before {
+    content: ""; }
+  .cloud-wicon-view::before {
+    content: ""; }
+  .cloud-wicon-reboot::before {
+    content: ""; }
+  .cloud-wicon-number::before {
+    content: ""; }
+  .cloud-wicon-data::before {
+    content: ""; }
+  .cloud-wicon-dataoutput::before {
+    content: ""; }
+  .cloud-wicon-brandtree::before {
+    content: ""; }
+  .cloud-wicon-configuration::before {
+    content: ""; }
+  .cloud-wicon-power::before {
+    content: ""; }
+  .cloud-wicon-permissions::before {
+    content: ""; }
+  .cloud-wicon-system::before {
+    content: ""; }
+  .cloud-wicon-remind::before {
+    content: ""; }
+  .cloud-wicon-cloud::before {
+    content: ""; }
+  .cloud-wicon-wangluo1::before {
+    content: ""; }
+  .cloud-wicon-shiyanshi::before {
+    content: ""; }
+  .cloud-wicon-shebeishangxian::before {
+    content: ""; }
+  .cloud-wicon-shebeixiaxian::before {
+    content: ""; }
+  .cloud-wicon-laugh::before {
+    content: ""; }
+  .cloud-wicon-smile::before {
+    content: ""; }
+  .cloud-wicon-server::before {
+    content: ""; }
+  .cloud-wicon-shujubiangeng::before {
+    content: ""; }
+  .cloud-wicon-task::before {
+    content: ""; }
+  .cloud-wicon-zhuanxianjieru::before {
+    content: ""; }
+  .cloud-wicon-xitongyunzhuan::before {
+    content: ""; }
+  .cloud-wicon-cooling::before {
+    content: ""; }
+  .cloud-wicon-temperature::before {
+    content: ""; }
+  .cloud-wicon-heating::before {
+    content: ""; }
+  .cloud-wicon-mingpian::before {
+    content: ""; }
+  .cloud-wicon-networksystems::before {
+    content: ""; }
+  .cloud-wicon-eagle-eye::before {
+    content: ""; }
+  .cloud-wicon-right-arrow::before {
+    content: ""; }
+  .cloud-wicon-left-arrow::before {
+    content: ""; }
+  .cloud-wicon-left-circular::before {
+    content: ""; }
+  .cloud-wicon-right-circular::before {
+    content: ""; }
+  .cloud-wicon-fullscreen-close::before {
+    content: ""; }
+  .cloud-wicon-fullscreen::before {
+    content: ""; }
+  .cloud-wicon-internal::before {
+    content: ""; }
+  .cloud-wicon-fa-users::before {
+    content: ""; }
+  .cloud-wicon-coupling::before {
+    content: ""; }
+  .cloud-wicon-merge-requeste::before {
+    content: ""; }
+  .cloud-wicon-subscribe::before {
+    content: ""; }
+  .cloud-wicon-branch::before {
+    content: ""; }
+  .cloud-wicon-shuttle::before {
+    content: ""; }
+  .cloud-wicon-code::before {
+    content: ""; }
+  .cloud-wicon-folder::before {
+    content: ""; }
+  .cloud-wicon-project-change::before {
+    content: ""; }
+  .cloud-wicon-demand::before {
+    content: ""; }
+  .cloud-wicon-release::before {
+    content: ""; }
+  .cloud-wicon-test::before {
+    content: ""; }
+  .cloud-wicon-iteration::before {
+    content: ""; }
+  .cloud-wicon-test-examples::before {
+    content: ""; }
+  .cloud-wicon-accurate-regression::before {
+    content: ""; }
+  .cloud-wicon-demo::before {
+    content: ""; }
+  .cloud-wicon-work-item::before {
+    content: ""; }
+  .cloud-wicon-demand-o::before {
+    content: ""; }
+  .cloud-wicon-task-o::before {
+    content: ""; }
+  .cloud-wicon-bug-o::before {
+    content: ""; }
+  .cloud-wicon-cooperation::before {
+    content: ""; }
+  .cloud-wicon-recycle::before {
+    content: ""; }
+  .cloud-wicon-portfolio::before {
+    content: ""; }
+  .cloud-wicon-program::before {
+    content: ""; }
+  .cloud-wicon-workitem::before {
+    content: ""; }
+  .cloud-wicon-collection::before {
+    content: ""; }
+  .cloud-wicon-project::before {
+    content: ""; }
+  .cloud-wicon-dwg-o::before {
+    content: ""; }
+  .cloud-wicon-dwg::before {
+    content: ""; }
+  .cloud-wicon-word::before {
+    content: ""; }
+  .cloud-wicon-pdf::before {
+    content: ""; }
+  .cloud-wicon-word-o::before {
+    content: ""; }
+  .cloud-wicon-pdf-o::before {
+    content: ""; }
+  .cloud-wicon-ppt::before {
+    content: ""; }
+  .cloud-wicon-excel::before {
+    content: ""; }
+  .cloud-wicon-excel-o::before {
+    content: ""; }
+  .cloud-wicon-ppt-o::before {
+    content: ""; }
+  .cloud-wicon-zip::before {
+    content: ""; }
+  .cloud-wicon-rmb-o::before {
+    content: ""; }
+  .cloud-wicon-rmb::before {
+    content: ""; }
+  .cloud-wicon-resource-scheduling::before {
+    content: ""; }
+  .cloud-wicon-eye::before {
+    content: ""; }
+  .cloud-wicon-eye-slash::before {
+    content: ""; }
+  .cloud-wicon-lark-logo::before {
+    content: ""; }
+  .cloud-wicon-project-item::before {
+    content: ""; }
+  .cloud-wicon-impediment::before {
+    content: ""; }
+  .cloud-wicon-tree::before {
+    content: ""; }
+  .cloud-wicon-block::before {
+    content: ""; }
+  .cloud-wicon-tip::before {
+    content: ""; }
+  .cloud-wicon-house-4::before {
+    content: ""; }
+  .cloud-wicon-house-3::before {
+    content: ""; }
+  .cloud-wicon-house-2::before {
+    content: ""; }
+  .cloud-wicon-house-1::before {
+    content: ""; }
+  .cloud-wicon-course::before {
+    content: ""; }
+  .cloud-wicon-destination::before {
+    content: ""; }
+  .cloud-wicon-origin::before {
+    content: ""; }
+  .cloud-wicon-spot::before {
+    content: ""; }
+  .cloud-wicon-file-o::before {
+    content: ""; }
+  .cloud-wicon-file-simple::before {
+    content: ""; }
+  .cloud-wicon-urge::before {
+    content: ""; }
+  .cloud-wicon-huabanfubenbei::before {
+    content: ""; }
+  .cloud-wicon-kanban::before {
+    content: ""; }
+  .cloud-wicon-list-n::before {
+    content: ""; }
+  .cloud-wicon-clear::before {
+    content: ""; }
+  .cloud-wicon-sun::before {
+    content: ""; }
+  .cloud-wicon-moon::before {
+    content: ""; }
+  .cloud-wicon-lock::before {
+    content: ""; }
+  .cloud-wicon-unlock::before {
+    content: ""; }
+  .cloud-wicon-laugh-o::before {
+    content: ""; }
+  .cloud-wicon-neiwai::before {
+    content: ""; }
+  .cloud-wicon-battery::before {
+    content: ""; }
+  .cloud-wicon-remind-o::before {
+    content: ""; }
+  .cloud-wicon-pouch::before {
+    content: ""; }
+  .cloud-wicon-aliyun::before {
+    content: ""; }
+  .cloud-wicon-mobile-o::before {
+    content: ""; }
+  .cloud-wicon-phone-o::before {
+    content: ""; }
+  .cloud-wicon-minus-o::before {
+    content: ""; }
+  .cloud-wicon-service-utlization::before {
+    content: ""; }
+  .cloud-wicon-service-utlization-o::before {
+    content: ""; }
+  .cloud-wicon-service-utilization::before {
+    content: ""; }
+  .cloud-wicon-service-utilization-o::before {
+    content: ""; }
+  .cloud-wicon-service-circulation::before {
+    content: ""; }
+  .cloud-wicon-service-circulation-o::before {
+    content: ""; }
+  .cloud-wicon-folder-o::before {
+    content: ""; }
+  .cloud-wicon-function::before {
+    content: ""; }
+  .cloud-wicon-good-o::before {
+    content: ""; }
+  .cloud-wicon-bad-o::before {
+    content: ""; }
+  .cloud-wicon-handle::before {
+    content: ""; }
+  .cloud-wicon-handle-o::before {
+    content: ""; }
+  .cloud-wicon-notice-o::before {
+    content: ""; }
+  .cloud-wicon-notice::before {
+    content: ""; }
+  .cloud-wicon-it-load::before {
+    content: ""; }
+  .cloud-wicon-power-load-o::before {
+    content: ""; }
+  .cloud-wicon-it-load-o::before {
+    content: ""; }
+  .cloud-wicon-power-load::before {
+    content: ""; }
+  .cloud-wicon-operation-o::before {
+    content: ""; }
+  .cloud-wicon-alert-o::before {
+    content: ""; }
+  .cloud-wicon-alert::before {
+    content: ""; }
+  .cloud-wicon-accurate-regression-o::before {
+    content: ""; }
+  .cloud-wicon-engine-room-o::before {
+    content: ""; }
+  .cloud-wicon-engine-room::before {
+    content: ""; }
+  .cloud-wicon-workbench-o::before {
+    content: ""; }
+  .cloud-wicon-workbench::before {
+    content: ""; }
+  .cloud-wicon-training-o::before {
+    content: ""; }
+  .cloud-wicon-warning-o::before {
+    content: ""; }
+  .cloud-wicon-power-o::before {
+    content: ""; }
+  .cloud-wicon-unlock-o::before {
+    content: ""; }
+  .cloud-wicon-lock-o::before {
+    content: ""; }
+  .cloud-wicon-temperature-o::before {
+    content: ""; }
+  .cloud-wicon-code-o::before {
+    content: ""; }
+  .cloud-wicon-server-o::before {
+    content: ""; }
+  .cloud-wicon-data-o::before {
+    content: ""; }
+  .cloud-wicon-edit-o::before {
+    content: ""; }
+  .cloud-wicon-save-o::before {
+    content: ""; }
+  .cloud-wicon-code-review-o::before {
+    content: ""; }
+  .cloud-wicon-ashbin-o::before {
+    content: ""; }
+  .cloud-wicon-clear-o::before {
+    content: ""; }
+  .cloud-wicon-filter-o::before {
+    content: ""; }
+  .cloud-wicon-copy-o::before {
+    content: ""; }
+  .cloud-wicon-eye-o::before {
+    content: ""; }
+  .cloud-wicon-set-o::before {
+    content: ""; }
+  .cloud-wicon-eye-slash-o::before {
+    content: ""; }
+  .cloud-wicon-computer-o::before {
+    content: ""; }
+  .cloud-wicon-calendar-o::before {
+    content: ""; }
+  .cloud-wicon-survey-o::before {
+    content: ""; }
+  .cloud-wicon-discount-o::before {
+    content: ""; }
+  .cloud-wicon-usb-o::before {
+    content: ""; }
+  .cloud-wicon-map-o::before {
+    content: ""; }
+  .cloud-wicon-table-o::before {
+    content: ""; }
+  .cloud-wicon-system-o::before {
+    content: ""; }
+  .cloud-wicon-product::before {
+    content: ""; }
+  .cloud-wicon-product-o::before {
+    content: ""; }
+  .cloud-wicon-comments-o::before {
+    content: ""; }
+  .cloud-wicon-image-text-o::before {
+    content: ""; }
+  .cloud-wicon-tree-o::before {
+    content: ""; }
+  .cloud-wicon-structure-o::before {
+    content: ""; }
