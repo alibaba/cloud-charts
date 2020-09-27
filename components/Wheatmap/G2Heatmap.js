@@ -12,7 +12,7 @@ import rectYAxis from '../common/rectYAxis';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-// import label from '../common/label';
+import label from '../common/label';
 import './G2Heatmap.scss';
 
 export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
@@ -41,7 +41,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
         valueFormatter: null,
       },
       // grid: false,
-      // label: false,
+      label: false,
       coordinate: null,
     };
   },
@@ -108,7 +108,7 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
 
     const geomStyle = config.geomStyle || {};
 
-    chart.polygon()
+    const geom = chart.polygon()
       .position('x*y')
       .color('type', config.colors)
       .tooltip('x*y*extra', (x, y, extra) => {
@@ -123,7 +123,17 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
         ...geomStyle,
       });
 
-    // label(geom, config, 'extra');
+    label(geom, config, 'y', {
+      offset: 0,
+      formatter(v, item, i) {
+        const data = item._origin;
+        let result = (Array.isArray(data.extra) ? data.extra[0] : data.extra.value) || '-';
+        if (config.label && config.label.labelFormatter) {
+          result = config.label.labelFormatter(result, item, i);
+        }
+        return result;
+      }
+    }, null, true);
 
     chart.render();
   },

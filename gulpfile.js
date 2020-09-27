@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const babel = require('gulp-babel');
 const rename = require("gulp-rename");
 const replace = require("gulp-replace");
+const sass = require('gulp-sass');
 const del = require('del');
 const WebpackDevServer = require('webpack-dev-server');
 const sassExtract = require('sass-extract');
@@ -95,9 +96,15 @@ gulp.task('build:dist', ['build:plugins', 'build:theme-sass'], (cb) => {
   });
 });
 
-gulp.task('build:lib', ['clean'], () => {
+gulp.task('css', ['clean'], () => {
+  return gulp.src([`${srcPath}/**/*.scss`, `!${srcPath}/themes/*.scss`, '!**/variable.scss', '!**/mixin.scss', '!**/function.scss'])
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('lib'));
+});
+
+gulp.task('build:lib', ['clean', 'css'], () => {
   gulp.src([
-    srcPath + '/**/*.less',
+    // srcPath + '/**/*.less',
     srcPath + '/**/*.scss',
     srcPath + '/**/*.json',
     srcPath + '/**/*.woff',
@@ -113,6 +120,7 @@ gulp.task('build:lib', ['clean'], () => {
   return gulp.src(srcPath + '/**/*.js?(x)')
     .pipe(replace('__VERSION__', JSON.stringify(packageInfo.version)))
     .pipe(replace('__THEME__', JSON.stringify('index')))
+    .pipe(replace(/import '(.+?)\.scss';/, 'import \'$1.css\''))
     .pipe(babel({
         babelrc: false,
         "presets": [

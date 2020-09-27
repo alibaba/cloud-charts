@@ -52,7 +52,11 @@ declare namespace CloudCharts {
     export class Wlinebar extends React.Component<any, any> {}
     export class Wpie extends React.Component<any, any> {}
     export class Wscatter extends React.Component<any, any> {}
-    export class Wmap extends React.Component<any, any> {}
+    export class Wmap extends React.Component<any, any> {
+        static Area: React.FunctionComponent<any>;
+        static Point: React.FunctionComponent<any>;
+        static Shoot: React.FunctionComponent<any>;
+    }
     export class Wcustom extends React.Component<any, any> {}
     export class Wsankey extends React.Component<any, any> {}
     export class Wnightingale extends React.Component<any, any> {}
@@ -116,7 +120,11 @@ export class Whistogram extends React.Component<any, any> {}
 export class Wlinebar extends React.Component<any, any> {}
 export class Wpie extends React.Component<any, any> {}
 export class Wscatter extends React.Component<any, any> {}
-export class Wmap extends React.Component<any, any> {}
+export class Wmap extends React.Component<any, any> {
+    static Area: React.FunctionComponent<any>;
+    static Point: React.FunctionComponent<any>;
+    static Shoot: React.FunctionComponent<any>;
+}
 export class Wcustom extends React.Component<any, any> {}
 export class Wsankey extends React.Component<any, any> {}
 export class Wnightingale extends React.Component<any, any> {}
