@@ -1,3 +1,11 @@
+### 0.1.5 (2020-09-28)
+
+#### New Features
+
+- 色块图添加label功能。
+- chore: 补全地图 d.ts 文件。
+- chore: module引用样式改为css。
+
 ### 0.1.4 (2020-09-24)
 
 #### Bug Fixes
