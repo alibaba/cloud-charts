@@ -76,7 +76,7 @@
     "gulp-babel": "~6.1.2",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^1.0.0",
-    "gulp-sass": "^3.1.0",
+    "gulp-sass": "^3.2.1",
     "gulp-util": "~3.0.7",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.7.0",
