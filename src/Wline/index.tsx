@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
-import Base  from "../common/Base";
+import Base from "../common/Base";
 // import Brush from '@antv/g2-brush';
 // import g2Factory from '../common/g2Factory';
 // import errorWrap from '../common/errorWrap';
