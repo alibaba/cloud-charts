@@ -1,9 +1,9 @@
 // import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
 import { __THEME__ } from '../constants';
-// import { themeLog } from "../common/log";
+import { themeLog } from "../common/log";
 // import setG2Theme from "../common/g2Theme";
-import { /*setThemeStyle,*/ convertKey, convertCSS, convertJsStyle } from './themeTools';
+import { setThemeStyle, convertKey, convertCSS, convertJsStyle } from './themeTools';
 
 // [theme].style 文件1根据 [theme].scss 自动生成，请勿直接修改
 import normalStyle from './normal.style';
@@ -44,6 +44,9 @@ if (process.env.NODE_ENV === 'production') {
 interface Themes extends Theme {
   getTheme: typeof getTheme;
   setTheme: typeof setTheme;
+  category_12?: string[];
+  linear_10?: string[];
+  order_10?: string[];
 }
 
 const themes: Themes = {
@@ -63,6 +66,19 @@ export function getTheme(name?: string) {
 
 export function setTheme(theme: string | {} = 'default', refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
+    return;
+  }
+  let newTheme = {};
+  if (typeof theme === 'string' && themeMap[theme]) {
+    // 传入字符串名字，设置对应主题包
+    newTheme = themeMap[theme].js;
+    currentThemeName = theme;
+    setThemeStyle(themeMap[theme].css);
+    // 打点
+    themeLog(theme === 'default' ? 'index' : theme);
+  } else if (typeof theme === 'object') {
+
+  } else {
     return;
   }
   // let newTheme = {};
@@ -86,9 +102,9 @@ export function setTheme(theme: string | {} = 'default', refreshChart: boolean =
   // } else {
   //   return;
   // }
-  // TODO 暂时不设置主题
-  // G2.Util.deepMix(themes, newTheme);
-  //
+
+  Object.assign(themes, newTheme)
+
   // setG2Theme(themes);
 
   if (refreshChart) {
