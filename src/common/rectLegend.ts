@@ -1,50 +1,60 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import themes from '../themes';
-import { pxToNumber, isInvalidNumber } from './common';
 import { merge } from './common';
-import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
+// import themes from '../themes';
+// import { pxToNumber, isInvalidNumber } from './common';
+// import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
 * 提取渐变色中的第一个颜色，具体逻辑来自 G2 内部
 * */
-// const regexTags = /[MLHVQTCSAZ]([^MLHVQTCSAZ]*)/ig;
-// const regexDot = /[^\s\,]+/ig;
-const regexLG = /^l\s*\(\s*([\d.]+)\s*\)\s*(.*)/i;
-const regexRG = /^r\s*\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)\s*(.*)/i;
-// const regexPR = /^p\s*\(\s*([axyn])\s*\)\s*(.*)/i;
-const regexColorStop = /[\d.]+:(#[^\s]+|[^\)]+\))/ig;
+// // const regexTags = /[MLHVQTCSAZ]([^MLHVQTCSAZ]*)/ig;
+// // const regexDot = /[^\s\,]+/ig;
+// const regexLG = /^l\s*\(\s*([\d.]+)\s*\)\s*(.*)/i;
+// const regexRG = /^r\s*\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)\s*(.*)/i;
+// // const regexPR = /^p\s*\(\s*([axyn])\s*\)\s*(.*)/i;
+// const regexColorStop = /[\d.]+:(#[^\s]+|[^\)]+\))/ig;
+//
+// // 取匹配出来的第一个颜色
+// function getFirstStop(steps) {
+//   return steps.match(regexColorStop)[0].split(':')[1];
+// }
+// function getColor(color) {
+//   if (color[1] === '(' || color[2] === '(') {
+//     if (color[0] === 'l') {
+//       // 线性 regexLG.test(color)
+//       return getFirstStop(regexLG.exec(color)[2]);
+//     } else if (color[0] === 'r') {
+//       // 径向 regexRG.test(color)
+//       return getFirstStop(regexRG.exec(color)[4]);
+//     } else if (color[0] === 'p') {
+//       // regexPR.test(color)
+//       // return parsePattern(color, self, context);
+//     }
+//   }
+//   return color;
+// }
 
-// 取匹配出来的第一个颜色
-function getFirstStop(steps) {
-  return steps.match(regexColorStop)[0].split(':')[1];
-}
-function getColor(color) {
-  if (color[1] === '(' || color[2] === '(') {
-    if (color[0] === 'l') {
-      // 线性 regexLG.test(color)
-      return getFirstStop(regexLG.exec(color)[2]);
-    } else if (color[0] === 'r') {
-      // 径向 regexRG.test(color)
-      return getFirstStop(regexRG.exec(color)[4]);
-    } else if (color[0] === 'p') {
-      // regexPR.test(color)
-      // return parsePattern(color, self, context);
-    }
-  }
-  return color;
-}
+type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'right-bottom' | 'left' | 'left-top' | 'left-bottom' | 'bottom' | 'bottom-left' | 'bottom-right';
 
 export interface LegendConfig {
   visible?: boolean;
   autoCollapse?: boolean;
-  position?: 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'right-bottom' | 'left' | 'left-top' | 'left-bottom' | 'bottom' | 'bottom-left' | 'bottom-right';
+  position?: Position;
   align?: string;
   nameFormatter?(): string;
   valueFormatter?(): string;
   showData?: boolean;
   customConfig?: Types.LegendCfg;
+}
+
+function getPosition(position?: string, align?: string): Position {
+  const [p, a] = position.split('-');
+  if (!a && align) {
+    return `${p}-${align}` as Position;
+  }
+  return position as Position;
 }
 
 /**
@@ -79,21 +89,32 @@ export default function (
       valueFormatter,
       showData,
       // 交互相关
-      allowAllCanceled = false,
-      hoverable = false,
-      onHover = null,
-      clickable = true,
-      onClick = null,
-      defaultClickBehavior = true,
+      // allowAllCanceled = false,
+      // hoverable = false,
+      // onHover = null,
+      // clickable = true,
+      // onClick = null,
+      // defaultClickBehavior = true,
       // 自定义配置
       customConfig,
-      style = {},
+      // style = {},
     } = config.legend || {};
 
+
+
     const legendConfig: Types.LegendCfg = {
-      position,
+      position: getPosition(position, align),
       flipPage: autoCollapse,
+      itemName: {
+        formatter: nameFormatter,
+      },
     };
+
+    if (showData) {
+      legendConfig.itemValue = {
+        formatter: valueFormatter,
+      };
+    }
 
     // // 因为图例项有下边距，所以bottom设置为0即可
     // const legendStyle = Object.assign({}, legendHtmlContainer);
