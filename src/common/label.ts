@@ -4,28 +4,9 @@ import { Geometry, Types } from "./types";
 import themes from '../themes';
 import { merge, pxToNumber, isInvalidNumber } from './common';
 
-export interface LabelConfig {
+export interface LabelConfig extends Types.GeometryLabelCfg {
   visible?: boolean;
-  /**
-   * 用于声明渲染的 label 类型。
-   * 当用户使用了自定义的 label 类型，需要声明具体的 type 类型，否则会使用默认的 label 类型渲染。
-   */
-  type?: string;
-  /** 相对数据点的偏移距离。 */
-  offset?: number;
-  /** label 相对于数据点在 X 方向的偏移距离。 */
-  offsetX?: number;
-  /** label 相对于数据点在 Y 方向的偏移距离。 */
-  offsetY?: number;
-  /** label 文本图形属性样式。 */
-  style?: Types.LooseObject;
-  /** label 是否自动旋转，默认为 true。 */
-  autoRotate?: boolean;
-  /**
-   * 当且仅当 `autoRotate` 为 false 时生效，用于设置文本的旋转角度，**弧度制**。
-   */
-  rotate?: number;
-
+  labelFormatter?: Types.GeometryLabelContentCallback;
   customConfig?: Types.GeometryLabelCfg;
 }
 
@@ -44,7 +25,7 @@ const defaultConfigKey = 'label';
 
 export default function (
   geom: Geometry,
-  config: { [key: string]: LabelConfig },
+  config: { label?: LabelConfig | boolean, [key: string]: any },
   field = 'y',
   componentConfig?: Types.GeometryLabelCfg,
   extraConfigKey?: string,
@@ -55,29 +36,35 @@ export default function (
     configLabel = config[extraConfigKey];
   }
   // const configKey = extraConfigKey || defaultConfigKey;
-  if (configLabel === false || (configLabel && configLabel.visible === false)) {
+  if (configLabel === false || (typeof configLabel === 'object' && configLabel.visible === false)) {
     return;
+  }
+  if (configLabel === true) {
+    configLabel = {};
   }
 
   const {
-    type = 'default',
+    // type = 'default',
     position = 'top',
     offset,
-    autoRotate = true,
+    // autoRotate = true,
     labelFormatter = null,
     customConfig,
-    style,
-    textStyle,
-  } = configLabel || {};
+    // style,
+    // textStyle,
+    ...otherConfigs
+  } = configLabel;
+
   const labelConfig: Types.GeometryLabelCfg = {
-    type,
+    // type,
     position,
     // 默认距离 4，加上文字一半的大小以居中，转换为字号 12/3 + 12/2 = 12 * 5/6
     offset: (pxToNumber(themes['widgets-font-size-1']) * 5) / 6,
-    autoRotate,
-    formatter: labelFormatter,
-    style,
-    textStyle,
+    // autoRotate,
+    content: labelFormatter,
+    // style,
+    // textStyle,
+    ...otherConfigs
   };
 
   if (position === 'middle') {
