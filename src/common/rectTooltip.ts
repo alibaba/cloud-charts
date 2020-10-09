@@ -1,19 +1,19 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import { getRawData, merge } from './common';
+import { /*getRawData,*/ merge } from './common';
 
 // 排序函数
-const sortFun = {
-  // 升序
-  asce(a: any, b: any) {
-    return a.value - b.value;
-  },
-  // 降序
-  desc(a: any, b: any) {
-    return b.value - a.value;
-  },
-};
+// const sortFun = {
+//   // 升序
+//   asce(a: any, b: any) {
+//     return a.value - b.value;
+//   },
+//   // 降序
+//   desc(a: any, b: any) {
+//     return b.value - a.value;
+//   },
+// };
 
 export interface TooltipConfig {
   visible?: boolean;
@@ -59,9 +59,14 @@ export default function(
 
     const tooltipConfig: Types.TooltipCfg = {
       showTitle,
+      showCrosshairs: true,
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
-      crosshairs: {},
+      crosshairs: {
+        type: 'x',
+      },
       position,
+      offset,
+      shared: true,
       // inPlot,
       // itemTpl: `<li data-index={index}>
       //   <svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>
@@ -70,10 +75,6 @@ export default function(
       //   }<span class="g2-tooltip-item-value">{value}</span>
       // </li>`,
     };
-
-    if (offset !== undefined) {
-      tooltipConfig.offset = offset;
-    }
 
     if (componentConfig) {
       Object.assign(tooltipConfig, componentConfig);
@@ -89,30 +90,36 @@ export default function(
       if (onTooltipChange) {
         chart.on('tooltip:change', onTooltipChange);
       } else {
-        chart.on('tooltip:change', ev => {
-          // 如果设置了合法的排序关键字，则开始排序
-          if (typeof sort === 'function') {
-            ev.items.sort(sort);
-          } else if (sortFun[sort]) {
-            ev.items.sort(sortFun[sort]);
-          }
-
-          // 格式化标题
-          if (titleFormatter) {
-            ev.items[0].title = titleFormatter(ev.items[0].title, ev.items);
-          }
-
-          // 对每一项格式化 名字 和 值
-          ev.items.forEach((item, index) => {
-            const raw = getRawData(config, this.rawData, item);
-
-            if (valueFormatter) {
-              item.value = valueFormatter(item.value, raw, index, ev.items);
-            }
-            if (nameFormatter) {
-              item.name = nameFormatter(item.name, raw, index, ev.items);
-            }
-          });
+        chart.on('tooltip:change', (ev: any) => {
+          // x: 当前鼠标的 x 坐标,
+          // y: 当前鼠标的 y 坐标,
+          // items: 数组对象，当前 tooltip 显示的每条内容
+          // title: tooltip 标题
+          // const { items, title, x, y } = ev.data;
+          console.log(ev);
+          // // 如果设置了合法的排序关键字，则开始排序
+          // if (typeof sort === 'function') {
+          //   ev.items.sort(sort);
+          // } else if (sortFun[sort]) {
+          //   ev.items.sort(sortFun[sort]);
+          // }
+          //
+          // // 格式化标题
+          // if (titleFormatter) {
+          //   ev.items[0].title = titleFormatter(ev.items[0].title, ev.items);
+          // }
+          //
+          // // 对每一项格式化 名字 和 值
+          // ev.items.forEach((item, index) => {
+          //   const raw = getRawData(config, this.rawData, item);
+          //
+          //   if (valueFormatter) {
+          //     item.value = valueFormatter(item.value, raw, index, ev.items);
+          //   }
+          //   if (nameFormatter) {
+          //     item.name = nameFormatter(item.name, raw, index, ev.items);
+          //   }
+          // });
         });
       }
     }
