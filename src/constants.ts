@@ -2,8 +2,11 @@
 declare const __VERSION__: string;
 declare const __THEME__: string;
 
-export { __VERSION__ as __VERSION__ };
-export { __THEME__ as __THEME__ };
+const VERSION = __VERSION__;
+const THEME = __THEME__;
+
+export { VERSION as __VERSION__ };
+export { THEME as __THEME__ };
 
 declare global {
   interface Window {
