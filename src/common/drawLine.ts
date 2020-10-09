@@ -1,7 +1,7 @@
 'use strict';
 import { Chart, Types } from "./types";
 import label, { LabelConfig } from './label';
-import getGeomSizeConfig from './geomSize';
+import geomSize, { GeomSizeConfig } from './geomSize';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -13,7 +13,7 @@ export interface DrawLineConfig {
   spline?: boolean,
   step?: string | boolean,
   symbol?: {
-    size?: any;
+    size?: GeomSizeConfig;
     geomStyle?: Types.LooseObject;
   } | boolean,
   label?: LabelConfig | boolean,
@@ -52,17 +52,17 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
   let lineGeom = null;
 
   if (config.area && config.stack) {
-    chart.areaStack()
+    chart.area()
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
-      // .active(false);
-    lineGeom = chart.lineStack()
+      .adjust('stack');
+    lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      // .active(false)
+      .adjust('stack');
       // .style('x*y*type*extra', {
       //   lineJoin: 'round',
       //   ...geomStyle,
@@ -73,12 +73,10 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
-      // .active(false);
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      // .active(false)
       // .style('x*y*type*extra', {
       //   lineJoin: 'round',
       //   ...geomStyle,
@@ -88,7 +86,6 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      // .active(false)
       // .style('x*y*type*extra', {
       //   lineJoin: 'round',
       //   ...geomStyle,
@@ -106,20 +103,19 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
-        // .active(false);
     } else {
       pointGeom = chart.point()
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
-        // .active(false);
     }
 
-    const sizeConfig = getGeomSizeConfig(config.symbol.size, 3, yAxisKey, 'type');
-    pointGeom.size(...sizeConfig);
+    if (typeof config.symbol === 'object') {
+      geomSize(pointGeom, config.symbol.size, 3, yAxisKey, 'type');
 
-    if (config.symbol.geomStyle) {
-      pointGeom.style('x*y*type*extra', config.symbol.geomStyle);
+      // if (config.symbol.geomStyle) {
+      //   pointGeom.style('x*y*type*extra', config.symbol.geomStyle);
+      // }
     }
   }
 }
