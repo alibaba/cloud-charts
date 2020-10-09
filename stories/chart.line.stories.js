@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select } from "@storybook/addon-knobs";
 
-import { Wline } from '@alife/aisc-widgets';
+import { Wcontainer, Wline } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -22,59 +22,59 @@ const stories = storiesOf('Wline', module);
 stories.addDecorator(withKnobs);
 
 stories.add('折线图', () => (
-    <Wline height="300" config={{}} data={data} />
+    <Wline height="300" data={data} />
 ));
-// stories.add('平滑曲线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       spline: true,
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('带点折线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       symbol: true
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('面积折线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       area: true,
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('面积曲线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       area: true,
-//       spline: true,
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('堆叠面积图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       area: true,
-//       stack: true,
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('带网格线', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       grid: true,
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-// stories.add('双轴折线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       yAxis: [{}, {}],
-//     }} data={data} />
-//   </Wcontainer>
-// ));
+stories.add('平滑曲线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      spline: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('带点折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      symbol: true
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('面积折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      area: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('面积曲线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      area: true,
+      spline: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('堆叠面积图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      area: true,
+      stack: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('带网格线', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      grid: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('双轴折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      yAxis: [{}, {}],
+    }} data={data} />
+  </Wcontainer>
+));
 // stories.add('拖拽缩放', () => (
 //   <Wcontainer className="demos">
 //     <Wline height="300" config={{

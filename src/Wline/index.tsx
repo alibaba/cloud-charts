@@ -41,7 +41,7 @@ interface WlineConfig extends BaseChartConfig, DrawLineConfig {
 class Wline extends Base<WlineConfig> {
   getDefaultConfig(): WlineConfig {
     return {
-      // colors: themes.category_12,
+      colors: themes.category_12,
       areaColors: [],
       xAxis: {
         type: 'time', // 默认为线性
@@ -80,7 +80,6 @@ class Wline extends Base<WlineConfig> {
     };
   }
   init(chart: Chart, config: WlineConfig, data: any) {
-
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'time',
@@ -97,12 +96,14 @@ class Wline extends Base<WlineConfig> {
         defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
           type: 'linear',
           tickCount: 5,
+          nice: true,
         }, axis);
       });
     } else {
       defs.y = propertyAssign(propertyMap.yAxis, {
         type: 'linear',
         tickCount: 5,
+        nice: true,
       }, config.yAxis);
     }
 
