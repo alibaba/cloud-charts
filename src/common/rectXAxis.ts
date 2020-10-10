@@ -7,7 +7,6 @@ import { merge } from './common';
 export interface XAxisConfig {
   visible?: boolean;
   alias?: boolean;
-  title?: boolean;
   autoRotate?: boolean;
   rotate?: number;
   autoHide?: boolean;
@@ -31,7 +30,7 @@ export default function (
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { alias, title, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.xAxis || {};
+    const { alias, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.xAxis || {};
     const xAxisConfig: Types.AxisCfg = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -69,11 +68,7 @@ export default function (
     }
 
     // 开启坐标轴标题
-    if (alias || title) {
-      // xAxisConfig.alias = title;
-      if (alias !== undefined) {
-        console.warn('config.xAxis.alias 被替换为 config.xAxis.title')
-      }
+    if (alias) {
       xAxisConfig.title = {
         // position: 'center',
         offset: 38,

@@ -6,7 +6,6 @@ import { merge } from './common';
 export interface YAxisConfig {
   visible?: boolean;
   alias?: boolean;
-  title?: boolean;
   autoRotate?: boolean;
   rotate?: number;
   autoHide?: boolean;
@@ -32,7 +31,7 @@ export default function (
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
-    const { alias, title, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
+    const { alias, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
     const yConfig: Types.AxisCfg = {
       title: null, // 不展示坐标轴的标题
       label: {
@@ -52,11 +51,7 @@ export default function (
     // }
 
     // 开启坐标轴标题
-    if (alias || title) {
-      // yConfig.alias = title;
-      if (alias !== undefined) {
-        console.warn('config.yAxis.alias 被替换为 config.yAxis.title')
-      }
+    if (alias) {
       yConfig.title = {
         // position: 'center',
         // // offset: 30,
