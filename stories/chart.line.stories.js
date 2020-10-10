@@ -75,56 +75,56 @@ stories.add('双轴折线图', () => (
     }} data={data} />
   </Wcontainer>
 ));
-// stories.add('拖拽缩放', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       zoom: true,
-//     }} data={data} event={{
-//       'zoom:start': (s) => {
-//         action('zoom:start')(s);
-//       },
-//       'zoom:end': (s) => {
-//         action('zoom:end')(s);
-//       },
-//       'zoom:reset': (s) => {
-//         action('zoom:reset')(s);
-//       }
-//     }} />
-//   </Wcontainer>
-// ));
-//
-// const stepOptions = {
-//   '关闭': null,
-//   '默认': true,
-//   '水平-垂直': 'hv',
-//   '垂直-水平': 'vh',
-//   '水平-垂直-水平': 'hvh',
-//   '垂直-水平-垂直': 'vhv',
-// };
-// stories.add('阶梯折线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{
-//       step: select('阶梯形状', stepOptions, null),
-//     }} data={data} />
-//   </Wcontainer>
-// ));
-//
-// const singleData = [
-//   {
-//     "name":"机房A",
-//     "data":[[1483632000000,4854]]
-//   }, {
-//     "name":"机房B",
-//     "yAxis": 1,
-//     "data":[[1483632000000,6548]]
-//   }
-// ];
-// stories.add('单个点折线图', () => (
-//   <Wcontainer className="demos">
-//     <Wline height="300" config={{}} data={singleData} />
-//   </Wcontainer>
-// ));
-//
+stories.add('拖拽缩放', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      zoom: true,
+    }} data={data} event={{
+      'zoom:start': (s) => {
+        action('zoom:start')(s);
+      },
+      'zoom:end': (s) => {
+        action('zoom:end')(s);
+      },
+      'zoom:reset': (s) => {
+        action('zoom:reset')(s);
+      }
+    }} />
+  </Wcontainer>
+));
+
+const stepOptions = {
+  '关闭': null,
+  '默认': true,
+  '水平-垂直': 'hv',
+  '垂直-水平': 'vh',
+  '水平-垂直-水平': 'hvh',
+  '垂直-水平-垂直': 'vhv',
+};
+stories.add('阶梯折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      step: select('阶梯形状', stepOptions, null),
+    }} data={data} />
+  </Wcontainer>
+));
+
+const singleData = [
+  {
+    "name":"机房A",
+    "data":[[1483632000000,4854]]
+  }, {
+    "name":"机房B",
+    "yAxis": 1,
+    "data":[[1483632000000,6548]]
+  }
+];
+stories.add('单个点折线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" data={singleData} />
+  </Wcontainer>
+));
+
 // // 齐全度展示图
 // const attendData = [
 //   {
