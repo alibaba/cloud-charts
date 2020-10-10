@@ -16,11 +16,11 @@ import autoTimeMask from '../common/autoTimeMask';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-// import ResetButton from '../common/ResetButton';
+import rectZoom, { ZoomConfig } from "../common/rectZoom";
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
-interface WlineConfig extends BaseChartConfig, DrawLineConfig {
+interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
   // colors?: string[];
   // areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
@@ -34,7 +34,7 @@ interface WlineConfig extends BaseChartConfig, DrawLineConfig {
   // spline?: boolean,
   grid?: boolean,
   // symbol?: boolean,
-  zoom?: boolean,
+  // zoom?: boolean,
   // step?: string | boolean,
 }
 
@@ -158,65 +158,7 @@ class Wline extends Base<WlineConfig> {
     }
 
     // 拖拽缩放
-    if (config.zoom) {
-      chart.interaction('brush-x', {
-        end: [
-          {
-            trigger: 'mouseup',
-            isEnable(context: Types.IInteractionContext) {
-              return context.isInPlot();
-            },
-            action: ['brush-x:filter', 'brush-x:end', 'x-rect-mask:end', 'x-rect-mask:hide', 'reset-button:show'],
-          },
-        ],
-        rollback: [
-          // { trigger: 'dblclick', action: ['brush-x:reset'] },
-          { trigger: 'reset-button:click', action: ['brush-x:reset', 'reset-button:hide', 'cursor:crosshair'] }
-        ],
-      });
-      // const button = new ResetButton(chart, this.language);
-      // this.resetButton = button;
-      //
-      // this.brush = new Brush({
-      //   canvas: chart.get('canvas'),
-      //   chart,
-      //   type: 'X',
-      //   onBrushstart(startPoint) {
-      //     chart.hideTooltip();
-      //     chart.emit('zoom:start', startPoint);
-      //   },
-      //   onBrushmove: () => {
-      //     chart.hideTooltip();
-      //     button.show(this.language);
-      //   },
-      //   onBrushend: (ev) => {
-      //     this.brush.container.clear(); // clear the brush
-      //     const { type } = this.brush;
-      //     const { xScale } = this.brush;
-      //     const { yScale } = this.brush;
-      //     // filter data
-      //     if (type === 'X') {
-      //       xScale && chart.filter(xScale.field, val => {
-      //         return ev[xScale.field].indexOf(val) > -1;
-      //       });
-      //     } else if (type === 'Y') {
-      //       yScale && chart.filter(yScale.field, val => {
-      //         return ev[yScale.field].indexOf(val) > -1;
-      //       });
-      //     } else {
-      //       xScale && chart.filter(xScale.field, val => {
-      //         return ev[xScale.field].indexOf(val) > -1;
-      //       });
-      //       yScale && chart.filter(yScale.field, val => {
-      //         return ev[yScale.field].indexOf(val) > -1;
-      //       });
-      //     }
-      //     chart.repaint();
-      //
-      //     chart.emit('zoom:end', ev);
-      //   },
-      // });
-    }
+    rectZoom(chart, config, this.language);
   }
 }
 
