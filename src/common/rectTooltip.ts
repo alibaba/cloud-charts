@@ -27,6 +27,10 @@ export interface TooltipConfig {
   valueFormatter?: Function;
 }
 
+function isNotInResetButton(context: Types.IInteractionContext) {
+  return !(context.isInShape('button-rect') || context.isInShape('button-text'));
+}
+
 /**
  * rectTooltip 直角坐标系的tooltip配置
  *
@@ -85,6 +89,31 @@ export default function(
     }
 
     chart.tooltip(tooltipConfig);
+
+    // 修改 tooltip 默认行为，进入 reset button 不展示
+    chart.interaction('tooltip', {
+      start: [
+        {
+          trigger: 'plot:mousemove',
+          action: 'tooltip:show',
+          throttle: {wait: 50, leading: true, trailing: false},
+          isEnable: isNotInResetButton,
+        },
+        {
+          trigger: 'plot:touchmove',
+          action: 'tooltip:show',
+          throttle: {wait: 50, leading: true, trailing: false},
+          isEnable: isNotInResetButton,
+        },
+      ],
+      end: [
+        { trigger: 'plot:mouseleave', action: 'tooltip:hide' },
+        { trigger: 'plot:leave', action: 'tooltip:hide' },
+        { trigger: 'plot:touchend', action: 'tooltip:hide' },
+        { trigger: 'reset-button:mouseenter', action: 'tooltip:hide' },
+        // { trigger: 'reset-button:mousemove', action: 'tooltip:hide' },
+      ],
+    });
 
     if (sort || titleFormatter || nameFormatter || valueFormatter) {
       if (onTooltipChange) {

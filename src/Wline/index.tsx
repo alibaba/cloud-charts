@@ -159,6 +159,21 @@ class Wline extends Base<WlineConfig> {
 
     // 拖拽缩放
     if (config.zoom) {
+      chart.interaction('brush-x', {
+        end: [
+          {
+            trigger: 'mouseup',
+            isEnable(context: Types.IInteractionContext) {
+              return context.isInPlot();
+            },
+            action: ['brush-x:filter', 'brush-x:end', 'x-rect-mask:end', 'x-rect-mask:hide', 'reset-button:show'],
+          },
+        ],
+        rollback: [
+          // { trigger: 'dblclick', action: ['brush-x:reset'] },
+          { trigger: 'reset-button:click', action: ['brush-x:reset', 'reset-button:hide', 'cursor:crosshair'] }
+        ],
+      });
       // const button = new ResetButton(chart, this.language);
       // this.resetButton = button;
       //
