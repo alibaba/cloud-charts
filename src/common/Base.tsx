@@ -3,7 +3,7 @@
 import * as G2 from '@antv/g2';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { BaseChartConfig, ChartData, Size } from "./types";
+import { BaseChartConfig, ChartData, Size, Language } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
@@ -29,7 +29,7 @@ export interface ChartProps<ChartConfig> {
   event?: {
     [eventKey: string]: () => void;
   };
-  language?: 'zh-cn' | 'en-us';
+  language?: Language;
   getChartInstance?: (chart: G2.Chart) => void;
   // G2 顶层属性
   padding?: G2.Types.ViewPadding;
@@ -67,7 +67,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
 
   public defaultConfig: ChartConfig;
 
-  protected language: string;
+  protected language: Language;
 
   protected rawData: ChartData;
 
