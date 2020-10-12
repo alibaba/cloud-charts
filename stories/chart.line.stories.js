@@ -124,7 +124,23 @@ stories.add('单个点折线图', () => (
     <Wline height="300" data={singleData} />
   </Wcontainer>
 ));
-
+stories.add('Tooltip 设置', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      tooltip: {
+        titleFormatter: function(v) {
+          return 'title: ' + v;
+        },
+        nameFormatter: function(v) {
+          return 'name: ' + v;
+        },
+        valueFormatter: function(v) {
+          return 'value: ' + v;
+        },
+      }
+    }} data={data} />
+  </Wcontainer>
+));
 // // 齐全度展示图
 // const attendData = [
 //   {

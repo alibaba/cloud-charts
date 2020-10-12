@@ -1,19 +1,19 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import { /*getRawData,*/ merge } from './common';
+import { getRawData, merge } from './common';
 
 // 排序函数
-// const sortFun = {
-//   // 升序
-//   asce(a: any, b: any) {
-//     return a.value - b.value;
-//   },
-//   // 降序
-//   desc(a: any, b: any) {
-//     return b.value - a.value;
-//   },
-// };
+const sortFun = {
+  // 升序
+  asce(a: any, b: any) {
+    return a.value - b.value;
+  },
+  // 降序
+  desc(a: any, b: any) {
+    return b.value - a.value;
+  },
+};
 
 export interface TooltipConfig {
   visible?: boolean;
@@ -52,7 +52,7 @@ export default function(
       sort,
       showTitle = true,
       // showColon = true,
-      position = null,
+      position,
       offset,
       // inPlot = true,
       titleFormatter,
@@ -63,6 +63,7 @@ export default function(
 
     const tooltipConfig: Types.TooltipCfg = {
       showTitle,
+      // title: '_customTitle_',
       showCrosshairs: true,
       // crosshairs 空对象不可省略，否则在混合图表中会没有crosshairs line
       crosshairs: {
@@ -78,7 +79,26 @@ export default function(
       //     showColon ? ':' : ''
       //   }<span class="g2-tooltip-item-value">{value}</span>
       // </li>`,
+      // customContent(title, data) {
+      //   console.log(title, data);
+      //   return `<div class="g2-tooltip-title">${title}</div>
+      //     <ul class="g2-tooltip-list">
+      //       ${
+      //         data.map((d, i) => {
+      //           return `<li class="g2-tooltip-list-item" data-index="${i}">
+      //             <span class="g2-tooltip-marker" style="background:${d.color}"></span>
+      //             <span class="g2-tooltip-name">${d.name}</span>:<span class="g2-tooltip-value">${d.value}</span>
+      //           </li>`;
+      //         }).join('')
+      //       }
+      //     </ul>
+      //   `;
+      // },
     };
+
+    if (titleFormatter) {
+      tooltipConfig.title = '_customTitle_';
+    }
 
     if (componentConfig) {
       Object.assign(tooltipConfig, componentConfig);
@@ -88,6 +108,7 @@ export default function(
       merge(tooltipConfig, customConfig);
     }
 
+    console.log(tooltipConfig);
     chart.tooltip(tooltipConfig);
 
     // 修改 tooltip 默认行为，进入 reset button 不展示
@@ -124,31 +145,36 @@ export default function(
           // y: 当前鼠标的 y 坐标,
           // items: 数组对象，当前 tooltip 显示的每条内容
           // title: tooltip 标题
-          // const { items, title, x, y } = ev.data;
-          console.log(ev);
-          // // 如果设置了合法的排序关键字，则开始排序
-          // if (typeof sort === 'function') {
-          //   ev.items.sort(sort);
-          // } else if (sortFun[sort]) {
-          //   ev.items.sort(sortFun[sort]);
-          // }
-          //
-          // // 格式化标题
-          // if (titleFormatter) {
-          //   ev.items[0].title = titleFormatter(ev.items[0].title, ev.items);
-          // }
-          //
-          // // 对每一项格式化 名字 和 值
-          // ev.items.forEach((item, index) => {
-          //   const raw = getRawData(config, this.rawData, item);
-          //
-          //   if (valueFormatter) {
-          //     item.value = valueFormatter(item.value, raw, index, ev.items);
-          //   }
-          //   if (nameFormatter) {
-          //     item.name = nameFormatter(item.name, raw, index, ev.items);
-          //   }
-          // });
+          const { items } = ev.data;
+          // console.log(ev);
+          // 如果设置了合法的排序关键字，则开始排序
+          if (typeof sort === 'function') {
+            items.sort(sort);
+          } else if (sortFun[sort]) {
+            items.sort(sortFun[sort]);
+          }
+
+          // 格式化标题
+          if (titleFormatter && !items[0].data.hasCustomTitle) {
+            // ev.title = titleFormatter(ev.title, ev.items);
+            // items[0].title = titleFormatter(items[0].title, items);
+            items[0].data._customTitle_ = titleFormatter(items[0].data.x, items);
+            items[0].data.hasCustomTitle = true;
+          }
+          // console.log(ev);
+
+          // 对每一项格式化 名字 和 值
+          items.forEach((item: any, index: number) => {
+            // @ts-ignore
+            const raw = getRawData(config, this.rawData, item);
+
+            if (valueFormatter) {
+              item.value = valueFormatter(item.value, raw, index, ev.items);
+            }
+            if (nameFormatter) {
+              item.name = nameFormatter(item.name, raw, index, ev.items);
+            }
+          });
         });
       }
     }
