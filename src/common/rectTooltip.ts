@@ -108,7 +108,6 @@ export default function(
       merge(tooltipConfig, customConfig);
     }
 
-    console.log(tooltipConfig);
     chart.tooltip(tooltipConfig);
 
     // 修改 tooltip 默认行为，进入 reset button 不展示
