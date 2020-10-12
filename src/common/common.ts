@@ -38,6 +38,11 @@ export function propertyAssign(keys: string[], target: Types.LooseObject, source
   keys.forEach((key) => {
     // 仅判断undefined的情况
     if (source[key] !== undefined) {
+      // 忽略 tickCount: 'auto'
+      if (key === 'tickCount' && source[key] === 'auto') {
+        console.warn(`tickCount: 'auto' 被替换为 Axis.autoHide: true`);
+        return;
+      }
       // 将部分限制了类型的key属性转换为需要的类型
       if (keyType[key] !== 'number') {
         target[key] = source[key];
