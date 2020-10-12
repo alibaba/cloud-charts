@@ -8,14 +8,32 @@ import { Wcontainer, Wline } from '@alife/aisc-widgets';
 
 const data = [
   {
-    "name":"机房A",
-    "data":[[1483372800000,4092],[1483459200000,1592],[1483545600000,3714],[1483632000000,4854],[1483718400000,6514],[1483804800000,9022],[1483891200000,6023],[1483977600000,4018]]
-  }, {
-    "name":"机房B",
-    "yAxis": 1,
-    "data":[[1483372800000,6051],[1483459200000,3278],[1483545600000,5175],[1483632000000,6548],[1483718400000,9048],[1483804800000,11394],[1483891200000,8597],[1483977600000,6588]]
-  }
+    "name":"曲线1",
+    "data":[]
+  },
+  {
+    "name":"曲线2",
+    "data":[]
+  },
+  {
+    "name":"曲线3",
+    yAxis: 1,
+    "data":[]
+  },
+  {
+    "name":"曲线4",
+    yAxis: 1,
+    "data":[]
+  },
 ];
+
+for (let i = 0; i < 24; i++) {
+  const time = `2020-01-01 ${i}:00:00`;
+  data[0].data.push([time, Math.round(Math.random() * 100 + 800)]);
+  data[1].data.push([time, Math.round(Math.random() * 100 + 600)]);
+  data[2].data.push([time, Math.round(Math.random() * 100 + 400)]);
+  data[3].data.push([time, Math.round(Math.random() * 100 + 200)]);
+}
 
 const stories = storiesOf('autoTickCount', module);
 stories.add('折线图', () => (
@@ -23,8 +41,13 @@ stories.add('折线图', () => (
     <Wline height="300" config={{
       xAxis: {
         tickCount: 'auto',
+        type: 'cat',
+        // mask: 'YYYY-MM-DD HH:mm:ss',
+        // autoRotate: true,
+        // autoHide: true,
       },
       yAxis: {
+        min: 0,
         tickCount: 'auto',
       }
     }} data={data} />
