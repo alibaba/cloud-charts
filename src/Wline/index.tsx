@@ -141,7 +141,7 @@ class Wline extends Base<WlineConfig> {
     // 设置图例
     rectLegend.call(this, chart, config, null, false, 'type');
 
-    legendFilter.call(this, chart, config);
+    legendFilter.call(this, chart);
 
     // tooltip
     rectTooltip.call(this, chart, config);
