@@ -1,8 +1,8 @@
-import G2 from '@antv/g2';
+// import { Util } from '@antv/g2';
 import g2Connect from './common/g2Connect';
 import * as common from './common/common';
 
-export default Object.assign({}, G2.Util, {
+export default {
   Connect: g2Connect, // 图表联动组件
   propertyMap: common.propertyMap,
   propertyAssign: common.propertyAssign,
@@ -16,4 +16,4 @@ export default Object.assign({}, G2.Util, {
   isEqual: common.isEqual,
   isEqualWith: common.isEqualWith,
   merge: common.merge,
-});
+};
