@@ -31,7 +31,7 @@ export default function (
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
-    const { alias, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
+    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
     const yConfig: Types.AxisCfg = {
       title: null, // 不展示坐标轴的标题
       label: {

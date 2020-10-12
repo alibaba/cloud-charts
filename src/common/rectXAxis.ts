@@ -30,7 +30,7 @@ export default function (
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { alias, autoRotate, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.xAxis || {};
+    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.xAxis || {};
     const xAxisConfig: Types.AxisCfg = {
       title: null, // 不展示坐标轴的标题
       label: {
