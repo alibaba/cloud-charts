@@ -5,6 +5,10 @@
  */
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-export function isMobileWithProps(props) {
+interface MobileProps {
+  isMobile?: boolean;
+}
+
+export function isMobileWithProps(props: MobileProps) {
   return !!(props.isMobile || (props.isMobile !== false && isMobile));
 }
