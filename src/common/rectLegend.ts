@@ -52,6 +52,9 @@ export interface LegendConfig {
 function getPosition(position?: string, align?: string): Position {
   const [p, a] = position.split('-');
   if (!a && align) {
+    if (align === 'center') {
+      return p as Position;
+    }
     return `${p}-${align}` as Position;
   }
   return position as Position;
@@ -83,7 +86,7 @@ export default function (
       // collapseRow = 'auto',
       // 图例位置
       position = 'top',
-      align,
+      align = 'left',
       // 格式化函数
       nameFormatter,
       valueFormatter,
