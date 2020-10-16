@@ -7,7 +7,7 @@ import Base from "../common/Base";
 // import merge from '../common/merge';
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
-import './G2Pie.scss';
+import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
@@ -288,6 +288,7 @@ class Wpie extends Base<WpieConfig> {
         showTitle: false,
         showMarkers: false,
         showCrosshairs: false,
+        shared: false,
       },
       (ev: any) => {
         const raw = (this.rawData && this.rawData[0]) || {};
