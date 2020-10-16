@@ -272,7 +272,7 @@ export function drawGuideFilter(chart: Chart, guideFilter: GuideFilterConfig) {
   }
 
   if (guideConfig.start && guideConfig.end) {
-    chart.guide().regionFilter(guideConfig);
+    chart.annotation().regionFilter(guideConfig);
   } else {
     console.warn('guide area 定义不全');
   }
