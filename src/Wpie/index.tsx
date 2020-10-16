@@ -6,7 +6,7 @@ import Base from "../common/Base";
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
 import themes from '../themes/index';
-import { pxToNumber, numberDecimal, isInvalidNumber } from '../common/common';
+import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
 import './G2Pie.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
@@ -80,7 +80,7 @@ interface WpieConfig extends BaseChartConfig {
   selectData?: string;
 }
 
-export default class Wpie extends Base<WpieConfig> {
+class Wpie extends Base<WpieConfig> {
   getDefaultConfig(): WpieConfig {
     return {
       colors: themes.category_12,
@@ -347,4 +347,6 @@ export default class Wpie extends Base<WpieConfig> {
 
     // selectGeom.call(this, this.geom, config.selectData);
   }
-};
+}
+
+export default Wpie;
