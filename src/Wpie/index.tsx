@@ -343,6 +343,15 @@ class Wpie extends Base<WpieConfig> {
       }) as Types.GeometryLabelContentCallback,
     });
 
+    chart.on('afterrender', () => {
+      const childDom = this.chartDom && (this.chartDom.querySelector('.cloud-charts-children') as HTMLElement);
+      if (childDom) {
+        const centerPoint = chart.getCoordinate().getCenter();
+        childDom.style.left = `${centerPoint.x}px`;
+        childDom.style.top = `${centerPoint.y}px`;
+      }
+    })
+
     // const geomStyle = config.geomStyle || {};
     // this.geom.style('x*y*type*extra', {
     //   ...geomStyle,
