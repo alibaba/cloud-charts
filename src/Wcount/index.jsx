@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CountUp from './lib/CountUp';
+import CountUp from './dep/CountUp';
 import { filterKey } from "../common/common";
 import './index.scss';
 import chartLog from "../common/log";
