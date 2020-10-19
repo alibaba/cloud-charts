@@ -23,7 +23,7 @@ module.exports = {
       // add your custom rules.
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', '@ali/sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
         include: path.resolve(__dirname, '../'),
       },
       {
