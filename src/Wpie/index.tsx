@@ -325,21 +325,22 @@ class Wpie extends Base<WpieConfig> {
       .adjust('stack')
       // .select(!!config.select);
 
-    label(this.geom, config, 'y', {
+    const labelField = 'y';
+    label(this.geom, config, labelField, {
       offset: 20,
       content: ((v, item, index) => {
         if (typeof config.label === 'boolean') {
-          return v;
+          return v[labelField];
         }
         if (config.label.labelFormatter) {
-          // const percent = numberDecimal(v / this.totalData, 4);
+          const percent = numberDecimal(v[labelField] / this.totalData, 4);
 
-          return config.label.labelFormatter(v, {
+          return config.label.labelFormatter(v[labelField], {
             ...item,
-            // percent,
+            percent,
           } as Types.MappingDatum, index);
         }
-        return v;
+        return v[labelField];
       }) as Types.GeometryLabelContentCallback,
     });
 

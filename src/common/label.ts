@@ -3,10 +3,11 @@
 import { Geometry, Types } from "./types";
 import themes from '../themes';
 import { merge, pxToNumber, isInvalidNumber } from './common';
+import { IGroup, IShape } from "@antv/g2/lib/dependents";
 
 export interface LabelConfig extends Types.GeometryLabelCfg {
   visible?: boolean;
-  labelFormatter?: Types.GeometryLabelContentCallback;
+  labelFormatter?: (value: string, mappingData: Types.MappingDatum, index: number) => string | IShape | IGroup;
   customConfig?: Types.GeometryLabelCfg;
 }
 
@@ -61,11 +62,17 @@ export default function (
     // 默认距离 4，加上文字一半的大小以居中，转换为字号 12/3 + 12/2 = 12 * 5/6
     offset: (pxToNumber(themes['widgets-font-size-1']) * 5) / 6,
     // autoRotate,
-    content: labelFormatter,
     // style,
     // textStyle,
-    ...otherConfigs
   };
+
+  if (labelFormatter) {
+    labelConfig.content = (v, item, index) => {
+      return labelFormatter(v[field], item, index);
+    }
+  }
+
+  Object.assign(labelConfig, otherConfigs);
 
   if (position === 'middle') {
     labelConfig.offset = 0;
