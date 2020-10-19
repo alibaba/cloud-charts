@@ -2,6 +2,7 @@ import './index.scss';
 
 export { default as Wline } from './Wline';
 export { default as Wpie } from './Wpie';
+export { default as Wradar } from './Wradar';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';

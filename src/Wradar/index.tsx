@@ -7,20 +7,17 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import label, { LabelConfig } from "../common/label";
+import { LabelConfig } from "../common/label";
 
 // 2.x版本依赖
-import errorWrap from '../common/errorWrap';
-import merge from '../common/merge';
-import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
-import drawLine from '../common/drawLine';
+import drawLine, { DrawLineConfig } from '../common/drawLine';
 
 import './index.scss';
 
 //3.x代码
-interface WRadarConfig extends BaseChartConfig {
+interface WradarConfig extends BaseChartConfig, DrawLineConfig {
   colors?: string[];
   areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
@@ -32,10 +29,11 @@ interface WRadarConfig extends BaseChartConfig {
   symbol?: boolean,
   spline?: boolean,
   label?: LabelConfig | boolean,
+  radius?: number;
 }
 
-class WRadar extends Base<WRadarConfig> {
-  getDefaultConfig(): WRadarConfig {
+class Wradar extends Base<WradarConfig> {
+  getDefaultConfig(): WradarConfig {
     return {
       // colors: themes.category_12,
       xAxis: {
@@ -62,7 +60,7 @@ class WRadar extends Base<WRadarConfig> {
       spline: false,
     }
   }
-  init(chart: Chart, config: WRadarConfig, data: any) {
+  init(chart: Chart, config: WradarConfig, data: any) {
 
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
@@ -75,52 +73,25 @@ class WRadar extends Base<WRadarConfig> {
       },
     };
 
-    if (Array.isArray(config.yAxis)) {
-      config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
-          type: 'linear',
-          tickCount: 5,
-        }, axis);
-      });
-    } else {
-      defs.y = propertyAssign(propertyMap.yAxis, {
-        type: 'linear',
-        tickCount: 5,
-      }, config.yAxis);
-    }
+    // 轴设置
+    defs.y = propertyAssign(propertyMap.yAxis, {
+      type: 'linear',
+      tickCount: 5,
+    }, config.yAxis);
 
     chart.scale(defs);
-
     chart.data(data);
+
+    // 极坐标配置
+    chart.coordinate('polar', {
+      radius: config.radius,
+    });
 
     // 设置X轴
     rectXAxis.call(this, chart, config);
 
-    if (Array.isArray(config.yAxis)) {
-      config.yAxis.forEach((axis, yIndex) => {
-        const yAxisConfig: Types.AxisCfg = {
-          label: {
-            offset: 8,
-          },
-          line: null,
-          tickLine: null,
-          grid: {
-            // type: 'polygon',
-            // lineStyle: {
-            //   lineDash: null,
-            // },
-          },
-        };
-        if (yIndex !== 0) {
-          yAxisConfig.grid = null;
-        }
-
-        rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
-      });
-    } else {
       // 设置单个Y轴
-      rectYAxis.call(this, chart, config);
-    }
+    rectYAxis.call(this, chart, config);
 
     // 设置图例
     rectLegend.call(this, chart, config, null, false, 'type');
@@ -133,17 +104,11 @@ class WRadar extends Base<WRadarConfig> {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    if (Array.isArray(config.yAxis)) {
-      config.yAxis.forEach((asix, yIndex) => {
-        drawLine(chart, config, `y${yIndex}`);
-      });
-    } else {
-      drawLine(chart, config);
-    }
+    drawLine(chart, config);
   }
 }
 
-export default WRadar;
+export default Wradar;
 
 // 2.x版本
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
@@ -208,7 +173,7 @@ export default WRadar;
 //     }, config.yAxis);
 
 //     chart.source(data, defs);
-
+//     // 极坐标配置
 //     chart.coord('polar', {
 //       radius: config.radius,
 //     });
