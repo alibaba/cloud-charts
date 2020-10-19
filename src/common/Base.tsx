@@ -59,6 +59,8 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
 
   static isG2Chart = true;
 
+  public chartName = 'Base';
+
   public chart: G2.Chart;
 
   public chartDom: HTMLDivElement;
@@ -82,7 +84,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
     this.rerender = this.rerender.bind(this);
 
     // 图表初始化时记录日志
-    chartLog(name, 'init');
+    chartLog(this.chartName, 'init');
   }
 
   // 图表生命周期
@@ -471,7 +473,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
         ref={dom => (this.chartDom = dom)}
         id={this.chartId}
         key={this.chartId}
-        className={`${rootClassName + name} ${className}`}
+        className={`${rootClassName + this.chartName} ${className}`}
         style={style}
         {...otherProps}>
         {children ? (

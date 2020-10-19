@@ -81,6 +81,8 @@ interface WpieConfig extends BaseChartConfig {
 }
 
 class Wpie extends Base<WpieConfig> {
+  chartName = 'G2Pie';
+
   getDefaultConfig(): WpieConfig {
     return {
       colors: themes.category_12,
