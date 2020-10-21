@@ -326,7 +326,7 @@ class Wpie extends Base<WpieConfig> {
       // .select(!!config.select);
 
     const labelField = 'y';
-    label(this.geom, config, labelField, {
+    label(this.geom, config, labelField, null, undefined, false, {
       offset: 20,
       content: ((v, item, index) => {
         if (typeof config.label === 'boolean') {

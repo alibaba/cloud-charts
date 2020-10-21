@@ -31,6 +31,7 @@ export default function (
   defaultConfig?: Types.GeometryLabelCfg,
   extraConfigKey?: string,
   useCustomOffset?: boolean,
+  componentConfig?: Types.GeometryLabelCfg,
 ) {
   let configLabel = config[defaultConfigKey];
   if (extraConfigKey && config[extraConfigKey] !== undefined) {
@@ -79,9 +80,9 @@ export default function (
     labelConfig.offset = 0;
   }
 
-  // if (componentConfig) {
-  //   Object.assign(labelConfig, componentConfig);
-  // }
+  if (componentConfig) {
+    Object.assign(labelConfig, componentConfig);
+  }
 
   if (!isInvalidNumber(offset)) {
     labelConfig.offset += Number(offset);
