@@ -65,14 +65,14 @@ function getPosition(position?: string, align?: string): Position {
  *
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
- * @param {Object} componentConfig 组件的自定义配置
+ * @param {Object} defaultConfig 组件的自定义配置
  * @param {boolean} isOneDataGroup 数据是否为单组形式，类似饼图和漏斗图
  * @param {string} field 数据映射字段
  * */
 export default function (
   chart: Chart,
   config: { legend?: LegendConfig },
-  componentConfig: Types.LegendCfg,
+  defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
   field: string
 ) {
@@ -106,6 +106,7 @@ export default function (
 
 
     const legendConfig: Types.LegendCfg = {
+      ...defaultConfig,
       position: getPosition(position, align),
       flipPage: autoCollapse,
       itemName: {
@@ -195,10 +196,10 @@ export default function (
     //   textStyle: Object.assign({}, legendTextStyle),
     // };
 
-    if (componentConfig) {
-      // 内部的componentConfig直接使用assign浅复制，方便覆盖。
-      Object.assign(legendConfig, componentConfig);
-    }
+    // if (componentConfig) {
+    //   // 内部的componentConfig直接使用assign浅复制，方便覆盖。
+    //   Object.assign(legendConfig, componentConfig);
+    // }
 
     if (customConfig) {
       merge(legendConfig, customConfig);

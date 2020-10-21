@@ -20,19 +20,20 @@ export interface YAxisConfig {
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {string} yField 数据映射字段
- * @param {Object} componentConfig 组件的自定义配置
+ * @param {Object} defaultConfig 组件的自定义配置
  * */
 export default function (
   chart: Chart,
   config: { yAxis?: YAxisConfig },
   yField: string = 'y',
-  componentConfig?: Types.AxisCfg
+  defaultConfig?: Types.AxisCfg
 ) {
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
     const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
     const yConfig: Types.AxisCfg = {
+      ...defaultConfig,
       title: null, // 不展示坐标轴的标题
       label: {
         autoRotate,
@@ -67,9 +68,9 @@ export default function (
       // };
     }
 
-    if (componentConfig) {
-      Object.assign(yConfig, componentConfig);
-    }
+    // if (componentConfig) {
+    //   Object.assign(yConfig, componentConfig);
+    // }
 
     if (customConfig) {
       merge(yConfig, customConfig);

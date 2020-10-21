@@ -32,13 +32,13 @@ export interface TooltipConfig {
  *
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
- * @param {Object} componentConfig 组件的自定义配置
+ * @param {Object} defaultConfig 组件的自定义配置
  * @param {Function} onTooltipChange 自定义 tooltip:change 事件
  * */
 export default function(
   chart: Chart,
   config: { tooltip?: TooltipConfig },
-  componentConfig?: Types.TooltipCfg,
+  defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function
 ) {
   if (config.tooltip === false || (config.tooltip && config.tooltip.visible === false)) {
@@ -58,6 +58,7 @@ export default function(
     } = config.tooltip || {};
 
     const tooltipConfig: Types.TooltipCfg = {
+      ...defaultConfig,
       showTitle,
       // title: '_customTitle_',
       showCrosshairs: true,
@@ -96,9 +97,9 @@ export default function(
       tooltipConfig.title = '_customTitle_';
     }
 
-    if (componentConfig) {
-      Object.assign(tooltipConfig, componentConfig);
-    }
+    // if (componentConfig) {
+    //   Object.assign(tooltipConfig, componentConfig);
+    // }
 
     if (customConfig) {
       merge(tooltipConfig, customConfig);
