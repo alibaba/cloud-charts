@@ -88,7 +88,8 @@ class Wpie extends Base<WpieConfig> {
       colors: themes.category_12,
       // padding: [20, 20, 20, 20],
       legend: {
-        // position: 'right',
+        position: 'right',
+        align: '',
         nameFormatter: null, // 可以强制覆盖，手动设置label
         valueFormatter: null,
       },
@@ -316,6 +317,12 @@ class Wpie extends Base<WpieConfig> {
             }, index, ev.items);
           }
         });
+      },
+      {
+        showTitle: false,
+        showMarkers: false,
+        showCrosshairs: false,
+        shared: false,
       }
     );
 

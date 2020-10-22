@@ -39,7 +39,8 @@ export default function(
   chart: Chart,
   config: { tooltip?: TooltipConfig },
   defaultConfig?: Types.TooltipCfg,
-  onTooltipChange?: Function
+  onTooltipChange?: Function,
+  componentConfig?: Types.TooltipCfg
 ) {
   if (config.tooltip === false || (config.tooltip && config.tooltip.visible === false)) {
     chart.tooltip(false);
@@ -97,9 +98,9 @@ export default function(
       tooltipConfig.title = '_customTitle_';
     }
 
-    // if (componentConfig) {
-    //   Object.assign(tooltipConfig, componentConfig);
-    // }
+    if (componentConfig) {
+      Object.assign(tooltipConfig, componentConfig);
+    }
 
     if (customConfig) {
       merge(tooltipConfig, customConfig);
