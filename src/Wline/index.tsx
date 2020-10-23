@@ -35,6 +35,8 @@ interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
 }
 
 class Wline extends Base<WlineConfig> {
+  chartName = 'G2Line';
+
   getDefaultConfig(): WlineConfig {
     return {
       colors: themes.category_12,
