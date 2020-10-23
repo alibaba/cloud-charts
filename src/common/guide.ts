@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, G2Dependents, Status } from "./types";
+import { Chart, View, Types, G2Dependents, Status } from "./types";
 import { getStatusColor, pxToNumber } from './common';
 import themes from "../themes";
 
@@ -66,17 +66,17 @@ interface GuideLineTextConfig extends G2Dependents.LineAnnotationTextCfg {
   align?: 'start' | 'center' | 'end' | 'left' | 'right',
 }
 
-interface GuideLineConfig {
+export interface GuideLineConfig {
   top?: boolean;
   status?: Status;
-  axis?: 'x' | 'y';
+  axis?: 'x' | 'y' | 'y0' | 'y1';
   value?: number | string;
   start?: Types.AnnotationPosition;
   end?: Types.AnnotationPosition;
   style?: G2Dependents.ShapeAttrs;
   text?: string | GuideLineTextConfig;
 }
-export function drawGuideLine(chart: Chart, guideLine: GuideLineConfig) {
+export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
   const {
     title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY = pxToNumber(themes['widgets-font-size-1'])/2, ...textConfig
@@ -150,16 +150,16 @@ export function drawGuideLine(chart: Chart, guideLine: GuideLineConfig) {
   }
 }
 
-interface GuideAreaConfig {
+export interface GuideAreaConfig {
   top?: boolean;
   status?: Status;
-  axis?: 'x' | 'y';
+  axis?: 'x' | 'y' | 'y0' | 'y1';
   value?: [number | string, number | string];
   start?: Types.AnnotationPosition;
   end?: Types.AnnotationPosition;
   style?: G2Dependents.ShapeAttrs;
 }
-export function drawGuideArea(chart: Chart, guideArea: GuideAreaConfig) {
+export function drawGuideArea(chart: Chart | View, guideArea: GuideAreaConfig) {
   const { top = true, status, axis, value, start, end, style = {} } = guideArea;
   const color = getStatusColor(status);
 
@@ -214,17 +214,17 @@ export function drawGuideArea(chart: Chart, guideArea: GuideAreaConfig) {
   }
 }
 
-interface GuideFilterConfig {
+export interface GuideFilterConfig {
   top?: boolean;
   status?: Status;
-  axis?: 'x' | 'y';
+  axis?: 'x' | 'y' | 'y0' | 'y1';
   value?: [number | string, number | string];
   start?: Types.AnnotationPosition;
   end?: Types.AnnotationPosition;
   apply?: string[];
   style?: G2Dependents.ShapeAttrs;
 }
-export function drawGuideFilter(chart: Chart, guideFilter: GuideFilterConfig) {
+export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig) {
   const { top = true, status, axis, value, start, end, apply, style } = guideFilter;
   const color = getStatusColor(status);
 

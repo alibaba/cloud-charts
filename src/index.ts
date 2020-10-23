@@ -1,6 +1,7 @@
 import './index.scss';
 
 export { default as Wline } from './Wline';
+export { default as Wlinebar } from './Wlinebar';
 export { default as Wpie } from './Wpie';
 export { default as Wradar } from './Wradar';
 

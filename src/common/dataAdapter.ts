@@ -1,21 +1,22 @@
 'use strict';
 import { Types, BaseChartConfig } from "./types";
 
-interface DataAdapterConfig extends BaseChartConfig{
+export interface DataAdapterConfig extends BaseChartConfig{
   xAxis?: {
-    categories?: number[];
+    categories?: number[] | string[];
   };
   yAxis?: Types.LooseObject | any[];
 }
 
 type RawDataItem = (number | string)[] | Types.LooseObject;
-interface DataAdapterData {
+export interface DataAdapterData {
   name: string;
   data?: RawDataItem[];
   yAxis?: number;
   dodge?: string;
   facet?: string;
   visible?: boolean;
+  type?: string;
 }
 
 /**

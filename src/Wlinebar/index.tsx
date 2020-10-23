@@ -1,23 +1,24 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from "../common/Base";
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
 import themes from '../themes/index';
-import { propertyAssign, getDataIndexColor, propertyMap, defaultPadding } from '../common/common';
-import highchartsDataToG2Data from '../common/dataAdapter';
-import { drawGuideArea, drawGuideLine, drawGuideFilter, GuideConfig } from '../common/guide';
+import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
+import { drawGuideArea, drawGuideLine, drawGuideFilter, GuideConfig, GuideLineConfig, GuideAreaConfig, GuideFilterConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-import label from '../common/label';
+import label, { LabelConfig } from '../common/label';
 import './G2LineBar.scss';
+import { GeomSizeConfig } from "../common/geomSize";
 
-interface WlinebarConfig extends BaseChartConfig {
+interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
   legend?: LegendConfig | boolean,
@@ -27,7 +28,10 @@ interface WlinebarConfig extends BaseChartConfig {
 }
 
 class Wlinebar extends Base<WlinebarConfig> {
+  chartName = 'G2LineBar';
+
   convertData = false;
+
   getDefaultConfig(): WlinebarConfig {
     return {
       lineColors: themes.category_12.slice(1),
@@ -38,7 +42,7 @@ class Wlinebar extends Base<WlinebarConfig> {
         mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
-        autoRotate: false,
+        // autoRotate: false,
         max: null,
         min: null,
       },
@@ -64,8 +68,8 @@ class Wlinebar extends Base<WlinebarConfig> {
       spline: false,
       grid: false,
       symbol: false,
-      lineLabel: undefined,
-      barLabel: undefined,
+      // lineLabel: undefined,
+      // barLabel: undefined,
       label: false,
       // TODO
       // zoom: false,
@@ -79,12 +83,18 @@ class Wlinebar extends Base<WlinebarConfig> {
     }
   }
 
+  rawLineData: DataAdapterData[] = [];
+  lineView: View;
+
+  rawBarData: DataAdapterData[] = [];
+  barView: View;
+
   init(chart: Chart, config: WlinebarConfig, data: ChartData) {
-    const rawLineData = [];
-    this.rawLineData = rawLineData;
-    const rawBarData = [];
-    this.rawBarData = rawBarData;
-    (data || []).forEach((d) => {
+    const rawLineData = this.rawLineData;
+    // this.rawLineData = rawLineData;
+    const rawBarData = this.rawBarData;
+    // this.rawBarData = rawBarData;
+    (data || []).forEach((d: DataAdapterData) => {
       if (d.type === 'line') {
         rawLineData.push(d);
       } else if (d.type === 'bar') {
@@ -92,14 +102,14 @@ class Wlinebar extends Base<WlinebarConfig> {
       }
     });
 
-    const lineData = highchartsDataToG2Data(rawLineData, config);
-    const barData = highchartsDataToG2Data(rawBarData, config);
+    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig);
+    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig);
 
-    const defs = {
+    const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
         type: 'cat',
         // fix 更新数据时x轴无法清除数据
-        // sync: true,
+        // sync: 'x',
       }, config.xAxis),
       type: {
         type: 'cat',
@@ -124,8 +134,6 @@ class Wlinebar extends Base<WlinebarConfig> {
 
     autoTimeMask(defs, this.rawData);
 
-    rectAutoTickCount(chart, config, defs, false);
-
     chart.scale(defs);
 
     // 设置X轴
@@ -134,9 +142,11 @@ class Wlinebar extends Base<WlinebarConfig> {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || themes['widgets-axis-line'];
-        const yAxisConfig = {
+        const yAxisConfig: Types.AxisCfg = {
           line: {
-            stroke: axisColor,
+            style: {
+              stroke: axisColor,
+            }
           },
         };
         if (yIndex !== 0) {
@@ -153,57 +163,57 @@ class Wlinebar extends Base<WlinebarConfig> {
     }
 
     // 设置图例
-    const legendStyle = {
-      ...legendHtmlContainer,
-      display: 'inline-block',
-      position: 'relative',
-    };
-    // const legendItemStyle = {
-    //   ...legendHtmlListItem,
+    // const legendStyle = {
+    //   ...legendHtmlContainer,
+    //   display: 'inline-block',
+    //   position: 'relative',
     // };
-    if (config.legend !== false) {
-      const { position, align } = config.legend || {};
-
-      // if (position === 'top') {
-      //   legendStyle.top = themes['widgets-font-size-1'];
-      // }
-
-      if (align === 'right') {
-        legendStyle.marginLeft = themes['widgets-font-size-1'];
-      } else if (align === 'left') {
-        legendStyle.marginRight = themes['widgets-font-size-1'];
-      } else if (align === 'center') {
-        legendStyle.marginRight = themes['widgets-font-size-1'];
-      } else {
-        // 默认放到左边
-        legendStyle.marginRight = themes['widgets-font-size-1'];
-      }
-
-      if (position === 'bottom') {
-        legendStyle.top = '100%';
-        legendStyle.transform = 'translate(0, -100%)';
-        legendStyle.overflow = 'visible';
-        legendStyle.verticalAlign = 'top';
-
-        // legendItemStyle.marginBottom = 0;
-        // legendItemStyle.marginTop = themes['widgets-font-size-1'];
-      }
-    }
+    // // const legendItemStyle = {
+    // //   ...legendHtmlListItem,
+    // // };
+    // if (config.legend !== false) {
+    //   const { position, align } = config.legend || {};
+    //
+    //   // if (position === 'top') {
+    //   //   legendStyle.top = themes['widgets-font-size-1'];
+    //   // }
+    //
+    //   if (align === 'right') {
+    //     legendStyle.marginLeft = themes['widgets-font-size-1'];
+    //   } else if (align === 'left') {
+    //     legendStyle.marginRight = themes['widgets-font-size-1'];
+    //   } else if (align === 'center') {
+    //     legendStyle.marginRight = themes['widgets-font-size-1'];
+    //   } else {
+    //     // 默认放到左边
+    //     legendStyle.marginRight = themes['widgets-font-size-1'];
+    //   }
+    //
+    //   if (position === 'bottom') {
+    //     legendStyle.top = '100%';
+    //     legendStyle.transform = 'translate(0, -100%)';
+    //     legendStyle.overflow = 'visible';
+    //     legendStyle.verticalAlign = 'top';
+    //
+    //     // legendItemStyle.marginBottom = 0;
+    //     // legendItemStyle.marginTop = themes['widgets-font-size-1'];
+    //   }
+    // }
     rectLegend.call(this, chart, config, {
-      'g2-legend': legendStyle,
-      // 'g2-legend-list-item': legendItemStyle,
+      // 'g2-legend': legendStyle,
+      // // 'g2-legend-list-item': legendItemStyle,
     }, false, 'type');
 
     // tooltip
     rectTooltip.call(this, chart, config);
 
     // 正式开始绘图，创建两个不同的view
-    const barView = chart.view();
-    barView.source(barData);
+    const barView = chart.createView();
+    barView.data(barData);
     this.barView = barView;
 
-    const lineView = chart.view();
-    lineView.source(lineData);
+    const lineView = chart.createView();
+    lineView.data(lineData);
     this.lineView = lineView;
 
     if (Array.isArray(config.yAxis)) {
@@ -228,11 +238,11 @@ class Wlinebar extends Base<WlinebarConfig> {
   }
 
   changeData(chart: Chart, config: WlinebarConfig, data: ChartData) {
-    const rawLineData = [];
+    const rawLineData: DataAdapterData[] = [];
     this.rawLineData = rawLineData;
-    const rawBarData = [];
+    const rawBarData: DataAdapterData[] = [];
     this.rawBarData = rawBarData;
-    (data || []).forEach((d) => {
+    (data || []).forEach((d: DataAdapterData) => {
       if (d.type === 'line') {
         rawLineData.push(d);
       } else if (d.type === 'bar') {
@@ -240,18 +250,27 @@ class Wlinebar extends Base<WlinebarConfig> {
       }
     });
 
-    const lineData = highchartsDataToG2Data(rawLineData, userConfig);
-    const barData = highchartsDataToG2Data(rawBarData, userConfig);
+    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig);
+    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig);
 
-    this.barView && this.barView.source(barData);
-    this.lineView && this.lineView.source(lineData);
+    this.barView && this.barView.changeData(barData);
+    this.lineView && this.lineView.changeData(lineData);
     // chart.render();
   }
 }
 
 export default Wlinebar;
 
-function drawBar(chart, config, yAxisKey = 'y') {
+interface BarConfig {
+  barColors?: string[];
+  stack?: boolean;
+  stackReverse?: boolean;
+  marginRatio?: number;
+  dodgeStack?: boolean;
+  barGeomStyle?: Types.LooseObject;
+}
+
+function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
   const geomStyle = config.barGeomStyle || {};
 
@@ -296,7 +315,23 @@ function drawBar(chart, config, yAxisKey = 'y') {
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
 }
 
-function drawLine(chart, config, yAxisKey = 'y') {
+interface LineConfig {
+  // colors?: string[];
+  // areaColors?: string[];
+  lineColors?: string[];
+  area?: boolean,
+  stack?: boolean, // 仅Area有效
+  spline?: boolean,
+  step?: string | boolean,
+  symbol?: {
+    size?: GeomSizeConfig;
+    geomStyle?: Types.LooseObject;
+  } | boolean,
+  label?: LabelConfig | boolean,
+  lineWidth?: number;
+  lineGeomStyle?: Types.LooseObject;
+}
+function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   let lineGeom = null;
   const { lineWidth } = config;
   const geomStyle = config.lineGeomStyle || {};
@@ -311,42 +346,42 @@ function drawLine(chart, config, yAxisKey = 'y') {
   const stack = config.stack || config.dodgeStack;
 
   if (config.area && stack) {
-    chart.areaStack()
+    chart.area()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
       .shape(areaShape)
-      .active(false);
-    lineGeom = chart.lineStack()
+      .adjust('stack');
+    lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
       .shape(lineShape)
-      .style({
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      .adjust('stack');
+      // .style({
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   } else if (config.area && !stack) {
     chart.area()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
       .shape(areaShape)
-      .active(false);
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
-      .shape(lineShape)
-      .style({
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      .shape(lineShape);
+      // .style({
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   } else {
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
-      .shape(lineShape)
-      .style({
-        lineJoin: 'round',
-        ...geomStyle,
-      });
+      .shape(lineShape);
+      // .style({
+      //   lineJoin: 'round',
+      //   ...geomStyle,
+      // });
   }
 
   label(lineGeom, config, yAxisKey, null, 'lineLabel');
@@ -359,18 +394,18 @@ function drawLine(chart, config, yAxisKey = 'y') {
       .color('type', config.lineColors)
       .shape('circle')
       .size(3)
-      .active(false);
+      // .active(false);
   } else if (config.symbol) {
     chart.point()
       .position(['x', yAxisKey])
       .color('type', config.lineColors)
       .shape('circle')
       .size(3)
-      .active(false);
+      // .active(false);
   }
 }
 
-function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
+function viewGuide(config: WlinebarConfig, lineView: View, rawLineData: DataAdapterData[], barView: View, rawBarData: DataAdapterData[]) {
   const { guide } = config;
   if (!guide) {
     return;
@@ -413,7 +448,8 @@ function viewGuide(config, lineView, rawLineData, barView, rawBarData) {
   }
 }
 
-function getGuideView(config, guide, lineView, rawLineData, barView, rawBarData) {
+type SimpleGuideConfig = { target?: string; } & ( GuideLineConfig | GuideAreaConfig | GuideFilterConfig );
+function getGuideView(config: WlinebarConfig, guide: SimpleGuideConfig, lineView: View, rawLineData: DataAdapterData[], barView: View, rawBarData: DataAdapterData[]) {
   const { target, axis, value } = guide;
 
   // 如果用户指定了绘制目标，直接使用

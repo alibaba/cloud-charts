@@ -13,6 +13,8 @@ export interface XAxisConfig {
   autoEllipsis?: boolean;
   labelFormatter?(): string;
   customConfig?: Types.AxisCfg;
+  // 数据项中使用
+  categories?: number[] | string[];
 }
 
 /**
