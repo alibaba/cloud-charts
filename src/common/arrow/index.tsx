@@ -1,11 +1,15 @@
 'use strict';
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 import './index.scss';
 
 const prefix = 'cloud-warrow';
 
-export default class Wcircle extends React.Component {
+interface ArrowProps {
+  type: 'up' | 'down';
+}
+
+export default class Wcircle extends React.Component<ArrowProps> {
   static defaultProps = {
     type: 'up',
   };
