@@ -187,8 +187,30 @@ export function drawGuideFilter(chart, guideFilter) {
   if (axis && Array.isArray(value) && value.length > 1) {
     if (axis === 'x') {
       // y 轴是分类型数据的情况比较少，暂时不处理
-      guideConfig.start = [value[0], 'min'];
-      guideConfig.end = [value[1], 'max'];
+      // guideConfig.start = [value[0], 'min'];
+      guideConfig.start = function (xScales, yScales) {
+        let x = value[0];
+        let y = 'min';
+        if (xScales.x && xScales.x.min === null) {
+          x = 0;
+        }
+        if (yScales.y && yScales.y.min === null) {
+          y = 0;
+        }
+        return [x, y];
+      };
+      // guideConfig.end = [value[1], 'max'];
+      guideConfig.end = function (xScales, yScales) {
+        let x = value[1];
+        let y = 'max';
+        if (xScales.x && xScales.x.min === null) {
+          x = 0;
+        }
+        if (yScales.y && yScales.y.max === null) {
+          y = 0;
+        }
+        return [x, y];
+      };
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
       // 函数接受两个参数 xScales 和 yScales
@@ -197,6 +219,9 @@ export function drawGuideFilter(chart, guideFilter) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value[0] };
         }
+        if (xScales.x && xScales.x.min === null) {
+          return { x: 0, [axis]: value[0] };
+        }
         return { x: 'min', [axis]: value[0] };
       };
       // 函数接受两个参数 xScales 和 yScales
@@ -204,6 +229,9 @@ export function drawGuideFilter(chart, guideFilter) {
         if (xScales.x && xScales.x.isCategory) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: xScales.x.values.length - 0.5, [axis]: value[1] };
+        }
+        if (xScales.x && xScales.x.max === null) {
+          return { x: 0, [axis]: value[0] };
         }
         return { x: 'max', [axis]: value[1] };
       };
