@@ -2,17 +2,13 @@
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-// import Brush from '@antv/g2-brush';
-// import g2Factory from '../common/g2Factory';
 // import errorWrap from '../common/errorWrap';
-// import merge from '../common/merge';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide, { GuideConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
-// import rectAutoTickCount from '../common/rectAutoTickCount';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
