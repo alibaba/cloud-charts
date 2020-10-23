@@ -208,7 +208,7 @@ Wcircle.propTypes = {
     }
   },
   unit: PropTypes.node,
-  status: PropTypes.oneOf(['normal', 'warning', 'error', 'blue', 'orange', 'red']),
+  status: PropTypes.oneOf(['normal', 'warning', 'error', 'success', 'none', 'blue', 'orange', 'red', 'green', 'gray']),
   // 半径
   radius: function(props, propName){
     if(!(props[propName] >= 10 && props[propName] <= 100)){

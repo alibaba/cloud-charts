@@ -1,3 +1,10 @@
+### 0.1.6 (2020-10-23)
+
+#### New Features
+
+- 圆环 Wcircle 补充 propTypes。
+- refactor: 优化 guide filter，增加健壮性。
+
 ### 0.1.5 (2020-09-28)
 
 #### New Features
