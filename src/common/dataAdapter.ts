@@ -19,21 +19,29 @@ export interface DataAdapterData {
   type?: string;
 }
 
+interface dataFields {
+  x?: string;
+  y?: string;
+  type?: string;
+}
+
 /**
  * drawLine 绘制线图逻辑
  *
- * @param {Object|Array} data 原始数据
- * @param {Object} config 配置项
+ * @param {DataAdapterData|DataAdapterData[]} data 原始数据
+ * @param {DataAdapterConfig} config 配置项
+ * @param {dataFields} dataFields 数据字段映射规则
  *
  * @return {Array} json-array 型数据
  * */
-export default function highchartsDataToG2Data(data: DataAdapterData[], config: DataAdapterConfig) {
+export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapterData[], config: DataAdapterConfig, dataFields?: dataFields) {
   if (!data) {
     return [];
   }
   if (!Array.isArray(data)) {
     data = [data];
   }
+  const { /*x: xField = 'x', y: yField = 'y',*/ type: typeField = 'type' } = dataFields;
   const newData: Types.LooseObject[] = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach(oneData => {
@@ -59,7 +67,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             groupExtra,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         } else if (
           config.xAxis &&
@@ -75,7 +83,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             groupExtra,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         } else {
           const { x, y, ...extra } = d;
@@ -86,7 +94,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             groupExtra,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         }
       });
@@ -110,7 +118,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             facet,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         } else if (
           config.xAxis &&
@@ -127,7 +135,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             facet,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         } else if (typeof d === 'number') {
           newData.push({
@@ -135,7 +143,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             y: d,
             groupExtra,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           })
         } else {
           const { x, y, ...extra } = d;
@@ -147,7 +155,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData[], config: 
             facet,
             dodge,
             visible,
-            type: dataName,
+            [typeField]: dataName,
           });
         }
       });
