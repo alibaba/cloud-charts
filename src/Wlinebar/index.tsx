@@ -222,6 +222,8 @@ class Wlinebar extends Base<WlinebarConfig> {
     const lineView = chart.createView();
     lineView.data(lineData);
     this.lineView = lineView;
+    // 关闭一个View的X轴，避免重叠字体变粗
+    lineView.axis('x', false);
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
@@ -233,6 +235,9 @@ class Wlinebar extends Base<WlinebarConfig> {
         }
       });
     } else {
+      // 单Y轴时同时关闭一个View的Y轴，避免重叠字体变粗
+      lineView.axis('y', false);
+
       drawBar(barView, config);
       drawLine(lineView, config);
     }
