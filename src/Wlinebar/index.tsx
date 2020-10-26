@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
-import Base from "../common/Base";
+import Base, { ChartProps } from "../common/Base";
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
 import themes from '../themes/index';
@@ -80,6 +80,13 @@ class Wlinebar extends Base<WlinebarConfig> {
       //   // valueKey: ['value1', 'value2'],
       //   typeKey: 'type'
       // }
+    }
+  }
+
+  beforeInit(props: ChartProps<WlinebarConfig>): ChartProps<WlinebarConfig> {
+    return {
+      syncViewPadding: true,
+      ...props,
     }
   }
 
