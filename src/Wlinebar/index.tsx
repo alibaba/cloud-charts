@@ -2,6 +2,7 @@
 
 import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base, { ChartProps } from "../common/Base";
+// import { getLegendItems } from "@antv/g2/lib/util/legend";
 // import errorWrap from '../common/errorWrap';
 // import merge from '../common/merge';
 import themes from '../themes/index';
@@ -110,10 +111,10 @@ class Wlinebar extends Base<WlinebarConfig> {
     });
 
     const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
-      // type: 'lineType',
+      type: 'lineType',
     });
     const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
-      // type: 'barType',
+      type: 'barType',
     });
 
     const defs: Record<string, Types.ScaleOption> = {
@@ -211,9 +212,27 @@ class Wlinebar extends Base<WlinebarConfig> {
     //   }
     // }
     rectLegend.call(this, chart, config, {
+      // items: [
+      //   {
+      //     name: '机房1',
+      //     value: themes.linear_10[0],
+      //   },
+      //   {
+      //     name: '机房2',
+      //     value: themes.linear_10[1],
+      //   },
+      //   {
+      //     name: '机房3',
+      //     value: themes.category_12[1],
+      //   },
+      //   {
+      //     name: '机房4',
+      //     value: themes.category_12[2],
+      //   },
+      // ],
       // 'g2-legend': legendStyle,
       // // 'g2-legend-list-item': legendItemStyle,
-    }, false, 'type');
+    }, false);
 
     // tooltip
     rectTooltip.call(this, chart, config);
@@ -232,18 +251,18 @@ class Wlinebar extends Base<WlinebarConfig> {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
         if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
-          drawBar(barView, config, `y${yIndex}`, 'type');
+          drawBar(barView, config, `y${yIndex}`, 'barType');
         }
         if (getDataIndexColor(config.lineColors, rawLineData, yIndex)) {
-          drawLine(lineView, config, `y${yIndex}`, 'type');
+          drawLine(lineView, config, `y${yIndex}`, 'lineType');
         }
       });
     } else {
       // 单Y轴时同时关闭一个View的Y轴，避免重叠字体变粗
       lineView.axis('y', false);
 
-      drawBar(barView, config, 'y', 'type');
-      drawLine(lineView, config, 'y', 'type');
+      drawBar(barView, config, 'y', 'barType');
+      drawLine(lineView, config, 'y', 'lineType');
     }
 
     // 绘制辅助线，辅助背景区域
@@ -267,12 +286,11 @@ class Wlinebar extends Base<WlinebarConfig> {
     });
 
     const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
-      // type: 'lineType',
+      type: 'lineType',
     });
     const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
-      // type: 'barType',
+      type: 'barType',
     });
-    console.log(lineData, barData)
 
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
@@ -335,6 +353,8 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
   });
 
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
+
+  return intervalGeom;
 }
 
 interface LineConfig {
@@ -425,6 +445,8 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
       .size(3)
       // .active(false);
   }
+
+  return lineGeom;
 }
 
 function viewGuide(config: WlinebarConfig, lineView: View, rawLineData: DataAdapterData[], barView: View, rawBarData: DataAdapterData[]) {
