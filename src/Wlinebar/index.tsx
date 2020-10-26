@@ -262,7 +262,8 @@ class Wlinebar extends Base<WlinebarConfig> {
 
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
-    // chart.render();
+    // 更新数据后再次render，保证 padding 能正确计算。
+    chart.render(true);
   }
 }
 
