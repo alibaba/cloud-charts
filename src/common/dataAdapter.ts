@@ -41,7 +41,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
   if (!Array.isArray(data)) {
     data = [data];
   }
-  const { /*x: xField = 'x', y: yField = 'y',*/ type: typeField = 'type' } = dataFields;
+  const { /*x: xField = 'x', y: yField = 'y',*/ type: typeField = 'type' } = dataFields || {};
   const newData: Types.LooseObject[] = [];
   if (Array.isArray(config.yAxis)) {
     data.forEach(oneData => {
