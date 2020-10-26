@@ -35,6 +35,7 @@ export interface ChartProps<ChartConfig> {
   padding?: G2.Types.ViewPadding;
   localRefresh?: boolean;
   renderer?: 'canvas' | 'svg';
+  syncViewPadding?: boolean;
 }
 
 /**
