@@ -109,8 +109,12 @@ class Wlinebar extends Base<WlinebarConfig> {
       }
     });
 
-    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig);
-    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig);
+    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
+      // type: 'lineType',
+    });
+    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
+      // type: 'barType',
+    });
 
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.xAxis, {
@@ -228,18 +232,18 @@ class Wlinebar extends Base<WlinebarConfig> {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
         if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
-          drawBar(barView, config, `y${yIndex}`);
+          drawBar(barView, config, `y${yIndex}`, 'type');
         }
         if (getDataIndexColor(config.lineColors, rawLineData, yIndex)) {
-          drawLine(lineView, config, `y${yIndex}`);
+          drawLine(lineView, config, `y${yIndex}`, 'type');
         }
       });
     } else {
       // 单Y轴时同时关闭一个View的Y轴，避免重叠字体变粗
       lineView.axis('y', false);
 
-      drawBar(barView, config);
-      drawLine(lineView, config);
+      drawBar(barView, config, 'y', 'type');
+      drawLine(lineView, config, 'y', 'type');
     }
 
     // 绘制辅助线，辅助背景区域
@@ -262,8 +266,13 @@ class Wlinebar extends Base<WlinebarConfig> {
       }
     });
 
-    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig);
-    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig);
+    const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
+      // type: 'lineType',
+    });
+    const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
+      // type: 'barType',
+    });
+    console.log(lineData, barData)
 
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
@@ -283,7 +292,7 @@ interface BarConfig {
   barGeomStyle?: Types.LooseObject;
 }
 
-function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
+function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
   const geomStyle = config.barGeomStyle || {};
 
@@ -291,7 +300,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   if (dodgeStack) {
     intervalGeom = chart.interval()
       .position(['x', yAxisKey])
-      .color('type', config.barColors)
+      .color(legendKey, config.barColors)
       .adjust([
         {
           type: 'dodge',
@@ -306,7 +315,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   } else if (stack) {
     intervalGeom = chart.interval()
       .position(['x', yAxisKey])
-      .color('type', config.barColors)
+      .color(legendKey, config.barColors)
       .adjust([{
         type: 'stack',
         reverseOrder: !stackReverse, // 层叠顺序倒序
@@ -314,7 +323,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   } else {
     intervalGeom = chart.interval()
       .position(['x', yAxisKey])
-      .color('type', config.barColors)
+      .color(legendKey, config.barColors)
       .adjust([{
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
@@ -344,7 +353,7 @@ interface LineConfig {
   lineWidth?: number;
   lineGeomStyle?: Types.LooseObject;
 }
-function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
+function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
   let lineGeom = null;
   const { lineWidth } = config;
   const geomStyle = config.lineGeomStyle || {};
@@ -361,12 +370,12 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   if (config.area && stack) {
     chart.area()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape(areaShape)
       .adjust('stack');
     lineGeom = chart.line()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape(lineShape)
       .adjust('stack');
       // .style({
@@ -376,11 +385,11 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   } else if (config.area && !stack) {
     chart.area()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape(areaShape)
     lineGeom = chart.line()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape(lineShape);
       // .style({
       //   lineJoin: 'round',
@@ -389,7 +398,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
   } else {
     lineGeom = chart.line()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape(lineShape);
       // .style({
       //   lineJoin: 'round',
@@ -404,14 +413,14 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y') {
     chart.point()
       .adjust('stack')
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape('circle')
       .size(3)
       // .active(false);
   } else if (config.symbol) {
     chart.point()
       .position(['x', yAxisKey])
-      .color('type', config.lineColors)
+      .color(legendKey, config.lineColors)
       .shape('circle')
       .size(3)
       // .active(false);
