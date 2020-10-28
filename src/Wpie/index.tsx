@@ -358,7 +358,7 @@ class Wpie extends Base<WpieConfig> {
         childDom.style.left = `${centerPoint.x}px`;
         childDom.style.top = `${centerPoint.y}px`;
       }
-    })
+    });
 
     // const geomStyle = config.geomStyle || {};
     // this.geom.style('x*y*type*extra', {
