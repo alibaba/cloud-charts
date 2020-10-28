@@ -1,10 +1,11 @@
 'use strict';
 
-import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, View, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base, { ChartProps } from "../common/Base";
-// import { getLegendItems } from "@antv/g2/lib/util/legend";
+import { MarkerSymbols } from "@antv/g2/lib/util/marker";
+import { getShapeFactory } from "@antv/g2";
+// import { getMappingValue } from "@antv/g2/lib/util/attr";
 // import errorWrap from '../common/errorWrap';
-// import merge from '../common/merge';
 import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
 import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
@@ -28,6 +29,133 @@ interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   grid?: boolean,
 }
 
+function getLegendItems(
+  lineData: DataAdapterData[],
+  barData: DataAdapterData[],
+  lineGeom: Geometry,
+  barGeom: Geometry,
+  config: WlinebarConfig
+) {
+  const result: any[] = [];
+  const reMap: { [key: string]: boolean } = {};
+  const { lineColors, barColors } = config;
+  function getItems(
+    data: DataAdapterData[],
+    geom: Geometry,
+    shapeType: string,
+    colors: string[],
+    style?: Types.LooseObject,
+  ) {
+    data.forEach((d, i) => {
+      const { name, visible } = d;
+      if (reMap[name]) {
+        return;
+      }
+      let marker;
+      const shapeFactory = getShapeFactory(geom.shapeType);
+      if (shapeFactory) {
+        marker = shapeFactory.getMarker(shapeType, {
+          color: colors[i % colors.length],
+          isInPolar: false,
+        });
+
+        const symbol = marker.symbol;
+        // @ts-ignore
+        if (typeof symbol === 'string' && MarkerSymbols[symbol]) {
+          // @ts-ignore
+          marker.symbol = MarkerSymbols[symbol];
+        }
+      }
+      if (style) {
+        Object.assign(marker.style, style);
+      }
+      result.push({
+        id: name,
+        name,
+        value: name,
+        marker,
+        unchecked: visible === false,
+      });
+    });
+  }
+  getItems(barData, barGeom, 'point', barColors);
+  const { area, spline } = config;
+  let lineShapeType = 'line';
+  const lineStyle: Types.LooseObject = {};
+  if (area) {
+    lineShapeType = 'area';
+  }
+  if (spline) {
+    lineShapeType = 'smooth';
+  }
+  if (!area && spline) {
+    lineStyle.fill = null;
+  }
+  getItems(lineData, lineGeom, lineShapeType, lineColors, lineStyle);
+  // lineData.forEach((d, i) => {
+  //   const { name, visible } = d;
+  //   if (reMap[name]) {
+  //     return;
+  //   }
+  //   let marker;
+  //   const shapeFactory = getShapeFactory(lineGeom.shapeType);
+  //   if (shapeFactory) {
+  //     marker = shapeFactory.getMarker('point', {
+  //       color: lineColors[i % lineColors.length],
+  //       isInPolar: false,
+  //     });
+  //     // lineGeom.getShapeMarker
+  //
+  //     const symbol = marker.symbol;
+  //     // @ts-ignore
+  //     if (typeof symbol === 'string' && MarkerSymbols[symbol]) {
+  //       // @ts-ignore
+  //       marker.symbol = MarkerSymbols[symbol];
+  //     }
+  //   }
+  //
+  //   result.push({
+  //     id: name,
+  //     name,
+  //     value: name,
+  //     marker,
+  //     unchecked: visible === false,
+  //   });
+  //   reMap[name] = true;
+  // });
+  // barData.forEach((d, i) => {
+  //   const { name, visible } = d;
+  //   if (reMap[name]) {
+  //     return;
+  //   }
+  //   let marker;
+  //   const shapeFactory = getShapeFactory(barGeom.shapeType);
+  //   if (shapeFactory) {
+  //     marker = shapeFactory.getMarker('point', {
+  //       color: barColors[i % barColors.length],
+  //       isInPolar: false,
+  //     });
+  //
+  //     const symbol = marker.symbol;
+  //     // @ts-ignore
+  //     if (typeof symbol === 'string' && MarkerSymbols[symbol]) {
+  //       // @ts-ignore
+  //       marker.symbol = MarkerSymbols[symbol];
+  //     }
+  //   }
+  //
+  //   result.push({
+  //     id: name,
+  //     name,
+  //     value: name,
+  //     marker,
+  //     unchecked: visible === false,
+  //   });
+  //   reMap[name] = true;
+  // });
+  return result;
+}
+
 class Wlinebar extends Base<WlinebarConfig> {
   chartName = 'G2LineBar';
 
@@ -37,7 +165,7 @@ class Wlinebar extends Base<WlinebarConfig> {
     return {
       lineColors: themes.category_12.slice(1),
       barColors: themes.linear_10,
-      padding: ['auto', 'auto', 'auto', 'auto'],
+      // padding: ['auto', 'auto', 'auto', 'auto'],
       xAxis: {
         type: 'timeCat', // 默认为线性
         mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
@@ -98,10 +226,10 @@ class Wlinebar extends Base<WlinebarConfig> {
   barView: View;
 
   init(chart: Chart, config: WlinebarConfig, data: ChartData) {
-    const rawLineData = this.rawLineData;
-    // this.rawLineData = rawLineData;
-    const rawBarData = this.rawBarData;
-    // this.rawBarData = rawBarData;
+    const rawLineData: DataAdapterData[] = [];
+    this.rawLineData = rawLineData;
+    const rawBarData: DataAdapterData[] = [];
+    this.rawBarData = rawBarData;
     (data || []).forEach((d: DataAdapterData) => {
       if (d.type === 'line') {
         rawLineData.push(d);
@@ -111,10 +239,10 @@ class Wlinebar extends Base<WlinebarConfig> {
     });
 
     const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
-      type: 'lineType',
+      // type: 'lineType',
     });
     const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
-      type: 'barType',
+      // type: 'barType',
     });
 
     const defs: Record<string, Types.ScaleOption> = {
@@ -211,28 +339,7 @@ class Wlinebar extends Base<WlinebarConfig> {
     //     // legendItemStyle.marginTop = themes['widgets-font-size-1'];
     //   }
     // }
-    rectLegend.call(this, chart, config, {
-      // items: [
-      //   {
-      //     name: '机房1',
-      //     value: themes.linear_10[0],
-      //   },
-      //   {
-      //     name: '机房2',
-      //     value: themes.linear_10[1],
-      //   },
-      //   {
-      //     name: '机房3',
-      //     value: themes.category_12[1],
-      //   },
-      //   {
-      //     name: '机房4',
-      //     value: themes.category_12[2],
-      //   },
-      // ],
-      // 'g2-legend': legendStyle,
-      // // 'g2-legend-list-item': legendItemStyle,
-    }, false);
+
 
     // tooltip
     rectTooltip.call(this, chart, config);
@@ -251,18 +358,18 @@ class Wlinebar extends Base<WlinebarConfig> {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
         if (getDataIndexColor(config.barColors, rawBarData, yIndex)) {
-          drawBar(barView, config, `y${yIndex}`, 'barType');
+          drawBar(barView, config, `y${yIndex}`, 'type');
         }
         if (getDataIndexColor(config.lineColors, rawLineData, yIndex)) {
-          drawLine(lineView, config, `y${yIndex}`, 'lineType');
+          drawLine(lineView, config, `y${yIndex}`, 'type');
         }
       });
     } else {
       // 单Y轴时同时关闭一个View的Y轴，避免重叠字体变粗
       lineView.axis('y', false);
 
-      drawBar(barView, config, 'y', 'barType');
-      drawLine(lineView, config, 'y', 'lineType');
+      drawBar(barView, config, 'y', 'type');
+      drawLine(lineView, config, 'y', 'type');
     }
 
     // 绘制辅助线，辅助背景区域
@@ -270,6 +377,30 @@ class Wlinebar extends Base<WlinebarConfig> {
 
     legendFilter.call(this, barView, config, 'rawBarData');
     legendFilter.call(this, lineView, config, 'rawLineData');
+
+    rectLegend.call(this, chart, config, {
+      items: getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config),
+    }, false);
+
+    // chart.on('afterrender', () => {
+    //   // chart.getLegendAttributes()
+    //   // console.log('getLegendAttributes', barView.geometries[0].getAttribute('shape'));
+    //   // console.log('getLegendAttributes', lineView.geometries[0].getAttribute('shape'));
+    //   lineView.geometries.forEach((geom) => {
+    //     const shapeAttr = geom.getAttribute('shape');
+    //
+    //     const shape = getMappingValue(shapeAttr, '机房3', 'point');
+    //     let marker = geom.getShapeMarker(shape, {
+    //       color: 'red',
+    //       isInPolar: false,
+    //     });
+    //
+    //     console.log(marker);
+    //   })
+    //   // console.log(getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config));
+    //
+    //   // console.log(chart.getController('legend'));
+    // })
   }
 
   changeData(chart: Chart, config: WlinebarConfig, data: ChartData) {
@@ -286,11 +417,13 @@ class Wlinebar extends Base<WlinebarConfig> {
     });
 
     const lineData = highchartsDataToG2Data(rawLineData, config as DataAdapterConfig, {
-      type: 'lineType',
+      // type: 'lineType',
     });
     const barData = highchartsDataToG2Data(rawBarData, config as DataAdapterConfig, {
-      type: 'barType',
+      // type: 'barType',
     });
+
+    // TODO 更新legend item
 
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);

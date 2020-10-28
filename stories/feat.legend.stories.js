@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select, radios } from "@storybook/addon-knobs";
 
-import { Wcontainer, Wline } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wlinebar } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -120,7 +120,7 @@ const radioOptions = {
   '右中': 'right',
   '右下': 'right-bottom',
 };
-stories.add('图例位置测试', () => (
+stories.add('图例位置测试-line', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       legend: {
@@ -130,5 +130,18 @@ stories.add('图例位置测试', () => (
         align: '',
       }
     }} data={data} />
+  </Wcontainer>
+));
+
+stories.add('图例位置测试-linebar', () => (
+  <Wcontainer className="demos">
+    <Wlinebar height="300" config={{
+      legend: {
+        // position: select('上下位置', positionOptions, 'top'),
+        // align: select('左右分布', alignOptions, 'left'),
+        position: radios('位置', radioOptions, 'top'),
+        align: '',
+      }
+    }} data={lineBarData} />
   </Wcontainer>
 ));
