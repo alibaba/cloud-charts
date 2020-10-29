@@ -5,6 +5,7 @@ export { default as Wlinebar } from './Wlinebar';
 export { default as Wpie } from './Wpie';
 export { default as Wradar } from './Wradar';
 export { default as Wfunnel } from './Wfunnel';
+export { default as Wnightingale } from './Wnightingale';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
