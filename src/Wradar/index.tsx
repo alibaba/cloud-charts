@@ -16,7 +16,7 @@ import drawLine, { DrawLineConfig } from '../common/drawLine';
 
 import './index.scss';
 
-//3.x代码
+// 3.x代码
 interface WradarConfig extends BaseChartConfig, DrawLineConfig {
   colors?: string[];
   areaColors?: string[];
@@ -63,11 +63,6 @@ class Wradar extends Base<WradarConfig> {
   init(chart: Chart, config: WradarConfig, data: any) {
 
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
-        // type: 'cat',
-        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        // range: [0, 1],
-      }, config.xAxis),
       type: {
         type: 'cat',
       },

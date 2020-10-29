@@ -2,8 +2,6 @@
 // 新增
 import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
-
-// 修改，下面这部分增加了 xxxConfig 的引入
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
