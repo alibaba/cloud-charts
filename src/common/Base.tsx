@@ -223,7 +223,11 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
           ? highchartsDataToG2Data(newData, newConfig)
           : newData;
       this.rawData = newData;
-      this.changeData(this.chart, newConfig, data);
+      this.changeData(
+        this.chart,
+        merge({}, this.defaultConfig, newConfig),
+        data
+      );
       // if (this.chartProcess.changeData) {
       //   this.chart &&
       //     this.chartProcess.changeData.call(
