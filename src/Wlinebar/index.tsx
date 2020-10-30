@@ -17,8 +17,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
-import './G2LineBar.scss';
 import { GeomSizeConfig } from "../common/geomSize";
+import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false,
