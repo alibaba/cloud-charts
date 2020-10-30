@@ -35,7 +35,7 @@ class Wheatmap extends Base<WheatmapConfig> {
   getDefaultConfig(): WheatmapConfig {
     return {
       colors: themes.category_12,
-      padding: ['auto', 'auto', 'auto', 'auto'],
+      // padding: ['auto', 'auto', 'auto', 'auto'],
       xAxis: {
         type: 'cat',
         labelFormatter: null, // 可以强制覆盖，手动设置label
@@ -126,8 +126,7 @@ class Wheatmap extends Base<WheatmapConfig> {
         stroke: themes['widgets-map-area-border'],
         ...geomStyle,
       });
-    
-    chart.render();
+
   }
 }
 export default Wheatmap;

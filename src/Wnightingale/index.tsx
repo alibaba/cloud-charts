@@ -84,8 +84,6 @@ class Wnightingale extends Base<WnightingaleConfig> {
     label(geom, config, 'x', {
       offset: -15,
     });
-
-    chart.render();
   }
 }
 export default Wnightingale;

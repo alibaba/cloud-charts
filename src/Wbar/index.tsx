@@ -15,9 +15,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from "../common/label";
-
-import './index.scss';
 import rectZoom from "../common/rectZoom";
+import './index.scss';
 
 interface WbarConfig extends BaseChartConfig {
   colors?: string[];
@@ -46,7 +45,7 @@ export default class Wbar extends Base<WbarConfig> {
   getDefaultConfig(): WbarConfig {
     return {
       colors: themes.category_12,
-      padding: ['auto', 'auto', 'auto', 'auto'],
+      // padding: ['auto', 'auto', 'auto', 'auto'],
       xAxis: {
         type: 'cat',
         labelFormatter: null, // 可以强制覆盖，手动设置label
@@ -165,7 +164,7 @@ export default class Wbar extends Base<WbarConfig> {
           // const y = isNaN(d) ? d[0] : d;
         }
 
-        chart.guide().text({
+        chart.annotation().text({
           position: [x, 0],
           content: `${x}  `,
           style: {
@@ -295,15 +294,15 @@ export default class Wbar extends Base<WbarConfig> {
     // }
     rectZoom(chart, config, this.language);
   }
-  changeData(chart: Chart, config: WbarConfig, data: any) {
-    chart.changeData(data);
-
-    // // 更新 brush 的 scale 实例，fix 数据更新后拖动缩放失效的问题。
-    // if (config.zoom && this.brush) {
-    //   this.brush.xScale = chart.getXScale();
-    //   this.brush.yScale = chart.getYScales()[0];
-    // }
-  }
+  // changeData(chart: Chart, config: WbarConfig, data: any) {
+  //   chart.changeData(data);
+  //
+  //   // // 更新 brush 的 scale 实例，fix 数据更新后拖动缩放失效的问题。
+  //   // if (config.zoom && this.brush) {
+  //   //   this.brush.xScale = chart.getXScale();
+  //   //   this.brush.yScale = chart.getYScales()[0];
+  //   // }
+  // }
   // destroy() {
   //   // 销毁时需要额外销毁缩放重置按钮
   //   if (this.brush) {
