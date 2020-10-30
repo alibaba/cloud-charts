@@ -423,10 +423,21 @@ class Wlinebar extends Base<WlinebarConfig> {
       // type: 'barType',
     });
 
-    // TODO 更新legend item
-
     this.barView && this.barView.changeData(barData);
     this.lineView && this.lineView.changeData(lineData);
+
+    if (this.barView && this.lineView) {
+      const legend = chart.getController('legend');
+      const legendCos = legend.getComponents();
+      // 图例项可见，更新图例项
+      if (legend.visible && legendCos.length > 0) {
+        const newItems = getLegendItems(rawLineData, rawBarData, this.lineView.geometries[0], this.barView.geometries[0], config);
+        chart.legend({
+          items: newItems
+        });
+      }
+    }
+
     // 更新数据后再次render，保证 padding 能正确计算。
     chart.render(true);
   }
@@ -442,7 +453,6 @@ interface BarConfig {
   dodgeStack?: boolean;
   barGeomStyle?: Types.LooseObject;
 }
-
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
   const geomStyle = config.barGeomStyle || {};
