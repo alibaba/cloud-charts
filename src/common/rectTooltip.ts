@@ -34,6 +34,7 @@ export interface TooltipConfig {
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
  * @param {Function} onTooltipChange 自定义 tooltip:change 事件
+ * @param {Object} componentConfig
  * */
 export default function(
   chart: Chart,
