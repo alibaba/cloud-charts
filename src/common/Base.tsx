@@ -40,8 +40,11 @@ export interface ChartProps<ChartConfig> {
 
 /**
  * React 图表基类
+ *
+ * @template ChartConfig 泛型 - 配置项
+ * @template Props 泛型 - Props参数
  * */
-class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartProps<ChartConfig>> {
+class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>> extends React.Component<Props> {
   static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -74,7 +77,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
 
   protected rawData: ChartData;
 
-  constructor(props: ChartProps<ChartConfig>) {
+  constructor(props: Props) {
     super(props);
     this.chart = null;
     this.chartDom = null;
@@ -96,7 +99,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
     return ({} as ChartConfig);
   }
 
-  protected beforeInit?(props: ChartProps<ChartConfig>): ChartProps<ChartConfig>;
+  protected beforeInit?(props: Props): Props;
 
   protected init(chart: G2.Chart, config: ChartConfig, data: ChartData): void { };
 
@@ -176,7 +179,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
     return hasConfigChange;
   }
 
-  componentDidUpdate(prevProps: ChartProps<ChartConfig>) {
+  componentDidUpdate(prevProps: Props) {
     const {
       data: newData,
       width: newWidth,
@@ -305,7 +308,7 @@ class Base<ChartConfig extends BaseChartConfig> extends React.Component<ChartPro
   initChart() {
     this.defaultConfig = this.getDefaultConfig();
     // 合并默认配置项
-    let currentProps: ChartProps<ChartConfig> = {
+    let currentProps: Props = {
       ...this.props,
       config: merge({}, this.defaultConfig, this.props.config),
     };
