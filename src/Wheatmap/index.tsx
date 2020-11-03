@@ -15,7 +15,6 @@ import './index.scss';
 
 // 3.x代码
 interface WheatmapConfig extends BaseChartConfig {
-  padding?: string[],
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,

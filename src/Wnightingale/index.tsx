@@ -13,7 +13,6 @@ import './index.scss';
 
 // 3.x代码
 interface WnightingaleConfig extends BaseChartConfig {
-  padding?: string[],
   colors?: string[];
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
