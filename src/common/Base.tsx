@@ -2,7 +2,6 @@
 
 import * as G2 from '@antv/g2';
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import { BaseChartConfig, ChartData, Size, Language } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
@@ -45,18 +44,6 @@ export interface ChartProps<ChartConfig> {
  * @template Props 泛型 - Props参数
  * */
 class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>> extends React.Component<Props> {
-  static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    config: PropTypes.object,
-    data: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.object),
-      PropTypes.object,
-    ]).isRequired,
-    event: PropTypes.object,
-    // forceFit: PropTypes.bool,
-  };
-
   static defaultProps = {
     config: {},
   };
@@ -491,18 +478,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     );
   }
 }
-
-// Base.propTypes = {
-//   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-//   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-//   config: PropTypes.object,
-//   data: PropTypes.oneOfType([
-//     PropTypes.arrayOf(PropTypes.object),
-//     PropTypes.object,
-//   ]).isRequired,
-//   event: PropTypes.object,
-//   forceFit: PropTypes.bool,
-// };
 
 // Base.defaultProps = {
 //   config: {},
