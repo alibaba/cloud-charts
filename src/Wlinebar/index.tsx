@@ -50,6 +50,8 @@ function getLegendItems(
       const { name, visible } = d;
       if (reMap[name]) {
         return;
+      } else {
+        reMap[name] = true;
       }
       let marker;
       const shapeFactory = getShapeFactory(geom.shapeType);
