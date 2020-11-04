@@ -33,6 +33,8 @@ const data = [
 // }
 
 const stories = storiesOf('Wpie', module);
+stories.addDecorator(withKnobs);
+
 stories.add('饼图', () => (
   <Wcontainer className="demos">
     <Wpie height="300" config={{
@@ -91,5 +93,3 @@ stories.add('带标签环图', () => (
 // stories.add('仪表盘', () => (
 //   <WdashboardDemo data={11} className="demos"/>
 // ));
-
-stories.addDecorator(withKnobs);
