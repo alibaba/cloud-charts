@@ -4,8 +4,9 @@ import * as React from 'react';
 // DataSet
 import { DataSet } from '@antv/data-set/lib/data-set';
 import { View as DataView } from '@antv/data-set/lib/view';
-import '@antv/data-set/lib/connector/geojson';
+import '@antv/data-set/lib/api/statistics';
 import '@antv/data-set/lib/api/geo';
+import '@antv/data-set/lib/connector/geojson';
 import '@antv/data-set/lib/transform/map';
 import '@antv/data-set/lib/transform/filter';
 import '@antv/data-set/lib/transform/geo/projection';
@@ -112,6 +113,8 @@ class Wmap extends Base<WmapConfig, MapProps> {
       showSouthChinaSea: true,
       projection: null,
       legend: {
+        position: 'left',
+        align: 'bottom',
         nameFormatter: null, // 可以强制覆盖，手动设置label
       },
       tooltip: {
@@ -182,9 +185,6 @@ class Wmap extends Base<WmapConfig, MapProps> {
       config,
       {
         showTitle: false,
-        showCrosshairs: false,
-        // crosshairs: null,
-        showMarkers: false,
       },
       (ev: any) => {
         if (typeof config.tooltip === 'boolean') {
@@ -193,7 +193,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
         const { nameFormatter, valueFormatter } = config.tooltip;
         const { items } = ev.data;
         items.forEach((item: any, index: number) => {
-          const raw = item.point._origin || {};
+          const raw = item.data || {};
 
           if (valueFormatter) {
             item.value = valueFormatter(item.value, raw, index, ev.items);
@@ -202,14 +202,19 @@ class Wmap extends Base<WmapConfig, MapProps> {
             item.name = nameFormatter(item.name, raw, index, ev.items);
           }
         });
+      },
+      {
+        showCrosshairs: false,
+        // crosshairs: null,
+        showMarkers: false,
       }
     );
 
     // 设置图例
     rectLegend.call(this, chart, config, {
       // autoCollapse: false,
-      position: 'left',
-      align: 'bottom',
+      // position: 'left',
+      // align: 'bottom',
       // paddingIgnore: true,
       // 使用container控制图例添加的位置，方便调整样式
       // container: `#${this.chartId}-legend`,
@@ -257,20 +262,20 @@ class Wmap extends Base<WmapConfig, MapProps> {
 
   bgMapRatio: number = 1;
 
-  // changeSize(chart: Chart, config: WmapConfig, chartWidth: number, chartHeight: number) {
-  //   const chartRatio = chartWidth / chartHeight;
-  //   const ratio = this.bgMapRatio || chartRatio;
-  //
-  //   let width = chartWidth;
-  //   let height = chartHeight;
-  //   if (chartRatio > ratio) {
-  //     width = chartHeight * ratio;
-  //   } else if (chartRatio < ratio) {
-  //     height = chartWidth / ratio;
-  //   }
-  //   chart.changeSize(width, height);
-  // }
-  //
+  changeSize(chart: Chart, config: WmapConfig, chartWidth: number, chartHeight: number) {
+    const chartRatio = chartWidth / chartHeight;
+    const ratio = this.bgMapRatio || chartRatio;
+
+    let width = chartWidth;
+    let height = chartHeight;
+    if (chartRatio > ratio) {
+      width = chartHeight * ratio;
+    } else if (chartRatio < ratio) {
+      height = chartWidth / ratio;
+    }
+    chart.changeSize(width, height);
+  }
+
   // changeData(chart: Chart, config: WmapConfig, viewName, newData) {
   //   const { ds } = this;
   //   let data = newData;
@@ -347,25 +352,25 @@ function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapCon
   }
 
   // start: 按照投影后尺寸比例调整图表的真实比例
-  // const longitudeRange = bgMapDataView.range('x');
-  // const latitudeRange = bgMapDataView.range('y');
-  // const ratio =
-  //   (longitudeRange[1] - longitudeRange[0]) /
-  //   (latitudeRange[1] - latitudeRange[0]);
-  // ctx.bgMapRatio = ratio;
-  // const { width: chartWidth, height: chartHeight } = chart._attrs;
-  // const chartRatio = chartWidth / chartHeight;
-  //
-  // let width = chartWidth;
-  // let height = chartHeight;
-  // if (chartRatio > ratio) {
-  //   width = chartHeight * ratio;
-  // } else if (chartRatio < ratio) {
-  //   height = chartWidth / ratio;
-  // }
-  // if (width !== chartWidth || height !== chartHeight) {
-  //   chart.changeSize(width, height);
-  // }
+  const longitudeRange = bgMapDataView.range('x');
+  const latitudeRange = bgMapDataView.range('y');
+  const ratio =
+    (longitudeRange[1] - longitudeRange[0]) /
+    (latitudeRange[1] - latitudeRange[0]);
+  ctx.bgMapRatio = ratio;
+  const { width: chartWidth, height: chartHeight } = chart;
+  const chartRatio = chartWidth / chartHeight;
+
+  let width = chartWidth;
+  let height = chartHeight;
+  if (chartRatio > ratio) {
+    width = chartHeight * ratio;
+  } else if (chartRatio < ratio) {
+    height = chartWidth / ratio;
+  }
+  if (width !== chartWidth || height !== chartHeight) {
+    chart.changeSize(width, height);
+  }
   // end: 按照投影后尺寸比例调整图表的真实比例
 
   const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } =
