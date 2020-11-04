@@ -11,7 +11,6 @@ import merge from '../common/merge';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import getGeomSizeConfig from '../common/geomSize';
-import './G2Map.scss';
 
 export const AREA_NAME = 'WidgetsMapArea';
 export const POINT_NAME = 'WidgetsMapPoint';
