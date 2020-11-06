@@ -318,7 +318,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       container: this.chartDom,
       width: this.size[0],
       height: this.size[1] || 200,
-      padding,
+      padding: padding || config.padding,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
