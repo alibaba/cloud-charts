@@ -80,28 +80,37 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
   // 图表生命周期
 
+  /** 是否自动转换数据格式 */
   protected convertData: boolean = true;
 
+  /** 获取图表默认配置项 */
   protected getDefaultConfig(): ChartConfig {
     return ({} as ChartConfig);
   }
 
+  /** 初始化前对props额外处理 */
   protected beforeInit?(props: Props): Props;
 
+  /** 初始化函数 */
   protected init(chart: G2.Chart, config: ChartConfig, data: ChartData): void { };
 
+  /** 自定义判断配置项是否更改 */
   protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
+  /** 更新数据 */
   protected changeData(chart: G2.Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
   };
 
+  /** 更新尺寸 */
   protected changeSize(chart: G2.Chart, config: ChartConfig, width: number, height: number): void {
     chart && chart.changeSize(width, height);
   };
 
+  /** @deprecated 图表渲染后回调 */
   protected afterRender?(config: ChartConfig): void;
 
+  /** 销毁图表 */
   protected destroy?(): void;
 
 
