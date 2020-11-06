@@ -22,8 +22,6 @@ interface WheatmapConfig extends BaseChartConfig {
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
-  cycle?: boolean;
-  innerRadius?: number;
   geomStyle?: Types.LooseObject;
   coordinate?: Types.LooseObject;
 }
