@@ -273,7 +273,13 @@ class Wmap extends Base<WmapConfig, MapProps> {
     } else if (chartRatio < ratio) {
       height = chartWidth / ratio;
     }
-    chart.changeSize(width, height);
+    if (width !== chartWidth || height !== chartHeight) {
+      const p1 = (chartWidth - width) / 2;
+      const p2 = (chartHeight - height) / 2;
+      chart.appendPadding = [p2, p1, p2, p1];
+    }
+
+    chart.changeSize(chartWidth, chartHeight);
   }
 
   // changeData(chart: Chart, config: WmapConfig, viewName, newData) {
@@ -369,14 +375,19 @@ function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapCon
     height = chartWidth / ratio;
   }
   if (width !== chartWidth || height !== chartHeight) {
-    chart.changeSize(width, height);
+    const p1 = (chartWidth - width) / 2;
+    const p2 = (chartHeight - height) / 2;
+    chart.appendPadding = [p2, p1, p2, p1];
+    // chart.changeSize(width, height);
   }
   // end: 按照投影后尺寸比例调整图表的真实比例
 
   const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } =
     config.background || {};
 
-  const bgMapView = chart.createView();
+  const bgMapView = chart.createView({
+    padding: 0,
+  });
   bgMapView.data(bgMapDataView.rows);
   bgMapView.tooltip(false);
   bgMapView
@@ -430,7 +441,9 @@ function drawMapArea(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
         as: ['x', 'y'],
       });
 
-    const areaMapView = chart.createView();
+    const areaMapView = chart.createView({
+    padding: 0,
+  });
     areaMapView.data(areaMapDataView.rows);
     /*const areaGeom = */areaMapView
       .polygon()
@@ -470,7 +483,9 @@ function drawMapPoint(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, 
         },
       });
 
-    const pointMapView = chart.createView();
+    const pointMapView = chart.createView({
+    padding: 0,
+  });
     pointMapView.data(pointMapDataView.rows);
     const pointGeom = pointMapView
       .point()
@@ -539,7 +554,9 @@ function drawHeatMap(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
         },
       });
 
-    const heatMapView = chart.createView();
+    const heatMapView = chart.createView({
+    padding: 0,
+  });
     heatMapView.data(heatMapDataView.rows);
     chart.legend('value', false);
 
@@ -595,7 +612,9 @@ function drawMapLabel(ctx: Wmap, chart: Chart, config: WmapConfig) {
   const { offset = 0, textStyle = {}, formatter } =
     typeof labelConfig === 'object' ? labelConfig : {};
 
-  const labelMapView = chart.createView();
+  const labelMapView = chart.createView({
+    padding: 0,
+  });
   labelMapView.data(labelData);
   labelMapView
     .point()
