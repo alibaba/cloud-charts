@@ -62,12 +62,7 @@ function computeData(ctx: Wmultipie, data: ChartData) {
 
   const source: Types.Data = [];
 
-  // 记录最大深度
-  let maxDepth = 0;
   dv.getAllNodes().forEach((node) => {
-    if (node.depth > maxDepth) {
-      maxDepth = node.depth;
-    }
     if (node.depth === 0) {
       // 父节点不展示
       return;
@@ -93,22 +88,7 @@ function computeData(ctx: Wmultipie, data: ChartData) {
   // 挂载转换后的数据
   ctx.data = source;
 
-  return {
-    source,
-    maxDepth,
-  };
-}
-
-const radiusMap: { [depth: number]: number } = {
-  2: 0,
-  3: 0,
-};
-
-function getInnerRadius(maxDepth: number, innerRadius: number) {
-  if (innerRadius) {
-    return innerRadius;
-  }
-  return radiusMap[maxDepth] || 0;
+  return source;
 }
 
 class Wmultipie extends Base<WmultipieConfig> {
@@ -142,22 +122,18 @@ class Wmultipie extends Base<WmultipieConfig> {
   data: Types.Data = [];
 
   init(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const { source, maxDepth } = computeData(this, data);
+    const source = computeData(this, data);
 
     chart.data(source);
 
-    // const thetaConfig: Types.CoordinateCfg = {
-    //   radius: Math.max(Math.min(config.outerRadius, 1), 0.01),
-    // };
-    // if (config.cycle) {
-    //   thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
-    // }
-
-    chart.coordinate('polar', {
+    const thetaConfig: Types.CoordinateCfg = {
       radius: Math.max(Math.min(config.outerRadius, 1), 0.01),
-      innerRadius: getInnerRadius(maxDepth, config.innerRadius), // 用于空心部分的半径设置
-    });
+    };
+    if (config.cycle) {
+      thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
+    }
 
+    chart.coordinate('polar', thetaConfig);
 
     chart.axis(false);
 
@@ -266,7 +242,7 @@ class Wmultipie extends Base<WmultipieConfig> {
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const { source } = computeData(this, data);
+    const source = computeData(this, data);
 
     chart.changeData(source);
   }
