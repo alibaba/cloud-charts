@@ -10,6 +10,7 @@ export { default as Wnightingale } from './Wnightingale';
 export { default as Wheatmap } from './Wheatmap';
 export { default as Wmap } from './Wmap'
 export { default as Wrectangle } from './Wrectangle';
+export { default as WmultiPie } from './Wmultipie';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
