@@ -1,7 +1,6 @@
 import { VoidFunctionComponent, ReactNode } from 'react';
 import {  Types, ChartData } from '../common/types';
 
-
 export interface MapChildProps {
   data?: ChartData;
   config?: Types.LooseObject;

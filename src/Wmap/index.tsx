@@ -31,14 +31,6 @@ import {
 } from './child';
 import './index.scss';
 
-// export const AREA_NAME = 'WidgetsMapArea';
-// export const POINT_NAME = 'WidgetsMapPoint';
-// export const HEAT_MAP_NAME = 'WidgetsMapHeatMap';
-// export const SHOOT_NAME = 'WidgetsMapShoot';
-// export const CUSTOM_NAME = 'WidgetsMapCustom';
-
-// const chinaProjection = () => geoConicEqualArea().center([0, 36.4]).parallels([25, 47]).scale(1000).rotate([-105, 0]).translate([0, 0]);
-
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
 // 这几个地点需要特殊处理标签的文字大小

@@ -488,14 +488,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   }
 }
 
-// Base.defaultProps = {
-//   config: {},
-// };
-
-// Base.isG2Chart = true;
-
-// Base.displayName = `CloudCharts${name}`;
-//
 // Base.baseClassName = rootClassName + name;
 
 export default Base;
