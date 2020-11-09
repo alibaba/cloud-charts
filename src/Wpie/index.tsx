@@ -2,16 +2,13 @@
 
 import { Chart, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from "../common/Base";
-// import g2Factory from '../common/g2Factory';
-// import errorWrap from '../common/errorWrap';
-// import merge from '../common/merge';
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
 import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
-// import { legendHtmlContainer, legendHtmlListItem } from '../common/g2Theme';
+// import errorWrap from '../common/errorWrap';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;

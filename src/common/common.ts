@@ -259,7 +259,7 @@ export function getRawData(config: { dataType?: string }, rawData: any[], item: 
   if (!rawData) {
     return {};
   }
-
+  // TODO 新版数据格式变化
   let originData = (item.point && item.point._origin) || {};
   if (config.dataType !== 'g2' && Array.isArray(rawData)) {
     rawData.some((r) => {
