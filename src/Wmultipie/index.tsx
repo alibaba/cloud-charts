@@ -110,8 +110,8 @@ class Wmultipie extends Base<WmultipieConfig> {
         nameFormatter: null,
         valueFormatter: null,
       },
-      cycle: true,
-      innerRadius: 0, // 内环半径大小，仅cycle为true时可用
+      cycle: false,
+      innerRadius: 0.6, // 内环半径大小，仅cycle为true时可用
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
       // drawPadding: [10, 10, 10, 10],
     };
