@@ -11,10 +11,11 @@ import '@antv/data-set/lib/transform/map';
 import '@antv/data-set/lib/transform/filter';
 import '@antv/data-set/lib/transform/geo/projection';
 import '@antv/data-set/lib/transform/geo/region';
-import { Chart, View, Types, BaseChartConfig } from '../common/types';
-import Base, { ChartProps } from "../common/Base";
+import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
+import Base, { ChartProps, rootClassName } from "../common/Base";
 // @ts-ignore
 import chinaGeo from './mapData/chinaGeo.json';
+import SouthChinaSea from './mapData/southChinaSea';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import themes from '../themes/index';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -30,6 +31,7 @@ import {
   MapCustom
 } from './child';
 import './index.scss';
+import Wshoot, { ShootProps } from "../Wshoot";
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -75,6 +77,17 @@ interface MapProps extends ChartProps<WmapConfig> {
   children?: MapChild;
 }
 
+interface MapState {
+  customPointLayer: CustomProps[];
+  shootLayer: ShootProps[];
+  southChinaSeaKey: number;
+}
+
+interface CustomProps {
+  data: MapData;
+  render(data: Types.LooseObject, index: number, otherProps: any): React.ReactNode;
+}
+
 class Wmap extends Base<WmapConfig, MapProps> {
   public static Area = MapArea;
   public static Point = MapPoint;
@@ -86,6 +99,206 @@ class Wmap extends Base<WmapConfig, MapProps> {
   public static chinaGeoData = chinaGeo;
   public static provinceName = provinceName;
   public static positionMap = positionMap;
+
+  state: MapState = {
+    customPointLayer: [],
+    shootLayer: [],
+    southChinaSeaKey: 0,
+  };
+
+  componentDidMount() {
+    super.componentDidMount();
+
+    this.convertChildren(this.props.children, this.props.config, true);
+  }
+
+  componentDidUpdate(prevProps: MapProps) {
+    if (!this.isReRendering && this.props.children !== prevProps.children) {
+      this.convertChildren(this.props.children, this.props.config);
+    }
+
+    super.componentDidUpdate(prevProps);
+  }
+
+  shouldComponentUpdate() {
+    return !(this.isReRendering || !this.chart);
+  }
+
+  rerender() {
+    // fix: 动态切换主题后南海诸岛地图没有更新
+    if (this.props.config.showSouthChinaSea === undefined || this.props.config.showSouthChinaSea) {
+      this.setState({
+        southChinaSeaKey: this.state.southChinaSeaKey + 1,
+      });
+    }
+    return super.rerender();
+  }
+
+  convertPosition = (d: Types.LooseObject) => {
+    if (!d) {
+      return undefined;
+    }
+    let point = convertPointPosition(this, d);
+    return this.bgMapView.getXY(point);
+  };
+
+  convertChildren(children = this.props.children, config = this.props.config, isInit = false) {
+    const customPointLayer: CustomProps[] = [];
+    const shootLayer: ShootProps[] = [];
+    React.Children.forEach(children, (child) => {
+      if (!child) {
+        return;
+      }
+      // @ts-ignore
+      const { props, type } = child;
+
+      if (type.displayName === MapCustom.displayName) {
+        let newData = props.data;
+        if (Array.isArray(newData)) {
+          newData = newData.map((d) => {
+            const position = this.convertPosition(d ? { ...d } : null);
+            if (!position) {
+              return null;
+            }
+            return { ...d, x: position.x, y: position.y };
+          });
+        }
+        customPointLayer.push({ ...props, data: newData });
+        return;
+      }
+      if (type.displayName === MapShoot.displayName) {
+        // let newData = child.props.data;
+        // if (Array.isArray(newData)) {
+        //   newData = newData.map((d) => {
+        //     let from = { ...d.from };
+        //     let to = { ...d.to };
+        //     const fromPosition = this.convertPosition(from);
+        //     const toPosition = this.convertPosition(to);
+        //     if (fromPosition) {
+        //       from.x = fromPosition.x;
+        //       from.y = fromPosition.y;
+        //     }
+        //     if (toPosition) {
+        //       to.x = toPosition.x;
+        //       to.y = toPosition.y;
+        //     }
+        //     return { ...d, from, to };
+        //   });
+        // }
+        // shootLayer.push({ ...child.props, data: newData });
+        shootLayer.push(props);
+        return;
+      }
+
+      if (!isInit) {
+        const { data, ...propsConfig } = props;
+        const layerConfig = Object.assign({}, config, propsConfig);
+
+        this.changeChildData(this.chart, layerConfig, type.displayName, data);
+      }
+    });
+    this.setState({
+      customPointLayer,
+      shootLayer,
+    });
+  }
+
+  renderCustomPointLayer(layer: CustomProps, layerIndex: number) {
+    if (!this.chart) {
+      return null;
+    }
+    const { data, render, ...otherProps } = layer;
+    // const { width: chartWidth, height: chartHeight } = this.chart;
+    // const [width, height] = this.bgMapSize;
+    // const layerStyle = {
+    //   left: (chartWidth - width) / 2,
+    //   top: (chartHeight - height) / 2,
+    //   width,
+    //   height,
+    // };
+
+    return (
+      <div key={layerIndex} className="cloud-charts-map-custom-container">
+        {
+          Array.isArray(data) && data.map((d, i) => {
+            if (!d) {
+              return null;
+            }
+
+            const pointStyle = {
+              left: d.x,
+              top: d.y,
+            };
+            return (
+              <div key={i} className="cloud-charts-map-custom-point" style={pointStyle}>
+                {render && render(d, i, otherProps)}
+              </div>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
+  renderShootLayer(shootProps: ShootProps, shootIndex: number) {
+    if (!this.chart) {
+      return null;
+    }
+    const { className, style } = shootProps;
+    const { width: chartWidth, height: chartHeight } = this.chart;
+    // const [width, height] = this.bgMapSize;
+    // const layerStyle = {
+    //   left: (chartWidth - width) / 2,
+    //   top: (chartHeight - height) / 2,
+    //   width,
+    //   height,
+    //   ...(style || {})
+    // };
+
+    return (
+      <Wshoot
+        key={shootIndex}
+        className={`cloud-charts-map-shoot ${className || ''}`}
+        width={chartWidth}
+        height={chartHeight}
+        style={style}
+        getPosition={this.convertPosition}
+        {...shootProps}
+      />
+    );
+  }
+
+  renderSouthChinaSea(config: WmapConfig) {
+    if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
+      const { southChinaSeaKey } = this.state;
+      const { fill } = config.background || {};
+      const mapColor = fill || themes['widgets-map-area-bg'];
+
+      return <SouthChinaSea key={southChinaSeaKey} className="cloud-charts-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
+    } else {
+      return null;
+    }
+  }
+
+  render() {
+    const { className = '', style, children, data, width, height, padding, geoData, config, language, ...otherProps } = this.props;
+    const { customPointLayer, shootLayer } = this.state;
+    return (
+      <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>
+        {this.renderSouthChinaSea(config)}
+        {
+          shootLayer.length > 0 && shootLayer.map((shoot, i) => {
+            return this.renderShootLayer(shoot, i);
+          })
+        }
+        {
+          customPointLayer.length > 0 && customPointLayer.map((layer, i) => {
+            return this.renderCustomPointLayer(layer, i);
+          })
+        }
+      </div>
+    );
+  }
 
   chartName = 'G2Map';
 
@@ -252,7 +465,17 @@ class Wmap extends Base<WmapConfig, MapProps> {
     // chart.render();
   }
 
+  // addLayer(child: MapChild) {
+  //   if (child && child.addParent) {
+  //     child.addParent(this);
+  //   }
+  // }
+
+  /** 地图正确的长宽比 */
   bgMapRatio: number = 1;
+
+  /** 地图正确的尺寸 */
+  bgMapSize: [number, number] = [0, 0];
 
   changeSize(chart: Chart, config: WmapConfig, chartWidth: number, chartHeight: number) {
     const chartRatio = chartWidth / chartHeight;
@@ -271,25 +494,34 @@ class Wmap extends Base<WmapConfig, MapProps> {
       chart.appendPadding = [p2, p1, p2, p1];
     }
 
+    this.bgMapSize = [width, height];
+
     chart.changeSize(chartWidth, chartHeight);
+
+    // React 版方法
+    this.convertChildren(this.props.children, this.props.config, true);
   }
 
-  // changeData(chart: Chart, config: WmapConfig, viewName, newData) {
-  //   const { ds } = this;
-  //   let data = newData;
-  //   if (config.dataType !== 'g2') {
-  //     data = convertMapData(newData);
-  //   }
-  //   if (viewName === AREA_NAME) {
-  //     drawMapArea.call(this, chart, ds, config, data);
-  //   }
-  //   if (viewName === POINT_NAME) {
-  //     drawMapPoint.call(this, chart, ds, config, data);
-  //   }
-  //   if (viewName === HEAT_MAP_NAME) {
-  //     drawHeatMap.call(this, chart, ds, config, data);
-  //   }
-  // }
+  changeChildData(chart: Chart, config: WmapConfig, viewName: string, newData: ChartData) {
+    const { ds } = this;
+    let data = newData;
+    if (config.dataType !== 'g2') {
+      data = convertMapData(newData);
+    }
+    if (viewName === MapArea.displayName) {
+      drawMapArea(this, chart, ds, config, data);
+    }
+    if (viewName === MapPoint.displayName) {
+      drawMapPoint(this, chart, ds, config, data);
+    }
+    if (viewName === MapHeatMap.displayName) {
+      drawHeatMap(this, chart, ds, config, data);
+    }
+  }
+
+  /** @override Map 使用自定义 changeData 方法，覆盖原方法逻辑 */
+  changeData() {}
+
   //
   // destroy() {
   //   this.bgMapDataView = null;
@@ -372,6 +604,7 @@ function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapCon
     chart.appendPadding = [p2, p1, p2, p1];
     // chart.changeSize(width, height);
   }
+  ctx.bgMapSize = [width, height];
   // end: 按照投影后尺寸比例调整图表的真实比例
 
   const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } =

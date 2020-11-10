@@ -15,8 +15,8 @@ function generateUniqueId(): string {
   return `react-g2-${uniqueId++}`;
 }
 
-const rootClassName = 'cloud-charts ';
-const rootChildClassName = 'cloud-charts-children';
+export const rootClassName = 'cloud-charts ';
+export const rootChildClassName = 'cloud-charts-children';
 
 export interface ChartProps<ChartConfig> {
   className?: string;
@@ -127,7 +127,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     eventBus.on('setTheme', this.rerender);
   }
 
-  private isReRendering = false;
+  protected isReRendering = false;
 
   // private reRenderTimer: any = null;
 
