@@ -1,8 +1,8 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
+import {  Types, ChartData } from '../common/types';
 import './index.scss';
 
 import chartLog from "../common/log";
@@ -10,30 +10,33 @@ import Shoot from './shoot';
 
 const prefix = 'cloud-wshoot';
 
-export default class Wshoot extends React.Component {
-  static displayName = 'Wshoot';
+export interface ShootProps {
+  className?: string;
+  style?: React.CSSProperties;
+  width: number;
+  height: number;
+  config: {},
+  data: ChartData;
+  getPosition(d: Types.LooseObject): { x: number, y: number };
+}
 
-  static propTypes = {
-    config: PropTypes.object,
-    data: PropTypes.array
-  };
+export default class Wshoot extends React.Component<ShootProps> {
 
   static defaultProps = {
     width: 800,
     height: 600,
     config: {},
-    data: []
   };
 
-  constructor(props) {
+  constructor(props: ShootProps) {
     super(props);
 
     // 图表初始化时记录日志
     chartLog('Wshoot', 'init');
   }
 
-  canvas = null;
-  shoot = null;
+  canvas: HTMLCanvasElement = null;
+  shoot: any = null;
 
   componentDidMount() {
     const { width, height, config, getPosition, data } = this.props;
@@ -45,7 +48,7 @@ export default class Wshoot extends React.Component {
     this.shoot.draw(data);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ShootProps) {
     const { data: newData, width: newWidth, height: newHeight, getPosition } = this.props;
     const { data: oldData, width: oldWidth, height: oldHeight } = prevProps;
     // 更新 getPosition 函数
