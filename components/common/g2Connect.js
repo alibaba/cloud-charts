@@ -10,6 +10,7 @@ export default class G2Connect {
     this.config = Object.assign({
       type: 'position',
       coordinate: 'xy',
+      custom: null,
     }, config);
 
     // 添加绑定
@@ -79,13 +80,18 @@ export default class G2Connect {
   handlePlotmove = (() => {
     const self = this;
     return function (e) {
-      const { type, coordinate } = self.config;
+      const { type, coordinate, custom } = self.config;
       // 显式声明this，指向触发事件的图表实例
       const chartInstance = this;
       const record = type === 'data' ? getRecord(chartInstance, e) : null;
       self.charts.forEach((chart) => {
         // 过滤自身和已销毁的实例
         if (chart === chartInstance || chart.destroyed) {
+          return;
+        }
+
+        if (custom) {
+          custom(e, chart, chartInstance);
           return;
         }
 
