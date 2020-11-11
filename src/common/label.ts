@@ -2,7 +2,7 @@
 
 import { Geometry, Types } from "./types";
 import themes from '../themes';
-import { merge, pxToNumber, isInvalidNumber } from './common';
+import { merge, pxToNumber } from './common';
 import { IGroup, IShape } from "@antv/g2/lib/dependents";
 
 export interface LabelConfig extends Types.GeometryLabelCfg {
@@ -84,8 +84,8 @@ export default function (
     Object.assign(labelConfig, componentConfig);
   }
 
-  if (!isInvalidNumber(offset)) {
-    labelConfig.offset += Number(offset);
+  if (offset !== undefined) {
+    labelConfig.offset = offset;
   }
 
   if (customConfig) {
