@@ -135,7 +135,14 @@ export default /*#__PURE__*/ errorWrap(g2Factory('G2Scatter', {
       .active(false);
 
     if (jitter) {
-      geom.adjust('jitter');
+      if (typeof jitter === 'object') {
+        geom.adjust({
+          type: 'jitter',
+          ...jitter,
+        });
+      } else {
+        geom.adjust('jitter');
+      }
     }
 
     label(geom, config);
