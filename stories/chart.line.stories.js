@@ -143,6 +143,67 @@ stories.add('Tooltip 设置', () => (
     }} data={data} />
   </Wcontainer>
 ));
+
+
+const data1 = [];
+const data2 = [];
+
+let now = Date.now();
+for(var i = 0; i < 30; i++) {
+  let t = now - (30 - i) * 1000;
+  data1.push([t, Math.round(Math.random() * 60) + 300]);
+  data2.push([t, Math.round(Math.random() * 60) + 300]);
+}
+class NewData extends React.Component {
+  state = {
+    data: [
+      {
+        "name":"机房A",
+        "data": data1
+      },{
+        "name":"机房B",
+        "data": data2
+      }
+    ]
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      let t = Date.now();
+
+      data1.push([t, Math.round(Math.random() * 60) + 300]);
+      data2.push([t, Math.round(Math.random() * 60) + 300]);
+
+      data1.shift();
+      data2.shift();
+
+      this.setState({
+        data: [
+          {
+            "name":"机房A",
+            "data": data1
+          },{
+            "name":"机房B",
+            "data": data2
+          }
+        ]
+      })
+    }, 1000);
+  }
+
+  render(){
+    return (
+      <Wcontainer className="demos">
+        <Wline height="300" config={{}} data={this.state.data}/>
+      </Wcontainer>
+    );
+  }
+}
+stories.add('动态数据', () => (
+  <NewData />
+));
+
+
 // // 齐全度展示图
 // const attendData = [
 //   {
