@@ -744,6 +744,8 @@ function drawMapPoint(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, 
       //
       // const { offset = 0, textStyle = {}, formatter } = labelConfig;
       // pointGeom.label('name', {
+      // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
+      // animate: false,
       //   offset: `${offset - Number(themes['widgets-font-size-1'].replace('px', ''))}`,
       //   textStyle: {
       //     fill: themes['widgets-map-label'],
@@ -861,6 +863,8 @@ function drawMapLabel(ctx: Wmap, chart: Chart, config: WmapConfig) {
       const result: Types.GeometryLabelCfg = {
         offset,
         style: labelStyle,
+        // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
+        animate: false,
       };
       if (formatter) {
         result.content = (v, item, index) => {
