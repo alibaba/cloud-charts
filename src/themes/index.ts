@@ -3,13 +3,18 @@ import eventBus from "../common/eventBus";
 import { __THEME__ } from '../constants';
 import { themeLog } from "../common/log";
 // import setG2Theme from "../common/g2Theme";
-import { setThemeStyle, convertKey, convertCSS, convertJsStyle } from './themeTools';
+import {
+  setThemeStyle,
+  convertKey,
+  convertCSS,
+  convertJsStyle,
+  setG2Theme,
+  Theme,
+} from './themeTools';
 
-// [theme].style 文件1根据 [theme].scss 自动生成，请勿直接修改
+// [theme].style 文件根据 [theme].scss 自动生成，请勿直接修改
 import normalStyle from './normal.style';
 import darkStyle from './dark.style';
-
-type Theme = Partial<typeof normalStyle>;
 
 interface ThemesMap {
   [themeName: string]: {
@@ -19,6 +24,7 @@ interface ThemesMap {
   };
 }
 
+// 记录所有主题
 const themeMap: ThemesMap = {
   normal: {
     js: convertKey(convertJsStyle('normal', normalStyle)),
@@ -35,20 +41,14 @@ const themeMap: ThemesMap = {
 themeMap.index = themeMap.normal;
 
 // 默认主题包
-if (process.env.NODE_ENV === 'production') {
-  themeMap.default = themeMap[__THEME__];
-} else {
-  themeMap.default = themeMap.normal;
-}
+const defaultThemeName = process.env.NODE_ENV === 'production' ? __THEME__ : 'normal';
 
 interface Themes extends Theme {
   getTheme: typeof getTheme;
   setTheme: typeof setTheme;
-  category_12?: string[];
-  linear_10?: string[];
-  order_10?: string[];
 }
 
+/** 当前图表库主题包 */
 const themes: Themes = {
   getTheme,
   setTheme,
@@ -64,55 +64,42 @@ export function getTheme(name?: string) {
   return undefined;
 }
 
-export function setTheme(theme: string | {} = 'default', refreshChart: boolean = true) {
+export function setTheme(theme: string | {} = defaultThemeName, refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
     return;
   }
-  let newTheme = {};
+  let newTheme: Theme = {};
   if (typeof theme === 'string' && themeMap[theme]) {
     // 传入字符串名字，设置对应主题包
     newTheme = themeMap[theme].js;
     currentThemeName = theme;
     setThemeStyle(themeMap[theme].css);
     // 打点
-    themeLog(theme === 'default' ? 'index' : theme);
+    themeLog(theme);
   } else if (typeof theme === 'object') {
+    // 传入对象，直接覆盖对应的key和css
+    newTheme = convertKey(theme);
 
+    // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
+    const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
+    setThemeStyle(convertCSS(newCSS));
+    // 打点
+    themeLog(newTheme.name || 'customTheme');
   } else {
     return;
   }
-  // let newTheme = {};
-  // if (G2.Util.isObject(theme)) {
-  //   // 传入对象，直接覆盖对应的key和css
-  //   newTheme = convertKey(theme);
-  //
-  //   // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
-  //   const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
-  //   setThemeStyle(convertCSS(newCSS));
-  //   // 打点
-  //   themeLog('customTheme');
-  // } else if (themeMap[theme]) {
-  //   // 传入字符串名字，设置对应主题包
-  //   newTheme = themeMap[theme].js;
-  //   currentThemeName = theme;
-  //
-  //   setThemeStyle(themeMap[theme].css);
-  //   // 打点
-  //   themeLog(theme === 'default' ? 'index' : theme);
-  // } else {
-  //   return;
-  // }
 
   Object.assign(themes, newTheme)
 
-  // setG2Theme(themes);
+  setG2Theme(themes as Theme);
 
   if (refreshChart) {
+    // TODO 优化重新渲染逻辑
     eventBus.emit('setTheme');
   }
 }
 
-setTheme('default', false);
+setTheme(defaultThemeName, false);
 
 // themes.getTheme = getTheme;
 // themes.setTheme = setTheme;
