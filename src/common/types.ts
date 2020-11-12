@@ -1,8 +1,8 @@
-import { ViewPadding } from "@antv/g2/lib/interface";
+import { ViewPadding } from "@antv/g2/esm/interface";
 
-export * from '@antv/g2/lib/core';
+export * from '@antv/g2/esm/core';
 
-export * as G2Dependents from "@antv/g2/lib/dependents";
+export * as G2Dependents from "@antv/g2/esm/dependents";
 
 export interface BaseChartConfig {
   padding?: ViewPadding;

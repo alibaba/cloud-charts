@@ -3,7 +3,7 @@
 import { Geometry, Types } from "./types";
 import themes from '../themes';
 import { merge, pxToNumber } from './common';
-import { IGroup, IShape } from "@antv/g2/lib/dependents";
+import { IGroup, IShape } from "@antv/g2/esm/dependents";
 
 export interface LabelConfig extends Types.GeometryLabelCfg {
   visible?: boolean;

@@ -1,7 +1,7 @@
 'use strict';
 
 // import { registerAction } from "@antv/g2";
-// import ResetButton from '@antv/g2/lib/interaction/action/view/button';
+// import ResetButton from '@antv/g2/esm/interaction/action/view/button';
 import { Chart, Types, Language } from "./types";
 
 export interface ZoomConfig {
