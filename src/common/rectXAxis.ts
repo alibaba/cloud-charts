@@ -74,7 +74,7 @@ export default function (
     if (alias) {
       xAxisConfig.title = {
         // position: 'center',
-        offset: 38,
+        // offset: 38,
         // textStyle: {
         //   rotate: 0,
         // },

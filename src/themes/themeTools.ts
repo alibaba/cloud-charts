@@ -2,6 +2,7 @@ import { registerTheme } from "@antv/g2/esm/core";
 import { createThemeByStylesheet } from '@antv/g2/esm/util/theme';
 import { Types } from '../common/types';
 import normalStyle from './normal.style';
+import { pxToNumber } from "../common/common";
 
 export interface Theme extends Partial<typeof normalStyle> {
   name?: string;
@@ -110,6 +111,8 @@ export function convertJsStyle(name: string, theme: Theme): Theme {
 }
 
 function getG2StyleSheet(theme: Theme): Types.StyleSheet {
+  const fontSize1 = pxToNumber(theme['widgets-font-size-1']);
+
   const BLACK_COLORS = {
     100: '#000',
     95: '#0D0D0D',
@@ -133,16 +136,16 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
   };
 
   const QUALITATIVE_10 = [
-    '#5B8FF9',
-    '#5AD8A6',
-    '#5D7092',
-    '#F6BD16',
-    '#E86452',
-    '#6DC8EC',
-    '#945FB9',
-    '#FF9845',
-    '#1E9493',
-    '#FF99C3',
+    theme['widgets-color-category-1'],
+    theme['widgets-color-category-2'],
+    theme['widgets-color-category-3'],
+    theme['widgets-color-category-4'],
+    theme['widgets-color-category-5'],
+    theme['widgets-color-category-6'],
+    theme['widgets-color-category-7'],
+    theme['widgets-color-category-8'],
+    theme['widgets-color-category-9'],
+    theme['widgets-color-category-10'],
   ];
 
   const QUALITATIVE_20 = [
@@ -178,44 +181,42 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 分类色板 2，在数据量大于 10 时使用 */
     paletteQualitative20: QUALITATIVE_20,
     /** 语义色 */
-    paletteSemanticRed: '#F4664A',
+    paletteSemanticRed: theme['widgets-color-red'],
     /** 语义色 */
-    paletteSemanticGreen: '#30BF78',
+    paletteSemanticGreen: theme['widgets-color-green'],
     /** 语义色 */
-    paletteSemanticYellow: '#FAAD14',
+    paletteSemanticYellow: theme['widgets-color-orange'],
     /** 字体 */
-    fontFamily: `"-apple-system", "Segoe UI", Roboto, "Helvetica Neue", Arial,
-  "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-  "Noto Color Emoji"`,
+    fontFamily: theme['widgets-font-family-txd-m-number'],
 
     // -------------------- 坐标轴 --------------------
     /** 坐标轴线颜色 */
-    axisLineBorderColor: BLACK_COLORS[25],
+    axisLineBorderColor: theme['widgets-axis-line'],
     /** 坐标轴线粗细 */
     axisLineBorder: 1,
     /** 坐标轴线 lineDash 设置 */
     axisLineDash: null,
 
     /** 坐标轴标题颜色 */
-    axisTitleTextFillColor: BLACK_COLORS[65],
+    axisTitleTextFillColor: theme['widgets-axis-label'],
     /** 坐标轴标题文本字体大小 */
-    axisTitleTextFontSize: 12,
+    axisTitleTextFontSize: fontSize1,
     /** 坐标轴标题文本行高 */
-    axisTitleTextLineHeight: 12,
+    axisTitleTextLineHeight: fontSize1,
     /** 坐标轴标题文本字体粗细 */
     axisTitleTextFontWeight: 'normal',
     /** 坐标轴标题距离坐标轴文本的间距 */
-    axisTitleSpacing: 12,
+    axisTitleSpacing: fontSize1,
 
     /** 坐标轴刻度线颜色 */
-    axisTickLineBorderColor: BLACK_COLORS[25],
+    axisTickLineBorderColor: theme['widgets-axis-line'],
     /** 坐标轴刻度线长度 */
     axisTickLineLength: 4,
     /** 坐标轴刻度线粗细 */
     axisTickLineBorder: 1,
 
     /** 坐标轴次刻度线颜色 */
-    axisSubTickLineBorderColor: BLACK_COLORS[15],
+    axisSubTickLineBorderColor: theme['widgets-axis-line'],
     /** 坐标轴次刻度线长度 */
     axisSubTickLineLength: 2,
     /** 坐标轴次刻度线粗细 */
@@ -224,16 +225,16 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 坐标轴刻度文本颜色 */
     axisLabelFillColor: BLACK_COLORS[45],
     /** 坐标轴刻度文本字体大小 */
-    axisLabelFontSize: 12,
+    axisLabelFontSize: fontSize1,
     /** 坐标轴刻度文本行高 */
-    axisLabelLineHeight: 12,
+    axisLabelLineHeight: fontSize1,
     /** 坐标轴刻度文本字体粗细 */
     axisLabelFontWeight: 'normal',
     /** 坐标轴刻度文本距离坐标轴线的间距 */
-    axisLabelOffset: 8,
+    axisLabelOffset: fontSize1, // CHECK 8px 还是 12px
 
     /** 坐标轴网格线颜色 */
-    axisGridBorderColor: BLACK_COLORS[15],
+    axisGridBorderColor: theme['widgets-axis-grid'],
     /** 坐标轴网格线粗细 */
     axisGridBorder: 1,
     /** 坐标轴网格线虚线设置 */
@@ -241,39 +242,39 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     // -------------------- 图例 --------------------
     /** 图例标题颜色 */
-    legendTitleTextFillColor: BLACK_COLORS[45],
+    legendTitleTextFillColor: theme['widgets-legend-text'],
     /** 图例标题文本字体大小 */
-    legendTitleTextFontSize: 12,
+    legendTitleTextFontSize: fontSize1,
     /** 图例标题文本行高 */
-    legendTitleTextLineHeight: 21,
+    legendTitleTextLineHeight: fontSize1 * 1.5,
     /** 图例标题文本字体粗细 */
     legendTitleTextFontWeight: 'normal',
 
     /** 图例 marker 颜色 */
     legendMarkerColor: QUALITATIVE_10[0],
     /** 图例 marker 距离图例文本的间距 */
-    legendMarkerSpacing: 8,
+    legendMarkerSpacing: fontSize1 / 3,
     /** 图例 marker 默认半径大小 */
-    legendMarkerSize: 4,
+    legendMarkerSize: fontSize1 / 3,
     /** 图例 'circle' marker 半径 */
-    legendCircleMarkerSize: 4,
+    legendCircleMarkerSize: fontSize1 / 3,
     /** 图例 'square' marker 半径 */
-    legendSquareMarkerSize: 4,
+    legendSquareMarkerSize: fontSize1 / 3,
     /** 图例 'line' marker 半径 */
-    legendLineMarkerSize: 5,
+    legendLineMarkerSize: fontSize1 / 3, // CHECK 图例项标记样式
 
     /** 图例项文本颜色 */
-    legendItemNameFillColor: BLACK_COLORS[65],
+    legendItemNameFillColor: theme['widgets-legend-text'],
     /** 图例项文本字体大小 */
-    legendItemNameFontSize: 12,
+    legendItemNameFontSize: fontSize1,
     /** 图例项文本行高 */
-    legendItemNameLineHeight: 12,
+    legendItemNameLineHeight: fontSize1,
     /** 图例项粗细 */
     legendItemNameFontWeight: 'normal',
     /** 图例项之间的水平间距 */
-    legendItemSpacing: 24,
+    legendItemSpacing: fontSize1,
     /** 图例项垂直方向的间隔 */
-    legendItemMarginBottom: 12,
+    legendItemMarginBottom: fontSize1,
     /** 图例与图表绘图区域的偏移距离  */
     legendPadding: [8, 8, 8, 8],
 
@@ -289,11 +290,11 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     sliderRailHeight: 12,
 
     /** 连续图例文本颜色 */
-    sliderLabelTextFillColor: BLACK_COLORS[45],
+    sliderLabelTextFillColor: theme['widgets-legend-text'],
     /** 连续图例文本字体大小 */
-    sliderLabelTextFontSize: 12,
+    sliderLabelTextFontSize: fontSize1,
     /** 连续图例文本行高 */
-    sliderLabelTextLineHeight: 12,
+    sliderLabelTextLineHeight: fontSize1,
     /** 连续图例文本字体粗细 */
     sliderLabelTextFontWeight: 'normal',
 
@@ -337,7 +338,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** region 图形标注填充颜色 */
     annotationRegionFillColor: BLACK_COLORS[100],
     /** region 图形标注填充颜色透明色 */
-    annotationRegionFillOpacity: 0.06,
+    annotationRegionFillOpacity: theme['widgets-guide-region-opacity'],
     /** region 图形标注描边粗细 */
     annotationRegionBorder: 0,
     /** region 图形标注描边颜色 */
@@ -348,38 +349,38 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     // -------------------- Tooltip --------------------
     /** tooltip crosshairs 辅助线颜色 */
-    tooltipCrosshairsBorderColor: BLACK_COLORS[25],
+    tooltipCrosshairsBorderColor: theme['widgets-tooltip-cross-line'],
     /** tooltip crosshairs 辅助线粗细 */
     tooltipCrosshairsBorder: 1,
     /** tooltip crosshairs 辅助线虚线间隔 */
     tooltipCrosshairsLineDash: null,
 
     /** tooltip 内容框背景色 */
-    tooltipContainerFillColor: 'rgb(255, 255, 255)',
-    tooltipContainerFillOpacity: 0.95,
+    tooltipContainerFillColor: theme['widgets-tooltip-background'],
+    tooltipContainerFillOpacity: 1,
     /** tooltip 内容框阴影 */
-    tooltipContainerShadow: '0px 0px 10px #aeaeae',
+    tooltipContainerShadow: theme['widgets-tooltip-shadow'],
     /** tooltip 内容框圆角 */
-    tooltipContainerBorderRadius: 3,
+    tooltipContainerBorderRadius: pxToNumber(theme['widgets-tooltip-corner-radius']),
 
     /** tooltip 文本颜色 */
-    tooltipTextFillColor: BLACK_COLORS[65],
+    tooltipTextFillColor: theme['widgets-tooltip-text'],
     /** tooltip 文本字体大小 */
-    tooltipTextFontSize: 12,
+    tooltipTextFontSize: fontSize1,
     /** tooltip 文本行高 */
-    tooltipTextLineHeight: 12,
+    tooltipTextLineHeight: fontSize1,
     /** tooltip 文本字体粗细 */
-    tooltipTextFontWeight: 'bold',
+    tooltipTextFontWeight: 'normal',
 
     // -------------------- Geometry labels --------------------
     /** Geometry label 文本颜色 */
-    labelFillColor: BLACK_COLORS[65],
-    labelFillColorDark: '#2c3542',
+    labelFillColor: theme['widgets-label-text'],
+    labelFillColorDark: theme['widgets-label-text'],
     labelFillColorLight: '#ffffff',
     /** Geometry label 文本字体大小 */
-    labelFontSize: 12,
+    labelFontSize: fontSize1,
     /** Geometry label 文本行高 */
-    labelLineHeight: 12,
+    labelLineHeight: fontSize1,
     /** Geometry label 文本字体粗细 */
     labelFontWeight: 'normal',
     /** Geometry label 文本描边颜色 */
@@ -388,11 +389,11 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     labelBorder: 0,
 
     /** Geometry innerLabel 文本颜色 */
-    innerLabelFillColor: WHITE_COLORS[100],
+    innerLabelFillColor: WHITE_COLORS[100], // CHECK
     /** Geometry innerLabel 文本字体大小 */
-    innerLabelFontSize: 12,
+    innerLabelFontSize: fontSize1,
     /** Geometry innerLabel 文本行高 */
-    innerLabelLineHeight: 12,
+    innerLabelLineHeight: fontSize1,
     /** Geometry innerLabel 文本字体粗细 */
     innerLabelFontWeight: 'normal',
     /** Geometry innerLabel 文本描边颜色 */
@@ -403,7 +404,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** Geometry label　文本连接线粗细 */
     labelLineBorder: 1,
     /** Geometry label 文本连接线颜色 */
-    labelLineBorderColor: BLACK_COLORS[25],
+    labelLineBorderColor: theme['widgets-label-text'], // CHECK
 
     // -------------------- Geometry 图形样式--------------------
     /** 点图填充颜色 */
@@ -478,7 +479,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** area 填充颜色 */
     areaFillColor: QUALITATIVE_10[0],
     /** area 填充透明度 */
-    areaFillOpacity: 0.25,
+    areaFillOpacity: theme['widgets-shape-area-opacity'],
 
     /** area 在 active 状态下的填充透明度 */
     areaActiveFillColor: QUALITATIVE_10[0],
@@ -512,7 +513,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** interval 填充颜色 */
     intervalFillColor: QUALITATIVE_10[0],
     /** interval 填充透明度 */
-    intervalFillOpacity: 0.95,
+    intervalFillOpacity: theme['widgets-shape-interval-opacity'],
 
     /** interval active 状态下边框粗细 */
     intervalActiveBorder: 1,
@@ -562,9 +563,27 @@ export function setG2Theme(theme: Theme) {
 
   const g2Theme = createThemeByStylesheet(g2StyleSheet);
 
-  g2Theme.maxColumnWidth = 36;
+  // g2Theme.maxColumnWidth = 36;
+  const baseFontSize = theme['widgets-font-size-1'];
+  const baseFontSizeNum = pxToNumber(theme['widgets-font-size-1']);
+  const tooltipStyle = g2Theme.components.tooltip.domStyles;
+  Object.assign(tooltipStyle['g2-tooltip'], {
+    padding: `0 ${baseFontSize} 0 ${baseFontSize}`,
+  });
+  Object.assign(tooltipStyle['g2-tooltip-title'], {
+    marginBottom: baseFontSize,
+    marginTop: baseFontSize,
+  });
+  Object.assign(tooltipStyle['g2-tooltip-list-item'], {
+    marginBottom: baseFontSize,
+    marginTop: baseFontSize,
+  });
+  Object.assign(tooltipStyle['g2-tooltip-marker'], {
+    width: `${baseFontSizeNum / 2}px`,
+    height: `${baseFontSizeNum / 2}px`,
+    marginRight: `${baseFontSizeNum / 3}px`,
+  });
 
-  console.log('custom', g2Theme);
 
   registerTheme('default', g2Theme);
 }

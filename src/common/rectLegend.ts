@@ -2,8 +2,8 @@
 
 import { Chart, Types } from "./types";
 import { merge } from './common';
-// import themes from '../themes';
-// import { pxToNumber, isInvalidNumber } from './common';
+import themes from '../themes';
+import { pxToNumber } from './common';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
@@ -46,6 +46,7 @@ export interface LegendConfig {
   nameFormatter?(): string;
   valueFormatter?(): string;
   showData?: boolean;
+  marker?: Types.MarkerCfg;
   customConfig?: Types.LegendCfg;
 }
 
@@ -58,6 +59,22 @@ function getPosition(position?: string, align?: string): Position {
     return `${p}-${align}` as Position;
   }
   return position as Position;
+}
+
+function getPadding(position?: string) {
+  const len = pxToNumber(themes['widgets-font-size-1']) * 2 / 3;
+  const [p] = position.split('-');
+  switch (p) {
+    case 'bottom':
+      return [len, 0, 0, 0];
+    case 'left':
+      return [0, len, 0, 0];
+    case 'top':
+      return [0, 0, len, 0];
+    case 'right':
+      return [0, 0, 0, len];
+  }
+  return [len, len, len, len];
 }
 
 /**
@@ -91,6 +108,7 @@ export default function (
       nameFormatter,
       valueFormatter,
       showData,
+      marker,
       // 交互相关
       // allowAllCanceled = false,
       // hoverable = false,
@@ -112,6 +130,20 @@ export default function (
       itemName: {
         formatter: nameFormatter,
       },
+      // background: {
+      //   padding: 0,
+      // },
+      padding: getPadding(position),
+      marker: marker || {
+        // symbol: 'circle',
+        style: {
+          r: pxToNumber(themes['widgets-font-size-1']) / 3,
+          // fill: styleSheet.legendMarkerColor,
+          // lineCap: 'butt',
+          lineAppendWidth: 0,
+          fillOpacity: 1,
+        },
+      }
     };
 
     if (showData) {
