@@ -5,8 +5,8 @@ declare const __THEME__: string;
 const VERSION = __VERSION__;
 const THEME = __THEME__;
 
-export { VERSION as __VERSION__ };
-export { THEME as __THEME__ };
+export { VERSION };
+export { THEME };
 
 declare global {
   interface Window {

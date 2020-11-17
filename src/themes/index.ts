@@ -1,6 +1,6 @@
 // import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
-import { __THEME__ } from '../constants';
+import { THEME } from '../constants';
 import { themeLog } from "../common/log";
 // import setG2Theme from "../common/g2Theme";
 import {
@@ -41,7 +41,7 @@ const themeMap: ThemesMap = {
 themeMap.index = themeMap.normal;
 
 // 默认主题包
-const defaultThemeName = process.env.NODE_ENV === 'production' ? __THEME__ : 'normal';
+const defaultThemeName = process.env.NODE_ENV === 'production' ? THEME : 'normal';
 
 interface Themes extends Theme {
   getTheme: typeof getTheme;
