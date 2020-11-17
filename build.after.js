@@ -26,9 +26,9 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
     onlineConfig.context(rootDir);
 
     onlineConfig.output
-      .path(path.resolve(rootDir, 'dist'))
-      .filename('[name]')
-      .publicPath('/build/')
+      // .path(path.resolve(rootDir, 'build'))
+      // .filename('[name].js')
+      // .publicPath('/build/')
       .library(library)
       .libraryExport(libraryExport)
       .libraryTarget(libraryTarget);
@@ -40,7 +40,7 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
   // config 为 webpack-chain 实例
   onGetWebpackConfig(config => {
 
-    if (command === 'build') {
+    if (command === 'build'|| commandArgs.online) {
       // 调整构建目录
       config.output
         .path(path.resolve(rootDir, 'build'))
