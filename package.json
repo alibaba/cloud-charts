@@ -12,6 +12,7 @@
   "scripts": {
     "start": "build-scripts start",
     "build": "build-scripts build --skip-demo",
+    "analyzer": "build-scripts build --skip-demo --analyzer",
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./",
     "storybook": "start-storybook -p 6006",
@@ -59,6 +60,7 @@
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-transform-define": "^2.0.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-proto-to-assign": "^6.26.0",
     "babel-plugin-transform-react-es6-displayname": "^1.0.0-beta1.4",
