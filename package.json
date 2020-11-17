@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "3.0.0-alpha.0",
+  "version": "3.0.0-alpha.1",
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
@@ -34,7 +34,7 @@
     "demo/",
     "lib/",
     "es/",
-    "dist/"
+    "build/"
   ],
   "dependencies": {
     "@antv/data-set": "^0.11.5",
