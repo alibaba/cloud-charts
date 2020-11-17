@@ -6,6 +6,5 @@
   ],
   "filename": "index",
   "library": "AiscWidgets",
-  "libraryTarget": "umd",
-  "libraryExport": "default"
+  "libraryTarget": "umd"
 }
