@@ -1,5 +1,9 @@
 {
   "plugins": [
     "build-plugin-component"
-  ]
+  ],
+  "filename": "index",
+  "library": "AiscWidgets",
+  "libraryTarget": "umd",
+  "libraryExport": "default"
 }
