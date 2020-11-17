@@ -1,6 +1,5 @@
 @import "themes/index";
 
-//$font-path: '//g.alicdn.com/ls/lib-common/1.0.4';
 $font-path: '../font';
 
 /* Widgets 专用字体，仅包含20个字符 */
@@ -27,7 +26,7 @@ $font-path: '../font';
 }
 
 /* 全局公用样式 */
-.aisc-widgets {
+.cloud-charts {
   canvas {
     position: relative;
     display: block;

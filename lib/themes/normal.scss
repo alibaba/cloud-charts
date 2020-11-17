@@ -1,4 +1,4 @@
-@import "~@alife/aisc-core/aisc/scss/index.scss";
+@import "./base.scss";
 
 // 背景颜色
 $widgets-color-background: #FFFFFF !default;
@@ -78,6 +78,7 @@ $widgets-tooltip-marker-fill: $widgets-color-background !default;
 $widgets-axis-label: #8C8C8C !default;
 $widgets-axis-line: #E5E5E5 !default;
 $widgets-axis-grid: #F7F7F7 !default;
+// CHECK 线粗细 默认 1
 
 // 辅助标记 guide
 $widgets-guide-region-opacity: 0.1 !default;

@@ -1,4 +1,5 @@
 @import './scss/variable.scss';
+@import './scss/mixin.scss';
 #{$wcontainer-prefix} {
   background: $wcontainer-bg-color;
   display: flex;
@@ -80,14 +81,14 @@
         display: flex;
         flex-direction: column;
         //padding: 0 $s5;
-        .next-row {
+        #{$wcontainer-prefix}-row {
           flex: 1; //padding-top: $s2;
           //padding-bottom: $s2;
           border-bottom: 1px solid $wcontainer-split-line;
           &:last-child {
             border-bottom: none;
           }
-          .next-col {
+          #{$wcontainer-prefix}-col {
             margin-right: $wcontainer-cross-size-1;
             margin-left: $wcontainer-cross-size-1;
             padding-left: $wcontainer-cross-size-2;
@@ -106,9 +107,9 @@
       // 设置 overflow 以建立一个新的 BFC，让里层图表不会撑开外层
       overflow: hidden;
     }
-    >.next-row {
+    >#{$wcontainer-prefix}-row {
       padding: 0;
-      >.next-col {
+      >#{$wcontainer-prefix}-col {
         padding: 0;
       }
     }
@@ -132,5 +133,128 @@
     width: 1px;
     height: 30px;
     background: $wcontainer-split-line;
+  }
+
+  /////////////////////////////////////////////////////////////
+
+  // 行容器
+  #{$wcontainer-prefix}-row {
+    @include box-sizing;
+    @include display-flex();
+    @include breakpoint-row-space();
+
+    //// 固定宽度布局
+    //&#{$wcontainer-prefix}-row-fixed {
+    //  margin-left: auto;
+    //  margin-right: auto;
+    //  @include breakpoint-row-width();
+    //}
+    //
+    //// 流式布局
+    //&#{$wcontainer-prefix}-row-fluid {
+    //  margin-left: auto;
+    //  margin-right: auto;
+    //  @include breakpoint-row-max-width();
+    //}
+    //
+    //// 单行模式，多列溢出折行
+    //&#{$wcontainer-prefix}-row-wrap {
+    //  @include flex-wrap(wrap);
+    //}
+    //
+    //// 单行模式，多列溢出不折行
+    //&#{$wcontainer-prefix}-row-no-wrap {
+    //  @include flex-wrap(nowrap);
+    //}
+
+    // 所有列之间均没有留白
+    &#{$wcontainer-prefix}-row-no-padding {
+      padding: 0;
+
+      > #{$wcontainer-prefix}-col {
+        padding: 0;
+      }
+    }
+
+    // 通栏
+    &#{$wcontainer-prefix}-row-across {
+      padding: 0;
+      > :first-child {
+        padding-left: 0;
+      }
+      > :last-child {
+        padding-right: 0;
+      }
+    }
+
+    //&#{$wcontainer-prefix}-row-fixed-xxs {
+    //  width: $grid-xxs;
+    //}
+    //&#{$wcontainer-prefix}-row-fixed-xs {
+    //  width: $grid-xs;
+    //}
+    //&#{$wcontainer-prefix}-row-fixed-s {
+    //  width: $grid-s;
+    //}
+    //&#{$wcontainer-prefix}-row-fixed-m {
+    //  width: $grid-m;
+    //}
+    //&#{$wcontainer-prefix}-row-fixed-l {
+    //  width: $grid-l;
+    //}
+    //&#{$wcontainer-prefix}-row-fixed-xl {
+    //  width: $grid-xl;
+    //}
+
+    @include justify();
+  }
+
+  //// IE pack
+  //#{$wcontainer-prefix}-row-ie9 {
+  //  @include display-ie();
+  //
+  //  #{$wcontainer-prefix}-col {
+  //    @include display-col-ie();
+  //  }
+  //}
+
+  // 列容器，列两侧间距为栅格槽的宽度
+  #{$wcontainer-prefix}-col {
+    @include flex(1);
+    display: inline-block;
+    padding: 0 ($grid-gutter / 2);
+    width: auto;
+
+    & > #{$wcontainer-prefix}-row {
+      padding: 0;
+    }
+  }
+
+
+  @include make-columns();
+  //@include make-5columns();
+  @include make-columns-fixed();
+
+  //@include make-offset();
+  //@include make-offset-fixed();
+
+  // 行内(所有)列的垂直对齐方式
+  #{$wcontainer-prefix}-row-align-top {
+    @include align-items(flex-start);
+  }
+  #{$wcontainer-prefix}-row-align-bottom {
+    @include align-items(flex-end);
+  }
+  #{$wcontainer-prefix}-row-align-center {
+    @include align-items(center);
+  }
+  #{$wcontainer-prefix}-row-align-baseline {
+    @include align-items(baseline);
+  }
+  #{$wcontainer-prefix}-row-align-stretch {
+    @include align-items(stretch);
+    #{$wcontainer-prefix}-col {
+      display: flex;
+    }
   }
 }
