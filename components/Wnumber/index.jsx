@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { getStatusColorName } from '../common/common';
 import Warrow from '../common/arrow';
 import chartLog from "../common/log";
 import './index.scss';
@@ -41,15 +42,15 @@ export default class Wnumber extends React.Component {
     }
   }
 
-  renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children) {
+  renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children) {
     const numberTrendIcon = getTrendIcon(numberTrend);
     const numberClasses = `${prefix}-number`;
 
     const rightRatioTrendIcon = getTrendIcon(rightRatioTrend);
-    const rightRatioTrendClasses = `${prefix}-rightRatio ${rightRatioTrend}`;
+    const rightRatioTrendClasses = `${prefix}-rightRatio ${rightRatioTrend} ${rightRatioStatus ? getStatusColorName(rightRatioStatus) : ''}`;
 
     return(
-      <div className={`${prefix}-main ${numberTrend} ${status}`}>
+      <div className={`${prefix}-main ${numberTrend} ${status ? getStatusColorName(status) : ''}`}>
         {
           numberTrend &&
           <span className={`${prefix}-leftIcon`}>
@@ -96,7 +97,7 @@ export default class Wnumber extends React.Component {
     const {
       className, style,
       // main props
-      status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children,
+      status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children,
       // bottom props
       bottomTitle,
       ...otherProps
@@ -110,7 +111,7 @@ export default class Wnumber extends React.Component {
 
     return (
       <div className={mainClasses} style={style} {...otherProps}>
-        {this.renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, trend, children)}
+        {this.renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children)}
         {this.renderBottom(bottomTitle)}
       </div>
     );

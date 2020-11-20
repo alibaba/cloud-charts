@@ -45,15 +45,15 @@ export default class Wcircle extends React.Component {
     if (!!bottomTitle || !!bottomUnit ||!!bottomNumber || !!bottomTrend) {
       return(
         <div className={`${prefix}-bottom-block`}>
-          {
-            bottomTrend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
-          }
           <span className={numberClasses}>
-              {bottomNumber}
+            {
+              bottomTrend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
+            }
+            {bottomNumber}
             {
               bottomUnit && <span className={`${prefix}-bottom-unit`}>{bottomUnit}</span>
             }
-            </span>
+          </span>
           <p className={`${prefix}-title`}>{bottomTitle}</p>
         </div>
       )
@@ -137,10 +137,10 @@ export default class Wcircle extends React.Component {
           </div>
           <div className={`${prefix}-number-block`}>
             <div className={`${prefix}-number-middle`}>
-              {
-                trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
-              }
               <span className={numberClasses}>
+                {
+                  trend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>
+                }
                 {children}
                 {
                   unit && <span className={`${prefix}-unit`}>{unit}</span>
