@@ -43,6 +43,7 @@ export interface LegendConfig {
   autoCollapse?: boolean;
   position?: Position;
   align?: string;
+  padding?: [number, number, number, number];
   nameFormatter?(): string;
   valueFormatter?(): string;
   showData?: boolean;
@@ -61,7 +62,10 @@ function getPosition(position?: string, align?: string): Position {
   return position as Position;
 }
 
-function getPadding(position?: string) {
+function getPadding(position?: string, userPadding?: number[]) {
+  if (userPadding) {
+    return userPadding;
+  }
   const len = pxToNumber(themes['widgets-font-size-1']) * 2 / 3;
   const [p] = position.split('-');
   switch (p) {
@@ -104,6 +108,7 @@ export default function (
       // 图例位置
       position = 'top',
       align = 'left',
+      padding,
       // 格式化函数
       nameFormatter,
       valueFormatter,
@@ -133,7 +138,7 @@ export default function (
       // background: {
       //   padding: 0,
       // },
-      padding: getPadding(position),
+      padding: getPadding(position, padding),
       marker: marker || {
         // symbol: 'circle',
         style: {
