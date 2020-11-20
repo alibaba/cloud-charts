@@ -1,6 +1,8 @@
 'use strict';
 
 import { Chart, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
+// import { Controller } from '@antv/g2/esm/chart/controller/base';
+import defaultLayout from '@antv/g2/esm/chart/layout';
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
@@ -209,6 +211,7 @@ class Wpie extends Base<WpieConfig> {
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
     }
+    // coordinate translate 操作会导致饼图变形，暂时换一种方式实现
     /*const coord = */chart.coordinate('theta', thetaConfig);
 
     // if (config.coord) {
@@ -346,6 +349,45 @@ class Wpie extends Base<WpieConfig> {
         }
         return v[labelField];
       }) as Types.GeometryLabelContentCallback,
+    });
+
+    chart.setLayout(() => {
+      // 先运行默认 layout
+      defaultLayout(chart);
+      /*
+      const axis = chart.getController('axis');
+      const legend = chart.getController('legend');
+      const annotation = chart.getController('annotation');
+      const slider = chart.getController('slider');
+      const scrollbar = chart.getController('scrollbar');
+
+      // 根据最新的 coordinate 重新布局组件
+      [axis, slider, scrollbar, legend, annotation].forEach((controller: Controller) => {
+        if (controller) {
+          controller.layout();
+        }
+      });
+      */
+
+      const radius = chart.getCoordinate().radius
+      const legend = chart.getController('legend').getComponents()[0].component;
+      // 计算一个合适的 legend 位置
+      // 1. legend 的宽高
+      const legendBBox = legend.getLayoutBBox();
+      // 2. 饼的宽高
+      const pieSize = Math.min(chart.width, chart.height) * radius; // coordinate radius
+
+      // debugger
+      // console.log(legendBBox, legend.cfg.padding);
+      const legendPadding = legend.cfg.padding;
+      const emptyAreaHalfWidth = (chart.width - pieSize - (legendBBox.width + legendPadding[1] + legendPadding[3])) / 2;
+      // 下面的 x y 就是数学题了，可视化中所有定位的参考点是自己的左上角。
+      // TODO 根据不同方向设置不同的坐标
+      legend.update({
+        x: emptyAreaHalfWidth + pieSize + legendPadding[3],
+        // x: chart.width - (chart.width / 2 - pieSize / 2 ) / 2 - legendBBox.width / 2,
+        // y: chart.height / 2 - legendBBox.height / 2,
+      });
     });
 
     chart.on('afterrender', () => {
