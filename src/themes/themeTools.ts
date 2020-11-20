@@ -1,5 +1,5 @@
 import { registerTheme } from "@antv/g2/esm/core";
-import { createThemeByStylesheet } from '@antv/g2/esm/util/theme';
+import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style-sheet';
 import { Types } from '../common/types';
 import normalStyle from './normal.style';
 import { pxToNumber } from "../common/common";
@@ -561,7 +561,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 export function setG2Theme(theme: Theme) {
   const g2StyleSheet = getG2StyleSheet(theme);
 
-  const g2Theme = createThemeByStylesheet(g2StyleSheet);
+  const g2Theme = createThemeByStyleSheet(g2StyleSheet);
 
   // g2Theme.maxColumnWidth = 36;
   const baseFontSize = theme['widgets-font-size-1'];
