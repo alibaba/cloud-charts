@@ -60,12 +60,20 @@ class Wheatmap extends Base<WheatmapConfig> {
   }
   init(chart: Chart, config: WheatmapConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
-        type: 'cat',
-      }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
-        type: 'cat',
-      }, config.yAxis),
+      x: propertyAssign(
+        propertyMap.xAxis,
+        {
+          type: 'cat',
+        },
+        config.xAxis,
+      ),
+      y: propertyAssign(
+        propertyMap.yAxis,
+        {
+          type: 'cat',
+        },
+        config.yAxis,
+      ),
       type: {
         type: 'cat',
       },
@@ -99,17 +107,28 @@ class Wheatmap extends Base<WheatmapConfig> {
     legendFilter.call(this, chart, config);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
-      showTitle: false,
-      showCrosshairs: false,
-    });
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+      (ev: any) => {},
+      {
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+    );
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
     const geomStyle = config.geomStyle || {};
 
-    chart.polygon()
+    chart
+      .polygon()
       .position('x*y')
       .color('type', config.colors)
       .tooltip('x*y*extra', (x, y, extra) => {
@@ -123,7 +142,6 @@ class Wheatmap extends Base<WheatmapConfig> {
         stroke: themes['widgets-map-area-border'],
         ...geomStyle,
       });
-
   }
 }
 export default Wheatmap;

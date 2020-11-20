@@ -103,10 +103,22 @@ class Wrectangle extends Base<WrectangleConfig> {
     chart.legend(false);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
-      showTitle: false,
-      crosshairs: null,
-    });
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
+        showTitle: false,
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+      (ev: any) => {},
+      {
+        showTitle: false,
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+    );
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

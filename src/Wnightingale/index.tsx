@@ -62,11 +62,21 @@ class Wnightingale extends Base<WnightingaleConfig> {
     rectLegend.call(this, chart, config, null, true);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
-      showTitle: false,
-      crosshairs: null,
-    });
-
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+      (ev: any) => {},
+      {
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+    );
+  
     chart.axis(false);
 
     const geomStyle = config.geomStyle || {};
