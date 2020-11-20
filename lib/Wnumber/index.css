@@ -9,6 +9,14 @@
       color: var(--widgets-color-red, #E62412); }
     .cloud-wnumber .cloud-wnumber-main.raise {
       color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wnumber .cloud-wnumber-main.blue {
+      color: var(--widgets-color-blue, #3F90FF); }
+    .cloud-wnumber .cloud-wnumber-main.green {
+      color: var(--widgets-color-green, #15AD31); }
+    .cloud-wnumber .cloud-wnumber-main.orange {
+      color: var(--widgets-color-orange, #FA8C15); }
+    .cloud-wnumber .cloud-wnumber-main.red {
+      color: var(--widgets-color-red, #E62412); }
     .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon {
       position: relative;
       margin-right: var(--s1, 4px)/2; }
@@ -33,6 +41,14 @@
         color: var(--widgets-color-red, #E62412); }
       .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.raise {
         color: var(--widgets-color-blue, #3F90FF); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.blue {
+        color: var(--widgets-color-blue, #3F90FF); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.green {
+        color: var(--widgets-color-green, #15AD31); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.orange {
+        color: var(--widgets-color-orange, #FA8C15); }
+      .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatio.red {
+        color: var(--widgets-color-red, #E62412); }
     .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-trend {
       margin-left: var(--s2, 8px); }
   .cloud-wnumber .cloud-wnumber-bottomTitle {

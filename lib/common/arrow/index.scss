@@ -15,13 +15,13 @@
   }
 
   &#{$warrow-prefix}-up:before {
-    border-bottom-color: $blue;
+    border-bottom-color: currentColor;
   }
 
   &#{$warrow-prefix}-down:before {
     position: relative;
     top: $warrow-height;
 
-    border-top-color: $red;
+    border-top-color: currentColor;
   }
 }
