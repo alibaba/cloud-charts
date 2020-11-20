@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types } from "./types";
+import { Chart, Types, G2Dependents } from "./types";
 import themes from '../themes';
 import { merge } from './common';
 
@@ -12,6 +12,7 @@ export interface XAxisConfig {
   autoHide?: boolean;
   autoEllipsis?: boolean;
   labelFormatter?(): string;
+  tickLine?: boolean | G2Dependents.AxisTickLineCfg;
   customConfig?: Types.AxisCfg;
   // 数据项中使用
   categories?: number[] | string[];
@@ -32,10 +33,15 @@ export default function (
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.xAxis || {};
+    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, tickLine, customConfig } = config.xAxis || {};
+    let myTickLine = null;
+    if (typeof tickLine === 'boolean' && tickLine) {
+      myTickLine = {};
+    }
     const xAxisConfig: Types.AxisCfg = {
       ...defaultConfig,
-      title: null, // 不展示坐标轴的标题
+      title: null, // 默认不展示坐标轴的标题
+      tickLine: myTickLine,
       label: {
         autoRotate,
         rotate,
@@ -74,7 +80,7 @@ export default function (
     if (alias) {
       xAxisConfig.title = {
         // position: 'center',
-        offset: 38,
+        // offset: 38,
         // textStyle: {
         //   rotate: 0,
         // },

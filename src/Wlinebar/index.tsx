@@ -2,9 +2,9 @@
 
 import { Chart, View, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base, { ChartProps } from "../common/Base";
-import { MarkerSymbols } from "@antv/g2/lib/util/marker";
+import { MarkerSymbols } from "@antv/g2/esm/util/marker";
 import { getShapeFactory } from "@antv/g2";
-// import { getMappingValue } from "@antv/g2/lib/util/attr";
+// import { getMappingValue } from "@antv/g2/esm/util/attr";
 // import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';

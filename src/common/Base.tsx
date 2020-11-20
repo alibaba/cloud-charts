@@ -1,6 +1,6 @@
 'use strict';
 
-import * as G2 from '@antv/g2';
+import * as G2 from '@antv/g2/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';

@@ -1,5 +1,10 @@
 {
   "plugins": [
-    "build-plugin-component"
-  ]
+    "./build.before.js",
+    "build-plugin-component",
+    "./build.after.js"
+  ],
+  "filename": "index",
+  "library": "AiscWidgets",
+  "libraryTarget": "umd"
 }

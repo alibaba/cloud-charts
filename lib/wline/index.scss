@@ -1,1 +1,5 @@
-@import "./G2Line.scss";
+.aisc-widgets.G2Line {
+  .g2-legend-list-item:last-child {
+    margin-right: 0 !important;
+  }
+}

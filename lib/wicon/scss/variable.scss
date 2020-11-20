@@ -1,5 +1,5 @@
 @import "../../themes/index";
-$wicon-prefix: '.aisc-wicon';
+$wicon-prefix: '.cloud-wicon';
 
 $white: getVar(widgets-color-background, $widgets-color-background);
 $blue: getVar(widgets-color-blue, $widgets-color-blue);
@@ -8,14 +8,13 @@ $red: getVar(widgets-color-red, $widgets-color-red);
 $green: getVar(widgets-color-green, $widgets-color-green);
 $gray: getVar(widgets-color-gray, $widgets-color-gray);
 
-//$icon-font-path: "//at.alicdn.com/t/font_180585_30ih4fhuc34" !default;
 $icon-font-path: "./font_180585_2frjb4evzia" !default;
 
 /// icon font name 自定义的icon font 名称
 $icon-font-name: "icon" !default;
 
 $icon-font-family: WidgetsIcon !default;
-$icon-prefix: 'aisc-wicon' !default;
+$icon-prefix: 'cloud-wicon' !default;
 
 $icon-size-1: getVar(s1, $s1);
 

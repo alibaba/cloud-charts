@@ -15,7 +15,6 @@ export { default as Wbox } from './Wbox';
 // export { default as Wsankey } from './Wsankey';
 export { default as Wscatter } from './Wscatter';
 
-
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
 export { default as Wcontainer } from './Wcontainer/index';

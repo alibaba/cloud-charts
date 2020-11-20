@@ -349,4 +349,4 @@ class DashBoard {
 }
 
 
-module.exports = DashBoard;
+export default DashBoard;
