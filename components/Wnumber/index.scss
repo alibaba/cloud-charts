@@ -15,6 +15,19 @@
       color: $blue;
     }
 
+    &.blue {
+      color: $blue;
+    }
+    &.green {
+      color: $green;
+    }
+    &.orange {
+      color: $orange;
+    }
+    &.red {
+      color: $red;
+    }
+
     #{$wnumber-prefix}-leftIcon, #{$wnumber-prefix}-rightRatioIcon {
       position:relative;
       margin-right: $size-1 / 2;
@@ -49,6 +62,19 @@
       }
       &.raise {
         color: $blue;
+      }
+
+      &.blue {
+        color: $blue;
+      }
+      &.green {
+        color: $green;
+      }
+      &.orange {
+        color: $orange;
+      }
+      &.red {
+        color: $red;
       }
     }
 
