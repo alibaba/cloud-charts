@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select, radios } from "@storybook/addon-knobs";
 
-import { Wcontainer, Wline, Wlinebar } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wlinebar, Wpie } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -143,5 +143,29 @@ stories.add('图例位置测试-linebar', () => (
         align: '',
       }
     }} data={lineBarData} />
+  </Wcontainer>
+));
+
+const pieData = [
+  {
+    "name": "浏览器占比",
+    "data": [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7]
+    ]
+  }
+];
+stories.add('图例位置测试-pie', () => (
+  <Wcontainer className="demos">
+    <Wpie height="300" config={{
+      legend: {
+        position: radios('位置', radioOptions, 'top'),
+        align: '',
+      }
+    }} data={pieData} />
   </Wcontainer>
 ));

@@ -39,8 +39,8 @@ stories.add('饼图', () => (
   <Wcontainer className="demos">
     <Wpie height="300" config={{
       legend: {
-        align: 'top',
-        padding: [20, 0, 0, 20]
+        // align: 'top',
+        // padding: [20, 0, 0, 20]
       },
       tooltip: {
         valueFormatter(n, ...args) {

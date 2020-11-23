@@ -280,7 +280,7 @@ class Wpie extends Base<WpieConfig> {
       //   ...legendHtmlListItem,
       //   marginRight: 0,
       // },
-    }, true);
+    }, true, null, true);
 
     // tooltip
     rectTooltip.call(
@@ -369,22 +369,27 @@ class Wpie extends Base<WpieConfig> {
       });
       */
 
+      const legendComponents = chart.getController('legend').getComponents();
+      if (legendComponents.length === 0) {
+        return;
+      }
       const radius = chart.getCoordinate().radius
-      const legend = chart.getController('legend').getComponents()[0].component;
+      const legend = legendComponents[0].component;
+      const legendPadding = legend.cfg.padding;
+      const [legendPosition] = legend.cfg.position.split('-');
+      if (legendPosition === 'top' || legendPosition === 'bottom') {
+        return;
+      }
       // 计算一个合适的 legend 位置
       // 1. legend 的宽高
       const legendBBox = legend.getLayoutBBox();
       // 2. 饼的宽高
       const pieSize = Math.min(chart.width, chart.height) * radius; // coordinate radius
-
-      // debugger
-      // console.log(legendBBox, legend.cfg.padding);
-      const legendPadding = legend.cfg.padding;
+      // 图表左右剩余空间的一半宽度
       const emptyAreaHalfWidth = (chart.width - pieSize - (legendBBox.width + legendPadding[1] + legendPadding[3])) / 2;
       // 下面的 x y 就是数学题了，可视化中所有定位的参考点是自己的左上角。
-      // TODO 根据不同方向设置不同的坐标
       legend.update({
-        x: emptyAreaHalfWidth + pieSize + legendPadding[3],
+        x: legendPosition === 'left' ? emptyAreaHalfWidth : emptyAreaHalfWidth + pieSize + legendPadding[3],
         // x: chart.width - (chart.width / 2 - pieSize / 2 ) / 2 - legendBBox.width / 2,
         // y: chart.height / 2 - legendBBox.height / 2,
       });

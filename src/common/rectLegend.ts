@@ -62,20 +62,27 @@ function getPosition(position?: string, align?: string): Position {
   return position as Position;
 }
 
-function getPadding(position?: string, userPadding?: number[]) {
+function getPadding(position?: string, userPadding?: number[], isPolar?: boolean) {
   if (userPadding) {
     return userPadding;
   }
-  const len = pxToNumber(themes['widgets-font-size-1']) * 2 / 3;
+  const base = pxToNumber(themes['widgets-font-size-1']);
+  const len = base * 2 / 3;
   const [p] = position.split('-');
   switch (p) {
     case 'bottom':
       return [len, 0, 0, 0];
     case 'left':
+      if (isPolar === true) {
+        return [0, base, 0, 0];
+      }
       return [0, len, 0, 0];
     case 'top':
       return [0, 0, len, 0];
     case 'right':
+      if (isPolar === true) {
+        return [0, 0, 0, base];
+      }
       return [0, 0, 0, len];
   }
   return [len, len, len, len];
@@ -89,13 +96,15 @@ function getPadding(position?: string, userPadding?: number[]) {
  * @param {Object} defaultConfig 组件的自定义配置
  * @param {boolean} isOneDataGroup 数据是否为单组形式，类似饼图和漏斗图
  * @param {string} field 数据映射字段
+ * @param {boolean} isPolar 是否极坐标系
  * */
 export default function (
   chart: Chart,
   config: { legend?: LegendConfig },
   defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
-  field: string
+  field: string,
+  isPolar?: boolean,
 ) {
   // 设置图例
   if (config.legend === false || (config.legend && config.legend.visible === false)) {
@@ -126,8 +135,6 @@ export default function (
       // style = {},
     } = config.legend || {};
 
-
-
     const legendConfig: Types.LegendCfg = {
       ...defaultConfig,
       position: getPosition(position, align),
@@ -138,7 +145,7 @@ export default function (
       // background: {
       //   padding: 0,
       // },
-      padding: getPadding(position, padding),
+      padding: getPadding(position, padding, isPolar),
       marker: marker || {
         // symbol: 'circle',
         style: {
