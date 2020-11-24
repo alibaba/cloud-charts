@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 // const Config = require('webpack-chain');
 const { getWebpackConfig } = require('build-scripts-config');
@@ -69,6 +70,43 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
           __VERSION__: JSON.stringify(packageInfo.version),
           __THEME__: JSON.stringify('index'),
         }]);
+
+      // 插件部分，需要 externals @alife/aisc-widgets 本身
+      config.externals({
+        react: {
+          root: 'React',
+          commonjs: 'react',
+          commonjs2: 'react',
+          amd: 'react',
+        },
+        'react-dom': {
+          root: 'ReactDOM',
+          commonjs: 'react-dom',
+          commonjs2: 'react-dom',
+          amd: 'react-dom',
+        },
+        '@alife/aisc-widgets': {
+          root: userConfig.library,
+          commonjs2: '@alife/aisc-widgets',
+          commonjs: '@alife/aisc-widgets',
+          amd: '@alife/aisc-widgets'
+        },
+      });
+
+      // 插件部分
+      const pluginPath = path.resolve(rootDir, './src/plugins');
+      const plugins = fs.readdirSync(pluginPath);
+      plugins.forEach(function (plugin) {
+        var componentStat = fs.lstatSync(pluginPath + '/' + plugin);
+        if (!componentStat.isDirectory()) {
+          return;
+        }
+
+        config
+          .entry(plugin)
+          .add('./src/plugins/' + plugin + '/index.tsx');
+      });
+
     }
 
     // if (command === 'start') {
