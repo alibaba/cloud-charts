@@ -409,6 +409,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
         });
       },
       {
+        showTitle: false,
         showCrosshairs: false,
         // crosshairs: null,
         showMarkers: false,
