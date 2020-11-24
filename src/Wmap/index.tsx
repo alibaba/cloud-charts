@@ -72,7 +72,7 @@ interface WmapConfig extends BaseChartConfig {
   geomStyle?: Types.LooseObject;
 }
 
-interface MapProps extends ChartProps<WmapConfig> {
+export interface MapProps extends ChartProps<WmapConfig> {
   geoData?: any;
   children?: MapChild;
 }
@@ -99,6 +99,8 @@ class Wmap extends Base<WmapConfig, MapProps> {
   public static chinaGeoData = chinaGeo;
   public static provinceName = provinceName;
   public static positionMap = positionMap;
+
+  public static getGeoProjection = DataSet.View.prototype.getGeoProjection;
 
   state: MapState = {
     customPointLayer: [],
