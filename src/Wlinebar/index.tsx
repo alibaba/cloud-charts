@@ -344,12 +344,18 @@ class Wlinebar extends Base<WlinebarConfig> {
 
 
     // tooltip
-    rectTooltip.call(this, chart, config);
+    rectTooltip.call(this, chart, config, {}, null, {
+      showCrosshairs: false,
+      showMarkers: false
+    });
 
     // 正式开始绘图，创建两个不同的view
     const barView = chart.createView();
     barView.data(barData);
     this.barView = barView;
+
+    // Tooltip 背景区域
+    barView.interaction('active-region');
 
     const lineView = chart.createView();
     lineView.data(lineData);
