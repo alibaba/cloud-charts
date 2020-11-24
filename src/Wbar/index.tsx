@@ -130,9 +130,13 @@ export default class Wbar extends Base<WbarConfig> {
     legendFilter.call(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
-      crosshairs: config.polar ? undefined : {},
+    rectTooltip.call(this, chart, config, {}, null, {
+      showCrosshairs: false,
+      showMarkers: false
     });
+
+    // Tooltip 背景区域
+    chart.interaction('active-region');
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
