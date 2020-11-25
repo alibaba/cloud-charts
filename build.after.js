@@ -7,7 +7,7 @@ const { getWebpackConfig } = require('build-scripts-config');
 const packageInfo = require('./package.json');
 
 /** 自定义构建脚本 - 后置 */
-module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption, modifyUserConfig }) => {
+module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption }) => {
   const { command, commandArgs, rootDir, userConfig } = context;
 
   registerCliOption({
