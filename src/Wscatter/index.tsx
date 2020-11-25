@@ -125,7 +125,7 @@ export default class Wscatte extends Base<WscatterConfig> {
 
     rectTooltip.call(this, chart, config, {
       crosshairs: null,
-    });
+    }, null, {crosshairs: {type: 'xy'}});
 
     legendFilter.call(this, chart, config);
 

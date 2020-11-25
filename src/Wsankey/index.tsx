@@ -13,8 +13,8 @@ import '@antv/data-set/lib/connector/graph';
 // import '@antv/data-set/lib/connector/hierarchy';
 // import '@antv/data-set/lib/diagram/sankey'
 // import errorWrap from '../common/errorWrap';
-import { TooltipConfig } from '../common/rectTooltip';
-import { LegendConfig } from '../common/rectLegend';
+import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
+import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
 import { LabelConfig } from "../common/label";
 
@@ -31,7 +31,7 @@ function getEdges(d: { links: any; }) {
 interface WsankeyConfig extends BaseChartConfig {
   colors?: string[];
   legend?: LegendConfig | false,
-  tooltip?: TooltipConfig | boolean,
+  tooltip?: TooltipConfig | false,
   guide?: GuideConfig,
   labels?: LabelConfig | boolean,
   // 剩余部分自行定义
@@ -50,11 +50,12 @@ export default class Wsankey extends Base<WsankeyConfig> {
     return {
       // padding: ['auto', 40, 'auto', 'auto'],
       legend: {
-        align: 'left',
+        align: 'center',
+        position: 'bottom',
         nameFormatter: null, // 可以强制覆盖，手动设置label
       },
       tooltip: {
-        nameFormatter: null,
+        nameFormatter: null
       },
       labels: true,
       // textStyle: {
@@ -84,10 +85,19 @@ export default class Wsankey extends Base<WsankeyConfig> {
 
     this.sankeyDataView = dv;
 
-    chart.legend(config.legend);
-    chart.tooltip({
+    // chart.legend(config.legend);
+    // chart.tooltip({
+    //   showTitle: false,
+    // });
+    rectTooltip.call(this, chart, config, {}, null, {
       showTitle: false,
+      showMarkers: false,
+      showCrosshairs: false,
+      shared: false,
     });
+
+    rectLegend.call(this, chart, config);
+
     chart.axis(false);
     chart.scale({
       x: { sync: true },
@@ -95,26 +105,29 @@ export default class Wsankey extends Base<WsankeyConfig> {
     });
 
     // edge view
-    const edgeView = chart.view();
+    const edgeView = chart.createView();
     this.edgeView = edgeView;
-    edgeView.source(dv.edges);
+    edgeView.data(dv.edges);
     edgeView.edge()
         .position('x*y')
         .shape('arc')
         .color(themes['widgets-sankey-edge'])
         // .opacity(0.5)
         .tooltip('target*source*value', (target, source, value) => {
-          if(typeof config.tooltip === "boolean"){
+          if (typeof config.tooltip === "boolean") {
             return  null
-          }else{
-            return config.tooltip.nameFormatter(target, source, value)
+          } else {
+            return config.tooltip?.nameFormatter?.(target, source, value) || {
+              name: source.name + ' to ' + target.name + '</span>',
+              value,
+            }
           }
         });
 
     // node view
     const nodeView = chart.view();
     this.nodeView = nodeView;
-    nodeView.source(dv.nodes);
+    nodeView.data(dv.nodes);
 
     const nodeGeom = nodeView.polygon()
       .position('x*y') // nodes数据的x、y由layout方法计算得出

@@ -10,15 +10,7 @@ const stories = storiesOf('Wsankey', module);
 stories.add('基础桑基图', () => (
   <Wcontainer className="demos">
     <Wsankey height="500" config={{
-      tooltip: {
-        showTitle: false,
-        nameFormatter: (target, source, value) => {
-          return {
-            name: source.name + ' to ' + target.name + '</span>',
-            value,
-          };
-        },
-      }
+
     }} data={{
       "nodes": [{"name": "Brazil"}, {"name": "Portugal"}, {"name": "France"}, {"name": "Spain"}, {"name": "England"}, {"name": "Canada"}, {"name": "Mexico"}, {"name": "USA"}, {"name": "Angola"}, {"name": "Senegal"}, {"name": "Morocco"}, {"name": "South Africa"}, {"name": "Mali"}, {"name": "China"}, {"name": "India"}, {"name": "Japan"}],
       "links": [

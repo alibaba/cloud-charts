@@ -170,10 +170,10 @@ export default class Wbar extends Base<WbarConfig> {
 
         chart.annotation().text({
           position: [x, 0],
-          content: `${x}  `,
+          // content: `${x}`,
           style: {
             fill: themes['widgets-axis-label'],
-            textAlign: 'right',
+            textAlign: 'start',
           },
         });
       });

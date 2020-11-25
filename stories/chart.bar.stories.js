@@ -73,7 +73,7 @@ const yuData = data.slice(0, 1);
 yuData[0].data = yuData[0].data.slice(0, 5).sort((a, b) => {
   return a[1] - b[1];
 });
-console.log(yuData)
+// console.log(yuData)
 stories.add('玉玦图', () => (
   <Wcontainer className="demos">
     <Wbar
