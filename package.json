@@ -40,7 +40,6 @@
   "dependencies": {
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.1.0-beta.11",
-    "babel-plugin-transform-rename-import": "^2.3.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",
     "react": "^16.8.6",
@@ -66,6 +65,7 @@
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-proto-to-assign": "^6.26.0",
     "babel-plugin-transform-react-es6-displayname": "^1.0.0-beta1.4",
+    "babel-plugin-transform-rename-import": "^2.3.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
