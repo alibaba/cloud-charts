@@ -9,7 +9,7 @@ const packageInfo = require('./package.json');
 
 /** 自定义构建脚本 - 前置 */
 module.exports = ({ context, log, modifyUserConfig, onHook }) => {
-  const { rootDir } = context;
+  const { command, rootDir } = context;
   // 编译 主题包scss变量 到 [theme].style.js
   const themePath = path.resolve(rootDir, 'src/themes');
   fs.readdirSync(themePath).forEach((theme) => {
@@ -26,44 +26,53 @@ module.exports = ({ context, log, modifyUserConfig, onHook }) => {
     }
   });
 
-  const tempCssFile = [];
-  glob.sync(
-    `${rootDir}/src/**/index.scss`
-  )
-    .forEach((item, i) => {
-      if (item.indexOf('themes/index.scss') > -1) {
-        return;
-      }
-      const rendered = sass.renderSync({
-        file: item
+  if (command === 'build') {
+    const tempCssFile = [];
+    glob.sync(
+      `${rootDir}/src/**/index.scss`
+    )
+      .forEach((item, i) => {
+        if (item.indexOf('themes/index.scss') > -1) {
+          return;
+        }
+        const rendered = sass.renderSync({
+          file: item
+        });
+        const cssFileName = item.replace(/\.scss$/, '.css');
+        fs.writeFileSync(cssFileName, rendered.css);
+        tempCssFile.push(cssFileName);
+        log.info(`scss to css: ${item}`);
       });
-      const cssFileName = item.replace(/\.scss$/, '.css');
-      fs.writeFileSync(cssFileName, rendered.css);
-      tempCssFile.push(cssFileName);
-      log.info(`scss to css: ${item}`);
+
+    // 构建后清除 css 文件
+    onHook('after.build.compile', () => {
+      tempCssFile.forEach((file) => {
+        fs.unlinkSync(file);
+        log.info(`clean css: ${file}`);
+      });
+
+      log.info('构建完成');
     });
+  }
 
-  // 构建后清除 css 文件
-  onHook('after.build.compile', () => {
-    tempCssFile.forEach((file) => {
-      fs.unlinkSync(file);
-      log.info(`clean css: ${file}`);
-    });
-
-    log.info('构建完成');
-  });
-
-  // 自定义babel插件
-  modifyUserConfig('babelPlugins', [
+  const myBabelPlugins = [
     ["babel-plugin-transform-define", {
       __VERSION__: packageInfo.version,
       __THEME__: 'index',
     }],
-    ["babel-plugin-transform-rename-import", {
-      replacements: [
-        { original: '^(.+?)\\.scss$', replacement: '$1.css' },
-      ]
-    }]
-  ]);
+  ];
+
+  if (command === 'build') {
+    myBabelPlugins.push(
+      ["babel-plugin-transform-rename-import", {
+        replacements: [
+          { original: '^(.+?)\\.scss$', replacement: '$1.css' },
+        ],
+      }]
+    );
+  }
+
+  // 自定义babel插件
+  modifyUserConfig('babelPlugins', myBabelPlugins);
 
 };
