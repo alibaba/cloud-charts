@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import G2 from '@antv/g2';
 import { DataSet } from '@antv/data-set';
 import chinaGeo from './mapData/chinaGeo.json';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
