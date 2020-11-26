@@ -10,7 +10,7 @@
     "*.css"
   ],
   "scripts": {
-    "start": "build-scripts start",
+    "start": "npm run storybook",
     "online": "build-scripts start --skip-demo --online",
     "build": "build-scripts build --skip-demo",
     "analyzer": "build-scripts build --skip-demo --analyzer",
