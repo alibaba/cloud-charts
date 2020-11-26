@@ -73,7 +73,7 @@ export default function(
       offset,
       shared: true,
       // inPlot,
-      itemTpl: `<li class="g2-tooltip-list-item" data-index={index}><span class="g2-tooltip-marker" style="background:{color}"></span><span class="g2-tooltip-name">{name}</span>${showColon ? ':' : ''}: <span class="g2-tooltip-value">{value}</span></li>`,
+      itemTpl: `<li class="g2-tooltip-list-item" data-index={index}><span class="g2-tooltip-marker" style="background:{color}"></span><span class="g2-tooltip-name">{name}</span>${showColon ? ': ' : ' '}<span class="g2-tooltip-value">{value}</span></li>`,
       // 尝试自定义title，可以达到效果，但是重绘次数过多，性能差
       // customContent(title, data) {
       //   console.log(title, data);
