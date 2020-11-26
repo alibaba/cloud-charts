@@ -1,4 +1,23 @@
+import { VERSION } from './constants';
+import themes from './themes/index';
 import './index.scss';
+
+export const version = VERSION;
+export { VERSION } ;
+
+// 主题包和颜色值
+export const COLORS = themes;
+export const THEMES = themes;
+export { themes };
+
+// 打点控制
+export { default as track } from './track';
+
+// 插件系统
+export { plugins, pluginManager } from './plugins';
+
+// 暴露工具类
+export { default as Util } from './Util';
 
 export { default as Wline } from './Wline';
 export { default as Wlinebar } from './Wlinebar';
