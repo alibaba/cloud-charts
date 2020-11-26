@@ -2,7 +2,7 @@
 
 import * as G2 from '@antv/g2/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language } from "./types";
+import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
@@ -17,6 +17,19 @@ function generateUniqueId(): string {
 
 export const rootClassName = 'cloud-charts ';
 export const rootChildClassName = 'cloud-charts-children';
+
+/** 修复旧版 padding 部分 auto 的设置导致图表白屏的问题 */
+function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
+  if (Array.isArray(padding)) {
+    for (let i = 0; i < padding.length; i++) {
+      if (padding[i] === 'auto') {
+        console.warn('新版本 padding 不再支持 auto 和 数值 混用，请使用 config.padding = \'auto\'');
+        return 'auto';
+      }
+    }
+  }
+  return padding as Types.ViewPadding;
+}
 
 export interface ChartProps<ChartConfig> {
   className?: string;
@@ -203,10 +216,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       }
     // }
 
-    // if (newPadding !== oldPadding) {
-    //   console.warn('padding 不支持修改');
-    // }
-
     let needAfterRender = false;
 
     // 数据有变化
@@ -327,7 +336,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       container: this.chartDom,
       width: this.size[0],
       height: this.size[1] || 200,
-      padding: padding || config.padding,
+      padding: fixPadding(padding || config.padding),
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
