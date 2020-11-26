@@ -79,6 +79,21 @@ class Wnightingale extends Base<WnightingaleConfig> {
   
     chart.axis(false);
 
+    chart.tooltip({
+      shared: true,
+      showCrosshairs: true,
+      crosshairs: {
+        type: 'xy',
+        line: {
+          style: {
+            stroke: '#565656',
+            lineDash: [4],
+          },
+        },
+        follow: true
+      }
+    });
+
     const geomStyle = config.geomStyle || {};
     const geom = chart
       .interval()
