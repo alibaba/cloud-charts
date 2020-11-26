@@ -7,7 +7,7 @@ import { withKnobs, select } from '@storybook/addon-knobs';
 
 import { Wcontainer, Wrectangle } from '@alife/aisc-widgets';
 
-const data = [
+const defaultData = [
   { x: 211.30367873206103, y: 374.011454046156 },
   { x: 500.29867653719464, y: 364.0710814670023 },
   { x: 373.72304385883353, y: 446.39571451770905 },
@@ -884,4 +884,32 @@ const data = [
 
 const stories = storiesOf('Wrectangle', module);
 stories.addDecorator(withKnobs);
-stories.add('分箱图', () => <Wrectangle height="300" data={data} />);
+stories.add('分箱图', () => <Wrectangle height="300" data={defaultData} />);
+
+const data1 = [];
+class NewData extends React.Component {
+  state = {
+    data: defaultData.slice(0,200)
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      let t = Date.now();
+
+      this.setState({
+        data: defaultData.slice(0, Math.round(Math.random() * 500)),
+      })
+    }, 2000);
+  }
+
+  render(){
+    return (
+      <Wcontainer className="demos">
+        <Wrectangle height="300" config={{}} data={this.state.data}/>
+      </Wcontainer>
+    );
+  }
+}
+stories.add('动态数据', () => (
+  <NewData />
+));
