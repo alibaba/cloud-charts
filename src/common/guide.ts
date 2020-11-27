@@ -3,7 +3,6 @@
 import { Chart, View, Types, G2Dependents, Status } from "./types";
 import { getStatusColor, pxToNumber } from './common';
 import themes from "../themes";
-import { instanceOf } from 'prop-types';
 
 export interface GuideConfig {
   visible?: boolean;
@@ -80,9 +79,10 @@ export interface GuideLineConfig {
 export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
   const {
-    title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY = pxToNumber(themes['widgets-font-size-1'])/2, ...textConfig
+    title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY, ...textConfig
   } = (typeof text === 'string' ? { title: text } : text) as GuideLineTextConfig;
   const color = getStatusColor(status);
+  const defaultOffsetY = offsetY === undefined ? pxToNumber(themes['widgets-font-size-1'])/2 : offsetY;
 
   const guideConfig = {
     top,
@@ -98,7 +98,9 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
         textAlign: titleAlign || ((titlePosition || 'start') !== 'start' ? 'start' : 'end'),
         ...textStyle,
       },
-      offsetY,
+      // X 轴时关闭自动旋转
+      autoRotate: axis !== 'x',
+      offsetY: defaultOffsetY,
       ...textConfig,
     },
     // @ts-ignore
@@ -116,6 +118,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
       // x 轴辅助线，修改position和textAlign默认值
       guideConfig.text.position = titlePosition || 'end';
       guideConfig.text.style.textAlign = titleAlign || 'center';
+      guideConfig.text.offsetY = offsetY || 0;
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
       // 函数接受两个参数 xScales 和 yScales
@@ -140,7 +143,6 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
         }
         return { x: 'max', [axis]: value };
       };
-      // guideConfig.text.offsetY = offsetY === 0 ? offsetY : (offsetY || 6);
     }
   }
   if (start) {
