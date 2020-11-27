@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types } from "./types";
+import { Chart, ChartData, Types, G2Dependents } from "./types";
 import { merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
@@ -44,8 +44,8 @@ export interface LegendConfig {
   position?: Position;
   align?: string;
   padding?: [number, number, number, number];
-  nameFormatter?(): string;
-  valueFormatter?(): string;
+  nameFormatter?(text: string, item: G2Dependents.ListItem, index: number): string;
+  valueFormatter?(value: string | number, item: G2Dependents.ListItem, index: number): string;
   showData?: boolean;
   marker?: Types.MarkerCfg;
   customConfig?: Types.LegendCfg;
@@ -160,7 +160,14 @@ export default function (
 
     if (showData) {
       legendConfig.itemValue = {
-        formatter: valueFormatter,
+        formatter: (text, item, index) => {
+          // @ts-ignore
+          const value = getLastValue(item.name, this.rawData, isOneDataGroup);
+          if (valueFormatter) {
+            return valueFormatter(value, item, index);
+          }
+          return value;
+        },
       };
     }
 
@@ -291,6 +298,68 @@ export default function (
     //   }
     // }
   }
+}
+function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean) {
+  const dataGroup = getItemData(name, rawData, isOneDataGroup);
+  if (!dataGroup) {
+    return name;
+  }
+  if (isOneDataGroup) {
+    if (Array.isArray(dataGroup)) {
+      return dataGroup[1];
+    }
+    if (typeof dataGroup === 'object') {
+      return dataGroup.y;
+    }
+  } else if (!Array.isArray(dataGroup) && Array.isArray(dataGroup.data)) {
+    const len = dataGroup.data.length;
+    const lastItem = dataGroup.data[len - 1];
+
+    if (Array.isArray(lastItem)) {
+      return lastItem[1];
+    }
+    if (typeof lastItem === 'object') {
+      return lastItem.y;
+    }
+  }
+  return name;
+}
+function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean): undefined | Types.LooseObject | (number | string)[] {
+  if (!rawData) {
+    return undefined;
+  }
+
+  if (isOneDataGroup) {
+    const originData = rawData[0] || {};
+    let result = undefined;
+
+    originData.data.some((r: any) => {
+      if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
+        result = r;
+        return true;
+      }
+      return false;
+    });
+
+    // if (Array.isArray(result)) {
+    //   result = {
+    //     data: result,
+    //   };
+    // }
+
+    return result;
+  }
+
+  let originData = undefined;
+  rawData.some((r: Types.LooseObject) => {
+    if (r.data && r.name === name) {
+      originData = r;
+      return true;
+    }
+    return false;
+  });
+
+  return originData;
 }
 
 // function getRawData(config, rawData, name, isOneDataGroup) {
