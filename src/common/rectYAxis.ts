@@ -53,16 +53,11 @@ export default function (
 
     // 开启坐标轴标题
     if (alias) {
-      yConfig.title = {
-        // position: 'center',
-        // // offset: 30,
-        // textStyle: {
-        //   rotate: -90,
-        // },
-      };
-      // if (yField === 'y1') {
-      //   yConfig.title.textStyle.rotate = 90;
-      // }
+      yConfig.title = {};
+      if (yField === 'y1') {
+        // @ts-ignore G2 文档中没有出现的属性，传入角度值，手动设置转动角度
+        yConfig.title.rotate = Math.PI / 2;
+      }
       // yConfig.label.textStyle = {
       //   rotate: 0,
       // };
