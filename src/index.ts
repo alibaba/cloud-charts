@@ -29,6 +29,7 @@ export { default as Wnightingale } from './Wnightingale';
 export { default as Wheatmap } from './Wheatmap';
 export { default as Wmap } from './Wmap'
 export { default as Wrectangle } from './Wrectangle';
+export { default as Wminiline } from './Wminiline';
 export { default as WmultiPie } from './Wmultipie';
 export { default as Wbox } from './Wbox';
 export { default as Wsankey } from './Wsankey';
