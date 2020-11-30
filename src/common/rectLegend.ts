@@ -41,6 +41,8 @@ type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'righ
 export interface LegendConfig {
   visible?: boolean;
   autoCollapse?: boolean;
+  /** @deprecated 暂时无法修改分页尺寸 */
+  collapseRow?: 'auto' | number;
   position?: Position;
   align?: string;
   padding?: [number, number, number, number];
@@ -113,7 +115,7 @@ export default function (
     const {
       // 自动折叠图例
       autoCollapse = true,
-      // collapseRow = 'auto',
+      collapseRow,
       // 图例位置
       position = 'top',
       align = 'left',
@@ -134,6 +136,10 @@ export default function (
       customConfig,
       // style = {},
     } = config.legend || {};
+
+    if (collapseRow) {
+      console.warn(`collapseRow 已废弃，暂时无法修改分页尺寸`);
+    }
 
     const legendConfig: Types.LegendCfg = {
       ...defaultConfig,
