@@ -7,7 +7,7 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import { LabelConfig } from '../common/label';
+import label, { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
@@ -54,7 +54,7 @@ class Wheatmap extends Base<WheatmapConfig> {
         valueFormatter: null,
       },
       // grid: false,
-      // label: false,
+      label: false,
       coordinate: null,
     };
   }
@@ -117,6 +117,7 @@ class Wheatmap extends Base<WheatmapConfig> {
       },
       (ev: any) => {},
       {
+        showTitle: false,
         showMarkers: false,
         showCrosshairs: false,
       },
@@ -127,7 +128,7 @@ class Wheatmap extends Base<WheatmapConfig> {
 
     const geomStyle = config.geomStyle || {};
 
-    chart
+    const geom = chart
       .polygon()
       .position('x*y')
       .color('type', config.colors)
@@ -142,6 +143,21 @@ class Wheatmap extends Base<WheatmapConfig> {
         stroke: themes['widgets-map-area-border'],
         ...geomStyle,
       });
+
+    label(geom, config, 'y', {}, null, true, {
+      position: 'middle',
+      offset: 0,
+      content(data, item, i) {
+        if (!config.label) {
+          return;
+        }
+        let result = (Array.isArray(data.extra) ? data.extra[0] : data.extra.value) || '-';
+        if (typeof config.label === 'object' && config.label.labelFormatter) {
+          result = config.label.labelFormatter(result, item, i);
+        }
+        return result;
+      }
+    });
   }
 }
 export default Wheatmap;
