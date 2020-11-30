@@ -135,9 +135,6 @@ export default class Wbar extends Base<WbarConfig> {
       showMarkers: false
     });
 
-    // Tooltip 背景区域
-    chart.interaction('active-region');
-
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
@@ -227,10 +224,16 @@ export default class Wbar extends Base<WbarConfig> {
 
           rectYAxis.call(self, view, config, 'y', yAxisCustomConfig);
 
-          drawBar(view, config, config.colors, 'type*facet');
+          // Tooltip 背景区域
+          view.interaction('active-region');
+
+          drawBar(view, config, config.colors);
         },
       });
     } else {
+      // Tooltip 背景区域
+      chart.interaction('active-region');
+
       drawBar(chart, config, config.colors);
     }
 
@@ -322,7 +325,6 @@ function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'ty
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
   // const geomStyle = config.geomStyle || {};
   let geom = chart.interval().position(['x', 'y']);
-
   if (dodgeStack) {
     geom = geom.color(field, colors).adjust([
       {

@@ -151,3 +151,92 @@ stories.add('点击下钻', () => (
     />
   </Wcontainer>
 ));
+
+
+let data2 = [
+    {
+        "name":"柱1",
+        "facet": '分面1',
+        "data":[]
+    },
+    {
+        "name":"柱2",
+        "facet": '分面2',
+        "data":[]
+    },
+    {
+        "name":"柱3",
+        "facet": '分面1',
+        "data":[]
+    },
+    {
+        "name":"柱4",
+        "facet": '分面2',
+        "data":[]
+    }
+];
+for (let i = 0; i < 10; i++) {
+    const name = i + '-' + i;
+    data2[0].data.push([name, Math.random() * 100 + 100]);
+    data2[1].data.push([name, Math.random() * 100 + 100]);
+    data2[2].data.push([name, Math.random() * 100 + 100]);
+    data2[3].data.push([name, Math.random() * 100 + 100]);
+}
+let options1 = {
+    padding: [40, 24, 20, 44],
+    // colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
+    marginRatio: 0.05,
+    facet: true
+};
+stories.add('镜面柱图', () => (
+    <Wcontainer className="demos">
+        <Wbar
+            height="300"
+            config={options1}
+            data={data2}
+        />
+    </Wcontainer>
+));
+
+
+let data3 = [
+    {
+        "name":"柱1",
+        "dodge": '分组1',
+        "data":[]
+    },
+    {
+        "name":"柱2",
+        "dodge": '分组2',
+        "data":[]
+    },
+    {
+        "name":"柱3",
+        "dodge": '分组2',
+        "data":[]
+    },
+    {
+        "name":"柱4",
+        "dodge": '分组2',
+        "data":[]
+    },
+];
+for (let i = 0; i < 10; i++) {
+    const name = i + '-' + i;
+    data3[0].data.push([name, Math.random() * 100 + 100]);
+    data3[1].data.push([name, Math.random() * 100 + 100]);
+    data3[2].data.push([name, Math.random() * 100 + 100]);
+    data3[3].data.push([name, Math.random() * 100 + 100]);
+}
+let options2 = {
+    dodgeStack: true
+};
+stories.add('分组堆叠图', () => (
+    <Wcontainer className="demos">
+        <Wbar
+            height="300"
+            config={options2}
+            data={data3}
+        />
+    </Wcontainer>
+));
