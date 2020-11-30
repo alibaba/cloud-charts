@@ -1,5 +1,5 @@
 @import "../../themes/index";
-$wcontainer-prefix: '.cloud-wcontainer';
+$wcontainer-prefix: '.#{$base-prefix}-wcontainer';
 
 $wcontainer-bg-color: getVar(widgets-container-background, $widgets-container-background);
 

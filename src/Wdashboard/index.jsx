@@ -1,13 +1,13 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Dashboard from './dashboard';
 import './index.scss';
 import chartLog from "../common/log";
+import { FullCrossName, PrefixName } from '../constants';
 
-const prefix = 'cloud-wdashboard';
+const prefix = `${PrefixName}-wdashboard`;
 
 export default class Wdashboard extends React.Component {
   static displayName = 'Wdashboard';
@@ -50,7 +50,7 @@ export default class Wdashboard extends React.Component {
     const { className, ...otherProps } = this.props;
 
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [prefix]: true,
       [className]: !!className
     });

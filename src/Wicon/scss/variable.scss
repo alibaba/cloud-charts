@@ -1,5 +1,5 @@
 @import "../../themes/index";
-$wicon-prefix: '.cloud-wicon';
+$wicon-prefix: '.#{$base-prefix}-wicon';
 
 $white: getVar(widgets-color-background, $widgets-color-background);
 $blue: getVar(widgets-color-blue, $widgets-color-blue);
@@ -14,7 +14,7 @@ $icon-font-path: "./font_180585_2frjb4evzia" !default;
 $icon-font-name: "icon" !default;
 
 $icon-font-family: WidgetsIcon !default;
-$icon-prefix: 'cloud-wicon' !default;
+$icon-prefix: '#{$base-prefix}-wicon' !default;
 
 $icon-size-1: getVar(s1, $s1);
 

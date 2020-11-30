@@ -1,5 +1,5 @@
 @import "../../themes/index";
-$wnumber-prefix: '.cloud-wnumber';
+$wnumber-prefix: '.#{$base-prefix}-wnumber';
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 $font-size-l: getVar(widgets-font-size-6, $widgets-font-size-6);

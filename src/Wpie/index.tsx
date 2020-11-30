@@ -10,6 +10,7 @@ import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
+import { FullCrossName } from '../constants';
 // import errorWrap from '../common/errorWrap';
 
 // function transformCoord(coord, transform = {}) {
@@ -398,7 +399,7 @@ class Wpie extends Base<WpieConfig> {
       selectGeom.call(this, this.geom, config.selectData);
 
       // 更新子元素位置
-      const childDom = this.chartDom && (this.chartDom.querySelector('.cloud-charts-children') as HTMLElement);
+      const childDom = this.chartDom && (this.chartDom.querySelector(`.${FullCrossName}-children`) as HTMLElement);
       if (childDom) {
         const centerPoint = chart.getCoordinate().getCenter();
         childDom.style.left = `${centerPoint.x}px`;

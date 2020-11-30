@@ -1,6 +1,6 @@
 @import "../../../themes/index";
 
-$warrow-prefix: '.cloud-warrow';
+$warrow-prefix: '.#{$base-prefix}-warrow';
 $warrow-width: 10px;
 $warrow-height: 8px;
 

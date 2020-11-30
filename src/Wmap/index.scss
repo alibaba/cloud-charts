@@ -1,11 +1,13 @@
-.cloud-charts.G2Map {
+@import "../themes/index";
+
+.#{$base-name}.G2Map {
   position: relative;
   // 使缩放后的地图居中
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .cloud-charts-map-south-china-sea {
+  .#{$base-name}-map-south-china-sea {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -15,7 +17,7 @@
     min-height: 88px;
   }
 
-  //.cloud-charts-map-legend {
+  //.#{$base-name}-map-legend {
   //  position: absolute;
   //  left: 0;
   //  bottom: 0;
@@ -27,7 +29,7 @@
   //  }
   //}
 
-  .cloud-charts-map-custom-container {
+  .#{$base-name}-map-custom-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -36,14 +38,14 @@
     z-index: 1;
     pointer-events: none;
   }
-  .cloud-charts-map-custom-point {
+  .#{$base-name}-map-custom-point {
     position: absolute;
     // 将元素中心位置对齐到坐标点
     transform: translate(-50%, -50%);
     pointer-events: auto;
   }
 
-  .cloud-charts-map-shoot {
+  .#{$base-name}-map-shoot {
     position: absolute;
     top: 0;
     left: 0;

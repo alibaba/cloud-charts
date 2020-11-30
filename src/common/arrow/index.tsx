@@ -1,9 +1,10 @@
 'use strict';
 import * as React from 'react';
 import classNames from 'classnames';
+import { PrefixName } from '../../constants';
 import './index.scss';
 
-const prefix = 'cloud-warrow';
+const prefix = `${PrefixName}-warrow`;
 
 interface ArrowProps {
   type: 'up' | 'down';

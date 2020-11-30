@@ -6,9 +6,10 @@ import classNames from 'classnames';
 import Divider from './views/divider';
 import chartLog from "../common/log";
 import { isMobileWithProps } from '../common/platform';
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
-const prefix = 'cloud-wcontainer';
+const prefix = `${PrefixName}-wcontainer`;
 
 export default class Wcontainer extends React.Component {
   static displayName = 'Wcontainer';
@@ -92,7 +93,7 @@ export default class Wcontainer extends React.Component {
                 </div>
               );
             }
-            if (child.type.displayName === 'CloudChartsG2MiniLine') {
+            if (child.type.displayName === 'Wminiline') {
               return (
                 <div className={`${prefix}-col ${prefix}-col-fixed-4`} key={i}>
                   {child}
@@ -153,7 +154,7 @@ export default class Wcontainer extends React.Component {
   render() {
     const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile, catchError, ...otherProps } = this.props;
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(this.props, isMobile),
       [className]: !!className

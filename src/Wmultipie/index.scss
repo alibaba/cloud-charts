@@ -1,9 +1,11 @@
-.cloud-charts.G2MultiPie {
+@import "../themes/index";
+
+.#{$base-name}.G2MultiPie {
   position: relative;
   text-align: center;
   box-sizing: border-box;
 
-  .cloud-charts-children {
+  .#{$base-name}-children {
     position: absolute;
     top: 50%;
     left: 50%;

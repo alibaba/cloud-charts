@@ -6,9 +6,10 @@ import classNames from 'classnames';
 import Warrow from '../common/arrow';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
-const prefix = 'cloud-wcircle';
+const prefix = `${PrefixName}-wcircle`;
 
 export default class Wcircle extends React.Component {
   static displayName = 'Wcircle';
@@ -167,7 +168,7 @@ export default class Wcircle extends React.Component {
     } = this.props;
 
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [prefix]: true,
       [className]: !!className
     });

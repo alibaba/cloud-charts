@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
-const prefix = 'cloud-wicon';
+const prefix = `${PrefixName}-wicon`;
 
 export default class Wicon extends React.Component {
   static displayName = 'Wicon';
@@ -28,7 +29,7 @@ export default class Wicon extends React.Component {
   render() {
     const { type, size, className, status, reverse, ...other } = this.props;
     const classes = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       // [`next-icon`]: true,
       [`${prefix}-${type}`]: !!type,
       [`${prefix}`]: true,

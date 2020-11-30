@@ -3,6 +3,7 @@ import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style
 import { Types } from '../common/types';
 import normalStyle from './normal.style';
 import { pxToNumber } from "../common/common";
+import { FullCrossName } from '../constants';
 
 export interface Theme extends Partial<typeof normalStyle> {
   name?: string;
@@ -32,7 +33,7 @@ export function setThemeStyle(css: string) {
 
 export function convertCSS(theme: Theme) {
   const varList = Object.keys(theme).map((key: keyof Theme) => `--${key}: ${theme[key]}`);
-  return `.cloud-charts {${varList.join(';')}}`;
+  return `.${FullCrossName} {${varList.join(';')}}`;
 }
 
 // ---------------------- JS ----------------------

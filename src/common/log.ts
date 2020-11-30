@@ -1,5 +1,5 @@
 import { isMobile } from './platform';
-import { VERSION, THEME } from '../constants';
+import { VERSION, THEME, FullTrackName, TrackName } from '../constants';
 
 /**
  * 日志记录
@@ -39,7 +39,7 @@ export function themeLog(name: string) {
   currentTheme = name;
 }
 
-let trackable = window.CloudChartsTrackEnable !== false;
+let trackable = window[FullTrackName] !== false;
 /**
  * 打点控制函数
  *
@@ -53,7 +53,7 @@ export function track(enable: boolean): void {
 }
 
 // 打点逻辑，使用黄金令箭
-const logUrl = '//gm.mmstat.com/cloud-chart.use.init';
+const logUrl = `//gm.mmstat.com/${TrackName}.use.init`;
 setTimeout(() => {
   if (trackable && process.env.NODE_ENV === 'production') {
     const chartInit = Object.keys(logMap).map((name) => {

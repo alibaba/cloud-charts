@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import { PrefixName } from '../../constants';
 
-const prefix = 'cloud-wcontainer'
+const prefix = `${PrefixName}-wcontainer`;
 
 export default class Divider extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Divider extends React.Component {
 
   render() {
     return (
-      <div className={`${prefix}-divider`}></div>
+      <div className={`${prefix}-divider`} />
     );
   }
 }

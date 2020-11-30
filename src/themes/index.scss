@@ -1,5 +1,8 @@
 @import "./normal";
 
+$base-name: 'aisc-widgets';
+$base-prefix: 'aisc';
+
 @function getVar($name, $value) {
   @return var(--#{$name}, #{$value});
 }

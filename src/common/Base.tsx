@@ -7,6 +7,7 @@ import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './comm
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
 import eventBus from './eventBus';
+import { FullCrossName } from '../constants';
 // import './g2Hacker';
 
 // 图表唯一id
@@ -15,8 +16,8 @@ function generateUniqueId(): string {
   return `react-g2-${uniqueId++}`;
 }
 
-export const rootClassName = 'cloud-charts ';
-export const rootChildClassName = 'cloud-charts-children';
+export const rootClassName = `${FullCrossName} `;
+export const rootChildClassName = `${FullCrossName}-children`;
 
 /** 修复旧版 padding 部分 auto 的设置导致图表白屏的问题 */
 function fixPadding(padding: Types.ViewPadding | (number | string)[]) {

@@ -1,5 +1,5 @@
 @import "../../themes/index";
-$wcircle-prefix: '.cloud-wcircle';
+$wcircle-prefix: '.#{$base-prefix}-wcircle';
 
 $text-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 $text-size-l: getVar(widgets-font-size-7, $widgets-font-size-7);

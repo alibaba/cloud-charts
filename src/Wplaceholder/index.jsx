@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import chartLog from "../common/log";
 import Locale from './locale';
 import './index.scss';
+import { FullCrossName, PrefixName } from '../constants';
 
-const prefix = 'cloud-wplaceholder';
+const prefix = `${PrefixName}-wplaceholder`;
 
 // 默认显示的图标
 const svgWidth = 36, svgHeight = 32, itemHeight1 = 20, itemHeight2 = 26, itemHeight3 = 32;
@@ -84,7 +85,7 @@ export default class Wplaceholder extends React.Component {
     const { className, width, height = '100%', style, loading, error, noData, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [prefix + '-loading']: !error && loading,
       [prefix + '-no-data']: !error && !loading && noData,
       [prefix + '-error']: !!error,

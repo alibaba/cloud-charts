@@ -32,6 +32,7 @@ import {
 } from './child';
 import './index.scss';
 import Wshoot, { ShootProps } from "../Wshoot";
+import { FullCrossName } from '../constants';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -220,7 +221,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
     // };
 
     return (
-      <div key={layerIndex} className="cloud-charts-map-custom-container">
+      <div key={layerIndex} className={`${FullCrossName}-map-custom-container`}>
         {
           Array.isArray(data) && data.map((d, i) => {
             if (!d) {
@@ -232,7 +233,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
               top: d.y,
             };
             return (
-              <div key={i} className="cloud-charts-map-custom-point" style={pointStyle}>
+              <div key={i} className={`${FullCrossName}-map-custom-point`} style={pointStyle}>
                 {render && render(d, i, otherProps)}
               </div>
             );
@@ -260,7 +261,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
     return (
       <Wshoot
         key={shootIndex}
-        className={`cloud-charts-map-shoot ${className || ''}`}
+        className={`${FullCrossName}-map-shoot ${className || ''}`}
         width={chartWidth}
         height={chartHeight}
         style={style}
@@ -276,7 +277,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
       const { fill } = config.background || {};
       const mapColor = fill || themes['widgets-map-area-bg'];
 
-      return <SouthChinaSea key={southChinaSeaKey} className="cloud-charts-map-south-china-sea" fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
+      return <SouthChinaSea key={southChinaSeaKey} className={`${FullCrossName}-map-south-china-sea`} fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
     } else {
       return null;
     }

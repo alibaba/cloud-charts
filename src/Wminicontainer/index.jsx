@@ -6,9 +6,10 @@ import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
 import { isMobileWithProps } from "../common/platform";
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
-const prefix = 'cloud-wminicontainer';
+const prefix = `${PrefixName}-wminicontainer`;
 
 export default class Wminicontainer extends React.Component {
   static displayName = 'Wminicontainer';
@@ -27,7 +28,7 @@ export default class Wminicontainer extends React.Component {
   render() {
     const { height = 80, className, status, style, isMobile, ...otherProps } = this.props;
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [`${prefix}`]: true,
       [`${prefix}-mobile`]: isMobileWithProps(otherProps, isMobile),
       [`${prefix}-${getStatusColorName(status)}`]: !!status,

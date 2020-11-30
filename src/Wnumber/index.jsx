@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Warrow from '../common/arrow';
 import chartLog from "../common/log";
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
-const prefix = 'cloud-wnumber';
+const prefix = `${PrefixName}-wnumber`;
 
 function getTrendIcon(trend) {
   if(trend === 'raise'){
@@ -103,7 +104,7 @@ export default class Wnumber extends React.Component {
     } = this.props;
 
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [`${prefix}`]: true,
       [className]: !!className
     });

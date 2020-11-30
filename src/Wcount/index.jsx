@@ -7,8 +7,9 @@ import CountUp from './dep/CountUp';
 import { filterKey } from "../common/common";
 import './index.scss';
 import chartLog from "../common/log";
+import { FullCrossName, PrefixName } from '../constants';
 
-const prefix = 'cloud-wcount';
+const prefix = `${PrefixName}-wcount`;
 
 const checkKey = ['start', 'decimals', 'duration', 'useEasing', 'useGrouping', 'separator', 'decimal', 'placeholder'];
 // 检查 a, b 两个对象中某些key是否有变化
@@ -156,7 +157,7 @@ export default class Wcount extends React.Component {
     const { className, ...otherProps } = this.props;
 
     const mainClasses = classNames({
-      'cloud-charts': true,
+      [FullCrossName]: true,
       [prefix]: true,
       [className]: !!className
     });
