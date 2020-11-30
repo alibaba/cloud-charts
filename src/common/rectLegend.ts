@@ -52,11 +52,13 @@ export interface LegendConfig {
   marker?: Types.MarkerCfg;
   allowAllCanceled?: boolean;
   hoverable?: boolean;
-  /** @deprecated 请使用 chart.on('legend-item:mouseenter', onHover) */
+  /** @deprecated config.legend.onHover 已废弃，请使用 chart.on('legend-item:mouseenter', onHover) */
   onHover?: Types.EventCallback;
   clickable?: boolean;
-  /** @deprecated 请使用 chart.on('legend-item:click', onClick) */
+  /** @deprecated config.legend.onClick 已废弃，请使用 chart.on('legend-item:click', onClick) */
   onClick?: Types.EventCallback;
+  /** @deprecated config.legend.defaultClickBehavior 已废弃，请使用 chart.on('legend-item:click', onClick) 绑定自定义点击事件 */
+  defaultClickBehavior?: boolean;
   customConfig?: Types.LegendCfg;
 }
 
