@@ -203,6 +203,28 @@ stories.add('动态数据', () => (
   <NewData />
 ));
 
+stories.add('带辅助标记', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      guide: {
+        line: {
+          top: true,
+          text: '80%',
+          status: 'error',
+          axis: 'y',
+          value: 5000,
+        },
+        filter: {
+          status: 'error', // normal | success | warning | error
+          // 区域位置
+          axis: 'x',
+          value: [1483718400000, 'max'],
+        },
+      },
+    }} data={[]} />
+  </Wcontainer>
+));
+
 
 // // 齐全度展示图
 // const attendData = [
