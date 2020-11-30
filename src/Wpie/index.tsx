@@ -19,35 +19,30 @@ import label, { LabelConfig } from '../common/label';
 //   }
 // }
 //
-// function selectGeom(geom: Geometry, selectKey?: string) {
-//   // if (!geom || !selectKey || !Array.isArray(this.data)) {
-//   if (!geom) {
-//     return;
-//   }
-//
-//   // 清除选中效果
-//   geom.clearSelected();
-//
-//   // 如果selectKey为假值，则只清空选中效果。
-//   if (!selectKey) {
-//     return;
-//   }
-//
-//   // 使用内部方法直接选中，fix: 数据同时被更新时无法选中的问题
-//   geom.getShapes().forEach((shape) => {
-//     const origin = shape.get('origin');
-//     if (origin && origin._origin && origin._origin.x === selectKey) {
-//       geom.setShapeSelected(shape);
-//     }
-//   });
-//
-//   // // 找到对应的数据，设置选中
-//   // this.data.forEach((d) => {
-//   //   if (d.x === selectKey) {
-//   //     geom.setSelected(d);
-//   //   }
-//   // });
-// }
+function selectGeom(geom: Geometry, selectKey?: string) {
+  // if (!geom || !selectKey || !Array.isArray(this.data)) {
+  if (!geom) {
+    return;
+  }
+
+  geom.elements.forEach((element) => {
+    // 清除选中效果
+    if (element.hasState('selected')) {
+      element.setState('selected', false);
+    }
+
+    // 如果selectKey为假值，则只清空选中效果。
+    if (!selectKey) {
+      return;
+    }
+
+    const d = element.getData();
+
+    if (d.x === selectKey) {
+      element.setState('selected', true);
+    }
+  });
+}
 //
 // function paddingNumber(value) {
 //   return isInvalidNumber(value) ? 0 : Number(value);
@@ -179,13 +174,13 @@ class Wpie extends Base<WpieConfig> {
 
   protected geom: Geometry = null;
 
-  // isChangeEqual(objValue: any, othValue: any, key: string) {
-  //   if (key === 'selectData' && objValue !== othValue) {
-  //     selectGeom.call(this, this.geom, objValue);
-  //     return true;
-  //   }
-  //   return undefined;
-  // }
+  isChangeEqual(objValue: any, othValue: any, key: string) {
+    if (key === 'selectData' && objValue !== othValue) {
+      selectGeom.call(this, this.geom, objValue);
+      return true;
+    }
+    return undefined;
+  }
 
   init(chart: Chart, config: WpieConfig, data: any[]) {
     const defs: Record<string, Types.ScaleOption> = {
@@ -329,8 +324,11 @@ class Wpie extends Base<WpieConfig> {
     this.geom = chart.interval()
       .position('y')
       .color('x', config.colors)
-      .adjust('stack')
-      // .select(!!config.select);
+      .adjust('stack');
+
+    if (config.select) {
+      chart.interaction('element-single-selected');
+    }
 
     const labelField = 'y';
     label(this.geom, config, labelField, null, undefined, false, {
@@ -396,6 +394,10 @@ class Wpie extends Base<WpieConfig> {
     });
 
     chart.on('afterrender', () => {
+      // 默认选中效果
+      selectGeom.call(this, this.geom, config.selectData);
+
+      // 更新子元素位置
       const childDom = this.chartDom && (this.chartDom.querySelector('.cloud-charts-children') as HTMLElement);
       if (childDom) {
         const centerPoint = chart.getCoordinate().getCenter();
@@ -408,8 +410,6 @@ class Wpie extends Base<WpieConfig> {
     // this.geom.style('x*y*type*extra', {
     //   ...geomStyle,
     // });
-
-    // selectGeom.call(this, this.geom, config.selectData);
   }
 }
 
