@@ -53,7 +53,7 @@ export function track(enable: boolean): void {
 }
 
 // 打点逻辑，使用黄金令箭
-const logUrl = `//gm.mmstat.com/${TrackName}.use.init`;
+const logUrl = `//gm.mmstat.com/${TrackName}`;
 setTimeout(() => {
   if (trackable && process.env.NODE_ENV === 'production') {
     const chartInit = Object.keys(logMap).map((name) => {

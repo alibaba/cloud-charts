@@ -8,11 +8,10 @@ const THEME = __THEME__;
 export { VERSION };
 export { THEME };
 
-export const FullPackageName = '@alife/aisc-widgets';
 export const FullCamelName = 'AiscWidgets';
 export const FullCrossName = 'aisc-widgets';
 export const FullTrackName = 'AiscWidgetsTrackEnable';
-export const TrackName = 'aisc-widgets';
+export const TrackName = 'aisc-widgets.use.init';
 export const PrefixName = 'aisc';
 
 declare global {
