@@ -9,6 +9,7 @@ const packageInfo = require('./package.json');
 /** 自定义构建脚本 - 后置 */
 module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption }) => {
   const { command, commandArgs, rootDir, userConfig } = context;
+  const { library, libraryTarget = 'umd', libraryExport } = userConfig;
 
   registerCliOption({
     name: 'online',
@@ -21,7 +22,6 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
   });
 
   if (commandArgs.online) {
-    const { library, libraryTarget = 'umd', libraryExport } = userConfig;
     const onlineConfig = getWebpackConfig('development');
     onlineConfig.target('web');
     onlineConfig.context(rootDir);
@@ -41,6 +41,32 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
 
     registerTask('online-web', onlineConfig);
   }
+
+  // 插件部分
+  const mode = command === 'start' ? 'development' : 'production';
+  const pluginsConfig = getWebpackConfig(mode);
+  pluginsConfig.target('web');
+  pluginsConfig.context(rootDir);
+  pluginsConfig.output
+    .library(`${library}[name]`)
+    .libraryExport(libraryExport)
+    .libraryTarget(libraryTarget);
+
+  // 插件部分
+  const pluginPath = path.resolve(rootDir, './src/plugins');
+  const plugins = fs.readdirSync(pluginPath);
+  plugins.forEach(function (plugin) {
+    var componentStat = fs.lstatSync(pluginPath + '/' + plugin);
+    if (!componentStat.isDirectory()) {
+      return;
+    }
+
+    pluginsConfig
+      .entry(plugin)
+      .add('./src/plugins/' + plugin + '/index.tsx');
+  });
+
+  registerTask('plugins', pluginsConfig);
 
   // 调整 webpack 配置
   // config 为 webpack-chain 实例
@@ -97,21 +123,6 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
           amd: '@alife/aisc-widgets'
         },
       });
-
-      // 插件部分
-      const pluginPath = path.resolve(rootDir, './src/plugins');
-      const plugins = fs.readdirSync(pluginPath);
-      plugins.forEach(function (plugin) {
-        var componentStat = fs.lstatSync(pluginPath + '/' + plugin);
-        if (!componentStat.isDirectory()) {
-          return;
-        }
-
-        config
-          .entry(plugin)
-          .add('./src/plugins/' + plugin + '/index.tsx');
-      });
-
     }
 
     // if (command === 'start') {
