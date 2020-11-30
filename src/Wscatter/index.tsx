@@ -18,6 +18,10 @@ import autoTimeMask from '../common/autoTimeMask';
 import legendFilter from '../common/legendFilter';
 // import getGeomSizeConfig from '../common/geomSize';
 
+interface jitterConfig {
+  adjustNames?: string[];
+}
+
 interface WscatterConfig extends BaseChartConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
@@ -27,7 +31,7 @@ interface WscatterConfig extends BaseChartConfig {
   grid?: boolean,
   colors?: string[],
   size: number,
-  jitter: boolean,
+  jitter: jitterConfig | boolean,
   label?: LabelConfig | boolean,
   geomStyle?: Types.LooseObject
 }
@@ -141,7 +145,14 @@ export default class Wscatte extends Base<WscatterConfig> {
       // .active(false);
 
     if (jitter) {
-      geom.adjust('jitter');
+      if (typeof jitter === 'object') {
+        geom.adjust({
+          type: 'jitter',
+          ...jitter,
+        });
+      } else {
+        geom.adjust('jitter');
+      }
     }
 
     label(geom, config);
