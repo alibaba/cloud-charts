@@ -36,7 +36,7 @@ interface WboxConfig extends BaseChartConfig {
 }
 
 export default
-class Wline extends Base<WboxConfig> {
+class Wbox extends Base<WboxConfig> {
 
   chartName = 'G2Box';
 

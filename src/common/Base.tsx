@@ -1,8 +1,8 @@
 'use strict';
 
-import * as G2 from '@antv/g2/esm';
+import { Chart } from '@antv/g2/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language } from "./types";
+import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog from './log';
@@ -18,6 +18,19 @@ function generateUniqueId(): string {
 export const rootClassName = 'cloud-charts ';
 export const rootChildClassName = 'cloud-charts-children';
 
+/** 修复旧版 padding 部分 auto 的设置导致图表白屏的问题 */
+function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
+  if (Array.isArray(padding)) {
+    for (let i = 0; i < padding.length; i++) {
+      if (padding[i] === 'auto') {
+        console.warn('新版本 padding 不再支持 auto 和 数值 混用，请使用 config.padding = \'auto\'');
+        return 'auto';
+      }
+    }
+  }
+  return padding as Types.ViewPadding;
+}
+
 export interface ChartProps<ChartConfig> {
   className?: string;
   style?: React.CSSProperties;
@@ -29,9 +42,9 @@ export interface ChartProps<ChartConfig> {
     [eventKey: string]: () => void;
   };
   language?: Language;
-  getChartInstance?: (chart: G2.Chart) => void;
+  getChartInstance?: (chart: Chart) => void;
   // G2 顶层属性
-  padding?: G2.Types.ViewPadding;
+  padding?: Types.ViewPadding;
   localRefresh?: boolean;
   renderer?: 'canvas' | 'svg';
   syncViewPadding?: boolean;
@@ -52,7 +65,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
   public chartName = 'Base';
 
-  public chart: G2.Chart;
+  public chart: Chart;
 
   public chartDom: HTMLDivElement;
 
@@ -92,18 +105,18 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   protected beforeInit?(props: Props): Props;
 
   /** 初始化函数 */
-  protected init(chart: G2.Chart, config: ChartConfig, data: ChartData): void { };
+  protected init(chart: Chart, config: ChartConfig, data: ChartData): void { };
 
   /** 自定义判断配置项是否更改 */
   protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
   /** 更新数据 */
-  protected changeData(chart: G2.Chart, config: ChartConfig, data: ChartData): void {
+  protected changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
   };
 
   /** 更新尺寸 */
-  protected changeSize(chart: G2.Chart, config: ChartConfig, width: number, height: number): void {
+  protected changeSize(chart: Chart, config: ChartConfig, width: number, height: number): void {
     chart && chart.changeSize(width, height);
   };
 
@@ -203,10 +216,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       }
     // }
 
-    // if (newPadding !== oldPadding) {
-    //   console.warn('padding 不支持修改');
-    // }
-
     let needAfterRender = false;
 
     // 数据有变化
@@ -261,7 +270,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   // }
 
   // 准备销毁
-  unmountCallbacks: ((chart: G2.Chart) => void)[] = [];
+  unmountCallbacks: ((chart: Chart) => void)[] = [];
 
   handleDestroy() {
     // 清空缩放相关变量和事件
@@ -323,11 +332,11 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       ...otherProps
     } = currentProps;
     // 生成图表实例
-    const chart = new G2.Chart({
+    const chart = new Chart({
       container: this.chartDom,
       width: this.size[0],
       height: this.size[1] || 200,
-      padding: padding || config.padding,
+      padding: fixPadding(padding || config.padding),
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
@@ -436,7 +445,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     }
   }
 
-  protected afterRenderCallbacks: ((chart: G2.Chart, config: ChartConfig) => void)[] = [];
+  protected afterRenderCallbacks: ((chart: Chart, config: ChartConfig) => void)[] = [];
 
   protected afterRenderTimer: any = null;
 

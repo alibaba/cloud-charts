@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-// const Config = require('webpack-chain');
+const Config = require('webpack-chain');
 const { getWebpackConfig } = require('build-scripts-config');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const packageInfo = require('./package.json');
@@ -27,12 +27,17 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
     onlineConfig.context(rootDir);
 
     onlineConfig.output
-      // .path(path.resolve(rootDir, 'build'))
-      // .filename('[name].js')
-      // .publicPath('/build/')
+      .path(path.resolve(rootDir, 'build'))
+      .filename('[name].js')
+      .publicPath('/build/')
       .library(library)
       .libraryExport(libraryExport)
       .libraryTarget(libraryTarget);
+
+    onlineConfig
+      .entry('index')
+        .add(path.resolve(rootDir, 'src/index.scss'))
+        .add(path.resolve(rootDir, 'src/index.ts'));
 
     registerTask('online-web', onlineConfig);
   }
@@ -131,6 +136,6 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
       //   .use(BundleAnalyzerPlugin);
     }
 
-    // console.log(Config.toString(config.toConfig()));
+    console.log(Config.toString(config.toConfig()));
   });
 };

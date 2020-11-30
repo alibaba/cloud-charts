@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types } from "./types";
+import { Chart, ChartData, Types, G2Dependents } from "./types";
 import { merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
@@ -41,13 +41,24 @@ type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'righ
 export interface LegendConfig {
   visible?: boolean;
   autoCollapse?: boolean;
+  /** @deprecated 暂时无法修改分页尺寸 */
+  collapseRow?: 'auto' | number;
   position?: Position;
   align?: string;
   padding?: [number, number, number, number];
-  nameFormatter?(): string;
-  valueFormatter?(): string;
+  nameFormatter?(text: string, item: G2Dependents.ListItem, index: number): string;
+  valueFormatter?(value: string | number, item: G2Dependents.ListItem, index: number): string;
   showData?: boolean;
   marker?: Types.MarkerCfg;
+  allowAllCanceled?: boolean;
+  hoverable?: boolean;
+  /** @deprecated config.legend.onHover 已废弃，请使用 chart.on('legend-item:mouseenter', onHover) */
+  onHover?: Types.EventCallback;
+  clickable?: boolean;
+  /** @deprecated config.legend.onClick 已废弃，请使用 chart.on('legend-item:click', onClick) */
+  onClick?: Types.EventCallback;
+  /** @deprecated config.legend.defaultClickBehavior 已废弃，请使用 chart.on('legend-item:click', onClick) 绑定自定义点击事件 */
+  defaultClickBehavior?: boolean;
   customConfig?: Types.LegendCfg;
 }
 
@@ -88,6 +99,20 @@ function getPadding(position?: string, userPadding?: number[], isPolar?: boolean
   return [len, len, len, len];
 }
 
+function isLastLegend(context: Types.IInteractionContext) {
+  // @ts-ignore
+  const { item, list } = context.getAction('list-unchecked').getTriggerListInfo() || {};
+  if (!item) {
+    return true;
+  }
+  const items = list.getItems();
+  const stateItems = list.getItemsByState('unchecked');
+  // 当前选中项状态
+  const currentEnable = list.hasState(item, 'unchecked');
+  // 如果当前是要 unchecked，且只剩下一个 非unchecked 的 item，则返回 false
+  return !(!currentEnable && stateItems.length === items.length - 1);
+}
+
 /**
  * rectLegend 直角坐标系legend配置。
  *
@@ -113,7 +138,7 @@ export default function (
     const {
       // 自动折叠图例
       autoCollapse = true,
-      // collapseRow = 'auto',
+      collapseRow,
       // 图例位置
       position = 'top',
       align = 'left',
@@ -124,16 +149,20 @@ export default function (
       showData,
       marker,
       // 交互相关
-      // allowAllCanceled = false,
-      // hoverable = false,
-      // onHover = null,
-      // clickable = true,
-      // onClick = null,
+      allowAllCanceled = false,
+      hoverable = true,
+      onHover,
+      clickable = true,
+      onClick,
       // defaultClickBehavior = true,
       // 自定义配置
       customConfig,
       // style = {},
     } = config.legend || {};
+
+    if (collapseRow) {
+      console.warn(`collapseRow 已废弃，暂时无法修改分页尺寸`);
+    }
 
     const legendConfig: Types.LegendCfg = {
       ...defaultConfig,
@@ -158,9 +187,47 @@ export default function (
       }
     };
 
+    if (!hoverable) {
+      chart.removeInteraction('legend-active');
+    } else if (onHover) {
+      console.warn(`legend.onHover 已废弃，请使用 chart.on('legend-item:mouseenter', onHover)`);
+      chart.on('legend-item:mouseenter', onHover);
+    }
+
+    if (!clickable) {
+      chart.removeInteraction('legend-filter');
+    } else if (onClick) {
+      console.warn(`legend.onClick 已废弃，请使用 chart.on('legend-item:click', onClick)`);
+      chart.on('legend-item:click', onClick);
+    }
+
+    if (clickable && !allowAllCanceled) {
+      // 修改 legend 默认行为
+      chart.interaction('legend-filter', {
+        showEnable: [
+          { trigger: 'legend-item:mouseenter', action: 'cursor:pointer', isEnable: isLastLegend },
+          { trigger: 'legend-item:mouseleave', action: 'cursor:default' },
+        ],
+        start: [
+          {
+            trigger: 'legend-item:click',
+            action: ['list-unchecked:toggle', 'data-filter:filter'],
+            isEnable: isLastLegend
+          },
+        ],
+      });
+    }
+
     if (showData) {
       legendConfig.itemValue = {
-        formatter: valueFormatter,
+        formatter: (text, item, index) => {
+          // @ts-ignore
+          const value = getLastValue(item.name, this.rawData, isOneDataGroup);
+          if (valueFormatter) {
+            return valueFormatter(value, item, index);
+          }
+          return value;
+        },
       };
     }
 
@@ -291,6 +358,68 @@ export default function (
     //   }
     // }
   }
+}
+function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean) {
+  const dataGroup = getItemData(name, rawData, isOneDataGroup);
+  if (!dataGroup) {
+    return name;
+  }
+  if (isOneDataGroup) {
+    if (Array.isArray(dataGroup)) {
+      return dataGroup[1];
+    }
+    if (typeof dataGroup === 'object') {
+      return dataGroup.y;
+    }
+  } else if (!Array.isArray(dataGroup) && Array.isArray(dataGroup.data)) {
+    const len = dataGroup.data.length;
+    const lastItem = dataGroup.data[len - 1];
+
+    if (Array.isArray(lastItem)) {
+      return lastItem[1];
+    }
+    if (typeof lastItem === 'object') {
+      return lastItem.y;
+    }
+  }
+  return name;
+}
+function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean): undefined | Types.LooseObject | (number | string)[] {
+  if (!rawData) {
+    return undefined;
+  }
+
+  if (isOneDataGroup) {
+    const originData = rawData[0] || {};
+    let result = undefined;
+
+    originData.data.some((r: any) => {
+      if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
+        result = r;
+        return true;
+      }
+      return false;
+    });
+
+    // if (Array.isArray(result)) {
+    //   result = {
+    //     data: result,
+    //   };
+    // }
+
+    return result;
+  }
+
+  let originData = undefined;
+  rawData.some((r: Types.LooseObject) => {
+    if (r.data && r.name === name) {
+      originData = r;
+      return true;
+    }
+    return false;
+  });
+
+  return originData;
 }
 
 // function getRawData(config, rawData, name, isOneDataGroup) {

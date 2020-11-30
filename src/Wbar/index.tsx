@@ -150,31 +150,31 @@ export default class Wbar extends Base<WbarConfig> {
       chartCoord.transpose();
     }
 
-    // 玉玦图，需要手动添加 数据标记
-    if (config.polar && !config.column && config.dataType !== 'g2') {
-      this.rawData[0].data.forEach((d: any, i: number) => {
-        let x = d.x;
-        if (Array.isArray(d)) {
-          x = d[0];
-        } else if (
-          config.xAxis &&
-          config.xAxis.categories &&
-          config.xAxis.categories[i]
-        ) {
-          x = config.xAxis.categories[i];
-          // const y = isNaN(d) ? d[0] : d;
-        }
-
-        chart.annotation().text({
-          position: [x, 0],
-          // content: `${x}`,
-          style: {
-            fill: themes['widgets-axis-label'],
-            textAlign: 'start',
-          },
-        });
-      });
-    }
+    // // 玉玦图，需要手动添加 数据标记
+    // if (config.polar && !config.column && config.dataType !== 'g2') {
+    //   this.rawData[0].data.forEach((d: any, i: number) => {
+    //     let x = d.x;
+    //     if (Array.isArray(d)) {
+    //       x = d[0];
+    //     } else if (
+    //       config.xAxis &&
+    //       config.xAxis.categories &&
+    //       config.xAxis.categories[i]
+    //     ) {
+    //       x = config.xAxis.categories[i];
+    //       // const y = isNaN(d) ? d[0] : d;
+    //     }
+    //
+    //     chart.annotation().text({
+    //       position: [x, 0],
+    //       // content: `${x}`,
+    //       style: {
+    //         fill: themes['widgets-axis-label'],
+    //         textAlign: 'start',
+    //       },
+    //     });
+    //   });
+    // }
 
     if (config.facet) {
       const facetConfig: { type: "mirror" | "rect" | "list" | "matrix" | "circle" | "tree", transpose: boolean, padding: number[] } =

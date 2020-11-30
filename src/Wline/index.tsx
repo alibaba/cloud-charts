@@ -16,7 +16,7 @@ import rectZoom, { ZoomConfig } from "../common/rectZoom";
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
-interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
+export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
   // colors?: string[];
   // areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,

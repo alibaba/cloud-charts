@@ -19,6 +19,7 @@ export interface TooltipConfig {
   visible?: boolean;
   sort?: 'asce' | 'desc' | Function;
   showTitle?: boolean;
+  showColon?: boolean;
   position?: 'top' | 'bottom' | 'left' | 'right';
   offset?: number;
   customConfig?: Types.TooltipCfg;
@@ -49,7 +50,7 @@ export default function(
     const {
       sort,
       showTitle = true,
-      // showColon = true,
+      showColon = true,
       position,
       offset,
       // inPlot = true,
@@ -72,12 +73,8 @@ export default function(
       offset,
       shared: true,
       // inPlot,
-      // itemTpl: `<li data-index={index}>
-      //   <svg viewBox="0 0 6 6" class="g2-tooltip-marker"></svg>
-      //   <span class="g2-tooltip-item-name">{name}</span>${
-      //     showColon ? ':' : ''
-      //   }<span class="g2-tooltip-item-value">{value}</span>
-      // </li>`,
+      itemTpl: `<li class="g2-tooltip-list-item" data-index={index}><span class="g2-tooltip-marker" style="background:{color}"></span><span class="g2-tooltip-name">{name}</span>${showColon ? ': ' : ' '}<span class="g2-tooltip-value">{value}</span></li>`,
+      // 尝试自定义title，可以达到效果，但是重绘次数过多，性能差
       // customContent(title, data) {
       //   console.log(title, data);
       //   return `<div class="g2-tooltip-title">${title}</div>
