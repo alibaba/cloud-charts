@@ -70,9 +70,10 @@ class Wfunnel extends Base<WfunnelConfig> {
     rectLegend.call(this, chart, config, null, false, 'type');
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
+    rectTooltip.call(this, chart, config, {}, null, {
       showTitle: false,
-      crosshairs: null,
+      showMarkers: false,
+      showCrosshairs: false,
     });
 
     // 根据传入的 direction 和 align 设置坐标系，并绘制图形
@@ -82,7 +83,7 @@ class Wfunnel extends Base<WfunnelConfig> {
     // let percentOffsetX = 0;
     // let percentOffsetY = 0;
     const funnelShape = config.align === 'center' && config.pyramid ? 'pyramid' : 'funnel';
-  
+
     switch (drawType) {
       case 'vertical-left':
       case 'vertical-start':
