@@ -1,9 +1,22 @@
 'use strict';
 
-import G2 from '@antv/g2';
+import { Chart, Event } from '@antv/g2/esm';
+import { Types } from './types';
 
-export default class G2Connect {
-  constructor(charts = [], config = {}) {
+type Coordinate = 'x' | 'y' | 'xy';
+
+interface ConnectConfig {
+  type?: 'position' | 'data';
+  coordinate?: Coordinate;
+}
+
+class G2Connect {
+
+  charts: Chart[];
+
+  config: ConnectConfig;
+
+  constructor(charts: Chart[] = [], config: ConnectConfig = {}) {
     this.charts = [];
 
     // 配置项，后续添加数据联动等配置项
@@ -16,7 +29,7 @@ export default class G2Connect {
     this.add.apply(this, charts);
   }
 
-  add(...charts) {
+  add(...charts: Chart[]) {
     charts.forEach((chart) => {
       if (!isValidChart(chart)) {
         return;
@@ -26,15 +39,14 @@ export default class G2Connect {
         // 存储实例的引用
         this.charts.push(chart);
 
-        // 绑定事件
-        // G2 底层的事件系统 wolfy87-eventemitter 中已经有有去重逻辑，所以直接绑定事件即可。
-        chart.on('plotmove', this.handlePlotmove);
-        chart.on('plotleave', this.handlePlotleave);
+        // 绑定事件 新版G2底层事件系统没有去重，需要手动去重
+        chart.on('plot:mousemove', this.handlePlotmove);
+        chart.on('plot:mouseleave', this.handlePlotleave);
       }
     });
   }
 
-  remove(...charts) {
+  remove(...charts: Chart[]) {
     if (charts.length === 0) {
       // 清空所有绑定
       this.charts.forEach((chart) => {
@@ -42,8 +54,8 @@ export default class G2Connect {
           return;
         }
 
-        chart.off('plotmove', this.handlePlotmove);
-        chart.off('plotleave', this.handlePlotleave);
+        chart.off('plot:mousemove', this.handlePlotmove);
+        chart.off('plot:mouseleave', this.handlePlotleave);
       });
 
       this.charts = [];
@@ -59,9 +71,8 @@ export default class G2Connect {
           this.charts.splice(index, 1);
 
           // 绑定事件
-          // G2 底层的事件系统 wolfy87-eventemitter 中已经有有去重逻辑，所以直接绑定事件即可。
-          chart.off('plotmove', this.handlePlotmove);
-          chart.off('plotleave', this.handlePlotleave);
+          chart.off('plot:mousemove', this.handlePlotmove);
+          chart.off('plot:mouseleave', this.handlePlotleave);
         }
       });
     }
@@ -78,9 +89,9 @@ export default class G2Connect {
 
   handlePlotmove = (() => {
     const self = this;
-    return function (e) {
+    return function (e: Event) {
       const { type, coordinate } = self.config;
-      // 显式声明this，指向触发事件的图表实例
+      // @ts-ignore 显式声明this，指向触发事件的图表实例
       const chartInstance = this;
       const record = type === 'data' ? getRecord(chartInstance, e) : null;
       self.charts.forEach((chart) => {
@@ -100,8 +111,8 @@ export default class G2Connect {
           }
         }
 
-        // 兜底方案，根据e直接显示tooltip
-        chart.showTooltip(e);
+        // 根据e直接显示tooltip，x、y属性是 getter，会在tooltip内部处理时被忽略，这里另外读取出来传入
+        chart.showTooltip({ x: e.x, y: e.y });
       });
     }
   })();
@@ -109,7 +120,7 @@ export default class G2Connect {
   handlePlotleave = (() => {
     const self = this;
     return function () {
-      // 显式声明this，指向触发事件的图表实例
+      // @ts-ignore 显式声明this，指向触发事件的图表实例
       const chartInstance = this;
       self.charts.forEach((chart) => {
         // 过滤自身和已销毁的实例
@@ -129,20 +140,20 @@ export default class G2Connect {
  *
  * @return {boolean} 是否有效图例
  * */
-function isValidChart(chart) {
-  return chart && !chart.destroyed && chart.constructor === G2.Chart;
+function isValidChart(chart: Chart) {
+  return chart && !chart.destroyed && chart.constructor === Chart;
 }
 
 /**
  * 获取原始数据
  *
  * @param {object} chart G2图表实例
- * @param {object} e G2 plotmove 事件传入的参数
+ * @param {object} e G2 plot:mousemove 事件传入的参数
  *
  * @return {object|null} 获取的原始数据，没有找到时为 null
  * */
-function getRecord(chart, e) {
-  let record = e.data && e.data._origin;
+function getRecord(chart: Chart, e: Event) {
+  let record = e.data;
   if (!record) {
     record = chart.getSnapRecords(e);
     if (Array.isArray(record) && record[0]) {
@@ -159,17 +170,17 @@ function getRecord(chart, e) {
  * 按照coordinate设置获取正确的坐标
  *
  * @param {object} point 原始获得的坐标
- * @param {object} e G2 plotmove 事件传入的参数
+ * @param {object} e G2 plot:mousemove 事件传入的参数
  * @param {string} coordinate 坐标设置
  *
  * @return {object} 正确的坐标
  * */
-function getPoint(point, e, coordinate) {
-  if (coordinate === 'x') {
-    point.y = e.y;
+function getPoint(point: Types.Point, e: Event, coordinate: Coordinate) {
+  return {
+    ...point,
+    x: coordinate === 'y' ? e.x : point.x,
+    y: coordinate === 'x' ? e.y : point.y,
   }
-  if (coordinate === 'y') {
-    point.x = e.x;
-  }
-  return point
 }
+
+export default G2Connect;
