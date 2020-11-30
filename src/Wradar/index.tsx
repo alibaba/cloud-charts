@@ -94,7 +94,19 @@ class Wradar extends Base<WradarConfig> {
     legendFilter.call(this, chart, config);
 
     // tooltip
-    rectTooltip.call(this, chart, config);
+    rectTooltip.call(this, chart, config, {}, null, {
+      showCrosshairs: true,
+      crosshairs: {
+        type: 'xy',
+        // line: {
+        //   style: {
+        //     stroke: '#565656',
+        //     lineDash: [4],
+        //   },
+        // },
+        // follow: true
+      }
+    });
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
