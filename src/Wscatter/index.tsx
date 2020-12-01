@@ -75,7 +75,6 @@ export default class Wscatte extends Base<WscatterConfig> {
         type: 'cat',
       },
     };
-    console.log(defs.x,defs)
 
     defs.y = propertyAssign(
       propertyMap.yAxis,
