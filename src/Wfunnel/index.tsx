@@ -4,11 +4,10 @@ import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-import guide, { GuideConfig } from '../common/guide';
+import { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
 import themes from '../themes/index';
-import { pxToNumber } from '../common/common';
-
+import { pxToNumber, numberDecimal } from '../common/common';
 import './index.scss';
 
 // 3.x代码
@@ -63,7 +62,7 @@ class Wfunnel extends Base<WfunnelConfig> {
     };
 
     chart.scale(defs);
-
+    chart.interaction('element-active');
     chart.axis(false);
     chart.data(data);
 
@@ -71,18 +70,29 @@ class Wfunnel extends Base<WfunnelConfig> {
     rectLegend.call(this, chart, config, null, true);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {}, null, {
-      showTitle: false,
-      showMarkers: false,
-      showCrosshairs: false,
-    });
+    rectTooltip.call(
+      this,
+      chart,
+      config,
+      {
+        showTitle: false,
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+      (ev: any) => {},
+      {
+        showTitle: false,
+        showMarkers: false,
+        showCrosshairs: false,
+      },
+    );
 
     // 根据传入的 direction 和 align 设置坐标系，并绘制图形
     const drawType = `${config.direction}-${config.align}`;
     let geom = null;
-    // const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
-    // let percentOffsetX = 0;
-    // let percentOffsetY = 0;
+    const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
+    let percentOffsetX = 0;
+    let percentOffsetY = 0;
     const funnelShape = config.align === 'center' && config.pyramid ? 'pyramid' : 'funnel';
 
     switch (drawType) {
@@ -93,17 +103,17 @@ class Wfunnel extends Base<WfunnelConfig> {
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors);
-        // percentOffsetX = 3 * fontSize1;
+        percentOffsetX = 3 * fontSize1;
         break;
       case 'vertical-center':
         chart.coordinate('rect').transpose().scale(1, -1);
         geom = chart.interval()
-          .position('x*y')
-          .shape(funnelShape)
-          .color('x', config.colors)
           .adjust([{
             type: 'symmetric',
-          }]);
+          }])
+          .position('x*y')
+          .shape(funnelShape)
+          .color('x', config.colors);
         break;
       case 'vertical-right':
       case 'vertical-end':
@@ -112,7 +122,7 @@ class Wfunnel extends Base<WfunnelConfig> {
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors);
-        // percentOffsetX = -3 * fontSize1;
+        percentOffsetX = -3 * fontSize1;
         break;
       case 'horizontal-top':
       case 'horizontal-start':
@@ -121,7 +131,7 @@ class Wfunnel extends Base<WfunnelConfig> {
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors);
-        // percentOffsetY = 3 * fontSize1;
+        percentOffsetY = 3 * fontSize1;
         break;
       case 'horizontal-center':
         geom = chart.interval()
@@ -140,52 +150,57 @@ class Wfunnel extends Base<WfunnelConfig> {
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors);
-        // percentOffsetY = -3 * fontSize1;
+        percentOffsetY = -3 * fontSize1;
     }
-
-    label(geom, config, 'y', {
-      offset: pxToNumber(themes['widgets-font-size-1']),
-      labelLine: {
-        style: {
-          lineWidth: 1,
-          stroke: themes['widgets-axis-line'],
-        },
-      },
-    });
 
     const geomStyle = config.geomStyle || {};
     geom.style({
       ...geomStyle,
     });
 
-    // 绘制辅助线，辅助背景区域
-    guide(chart, config);
+    // TODO 自定义label
+    if(config.label) {
+      let temp = {};
+      temp = config.label || {};
+      geom.label('y', 
+      {
+        offset: pxToNumber(themes['widgets-font-size-1']),
+        labelLine: {
+          style: {
+            lineWidth: 1,
+            stroke: themes['widgets-axis-line'],
+          },
+        },
+        ...temp,
+      });
+    }
 
-    // renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
+    // 绘制辅助线，辅助背景区域
+    renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
   }
 
   changeData(chart: Chart, config: WfunnelConfig, data: ChartData) {
     chart.changeData(data);
 
     const drawType = `${config.direction}-${config.align}`;
-    // const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
-    // let percentOffsetX = 0;
-    // let percentOffsetY = 0;
+    const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
+    let percentOffsetX = 0;
+    let percentOffsetY = 0;
 
     switch (drawType) {
       case 'vertical-left':
       case 'vertical-start':
-        // percentOffsetX = 3 * fontSize1;
+        percentOffsetX = 3 * fontSize1;
         break;
       case 'vertical-center':
         break;
       case 'vertical-right':
       case 'vertical-end':
-        // percentOffsetX = -3 * fontSize1;
+        percentOffsetX = -3 * fontSize1;
         break;
       case 'horizontal-top':
       case 'horizontal-start':
-        // percentOffsetY = 3 * fontSize1;
+        percentOffsetY = 3 * fontSize1;
         break;
       case 'horizontal-center':
         break;
@@ -193,52 +208,59 @@ class Wfunnel extends Base<WfunnelConfig> {
       // case 'horizontal-end':
       // 和 default 时相同
       default:
-        // percentOffsetY = -3 * fontSize1;
+        percentOffsetY = -3 * fontSize1;
     }
-    // renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
+    renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
   }
 }
 
-// function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, percentOffsetX: number, percentOffsetY: number) {
-//   chart.guide().clear(true);
+function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, percentOffsetX: number, percentOffsetY: number) {
+  // 中间标签文本
+  chart.annotation().clear(true);
+  let configPercent = config.percent;
 
-//   // 绘制辅助线，辅助背景区域
-//   guide(chart, config);
+  if (!configPercent) {
+    return;
+  }
 
-//   // 中间标签文本
-//   if (!config.percent) {
-//     return;
-//   }
-//   const { labelFormatter, offsetX = 0, offsetY = 0, top = true, style = {} } = config.percent;
-//   const positionY = config.align === 'center' ? 'median' : 'start';
+  if (configPercent === true) {
+    configPercent = {};
+  }
 
-//   data.forEach((d, i) => {
-//     let content = `${numberDecimal(100 * d.y / data[0].y)}%`;
-//     if (labelFormatter) {
-//       content = labelFormatter(d.y / data[0].y, d, i);
-//     }
-//     const textConfig = {
-//       top,
-//       offsetX: percentOffsetX + offsetX,
-//       offsetY: percentOffsetY + offsetY,
-//       position: {
-//         x: d.x,
-//         y: positionY,
-//       },
-//       content,
-//       style: {
-//         fill: themes['widgets-label-text'],
-//         fontSize: pxToNumber(themes['widgets-font-size-1']),
-//         textAlign: 'center',
-//         shadowBlur: 2,
-//         shadowColor: 'rgba(255, 255, 255, .3)',
-//         ...style,
-//       },
-//     };
+  const {
+    labelFormatter,
+    offsetX = 0,
+    offsetY = 0,
+    top = true,
+    style = {}
+  } = configPercent;
+  const positionY = config.align === 'center' ? 'median' : 'start';
 
-//     chart.guide().text(textConfig);
-//   });
-// }
+  data.forEach((d: { y: number; x: any; }, i: any) => {
+    let content = `${numberDecimal(100 * d.y / data[0].y)}%`;
+    if (labelFormatter) {
+      content = labelFormatter(d.y / data[0].y, d, i);
+    }
+    chart.annotation().text({
+      top,
+      position: [
+        d.x,
+        positionY,
+      ],
+      offsetX: percentOffsetX + offsetX,
+      offsetY: percentOffsetY + offsetY,
+      content: content, // 显示的文本内容
+      style: {
+        fill: themes['widgets-label-text'],
+        fontSize: pxToNumber(themes['widgets-font-size-1']),
+        textAlign: 'center',
+        shadowBlur: 2,
+        shadowColor: 'rgba(255, 255, 255, .3)',
+        ...style,
+      },
+    });
+  });
+}
 
 export default Wfunnel;
 
