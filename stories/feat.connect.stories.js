@@ -76,7 +76,7 @@ class ConnectDemo extends React.Component{
     new Util.Connect([this.chart1, this.chart2], {
       custom(e, target, source) {
         console.log(e, target)
-        target.showTooltip(e);
+        target.showTooltip({ x: e.x, y: e.y });
       }
     });
   }
