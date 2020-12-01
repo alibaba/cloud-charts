@@ -34,7 +34,8 @@ class Wfunnel extends Base<WfunnelConfig> {
     return {
       colors: themes.order_10,
       legend: {
-        align: 'left',
+        position: 'top',
+        align: '',
         nameFormatter: null, // 可以强制覆盖，手动设置label
       },
       tooltip: {
@@ -67,7 +68,7 @@ class Wfunnel extends Base<WfunnelConfig> {
     chart.data(data);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend.call(this, chart, config, null, true);
 
     // tooltip
     rectTooltip.call(this, chart, config, {}, null, {
