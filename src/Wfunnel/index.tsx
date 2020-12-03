@@ -5,7 +5,7 @@ import Base from '../common/Base';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
-import label, { LabelConfig } from '../common/label';
+import { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import { pxToNumber, numberDecimal } from '../common/common';
 import './index.scss';
