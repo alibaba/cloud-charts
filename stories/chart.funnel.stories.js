@@ -24,9 +24,40 @@ stories.add('漏斗图', () => (
 const directionData = [
   {
     "name":"柱1",
-    "data":[["一", 100], ["二", 94], ["三", 86], ["四", 71], ["五", 67], ["六", 54]]
+    "data":[["一", 100], ["二", 75], ["三", 50], ["四", 20], ["五", 10], ["六", 8]]
   }
 ];
+
+const directionData_2 = [
+  {
+    "name":"柱1",
+    "data":[["一", 100], ["二", 40], ["三", 20], ["四", 15], ["五", 10], ["六", 6]]
+  }
+];
+
+class NewData extends React.Component {
+  state = {
+    data: directionData
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      let t = Date.now();
+
+      this.setState({
+        data: directionData_2,
+      })
+    }, 2000);
+  }
+
+  render(){
+    return (
+      <Wcontainer className="demos">
+        <Wfunnel height="300" config={{}} data={this.state.data}/>
+      </Wcontainer>
+    );
+  }
+}
 stories.add('纵向-左侧', () => (
   <Wcontainer className="demos">
     <Wfunnel
@@ -35,6 +66,7 @@ stories.add('纵向-左侧', () => (
       config={{
         direction: 'vertical',
         align: 'left',
+        label: true,
       }}
       data={directionData}
     />
@@ -43,13 +75,12 @@ stories.add('纵向-左侧', () => (
 stories.add('纵向-中间', () => (
   <Wcontainer className="demos">
     <Wfunnel
-      width={500}
       height="300"
       config={{
-        padding: [20, 20, 20, 20],
+        // padding: [20, 20, 20, 20],
         direction: 'vertical',
         align: 'center',
-        label: true,
+        label: false,
       }}
       data={directionData}
     />
@@ -63,6 +94,7 @@ stories.add('纵向-右侧', () => (
       config={{
         direction: 'vertical',
         align: 'right',
+        label: true,
       }}
       data={directionData}
     />
@@ -77,6 +109,7 @@ stories.add('横向-顶部', () => (
       config={{
         direction: 'horizontal',
         align: 'top',
+        label: true,
       }}
       data={directionData}
     />
@@ -91,6 +124,7 @@ stories.add('横向-中间', () => (
         padding: [20, 20, 20, 20],
         direction: 'horizontal',
         align: 'center',
+        label: true,
       }}
       data={directionData}
     />
@@ -104,8 +138,13 @@ stories.add('横向-底部', () => (
       config={{
         direction: 'horizontal',
         align: 'bottom',
+        label: true,
       }}
       data={directionData}
     />
   </Wcontainer>
+));
+
+stories.add('动态数据', () => (
+  <NewData />
 ));

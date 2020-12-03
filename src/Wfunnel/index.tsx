@@ -178,40 +178,6 @@ class Wfunnel extends Base<WfunnelConfig> {
     // 绘制辅助线，辅助背景区域
     renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
   }
-
-  changeData(chart: Chart, config: WfunnelConfig, data: ChartData) {
-    chart.changeData(data);
-
-    const drawType = `${config.direction}-${config.align}`;
-    const fontSize1 = pxToNumber(themes['widgets-font-size-1']);
-    let percentOffsetX = 0;
-    let percentOffsetY = 0;
-
-    switch (drawType) {
-      case 'vertical-left':
-      case 'vertical-start':
-        percentOffsetX = 3 * fontSize1;
-        break;
-      case 'vertical-center':
-        break;
-      case 'vertical-right':
-      case 'vertical-end':
-        percentOffsetX = -3 * fontSize1;
-        break;
-      case 'horizontal-top':
-      case 'horizontal-start':
-        percentOffsetY = 3 * fontSize1;
-        break;
-      case 'horizontal-center':
-        break;
-      // case 'horizontal-bottom':
-      // case 'horizontal-end':
-      // 和 default 时相同
-      default:
-        percentOffsetY = -3 * fontSize1;
-    }
-    renderGuide(chart, config, data, percentOffsetX, percentOffsetY);
-  }
 }
 
 function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, percentOffsetX: number, percentOffsetY: number) {
@@ -236,7 +202,7 @@ function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, perce
   } = configPercent;
   const positionY = config.align === 'center' ? 'median' : 'start';
 
-  data.forEach((d: { y: number; x: any; }, i: any) => {
+  data.forEach((d: { y: any; x: any; }, i: any) => {
     let content = `${numberDecimal(100 * d.y / data[0].y)}%`;
     if (labelFormatter) {
       content = labelFormatter(d.y / data[0].y, d, i);
