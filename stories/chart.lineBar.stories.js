@@ -330,7 +330,7 @@ class NewLegendData extends React.Component {
           "stack":true,
           legend: {
             position: 'top',
-            align: 'center',
+            align: 'left',
           }
         }} data={this.state.data} />
       </Wcontainer>

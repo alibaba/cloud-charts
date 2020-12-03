@@ -435,14 +435,21 @@ class Wlinebar extends Base<WlinebarConfig> {
     this.lineView && this.lineView.changeData(lineData);
 
     if (this.barView && this.lineView) {
+      const chartOptions = chart.getOptions();
       const legend = chart.getController('legend');
       const legendCos = legend.getComponents();
       // 图例项可见，更新图例项
-      if (legend.visible && legendCos.length > 0) {
-        const newItems = getLegendItems(rawLineData, rawBarData, this.lineView.geometries[0], this.barView.geometries[0], config);
-        chart.legend({
-          items: newItems
-        });
+      if (legend.visible && legendCos.length > 0 && typeof chartOptions.legends === 'object') {
+        chartOptions.legends.items = getLegendItems(
+          rawLineData,
+          rawBarData,
+          this.lineView.geometries[0],
+          this.barView.geometries[0],
+          config
+        );
+        // chart.legend({
+        //   items: newItems
+        // });
       }
     }
 
