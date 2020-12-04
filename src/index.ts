@@ -1,3 +1,6 @@
+// 设置Console主题
+import './theme';
+
 export { default as ConsoleBarChart } from './ConsoleBarChart';
 export { default as ConsoleCircleChart } from './ConsoleCircleChart';
 export { default as ConsoleCountChart } from './ConsoleCountChart';

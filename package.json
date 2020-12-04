@@ -19,7 +19,9 @@
   },
   "sideEffects": [
     "*.scss",
-    "*.css"
+    "*.css",
+    "lib/theme.js",
+    "es/theme.js"
   ],
   "keywords": [
     "charts",
