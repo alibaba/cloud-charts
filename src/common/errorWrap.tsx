@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Chart } from './types';
+import { BaseChartConfig, Chart } from './types';
+import Base, { ChartProps } from './Base';
 
-interface ErrorProps {
-  className?: string;
-  style?: React.CSSProperties;
+interface ErrorProps extends ChartProps<BaseChartConfig> {
   forwardedRef?: React.Ref<any>;
 }
 
@@ -18,7 +17,7 @@ interface ErrorState {
  *
  * @return {React.Component}
  * */
-export default /*#__PURE__*/function errorWrap(Component: React.ComponentClass) {
+export default /*#__PURE__*/function errorWrap<T extends Base<{}> & React.ComponentClass>(Component: T) {
   class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
@@ -69,7 +68,8 @@ export default /*#__PURE__*/function errorWrap(Component: React.ComponentClass) 
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
       // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
-      return <Component ref={forwardedRef} {...rest} />;
+      // @ts-ignore
+      return (<Component ref={forwardedRef} {...rest} />);
     }
   }
 
@@ -84,8 +84,8 @@ export default /*#__PURE__*/function errorWrap(Component: React.ComponentClass) 
     result.propTypes = Component.propTypes;
     result.defaultProps = Component.defaultProps;
 
-    return result;
+    return result as unknown as T;
   }
 
-  return ErrorBoundary;
+  return ErrorBoundary as unknown as T;
 }
