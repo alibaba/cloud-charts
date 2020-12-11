@@ -60,7 +60,7 @@
     margin-left: var(--s2, 8px); }
   .cloud-wcircle .cloud-wcircle-leftIcon {
     position: relative;
-    margin-right: var(--s1, 4px)/2; }
+    margin-right: 2px; }
     .cloud-wcircle .cloud-wcircle-leftIcon > .drop {
       color: var(--widgets-color-red, #E62412); }
     .cloud-wcircle .cloud-wcircle-leftIcon > .raise {

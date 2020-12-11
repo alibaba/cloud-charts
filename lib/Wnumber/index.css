@@ -19,7 +19,7 @@
       color: var(--widgets-color-red, #E62412); }
     .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon {
       position: relative;
-      margin-right: var(--s1, 4px)/2; }
+      margin-right: 2px; }
       .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon > .drop, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon > .drop {
         color: var(--widgets-color-red, #E62412); }
       .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-leftIcon > .raise, .cloud-wnumber .cloud-wnumber-main .cloud-wnumber-rightRatioIcon > .raise {

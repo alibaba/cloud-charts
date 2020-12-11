@@ -100,7 +100,7 @@
 
   #{$wcircle-prefix}-leftIcon{
     position:relative;
-    margin-right: $size-1 / 2;
+    margin-right: $size-half;
 
     >.drop {
       color: $red;
