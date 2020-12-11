@@ -1,3 +1,15 @@
+### 0.1.9 (2020-12-11)
+
+#### Refactor
+
+- style(g2Theme.js): add userSelect attribute to prevent users from selecting text of the legend
+
+#### Bug Fixes
+
+- 一些scss样式计算错误，导致被 less 引用时报错
+
+- 饼图图例出现滚动条(Chrome 87)
+
 ### 0.1.8 (2020-11-20)
 
 #### New Features
