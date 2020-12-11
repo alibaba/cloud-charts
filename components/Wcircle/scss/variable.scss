@@ -15,5 +15,6 @@ $orange: getVar(widgets-color-orange, $widgets-color-orange);
 $red: getVar(widgets-color-red, $widgets-color-red);
 $empty: getVar(widgets-circle-stroke-background, $widgets-circle-stroke-background);
 
+$size-half: $s1 / 2;
 $size-1: getVar(s1, $s1);
 $size-2: getVar(s2, $s2);
