@@ -12,6 +12,7 @@ function getLegendHtmlContainer(themes) {
     fontSize: themes['widgets-font-size-1'],
     lineHeight: 1,
     color: themes['widgets-legend-text'],
+    userSelect: 'none',
   };
 }
 
