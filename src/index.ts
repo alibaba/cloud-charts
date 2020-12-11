@@ -34,6 +34,7 @@ export { default as WmultiPie } from './Wmultipie';
 export { default as Wbox } from './Wbox';
 export { default as Wsankey } from './Wsankey';
 export { default as Wscatter } from './Wscatter';
+export { default as Whistogram } from './Whistogram';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
