@@ -9,9 +9,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from "../common/label";
-
-// import errorWrap from '../common/errorWrap';
-// import merge from '../common/merge';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import autoTimeMask from '../common/autoTimeMask';
@@ -37,7 +35,7 @@ interface WscatterConfig extends BaseChartConfig {
 }
 
 
-export default class Wscatte extends Base<WscatterConfig> {
+class Wscatter extends Base<WscatterConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Line';
   getDefaultConfig(): WscatterConfig {
@@ -169,4 +167,6 @@ export default class Wscatte extends Base<WscatterConfig> {
 
     chart.render();
   }
-};
+}
+
+export default errorWrap(Wscatter);

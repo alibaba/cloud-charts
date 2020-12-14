@@ -5,7 +5,7 @@ import Base, { ChartProps } from "../common/Base";
 import { MarkerSymbols } from "@antv/g2/esm/util/marker";
 import { getShapeFactory } from "@antv/g2/esm/core";
 // import { getMappingValue } from "@antv/g2/esm/util/attr";
-// import errorWrap from '../common/errorWrap';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
 import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
@@ -458,7 +458,7 @@ class Wlinebar extends Base<WlinebarConfig> {
   }
 }
 
-export default Wlinebar;
+export default errorWrap(Wlinebar);
 
 interface BarConfig {
   barColors?: string[];

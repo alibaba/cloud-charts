@@ -3,7 +3,7 @@
 // import Brush from '@antv/g2-brush';
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
@@ -40,7 +40,7 @@ interface WbarConfig extends BaseChartConfig {
   // geomStyle?: Types.LooseObject;
 }
 
-export default class Wbar extends Base<WbarConfig> {
+class Wbar extends Base<WbarConfig> {
   chartName = 'G2Bar';
   getDefaultConfig(): WbarConfig {
     return {
@@ -319,7 +319,9 @@ export default class Wbar extends Base<WbarConfig> {
   //     this.resetButton.destroy();
   //   }
   // }
-};
+}
+
+export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;

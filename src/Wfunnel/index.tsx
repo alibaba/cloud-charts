@@ -2,6 +2,7 @@
 // 新增
 import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
+import errorWrap from '../common/errorWrap';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
@@ -162,7 +163,7 @@ class Wfunnel extends Base<WfunnelConfig> {
     if(config.label) {
       let temp = {};
       temp = config.label || {};
-      geom.label('y', 
+      geom.label('y',
       {
         offset: pxToNumber(themes['widgets-font-size-1']),
         labelLine: {
@@ -228,7 +229,7 @@ function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, perce
   });
 }
 
-export default Wfunnel;
+export default errorWrap(Wfunnel);
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Funnel', {
 //   getDefaultConfig() {

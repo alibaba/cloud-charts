@@ -1,8 +1,9 @@
 'use strict';
 
 import Wline, { WlineConfig } from '../Wline';
+import errorWrap from '../common/errorWrap';
 
-class Wminiline extends Wline {
+class Wminiline extends Wline.RawChart {
   chartName = 'G2MiniLine';
 
   getDefaultConfig(): WlineConfig {
@@ -28,4 +29,4 @@ class Wminiline extends Wline {
   }
 }
 
-export default Wminiline;
+export default errorWrap(Wminiline);

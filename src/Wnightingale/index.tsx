@@ -2,6 +2,7 @@
 // 新增
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from '../common/Base';
+import errorWrap from '../common/errorWrap';
 // 引入所需要的库和样式, 3.0修改
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
@@ -96,7 +97,8 @@ class Wnightingale extends Base<WnightingaleConfig> {
     });
   }
 }
-export default Wnightingale;
+
+export default errorWrap(Wnightingale);
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。

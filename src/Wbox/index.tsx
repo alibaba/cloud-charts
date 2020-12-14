@@ -1,9 +1,8 @@
 'use strict';
 
-// import errorWrap from '../common/errorWrap';
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-// import merge from '../common/merge';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
@@ -35,7 +34,6 @@ interface WboxConfig extends BaseChartConfig {
   // 剩余部分自行定义
 }
 
-export default
 class Wbox extends Base<WboxConfig> {
 
   chartName = 'G2Box';
@@ -133,7 +131,9 @@ class Wbox extends Base<WboxConfig> {
     drawBox(chart, config, config.colors);
 
   }
-};
+}
+
+export default errorWrap(Wbox);
 
 function drawBox(chart: Chart, config: WboxConfig, colors: string[], field = 'type') {
   const { dodge, marginRatio } = config;

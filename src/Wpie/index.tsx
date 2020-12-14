@@ -11,7 +11,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
 import { FullCrossName } from '../constants';
-// import errorWrap from '../common/errorWrap';
+import errorWrap from '../common/errorWrap';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -414,4 +414,4 @@ class Wpie extends Base<WpieConfig> {
   }
 }
 
-export default Wpie;
+export default errorWrap(Wpie);

@@ -13,6 +13,7 @@ import '@antv/data-set/lib/transform/geo/projection';
 import '@antv/data-set/lib/transform/geo/region';
 import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base, { ChartProps, rootClassName } from "../common/Base";
+import errorWrap from '../common/errorWrap';
 // @ts-ignore
 import chinaGeo from './mapData/chinaGeo.json';
 import SouthChinaSea from './mapData/southChinaSea';
@@ -1009,4 +1010,4 @@ function getProjectionPosition(point: Types.LooseObject, view: DataView, project
 //   }
 // }
 
-export default Wmap;
+export default errorWrap(Wmap);

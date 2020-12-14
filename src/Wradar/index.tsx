@@ -2,6 +2,7 @@
 // 依赖更新部分
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
+import errorWrap from '../common/errorWrap';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -115,7 +116,7 @@ class Wradar extends Base<WradarConfig> {
   }
 }
 
-export default Wradar;
+export default errorWrap(Wradar);
 
 // 2.x版本
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。

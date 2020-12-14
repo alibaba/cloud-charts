@@ -2,7 +2,7 @@
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-// import errorWrap from '../common/errorWrap';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide, { GuideConfig } from '../common/guide';
@@ -160,7 +160,7 @@ class Wline extends Base<WlineConfig> {
   }
 }
 
-export default Wline;
+export default errorWrap(Wline);
 
 // /*#__PURE__*/errorWrap(g2Factory('G2Line', {
 //   beforeInit(props) {

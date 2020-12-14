@@ -4,7 +4,7 @@ import '@antv/data-set/lib/transform/bin/histogram';
 
 import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
-
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 
@@ -90,14 +90,14 @@ class Whistogram extends Base<WhistogramConfig> {
         type: 'cat',
       },
     };
-  
+
     const dataView = computerData(config, data);
 
     chart.scale(defs);
 
     chart.data(dataView.rows);
 
-    
+
     // 设置X轴
     rectXAxis.call(this, chart, config);
 
@@ -200,7 +200,8 @@ function computerData(config: WhistogramConfig, data: ChartData) {
 
   return dv;
 }
-export default Whistogram;
+
+export default errorWrap(Whistogram);
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Histogram', {
 //   // convertData: false,

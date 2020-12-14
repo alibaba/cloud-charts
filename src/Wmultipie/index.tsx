@@ -11,7 +11,7 @@ import { numberDecimal } from '../common/common';
 // import { getDrawPadding, G2PieBase } from '../Wpie/G2Pie';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-// import errorWrap from '../common/errorWrap';
+import errorWrap from '../common/errorWrap';
 import './index.scss';
 
 interface WmultipieConfig extends BaseChartConfig {
@@ -248,7 +248,7 @@ class Wmultipie extends Base<WmultipieConfig> {
   }
 }
 
-export default Wmultipie;
+export default errorWrap(Wmultipie);
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({}, G2PieBase, {
 //   convertData: false,

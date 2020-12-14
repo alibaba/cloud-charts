@@ -17,11 +17,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
 import { LabelConfig } from "../common/label";
-
-// import merge from '../Util';
 import themes from '../themes/index';
-// import merge from '../common/merge';
-
+import errorWrap from '../common/errorWrap';
 import './index.scss';
 
 function getEdges(d: { links: any; }) {
@@ -37,7 +34,7 @@ interface WsankeyConfig extends BaseChartConfig {
   // 剩余部分自行定义
 }
 
-export default class Wsankey extends Base<WsankeyConfig> {
+class Wsankey extends Base<WsankeyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Sankey';
 
@@ -150,7 +147,7 @@ export default class Wsankey extends Base<WsankeyConfig> {
 
     chart.render();
   }
-  
+
   changeData(chart: Chart, newConfig: WsankeyConfig, rawData: any) {
     if (this.sankeyDataView && this.nodeView && this.edgeView) {
       const data = rawData;
@@ -164,4 +161,6 @@ export default class Wsankey extends Base<WsankeyConfig> {
       chart.render();
     }
   }
-};
+}
+
+export default errorWrap(Wsankey);

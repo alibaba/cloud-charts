@@ -1,7 +1,7 @@
 'use strict';
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from '../common/Base';
-
+import errorWrap from '../common/errorWrap';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -160,7 +160,8 @@ class Wheatmap extends Base<WheatmapConfig> {
     });
   }
 }
-export default Wheatmap;
+
+export default errorWrap(Wheatmap);
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
 //   getDefaultConfig() {

@@ -4,6 +4,7 @@ import '@antv/data-set/lib/transform/hierarchy/treemap';
 
 import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import { XAxisConfig } from '../common/rectXAxis';
@@ -77,7 +78,7 @@ class Wtreemap extends Base<WtreemapConfig> {
         nice: true,
       }, config.yAxis)
     };
-  
+
     const dataView = processDataView(data);
     const nodes = parseDataView(dataView);
 
@@ -282,7 +283,7 @@ function getNodeValue(n: any) {
   return n.data.value;
 }
 
-export default Wtreemap;
+export default errorWrap(Wtreemap);
 
 // export default /*#__PURE__*/ errorWrap(
 //   g2Factory('G2Treemap', {
