@@ -431,8 +431,8 @@ class Wlinebar extends Base<WlinebarConfig> {
       // type: 'barType',
     });
 
-    this.barView && this.barView.changeData(barData);
-    this.lineView && this.lineView.changeData(lineData);
+    this.barView && this.barView.data(barData);
+    this.lineView && this.lineView.data(lineData);
 
     if (this.barView && this.lineView) {
       const chartOptions = chart.getOptions();
