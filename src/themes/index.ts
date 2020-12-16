@@ -43,7 +43,7 @@ themeMap.index = themeMap.normal;
 // 默认主题包
 const defaultThemeName = process.env.NODE_ENV === 'production' ? THEME : 'normal';
 
-interface Themes extends Theme {
+export interface Themes extends Theme {
   getTheme: typeof getTheme;
   setTheme: typeof setTheme;
 }

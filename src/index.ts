@@ -1,13 +1,13 @@
 import { VERSION } from './constants';
-import themes from './themes/index';
+import themes, { Themes } from './themes/index';
 import './index.scss';
 
 export const version = VERSION;
 export { VERSION } ;
 
 // 主题包和颜色值
-export const COLORS = themes;
-export const THEMES = themes;
+export const COLORS: Themes = themes;
+export const THEMES: Themes = themes;
 export { themes };
 
 // 打点控制

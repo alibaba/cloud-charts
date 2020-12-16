@@ -30,9 +30,7 @@
     "package.json",
     "README.md",
     "CHANGELOG.md",
-    "index.d.ts",
     "font",
-    "demo/",
     "lib/",
     "es/",
     "build/"
