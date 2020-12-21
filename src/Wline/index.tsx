@@ -2,7 +2,7 @@
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-import errorWrap, { ChartWithRaw } from '../common/errorWrap';
+import errorWrap from '../common/errorWrap';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide, { GuideConfig } from '../common/guide';
@@ -40,7 +40,7 @@ export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig
   // step?: string | boolean,
 }
 
-class Line extends Base<WlineConfig> {
+export class Line extends Base<WlineConfig> {
   chartName = 'G2Line';
 
   getDefaultConfig(): WlineConfig {
@@ -167,7 +167,7 @@ class Line extends Base<WlineConfig> {
 }
 
 /** Wline 折线图 */
-const Wline: ChartWithRaw<typeof Line> = errorWrap(Line);
+const Wline: typeof Line = errorWrap(Line);
 
 export default Wline;
 

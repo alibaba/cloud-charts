@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { BaseChartConfig, Chart } from './types';
 import { BaseClass, ChartProps } from './Base';
-import { ComponentClass } from 'react';
 
 interface ErrorProps {
   forwardedRef?: React.Ref<any>;
@@ -11,27 +10,11 @@ interface ErrorState {
   errorStack?: string | null;
 }
 
-// interface BaseClass<P = {}> {
-//   defaultProps?: Partial<P>;
-//   displayName?: string;
-// }
-//
-// interface ChartWithRaw<T> extends React.ComponentClass {
-//   RawChart: T
-// }
-
-// export type ChartWithRaw<T> = T & { RawChart: T };
-
-// @ts-ignore
-export interface ChartWithRaw<T extends ComponentClass> extends T {
-  RawChart: T;
-}
-
 /**
  * errorWrap 错误捕获HOC
  *
  * */
-/*#__PURE__*/function errorWrap<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: BaseClass<ChartConfig, Props>): ChartWithRaw<typeof Component> {
+/*#__PURE__*/function errorWrap<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: BaseClass<ChartConfig, Props>): typeof Component {
   class ErrorBoundary extends React.Component<Props & ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
@@ -100,10 +83,10 @@ export interface ChartWithRaw<T extends ComponentClass> extends T {
     // result.propTypes = Component.propTypes;
     result.defaultProps = Component.defaultProps;
 
-    return result as unknown as ChartWithRaw<BaseClass<ChartConfig, Props>>;
+    return result as unknown as BaseClass<ChartConfig, Props>;
   }
 
-  return ErrorBoundary as unknown as ChartWithRaw<BaseClass<ChartConfig, Props>>;
+  return ErrorBoundary as unknown as BaseClass<ChartConfig, Props>;
 }
 
 export default errorWrap;
