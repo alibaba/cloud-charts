@@ -58,9 +58,7 @@ export interface ChartProps<ChartConfig> {
  * @template Props 泛型 - Props参数
  * */
 class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>> extends React.Component<Props> {
-  static defaultProps = {
-    config: {},
-  };
+  static defaultProps? = {};
 
   static isG2Chart = true;
 
@@ -95,37 +93,37 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   // 图表生命周期
 
   /** 是否自动转换数据格式 */
-  protected convertData: boolean = true;
+  public convertData: boolean = true;
 
   /** 获取图表默认配置项 */
-  protected getDefaultConfig(): ChartConfig {
+  public getDefaultConfig(): ChartConfig {
     return ({} as ChartConfig);
   }
 
   /** 初始化前对props额外处理 */
-  protected beforeInit?(props: Props): Props;
+  public beforeInit?(props: Props): Props;
 
   /** 初始化函数 */
-  protected init(chart: Chart, config: ChartConfig, data: ChartData): void { };
+  public init(chart: Chart, config: ChartConfig, data: ChartData): void { };
 
   /** 自定义判断配置项是否更改 */
-  protected isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
+  public isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
   /** 更新数据 */
-  protected changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
+  public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
   };
 
   /** 更新尺寸 */
-  protected changeSize(chart: Chart, config: ChartConfig, width: number, height: number): void {
+  public changeSize(chart: Chart, config: ChartConfig, width: number, height: number): void {
     chart && chart.changeSize(width, height);
   };
 
   /** @deprecated 图表渲染后回调 */
-  protected afterRender?(config: ChartConfig): void;
+  public afterRender?(config: ChartConfig): void;
 
   /** 销毁图表 */
-  protected destroy?(): void;
+  public destroy?(): void;
 
 
   // 基类自己的生命周期
@@ -501,3 +499,10 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 // Base.baseClassName = rootClassName + name;
 
 export default Base;
+
+export interface BaseClass<ChartConfig, Props = {}> {
+  new (props: Props): Base<ChartConfig, Props>;
+  isG2Chart: boolean;
+  displayName?: string;
+  defaultProps?: Partial<Props>;
+}

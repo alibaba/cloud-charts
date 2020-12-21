@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { BaseChartConfig, Chart } from './types';
-import { ChartProps } from './Base';
+import { BaseClass, ChartProps } from './Base';
+import { ComponentClass } from 'react';
 
-interface ErrorProps extends ChartProps<BaseChartConfig> {
+interface ErrorProps {
   forwardedRef?: React.Ref<any>;
 }
 
@@ -10,26 +11,31 @@ interface ErrorState {
   errorStack?: string | null;
 }
 
-interface ChartWithRaw<T> extends React.ComponentClass {
-  RawChart: T
+// interface BaseClass<P = {}> {
+//   defaultProps?: Partial<P>;
+//   displayName?: string;
+// }
+//
+// interface ChartWithRaw<T> extends React.ComponentClass {
+//   RawChart: T
+// }
+
+// export type ChartWithRaw<T> = T & { RawChart: T };
+
+// @ts-ignore
+export interface ChartWithRaw<T extends ComponentClass> extends T {
+  RawChart: T;
 }
 
 /**
  * errorWrap 错误捕获HOC
  *
- * @param {React.Component} Component 组件
- *
- * @return {React.Component}
  * */
-export default /*#__PURE__*/function errorWrap<T extends React.ComponentClass>(Component: T) {
-  // interface ChartWithRaw extends T {
-  //   RawChart: T
-  // }
-
-  class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
+/*#__PURE__*/function errorWrap<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: BaseClass<ChartConfig, Props>): ChartWithRaw<typeof Component> {
+  class ErrorBoundary extends React.Component<Props & ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
-    static propTypes = Component.propTypes;
+    // static propTypes = Component.propTypes;
     static defaultProps = Component.defaultProps;
     static RawChart = Component;
 
@@ -77,8 +83,7 @@ export default /*#__PURE__*/function errorWrap<T extends React.ComponentClass>(C
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
       // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
-      // @ts-ignore
-      return (<Component ref={forwardedRef} {...rest} />);
+      return (<Component ref={forwardedRef} {...rest as Props} />);
     }
   }
 
@@ -89,14 +94,16 @@ export default /*#__PURE__*/function errorWrap<T extends React.ComponentClass>(C
     const result = React.forwardRef(forwardRefFunc);
     // @ts-ignore
     result.isG2Chart = true;
-    result.displayName = Component.displayName;
-    result.propTypes = Component.propTypes;
-    result.defaultProps = Component.defaultProps;
     // @ts-ignore
     result.RawChart = Component;
+    result.displayName = Component.displayName;
+    // result.propTypes = Component.propTypes;
+    result.defaultProps = Component.defaultProps;
 
-    return result as unknown as ChartWithRaw<T>;
+    return result as unknown as ChartWithRaw<BaseClass<ChartConfig, Props>>;
   }
 
-  return ErrorBoundary as unknown as ChartWithRaw<T>;
+  return ErrorBoundary as unknown as ChartWithRaw<BaseClass<ChartConfig, Props>>;
 }
+
+export default errorWrap;

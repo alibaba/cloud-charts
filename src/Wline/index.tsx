@@ -2,7 +2,7 @@
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
-import errorWrap from '../common/errorWrap';
+import errorWrap, { ChartWithRaw } from '../common/errorWrap';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
 import guide, { GuideConfig } from '../common/guide';
@@ -19,22 +19,28 @@ import './index.scss';
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
   // colors?: string[];
   // areaColors?: string[];
+  /** X轴配置项 */
   xAxis?: Types.ScaleOption & XAxisConfig | false,
+  /** Y轴配置项 */
   yAxis?: Types.ScaleOption & YAxisConfig | false,
+  /** 图例配置项 */
   legend?: LegendConfig | boolean,
+  /** 提示信息配置项 */
   tooltip?: TooltipConfig | boolean,
+  /** 辅助标记配置项 */
   guide?: GuideConfig,
   // label?: LabelConfig | boolean,
   // area?: boolean,
   // stack?: boolean, // 仅Area有效
   // spline?: boolean,
+  /** 显示网格线 */
   grid?: boolean,
   // symbol?: boolean,
   // zoom?: boolean,
   // step?: string | boolean,
 }
 
-class Wline extends Base<WlineConfig> {
+class Line extends Base<WlineConfig> {
   chartName = 'G2Line';
 
   getDefaultConfig(): WlineConfig {
@@ -160,7 +166,9 @@ class Wline extends Base<WlineConfig> {
   }
 }
 
-export default errorWrap(Wline);
+const Wline: ChartWithRaw<typeof Line> = errorWrap(Line);
+
+export default Wline;
 
 // /*#__PURE__*/errorWrap(g2Factory('G2Line', {
 //   beforeInit(props) {
