@@ -6,18 +6,28 @@ import geomSize, { GeomSizeConfig } from './geomSize';
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
 export interface DrawLineConfig {
+  /** 线条颜色 */
   colors?: string[];
+  /** 面积颜色 */
   areaColors?: string[];
+  /** 是否为面积图 */
   area?: boolean,
+  /** 是否为堆叠图，仅在 area: true 时生效 */
   stack?: boolean, // 仅Area有效
+  /** 是否线条平滑 */
   spline?: boolean,
+  /** 是否阶梯折线 */
   step?: string | boolean,
+  /** 是否展示线上点 */
   symbol?: {
     size?: GeomSizeConfig;
     geomStyle?: Types.LooseObject;
   } | boolean,
+  /** 数据label */
   label?: LabelConfig | boolean,
+  /** 线条宽度 */
   lineWidth?: number;
+  /** 元素样式 */
   geomStyle?: Types.LooseObject;
 }
 

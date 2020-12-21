@@ -166,6 +166,7 @@ class Line extends Base<WlineConfig> {
   }
 }
 
+/** Wline 折线图 */
 const Wline: ChartWithRaw<typeof Line> = errorWrap(Line);
 
 export default Wline;
