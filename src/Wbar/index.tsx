@@ -30,13 +30,13 @@ interface WbarConfig extends BaseChartConfig {
   dodgeStack?: boolean,
   stack?: boolean,
   stackReverse?: boolean,
-  marginRatio: number,
+  marginRatio?: number,
   grid?: boolean,
   zoom?: boolean,
   facet?: boolean,
-  size: string | number,
+  size?: string | number,
   polar?: boolean,
-  innerRadius: number,
+  innerRadius?: number,
   // geomStyle?: Types.LooseObject;
 }
 
