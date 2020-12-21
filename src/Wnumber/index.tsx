@@ -1,25 +1,43 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import Warrow from '../common/arrow';
 import chartLog from "../common/log";
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
+import { Status } from '../common/types';
 
 const prefix = `${PrefixName}-wnumber`;
 
-function getTrendIcon(trend) {
+type Trend = 'raise' | 'drop';
+
+function getTrendIcon(trend: Trend) {
   if(trend === 'raise'){
     return <Warrow type="up"/>
-  }else if( trend === 'drop'){
+  } else if( trend === 'drop'){
     return <Warrow type="down"/>
+  } else {
+    return null;
   }
 }
 
-export default class Wnumber extends React.Component {
+interface WnumberProps {
+  className?: string;
+  style?: React.CSSProperties;
+  status?: Status | string;
+  unit?: React.ReactNode;
+  numberTrend?: Trend;
+  rightRatioTrend?: Trend;
+  rightTitle?: React.ReactNode;
+  rightRatio?: React.ReactNode;
+  rightRatioStatus?: Status | string;
+  trend?: () => React.ReactNode;
+  bottomTitle?: React.ReactNode;
+}
+
+export default class Wnumber extends React.Component<WnumberProps> {
   static displayName = 'Wnumber';
 
   static defaultProps = {
@@ -28,22 +46,34 @@ export default class Wnumber extends React.Component {
     status: ''
   };
 
-  constructor(props) {
+  constructor(props: WnumberProps) {
     super(props);
 
     // 图表初始化时记录日志
     chartLog('Wnumber', 'init');
   }
 
-  renderBottom(bottomTitle) {
+  renderBottom(bottomTitle: React.ReactNode) {
     if (!!bottomTitle) {
       return(
         <div className={`${prefix}-bottomTitle`}>{bottomTitle}</div>
       );
+    } else {
+      return null;
     }
   }
 
-  renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children) {
+  renderMain(
+    status: string,
+    unit: React.ReactNode,
+    numberTrend: Trend,
+    rightRatioTrend: Trend,
+    rightTitle: React.ReactNode,
+    rightRatio: React.ReactNode,
+    rightRatioStatus: string,
+    trend: () => React.ReactNode,
+    children: React.ReactNode,
+  ) {
     const numberTrendIcon = getTrendIcon(numberTrend);
     const numberClasses = `${prefix}-number`;
 
@@ -118,9 +148,3 @@ export default class Wnumber extends React.Component {
     );
   }
 }
-
-Wnumber.propTypes = {
-  bottomTitle: PropTypes.node,
-  unit: PropTypes.node,
-  trend: PropTypes.func
-};
