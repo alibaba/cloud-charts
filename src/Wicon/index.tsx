@@ -1,16 +1,25 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
+import { Status } from '../common/types';
 
 const prefix = `${PrefixName}-wicon`;
 
-export default class Wicon extends React.Component {
+interface WiconProps {
+  className?: string;
+  style?: React.CSSProperties;
+  type?: string;
+  size?: string;
+  status?: Status | string;
+  reverse?: boolean;
+}
+
+export default class Wicon extends React.Component<WiconProps> {
   static displayName = 'Wicon';
 
   static defaultProps = {
@@ -19,7 +28,7 @@ export default class Wicon extends React.Component {
     status: 'none'
   };
 
-  constructor(props) {
+  constructor(props: WiconProps) {
     super(props);
 
     // 图表初始化时记录日志
@@ -44,8 +53,3 @@ export default class Wicon extends React.Component {
     );
   }
 }
-
-Wicon.propTypes = {
-  type: PropTypes.string,
-};
-
