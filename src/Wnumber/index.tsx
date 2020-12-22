@@ -5,13 +5,11 @@ import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import Warrow from '../common/arrow';
 import chartLog from "../common/log";
+import { Status, Trend } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
-import { Status } from '../common/types';
 
 const prefix = `${PrefixName}-wnumber`;
-
-type Trend = 'raise' | 'drop';
 
 function getTrendIcon(trend: Trend) {
   if(trend === 'raise'){

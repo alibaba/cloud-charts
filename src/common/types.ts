@@ -18,3 +18,5 @@ export type Status = 'error' | 'warning' | 'normal' | 'success' | 'none';
 export type StatusColor = 'red' | 'orange' | 'blue' | 'green' | 'gray';
 
 export type Language = 'zh-cn' | 'en-us';
+
+export type Trend = 'raise' | 'drop';
