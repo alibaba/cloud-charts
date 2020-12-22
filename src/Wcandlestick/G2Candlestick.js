@@ -2,9 +2,8 @@
 
 import g2Factory from '../common/g2Factory';
 import errorWrap from '../common/errorWrap';
-import merge from '../common/merge';
 import themes from '../themes/index';
-import { propertyAssign, propertyMap, defaultPadding } from '../common/common';
+import { propertyAssign, propertyMap, defaultPadding, merge } from '../common/common';
 import guide from '../common/guide';
 import rectXAxis from '../common/rectXAxis';
 import rectYAxis from '../common/rectYAxis';

@@ -3,9 +3,8 @@ import { View } from '@antv/data-set';
 
 import g2Factory from '../common/g2Factory';
 import errorWrap from '../common/errorWrap';
-import merge from '../common/merge';
 import themes from '../themes/index';
-import { defaultPadding } from '../common/common';
+import { defaultPadding, merge } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
 import './G2Hierarchy.scss';
 

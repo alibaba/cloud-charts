@@ -6,7 +6,7 @@ import chinaGeo from './mapData/chinaGeo.json';
 import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import themes from '../themes/index';
 import { legendHtmlContainer } from '../common/g2Theme';
-import merge from '../common/merge';
+import { merge } from '../common/common';
 import rectTooltip from '../common/rectTooltip';
 import rectLegend from '../common/rectLegend';
 import getGeomSizeConfig from '../common/geomSize';

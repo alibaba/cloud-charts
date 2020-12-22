@@ -1,4 +1,4 @@
-import merge from '../common/merge';
+import { merge } from '../common/common';
 import tween from '../common/tween';
 
 let uniqueId = 0;
