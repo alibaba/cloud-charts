@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import {  Types, ChartData } from '../common/types';
+import { Types, ChartData } from '../common/types';
 import chartLog from "../common/log";
 import Shoot from './shoot';
 import { PrefixName } from '../constants';

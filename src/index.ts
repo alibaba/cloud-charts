@@ -46,4 +46,4 @@ export { default as Wminicontainer } from './Wminicontainer/index';
 export { default as Wshoot } from './Wshoot/index';
 export { default as Wplaceholder } from './Wplaceholder/index';
 export { default as Wcount } from './Wcount/index';
-export { default as Wdashboard } from './Wdashboard/index';
+// export { default as Wdashboard } from './Wdashboard/index';
