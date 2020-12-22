@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { Types, ChartData } from '../common/types';
+import { ChartData } from '../common/types';
 import chartLog from "../common/log";
-import Shoot from './shoot';
+import Shoot, { getPositionFun } from './shoot';
 import { PrefixName } from '../constants';
 import './index.scss';
 
@@ -17,7 +17,7 @@ export interface ShootProps {
   height: number;
   config: {},
   data: ChartData;
-  getPosition(d: Types.LooseObject): { x: number, y: number };
+  getPosition?: getPositionFun;
 }
 
 export default class Wshoot extends React.Component<ShootProps> {

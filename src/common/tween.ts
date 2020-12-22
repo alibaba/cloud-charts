@@ -1,8 +1,22 @@
-class Tween {
-  constructor(config, callback) {
+interface TweenConfig {
+  autoUpdate?: boolean;
+  maxFps?: number;
+  duration?: number;
+}
+
+export type TweenCallback = (v: number) => void;
+
+export class Tween {
+  interval: number;
+  timer: any;
+  _startTime: number;
+  lastUpdate: number;
+  _isPlay: boolean;
+
+  constructor(private config: TweenConfig, private callback: TweenCallback) {
     const { maxFps } = config;
     this.config = config;
-    this._callback = callback;
+    this.callback = callback;
     this.refresh = this.refresh.bind(this);
     this.lastUpdate = null;
     this.interval = 1000 / maxFps;
@@ -45,17 +59,17 @@ class Tween {
     }
   }
 
-  update(time) {
+  update(time: number) {
     const now = time || Date.now();
 
     if (now < this._startTime) {
-      return true;
+      return;
     }
 
     let elapsed = (now - this._startTime) / this.config.duration;
     elapsed = elapsed > 1 ? 1 : elapsed;
 
-    this._callback(elapsed);
+    this.callback(elapsed);
 
     if (elapsed === 1) {
       this.stop();
@@ -75,9 +89,13 @@ class Tween {
   }
 }
 
-const nameMap = {};
+interface TweenMap {
+  [name: string]: Tween;
+}
 
-export default function (name, config, callback) {
+const nameMap: TweenMap = {};
+
+export default function (name: string | number, config: TweenConfig, callback: TweenCallback) {
   if (nameMap[name]) {
     // restart
     nameMap[name].start();

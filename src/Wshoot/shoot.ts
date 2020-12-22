@@ -1,5 +1,6 @@
 import { merge } from '../common/common';
-import tween from '../common/tween';
+import tween, { Tween } from '../common/tween';
+import { ChartData, Types } from '../common/types';
 
 let uniqueId = 0;
 function generateUniqueId() {
@@ -8,77 +9,141 @@ function generateUniqueId() {
 
 const PI = 2 * Math.PI;
 
-function Shoot(canvas, getPosition, config) {
-  // this.uuid = generateUniqueId();
-  this.getPosition = getPosition;
-  this.config = merge({
-    autoUpdate: true,
-    maxFps: 60,
-    interval: 10000, // 单次飞线总时间
-    dTime: 4000, // 单条飞线预计的时间
-    // batch: false,
-    shootTime: {// 飞行过程中的各个时间 值域[0, 1]
-      fromTime: 0, // 出发时间（瞬时）
-      fromStop: 0.4, // 出发点保留时间（持续）
-      fromFade: 0.1, // 出发点消失所用时间（持续）
-      toBegin: 0.3, // 到达目标点的时间（瞬时）
-      toTime: 0.1, // 到达点显示所用时间（持续）
-      toStop: 0, // 到达点停留持续时间（持续）
-      toFade: 0.1, // 到达点消失所用时间（持续）
-    },
-    fromRadius: 3, // 出发点半径
-    toRadius: 3, // 到达点半径
-    fromBorder: 1, // 出发点边框宽度
-    toBorder: 1, // 到达点边框宽度
-    shootPointColor: {
-      fromPoint: '46, 133, 255', // 出发点颜色
-      fromShadow: '46, 133, 255', // 出发点阴影颜色
-      toPoint: '46, 133, 255', // 到达点颜色
-      toShadow: '46, 133, 255', // 到达点阴影颜色
-    },
-    lineWidth: 2, // 飞线宽度
-    lineColor: {
-      from: '46, 133, 255', // 线出发颜色
-      to: '46, 133, 255', // 线到达颜色
-    },
-    bullet: {
-      r: 2.5, // 弹头半径
-      length: 20, // 弹头长度
-      color: 'rgb(46, 133, 255)',
-      shadowColor: 'rgb(46, 133, 255)',
-    },
-    keys: {
-      from: 'from',
-      to: 'to',
-      fromValue: 'fromValue',
-      toValue: 'toValue',
-      curvature: 'curvature', // 曲率半径，值越大越平坦
-    },
-  }, config);
+const { sin, cos, atan, sqrt } = Math;
 
-  canvas.width = this.config.width;
-  canvas.height = this.config.height;
-
-  // 射击canvas层
-  this.canvas = canvas;
-
-  this.sCtx = this.canvas.getContext('2d');
-  this.sCtx.lineWidth = this.config.lineWidth;
-}
+const pow2 = function (x: number) {
+  return Math.pow(x, 2);
+};
 
 function random() {
   return Math.random() * 5 + 2.5;
 }
 
-Shoot.prototype = {
+interface PositionPoint {
+  x: number;
+  y: number;
+}
+
+export type getPositionFun = (d: Types.LooseObject) => PositionPoint;
+
+interface ShootConfig {
+  width: number;
+  height: number;
+  autoUpdate?: boolean;
+  maxFps?: number;
+  interval?: number; // 单次飞线总时间
+  dTime?: number; // 单条飞线预计的时间
+  shootDurable?: boolean;
+  // batch: false;
+  shootTime?: {// 飞行过程中的各个时间 值域[0, 1]
+    fromTime?: number; // 出发时间（瞬时）
+    fromStop?: number; // 出发点保留时间（持续）
+    fromFade?: number; // 出发点消失所用时间（持续）
+    toBegin?: number; // 到达目标点的时间（瞬时）
+    toTime?: number; // 到达点显示所用时间（持续）
+    toStop?: number; // 到达点停留持续时间（持续）
+    toFade?: number; // 到达点消失所用时间（持续）
+  };
+  fromRadius?: number; // 出发点半径
+  toRadius?: number; // 到达点半径
+  fromBorder?: number; // 出发点边框宽度
+  toBorder?: number; // 到达点边框宽度
+  shootPointColor?: {
+    fromPoint?: string; // 出发点颜色
+    fromShadow?: string; // 出发点阴影颜色
+    toPoint?: string; // 到达点颜色
+    toShadow?: string; // 到达点阴影颜色
+  };
+  lineWidth?: number; // 飞线宽度
+  lineColor?: {
+    from?: string; // 线出发颜色
+    to?: string; // 线到达颜色
+  };
+  bullet?: {
+    r?: number; // 弹头半径
+    length?: number; // 弹头长度
+    color?: string;
+    shadowColor?: string;
+  };
+  keys?: {
+    from?: string;
+    to?: string;
+    fromValue?: string;
+    toValue?: string;
+    curvature?: string; // 曲率半径，值越大越平坦
+  };
+}
+
+class Shoot {
+  sCtx: CanvasRenderingContext2D;
+  tween: Tween;
+
+  constructor(private canvas: HTMLCanvasElement, private getPosition: getPositionFun, protected config: ShootConfig) {
+    // this.uuid = generateUniqueId();
+    this.getPosition = getPosition;
+    this.config = merge({
+      autoUpdate: true,
+      maxFps: 60,
+      interval: 10000, // 单次飞线总时间
+      dTime: 4000, // 单条飞线预计的时间
+      // batch: false,
+      shootTime: {// 飞行过程中的各个时间 值域[0, 1]
+        fromTime: 0, // 出发时间（瞬时）
+        fromStop: 0.4, // 出发点保留时间（持续）
+        fromFade: 0.1, // 出发点消失所用时间（持续）
+        toBegin: 0.3, // 到达目标点的时间（瞬时）
+        toTime: 0.1, // 到达点显示所用时间（持续）
+        toStop: 0, // 到达点停留持续时间（持续）
+        toFade: 0.1, // 到达点消失所用时间（持续）
+      },
+      fromRadius: 3, // 出发点半径
+      toRadius: 3, // 到达点半径
+      fromBorder: 1, // 出发点边框宽度
+      toBorder: 1, // 到达点边框宽度
+      shootPointColor: {
+        fromPoint: '46, 133, 255', // 出发点颜色
+        fromShadow: '46, 133, 255', // 出发点阴影颜色
+        toPoint: '46, 133, 255', // 到达点颜色
+        toShadow: '46, 133, 255', // 到达点阴影颜色
+      },
+      lineWidth: 2, // 飞线宽度
+      lineColor: {
+        from: '46, 133, 255', // 线出发颜色
+        to: '46, 133, 255', // 线到达颜色
+      },
+      bullet: {
+        r: 2.5, // 弹头半径
+        length: 20, // 弹头长度
+        color: 'rgb(46, 133, 255)',
+        shadowColor: 'rgb(46, 133, 255)',
+      },
+      keys: {
+        from: 'from',
+        to: 'to',
+        fromValue: 'fromValue',
+        toValue: 'toValue',
+        curvature: 'curvature', // 曲率半径，值越大越平坦
+      },
+    }, config);
+
+    canvas.width = this.config.width;
+    canvas.height = this.config.height;
+
+    // 射击canvas层
+    this.canvas = canvas;
+
+    this.sCtx = this.canvas.getContext('2d');
+    this.sCtx.lineWidth = this.config.lineWidth;
+  }
+
   // 清除画布
-  clear(ctx) {
+  clear(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.config;
 
     ctx.clearRect(0, 0, width, height);
-  },
+  }
 
-  changeSize(w, h) {
+  changeSize(w: number, h: number) {
     this.config.width = w;
     this.config.height = h;
 
@@ -87,9 +152,9 @@ Shoot.prototype = {
 
     // 更新uuid让动画更新
     // this.uuid = generateUniqueId();
-  },
+  }
 
-  draw(data) {
+  draw(data: ChartData) {
     if (!data || data.length === 0) {
       return;
     }
@@ -102,14 +167,14 @@ Shoot.prototype = {
     const times = (interval / dTime) >> 0;
     const { keys } = self.config;
     const { sCtx } = self;
-    const shoots = [];
-    const shootMap = {};
+    const shoots: any[] = [];
+    const shootMap: { [key: string]: PositionPoint[] } = {};
     const time = self.config.shootTime;
     const l = data.length;
     const getPosition = self.getPosition;
-    let fCo;
-    let tCo;
-    let s;
+    let fCo: PositionPoint;
+    let tCo: PositionPoint;
+    let s: any;
 
     // 先清除画布
     self.clear(sCtx);
@@ -188,8 +253,9 @@ Shoot.prototype = {
         shootFunction(t * times - shootFunction.index);
       });
     });
-  },
-  emit(fCo, tCo, data, color, time) {
+  }
+
+  emit(fCo: PositionPoint, tCo: PositionPoint, data: { [x: string]: number; }, color: {}, time: { fromTime?: number; fromStop?: number; fromFade?: number; toBegin?: number; toTime?: number; toStop?: number; toFade?: number; }) {
     const self = this;
     const { keys } = self.config;
     // 发射出现时间段
@@ -217,9 +283,9 @@ Shoot.prototype = {
     const tr = self.config.toRadius;
     const h = data[keys.curvature] || random();
     const { shootDurable } = self.config;
-    let s;
+    let s: any;
 
-    s = function (t) {
+    s = function (t: number) {
       if (fCo) {
         // 出发:
         // 1. 出现
@@ -277,15 +343,16 @@ Shoot.prototype = {
     };
 
     return s;
-  },
+  }
 
-  from(co, r, color, zoom) {
+  // CHECK zoom 没有传入
+  from(co: PositionPoint, r: number, color: { fColor?: any; }, zoom?: boolean) {
     const self = this;
     const c = `rgba(${color.fColor || this.config.shootPointColor.fromPoint},`;
     const b = self.config.fromBorder;
     const { sCtx } = self;
 
-    return function (t) {
+    return function (t: number) {
       if (t > 1 || t < 0) {
         return;
       }
@@ -321,16 +388,16 @@ Shoot.prototype = {
 
       sCtx.restore();
     };
-  },
-  to(co, r, color, zoom, n, anticlockwise) {
+  }
+
+  // CHECK anticlockwise 没有传入
+  to(co: PositionPoint, r: number, color: { tColor?: any; }, zoom?: boolean, n?: number, anticlockwise?: undefined) {
     const self = this;
     const c = `rgba(${color.tColor || this.config.shootPointColor.toPoint},`;
     const b = self.config.toBorder;
     const { sCtx } = self;
-    const { sin } = Math;
-    const { cos } = Math;
 
-    return function (t) {
+    return function (t: number) {
       let rad = 0;
 
       if (t > 1 || t < 0) {
@@ -384,16 +451,12 @@ Shoot.prototype = {
 
       sCtx.restore();
     };
-  },
-  track(fCo, tCo, fade, color, h, overview) {
+  }
+
+  // CHECK overview 没有传入
+  track(fCo: PositionPoint, tCo: PositionPoint, fade: boolean, color: { fColor?: any; tColor?: any; bullet?: any; }, h: number, overview?: boolean) {
     const self = this;
     const { sCtx: ctx } = self;
-    const { cos } = Math;
-    const { atan } = Math;
-    const pow2 = function (x) {
-      return Math.pow(x, 2);
-    };
-    const { sqrt } = Math;
     const fColor = `rgba(${color.fColor || self.config.lineColor.from},`;
     const tColor = `rgba(${color.tColor || self.config.lineColor.to},`;
 
@@ -439,7 +502,7 @@ Shoot.prototype = {
       y3 = j * x3 + k;
     }
 
-    return function (t) {
+    return function (t: number) {
       // 移动点坐标
       let x0;
       let y0;
@@ -525,8 +588,9 @@ Shoot.prototype = {
         self.drawBullet(x0, y0, a, color.bullet, bulletR, bulletLen);
       }
     };
-  },
-  drawBullet(x, y, a, color, r, len) {
+  }
+
+  drawBullet(x: number, y: number, a: number, color: string, r: number, len: number) {
     const self = this;
     const { sCtx } = self;
 
@@ -556,16 +620,18 @@ Shoot.prototype = {
     sCtx.fill();
 
     sCtx.restore();
-  },
-  update(time) {
+  }
+
+  update(time: number) {
     if (this.tween && this.tween.update) {
       this.tween.update(time);
     }
-  },
+  }
+
   destroy() {
     this.clear(this.sCtx);
     this.tween && this.tween.destroy();
-  },
-};
+  }
+}
 
 export default Shoot;
