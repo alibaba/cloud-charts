@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import CountUp from './dep/CountUp';
+import { CountUp } from './dep/CountUp';
 import { filterKey } from "../common/common";
 import { Types } from '../common/types';
 import './index.scss';
@@ -54,19 +54,31 @@ interface WcountProps {
   className?: string;
   style?: React.CSSProperties;
   // 切片配置
+  /** 切片更新数量，大于1时生效 */
   clipNum?: number;
+  /** 切片更新周期，默认 5 秒 */
   clipPeriod?: number;
+  /** 切片幅度数组，默认平均切片 */
   slipScale?: number[];
   // 数据配置
+  /** 开始翻牌数值 */
   start?: number;
+  /** 结束翻牌数值 */
   end?: number;
+  /** 小数位数，默认 0 */
   decimals?: number;
+  /** 翻牌持续时间，默认 1.5 秒 */
   duration?: number;
   // 额外配置
+  /** 是否缓动函数翻牌 */
   useEasing?: boolean; // toggle easing
+  /** 是否显示千分位 */
   useGrouping?: boolean; // 1,000,000 vs 1000000
+  /** 千分位字符 */
   separator?: string; // character to use as a separator
+  /** 小数点字符 */
   decimal?: string; // character to use as a decimal
+  /** 无数据时字符 */
   placeholder?: string; // 非数据时的替换
 }
 
@@ -100,7 +112,7 @@ export default class Wcount extends React.Component<WcountProps> {
   }
 
   dom: HTMLSpanElement = null;
-  countUp = null;
+  countUp: CountUp = null;
 
   componentDidMount() {
     if (!this.dom) {
@@ -163,7 +175,12 @@ export default class Wcount extends React.Component<WcountProps> {
 
   createCountUp(props: WcountProps) {
     const { start, end, decimals, duration, ...options } = props;
-    const countUp = new CountUp(this.dom, start, end, decimals, duration, options);
+    const countUp = new CountUp(this.dom, end, {
+      startVal: start,
+      decimalPlaces: decimals,
+      duration,
+      ...options,
+    });
     if (!countUp.error) {
       countUp.start();
     } else {
