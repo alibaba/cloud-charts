@@ -40,6 +40,7 @@ export class CountUp {
   private finalEndVal: number = null; // for smart easing
   private useEasing = true;
   private countDown = false;
+  private throttle: number;
   formattingFn: (num: number) => string;
   easingFn?: (t: number, b: number, c: number, d: number) => number;
   callback: (args?: any) => any;
@@ -159,38 +160,46 @@ export class CountUp {
   }
 
   count = (timestamp: number) => {
-    if (!this.startTime) { this.startTime = timestamp; }
+    if (!this.startTime) {
+      this.throttle = 0;
+      this.startTime = timestamp;
+    }
 
     const progress = timestamp - this.startTime;
     this.remaining = this.duration - progress;
 
-    // to ease or not to ease
-    if (this.useEasing) {
-      if (this.countDown) {
-        this.frameVal = this.startVal - this.easingFn(progress, 0, this.startVal - this.endVal, this.duration);
+    // 性能优化，偶数次渲染，或者最后一次才会渲染dom
+    if (this.throttle % 2 === 0 || progress >= this.duration) {
+      // to ease or not to ease
+      if (this.useEasing) {
+        if (this.countDown) {
+          this.frameVal = this.startVal - this.easingFn(progress, 0, this.startVal - this.endVal, this.duration);
+        } else {
+          this.frameVal = this.easingFn(progress, this.startVal, this.endVal - this.startVal, this.duration);
+        }
       } else {
-        this.frameVal = this.easingFn(progress, this.startVal, this.endVal - this.startVal, this.duration);
+        if (this.countDown) {
+          this.frameVal = this.startVal - ((this.startVal - this.endVal) * (progress / this.duration));
+        } else {
+          this.frameVal = this.startVal + (this.endVal - this.startVal) * (progress / this.duration);
+        }
       }
-    } else {
+
+      // don't go past endVal since progress can exceed duration in the last frame
       if (this.countDown) {
-        this.frameVal = this.startVal - ((this.startVal - this.endVal) * (progress / this.duration));
+        this.frameVal = (this.frameVal < this.endVal) ? this.endVal : this.frameVal;
       } else {
-        this.frameVal = this.startVal + (this.endVal - this.startVal) * (progress / this.duration);
+        this.frameVal = (this.frameVal > this.endVal) ? this.endVal : this.frameVal;
       }
+
+      // decimal
+      this.frameVal = Number(this.frameVal.toFixed(this.options.decimalPlaces));
+
+      // format and print value
+      this.printValue(this.frameVal);
     }
 
-    // don't go past endVal since progress can exceed duration in the last frame
-    if (this.countDown) {
-      this.frameVal = (this.frameVal < this.endVal) ? this.endVal : this.frameVal;
-    } else {
-      this.frameVal = (this.frameVal > this.endVal) ? this.endVal : this.frameVal;
-    }
-
-    // decimal
-    this.frameVal = Number(this.frameVal.toFixed(this.options.decimalPlaces));
-
-    // format and print value
-    this.printValue(this.frameVal);
+    this.throttle = this.throttle + 1;
 
     // whether to continue
     if (progress < this.duration) {
