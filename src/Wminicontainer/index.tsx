@@ -1,24 +1,32 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
-import { isMobileWithProps } from "../common/platform";
+import { isMobileWithProps, MobileProps } from "../common/platform";
+import { Status } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
 const prefix = `${PrefixName}-wminicontainer`;
 
-export default class Wminicontainer extends React.Component {
+interface WminicontainerProps extends MobileProps {
+  className?: string;
+  style?: React.CSSProperties;
+  width?: string | number;
+  height?: string | number;
+  status?: Status | string;
+}
+
+export default class Wminicontainer extends React.Component<WminicontainerProps> {
   static displayName = 'Wminicontainer';
 
   static defaultProps = {
     status: ''
   };
 
-  constructor(props) {
+  constructor(props: WminicontainerProps) {
     super(props);
 
     // 图表初始化时记录日志
@@ -30,7 +38,7 @@ export default class Wminicontainer extends React.Component {
     const mainClasses = classNames({
       [FullCrossName]: true,
       [`${prefix}`]: true,
-      [`${prefix}-mobile`]: isMobileWithProps(otherProps, isMobile),
+      [`${prefix}-mobile`]: isMobileWithProps(this.props),
       [`${prefix}-${getStatusColorName(status)}`]: !!status,
       [className]: !!className
     });
@@ -48,8 +56,3 @@ export default class Wminicontainer extends React.Component {
     );
   }
 }
-
-Wminicontainer.propTypes = {
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-};
-
