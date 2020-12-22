@@ -1,17 +1,37 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import Warrow from '../common/arrow';
 import { getStatusColorName } from '../common/common';
 import chartLog from "../common/log";
+import { Status, Trend } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
 const prefix = `${PrefixName}-wcircle`;
 
-export default class Wcircle extends React.Component {
+interface WcircleProps {
+  className?: string;
+  style?: React.CSSProperties;
+  type?: 'circle' | 'gauge';
+  title?: React.ReactNode;
+  unit?: React.ReactNode;
+  trend?: Trend;
+  percent?: number;
+  status?: Status | string;
+  radius?: number;
+  strokeWidth?: number;
+  color?: string;
+  backgroundColor?: string;
+  linecap?: 'round' | 'butt';
+  bottomTitle?: React.ReactNode;
+  bottomUnit?: React.ReactNode;
+  bottomNumber?: React.ReactNode;
+  bottomTrend?: Trend;
+}
+
+export default class Wcircle extends React.Component<WcircleProps> {
   static displayName = 'Wcircle';
 
   static defaultProps = {
@@ -25,14 +45,14 @@ export default class Wcircle extends React.Component {
     linecap: 'round',
   };
 
-  constructor(props) {
+  constructor(props: WcircleProps) {
     super(props);
 
     // 图表初始化时记录日志
     chartLog('Wcircle', 'init');
   }
 
-  renderBottom(bottomTitle, bottomUnit, bottomNumber, bottomTrend) {
+  renderBottom(bottomTitle: React.ReactNode, bottomUnit: React.ReactNode, bottomNumber: React.ReactNode, bottomTrend: string) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-bottom-number`;
     if (bottomTrend === 'raise') {
@@ -59,13 +79,15 @@ export default class Wcircle extends React.Component {
         </div>
       )
     }
+
+    return null;
   }
 
-  renderMain({title, unit, children, trend, type, percent, radius, strokeWidth, status, color: customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend, linecap}) {
+  renderMain({title, unit, children, trend, type, percent, radius, strokeWidth, status, color: customColor, backgroundColor, bottomTitle, bottomUnit, bottomNumber, bottomTrend, linecap}: WcircleProps & {children?: React.ReactNode}) {
     let numberTrendIcon;
     let numberClasses = `${prefix}-number`;
 
-    const style = {};
+    const style: React.CSSProperties = {};
     if (customColor) {
       style.color = customColor;
     }
@@ -103,7 +125,7 @@ export default class Wcircle extends React.Component {
       };
     }
 
-    const pathStyle = {
+    const pathStyle: React.CSSProperties = {
       strokeDasharray: `${circleLengh-openWidth}px ${circleLengh}px`,
       strokeDashoffset: pathDashoffset
     };
@@ -199,33 +221,3 @@ export default class Wcircle extends React.Component {
     );
   }
 }
-
-Wcircle.propTypes = {
-  type: PropTypes.oneOf(['gauge', 'circle']),
-  title: PropTypes.node,
-  percent: function(props, propName){
-    if(!(props[propName] >= 0 && props[propName] <= 1)){
-      return new Error('percent Validation failed!');
-    }
-  },
-  unit: PropTypes.node,
-  status: PropTypes.oneOf(['normal', 'warning', 'error', 'success', 'none', 'blue', 'orange', 'red', 'green', 'gray']),
-  // 半径
-  radius: function(props, propName){
-    if(!(props[propName] >= 10 && props[propName] <= 100)){
-      return new Error('radius Validation failed!');
-    }
-  },
-  // 粗细
-  strokeWidth: function(props, propName){
-    if(!(props[propName] >= 2 && props[propName] <= 10)){
-      return new Error('strokeWidth Validation failed!');
-    }
-  },
-  // 趋势
-  trend: PropTypes.oneOf(['raise', 'drop']),
-  bottomTitle: PropTypes.node,
-  bottomUnit: PropTypes.node,
-  bottomNumber: PropTypes.node,
-  bottomTrend: PropTypes.oneOf(['raise', 'drop'])
-};
