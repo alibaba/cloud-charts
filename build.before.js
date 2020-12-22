@@ -20,7 +20,7 @@ module.exports = ({ context, log, modifyUserConfig, onHook }) => {
         plugins: [sassExtractJsPlugin]
       });
 
-      fs.writeFileSync(themePath + '/' + theme.replace(/\.scss$/, '.style.js'), `export default ${JSON.stringify(rendered.vars)};`);
+      fs.writeFileSync(themePath + '/' + theme.replace(/\.scss$/, '.style.ts'), `export default ${JSON.stringify(rendered.vars)};`);
 
       log.info(`build theme: ${theme}`);
     }
