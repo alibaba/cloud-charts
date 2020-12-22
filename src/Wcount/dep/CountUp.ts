@@ -14,6 +14,7 @@ export interface CountUpOptions { // (default)
   prefix?: string; // text prepended to result
   suffix?: string; // text appended to result
   numerals?: string[]; // numeral glyph substitution
+  placeholder?: string,//非数据时的替换
 }
 
 // playground: stackblitz.com/edit/countup-typescript
@@ -215,7 +216,7 @@ export class CountUp {
   }
 
   printValue(val: number) {
-    const result = this.formattingFn(val);
+    const result = this.ensureNumber(val) ? this.formattingFn(val) : this.options.placeholder;
 
     if (this.el.tagName === 'INPUT') {
       const input = this.el as HTMLInputElement;
