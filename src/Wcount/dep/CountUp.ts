@@ -224,7 +224,19 @@ export class CountUp {
     } else if (this.el.tagName === 'text' || this.el.tagName === 'tspan') {
       this.el.textContent = result;
     } else {
-      this.el.innerHTML = result;
+      // 自定义渲染标签
+      let html = '';
+      for (let i = 0; i < result.length; i++) {
+        const s = result.charAt(i);
+        if (s === this.options.separator) {
+          html += '<span class="count-up-separator">' + s + '</span>';
+        } else if (s === this.options.decimal) {
+          html += '<span class="count-up-decimal">' + s + '</span>';
+        } else {
+          html += '<span class="count-up-num-' + s + '">' + s + '</span>';
+        }
+      }
+      this.el.innerHTML = html;
     }
   }
 
