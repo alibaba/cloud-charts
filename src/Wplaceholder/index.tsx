@@ -1,9 +1,9 @@
 'use strict';
 
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 import chartLog from "../common/log";
-import Locale from './locale';
+import Locale, { LocaleItem } from './locale';
 import './index.scss';
 import { FullCrossName, PrefixName } from '../constants';
 
@@ -42,7 +42,7 @@ const noDataSvg = <svg width="43px" height="36px" viewBox="0 0 43 36" style={{ma
 </svg>;
 
 // 获取显示文案
-function getLocaleText (locale = {}, loading, error, noData) {
+function getLocaleText (locale: LocaleItem, loading: boolean, error: boolean, noData: boolean) {
   // 优先取error状态
   if (error) {
     return locale.error;
@@ -55,19 +55,32 @@ function getLocaleText (locale = {}, loading, error, noData) {
   if (noData) {
     return locale.noData;
   }
+  return null;
 }
 
-export default class Wplaceholder extends React.Component {
+interface WplaceholderProps {
+  className?: string;
+  style?: React.CSSProperties;
+  width?: string | number;
+  height?: string | number;
+  loading?: boolean;
+  error?: boolean;
+  noData?: boolean;
+  locale?: LocaleItem;
+  language?: keyof (typeof Locale);
+}
+
+export default class Wplaceholder extends React.Component<WplaceholderProps> {
   static displayName = 'Wplaceholder';
 
-  constructor(props) {
+  constructor(props: WplaceholderProps) {
     super(props);
 
     // 图表初始化时记录日志
     chartLog('Wplaceholder', 'init');
   }
 
-  renderText(loading, error, noData) {
+  renderText(loading: boolean, error: boolean, noData: boolean) {
     const { locale, language, children } = this.props;
     // text 优先判断传入的locale，其次判断传入的language，最后取中文locale
     const text = getLocaleText(locale || Locale[language] || Locale['zh-cn'], loading, error, noData) || '';

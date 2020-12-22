@@ -2,6 +2,12 @@
  * Created by Maplor on 2018/3/22.
  */
 
+export interface LocaleItem {
+  loading: string;
+  error: string;
+  noData: string;
+}
+
 export default {
   'zh-cn': {
     loading: '加载中...',
