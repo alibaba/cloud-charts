@@ -1,10 +1,10 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import CountUp from './dep/CountUp';
 import { filterKey } from "../common/common";
+import { Types } from '../common/types';
 import './index.scss';
 import chartLog from "../common/log";
 import { FullCrossName, PrefixName } from '../constants';
@@ -13,7 +13,7 @@ const prefix = `${PrefixName}-wcount`;
 
 const checkKey = ['start', 'decimals', 'duration', 'useEasing', 'useGrouping', 'separator', 'decimal', 'placeholder'];
 // 检查 a, b 两个对象中某些key是否有变化
-function configChange(a, b) {
+function configChange(a: Types.LooseObject, b: Types.LooseObject) {
   return checkKey.some((key) => {
     return a[key] !== b[key];
   });
@@ -27,10 +27,10 @@ function configChange(a, b) {
  * @param {number} clipNum 切片数
  * @param {number} slipScale 幅度数组
  *
- * @return {array} 切片后的数值数组
+ * @return {number[]} 切片后的数值数组
  * */
-function clipValue(start, end, clipNum, slipScale) {
-  const result = [];
+function clipValue(start: number, end: number, clipNum: number, slipScale: number[]) {
+  const result: number[] = [];
   const delta = end - start;
   const step = delta / clipNum;
 
@@ -50,10 +50,30 @@ function clipValue(start, end, clipNum, slipScale) {
   return result;
 }
 
-export default class Wcount extends React.Component {
+interface WcountProps {
+  className?: string;
+  style?: React.CSSProperties;
+  // 切片配置
+  clipNum?: number;
+  clipPeriod?: number;
+  slipScale?: number[];
+  // 数据配置
+  start?: number;
+  end?: number;
+  decimals?: number;
+  duration?: number;
+  // 额外配置
+  useEasing?: boolean; // toggle easing
+  useGrouping?: boolean; // 1,000,000 vs 1000000
+  separator?: string; // character to use as a separator
+  decimal?: string; // character to use as a decimal
+  placeholder?: string; // 非数据时的替换
+}
+
+export default class Wcount extends React.Component<WcountProps> {
   static displayName = 'Wcount';
 
-  static defaultProps = {
+  static defaultProps: WcountProps = {
     // 切片配置
     clipNum: 1,
     clipPeriod: 5,
@@ -72,14 +92,14 @@ export default class Wcount extends React.Component {
     placeholder: "-", // 非数据时的替换
   };
 
-  constructor(props) {
+  constructor(props: WcountProps) {
     super(props);
 
     // 图表初始化时记录日志
     chartLog('Wcount', 'init');
   }
 
-  dom = null;
+  dom: HTMLSpanElement = null;
   countUp = null;
 
   componentDidMount() {
@@ -90,7 +110,7 @@ export default class Wcount extends React.Component {
     this.createCountUp(this.props);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: WcountProps) {
     const { /*start: newStart,*/ end: newEnd, /*decimals: newDecimals, duration: newDuration,*/ ...newOptions } = this.props;
     const { /*start: oldStart,*/ end: oldEnd, /*decimals: oldDecimals, duration: oldDuration,*/ ...oldOptions } = prevProps;
 
@@ -113,8 +133,8 @@ export default class Wcount extends React.Component {
     }
   }
 
-  clipTimer = null;
-  clipNumber(props, newEnd) {
+  clipTimer: any = null;
+  clipNumber(props: WcountProps, newEnd: number) {
     const { clipNum, clipPeriod, slipScale } = props;
 
     // 清空定时器
@@ -141,7 +161,7 @@ export default class Wcount extends React.Component {
     }
   }
 
-  createCountUp(props) {
+  createCountUp(props: WcountProps) {
     const { start, end, decimals, duration, ...options } = props;
     const countUp = new CountUp(this.dom, start, end, decimals, duration, options);
     if (!countUp.error) {
@@ -167,18 +187,3 @@ export default class Wcount extends React.Component {
     );
   }
 }
-
-Wcount.propTypes = {
-  clipNum: PropTypes.number,
-  clipPeriod: PropTypes.number,
-  slipScale: PropTypes.arrayOf(PropTypes.number),
-  start: PropTypes.number,
-  end: PropTypes.number,
-  decimals: PropTypes.number,
-  duration: PropTypes.number,
-  useEasing: PropTypes.bool,
-  useGrouping: PropTypes.bool,
-  separator: PropTypes.string,
-  decimal: PropTypes.string,
-  placeholder: PropTypes.string,
-};
