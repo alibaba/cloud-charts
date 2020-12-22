@@ -50,8 +50,8 @@ export class CountUp {
   frameVal: number;
 
   constructor(
-    private target: string | HTMLElement | HTMLInputElement,
-    private endVal: number,
+    target: string | HTMLElement | HTMLInputElement,
+    public endVal: number,
     public options?: CountUpOptions
   ) {
     this.options = {
