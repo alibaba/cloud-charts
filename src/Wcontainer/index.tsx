@@ -1,17 +1,37 @@
 'use strict';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 import Divider from './views/divider';
 import chartLog from "../common/log";
-import { isMobileWithProps } from '../common/platform';
+import { isMobileWithProps, MobileProps } from '../common/platform';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
 const prefix = `${PrefixName}-wcontainer`;
 
-export default class Wcontainer extends React.Component {
+interface WcontainerProps extends MobileProps {
+  className?: string;
+  style?: React.CSSProperties;
+  width?: string | number;
+  height?: string | number;
+  arrange?: 'normal' | 'cross';
+  title?: React.ReactNode;
+  titleBorder?: boolean;
+  operation?: React.ReactNode;
+  titleStyle?: React.CSSProperties;
+  contentStyle?: React.CSSProperties;
+  fullContent?: boolean;
+
+  catchError?: boolean;
+  onError?(error: Error, info: React.ErrorInfo): boolean | void;
+}
+
+interface WcontainerState {
+  criticalError?: Error;
+}
+
+export default class Wcontainer extends React.Component<WcontainerProps, WcontainerState> {
   static displayName = 'Wcontainer';
 
   static defaultProps = {
@@ -22,7 +42,11 @@ export default class Wcontainer extends React.Component {
     catchError: true,
   };
 
-  constructor(props) {
+  static divider = Divider;
+
+  static combiner = 'combiner';
+
+  constructor(props: WcontainerProps) {
     super(props);
     this.state = { criticalError: null };
 
@@ -43,9 +67,7 @@ export default class Wcontainer extends React.Component {
     }
   }
 
-  // componentDidCatch
-
-  renderTitle(title, titleBorder, operation, titleStyle) {
+  renderTitle(title: React.ReactNode, titleBorder: boolean, operation: React.ReactNode, titleStyle: React.CSSProperties) {
     const titleBorderCls = titleBorder ? `${prefix}-title-border` : '';
     return (
       <div className={`${prefix}-title ${titleBorderCls}`} style={titleStyle}>
@@ -60,10 +82,11 @@ export default class Wcontainer extends React.Component {
     );
   }
 
-  renderMainNormal(contentStyle, fullContent) {
+  renderMainNormal(contentStyle: React.CSSProperties, fullContent: boolean) {
     const { children: propsChildren, title } = this.props;
 
     const oneChild = React.Children.count(propsChildren) === 1;
+    // @ts-ignore
     if ((oneChild && propsChildren && propsChildren.type && propsChildren.type.isG2Chart) || fullContent) {
       return (
         <div className={`${prefix}-main ${prefix}-main-one-chart ${title ? '' : 'no-title'}`} style={contentStyle}>
@@ -86,6 +109,7 @@ export default class Wcontainer extends React.Component {
                 </div>
               );
             }
+            // @ts-ignore
             if (child.type.displayName === 'Wicon' || child.type.displayName === 'Wcircle') {
               return (
                 <div className={`${prefix}-col ${prefix}-col-fixed-2`} key={i}>
@@ -93,6 +117,7 @@ export default class Wcontainer extends React.Component {
                 </div>
               );
             }
+            // @ts-ignore
             if (child.type.displayName === 'Wminiline') {
               return (
                 <div className={`${prefix}-col ${prefix}-col-fixed-4`} key={i}>
@@ -100,6 +125,7 @@ export default class Wcontainer extends React.Component {
                 </div>
               );
             }
+            // @ts-ignore
             if (child.type.displayName === 'Divider') {
               return (
                 <div className={`${prefix}-col ${prefix}-col-fixed-1`} key={i}>
@@ -114,13 +140,15 @@ export default class Wcontainer extends React.Component {
     );
   }
 
-  renderMainCross(contentStyle) {
+  renderMainCross(contentStyle: React.CSSProperties) {
     let maxColPerRow = 0;
     let currentColPerRow = 0;
     // 计算栅格的ColSpan
     React.Children.forEach(this.props.children, (child) => {
+      // @ts-ignore
       if (child.type.displayName !== 'Divider') {
         currentColPerRow += 1;
+        // @ts-ignore
       } else if (child.type && child.type !== 'combiner') {
         if (currentColPerRow > maxColPerRow) {
           maxColPerRow = currentColPerRow;
@@ -151,12 +179,14 @@ export default class Wcontainer extends React.Component {
     );
   }
 
+  container: HTMLDivElement;
+
   render() {
-    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile, catchError, ...otherProps } = this.props;
+    const { width, height, arrange, title, titleBorder, operation, className, style, titleStyle, contentStyle, fullContent, isMobile, catchError, onError, ...otherProps } = this.props;
     const mainClasses = classNames({
       [FullCrossName]: true,
       [`${prefix}`]: true,
-      [`${prefix}-mobile`]: isMobileWithProps(this.props, isMobile),
+      [`${prefix}-mobile`]: isMobileWithProps(this.props),
       [className]: !!className
     });
 
@@ -185,15 +215,12 @@ export default class Wcontainer extends React.Component {
   }
 }
 
-Wcontainer.propTypes = {
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-};
-
-function chunks(arr, maxSpan) {
-  const rs = [];
-  let oneRow = [];
+function chunks(arr: React.ReactNode, maxSpan: number) {
+  const rs: React.ReactElement[] = [];
+  let oneRow: React.ReactElement[] = [];
+  const len = React.Children.count(arr);
   React.Children.forEach(arr, (child, i) => {
+    // @ts-ignore
     if (child.type && child.type.displayName === 'Divider') {
       rs.push(
         <div className={`${prefix}-row ${prefix}-row-across ${prefix}-row-align-center`} key={i}>
@@ -201,6 +228,7 @@ function chunks(arr, maxSpan) {
         </div>
       );
       oneRow = [];
+      // @ts-ignore
     } else if (child.type === 'combiner' && oneRow.length) {
       const lastChild = oneRow[oneRow.length - 1].props.children;
       const lastSpan = oneRow[oneRow.length - 1].props.span;
@@ -209,7 +237,7 @@ function chunks(arr, maxSpan) {
           {lastChild}
         </div>
       );
-    } else if (i === arr.length - 1) {
+    } else if (i === len - 1) {
       oneRow.push(
         <div className={`${prefix}-col ${prefix}-col-${maxSpan}`} key={i}>
           {child}
@@ -230,6 +258,3 @@ function chunks(arr, maxSpan) {
   });
   return rs;
 }
-
-Wcontainer.divider = Divider;
-Wcontainer.combiner = 'combiner';

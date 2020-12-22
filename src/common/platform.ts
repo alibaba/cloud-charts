@@ -5,7 +5,7 @@
  */
 export const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-interface MobileProps {
+export interface MobileProps {
   isMobile?: boolean;
 }
 
