@@ -1,7 +1,8 @@
 'use strict';
-import { Chart, Types } from "./types";
+import { Chart } from "./types";
 import label, { LabelConfig } from './label';
 import geomSize, { GeomSizeConfig } from './geomSize';
+import geomStyle, { GeomStyleConfig } from './geomStyle';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -21,14 +22,14 @@ export interface DrawLineConfig {
   /** 是否展示线上点 */
   symbol?: {
     size?: GeomSizeConfig;
-    geomStyle?: Types.LooseObject;
+    geomStyle?: GeomStyleConfig;
   } | boolean,
   /** 数据label */
   label?: LabelConfig | boolean,
   /** 线条宽度 */
   lineWidth?: number;
   /** 元素样式 */
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
 }
 
 /**
@@ -39,12 +40,6 @@ export interface DrawLineConfig {
  * @param {string} yAxisKey 数据映射字段
  * */
 export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey = 'y') {
-  const { lineWidth } = config;
-  const geomStyle = config.geomStyle || {};
-  if (lineWidth && geomStyle.lineWidth === undefined) {
-    geomStyle.lineWidth = lineWidth;
-  }
-
   let areaColors = config.areaColors || config.colors;
   if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.colors, config.areaColors);
@@ -73,10 +68,6 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .color('type', config.colors)
       .shape(lineShape)
       .adjust('stack');
-      // .style('x*y*type*extra', {
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
   } else if (config.area && !config.stack) {
     chart.area()
       .position(['x', yAxisKey])
@@ -87,26 +78,25 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      // .style('x*y*type*extra', {
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
   } else {
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
-      // .style('x*y*type*extra', {
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
   }
+
+  const { lineWidth } = config;
+
+  geomStyle(lineGeom, config.geomStyle, {
+    lineWidth,
+    lineJoin: 'round',
+  });
 
   label(lineGeom, config, yAxisKey);
 
-  // 曲线默认点
-  let pointGeom = null;
+  // 曲线上圆点
   if (config.symbol) {
+    let pointGeom = null;
     if (config.area && config.stack) {
       pointGeom = chart.point()
         .adjust('stack')
@@ -123,9 +113,9 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
     if (typeof config.symbol === 'object') {
       geomSize(pointGeom, config.symbol.size, 3, yAxisKey, 'type');
 
-      // if (config.symbol.geomStyle) {
-      //   pointGeom.style('x*y*type*extra', config.symbol.geomStyle);
-      // }
+      if (config.symbol.geomStyle) {
+        geomStyle(pointGeom, config.symbol.geomStyle);
+      }
     }
   }
 }
