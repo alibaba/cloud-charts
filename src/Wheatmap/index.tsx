@@ -14,7 +14,7 @@ import legendFilter from '../common/legendFilter';
 import './index.scss';
 
 // 3.x代码
-interface WheatmapConfig extends BaseChartConfig {
+export interface WheatmapConfig extends BaseChartConfig {
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
@@ -26,7 +26,7 @@ interface WheatmapConfig extends BaseChartConfig {
   coordinate?: Types.LooseObject;
 }
 
-class Wheatmap extends Base<WheatmapConfig> {
+export class Heatmap extends Base<WheatmapConfig> {
   chartName = 'G2Heatmap';
 
   getDefaultConfig(): WheatmapConfig {
@@ -160,8 +160,9 @@ class Wheatmap extends Base<WheatmapConfig> {
     });
   }
 }
+const Wheatmap: typeof Heatmap = errorWrap(Heatmap);
 
-export default errorWrap(Wheatmap);
+export default Wheatmap;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Heatmap', {
 //   getDefaultConfig() {

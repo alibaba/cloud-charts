@@ -12,7 +12,7 @@ import { pxToNumber, numberDecimal } from '../common/common';
 import './index.scss';
 
 // 3.x代码
-interface WfunnelConfig extends BaseChartConfig {
+export interface WfunnelConfig extends BaseChartConfig {
   colors?: string[];
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -27,7 +27,7 @@ interface WfunnelConfig extends BaseChartConfig {
   // symbol?: boolean,
 }
 
-class Wfunnel extends Base<WfunnelConfig> {
+export class Funnel extends Base<WfunnelConfig> {
   chartName = 'G2Funnel';
 
   getDefaultConfig(): WfunnelConfig {
@@ -229,7 +229,9 @@ function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, perce
   });
 }
 
-export default errorWrap(Wfunnel);
+const Wfunnel: typeof Funnel = errorWrap(Funnel);
+
+export default Wfunnel;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Funnel', {
 //   getDefaultConfig() {

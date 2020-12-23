@@ -17,7 +17,7 @@ import { LabelConfig } from '../common/label';
 import './index.scss';
 
 // 3.x代码
-interface WtreemapConfig extends BaseChartConfig {
+export interface WtreemapConfig extends BaseChartConfig {
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
@@ -30,7 +30,7 @@ interface WtreemapConfig extends BaseChartConfig {
   innerRadius?: number;
 }
 
-class Wtreemap extends Base<WtreemapConfig> {
+export class Treemap extends Base<WtreemapConfig> {
   chartName = 'G2Treemap';
   convertData = false;
 
@@ -283,8 +283,9 @@ function getNodeValue(n: any) {
   return n.data.value;
 }
 
-export default errorWrap(Wtreemap);
+const Wtreemap: typeof Treemap = errorWrap(Treemap);
 
+export default Wtreemap;
 // export default /*#__PURE__*/ errorWrap(
 //   g2Factory('G2Treemap', {
 //     convertData: false,

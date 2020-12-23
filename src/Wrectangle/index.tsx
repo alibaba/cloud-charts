@@ -16,7 +16,7 @@ import '@antv/data-set/lib/transform/bin/rectangle';
 import './index.scss';
 
 // 3.x代码
-interface WrectangleConfig extends BaseChartConfig {
+export interface WrectangleConfig extends BaseChartConfig {
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
@@ -29,7 +29,7 @@ interface WrectangleConfig extends BaseChartConfig {
   geomStyle?: Types.LooseObject;
 }
 
-class Wrectangle extends Base<WrectangleConfig> {
+export class Rectangle extends Base<WrectangleConfig> {
   chartName = 'G2Rectangle';
 
   convertData = false;
@@ -161,7 +161,9 @@ class Wrectangle extends Base<WrectangleConfig> {
   }
 }
 
-export default errorWrap(Wrectangle);
+const Wrectangle: typeof Rectangle = errorWrap(Rectangle);
+
+export default Wrectangle;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Rectangle', {
 //   convertData: false,

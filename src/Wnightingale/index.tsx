@@ -13,7 +13,7 @@ import themes from '../themes/index';
 import './index.scss';
 
 // 3.x代码
-interface WnightingaleConfig extends BaseChartConfig {
+export interface WnightingaleConfig extends BaseChartConfig {
   colors?: string[];
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -24,7 +24,7 @@ interface WnightingaleConfig extends BaseChartConfig {
   geomStyle?: Types.LooseObject;
 }
 
-class Wnightingale extends Base<WnightingaleConfig> {
+export class Nightingale extends Base<WnightingaleConfig> {
   chartName = 'G2Nightingale';
 
   getDefaultConfig(): WnightingaleConfig {
@@ -97,8 +97,9 @@ class Wnightingale extends Base<WnightingaleConfig> {
     });
   }
 }
+const Wnightingale: typeof Nightingale = errorWrap(Nightingale);
 
-export default errorWrap(Wnightingale);
+export default Wnightingale;
 
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。
 // 方法运行时的this指向图表实例，所以可以在this上挂载需要保留的数据。

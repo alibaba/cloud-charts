@@ -18,7 +18,7 @@ import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
 // 3.x代码
-interface WradarConfig extends BaseChartConfig, DrawLineConfig {
+export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
   colors?: string[];
   areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
@@ -33,7 +33,7 @@ interface WradarConfig extends BaseChartConfig, DrawLineConfig {
   radius?: number;
 }
 
-class Wradar extends Base<WradarConfig> {
+export class Radar extends Base<WradarConfig> {
   getDefaultConfig(): WradarConfig {
     return {
       // colors: themes.category_12,
@@ -116,7 +116,9 @@ class Wradar extends Base<WradarConfig> {
   }
 }
 
-export default errorWrap(Wradar);
+const Wradar: typeof Radar = errorWrap(Radar);
+
+export default Wradar;
 
 // 2.x版本
 // 对外暴露一个对象，除了init方法必选外，其余均为可选项，按组件需要选择性使用。

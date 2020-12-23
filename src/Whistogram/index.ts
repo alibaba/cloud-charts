@@ -18,7 +18,7 @@ import legendFilter from '../common/legendFilter';
 import getGeomSizeConfig from '../common/geomSize';
 
 // 3.x代码
-interface WhistogramConfig extends BaseChartConfig {
+export interface WhistogramConfig extends BaseChartConfig {
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
@@ -36,7 +36,7 @@ interface WhistogramConfig extends BaseChartConfig {
   column?: boolean;
 }
 
-class Whistogram extends Base<WhistogramConfig> {
+export class Histogram extends Base<WhistogramConfig> {
   chartName = 'G2Histogram';
 
   getDefaultConfig(): WhistogramConfig {
@@ -201,7 +201,9 @@ function computerData(config: WhistogramConfig, data: ChartData) {
   return dv;
 }
 
-export default errorWrap(Whistogram);
+const Whistogram: typeof Histogram = errorWrap(Histogram);
+
+export default Whistogram;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2Histogram', {
 //   // convertData: false,
