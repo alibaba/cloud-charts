@@ -6,32 +6,29 @@ import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
-// import getGeomSizeConfig from "../common/geomSize";
-
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import { LabelConfig } from "../common/label";
-
-// import label from '../common/label';
+// import { LabelConfig } from "../common/label";
+import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
 
 interface WboxConfig extends BaseChartConfig {
   colors?: string[];
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
-  guide?: GuideConfig,
-  label?: LabelConfig | boolean,
-  dodge?: boolean,
-  marginRatio: number,
-  grid?: boolean,
-  size: string | number,
-  facet? : boolean,
-  // 剩余部分自行定义
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
+  guide?: GuideConfig;
+  // label?: LabelConfig | boolean;
+  dodge?: boolean;
+  marginRatio: number;
+  grid?: boolean;
+  size?: GeomSizeConfig;
+  geomStyle?: GeomStyleConfig;
 }
 
 class Wbox extends Base<WboxConfig> {
@@ -71,16 +68,6 @@ class Wbox extends Base<WboxConfig> {
     };
   }
 
-  // beforeInit(props) {
-  //   const { config } = props;
-  //   const newConfig = merge({}, this.defaultConfig, config);
-  //
-  //   // TODO 处理padding
-  //   return Object.assign({}, props, {
-  //     padding: defaultPadding(props.padding || config.padding, newConfig, ...this.defaultConfig.padding),
-  //     config: newConfig,
-  //   });
-  // }
   init(chart: Chart, config: WboxConfig, data: any) {
 
     // 设置数据度量
@@ -101,9 +88,7 @@ class Wbox extends Base<WboxConfig> {
     chart.data(data);
 
     // 设置单个Y轴
-    if (!config.facet) {
-      rectYAxis.call(this, chart, config);
-    }
+    rectYAxis.call(this, chart, config);
 
     // 设置X轴
     rectXAxis.call(this, chart, config);
@@ -123,11 +108,6 @@ class Wbox extends Base<WboxConfig> {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    // // 横向柱状图
-    // if (!config.column) {
-    //   chart.coord().transpose();
-    // }
-
     drawBox(chart, config, config.colors);
 
   }
@@ -136,19 +116,9 @@ class Wbox extends Base<WboxConfig> {
 export default errorWrap(Wbox);
 
 function drawBox(chart: Chart, config: WboxConfig, colors: string[], field = 'type') {
-  const { dodge, marginRatio } = config;
-  let geom = null;
+  const { dodge, marginRatio, size } = config;
 
-  // 分组
-  geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors)
-      .style(field, (type) => {
-        return {
-          lineWidth: 2
-        }
-        // fill: (type) => {
-        //
-        // }
-      });
+  const geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors);
 
   if (dodge !== false) {
     geom.adjust([{
@@ -157,10 +127,11 @@ function drawBox(chart: Chart, config: WboxConfig, colors: string[], field = 'ty
     }]);
   }
 
-  // if (size) {
-  //   const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*extra');
-  //   geom.size(...sizeConfig);
-  // }
+  geomSize(geom, size, null, 'y', 'x*y*type*extra');
+
+  geomStyle(geom, config.geomStyle, {
+    lineWidth: 2
+  }, 'x*y*type*extra');
 
   // label(geom, config);
 }
