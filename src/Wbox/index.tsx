@@ -25,7 +25,7 @@ interface WboxConfig extends BaseChartConfig {
   guide?: GuideConfig;
   // label?: LabelConfig | boolean;
   dodge?: boolean;
-  marginRatio: number;
+  marginRatio?: number;
   grid?: boolean;
   size?: GeomSizeConfig;
   geomStyle?: GeomStyleConfig;
