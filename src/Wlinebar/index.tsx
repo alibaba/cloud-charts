@@ -16,7 +16,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
-import { GeomSizeConfig } from "../common/geomSize";
+import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
@@ -157,7 +158,7 @@ function getLegendItems(
   return result;
 }
 
-class Wlinebar extends Base<WlinebarConfig> {
+export class Linebar extends Base<WlinebarConfig> {
   chartName = 'G2LineBar';
 
   convertData = false;
@@ -457,7 +458,9 @@ class Wlinebar extends Base<WlinebarConfig> {
   }
 }
 
-export default errorWrap(Wlinebar);
+const Wlinebar: typeof Linebar = errorWrap(Linebar);
+
+export default Wlinebar;
 
 interface BarConfig {
   barColors?: string[];
@@ -465,11 +468,10 @@ interface BarConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   dodgeStack?: boolean;
-  barGeomStyle?: Types.LooseObject;
+  barGeomStyle?: GeomStyleConfig;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack } = config;
-  const geomStyle = config.barGeomStyle || {};
 
   let intervalGeom = null;
   if (dodgeStack) {
@@ -505,9 +507,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
       }]);
   }
 
-  intervalGeom.style({
-    ...geomStyle,
-  });
+  geomStyle(intervalGeom, config.barGeomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
 
   label(intervalGeom, config, yAxisKey, null, 'barLabel');
 
@@ -524,19 +524,19 @@ interface LineConfig {
   step?: string | boolean,
   symbol?: {
     size?: GeomSizeConfig;
-    geomStyle?: Types.LooseObject;
+    geomStyle?: GeomStyleConfig;
   } | boolean,
   label?: LabelConfig | boolean,
   lineWidth?: number;
-  lineGeomStyle?: Types.LooseObject;
+  lineGeomStyle?: GeomStyleConfig;
 }
 function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
   let lineGeom = null;
   const { lineWidth } = config;
-  const geomStyle = config.lineGeomStyle || {};
-  if (lineWidth !== undefined) {
-    geomStyle.lineWidth = lineWidth;
-  }
+  // const geomStyle = config.lineGeomStyle || {};
+  // if (lineWidth !== undefined) {
+  //   geomStyle.lineWidth = lineWidth;
+  // }
 
   // 区域、堆叠、平滑曲线
   const lineShape = config.spline ? 'smooth' : 'line';
@@ -583,24 +583,39 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
       // });
   }
 
+  geomStyle(lineGeom, config.lineGeomStyle, {
+    lineWidth,
+    lineJoin: 'round',
+  }, `x*${yAxisKey}*${legendKey}*extra`);
+
   label(lineGeom, config, yAxisKey, null, 'lineLabel');
 
   // 曲线默认点
-  if (config.symbol && config.area && stack) {
-    chart.point()
-      .adjust('stack')
-      .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
-      .shape('circle')
-      .size(3)
-      // .active(false);
-  } else if (config.symbol) {
-    chart.point()
-      .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
-      .shape('circle')
-      .size(3)
-      // .active(false);
+  if (config.symbol) {
+    let pointGeom = null;
+
+    if (config.area && stack) {
+      pointGeom = chart.point()
+        .adjust('stack')
+        .position(['x', yAxisKey])
+        .color(legendKey, config.lineColors)
+        .shape('circle')
+        .size(3)
+    } else {
+      pointGeom = chart.point()
+        .position(['x', yAxisKey])
+        .color(legendKey, config.lineColors)
+        .shape('circle')
+        .size(3)
+    }
+
+    if (typeof config.symbol === 'object') {
+      geomSize(pointGeom, config.symbol.size, 3, yAxisKey, legendKey);
+
+      if (config.symbol.geomStyle) {
+        geomStyle(pointGeom, config.symbol.geomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
+      }
+    }
   }
 
   return lineGeom;
