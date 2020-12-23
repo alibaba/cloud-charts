@@ -15,7 +15,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
 import legendFilter from '../common/legendFilter';
-import getGeomSizeConfig from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 
 // 3.x代码
 export interface WhistogramConfig extends BaseChartConfig {
@@ -28,11 +28,10 @@ export interface WhistogramConfig extends BaseChartConfig {
   label?: LabelConfig | boolean;
   bin?: any;
   grid?: boolean;
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
   normalize?: boolean;
   polar?: boolean;
   innerRadius?: number;
-  size?: number;
   column?: boolean;
 }
 
@@ -153,22 +152,14 @@ export class Histogram extends Base<WhistogramConfig> {
 }
 
 function drawHist(chart: Chart, config: WhistogramConfig, field = "type") {
-  const { size, colors } = config;
-  const geomStyle = config.geomStyle || {};
+  const { colors } = config;
   const geom = chart
     .interval()
     .position('x*y')
     .color(field, colors)
     .adjust('stack');
 
-
-  if (size) {
-    getGeomSizeConfig(geom, size, 20, "y", "x*y*type*extra");
-  }
-
-  geom.style({
-    ...geomStyle,
-  });
+  geomStyle(geom, config.geomStyle);
 
   label(geom, config);
 }
