@@ -9,6 +9,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from "../common/label";
+import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
@@ -28,10 +30,10 @@ interface WscatterConfig extends BaseChartConfig {
   guide?: GuideConfig,
   grid?: boolean,
   colors?: string[],
-  size: number,
-  jitter: jitterConfig | boolean,
+  size?: GeomSizeConfig,
+  jitter?: jitterConfig | boolean,
   label?: LabelConfig | boolean,
-  geomStyle?: Types.LooseObject
+  geomStyle?: GeomStyleConfig
 }
 
 
@@ -59,7 +61,7 @@ class Wscatter extends Base<WscatterConfig> {
 
   init(chart: Chart, config: WscatterConfig, data: any) {
     // const config = userConfig;
-    const { colors, jitter, geomStyle = {} } = config;
+    const { colors, jitter } = config;
 
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(
@@ -137,9 +139,7 @@ class Wscatter extends Base<WscatterConfig> {
       .point()
       .color('type', colors)
       .position('x*y')
-      .shape('circle')
-      .style(geomStyle)
-      // .active(false);
+      .shape('circle');
 
     if (jitter) {
       if (typeof jitter === 'object') {
@@ -152,8 +152,14 @@ class Wscatter extends Base<WscatterConfig> {
       }
     }
 
+    geomStyle(geom, config.geomStyle)
+
     label(geom, config);
 
+    geomSize(geom, config.size, 4, 'y', 'x*y*type*extra');
+    chart.legend('x', false);
+    chart.legend('y', false);
+    chart.legend('extra', false);
     // if (size) {
     //   const sizeConfig = getGeomSizeConfig(size, 4, 'y', 'x*y*type*extra');
     //   geom.size(...sizeConfig);
