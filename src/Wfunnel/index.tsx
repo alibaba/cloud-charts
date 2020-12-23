@@ -1,5 +1,5 @@
 'use strict';
-// 新增
+
 import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
@@ -9,6 +9,7 @@ import { GuideConfig } from '../common/guide';
 import { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import { pxToNumber, numberDecimal } from '../common/common';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
 
 // 3.x代码
@@ -22,9 +23,7 @@ export interface WfunnelConfig extends BaseChartConfig {
   direction?: string;
   align?: string;
   percent?: Types.LooseObject | boolean;
-  geomStyle?: Types.LooseObject;
-  // grid?: boolean,
-  // symbol?: boolean,
+  geomStyle?: GeomStyleConfig;
 }
 
 export class Funnel extends Base<WfunnelConfig> {
@@ -43,8 +42,6 @@ export class Funnel extends Base<WfunnelConfig> {
         nameFormatter: null,
         valueFormatter: null,
       },
-      // grid: false,
-      // symbol: false,
       label: false,
       pyramid: false,
       // 主方向，从上到下(vertical)、从左到右(horizontal)
@@ -154,10 +151,7 @@ export class Funnel extends Base<WfunnelConfig> {
         percentOffsetY = -3 * fontSize1;
     }
 
-    const geomStyle = config.geomStyle || {};
-    geom.style({
-      ...geomStyle,
-    });
+    geomStyle(geom, config.geomStyle);
 
     // TODO 自定义label
     if(config.label) {
