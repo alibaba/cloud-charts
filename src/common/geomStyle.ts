@@ -1,6 +1,7 @@
 'use strict';
 
 import { Geometry, Types } from "./types";
+import { parseFields } from '@antv/g2/esm/geometry/util/parse-fields';
 
 export type GeomStyleConfig = Types.LooseObject | Types.StyleOption | Types.StyleCallback;
 
@@ -23,7 +24,7 @@ export default function geomStyle(
   }
   if (typeof styleConfig === 'function') {
     geom.style({
-      fields: defaultFields,
+      fields: parseFields(defaultFields),
       callback(...args) {
         const s = styleConfig(...args) || {};
         return {
@@ -43,7 +44,7 @@ export default function geomStyle(
       });
     } else {
       geom.style({
-        fields: fields || defaultFields,
+        fields: parseFields(fields || defaultFields),
         callback(...args) {
           const s = callback(...args) || {};
           return {
@@ -72,7 +73,7 @@ export default function geomStyle(
     if (funcList.length > 0) {
       // style 设置存在函数
       geom.style({
-        fields: defaultFields,
+        fields: parseFields(defaultFields),
         callback(...args) {
           funcList.forEach(({ key, value }) => {
             s[key] = value(...args);
