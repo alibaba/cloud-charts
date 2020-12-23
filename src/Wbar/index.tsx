@@ -1,43 +1,42 @@
 'use strict';
 
-// import Brush from '@antv/g2-brush';
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
-// import ResetButton from '../common/ResetButton';
-// import getGeomSizeConfig from '../common/geomSize';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from "../common/label";
+import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import rectZoom from "../common/rectZoom";
 import './index.scss';
 
 interface WbarConfig extends BaseChartConfig {
   colors?: string[];
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
-  guide?: GuideConfig,
-  label?: LabelConfig | boolean,
-  column?: boolean,
-  dodgeStack?: boolean,
-  stack?: boolean,
-  stackReverse?: boolean,
-  marginRatio?: number,
-  grid?: boolean,
-  zoom?: boolean,
-  facet?: boolean,
-  size?: string | number,
-  polar?: boolean,
-  innerRadius?: number,
-  // geomStyle?: Types.LooseObject;
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
+  guide?: GuideConfig;
+  label?: LabelConfig | boolean;
+  column?: boolean;
+  dodgeStack?: boolean;
+  stack?: boolean;
+  stackReverse?: boolean;
+  marginRatio?: number;
+  grid?: boolean;
+  zoom?: boolean;
+  facet?: boolean;
+  size?: GeomSizeConfig;
+  polar?: boolean;
+  innerRadius?: number;
+  geomStyle?: GeomStyleConfig;
 }
 
 class Wbar extends Base<WbarConfig> {
@@ -80,20 +79,6 @@ class Wbar extends Base<WbarConfig> {
       innerRadius: 0,
     };
   }
-  // beforeInit(props) {
-  //   const { config } = props;
-  //   const newConfig = config;
-  //
-  //   // TODO 处理padding
-  //   return Object.assign({}, props, {
-  //     padding: defaultPadding(
-  //       props.padding || config.padding,
-  //       newConfig,
-  //       ...this.defaultConfig.padding
-  //     ),
-  //     config: newConfig,
-  //   });
-  // }
   init(chart: Chart, config: WbarConfig, data: any) {
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
@@ -237,95 +222,14 @@ class Wbar extends Base<WbarConfig> {
       drawBar(chart, config, config.colors);
     }
 
-    // if (config.stack) {
-    //   chart.interval().position('x*y').color('type', config.colors).adjust([{
-    //     type: 'stack',
-    //     reverseOrder: !config.stackReverse, // 层叠顺序倒序
-    //   }]);
-    // } else {
-    //   chart.interval().position('x*y').color('type', config.colors).adjust([{
-    //     type: 'dodge',
-    //     marginRatio: 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    //   }]);
-    // }
-
-
-    // // 拖拽缩放
-    // if (config.zoom) {
-    //   const button = new ResetButton(chart, this.language);
-    //   this.resetButton = button;
-    //
-    //   this.brush = new Brush({
-    //     canvas: chart.get('canvas'),
-    //     chart,
-    //     type: 'X',
-    //     onBrushstart(startPoint) {
-    //       chart.hideTooltip();
-    //       chart.emit('zoom:start', startPoint);
-    //     },
-    //     onBrushmove: () => {
-    //       chart.hideTooltip();
-    //       button.show(this.language);
-    //     },
-    //     onBrushend: ev => {
-    //       this.brush.container.clear(); // clear the brush
-    //       const { type } = this.brush;
-    //       const { xScale } = this.brush;
-    //       const { yScale } = this.brush;
-    //       // filter data
-    //       if (type === 'X') {
-    //         xScale &&
-    //           chart.filter(xScale.field, val => {
-    //             return ev[xScale.field].indexOf(val) > -1;
-    //           });
-    //       } else if (type === 'Y') {
-    //         yScale &&
-    //           chart.filter(yScale.field, val => {
-    //             return ev[yScale.field].indexOf(val) > -1;
-    //           });
-    //       } else {
-    //         xScale &&
-    //           chart.filter(xScale.field, val => {
-    //             return ev[xScale.field].indexOf(val) > -1;
-    //           });
-    //         yScale &&
-    //           chart.filter(yScale.field, val => {
-    //             return ev[yScale.field].indexOf(val) > -1;
-    //           });
-    //       }
-    //       chart.repaint();
-    //
-    //       chart.emit('zoom:end', ev);
-    //     },
-    //   });
-    // }
     rectZoom(chart, config, this.language);
   }
-  // changeData(chart: Chart, config: WbarConfig, data: any) {
-  //   chart.changeData(data);
-  //
-  //   // // 更新 brush 的 scale 实例，fix 数据更新后拖动缩放失效的问题。
-  //   // if (config.zoom && this.brush) {
-  //   //   this.brush.xScale = chart.getXScale();
-  //   //   this.brush.yScale = chart.getYScales()[0];
-  //   // }
-  // }
-  // destroy() {
-  //   // 销毁时需要额外销毁缩放重置按钮
-  //   if (this.brush) {
-  //     this.brush.destroy();
-  //   }
-  //   if (this.resetButton) {
-  //     this.resetButton.destroy();
-  //   }
-  // }
 }
 
 export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack } = config;
-  // const geomStyle = config.geomStyle || {};
+  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
   let geom = chart.interval().position(['x', 'y']);
   if (dodgeStack) {
     geom = geom.color(field, colors).adjust([
@@ -357,14 +261,9 @@ function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'ty
     ]);
   }
 
-  // geom.style('x*y*type*extra', {
-  //   ...geomStyle,
-  // });
-  //
-  // if (size) {
-  //   const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*facet*extra');
-  //   geom.size(...sizeConfig);
-  // }
+  geomSize(geom, size, null, 'y', 'x*y*type*facet*extra');
+
+  geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
 
   label(geom, config);
 }
