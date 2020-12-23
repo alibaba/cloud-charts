@@ -90,7 +90,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
   geomStyle(lineGeom, config.geomStyle, {
     lineWidth,
     lineJoin: 'round',
-  });
+  }, `x*${yAxisKey}*type*extra`);
 
   label(lineGeom, config, yAxisKey);
 
@@ -114,7 +114,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       geomSize(pointGeom, config.symbol.size, 3, yAxisKey, 'type');
 
       if (config.symbol.geomStyle) {
-        geomStyle(pointGeom, config.symbol.geomStyle);
+        geomStyle(pointGeom, config.symbol.geomStyle, {}, `x*${yAxisKey}*type*extra`);
       }
     }
   }
