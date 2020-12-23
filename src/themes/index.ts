@@ -1,4 +1,3 @@
-// import G2 from '@antv/g2';
 import eventBus from "../common/eventBus";
 import { THEME } from '../constants';
 import { themeLog } from "../common/log";

@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Event } from '@antv/g2/esm';
+import { Chart, Event } from '@antv/g2/esm/core';
 import { Types } from './types';
 
 type Coordinate = 'x' | 'y' | 'xy';
