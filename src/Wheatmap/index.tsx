@@ -11,6 +11,7 @@ import label, { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
 
 // 3.x代码
@@ -22,7 +23,7 @@ export interface WheatmapConfig extends BaseChartConfig {
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
   coordinate?: Types.LooseObject;
 }
 
@@ -85,7 +86,7 @@ export class Heatmap extends Base<WheatmapConfig> {
 
     if (config.coordinate) {
       const { type = 'rect', reflect } = config.coordinate;
-      const coord = chart.coord(type);
+      const coord = chart.coordinate(type);
       if (reflect) {
         coord.reflect(reflect);
       }
@@ -126,8 +127,6 @@ export class Heatmap extends Base<WheatmapConfig> {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    const geomStyle = config.geomStyle || {};
-
     const geom = chart
       .polygon()
       .position('x*y')
@@ -137,12 +136,12 @@ export class Heatmap extends Base<WheatmapConfig> {
           name: `${x} - ${y}`,
           value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
         };
-      })
-      .style({
-        lineWidth: 1,
-        stroke: themes['widgets-map-area-border'],
-        ...geomStyle,
       });
+
+    geomStyle(geom, config.geomStyle, {
+      lineWidth: 1,
+      stroke: themes['widgets-map-area-border'],
+    });
 
     label(geom, config, 'y', {}, null, true, {
       position: 'middle',
