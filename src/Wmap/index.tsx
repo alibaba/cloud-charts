@@ -964,7 +964,6 @@ function getProjectionPosition(point: Types.LooseObject, view: DataView, project
 //   }
 // }
 
-// @ts-ignore
 const Wmap: typeof Map = errorWrap(Map);
 
 Wmap.Area = Map.Area;

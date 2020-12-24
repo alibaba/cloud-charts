@@ -15,7 +15,7 @@ interface ErrorState {
  * errorWrap 错误捕获HOC
  *
  * */
-/*#__PURE__*/function errorWrap<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: BaseClass<ChartConfig, Props>): typeof Component {
+/*#__PURE__*/function errorWrap<T, ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: T): T {
   class ErrorBoundary extends React.Component<Props & ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
@@ -84,10 +84,10 @@ interface ErrorState {
     // result.propTypes = Component.propTypes;
     result.defaultProps = Component.defaultProps;
 
-    return result as unknown as BaseClass<ChartConfig, Props>;
+    return result as unknown as T;
   }
 
-  return ErrorBoundary as unknown as BaseClass<ChartConfig, Props>;
+  return ErrorBoundary as unknown as T;
 }
 
 export default errorWrap;
