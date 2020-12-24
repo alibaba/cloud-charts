@@ -167,7 +167,7 @@ export class Linebar extends Base<WlinebarConfig> {
     return {
       lineColors: themes.category_12.slice(1),
       barColors: themes.linear_10,
-      // padding: ['auto', 'auto', 'auto', 'auto'],
+      padding: 'auto',
       xAxis: {
         type: 'timeCat', // 默认为线性
         mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
@@ -349,14 +349,18 @@ export class Linebar extends Base<WlinebarConfig> {
     });
 
     // 正式开始绘图，创建两个不同的view
-    const barView = chart.createView();
+    const barView = chart.createView({
+      padding: config.padding === 'auto' ? 'auto' : 0,
+    });
     barView.data(barData);
     this.barView = barView;
 
     // Tooltip 背景区域
     barView.interaction('active-region');
 
-    const lineView = chart.createView();
+    const lineView = chart.createView({
+      padding: config.padding === 'auto' ? 'auto' : 0,
+    });
     lineView.data(lineData);
     this.lineView = lineView;
     // 关闭一个View的X轴，避免重叠字体变粗

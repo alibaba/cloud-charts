@@ -320,6 +320,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     if (this.beforeInit) {
       currentProps = this.beforeInit(currentProps);
     }
+    currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
     const {
       width,
       height,
@@ -335,7 +336,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       container: this.chartDom,
       width: this.size[0],
       height: this.size[1] || 200,
-      padding: fixPadding(padding || config.padding),
+      padding: config.padding,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
