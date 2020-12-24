@@ -1,7 +1,6 @@
 'use strict';
 
 import { Chart, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
-// import { Controller } from '@antv/g2/esm/chart/controller/base';
 import defaultLayout from '@antv/g2/esm/chart/layout';
 import Base from "../common/Base";
 import themes from '../themes/index';
@@ -10,8 +9,9 @@ import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
-import { FullCrossName } from '../constants';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from '../common/errorWrap';
+import { FullCrossName } from '../constants';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -73,6 +73,7 @@ interface WpieConfig extends BaseChartConfig {
   outerRadius?: number;
   label?: LabelConfig | boolean,
   selectData?: string;
+  geomStyle?: GeomStyleConfig;
 }
 
 class Wpie extends Base<WpieConfig> {
@@ -96,62 +97,12 @@ class Wpie extends Base<WpieConfig> {
       autoSort: true,
       cycle: false,
       select: false,
-      // selectData: null,
       innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
       // drawPadding: [10, 10, 10, 10],
       label: false,
     };
   }
-  // beforeInit(props) {
-  //   const { config } = props;
-  //   const element = this.chartDom;
-  //   const padding = props.padding || config.padding || this.defaultConfig.padding;
-  //   const outerRadius = Math.max(Math.min(config.outerRadius || this.defaultConfig.outerRadius, 1), 0.01);
-  //   const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
-  //
-  //   // fix: padding 为 auto 时会计算错误
-  //   const boxHeight = element.offsetHeight - paddingNumber(padding[0]) - paddingNumber(padding[2]);
-  //   const boxWidth = element.offsetWidth - paddingNumber(padding[1]) - paddingNumber(padding[3]);
-  //   // 饼本体大小，向下取整
-  //   const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
-  //
-  //   element.style.paddingTop = `${padding[0]}px`;
-  //   element.style.paddingRight = `${padding[1]}px`;
-  //   element.style.paddingBottom = `${padding[2]}px`;
-  //   element.style.paddingLeft = `${padding[3]}px`;
-  //
-  //   this.childrenDom = element.querySelector('.cloud-charts-children');
-  //   if (this.childrenDom) {
-  //     this.childrenDom.style.width = `${diameter + drawPadding[1] + drawPadding[3]}px`;
-  //     this.childrenDom.style.height = `${boxHeight}px`;
-  //   }
-  //
-  //   // TODO 处理padding
-  //   return Object.assign({}, props, {
-  //     width: diameter + drawPadding[1] + drawPadding[3],
-  //     height: diameter + drawPadding[0] + drawPadding[2],
-  //     // forceFit: true,
-  //     padding: drawPadding,
-  //   });
-  // },
-  // changeSize(chart, config, w, h) {
-  //   const padding = config.padding || this.defaultConfig.padding;
-  //   const outerRadius = Math.max(Math.min(config.outerRadius || this.defaultConfig.outerRadius, 1), 0.01);
-  //   const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
-  //
-  //   const boxHeight = h - paddingNumber(padding[0]) - paddingNumber(padding[2]);
-  //   const boxWidth = w - paddingNumber(padding[1]) - paddingNumber(padding[3]);
-  //   // 饼本体大小，向下取整
-  //   const diameter = Math.floor(boxHeight < boxWidth ? boxHeight * outerRadius : boxWidth * outerRadius);
-  //
-  //   if (this.childrenDom) {
-  //     this.childrenDom.style.width = `${diameter + drawPadding[1] + drawPadding[3]}px`;
-  //     this.childrenDom.style.height = `${boxHeight}px`;
-  //   }
-  //
-  //   chart.changeSize(diameter + drawPadding[1] + drawPadding[3], diameter + drawPadding[0] + drawPadding[2]);
-  // },
 
   totalData = 0;
 
@@ -331,6 +282,8 @@ class Wpie extends Base<WpieConfig> {
       chart.interaction('element-single-selected');
     }
 
+    geomStyle(this.geom, config.geomStyle);
+
     const labelField = 'y';
     label(this.geom, config, labelField, null, undefined, false, {
       offset: 20,
@@ -407,10 +360,6 @@ class Wpie extends Base<WpieConfig> {
       }
     });
 
-    // const geomStyle = config.geomStyle || {};
-    // this.geom.style('x*y*type*extra', {
-    //   ...geomStyle,
-    // });
   }
 }
 
