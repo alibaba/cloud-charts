@@ -85,10 +85,8 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .shape(lineShape)
   }
 
-  const { lineWidth } = config;
-
   geomStyle(lineGeom, config.geomStyle, {
-    lineWidth,
+    lineWidth: config.lineWidth || 2,
     lineJoin: 'round',
   }, `x*${yAxisKey}*type*extra`);
 
