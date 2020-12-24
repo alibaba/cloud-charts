@@ -1,18 +1,10 @@
 'use strict';
-import { Chart, BaseChartConfig } from '../common/types';
+import { Chart, BaseChartConfig, View } from '../common/types';
 import Base from "../common/Base";
-
 import { DataSet } from '@antv/data-set/lib/data-set';
-// import '@antv/data-set/lib/connector/graph';
-// import '@antv/data-set/lib/connector/graph';
-// import { View as DataView } from '@antv/data-set/lib/view';
+import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/diagram/sankey';
 import '@antv/data-set/lib/connector/graph';
-
-// import '@antv/data-set/lib/api/hierarchy';
-// import '@antv/data-set/lib/connector/hierarchy';
-// import '@antv/data-set/lib/diagram/sankey'
-// import errorWrap from '../common/errorWrap';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
@@ -34,16 +26,16 @@ interface WsankeyConfig extends BaseChartConfig {
   // 剩余部分自行定义
 }
 
-class Sankey extends Base<WsankeyConfig> {
+export class Sankey extends Base<WsankeyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Sankey';
 
   convertData=  false;
-  private sankeyDataView: any;
-  private edgeView: any;
-  private nodeView: any;
+  private sankeyDataView: DataView;
+  private edgeView: View;
+  private nodeView: View;
 
-  getDefaultConfig():WsankeyConfig {
+  getDefaultConfig(): WsankeyConfig {
     return {
       // padding: ['auto', 40, 'auto', 'auto'],
       legend: {
@@ -61,16 +53,7 @@ class Sankey extends Base<WsankeyConfig> {
       // }
     };
   }
-  // beforeInit(props) {
-  //   const { config } = props;
-  //   // TODO 处理padding
-  //   return Object.assign({}, props, {
-  //     padding: props.padding || config.padding || this.defaultConfig.padding,
-  //   });
-  // },
-  init(chart: Chart, userConfig: WsankeyConfig, rawData: any) {
-    const config = userConfig;
-    const data = rawData;
+  init(chart: Chart, config: WsankeyConfig, data: any) {
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',
@@ -122,7 +105,7 @@ class Sankey extends Base<WsankeyConfig> {
         });
 
     // node view
-    const nodeView = chart.view();
+    const nodeView = chart.createView();
     this.nodeView = nodeView;
     nodeView.data(dv.nodes);
 
@@ -145,19 +128,17 @@ class Sankey extends Base<WsankeyConfig> {
       }));
     }
 
-    chart.render();
   }
 
-  changeData(chart: Chart, newConfig: WsankeyConfig, rawData: any) {
+  changeData(chart: Chart, newConfig: WsankeyConfig, data: any) {
     if (this.sankeyDataView && this.nodeView && this.edgeView) {
-      const data = rawData;
 
       this.sankeyDataView.source(data, {
         type: 'graph',
         edges: getEdges,
       });
-      this.edgeView.source(this.sankeyDataView.edges);
-      this.nodeView.source(this.sankeyDataView.nodes);
+      this.edgeView.data(this.sankeyDataView.edges);
+      this.nodeView.data(this.sankeyDataView.nodes);
       chart.render();
     }
   }

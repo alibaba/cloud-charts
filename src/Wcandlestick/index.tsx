@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from "../common/Base";
 // import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -13,8 +13,8 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import { LabelConfig } from "../common/label";
-
-import './index.scss';
+import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from "../common/errorWrap";
 
 function computeDataType(data: any) {
@@ -29,21 +29,27 @@ function computeDataType(data: any) {
   return data;
 }
 
-interface WcandlestickConfig extends BaseChartConfig {
-  colors?: string[];
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | false,
-  guide?: GuideConfig,
-  label?: LabelConfig | boolean,
-  grid?: boolean,
-  size: string | number,
-
-  // 剩余部分自行定义
+interface labelAlias {
+  start?: string;
+  end?: string;
+  min?: string;
+  max?: string;
 }
 
-class Candlestick extends Base<WcandlestickConfig> {
+interface WcandlestickConfig extends BaseChartConfig {
+  colors?: string[];
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig & { labelAlias?: labelAlias } | false;
+  guide?: GuideConfig;
+  label?: LabelConfig | boolean;
+  grid?: boolean;
+  size: GeomSizeConfig;
+  geomStyle?: GeomStyleConfig;
+}
+
+export class Candlestick extends Base<WcandlestickConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Wcandlestick';
   // convertData: false,
@@ -79,20 +85,6 @@ class Candlestick extends Base<WcandlestickConfig> {
       // label: false,
     };
   }
-  // beforeInit(props) {
-  //   const { config } = props;
-  //   const newConfig = config;
-  //
-  //   // TODO 处理padding
-  //   return Object.assign({}, props, {
-  //     padding: defaultPadding(
-  //       props.padding || config.padding,
-  //       newConfig,
-  //       ...this.defaultConfig.padding
-  //     ),
-  //     config: newConfig,
-  //   });
-  // }
   init(chart: Chart, config: WcandlestickConfig, data: any) {
 
     // 设置数据度量
@@ -176,23 +168,19 @@ class Candlestick extends Base<WcandlestickConfig> {
 
     drawCandle(chart, config, config.colors);
 
-    chart.render();
   }
-  // changeData(chart, data) {
-  //   chart.changeData(computeDataType(data));
-  // }
-};
+  changeData(chart: Chart, config: WcandlestickConfig, data: ChartData) {
+    chart.changeData(computeDataType(data));
+  }
+}
 
 const Wcandlestick: typeof Candlestick = errorWrap(Candlestick);
 
 export default Wcandlestick;
 
-function drawCandle(chart: Chart, config: any, colors: any) {
-  // const { size } = config;
-  /*let geom: any = null;
-
+function drawCandle(chart: Chart, config: WcandlestickConfig, colors: any) {
   // 分组
-  geom =*/ chart
+  const geom = chart
     .schema()
     .position(['x', 'y'])
     .shape('candle')
@@ -203,7 +191,6 @@ function drawCandle(chart: Chart, config: any, colors: any) {
     // .tooltip('type*start*end*max*min', (group, start, end, max, min) => {
     .tooltip('y*type', (y, group) => {
       const { labelAlias = {} } = config.tooltip || {};
-      console.log(config.tooltip, y, group)
       const {
         start: labelStart,
         end: labelEnd,
@@ -225,8 +212,8 @@ function drawCandle(chart: Chart, config: any, colors: any) {
         labelMin: labelMin || 'min',
       };
     });
-  // if (size) {
-  //   const sizeConfig = getGeomSizeConfig(size, 20, 'y', 'x*y*type*extra');
-  //   geom.size(...sizeConfig);
-  // }
+
+  geomSize(geom, config.size, 20, 'y', 'x*y*type*extra');
+
+  geomStyle(geom, config.geomStyle);
 }

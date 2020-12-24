@@ -16,30 +16,29 @@ import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import autoTimeMask from '../common/autoTimeMask';
 import legendFilter from '../common/legendFilter';
-// import getGeomSizeConfig from '../common/geomSize';
 
 interface jitterConfig {
   adjustNames?: string[];
 }
 
 interface WscatterConfig extends BaseChartConfig {
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
-  guide?: GuideConfig,
-  grid?: boolean,
-  colors?: string[],
-  size?: GeomSizeConfig,
-  jitter?: jitterConfig | boolean,
-  label?: LabelConfig | boolean,
-  geomStyle?: GeomStyleConfig
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
+  guide?: GuideConfig;
+  grid?: boolean;
+  colors?: string[];
+  size?: GeomSizeConfig;
+  jitter?: jitterConfig | boolean;
+  label?: LabelConfig | boolean;
+  geomStyle?: GeomStyleConfig;
 }
 
 
-class Scatter extends Base<WscatterConfig> {
-  // 原 g2Factory 的第一个参数，改为类的属性。
-  chartName = 'G2Line';
+export class Scatter extends Base<WscatterConfig> {
+  chartName = 'G2Scatter';
+
   getDefaultConfig(): WscatterConfig {
     return {
       // padding: ['auto', 'auto', 'auto', 'auto'],
@@ -160,18 +159,9 @@ class Scatter extends Base<WscatterConfig> {
     chart.legend('x', false);
     chart.legend('y', false);
     chart.legend('extra', false);
-    // if (size) {
-    //   const sizeConfig = getGeomSizeConfig(size, 4, 'y', 'x*y*type*extra');
-    //   geom.size(...sizeConfig);
-    //   chart.legend('x', false);
-    //   chart.legend('y', false);
-    //   chart.legend('extra', false);
-    // }
 
     // fix: 设置 rectLegend 后如果再调用 chart.legend 会生成默认图例
     rectLegend.call(this, chart, config, null, false, 'type');
-
-    chart.render();
   }
 }
 
