@@ -21,8 +21,9 @@ import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import themes from '../themes/index';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-// import label, { LabelConfig } from "../common/label";
+import label, { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import {
   MapChild,
   MapArea,
@@ -68,10 +69,10 @@ interface WmapConfig extends BaseChartConfig {
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
   /** @deprecated labels 已废弃，请使用 label */
-  labels?: boolean;
-  label?: boolean;
+  labels?: LabelConfig | boolean;
+  label?: LabelConfig | boolean;
   size?: GeomSizeConfig;
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
 }
 
 export interface MapProps extends ChartProps<WmapConfig> {
@@ -90,7 +91,7 @@ interface CustomProps {
   render(data: Types.LooseObject, index: number, otherProps: any): React.ReactNode;
 }
 
-class Wmap extends Base<WmapConfig, MapProps> {
+export class Map extends Base<WmapConfig, MapProps> {
   public static Area = MapArea;
   public static Point = MapPoint;
   public static HeatMap = MapHeatMap;
@@ -171,25 +172,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
         return;
       }
       if (type.displayName === MapShoot.displayName) {
-        // let newData = child.props.data;
-        // if (Array.isArray(newData)) {
-        //   newData = newData.map((d) => {
-        //     let from = { ...d.from };
-        //     let to = { ...d.to };
-        //     const fromPosition = this.convertPosition(from);
-        //     const toPosition = this.convertPosition(to);
-        //     if (fromPosition) {
-        //       from.x = fromPosition.x;
-        //       from.y = fromPosition.y;
-        //     }
-        //     if (toPosition) {
-        //       to.x = toPosition.x;
-        //       to.y = toPosition.y;
-        //     }
-        //     return { ...d, from, to };
-        //   });
-        // }
-        // shootLayer.push({ ...child.props, data: newData });
+        // 数据转换在 Shoot 内部完成
         shootLayer.push(props);
         return;
       }
@@ -212,14 +195,6 @@ class Wmap extends Base<WmapConfig, MapProps> {
       return null;
     }
     const { data, render, ...otherProps } = layer;
-    // const { width: chartWidth, height: chartHeight } = this.chart;
-    // const [width, height] = this.bgMapSize;
-    // const layerStyle = {
-    //   left: (chartWidth - width) / 2,
-    //   top: (chartHeight - height) / 2,
-    //   width,
-    //   height,
-    // };
 
     return (
       <div key={layerIndex} className={`${FullCrossName}-map-custom-container`}>
@@ -248,7 +223,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
     if (!this.chart) {
       return null;
     }
-    const { className, style } = shootProps;
+    const { className, style, ...otherShootProps } = shootProps;
     const { width: chartWidth, height: chartHeight } = this.chart;
     // const [width, height] = this.bgMapSize;
     // const layerStyle = {
@@ -267,7 +242,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
         height={chartHeight}
         style={style}
         getPosition={this.convertPosition}
-        {...shootProps}
+        {...otherShootProps}
       />
     );
   }
@@ -421,19 +396,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
     );
 
     // 设置图例
-    rectLegend.call(this, chart, config, {
-      // autoCollapse: false,
-      // position: 'left',
-      // align: 'bottom',
-      // paddingIgnore: true,
-      // 使用container控制图例添加的位置，方便调整样式
-      // container: `#${this.chartId}-legend`,
-      // 'g2-legend': {
-      //   ...legendHtmlContainer,
-      //   position: 'static',
-      //   overflow: 'visible',
-      // },
-    });
+    rectLegend.call(this, chart, config, {});
 
     const ds = new DataSet();
     this.ds = ds;
@@ -537,7 +500,7 @@ class Wmap extends Base<WmapConfig, MapProps> {
 }
 
 // 绘制地图背景
-function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig) {
+function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig) {
   let geoData = null;
   if (ctx.geoData) {
     // 如果用户有传geoData，优先使用
@@ -606,8 +569,8 @@ function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapCon
   if (width !== chartWidth || height !== chartHeight) {
     const p1 = (chartWidth - width) / 2;
     const p2 = (chartHeight - height) / 2;
+    // 不设置尺寸，通过padding控制地图形状
     chart.appendPadding = [p2, p1, p2, p1];
-    // chart.changeSize(width, height);
   }
   ctx.bgMapSize = [width, height];
   // end: 按照投影后尺寸比例调整图表的真实比例
@@ -644,7 +607,7 @@ function drawMapBackground(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapCon
 }
 
 // 绘制分级统计地图
-function drawMapArea(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
+function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
   let { areaMapDataView } = ctx;
   if (areaMapDataView) {
     areaMapDataView.origin !== data && areaMapDataView.source(data);
@@ -675,7 +638,7 @@ function drawMapArea(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
     padding: 0,
   });
     areaMapView.data(areaMapDataView.rows);
-    /*const areaGeom = */areaMapView
+    const areaGeom = areaMapView
       .polygon()
       .position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
@@ -686,9 +649,7 @@ function drawMapArea(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
         value,
       }));
 
-    if (config.geomStyle) {
-      // areaGeom.style('name*value', config.geomStyle);
-    }
+    geomStyle(areaGeom, config.geomStyle);
 
     ctx.areaMapDataView = areaMapDataView;
     ctx.areaMapView = areaMapView;
@@ -696,7 +657,7 @@ function drawMapArea(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
 }
 
 // 绘制散点图
-function drawMapPoint(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
+function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
   let { pointMapDataView } = ctx;
   if (pointMapDataView) {
     pointMapDataView.origin !== data && pointMapDataView.source(data);
@@ -730,15 +691,16 @@ function drawMapPoint(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, 
 
     geomSize(pointGeom, config.size, 4, 'value', 'name*value');
 
-
-    if (config.geomStyle) {
-      // pointGeom.style('name*value', config.geomStyle);
-    }
+    geomStyle(pointGeom, config.geomStyle);
 
     if (config.labels) {
       console.warn(`config.labels 已废弃，请使用 config.label`);
     }
 
+    label(pointGeom, config, 'name', {
+      // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
+      animate: false,
+    });
     if (config.labels || config.label) {
       // let labelConfig = {};
       // if (typeof config.labels === 'object') {
@@ -769,7 +731,7 @@ function drawMapPoint(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, 
 }
 
 // 绘制热力图
-function drawHeatMap(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
+function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
   let { heatMapDataView } = ctx;
   if (heatMapDataView) {
     heatMapDataView.origin !== data && heatMapDataView.source(data);
@@ -800,14 +762,6 @@ function drawHeatMap(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
         name,
         value,
       }))
-      // heatmap 不支持 opacity，似乎不支持 style
-      // .style('name*value', {
-      //   // opacity(name, value) {
-      //   //   return 0.5;
-      //   // },
-      //   ...(config.geomStyle || {}),
-      // })
-      // .active(false);
 
     geomSize(heatGeom, config.size, 16, 'value', 'name*value');
 
@@ -817,7 +771,7 @@ function drawHeatMap(ctx: Wmap, chart: Chart, ds: DataSet, config: WmapConfig, d
 }
 
 // 绘制背景地图标签
-function drawMapLabel(ctx: Wmap, chart: Chart, config: WmapConfig) {
+function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
   const labelConfig = config.labels || config.label;
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
@@ -840,8 +794,8 @@ function drawMapLabel(ctx: Wmap, chart: Chart, config: WmapConfig) {
     return label;
   });
 
-  // @ts-ignore TODO label 统一化
-  const { offset = 0, textStyle = {}, formatter } =
+  // @ts-ignore label 需要函数处理，无法放到 label 工具函数中
+  const { offset = 0, textStyle = {}, labelFormatter } =
     typeof labelConfig === 'object' ? labelConfig : {};
 
   const labelMapView = chart.createView({
@@ -871,9 +825,9 @@ function drawMapLabel(ctx: Wmap, chart: Chart, config: WmapConfig) {
         // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
         animate: false,
       };
-      if (formatter) {
+      if (labelFormatter) {
         result.content = (v, item, index) => {
-          return formatter(v['name'], item, index);
+          return labelFormatter(v['name'], item, index);
         }
       }
       return result;
@@ -914,7 +868,7 @@ function convertMapData(data: RawMapData[]) {
 }
 
 // 计算数据的坐标点
-export function convertPointPosition(ctx: Wmap, point: Types.LooseObject) {
+export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
   if (point.x && point.y) {
     return point;
   }
@@ -1010,4 +964,17 @@ function getProjectionPosition(point: Types.LooseObject, view: DataView, project
 //   }
 // }
 
-export default errorWrap(Wmap);
+// @ts-ignore
+const Wmap: typeof Map = errorWrap(Map);
+
+Wmap.Area = Map.Area;
+Wmap.Point = Map.Point;
+Wmap.HeatMap = Map.HeatMap;
+Wmap.Shoot = Map.Shoot;
+Wmap.Custom = Map.Custom;
+Wmap.chinaGeoData = Map.chinaGeoData;
+Wmap.provinceName = Map.provinceName;
+Wmap.positionMap = Map.positionMap;
+Wmap.getGeoProjection = Map.getGeoProjection;
+
+export default Wmap;
