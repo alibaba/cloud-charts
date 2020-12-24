@@ -3,7 +3,7 @@
 import { Line, WlineConfig } from '../Wline';
 import errorWrap from '../common/errorWrap';
 
-class Wminiline extends Line {
+export class Miniline extends Line {
   chartName = 'G2MiniLine';
 
   getDefaultConfig(): WlineConfig {
@@ -29,4 +29,6 @@ class Wminiline extends Line {
   }
 }
 
-export default errorWrap(Wminiline);
+const Wminiline: typeof Miniline = errorWrap(Miniline)
+
+export default Wminiline;
