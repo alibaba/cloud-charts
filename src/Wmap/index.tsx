@@ -635,8 +635,8 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       });
 
     const areaMapView = chart.createView({
-    padding: 0,
-  });
+      padding: 0,
+    });
     areaMapView.data(areaMapDataView.rows);
     const areaGeom = areaMapView
       .polygon()
@@ -675,8 +675,8 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       });
 
     const pointMapView = chart.createView({
-    padding: 0,
-  });
+      padding: 0,
+    });
     pointMapView.data(pointMapDataView.rows);
     const pointGeom = pointMapView
       .point()
@@ -749,8 +749,8 @@ function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       });
 
     const heatMapView = chart.createView({
-    padding: 0,
-  });
+      padding: 0,
+    });
     heatMapView.data(heatMapDataView.rows);
     chart.legend('value', false);
 
