@@ -38,7 +38,7 @@ export default function (
     configLabel = config[extraConfigKey];
   }
   // const configKey = extraConfigKey || defaultConfigKey;
-  if (configLabel === false || (typeof configLabel === 'object' && configLabel.visible === false)) {
+  if (!configLabel || (typeof configLabel === 'object' && configLabel.visible === false)) {
     return;
   }
   if (configLabel === true) {

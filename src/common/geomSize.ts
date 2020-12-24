@@ -21,6 +21,9 @@ export default function geomSize(
   functionKey: string
 ) {
   const size = sizeConfig || defaultValue;
+  if (!size) {
+    return;
+  }
   if (typeof size === 'number' || typeof size === 'string') {
     geom.size(size);
   } else if (Array.isArray(size)) {

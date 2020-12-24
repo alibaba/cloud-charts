@@ -19,6 +19,10 @@ export default function geomStyle(
   defaultStyle: Types.LooseObject = {},
   defaultFields: string = 'x*y*type*extra',
 ) {
+  if (!styleConfig && Object.keys(defaultStyle).length > 0) {
+    geom.style(defaultStyle);
+    return;
+  }
   if (!styleConfig) {
     return;
   }
