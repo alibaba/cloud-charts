@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart } from '@antv/g2/esm/core';
+import { Chart } from '@antv/g2/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
