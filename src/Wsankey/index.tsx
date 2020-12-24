@@ -34,7 +34,7 @@ interface WsankeyConfig extends BaseChartConfig {
   // 剩余部分自行定义
 }
 
-class Wsankey extends Base<WsankeyConfig> {
+class Sankey extends Base<WsankeyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Sankey';
 
@@ -163,4 +163,5 @@ class Wsankey extends Base<WsankeyConfig> {
   }
 }
 
-export default errorWrap(Wsankey);
+const Wsankey: typeof Sankey = errorWrap(Sankey);
+export default Wsankey;

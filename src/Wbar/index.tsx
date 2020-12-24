@@ -39,7 +39,7 @@ interface WbarConfig extends BaseChartConfig {
   geomStyle?: GeomStyleConfig;
 }
 
-class Wbar extends Base<WbarConfig> {
+class Bar extends Base<WbarConfig> {
   chartName = 'G2Bar';
   getDefaultConfig(): WbarConfig {
     return {
@@ -226,7 +226,12 @@ class Wbar extends Base<WbarConfig> {
   }
 }
 
-export default errorWrap(Wbar);
+const Wbar: typeof Bar = errorWrap(Bar);
+
+export default Wbar;
+
+
+// export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack, size } = config;

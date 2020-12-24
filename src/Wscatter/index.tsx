@@ -37,7 +37,7 @@ interface WscatterConfig extends BaseChartConfig {
 }
 
 
-class Wscatter extends Base<WscatterConfig> {
+class Scatter extends Base<WscatterConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Line';
   getDefaultConfig(): WscatterConfig {
@@ -175,4 +175,6 @@ class Wscatter extends Base<WscatterConfig> {
   }
 }
 
-export default errorWrap(Wscatter);
+const Wscatter: typeof Scatter = errorWrap(Scatter);
+export default Wscatter;
+

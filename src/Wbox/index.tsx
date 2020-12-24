@@ -31,7 +31,7 @@ interface WboxConfig extends BaseChartConfig {
   geomStyle?: GeomStyleConfig;
 }
 
-class Wbox extends Base<WboxConfig> {
+class Box extends Base<WboxConfig> {
 
   chartName = 'G2Box';
 
@@ -113,7 +113,9 @@ class Wbox extends Base<WboxConfig> {
   }
 }
 
-export default errorWrap(Wbox);
+
+const Wbox: typeof Box = errorWrap(Box);
+export default Wbox;
 
 function drawBox(chart: Chart, config: WboxConfig, colors: string[], field = 'type') {
   const { dodge, marginRatio, size } = config;
