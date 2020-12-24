@@ -47,8 +47,8 @@ function getLegendItems(
     style?: Types.LooseObject,
   ) {
     data.forEach((d, i) => {
-      const { name, visible } = d;
-      if (reMap[name]) {
+      const { name, visible, data } = d;
+      if (reMap[name] || !data || data.length === 0) {
         return;
       } else {
         reMap[name] = true;
