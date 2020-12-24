@@ -13,6 +13,7 @@ import rectLegend, { LegendConfig } from '../common/rectLegend';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import guide, { GuideConfig } from '../common/guide';
 import { LabelConfig } from '../common/label';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 
 import './index.scss';
 
@@ -25,7 +26,7 @@ export interface WtreemapConfig extends BaseChartConfig {
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
   polar?: boolean;
   innerRadius?: number;
 }
@@ -107,6 +108,9 @@ export class Treemap extends Base<WtreemapConfig> {
       },
     );
 
+    chart.axis(false);
+    chart.legend(false);
+
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
@@ -183,16 +187,13 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
     x: { nice: true },
     y: { nice: true },
   });
-  chart.axis(false);
-  chart.legend(false);
 
   // label 自定义配置项待传入，TODO
-  chart
+  const geom = chart
     .polygon()
     .position('x*y')
     .color(field, colors)
     .tooltip('name*value', (name, count) => ({ name, value: count, title: name }))
-    .style(config.geomStyle)
     .label(
       'name', {
         offset: 0,
@@ -201,6 +202,8 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
         },
       }
     );
+
+  geomStyle(geom, config.geomStyle);
 
   chart.interaction('element-active');
 }
@@ -224,10 +227,8 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
     x: { nice: false },
     y: { nice: false },
   });
-  chart.axis(false);
-  chart.legend(false);
 
-  chart
+  const geom = chart
     .polygon()
     .position('x*y')
     .color(field, colors)
@@ -236,7 +237,6 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
       value,
       title: brand,
     }))
-    .style(config.geomStyle)
     .label(
       'depth*brand*name*value*x*y',
       (depth, brand, value) => {
@@ -258,6 +258,8 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
         },
       }
     );
+
+  geomStyle(geom, config.geomStyle);
 }
 
 // 此方法对原始数据进行处理，返回新的副本

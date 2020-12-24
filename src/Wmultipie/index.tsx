@@ -8,9 +8,11 @@ import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { numberDecimal } from '../common/common';
-// import { getDrawPadding, G2PieBase } from '../Wpie/G2Pie';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import polarLegendLayout from '../common/polarLegendLayout';
+import updateChildrenPosition from '../common/updateChildrenPosition';
 import errorWrap from '../common/errorWrap';
 import './index.scss';
 
@@ -22,6 +24,7 @@ interface WmultipieConfig extends BaseChartConfig {
   cycle?: boolean;
   innerRadius?: number;
   outerRadius?: number;
+  geomStyle?: GeomStyleConfig;
 }
 
 function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []): Types.LooseObject[] {
@@ -41,7 +44,7 @@ function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []
   return getParentList(parentNode, target);
 }
 
-function computeData(ctx: Wmultipie, data: ChartData) {
+function computeData(ctx: Multipie, data: ChartData) {
   let dv = null;
   if (ctx.dataView) {
     dv = ctx.dataView;
@@ -91,7 +94,7 @@ function computeData(ctx: Wmultipie, data: ChartData) {
   return source;
 }
 
-class Wmultipie extends Base<WmultipieConfig> {
+export class Multipie extends Base<WmultipieConfig> {
   chartName = 'G2MultiPie';
 
   convertData = false;
@@ -99,7 +102,7 @@ class Wmultipie extends Base<WmultipieConfig> {
   getDefaultConfig(): WmultipieConfig {
     return {
       colors: themes.category_12,
-      padding: [20, 20, 20, 20],
+      // padding: [20, 20, 20, 20],
       legend: {
         position: 'right',
         align: '',
@@ -137,51 +140,7 @@ class Wmultipie extends Base<WmultipieConfig> {
 
     chart.axis(false);
 
-    rectLegend.call(this, chart, config, {
-      // position: 'right',
-      // itemTpl: (value, itemColor, checked, index) => {
-      //   const { nameFormatter, valueFormatter, showData = true } = config.legend || {};
-      //
-      //   const item = (this.data && this.data[index]) || {};
-      //   const rootNode = item.parent[0];
-      //   // 根节点的value就是全量值
-      //   const percent = numberDecimal(item.value / rootNode.value, 4);
-      //
-      //   const result = nameFormatter ? nameFormatter(value, {
-      //     percent,
-      //     itemColor,
-      //     checked,
-      //     ...item,
-      //   }, index) : value;
-      //
-      //   if (showData) {
-      //     const number = valueFormatter ? valueFormatter(item.value, {
-      //       percent,
-      //       itemColor,
-      //       checked,
-      //       ...item,
-      //     }, index) : item.value;
-      //     return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-      //     '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-      //     '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
-      //   }
-      //
-      //   return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-      //   '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-      //   '<span class="g2-legend-text">'}${result}</span></li>`;
-      // },
-      // 'g2-legend': {
-      //   ...legendHtmlContainer,
-      //   position: 'static',
-      //   overflow: 'auto',
-      //   // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-      //   marginLeft: `${Math.max(pxToNumber(themes['widgets-font-size-4']) - drawPadding[1], 0)}px`,
-      // },
-      // 'g2-legend-list-item': {
-      //   ...legendHtmlListItem,
-      //   marginRight: 0,
-      // },
-    }, true);
+    rectLegend.call(this, chart, config, {}, true, null, true);
 
     // tooltip
     rectTooltip.call(
@@ -227,7 +186,7 @@ class Wmultipie extends Base<WmultipieConfig> {
       }
     );
 
-    chart.polygon()
+    const geom = chart.polygon()
       .position('x*y')
       .color('name', config.colors)
       .tooltip('name*value*rawValue*depth', (name, value) => {
@@ -235,10 +194,15 @@ class Wmultipie extends Base<WmultipieConfig> {
           name,
           value,
         };
-      })
-      // .style('name*value*rawValue*depth', {
-      //   ...(config.geomStyle || {}),
-      // });
+      });
+
+    geomStyle(geom, config.geomStyle, undefined, 'name*value*rawValue*depth');
+
+    polarLegendLayout(chart);
+
+    chart.on('afterrender', () => {
+      updateChildrenPosition(chart, this.chartDom);
+    });
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
@@ -248,7 +212,9 @@ class Wmultipie extends Base<WmultipieConfig> {
   }
 }
 
-export default errorWrap(Wmultipie);
+const Wmultipie: typeof Multipie = errorWrap(Multipie);
+
+export default Wmultipie;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({}, G2PieBase, {
 //   convertData: false,

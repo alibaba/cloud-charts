@@ -16,6 +16,7 @@ import legendFilter from '../common/legendFilter';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 
 import './index.scss';
+import polarLegendLayout from '../common/polarLegendLayout';
 
 // 3.x代码
 export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
@@ -34,6 +35,8 @@ export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
 }
 
 export class Radar extends Base<WradarConfig> {
+  chartName = 'G2Radar';
+
   getDefaultConfig(): WradarConfig {
     return {
       // colors: themes.category_12,
@@ -44,7 +47,6 @@ export class Radar extends Base<WradarConfig> {
         labelFormatter: null, // 可以强制覆盖，手动设置label
         min: 0,
       },
-      // radius: 0.8,
       legend: {
         position: 'bottom',
         align: 'center',
@@ -59,6 +61,7 @@ export class Radar extends Base<WradarConfig> {
       symbol: false,
       label: false,
       spline: false,
+      radius: 1,
     }
   }
   init(chart: Chart, config: WradarConfig, data: any) {
@@ -90,7 +93,7 @@ export class Radar extends Base<WradarConfig> {
     rectYAxis.call(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend.call(this, chart, config, null, false, 'type', true);
 
     legendFilter.call(this, chart, config);
 
@@ -113,6 +116,8 @@ export class Radar extends Base<WradarConfig> {
     guide(chart, config);
 
     drawLine(chart, config);
+
+    polarLegendLayout(chart);
   }
 }
 
