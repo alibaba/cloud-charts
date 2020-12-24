@@ -15,7 +15,7 @@ interface ErrorState {
  * errorWrap 错误捕获HOC
  *
  * */
-/*#__PURE__*/function errorWrap<T, ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: T): T {
+/*#__PURE__*/function errorWrap<T extends BaseClass<ChartConfig, Props>, ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: T): T {
   class ErrorBoundary extends React.Component<Props & ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
@@ -66,7 +66,7 @@ interface ErrorState {
       }
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
-      // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
+      // @ts-ignore 将自定义的 prop 属性 “forwardedRef” 定义为 ref
       return (<Component ref={forwardedRef} {...rest as Props} />);
     }
   }
