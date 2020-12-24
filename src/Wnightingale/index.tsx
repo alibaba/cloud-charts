@@ -9,6 +9,7 @@ import { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
+import updateChildrenPosition from '../common/updateChildrenPosition';
 import themes from '../themes/index';
 import './index.scss';
 
@@ -99,6 +100,10 @@ export class Nightingale extends Base<WnightingaleConfig> {
     });
 
     polarLegendLayout(chart);
+
+    chart.on('afterrender', () => {
+      updateChildrenPosition(chart, this.chartDom);
+    });
   }
 }
 const Wnightingale: typeof Nightingale = errorWrap(Nightingale);

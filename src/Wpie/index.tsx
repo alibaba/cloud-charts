@@ -11,7 +11,7 @@ import label, { LabelConfig } from '../common/label';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
 import errorWrap from '../common/errorWrap';
-import { FullCrossName } from '../constants';
+import updateChildrenPosition from '../common/updateChildrenPosition';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -309,13 +309,7 @@ class Wpie extends Base<WpieConfig> {
       // 默认选中效果
       selectGeom.call(this, this.geom, config.selectData);
 
-      // 更新子元素位置
-      const childDom = this.chartDom && (this.chartDom.querySelector(`.${FullCrossName}-children`) as HTMLElement);
-      if (childDom) {
-        const centerPoint = chart.getCoordinate().getCenter();
-        childDom.style.left = `${centerPoint.x}px`;
-        childDom.style.top = `${centerPoint.y}px`;
-      }
+      updateChildrenPosition(chart, this.chartDom);
     });
 
   }
