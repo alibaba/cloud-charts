@@ -40,88 +40,25 @@ $font-path: '../font';
     color: getVar(widgets-color-red, $widgets-color-red);
   }
 
-  .widgets-reset-button {
-    position: absolute;
-    z-index: 1;
-    padding: 4px;
-
-    font-size: 12px;
-    color: getVar(widgets-color-blue, $widgets-color-blue);
-    background: getVar(widgets-color-background, $widgets-color-background);
-
-    border: 1px solid getVar(widgets-color-gray, $widgets-color-gray);
-    border-radius: 2px;
-
-    cursor: pointer;
-    user-select: none;
-  }
+  //.widgets-reset-button {
+  //  position: absolute;
+  //  z-index: 1;
+  //  padding: 4px;
+  //
+  //  font-size: 12px;
+  //  color: getVar(widgets-color-blue, $widgets-color-blue);
+  //  background: getVar(widgets-color-background, $widgets-color-background);
+  //
+  //  border: 1px solid getVar(widgets-color-gray, $widgets-color-gray);
+  //  border-radius: 2px;
+  //
+  //  cursor: pointer;
+  //  user-select: none;
+  //}
 
   .g2-tooltip-item-value {
     margin-left: getVar(s2, $s2);
   }
-
-  //.g2-legend-value {
-  //  margin-left: getVar(s2, $s2);
-  //}
-  //
-  //$legend-collapse-arrow-width: 10px;
-  //$legend-collapse-arrow-height: 8px;
-  //$legend-collapse-arrow-color: getVar(widgets-color-text-3, $widgets-color-text-3);
-  //$legend-collapse-arrow-disable: getVar(widgets-color-disable, $widgets-color-disable);
-  //.widgets-legend-collapse {
-  //  position: absolute;
-  //  top: 0;
-  //  right: 0;
-  //
-  //  width: $legend-collapse-arrow-width + 8px;
-  //  height: 100%;
-  //
-  //  box-sizing: border-box;
-  //}
-  //
-  //.legend-collapse-btn {
-  //  position: relative;
-  //  height: 50%;
-  //  cursor: pointer;
-  //
-  //  &:after {
-  //    content: "";
-  //    position: absolute;
-  //    right: 0;
-  //    top: 50%;
-  //    width: 0;
-  //    height: 0;
-  //
-  //    border-top: $legend-collapse-arrow-height solid $legend-collapse-arrow-color;
-  //    border-bottom: $legend-collapse-arrow-height solid $legend-collapse-arrow-color;
-  //    border-left: $legend-collapse-arrow-width / 2 solid transparent;
-  //    border-right: $legend-collapse-arrow-width / 2 solid transparent;
-  //
-  //    transform: translate(0, -$legend-collapse-arrow-height / 2);
-  //  }
-  //
-  //  &.disable:after {
-  //    border-top-color: $legend-collapse-arrow-disable;
-  //    border-bottom-color: $legend-collapse-arrow-disable;
-  //  }
-  //
-  //  &.collapse-up:after {
-  //    border-top: none;
-  //  }
-  //
-  //  &.collapse-down:after {
-  //    border-bottom: none;
-  //  }
-  //}
-  //
-  //.g2-legend.has-collapse {
-  //  overflow: hidden !important;
-  //  padding-right: $legend-collapse-arrow-width + 8px;
-  //
-  //  .g2-legend-list {
-  //    transition: transform 0.2s ease-in-out;
-  //  }
-  //}
 
   ::-webkit-scrollbar {
     background: getVar(widgets-scrollbar-bg, $widgets-scrollbar-bg);
