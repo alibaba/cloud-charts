@@ -8,6 +8,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import { DataSet } from '@antv/data-set/lib/data-set';
@@ -26,7 +27,7 @@ export interface WrectangleConfig extends BaseChartConfig {
   label?: LabelConfig | boolean;
   bin?: any;
   grid?: boolean;
-  geomStyle?: Types.LooseObject;
+  geomStyle?: GeomStyleConfig;
 }
 
 export class Rectangle extends Base<WrectangleConfig> {
@@ -129,10 +130,7 @@ export class Rectangle extends Base<WrectangleConfig> {
       value: count,
     }));
 
-    const geomStyle = config.geomStyle || {};
-    geom.style({
-      ...geomStyle,
-    });
+    geomStyle(geom, config.geomStyle, undefined, 'x*y*count');
 
     label(geom, config, 'count', {
       offset: 0,
