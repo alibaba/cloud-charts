@@ -76,7 +76,7 @@ interface WpieConfig extends BaseChartConfig {
   geomStyle?: GeomStyleConfig;
 }
 
-class Wpie extends Base<WpieConfig> {
+export class Pie extends Base<WpieConfig> {
   chartName = 'G2Pie';
 
   getDefaultConfig(): WpieConfig {
@@ -315,4 +315,6 @@ class Wpie extends Base<WpieConfig> {
   }
 }
 
-export default errorWrap(Wpie);
+const Wpie: typeof Pie = errorWrap(Pie);
+
+export default Wpie;

@@ -19,24 +19,24 @@ export { plugins, pluginManager } from './plugins';
 // 暴露工具类
 export { default as Util } from './Util';
 
-export { default as Wline } from './Wline';
-export { default as Wlinebar } from './Wlinebar';
-export { default as Wpie } from './Wpie';
-export { default as Wradar } from './Wradar';
-export { default as Wbar } from './Wbar';
-export { default as Wfunnel } from './Wfunnel';
-export { default as Wnightingale } from './Wnightingale';
-export { default as Wheatmap } from './Wheatmap';
-export { default as Wmap } from './Wmap'
-export { default as Wrectangle } from './Wrectangle';
-export { default as Wminiline } from './Wminiline';
-export { default as WmultiPie } from './Wmultipie';
-export { default as Wbox } from './Wbox';
-export { default as Wsankey } from './Wsankey';
-export { default as Wscatter } from './Wscatter';
-export { default as Whistogram } from './Whistogram';
-export { default as Wtreemap } from './Wtreemap';
-export { default as Wcandlestick } from './Wcandlestick';
+export { default as Wline, Line as RawWline } from './Wline';
+export { default as Wlinebar, Linebar as RawLinebar } from './Wlinebar';
+export { default as Wpie, Pie as RawPie } from './Wpie';
+export { default as Wradar, Radar as RawRadar } from './Wradar';
+export { default as Wbar, Bar as RawBar } from './Wbar';
+export { default as Wfunnel, Funnel as RawFunnel } from './Wfunnel';
+export { default as Wnightingale, Nightingale as RawNightingale } from './Wnightingale';
+export { default as Wheatmap, Heatmap as RawHeatmap } from './Wheatmap';
+export { default as Wmap, Map as RawMap } from './Wmap'
+export { default as Wrectangle, Rectangle as RawRectangle } from './Wrectangle';
+export { default as Wminiline, Miniline as RawMiniline } from './Wminiline';
+export { default as WmultiPie, MultiPie as RawMultiPie } from './Wmultipie';
+export { default as Wbox, Box as RawBox } from './Wbox';
+export { default as Wsankey, Sankey as RawSankey } from './Wsankey';
+export { default as Wscatter, Scatter as RawScatter } from './Wscatter';
+export { default as Whistogram, Histogram as RawHistogram } from './Whistogram';
+export { default as Wtreemap, Treemap as RawTreemap } from './Wtreemap';
+export { default as Wcandlestick, Candlestick as RawCandlestick } from './Wcandlestick';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';

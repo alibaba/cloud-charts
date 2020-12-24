@@ -44,7 +44,7 @@ function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []
   return getParentList(parentNode, target);
 }
 
-function computeData(ctx: Multipie, data: ChartData) {
+function computeData(ctx: MultiPie, data: ChartData) {
   let dv = null;
   if (ctx.dataView) {
     dv = ctx.dataView;
@@ -94,7 +94,7 @@ function computeData(ctx: Multipie, data: ChartData) {
   return source;
 }
 
-export class Multipie extends Base<WmultipieConfig> {
+export class MultiPie extends Base<WmultipieConfig> {
   chartName = 'G2MultiPie';
 
   convertData = false;
@@ -212,9 +212,9 @@ export class Multipie extends Base<WmultipieConfig> {
   }
 }
 
-const Wmultipie: typeof Multipie = errorWrap(Multipie);
+const WmultiPie: typeof MultiPie = errorWrap(MultiPie);
 
-export default Wmultipie;
+export default WmultiPie;
 
 // export default /*#__PURE__*/ errorWrap(g2Factory('G2MultiPie', Object.assign({}, G2PieBase, {
 //   convertData: false,
