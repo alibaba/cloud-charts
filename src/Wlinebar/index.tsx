@@ -201,7 +201,6 @@ export class Linebar extends Base<WlinebarConfig> {
       symbol: false,
       // lineLabel: undefined,
       // barLabel: undefined,
-      label: false,
       // TODO
       // zoom: false,
       // mini: false,
@@ -468,6 +467,7 @@ interface BarConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   dodgeStack?: boolean;
+  lineLabel?: LabelConfig | boolean,
   barGeomStyle?: GeomStyleConfig;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
@@ -526,7 +526,7 @@ interface LineConfig {
     size?: GeomSizeConfig;
     geomStyle?: GeomStyleConfig;
   } | boolean,
-  label?: LabelConfig | boolean,
+  lineLabel?: LabelConfig | boolean,
   lineWidth?: number;
   lineGeomStyle?: GeomStyleConfig;
 }
