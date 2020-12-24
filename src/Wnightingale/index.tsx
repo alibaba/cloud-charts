@@ -1,15 +1,15 @@
 'use strict';
-// 新增
+
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
-// 引入所需要的库和样式, 3.0修改
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import polarLegendLayout from '../common/polarLegendLayout';
 import themes from '../themes/index';
-
 import './index.scss';
 
 // 3.x代码
@@ -21,7 +21,8 @@ export interface WnightingaleConfig extends BaseChartConfig {
   label?: LabelConfig | boolean;
   cycle?: boolean;
   innerRadius?: number;
-  geomStyle?: Types.LooseObject;
+  outerRadius?: number;
+  geomStyle?: GeomStyleConfig;
 }
 
 export class Nightingale extends Base<WnightingaleConfig> {
@@ -33,6 +34,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
       colors: themes.category_12,
       cycle: false,
       innerRadius: 0.5, // 内环半径大小，仅cycle为true时可用
+      outerRadius: 0.9,
       label: true,
       legend: {
         position: 'bottom',
@@ -57,6 +59,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
     chart.data(data);
     chart.coordinate('polar', {
       innerRadius: config.cycle ? Math.max(Math.min(config.innerRadius, 1), 0) : 0,
+      radius: Math.max(Math.min(config.outerRadius, 1), 0.01),
     });
 
     // 设置图例
@@ -81,20 +84,21 @@ export class Nightingale extends Base<WnightingaleConfig> {
 
     chart.axis(false);
 
-    const geomStyle = config.geomStyle || {};
     const geom = chart
       .interval()
       .position('x*y')
-      .color('x', config.colors)
-      .style({
-        lineWidth: 1,
-        stroke: themes['widgets-color-background'],
-        ...geomStyle
-      });
+      .color('x', config.colors);
+
+    geomStyle(geom, config.geomStyle, {
+      lineWidth: 1,
+      stroke: themes['widgets-color-background'],
+    });
 
     label(geom, config, 'x', {
       offset: -15,
     });
+
+    polarLegendLayout(chart);
   }
 }
 const Wnightingale: typeof Nightingale = errorWrap(Nightingale);

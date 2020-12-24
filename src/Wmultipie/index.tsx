@@ -13,6 +13,7 @@ import rectLegend, { LegendConfig } from '../common/rectLegend';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from '../common/errorWrap';
 import './index.scss';
+import polarLegendLayout from '../common/polarLegendLayout';
 
 interface WmultipieConfig extends BaseChartConfig {
   colors?: string[];
@@ -138,7 +139,7 @@ export class Multipie extends Base<WmultipieConfig> {
 
     chart.axis(false);
 
-    rectLegend.call(this, chart, config, {}, true);
+    rectLegend.call(this, chart, config, {}, true, null, true);
 
     // tooltip
     rectTooltip.call(
@@ -194,7 +195,9 @@ export class Multipie extends Base<WmultipieConfig> {
         };
       });
 
-    geomStyle(geom, config.geomStyle, undefined, 'name*value*rawValue*depth')
+    geomStyle(geom, config.geomStyle, undefined, 'name*value*rawValue*depth');
+
+    polarLegendLayout(chart);
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
