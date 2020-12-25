@@ -9,6 +9,7 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
   visible?: boolean;
   labelFormatter?: (value: string, mappingData: Types.MappingDatum, index: number) => string | IShape | IGroup;
   customConfig?: Types.GeometryLabelCfg;
+  field?: string;
 }
 
 /**
@@ -52,6 +53,7 @@ export default function (
     // autoRotate = true,
     labelFormatter = null,
     customConfig,
+    field: userField,
     // style,
     // textStyle,
     ...otherConfigs
@@ -68,9 +70,11 @@ export default function (
     // textStyle,
   };
 
+  const newField = userField || field;
+
   if (labelFormatter) {
     labelConfig.content = (v, item, index) => {
-      return labelFormatter(v[field], item, index);
+      return labelFormatter(v[newField], item, index);
     }
   }
 
@@ -96,5 +100,5 @@ export default function (
     labelConfig.offset = Number(offset);
   }
 
-  geom.label(field, labelConfig);
+  geom.label(newField, labelConfig);
 }
