@@ -74,10 +74,12 @@ export class Box extends Base<WboxConfig> {
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.axis, {
         type: 'cat',
+        nice: true,
       }, config.xAxis),
       y: propertyAssign(propertyMap.axis, {
         type: 'linear',
         tickCount: 5,
+        nice: true,
       }, config.yAxis),
       type: {
         type: 'cat',

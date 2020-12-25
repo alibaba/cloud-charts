@@ -76,6 +76,7 @@ export class Radar extends Base<WradarConfig> {
     defs.y = propertyAssign(propertyMap.axis, {
       type: 'linear',
       tickCount: 5,
+      nice: true,
     }, config.yAxis);
 
     chart.scale(defs);

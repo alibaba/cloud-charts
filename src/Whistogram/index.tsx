@@ -80,9 +80,11 @@ export class Histogram extends Base<WhistogramConfig> {
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.axis, {
         range: [0, 1],
+        nice: true,
       }, config.xAxis),
       y: propertyAssign(propertyMap.axis, {
         type: 'linear',
+        nice: true,
         // tickCount: 5,
       }, config.yAxis),
       type: {

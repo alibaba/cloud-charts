@@ -84,9 +84,10 @@ export class Bar extends Base<WbarConfig> {
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.axis, {
         // type: 'cat',
+        nice: true,
       }, config.xAxis),
       y: propertyAssign(propertyMap.axis, {
-
+        nice: true,
         type: 'linear',
         tickCount: 5,
       }, config.yAxis),

@@ -93,6 +93,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
         propertyMap.axis,
         {
           type: 'time',
+          nice: true,
         },
         config.xAxis
       ),
@@ -101,6 +102,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
         {
           type: 'linear',
           tickCount: 5,
+          nice: true,
         },
         config.yAxis
       ),

@@ -251,6 +251,7 @@ export class Linebar extends Base<WlinebarConfig> {
         type: 'cat',
         // fix 更新数据时x轴无法清除数据
         // sync: 'x',
+        nice: true,
       }, config.xAxis),
       type: {
         type: 'cat',
@@ -262,6 +263,7 @@ export class Linebar extends Base<WlinebarConfig> {
         defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
           type: 'linear',
           tickCount: 5,
+          nice: true,
         }, axis);
       });
     } else {
@@ -270,6 +272,7 @@ export class Linebar extends Base<WlinebarConfig> {
         tickCount: 5,
         // 单轴时，必须同步度量，否则会两个度量叠加在一起
         sync: true,
+        nice: true,
       }, config.yAxis);
     }
 
