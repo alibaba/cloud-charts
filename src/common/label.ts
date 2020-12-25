@@ -10,6 +10,8 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
   labelFormatter?: (value: string, mappingData: Types.MappingDatum, index: number) => string | IShape | IGroup;
   customConfig?: Types.GeometryLabelCfg;
   field?: string;
+  /** @deprecated key 属性已废弃，请使用 field 属性 */
+  key?: string;
 }
 
 /**
@@ -54,6 +56,7 @@ export default function (
     labelFormatter = null,
     customConfig,
     field: userField,
+    key,
     // style,
     // textStyle,
     ...otherConfigs
@@ -70,7 +73,11 @@ export default function (
     // textStyle,
   };
 
-  const newField = userField || field;
+  if (key) {
+    console.warn(`label.key 已废弃，请使用 label.field 属性`);
+  }
+
+  const newField = key || userField || field;
 
   if (labelFormatter) {
     labelConfig.content = (v, item, index) => {
