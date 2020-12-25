@@ -32,6 +32,25 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
   return padding as Types.ViewPadding;
 }
 
+const needFixEventName = {
+  'plotenter': 'plot:enter',
+  'plotmove': 'plot:move',
+  'plotleave': 'plot:leave',
+  'plotclick': 'plot:click',
+  'plotdblclick': 'plot:dblclick',
+}
+/** 修复部分事件名称改变导致在新版不生效的问题 */
+function fixEventName(eventName: string): string {
+  // @ts-ignore
+  if (needFixEventName[eventName]) {
+    // @ts-ignore
+    console.warn(`事件 ${eventName} 名称更改为：${needFixEventName[eventName]}`);
+    // @ts-ignore
+    return needFixEventName[eventName];
+  }
+  return eventName
+}
+
 export interface ChartProps<ChartConfig> {
   className?: string;
   style?: React.CSSProperties;
@@ -360,7 +379,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
     if (chart && event) {
       Object.keys(event).forEach(eventKey => {
-        chart.on(eventKey, event[eventKey]);
+        chart.on(fixEventName(eventKey), event[eventKey]);
       });
     }
 
