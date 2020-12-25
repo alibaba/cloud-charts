@@ -143,9 +143,8 @@ export class Candlestick extends Base<WcandlestickConfig> {
       null,
       {
         showTitle: true,
-        crosshairs: {
-          type: 'rect',
-        },
+        showCrosshairs: false,
+        showMarkers: false,
         itemTpl: `<div>
             ${
           showTitle
@@ -164,6 +163,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
           </div>`
       }
     );
+    chart.interaction('active-region');
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
@@ -215,7 +215,7 @@ function drawCandle(chart: Chart, config: WcandlestickConfig, colors: any) {
       };
     });
 
-  geomSize(geom, config.size, 20, 'y', 'x*y*type*extra');
+  geomSize(geom, config.size, null, 'y', 'x*y*trend*extra');
 
   geomStyle(geom, config.geomStyle);
 }

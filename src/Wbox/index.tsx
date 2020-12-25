@@ -101,11 +101,11 @@ export class Box extends Base<WboxConfig> {
     legendFilter.call(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {
-      crosshairs: {
-        type: 'rect',
-      },
+    rectTooltip.call(this, chart, config, {}, null, {
+      showCrosshairs: false,
+      showMarkers: false,
     });
+    chart.interaction('active-region');
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
