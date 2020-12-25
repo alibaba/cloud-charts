@@ -64,7 +64,7 @@ export class Scatter extends Base<WscatterConfig> {
 
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(
-        propertyMap.xAxis,
+        propertyMap.axis,
         {
           type: config.jitter ? 'cat' : 'linear',
         },
@@ -76,7 +76,7 @@ export class Scatter extends Base<WscatterConfig> {
     };
 
     defs.y = propertyAssign(
-      propertyMap.yAxis,
+      propertyMap.axis,
       {
         type: 'linear',
         tickCount: 5,

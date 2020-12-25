@@ -62,14 +62,14 @@ export class Heatmap extends Base<WheatmapConfig> {
   init(chart: Chart, config: WheatmapConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(
-        propertyMap.xAxis,
+        propertyMap.axis,
         {
           type: 'cat',
         },
         config.xAxis,
       ),
       y: propertyAssign(
-        propertyMap.yAxis,
+        propertyMap.axis,
         {
           type: 'cat',
         },
@@ -208,10 +208,10 @@ export default Wheatmap;
 
 //     // 设置数据度量
 //     const defs = {
-//       x: propertyAssign(propertyMap.xAxis, {
+//       x: propertyAssign(propertyMap.axis, {
 //         type: 'cat',
 //       }, config.xAxis),
-//       y: propertyAssign(propertyMap.yAxis, {
+//       y: propertyAssign(propertyMap.axis, {
 //         type: 'cat',
 //       }, config.yAxis),
 //       type: {

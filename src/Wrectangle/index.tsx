@@ -64,11 +64,11 @@ export class Rectangle extends Base<WrectangleConfig> {
   }
   init(chart: Chart, config: WrectangleConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.axis, {
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
         range: [0, 1],
       }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
+      y: propertyAssign(propertyMap.axis, {
         type: 'linear',
         tickCount: 5,
       }, config.yAxis),
@@ -228,11 +228,11 @@ export default Wrectangle;
 //     this.rectangleDataView = rectangleDataView;
 
 //     const defs = {
-//       x: propertyAssign(propertyMap.xAxis, {
+//       x: propertyAssign(propertyMap.axis, {
 //         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
 //         range: [0, 1],
 //       }, config.xAxis),
-//       y: propertyAssign(propertyMap.yAxis, {
+//       y: propertyAssign(propertyMap.axis, {
 //         type: 'linear',
 //         tickCount: 5,
 //       }, config.yAxis),

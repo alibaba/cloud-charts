@@ -85,7 +85,7 @@ export class Line extends Base<WlineConfig> {
   }
   init(chart: Chart, config: WlineConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.axis, {
         type: 'time',
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
         range: [0, 1],
@@ -97,14 +97,14 @@ export class Line extends Base<WlineConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
+        defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
           type: 'linear',
           tickCount: 5,
           nice: true,
         }, axis);
       });
     } else {
-      defs.y = propertyAssign(propertyMap.yAxis, {
+      defs.y = propertyAssign(propertyMap.axis, {
         type: 'linear',
         tickCount: 5,
         nice: true,

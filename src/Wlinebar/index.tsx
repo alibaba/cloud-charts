@@ -247,7 +247,7 @@ export class Linebar extends Base<WlinebarConfig> {
     });
 
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.axis, {
         type: 'cat',
         // fix 更新数据时x轴无法清除数据
         // sync: 'x',
@@ -259,13 +259,13 @@ export class Linebar extends Base<WlinebarConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.yAxis, {
+        defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
           type: 'linear',
           tickCount: 5,
         }, axis);
       });
     } else {
-      defs.y = propertyAssign(propertyMap.yAxis, {
+      defs.y = propertyAssign(propertyMap.axis, {
         type: 'linear',
         tickCount: 5,
         // 单轴时，必须同步度量，否则会两个度量叠加在一起

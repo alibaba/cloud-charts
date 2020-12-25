@@ -82,10 +82,11 @@ export class Bar extends Base<WbarConfig> {
   init(chart: Chart, config: WbarConfig, data: any) {
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.axis, {
         // type: 'cat',
       }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
+      y: propertyAssign(propertyMap.axis, {
+
         type: 'linear',
         tickCount: 5,
       }, config.yAxis),

@@ -72,10 +72,10 @@ export class Treemap extends Base<WtreemapConfig> {
   }
   init(chart: Chart, config: WtreemapConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.xAxis, {
+      x: propertyAssign(propertyMap.axis, {
         nice: true,
       }, config.xAxis),
-      y: propertyAssign(propertyMap.yAxis, {
+      y: propertyAssign(propertyMap.axis, {
         nice: true,
       }, config.yAxis)
     };

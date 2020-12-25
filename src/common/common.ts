@@ -11,8 +11,11 @@ export { isEqual, isEqualWith, merge } from 'lodash'
 export const requestAnimationFrame = window && window.requestAnimationFrame;
 
 export const propertyMap = {
-  xAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
-  yAxis: ['type', 'alias', 'range', 'ticks', 'tickCount', 'tickInterval', 'formatter', 'min', 'max', 'minLimit', 'maxLimit', 'nice', 'values', 'mask', 'base', 'exponent', 'sync'],
+  axis: [
+    'type', 'showLast', 'alias', 'sync', 'mask', 'base', 'exponent', 'values',
+    'range', 'min', 'max', 'minLimit', 'maxLimit', 'nice',
+    'ticks', 'tickMethod', 'tickCount', 'maxTickCount', 'tickInterval', 'minTickInterval', 'formatter',
+  ],
 };
 
 const keyType: Types.LooseObject = {

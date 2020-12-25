@@ -90,14 +90,14 @@ export class Candlestick extends Base<WcandlestickConfig> {
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(
-        propertyMap.xAxis,
+        propertyMap.axis,
         {
           type: 'time',
         },
         config.xAxis
       ),
       y: propertyAssign(
-        propertyMap.yAxis,
+        propertyMap.axis,
         {
           type: 'linear',
           tickCount: 5,

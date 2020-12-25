@@ -73,7 +73,7 @@ export class Radar extends Base<WradarConfig> {
     };
 
     // 轴设置
-    defs.y = propertyAssign(propertyMap.yAxis, {
+    defs.y = propertyAssign(propertyMap.axis, {
       type: 'linear',
       tickCount: 5,
     }, config.yAxis);
@@ -172,7 +172,7 @@ export default Wradar;
 //     const config = merge({}, this.defaultConfig, userConfig);
 
 //     const defs = {
-//       x: propertyAssign(propertyMap.xAxis, {
+//       x: propertyAssign(propertyMap.axis, {
 //         // type: 'cat',
 //         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
 //         // range: [0, 1],
@@ -182,7 +182,7 @@ export default Wradar;
 //       },
 //     };
 
-//     defs.y = propertyAssign(propertyMap.yAxis, {
+//     defs.y = propertyAssign(propertyMap.axis, {
 //       type: 'linear',
 //       tickCount: 5,
 //     }, config.yAxis);
