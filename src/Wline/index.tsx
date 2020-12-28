@@ -17,27 +17,18 @@ import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
-  // colors?: string[];
-  // areaColors?: string[];
   /** X轴配置项 */
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
   /** Y轴配置项 */
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
   /** 图例配置项 */
-  legend?: LegendConfig | boolean,
+  legend?: LegendConfig | boolean;
   /** 提示信息配置项 */
-  tooltip?: TooltipConfig | boolean,
+  tooltip?: TooltipConfig | boolean;
   /** 辅助标记配置项 */
-  guide?: GuideConfig,
-  // label?: LabelConfig | boolean,
-  // area?: boolean,
-  // stack?: boolean, // 仅Area有效
-  // spline?: boolean,
+  guide?: GuideConfig;
   /** 显示网格线 */
-  grid?: boolean,
-  // symbol?: boolean,
-  // zoom?: boolean,
-  // step?: string | boolean,
+  grid?: boolean;
 }
 
 export class Line extends Base<WlineConfig> {

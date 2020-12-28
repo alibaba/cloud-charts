@@ -12,20 +12,20 @@ export interface DrawLineConfig {
   /** 面积颜色 */
   areaColors?: string[];
   /** 是否为面积图 */
-  area?: boolean,
+  area?: boolean;
   /** 是否为堆叠图，仅在 area: true 时生效 */
-  stack?: boolean, // 仅Area有效
+  stack?: boolean;
   /** 是否线条平滑 */
-  spline?: boolean,
+  spline?: boolean;
   /** 是否阶梯折线 */
-  step?: string | boolean,
+  step?: string | boolean;
   /** 是否展示线上点 */
   symbol?: {
     size?: GeomSizeConfig;
     geomStyle?: GeomStyleConfig;
-  } | boolean,
+  } | boolean;
   /** 数据label */
-  label?: LabelConfig | boolean,
+  label?: LabelConfig | boolean;
   /** 线条宽度 */
   lineWidth?: number;
   /** 元素样式 */
