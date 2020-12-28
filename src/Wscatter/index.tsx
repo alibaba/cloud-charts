@@ -67,7 +67,6 @@ export class Scatter extends Base<WscatterConfig> {
         propertyMap.axis,
         {
           type: config.jitter ? 'cat' : 'linear',
-          nice: true,
         },
         config.xAxis
       ),

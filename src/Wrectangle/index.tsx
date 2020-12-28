@@ -67,7 +67,6 @@ export class Rectangle extends Base<WrectangleConfig> {
       x: propertyAssign(propertyMap.axis, {
         // 折线图X轴的范围默认覆盖全部区域，保证没有空余
         range: [0, 1],
-        nice: true,
       }, config.xAxis),
       y: propertyAssign(propertyMap.axis, {
         type: 'linear',
