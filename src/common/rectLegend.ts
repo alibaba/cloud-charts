@@ -4,6 +4,7 @@ import { Chart, ChartData, Types, G2Dependents } from "./types";
 import { merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
+import { warn } from './log';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
@@ -161,7 +162,7 @@ export default function (
     } = config.legend || {};
 
     if (collapseRow) {
-      console.warn(`collapseRow 已废弃，暂时无法修改分页尺寸`);
+      warn('config.legend', `collapseRow 已废弃，暂时无法修改分页尺寸`);
     }
 
     const legendConfig: Types.LegendCfg = {
@@ -190,14 +191,14 @@ export default function (
     if (!hoverable) {
       chart.removeInteraction('legend-active');
     } else if (onHover) {
-      console.warn(`legend.onHover 已废弃，请使用 chart.on('legend-item:mouseenter', onHover)`);
+      warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter', onHover }`);
       chart.on('legend-item:mouseenter', onHover);
     }
 
     if (!clickable) {
       chart.removeInteraction('legend-filter');
     } else if (onClick) {
-      console.warn(`legend.onClick 已废弃，请使用 chart.on('legend-item:click', onClick)`);
+      warn('config.legend', `onClick 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:click', onClick }`);
       chart.on('legend-item:click', onClick);
     }
 

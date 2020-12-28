@@ -1,5 +1,5 @@
 import { isMobile } from './platform';
-import { VERSION, THEME, FullTrackName, TrackName } from '../constants';
+import { VERSION, THEME, FullTrackName, TrackName, FullCamelName } from '../constants';
 
 /**
  * 日志记录
@@ -67,3 +67,7 @@ setTimeout(() => {
     image.src = `${logUrl}?version=${VERSION}&theme=${currentTheme || THEME}&t=${Date.now()}&host=${location && location.host}&chartinit=${chartInit}&uamobile=${isMobile}`;
   }
 }, 3000);
+
+export function warn(component: string, info: string, ...other: any[]) {
+  console.warn(`[${FullCamelName}] ${component}:`, info, ...other);
+}

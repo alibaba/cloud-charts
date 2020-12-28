@@ -19,6 +19,7 @@ import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
+import { warn } from '../common/log';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false,
@@ -667,7 +668,7 @@ function viewGuide(config: WlinebarConfig, lineView: View, rawLineData: DataAdap
   }
 
   if (!guideLine && !guideArea && !guideFilter && Object.keys(other).length > 0) {
-    console.warn('guide 定义异常，请使用 guide.line 或 guide.area');
+    warn('config.guide', '配置异常，请使用 guide.line、guide.area、guide.filter');
   }
 }
 

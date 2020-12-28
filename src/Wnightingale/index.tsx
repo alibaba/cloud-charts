@@ -14,6 +14,7 @@ import polarLegendLayout from '../common/polarLegendLayout';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import themes from '../themes/index';
 import './index.scss';
+import { warn } from '../common/log';
 
 // 3.x代码
 export interface WnightingaleConfig extends BaseChartConfig {
@@ -96,7 +97,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
     );
 
     if (config.axis) {
-      console.warn(`config.axis 已废弃，请使用 config.xAxis 属性`);
+      warn('config.axis', '属性已废弃，请使用 config.xAxis 属性');
     }
 
     rectXAxis.call(this, chart, config);

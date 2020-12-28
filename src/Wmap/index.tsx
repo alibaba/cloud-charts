@@ -35,6 +35,7 @@ import {
 import './index.scss';
 import Wshoot, { ShootProps } from "../Wshoot";
 import { FullCrossName } from '../constants';
+import { warn } from '../common/log';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -509,7 +510,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
     // 自带中国地图数据
     geoData = chinaGeo;
   } else {
-    console.warn("map: no geo data, can't draw the map!");
+    warn('Wmap', 'no geo data, can\'t draw the map!');
   }
 
   const bgMapDataView = ds.createView('bgMap').source(geoData, {
@@ -694,7 +695,7 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
     geomStyle(pointGeom, config.geomStyle);
 
     if (config.labels) {
-      console.warn(`config.labels 已废弃，请使用 config.label`);
+      warn('config.labels', '属性已废弃，请使用 config.label');
     }
 
     label(pointGeom, config, 'name', {
@@ -910,7 +911,7 @@ export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
     }
   }
   if (!point.x || !point.y) {
-    console.warn('无法定位地点：', point);
+    warn('Wmap', '无法定位地点', point);
   }
   return point;
 }

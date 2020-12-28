@@ -1,5 +1,6 @@
 import { Types } from "./types";
 import themes from '../themes';
+import { warn } from './log';
 
 export { isEqual, isEqualWith, merge } from 'lodash'
 // 引入 lodash 的 isEqual 代替
@@ -43,7 +44,7 @@ export function propertyAssign(keys: string[], target: Types.LooseObject, source
     if (source[key] !== undefined) {
       // 忽略 tickCount: 'auto'
       if (key === 'tickCount' && source[key] === 'auto') {
-        console.warn(`tickCount: 'auto' 被替换为 Axis.autoHide: true`);
+        warn('config.axis', `tickCount: 'auto' 被替换为 Axis.autoHide: true`);
         return;
       }
       // 将部分限制了类型的key属性转换为需要的类型

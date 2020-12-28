@@ -5,7 +5,7 @@ import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
-import chartLog from './log';
+import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
 // import './g2Hacker';
@@ -24,7 +24,7 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
   if (Array.isArray(padding)) {
     for (let i = 0; i < padding.length; i++) {
       if (padding[i] === 'auto') {
-        console.warn('新版本 padding 不再支持 auto 和 数值 混用，请使用 config.padding = \'auto\'');
+        warn('config.padding', '不再支持 auto 和 数值 混用，请使用 config.padding = \'auto\'');
         return 'auto';
       }
     }
@@ -44,7 +44,7 @@ function fixEventName(eventName: string): string {
   // @ts-ignore
   if (needFixEventName[eventName]) {
     // @ts-ignore
-    console.warn(`事件 ${eventName} 名称更改为：${needFixEventName[eventName]}`);
+    warn('event', `事件 ${eventName} 名称更改为：${needFixEventName[eventName]}`);
     // @ts-ignore
     return needFixEventName[eventName];
   }

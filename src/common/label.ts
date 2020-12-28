@@ -4,6 +4,7 @@ import { Geometry, Types } from "./types";
 import themes from '../themes';
 import { merge, pxToNumber } from './common';
 import { IGroup, IShape } from "@antv/g2/esm/dependents";
+import { warn } from './log';
 
 export interface LabelConfig extends Types.GeometryLabelCfg {
   visible?: boolean;
@@ -74,7 +75,7 @@ export default function (
   };
 
   if (key) {
-    console.warn(`label.key 已废弃，请使用 label.field 属性`);
+    warn('config.label', 'key 属性已废弃，请使用 field 属性');
   }
 
   const newField = key || userField || field;

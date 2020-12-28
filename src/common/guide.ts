@@ -3,6 +3,7 @@
 import { Chart, View, Types, G2Dependents, Status } from "./types";
 import { getStatusColor, pxToNumber } from './common';
 import themes from "../themes";
+import { warn } from './log';
 
 export interface GuideConfig {
   visible?: boolean;
@@ -57,7 +58,7 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
   }
 
   if (!guideLine && !guideArea && !guideFilter && Object.keys(other).length > 0) {
-    console.warn('guide 定义异常，请使用 guide.line 或 guide.area');
+    warn('config.guide', '配置异常，请使用 guide.line、guide.area、guide.filter');
   }
 }
 
@@ -155,7 +156,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
   if (guideConfig.start && guideConfig.end) {
     chart.annotation().line(guideConfig);
   } else {
-    console.warn('guide line 定义不全');
+    warn('config.guide', 'line 定义不全');
   }
 }
 
@@ -225,7 +226,7 @@ export function drawGuideArea(chart: Chart | View, guideArea: GuideAreaConfig) {
   if (guideConfig.start && guideConfig.end) {
     chart.annotation().region(guideConfig);
   } else {
-    console.warn('guide area 定义不全');
+    warn('config.guide', 'area 定义不全');
   }
 }
 
@@ -295,6 +296,6 @@ export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterCon
   if (guideConfig.start && guideConfig.end) {
     chart.annotation().regionFilter(guideConfig);
   } else {
-    console.warn('guide area 定义不全');
+    warn('config.guide', 'filter 定义不全');
   }
 }
