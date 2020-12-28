@@ -567,6 +567,7 @@ export function setG2Theme(theme: Theme) {
   // g2Theme.maxColumnWidth = 36;
   const baseFontSize = theme['widgets-font-size-1'];
   const baseFontSizeNum = pxToNumber(theme['widgets-font-size-1']);
+  // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
   Object.assign(tooltipStyle['g2-tooltip'], {
     padding: `0 ${baseFontSize} 0 ${baseFontSize}`,
@@ -584,7 +585,14 @@ export function setG2Theme(theme: Theme) {
     height: `${baseFontSizeNum / 2}px`,
     marginRight: `${baseFontSizeNum / 3}px`,
   });
-
+  // slider 样式
+  const sliderStyle = g2Theme.components.slider.common;
+  const p = baseFontSizeNum * 2 / 3;
+  sliderStyle.padding = [baseFontSizeNum, p, 0, 0];
+  sliderStyle.height = 3 * baseFontSizeNum;
+  sliderStyle.textStyle = {
+    opacity: 0,
+  };
 
   registerTheme('default', g2Theme);
 }

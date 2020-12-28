@@ -13,10 +13,11 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
 import rectZoom, { ZoomConfig } from "../common/rectZoom";
+import rectSlider, { SliderConfig } from '../common/rectSlider';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 import './index.scss';
 
-export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig {
+export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig, SliderConfig {
   /** X轴配置项 */
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   /** Y轴配置项 */
@@ -154,6 +155,9 @@ export class Line extends Base<WlineConfig> {
 
     // 拖拽缩放
     rectZoom(chart, config, this.language);
+
+    // 缩略轴
+    rectSlider(chart, config);
   }
 }
 
