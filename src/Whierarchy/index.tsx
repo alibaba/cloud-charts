@@ -32,10 +32,9 @@ interface WhierarchyConfig extends BaseChartConfig {
 export class Hierarchy extends Base<WhierarchyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Hierarchy';
-  convertData: false;
+  convertData= false;
 
   getDefaultConfig(): WhierarchyConfig {
-    console.log(21)
     return {
       colors: themes.category_12,
       tooltip: {
@@ -66,7 +65,6 @@ export class Hierarchy extends Base<WhierarchyConfig> {
     };
   }
   init(chart: Chart, config: WhierarchyConfig, data: any) {
-    console.log(data)
 
     const dataView = processDataView(data);
     const nodes = parseDataView(dataView);
