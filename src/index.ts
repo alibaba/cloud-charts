@@ -37,6 +37,7 @@ export { default as Wscatter, Scatter as RawScatter } from './Wscatter';
 export { default as Whistogram, Histogram as RawHistogram } from './Whistogram';
 export { default as Wtreemap, Treemap as RawTreemap } from './Wtreemap';
 export { default as Wcandlestick, Candlestick as RawCandlestick } from './Wcandlestick';
+export { default as Whierarchy } from './Wcandlestick';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
