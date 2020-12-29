@@ -14,10 +14,11 @@ import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import rectZoom from "../common/rectZoom";
+import rectZoom, { ZoomConfig } from "../common/rectZoom";
+import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import './index.scss';
 
-interface WbarConfig extends BaseChartConfig {
+interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
@@ -31,7 +32,6 @@ interface WbarConfig extends BaseChartConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   grid?: boolean;
-  zoom?: boolean;
   facet?: boolean;
   size?: GeomSizeConfig;
   polar?: boolean;
@@ -224,6 +224,8 @@ export class Bar extends Base<WbarConfig> {
     }
 
     rectZoom(chart, config, this.language);
+
+    rectScrollbar(chart, config);
   }
 }
 
