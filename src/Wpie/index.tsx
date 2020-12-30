@@ -86,6 +86,7 @@ export class Pie extends Base<WpieConfig> {
       legend: {
         position: 'right',
         align: '',
+        showData: true,
         nameFormatter: null, // 可以强制覆盖，手动设置label
         valueFormatter: null,
       },
