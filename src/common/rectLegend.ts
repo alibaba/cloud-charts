@@ -123,6 +123,7 @@ function isLastLegend(context: Types.IInteractionContext) {
  * @param {boolean} isOneDataGroup 数据是否为单组形式，类似饼图和漏斗图
  * @param {string} field 数据映射字段
  * @param {boolean} isPolar 是否极坐标系
+ * @param {function} itemFormatter 组件自定义的 item 格式函数
  * */
 export default function (
   chart: Chart,
@@ -131,6 +132,7 @@ export default function (
   isOneDataGroup: boolean,
   field: string,
   isPolar?: boolean,
+  itemFormatter?: (item: G2Dependents.ListItem, i: number) => G2Dependents.ListItem
 ) {
   // 设置图例
   if (config.legend === false || (config.legend && config.legend.visible === false)) {
@@ -170,7 +172,13 @@ export default function (
       position: getPosition(position, align),
       flipPage: autoCollapse,
       itemName: {
-        formatter: nameFormatter,
+        // formatter: nameFormatter,
+        formatter: (text, item, index) => {
+          if (nameFormatter) {
+            return nameFormatter(text, itemFormatter ? itemFormatter(item, index) : item, index);
+          }
+          return text;
+        }
       },
       // background: {
       //   padding: 0,
@@ -225,7 +233,7 @@ export default function (
           // @ts-ignore
           const value = getLastValue(item.name, this.rawData, isOneDataGroup);
           if (valueFormatter) {
-            return valueFormatter(value, item, index);
+            return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
           }
           return value;
         },

@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, Geometry, Types, BaseChartConfig, ChartData, G2Dependents } from '../common/types';
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
@@ -227,7 +227,25 @@ export class Pie extends Base<WpieConfig> {
       //   ...legendHtmlListItem,
       //   marginRight: 0,
       // },
-    }, true, null, true);
+    }, true, null, true, (item: G2Dependents.ListItem, index: number) => {
+      const { name } = item;
+      const raw = (this.rawData && this.rawData[0]) || {};
+      let value = 0;
+      raw.data.forEach((r: any) => {
+        if (Array.isArray(r) && r[0] === name) {
+          value = r[1];
+        } else if (typeof r === 'object' && r.x === name) {
+          value = r.y
+        }
+      });
+      const percent = numberDecimal(value / this.totalData, 4);
+
+      return {
+        ...raw,
+        percent,
+        ...item,
+      }
+    });
 
     // tooltip
     rectTooltip.call(
