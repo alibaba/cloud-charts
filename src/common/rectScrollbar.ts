@@ -2,13 +2,10 @@
 
 import { Chart, Types } from "./types";
 import themes from '../themes';
-import { pxToNumber } from './common';
-
-interface Scrollbar extends Types.ScrollbarCfg {
-}
+import { merge, pxToNumber } from './common';
 
 export interface ScrollbarConfig {
-  scrollbar?: Scrollbar | boolean;
+  scrollbar?: Types.ScrollbarCfg | boolean;
 }
 
 /**
@@ -26,6 +23,10 @@ export default function(chart: Chart, config: ScrollbarConfig) {
     // 由于 scrollbar controller 内部对主题变量取值路径不对，暂时在这里传入参数设置
     categorySize: pxToNumber(themes['widgets-font-size-1']) * 3,
   };
+
+  if (typeof config.scrollbar === 'object') {
+    merge(scrollbarConfig, config.scrollbar);
+  }
 
   // const { showText = false, labelFormatter = undefined, ...other } = typeof config.slider === 'object' ? config.slider : {};
   //
