@@ -70,6 +70,8 @@ export interface ChartProps<ChartConfig> {
   syncViewPadding?: boolean;
   /** @deprecated 该属性移至 config.animate */
   animate?: boolean;
+  /** @deprecated 自定义图表请使用类继承 */
+  customChart?: any;
 }
 
 /**
@@ -510,9 +512,12 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       padding,
       config,
       event,
-      // animate,
+      animate,
       language,
-      // customChart,
+      localRefresh,
+      renderer,
+      syncViewPadding,
+      customChart,
       getChartInstance,
       ...otherProps
     } = this.props;
