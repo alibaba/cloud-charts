@@ -7,6 +7,7 @@ export * as G2Dependents from "@antv/g2/esm/dependents";
 export interface BaseChartConfig {
   padding?: ViewPadding;
   dataType?: string;
+  animate?: boolean;
 }
 
 export type ChartData = any;

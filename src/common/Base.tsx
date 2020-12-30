@@ -68,6 +68,8 @@ export interface ChartProps<ChartConfig> {
   localRefresh?: boolean;
   renderer?: 'canvas' | 'svg';
   syncViewPadding?: boolean;
+  /** @deprecated 该属性移至 config.animate */
+  animate?: boolean;
 }
 
 /**
@@ -348,6 +350,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       // forceFit,
       config,
       event,
+      animate,
       ...otherProps
     } = currentProps;
     // 生成图表实例
@@ -370,8 +373,21 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
         : initData;
     this.rawData = initData;
 
-    // 生命绘制逻辑
+    if (animate !== undefined) {
+      warn('animate', '请使用 config.animate 设置动画开关。');
+      // 将 props.animate 传入 config.animate
+      if (config.animate === undefined) {
+        config.animate = animate;
+      }
+    }
+
+    // 绘制逻辑
     chart && this.init(chart, config, data);
+
+    // 全局动画设置
+    if (typeof config.animate === 'boolean') {
+      chart.animate(config.animate);
+    }
 
     // 开始渲染
     chart.render();
