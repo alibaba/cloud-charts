@@ -37,14 +37,21 @@ stories.addDecorator(withKnobs);
 
 stories.add('饼图', () => (
   <Wcontainer className="demos">
-    <Wpie height="300" config={{
+    <Wpie width={300} height="300" config={{
+      // outerRadius: 0.5,
       legend: {
         // align: 'top',
         // padding: [20, 0, 0, 20]
+        nameFormatter(v) {
+          return v + v;
+        },
+        valueFormatter(v) {
+          return `${v} %`
+        }
       },
       tooltip: {
         valueFormatter(n, ...args) {
-          console.log(args);
+          // console.log(args);
           return n;
         }
       }

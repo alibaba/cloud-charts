@@ -40,10 +40,10 @@ export default function polarLegendLayout(chart: Chart) {
     // 1. legend 的宽高
     const legendBBox = legend.getLayoutBBox();
     // 2. 饼的宽高
-    const pieSize = Math.min(chart.width, chart.height) * radius; // coordinate radius
+    const pieSize = Math.min(chart.coordinateBBox.width, chart.coordinateBBox.height) * radius; // coordinate radius
     // 图表左右剩余空间的一半宽度
     const emptyAreaHalfWidth = (chart.width - pieSize - (legendBBox.width + legendPadding[1] + legendPadding[3])) / 2;
-    // console.log(pieSize, legendPosition, legendPadding);
+    // console.log(pieSize, legend, legendBBox);
     // 下面的 x y 就是数学题了，可视化中所有定位的参考点是自己的左上角。
     legend.update({
       x: legendPosition === 'left' ? emptyAreaHalfWidth : emptyAreaHalfWidth + pieSize + legendPadding[3],
