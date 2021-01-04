@@ -4,6 +4,7 @@ import { Chart, ChartData, Types, G2Dependents } from "./types";
 import { merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
+import './interaction';
 import { warn } from './log';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
@@ -102,7 +103,7 @@ function getPadding(position?: string, userPadding?: number[], isPolar?: boolean
 
 function isLastLegend(context: Types.IInteractionContext) {
   // @ts-ignore
-  const { item, list } = context.getAction('list-unchecked').getTriggerListInfo() || {};
+  const { item, list } = context.getAction('list-checked').getTriggerListInfo() || {};
   if (!item) {
     return true;
   }
@@ -110,8 +111,12 @@ function isLastLegend(context: Types.IInteractionContext) {
   const stateItems = list.getItemsByState('unchecked');
   // 当前选中项状态
   const currentEnable = list.hasState(item, 'unchecked');
-  // 如果当前是要 unchecked，且只剩下一个 非unchecked 的 item，则返回 false
-  return !(!currentEnable && stateItems.length === items.length - 1);
+  // 获取原始事件
+  const originEvent = context.event.event;
+  // 是否按Control
+  const hasControl = originEvent.ctrlKey || originEvent.metaKey;
+  // 按Control进入单选模式则一直可用，或者：当前是要 unchecked，且只剩下一个 非unchecked 的 item，则返回 false
+  return hasControl || !(!currentEnable && stateItems.length === items.length - 1);
 }
 
 /**
@@ -220,11 +225,14 @@ export default function (
         start: [
           {
             trigger: 'legend-item:click',
-            action: ['list-unchecked:toggle', 'data-filter:filter'],
+            action: ['list-checked:toggle', 'data-filter:filter'],
             isEnable: isLastLegend
           },
         ],
       });
+    } else {
+      chart.removeInteraction('legend-filter');
+      chart.interaction('legend-single-filter');
     }
 
     if (showData) {
