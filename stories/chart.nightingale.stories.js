@@ -3,9 +3,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from "@storybook/addon-knobs";
 
-import { Wcontainer, Wnightingale } from '@alife/aisc-widgets';
+import { Wnightingale, Wnumber, Wcontainer } from '@alife/aisc-widgets';
 
 const data = [{
   name: '人口比例',
@@ -26,7 +25,41 @@ const data = [{
 }];
 
 const stories = storiesOf('Wnightingale', module);
-stories.addDecorator(withKnobs);
 stories.add('玫瑰图', () => (
-    <Wnightingale height="300" data={data} />
+  <Wcontainer className="demos">
+    <Wnightingale height="300" config={{}} data={data} />
+  </Wcontainer>
 ));
+stories.add('无标签玫瑰图', () => (
+  <Wcontainer className="demos">
+    <Wnightingale height="300" config={{
+      label: false,
+    }} data={data} />
+  </Wcontainer>
+));
+
+stories.add('玫瑰环图', () => (
+  <Wcontainer className="demos">
+    <Wnightingale height="300" config={{
+      cycle: true,
+    }} data={data} />
+  </Wcontainer>
+));
+stories.add('带内容玫瑰环图', () => (
+  <Wcontainer className="demos">
+    <Wnightingale height="300" config={{
+      cycle: true,
+    }} data={data}>
+      <Wnumber bottomTitle="现代浏览器占比" unit="%">72.5</Wnumber>
+    </Wnightingale>
+  </Wcontainer>
+));
+// stories.add('带标签环图', () => (
+//   <Wcontainer className="demos">
+//     <Wnightingale height="300" config={{
+//       cycle: true,
+//       label: true,
+//       legend: false,
+//     }} data={data} />
+//   </Wcontainer>
+// ));

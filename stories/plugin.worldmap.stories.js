@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, plugins } from '@alife/aisc-widgets';
-import '@alife/aisc-widgets/plugins/WorldMap/index';
+import '@alife/aisc-widgets/plugins/worldmap/index';
 const { WorldMap } = plugins;
 
 const areaData = [
