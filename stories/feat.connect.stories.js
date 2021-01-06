@@ -94,3 +94,29 @@ stories.add('线柱联动', () => (
   <ConnectDemo />
 ));
 
+class ConnectDataDemo extends React.Component{
+  chart1 = null;
+  chart2 = null;
+  chart3 = null;
+  componentDidMount() {
+    new Util.Connect([this.chart1, this.chart2, this.chart3], {
+      type: 'data',
+    });
+  }
+  render(){
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
+        <Wline height="280" getChartInstance={(c) => (this.chart1 = c)} config={{
+          padding: [40, 400, 24, 40],
+        }} data={lineData}/>
+        <Wbar height="280" getChartInstance={(c) => (this.chart2 = c)} config={{}} data={barData}/>
+        <Wscatter height="280" getChartInstance={(c) => (this.chart3 = c)} config={{
+          padding: [40, 10, 24, 400],
+        }} data={lineData}/>
+      </div>
+    );
+  }
+}
+stories.add('按数据联动', () => (
+  <ConnectDataDemo />
+));

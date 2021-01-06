@@ -110,8 +110,10 @@ class G2Connect {
         if (type === 'data' && record) {
           // 根据数据找到对应点，如果传入的数据不在画布空间内，point 为 null
           const point = chart.getXY(record);
-          // 如果数据中包含null, point中的坐标会变为 NaN，所以下面添加额外判断
-          if (point && !isNaN(point.x) && !isNaN(point.y)) {
+          // 额外判断
+          // 1、如果数据中包含null, point中的坐标会变为 NaN
+          // 2、类型不一致坐标会出现负数
+          if (point && !isNaN(point.x) && !isNaN(point.y) && point.x > 0 && point.y > 0) {
             // 找到对应的点，显示并return
             chart.showTooltip(getPoint(point, e, coordinate));
             return;
@@ -161,15 +163,17 @@ function isValidChart(chart: Chart) {
  * */
 function getRecord(chart: Chart, e: Event) {
   let record = e.data;
-  if (!record) {
+  // 在折线图中选中的record.data为数组，改为用最贴近数据读取
+  if (!record || Array.isArray(record.data)) {
     record = chart.getSnapRecords(e);
     if (Array.isArray(record) && record[0]) {
       record = record[0]._origin;
     } else {
       record = null;
     }
+  } else if (record.data) {
+    record = record.data;
   }
-
   return record;
 }
 
