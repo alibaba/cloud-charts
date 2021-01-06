@@ -116,7 +116,7 @@ export class Heatmap extends Base<WheatmapConfig> {
         showMarkers: false,
         showCrosshairs: false,
       },
-      (ev: any) => {},
+      null,
       {
         showTitle: false,
         showMarkers: false,

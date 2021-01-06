@@ -119,7 +119,7 @@ export class Histogram extends Base<WhistogramConfig> {
         shared: true,
         showMarkers: false,
       },
-      (ev: any) => {},
+      null,
       {
         position: 'top',
         shared: true,

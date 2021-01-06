@@ -88,7 +88,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
         showMarkers: false,
         showCrosshairs: false,
       },
-      (ev: any) => {},
+      null,
       {
         showTitle: false,
         showMarkers: false,

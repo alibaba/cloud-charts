@@ -100,7 +100,7 @@ export class Treemap extends Base<WtreemapConfig> {
         showMarkers: false,
         showCrosshairs: false,
       },
-      (ev: any) => {},
+      null,
       {
         showTitle: false,
         showMarkers: false,

@@ -114,7 +114,7 @@ export class Rectangle extends Base<WrectangleConfig> {
         showMarkers: false,
         showCrosshairs: false,
       },
-      (ev: any) => {},
+      null,
       {
         showTitle: false,
         showMarkers: false,

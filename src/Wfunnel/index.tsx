@@ -77,7 +77,7 @@ export class Funnel extends Base<WfunnelConfig> {
         showMarkers: false,
         showCrosshairs: false,
       },
-      (ev: any) => {},
+      null,
       {
         showTitle: false,
         showMarkers: false,
