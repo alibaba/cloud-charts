@@ -1,12 +1,10 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base from "../common/Base";
-// import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
-// import getGeomSizeConfig from '../common/geomSize';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -37,8 +35,7 @@ interface labelAlias {
 }
 
 interface WcandlestickConfig extends BaseChartConfig {
-  // TODO 颜色类型和后面的处理逻辑需要调整
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
   legend?: LegendConfig | boolean;
@@ -180,15 +177,21 @@ const Wcandlestick: typeof Candlestick = errorWrap(Candlestick);
 
 export default Wcandlestick;
 
-function drawCandle(chart: Chart, config: WcandlestickConfig, colors: any) {
+function drawCandle(chart: Chart, config: WcandlestickConfig, colors: Colors) {
   // 分组
   const geom = chart
     .schema()
     .position(['x', 'y'])
     .shape('candle')
     .color('trend', trend => {
-      const [colorUp, colorDown] = colors;
-      return trend === 'up' ? colorUp : colorDown;
+      if (Array.isArray(colors)) {
+        const [colorUp, colorDown] = colors;
+        return trend === 'up' ? colorUp : colorDown;
+      }
+      if (typeof colors === 'function') {
+        return colors(trend);
+      }
+      return colors;
     })
     // .tooltip('type*start*end*max*min', (group, start, end, max, min) => {
     .tooltip('y*type', (y, group) => {

@@ -1,5 +1,5 @@
 'use strict';
-import { Chart, BaseChartConfig, View } from '../common/types';
+import { Chart, BaseChartConfig, View, Colors } from '../common/types';
 import Base from "../common/Base";
 import { DataSet } from '@antv/data-set/lib/data-set';
 import { View as DataView } from '@antv/data-set/lib/view';
@@ -7,7 +7,6 @@ import '@antv/data-set/lib/transform/diagram/sankey';
 import '@antv/data-set/lib/connector/graph';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-import { GuideConfig } from '../common/guide';
 import { LabelConfig } from "../common/label";
 import themes from '../themes/index';
 import errorWrap from '../common/errorWrap';
@@ -18,12 +17,11 @@ function getEdges(d: { links: any; }) {
 }
 
 interface WsankeyConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   legend?: LegendConfig | false,
   tooltip?: TooltipConfig | false,
-  guide?: GuideConfig,
+  // TODO 完善label逻辑
   labels?: LabelConfig | boolean,
-  // 剩余部分自行定义
 }
 
 export class Sankey extends Base<WsankeyConfig> {
@@ -111,7 +109,7 @@ export class Sankey extends Base<WsankeyConfig> {
 
     const nodeGeom = nodeView.polygon()
       .position('x*y') // nodes数据的x、y由layout方法计算得出
-      .color('name')
+      .color('name', config.colors)
       .tooltip(false)
       .style({
         stroke: 'transparent',

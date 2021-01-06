@@ -11,7 +11,7 @@ import '@antv/data-set/lib/transform/map';
 import '@antv/data-set/lib/transform/filter';
 import '@antv/data-set/lib/transform/geo/projection';
 import '@antv/data-set/lib/transform/geo/region';
-import { Chart, View, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, View, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base, { ChartProps, rootClassName } from "../common/Base";
 import errorWrap from '../common/errorWrap';
 // @ts-ignore
@@ -60,9 +60,9 @@ interface WmapConfig extends BaseChartConfig {
     fill?: string;
     stroke?: string;
   };
-  areaColors?: string[];
-  pointColors?: string[];
-  heatColors?: string;
+  areaColors?: Colors;
+  pointColors?: Colors;
+  heatColors?: Colors;
   showSouthChinaSea?: boolean;
   type?: string;
   projection?: Function;
@@ -643,7 +643,7 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       .polygon()
       .position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
-      .color('type', config.areaColors.join('-'))
+      .color('type', getMapContinuousColor(config.areaColors))
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
@@ -964,6 +964,14 @@ function getProjectionPosition(point: Types.LooseObject, view: DataView, project
 //     chart.tooltip(false);
 //   }
 // }
+
+function getMapContinuousColor(color: Colors) {
+  if (Array.isArray(color)) {
+    return color.join('-');
+  } else {
+    return color;
+  }
+}
 
 const Wmap: typeof Map = errorWrap(Map);
 
