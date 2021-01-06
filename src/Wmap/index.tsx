@@ -381,10 +381,10 @@ export class Map extends Base<WmapConfig, MapProps> {
           const raw = item.data || {};
 
           if (valueFormatter) {
-            item.value = valueFormatter(item.value, raw, index, ev.items);
+            item.value = valueFormatter(item.value, raw, index, items);
           }
           if (nameFormatter) {
-            item.name = nameFormatter(item.name, raw, index, ev.items);
+            item.name = nameFormatter(item.name, raw, index, items);
           }
         });
       },

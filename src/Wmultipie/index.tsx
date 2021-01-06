@@ -168,13 +168,13 @@ export class MultiPie extends Base<WmultipieConfig> {
             item.value = config.tooltip.valueFormatter(item.value, {
               percent,
               ...pointData,
-            }, index, ev.items);
+            }, index, items);
           }
           if (config.tooltip.nameFormatter) {
             item.name = config.tooltip.nameFormatter(item.name, {
               percent,
               ...pointData,
-            }, index, ev.items);
+            }, index, items);
           }
         });
       },

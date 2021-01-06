@@ -274,13 +274,13 @@ export class Pie extends Base<WpieConfig> {
             item.value = config.tooltip.valueFormatter(item.value, {
               ...raw,
               percent,
-            }, index, ev.items);
+            }, index, items);
           }
           if (config.tooltip.nameFormatter) {
             item.name = config.tooltip.nameFormatter(item.name, {
               ...raw,
               percent,
-            }, index, ev.items);
+            }, index, items);
           }
         });
       },
