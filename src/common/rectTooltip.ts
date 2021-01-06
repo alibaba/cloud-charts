@@ -139,10 +139,10 @@ export default function(
             const raw = getRawData(config, this.rawData, item);
 
             if (valueFormatter) {
-              item.value = valueFormatter(item.value, raw, index, ev.items);
+              item.value = valueFormatter(item.value, raw, index, items);
             }
             if (nameFormatter) {
-              item.name = nameFormatter(item.name, raw, index, ev.items);
+              item.name = nameFormatter(item.name, raw, index, items);
             }
           });
         });
