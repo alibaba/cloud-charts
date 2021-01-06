@@ -20,8 +20,6 @@ import polarLegendLayout from '../common/polarLegendLayout';
 
 // 3.x代码
 export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
-  colors?: string[];
-  areaColors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
   legend?: LegendConfig | boolean,

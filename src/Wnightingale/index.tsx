@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
@@ -24,7 +24,7 @@ export interface WnightingaleConfig extends BaseChartConfig {
   yAxis?: Types.ScaleOption & YAxisConfig | false,
   /** @deprecated axis 属性已废弃，请使用 xAxis 属性 */
   axis?: boolean;
-  colors?: string[];
+  colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;

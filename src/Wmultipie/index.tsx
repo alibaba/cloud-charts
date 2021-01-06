@@ -4,7 +4,7 @@ import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/partition'
-import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { numberDecimal } from '../common/common';
@@ -17,7 +17,7 @@ import errorWrap from '../common/errorWrap';
 import './index.scss';
 
 interface WmultipieConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   autoSort?: boolean;

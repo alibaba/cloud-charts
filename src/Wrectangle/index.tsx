@@ -1,5 +1,5 @@
 'use strict';
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
@@ -18,7 +18,7 @@ import './index.scss';
 
 // 3.x代码
 export interface WrectangleConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
   legend?: LegendConfig | boolean;

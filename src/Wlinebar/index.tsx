@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, View, Geometry, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, View, Geometry, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base, { ChartProps } from "../common/Base";
 import { MarkerSymbols } from "@antv/g2/esm/util/marker";
 import { getShapeFactory } from "@antv/g2/esm/core";
@@ -44,7 +44,7 @@ function getLegendItems(
     data: DataAdapterData[],
     geom: Geometry,
     shapeType: string,
-    colors: string[],
+    colors: Colors,
     style?: Types.LooseObject,
   ) {
     data.forEach((d, i) => {
@@ -58,7 +58,7 @@ function getLegendItems(
       const shapeFactory = getShapeFactory(geom.shapeType);
       if (shapeFactory) {
         marker = shapeFactory.getMarker(shapeType, {
-          color: colors[i % colors.length],
+          color: typeof colors === 'string' ? colors : (Array.isArray(colors) ? colors[i % colors.length] : colors(name)),
           isInPolar: false,
         });
 
@@ -469,7 +469,7 @@ const Wlinebar: typeof Linebar = errorWrap(Linebar);
 export default Wlinebar;
 
 interface BarConfig {
-  barColors?: string[];
+  barColors?: Colors;
   stack?: boolean;
   stackReverse?: boolean;
   marginRatio?: number;
@@ -524,7 +524,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
 interface LineConfig {
   // colors?: string[];
   // areaColors?: string[];
-  lineColors?: string[];
+  lineColors?: Colors;
   area?: boolean,
   stack?: boolean, // 仅Area有效
   spline?: boolean,

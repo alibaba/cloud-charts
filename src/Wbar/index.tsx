@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -19,7 +19,7 @@ import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import './index.scss';
 
 interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
   legend?: LegendConfig | boolean;
@@ -235,7 +235,7 @@ export default Wbar;
 
 // export default errorWrap(Wbar);
 
-function drawBar(chart: Chart, config: WbarConfig, colors: string[], field = 'type') {
+function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
   const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
   let geom = chart.interval().position(['x', 'y']);
   if (dodgeStack) {

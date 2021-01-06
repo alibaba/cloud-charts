@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -14,7 +14,7 @@ import './index.scss';
 
 // 3.x代码
 export interface WfunnelConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;

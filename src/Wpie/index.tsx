@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Geometry, Types, BaseChartConfig, ChartData, G2Dependents } from '../common/types';
+import { Chart, Geometry, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
@@ -63,7 +63,7 @@ function selectGeom(geom: Geometry, selectKey?: string) {
 // }
 
 interface WpieConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   autoSort?: boolean;

@@ -1,5 +1,5 @@
 'use strict';
-import { Chart } from "./types";
+import { Chart, Colors } from "./types";
 import label, { LabelConfig } from './label';
 import geomSize, { GeomSizeConfig } from './geomSize';
 import geomStyle, { GeomStyleConfig } from './geomStyle';
@@ -8,9 +8,9 @@ const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
 export interface DrawLineConfig {
   /** 线条颜色 */
-  colors?: string[];
+  colors?: Colors;
   /** 面积颜色 */
-  areaColors?: string[];
+  areaColors?: Colors;
   /** 是否为面积图 */
   area?: boolean;
   /** 是否为堆叠图，仅在 area: true 时生效 */

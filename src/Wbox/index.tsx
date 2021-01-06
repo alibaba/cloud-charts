@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -17,7 +17,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import './index.scss';
 
 interface WboxConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
   legend?: LegendConfig | boolean;
@@ -117,7 +117,7 @@ export class Box extends Base<WboxConfig> {
 const Wbox: typeof Box = errorWrap(Box);
 export default Wbox;
 
-function drawBox(chart: Chart, config: WboxConfig, colors: string[], field = 'type') {
+function drawBox(chart: Chart, config: WboxConfig, colors: Colors, field = 'type') {
   const { dodge, marginRatio, size } = config;
 
   const geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors);

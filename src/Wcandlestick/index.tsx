@@ -37,6 +37,7 @@ interface labelAlias {
 }
 
 interface WcandlestickConfig extends BaseChartConfig {
+  // TODO 颜色类型和后面的处理逻辑需要调整
   colors?: string[];
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;

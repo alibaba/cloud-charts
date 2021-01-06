@@ -1,7 +1,7 @@
 'use strict';
 
 // 引入所需要的库和样式
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
@@ -28,7 +28,7 @@ interface WscatterConfig extends BaseChartConfig {
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
   grid?: boolean;
-  colors?: string[];
+  colors?: Colors;
   size?: GeomSizeConfig;
   jitter?: jitterConfig | boolean;
   label?: LabelConfig | boolean;

@@ -2,7 +2,7 @@
 import { View } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/bin/histogram';
 
-import { Chart, Types, BaseChartConfig, ChartData } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -19,7 +19,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 
 // 3.x代码
 export interface WhistogramConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false,
   yAxis?: Types.ScaleOption & YAxisConfig | false,
   legend?: LegendConfig | boolean;

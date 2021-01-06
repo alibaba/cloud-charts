@@ -1,4 +1,4 @@
-import { ViewPadding } from "@antv/g2/esm/interface";
+import { ColorAttrCallback, ViewPadding } from "@antv/g2/esm/interface";
 
 export * from '@antv/g2/esm/core';
 
@@ -21,3 +21,5 @@ export type StatusColor = 'red' | 'orange' | 'blue' | 'green' | 'gray';
 export type Language = 'zh-cn' | 'en-us';
 
 export type Trend = 'raise' | 'drop';
+
+export type Colors = string | string[] | ColorAttrCallback;

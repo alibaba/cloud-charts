@@ -1,7 +1,7 @@
 'use strict';
 import { View } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/hierarchy/treemap';
-import { Chart, Types, BaseChartConfig } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
 import { XAxisConfig } from '../common/rectXAxis';
 import { YAxisConfig } from '../common/rectYAxis';
@@ -15,7 +15,7 @@ import themes from '../themes/index';
 import './index.scss';
 
 interface WhierarchyConfig extends BaseChartConfig {
-  colors?: string[];
+  colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | boolean,
   yAxis?: Types.ScaleOption & YAxisConfig | boolean,
   legend?: LegendConfig | boolean,
@@ -112,7 +112,7 @@ function parseDataView(dv: any) {
 }
 
 // 简单矩形树图
-function drawHierarchy(chart: Chart, config: WhierarchyConfig, colors: string | string[] | Types.ColorAttrCallback, field = 'name') {
+function drawHierarchy(chart: Chart, config: WhierarchyConfig, colors: Colors, field = 'name') {
   // 设置坐标系：极坐标/直角坐标
   if (config.polar) {
     chart.coordinate('polar', {

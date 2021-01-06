@@ -1,4 +1,4 @@
-import { Types } from "./types";
+import { Colors, Types } from "./types";
 import themes from '../themes';
 import { warn } from './log';
 
@@ -120,7 +120,10 @@ export function pxToNumber(px: string) {
  * @param {array} rawData Highcharts 格式的数据
  * @param {number} dataIndex y轴对应的index
  * */
-export function getDataIndexColor(colors: string[], rawData: any[], dataIndex: number): string | void {
+export function getDataIndexColor(colors: Colors, rawData: any[], dataIndex: number): string | void {
+  if (typeof colors === 'string') {
+    return colors;
+  }
   let colorIndex = null;
   // 找到第一个顺序值和数据中yAxis值匹配的index
   rawData.some((d, i) => {
@@ -133,7 +136,13 @@ export function getDataIndexColor(colors: string[], rawData: any[], dataIndex: n
   });
 
   if (typeof colorIndex === 'number') {
-    return colors[colorIndex];
+    if (Array.isArray(colors)) {
+      return colors[colorIndex];
+    }
+
+    if (typeof colors === 'function') {
+      return colors(rawData[colorIndex].name);
+    }
   }
 }
 
