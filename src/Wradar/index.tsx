@@ -8,7 +8,6 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import { LabelConfig } from "../common/label";
 
 // 2.x版本依赖
 import { propertyAssign, propertyMap } from '../common/common';
@@ -25,10 +24,6 @@ export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
   guide?: GuideConfig,
-  area?: boolean,
-  symbol?: boolean,
-  spline?: boolean,
-  label?: LabelConfig | boolean,
   radius?: number;
 }
 
