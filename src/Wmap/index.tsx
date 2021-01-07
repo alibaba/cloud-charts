@@ -132,13 +132,15 @@ export class Map extends Base<WmapConfig, MapProps> {
   }
 
   rerender() {
+    super.rerender();
+
+    const config = this.props.config || {};
     // fix: 动态切换主题后南海诸岛地图没有更新
-    if (this.props.config.showSouthChinaSea === undefined || this.props.config.showSouthChinaSea) {
+    if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
       this.setState({
         southChinaSeaKey: this.state.southChinaSeaKey + 1,
       });
     }
-    return super.rerender();
   }
 
   convertPosition = (d: Types.LooseObject) => {
