@@ -1,8 +1,9 @@
 import { registerTheme } from "@antv/g2/esm/core";
+import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style-sheet';
 import { Types } from '../common/types';
 import normalStyle from './normal.style';
-import { pxToNumber } from "../common/common";
+import { merge, pxToNumber } from "../common/common";
 import { FullCrossName } from '../constants';
 
 export interface Theme extends Partial<typeof normalStyle> {
@@ -111,30 +112,39 @@ export function convertJsStyle(name: string, theme: Theme): Theme {
   return result;
 }
 
+const BLACK_COLORS_MAP = {
+  100: '#000',
+  95: '#0D0D0D',
+  85: '#262626',
+  65: '#595959',
+  45: '#8C8C8C',
+  25: '#BFBFBF',
+  15: '#D9D9D9',
+  6: '#F0F0F0',
+};
+
+const WHITE_COLORS_MAP = {
+  100: '#FFFFFF',
+  95: '#F2F2F2',
+  85: '#D9D9D9',
+  65: '#A6A6A6',
+  45: '#737373',
+  25: '#404040',
+  15: '#262626',
+  6: '#0F0F0F',
+};
+
 function getG2StyleSheet(theme: Theme): Types.StyleSheet {
   const fontSize1 = pxToNumber(theme['widgets-font-size-1']);
+  const isDark = isContrastColorWhite(theme['widgets-color-background']);
 
-  const BLACK_COLORS = {
-    100: '#000',
-    95: '#0D0D0D',
-    85: '#262626',
-    65: '#595959',
-    45: '#8C8C8C',
-    25: '#BFBFBF',
-    15: '#D9D9D9',
-    6: '#F0F0F0',
-  };
-
-  const WHITE_COLORS = {
-    100: '#FFFFFF',
-    95: '#F2F2F2',
-    85: '#D9D9D9',
-    65: '#A6A6A6',
-    45: '#737373',
-    25: '#404040',
-    15: '#262626',
-    6: '#0F0F0F',
-  };
+  let BLACK_COLORS = BLACK_COLORS_MAP;
+  let WHITE_COLORS = WHITE_COLORS_MAP;
+  // 暗色模式下互换颜色表
+  if (isDark) {
+    BLACK_COLORS = WHITE_COLORS_MAP;
+    WHITE_COLORS = BLACK_COLORS_MAP;
+  }
 
   const QUALITATIVE_10 = [
     theme['widgets-color-category-1'],
@@ -150,18 +160,18 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
   ];
 
   const QUALITATIVE_20 = [
-    '#5B8FF9',
-    '#CDDDFD',
-    '#5AD8A6',
-    '#CDF3E4',
-    '#5D7092',
-    '#CED4DE',
-    '#F6BD16',
-    '#FCEBB9',
-    '#E86452',
-    '#F8D0CB',
-    '#6DC8EC',
-    '#D3EEF9',
+    theme['widgets-color-category-1'],
+    theme['widgets-color-category-2'],
+    theme['widgets-color-category-3'],
+    theme['widgets-color-category-4'],
+    theme['widgets-color-category-5'],
+    theme['widgets-color-category-6'],
+    theme['widgets-color-category-7'],
+    theme['widgets-color-category-8'],
+    theme['widgets-color-category-9'],
+    theme['widgets-color-category-10'],
+    theme['widgets-color-category-11'],
+    theme['widgets-color-category-12'],
     '#945FB9',
     '#DECFEA',
     '#FF9845',
@@ -224,7 +234,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     axisSubTickLineBorder: 1,
 
     /** 坐标轴刻度文本颜色 */
-    axisLabelFillColor: BLACK_COLORS[45],
+    axisLabelFillColor: theme['widgets-axis-label'], // BLACK_COLORS[45],
     /** 坐标轴刻度文本字体大小 */
     axisLabelFontSize: fontSize1,
     /** 坐标轴刻度文本行高 */
@@ -540,7 +550,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     hollowIntervalBorderColor: QUALITATIVE_10[0],
     /** hollowInterval 边框透明度 */
     hollowIntervalBorderOpacity: 1,
-    hollowIntervalFillColor: WHITE_COLORS[100],
+    hollowIntervalFillColor: theme['widgets-color-background'], // WHITE_COLORS[100],
 
     /** hollowInterval active 状态下边框粗细 */
     hollowIntervalActiveBorder: 2,
@@ -559,6 +569,8 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
   };
 }
 
+const legendKeys = ['common', 'top', 'right', 'bottom', 'left'];
+
 export function setG2Theme(theme: Theme) {
   const g2StyleSheet = getG2StyleSheet(theme);
 
@@ -567,6 +579,34 @@ export function setG2Theme(theme: Theme) {
   // g2Theme.maxColumnWidth = 36;
   const baseFontSize = theme['widgets-font-size-1'];
   const baseFontSizeNum = pxToNumber(theme['widgets-font-size-1']);
+
+  // legend 样式
+  const legendStyle = g2Theme.components.legend;
+  legendKeys.forEach((key) => {
+    const style = legendStyle[key];
+    merge(style, {
+      // 这里设置 itemValue 会导致一直显示 value，所以放到 legend 中配置
+      itemStates: {
+        active: {
+          nameStyle: {
+            opacity: 0.8,
+          },
+          valueStyle: {
+            opacity: 0.8,
+          },
+        },
+        unchecked: {
+          nameStyle: {
+            fill: theme['widgets-legend-uncheck'],
+          },
+          valueStyle: {
+            fill: theme['widgets-legend-uncheck'],
+          },
+        },
+      },
+    })
+  });
+
   // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
   Object.assign(tooltipStyle['g2-tooltip'], {
@@ -585,6 +625,7 @@ export function setG2Theme(theme: Theme) {
     height: `${baseFontSizeNum / 2}px`,
     marginRight: `${baseFontSizeNum / 3}px`,
   });
+
   // slider 样式
   const sliderStyle = g2Theme.components.slider.common;
   const p = baseFontSizeNum * 2 / 3;

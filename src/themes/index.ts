@@ -1,7 +1,6 @@
 import eventBus from "../common/eventBus";
 import { THEME } from '../constants';
 import { themeLog } from "../common/log";
-// import setG2Theme from "../common/g2Theme";
 import {
   setThemeStyle,
   convertKey,
@@ -39,6 +38,8 @@ const themeMap: ThemesMap = {
 // alias index as normal
 themeMap.index = themeMap.normal;
 
+const normalMap = { index: true, normal: true };
+
 // 默认主题包
 const defaultThemeName = process.env.NODE_ENV === 'production' ? THEME : 'normal';
 
@@ -64,7 +65,7 @@ export function getTheme(name?: string) {
 }
 
 export function setTheme(theme: string | {} = defaultThemeName, refreshChart: boolean = true) {
-  if (typeof theme === 'string' && themeMap[theme] && theme === currentThemeName) {
+  if (typeof theme === 'string' && themeMap[theme] && (theme === currentThemeName || (theme in normalMap && currentThemeName in normalMap))) {
     return;
   }
   let newTheme: Theme = {};

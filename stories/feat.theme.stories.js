@@ -2,9 +2,10 @@ import React, { useMemo, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, select, color } from "@storybook/addon-knobs";
 
 import { themes, Wcontainer, Wline, Wbar, Wlinebar } from '@alife/aisc-widgets';
+import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 
 
 const data = [
@@ -50,9 +51,9 @@ function ThemeDemo() {
   const theme = select('主题', {
     默认: 'normal',
     暗色: 'dark',
-    Aone: 'aone',
-    阿里云: 'aliyun',
-    阿里云暗色: 'aliyun-dark',
+    // Aone: 'aone',
+    // 阿里云: 'aliyun',
+    // 阿里云暗色: 'aliyun-dark',
     自定义: {
       'widgets-container-background': '#f2f3f7',
     },
@@ -92,3 +93,13 @@ function ThemeDemo() {
 stories.add('主题动态切换', () => (
   <ThemeDemo />
 ));
+
+stories.add('亮暗颜色判断测试', () => {
+  const bg = color('背景色', '#fff')
+  const isDark = isContrastColorWhite(bg);
+  return (
+    <div style={{ width: 300, height: 300, background: bg }}>
+      <span style={{ color: isDark ? '#fff' : '#333' }}>isDark: {String(isDark)}</span>
+    </div>
+  );
+});

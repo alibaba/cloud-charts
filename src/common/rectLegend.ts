@@ -75,11 +75,10 @@ function getPosition(position?: string, align?: string): Position {
   return position as Position;
 }
 
-function getPadding(position?: string, userPadding?: number[], isPolar?: boolean) {
+function getPadding(position: string, base: number,  userPadding?: number[], isPolar?: boolean) {
   if (userPadding) {
     return userPadding;
   }
-  const base = pxToNumber(themes['widgets-font-size-1']);
   const len = base * 2 / 3;
   const [p] = position.split('-');
   switch (p) {
@@ -172,6 +171,8 @@ export default function (
       warn('config.legend', `collapseRow 已废弃，暂时无法修改分页尺寸`);
     }
 
+    const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
+
     const legendConfig: Types.LegendCfg = {
       ...defaultConfig,
       position: getPosition(position, align),
@@ -188,11 +189,11 @@ export default function (
       // background: {
       //   padding: 0,
       // },
-      padding: getPadding(position, padding, isPolar),
+      padding: getPadding(position, baseFontSizeNum, padding, isPolar),
       marker: marker || {
         // symbol: 'circle',
         style: {
-          r: pxToNumber(themes['widgets-font-size-1']) / 3,
+          r: baseFontSizeNum / 3,
           // fill: styleSheet.legendMarkerColor,
           // lineCap: 'butt',
           lineAppendWidth: 0,
@@ -237,6 +238,12 @@ export default function (
 
     if (showData) {
       legendConfig.itemValue = {
+        style: {
+          fill: themes['widgets-legend-text'],
+          fontSize: baseFontSizeNum,
+          lineHeight: baseFontSizeNum,
+          fontFamily: themes['widgets-font-family-txd-m-number'],
+        },
         formatter: (text, item, index) => {
           // @ts-ignore
           const value = getLastValue(item.name, this.rawData, isOneDataGroup);
