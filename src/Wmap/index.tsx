@@ -36,6 +36,7 @@ import './index.scss';
 import Wshoot, { ShootProps } from "../Wshoot";
 import { FullCrossName } from '../constants';
 import { warn } from '../common/log';
+import { merge } from '../common/common';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -248,7 +249,8 @@ export class Map extends Base<WmapConfig, MapProps> {
     );
   }
 
-  renderSouthChinaSea(config: WmapConfig) {
+  renderSouthChinaSea(rootConfig: WmapConfig) {
+    const config = merge({}, this.defaultConfig, rootConfig || {});
     if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
       const { southChinaSeaKey } = this.state;
       const { fill } = config.background || {};
