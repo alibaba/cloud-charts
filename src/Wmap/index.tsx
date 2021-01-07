@@ -188,6 +188,9 @@ export class Map extends Base<WmapConfig, MapProps> {
         this.changeChildData(this.chart, layerConfig, type.displayName, data);
       }
     });
+    if (!isInit) {
+      this.chart.render(true);
+    }
     this.setState({
       customPointLayer,
       shootLayer,
@@ -613,9 +616,12 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
 
 // 绘制分级统计地图
 function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { areaMapDataView } = ctx;
+  let { areaMapDataView, areaMapView } = ctx;
   if (areaMapDataView) {
-    areaMapDataView.origin !== data && areaMapDataView.source(data);
+    if (areaMapDataView.origin !== data) {
+      areaMapDataView.source(data);
+      areaMapView.data(areaMapDataView.rows);
+    }
   } else {
     areaMapDataView = ds
       .createView()
@@ -663,9 +669,12 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
 
 // 绘制散点图
 function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { pointMapDataView } = ctx;
+  let { pointMapDataView, pointMapView } = ctx;
   if (pointMapDataView) {
-    pointMapDataView.origin !== data && pointMapDataView.source(data);
+    if (pointMapDataView.origin !== data) {
+      pointMapDataView.source(data);
+      pointMapView.data(pointMapDataView.rows);
+    }
   } else {
     pointMapDataView = ds
       .createView()
@@ -737,9 +746,12 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
 
 // 绘制热力图
 function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { heatMapDataView } = ctx;
+  let { heatMapDataView, heatMapView } = ctx;
   if (heatMapDataView) {
-    heatMapDataView.origin !== data && heatMapDataView.source(data);
+    if (heatMapDataView.origin !== data) {
+      heatMapDataView.source(data);
+      heatMapView.data(heatMapDataView.rows);
+    }
   } else {
     heatMapDataView = ds
       .createView()
