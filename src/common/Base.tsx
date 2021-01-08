@@ -63,6 +63,7 @@ export interface ChartProps<ChartConfig> {
   };
   language?: Language;
   getChartInstance?: (chart: Chart) => void;
+  enableFunctionUpdate?: boolean;
   // G2 顶层属性
   padding?: Types.ViewPadding;
   localRefresh?: boolean;
@@ -192,8 +193,9 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     if (res !== undefined) {
       return res;
     }
-    // 默认忽略全部function
-    if (typeof objValue === 'function' && typeof othValue === 'function') {
+    const enableFunctionUpdate = this.props.enableFunctionUpdate;
+    // 默认忽略全部function，开启 enableFunctionUpdate 可以接受function更新
+    if (!enableFunctionUpdate && typeof objValue === 'function' && typeof othValue === 'function') {
       return true;
     }
     // 其余情况使用lodash的默认判断
