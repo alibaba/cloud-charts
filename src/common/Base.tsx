@@ -521,6 +521,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       syncViewPadding,
       customChart,
       getChartInstance,
+      enableFunctionUpdate,
       ...otherProps
     } = this.props;
     return (
