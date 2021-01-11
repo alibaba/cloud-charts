@@ -71,7 +71,11 @@ export class Hierarchy extends Base<WhierarchyConfig> {
     chart.data(nodes);
 
     // tooltip
-    rectTooltip.call(this, chart, config, { crosshairs: false });
+    rectTooltip.call(this, chart, config, {}, null, {
+      showMarkers: false,
+      showCrosshairs: false,
+      shared: false,
+    });
 
     drawHierarchy(chart, config, config.colors);
 
