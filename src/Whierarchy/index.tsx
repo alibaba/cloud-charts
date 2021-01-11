@@ -79,9 +79,8 @@ export class Hierarchy extends Base<WhierarchyConfig> {
   }
   changeData(chart: Chart, config: WhierarchyConfig, data: any) {
     const dataView = processDataView(data);
-    if (dataView) {
-      dataView.source(data);
-    }
+    const nodes = parseDataView(dataView);
+    chart && chart.changeData(nodes);
   }
   // Chart 内容，方法名称与入参和原来一致
 }
