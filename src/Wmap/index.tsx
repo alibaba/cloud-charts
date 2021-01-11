@@ -498,13 +498,13 @@ export class Map extends Base<WmapConfig, MapProps> {
   /** @override Map 使用自定义 changeData 方法，覆盖原方法逻辑 */
   changeData() {}
 
-  //
-  // destroy() {
-  //   this.bgMapDataView = null;
-  //   this.areaMapDataView = null;
-  //   this.pointMapDataView = null;
-  //   this.heatMapDataView = null;
-  // }
+  // 销毁时需要清空 dataView，否则切换主题时，更新会进入到旧的图表实例中
+  destroy() {
+    this.bgMapDataView = null;
+    this.areaMapDataView = null;
+    this.pointMapDataView = null;
+    this.heatMapDataView = null;
+  }
 }
 
 // 绘制地图背景
