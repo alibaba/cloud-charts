@@ -97,8 +97,9 @@ function g2Factory(name, Chart, convertData = true) {
       if (res !== undefined) {
         return res;
       }
-      // 默认忽略全部function
-      if (typeof objValue === 'function' && typeof othValue === 'function') {
+      const enableFunctionUpdate = this.props.enableFunctionUpdate;
+      // 默认忽略全部function，开启 enableFunctionUpdate 可以接受function更新
+      if (!enableFunctionUpdate && typeof objValue === 'function' && typeof othValue === 'function') {
         return true;
       }
     };
@@ -407,6 +408,7 @@ function g2Factory(name, Chart, convertData = true) {
         language,
         customChart,
         getChartInstance,
+        enableFunctionUpdate,
         ...otherProps
       } = this.props;
       return (
