@@ -4,7 +4,6 @@ import { Chart, ChartData, Types, G2Dependents } from "./types";
 import { merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
-import './interaction';
 import { warn } from './log';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
@@ -100,23 +99,7 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
   return [len, len, len, len];
 }
 
-function isLastLegend(context: Types.IInteractionContext) {
-  // @ts-ignore
-  const { item, list } = context.getAction('list-checked').getTriggerListInfo() || {};
-  if (!item) {
-    return true;
-  }
-  const items = list.getItems();
-  const stateItems = list.getItemsByState('unchecked');
-  // 当前选中项状态
-  const currentEnable = list.hasState(item, 'unchecked');
-  // 获取原始事件
-  const originEvent = context.event.event;
-  // 是否按Control
-  const hasControl = originEvent.ctrlKey || originEvent.metaKey;
-  // 按Control进入单选模式则一直可用，或者：当前是要 unchecked，且只剩下一个 非unchecked 的 item，则返回 false
-  return hasControl || !(!currentEnable && stateItems.length === items.length - 1);
-}
+
 
 /**
  * rectLegend 直角坐标系legend配置。
@@ -161,7 +144,7 @@ export default function (
       onHover,
       clickable = true,
       onClick,
-      // defaultClickBehavior = true,
+      defaultClickBehavior,
       // 自定义配置
       customConfig,
       // style = {},
@@ -202,38 +185,31 @@ export default function (
       }
     };
 
+    // legend hover 相关事件
     if (!hoverable) {
       chart.removeInteraction('legend-active');
-    } else if (onHover) {
+    }
+    if (onHover) {
       warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter', onHover }`);
       chart.on('legend-item:mouseenter', onHover);
     }
 
-    if (!clickable) {
-      chart.removeInteraction('legend-filter');
-    } else if (onClick) {
+    // legend click 相关事件
+    // 去除默认图例行为
+    chart.removeInteraction('legend-filter');
+    if (clickable) {
+      if (allowAllCanceled) {
+        chart.interaction('legend-custom-filter');
+      } else {
+        chart.interaction('legend-custom-filter-last');
+      }
+    }
+    if (onClick) {
       warn('config.legend', `onClick 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:click', onClick }`);
       chart.on('legend-item:click', onClick);
     }
-
-    if (clickable && !allowAllCanceled) {
-      // 修改 legend 默认行为
-      chart.interaction('legend-filter', {
-        showEnable: [
-          { trigger: 'legend-item:mouseenter', action: 'cursor:pointer', isEnable: isLastLegend },
-          { trigger: 'legend-item:mouseleave', action: 'cursor:default' },
-        ],
-        start: [
-          {
-            trigger: 'legend-item:click',
-            action: ['list-checked:toggle', 'data-filter:filter'],
-            isEnable: isLastLegend
-          },
-        ],
-      });
-    } else {
-      chart.removeInteraction('legend-filter');
-      chart.interaction('legend-single-filter');
+    if (defaultClickBehavior !== undefined) {
+      warn('config.legend', `defaultClickBehavior 属性已废弃，取消默认点击效果只需要关闭 legend.clickable 即可`);
     }
 
     if (showData) {

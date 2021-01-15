@@ -8,6 +8,7 @@ import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
+import './interaction';
 // import './g2Hacker';
 
 // 图表唯一id
