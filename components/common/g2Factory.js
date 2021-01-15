@@ -205,7 +205,7 @@ function g2Factory(name, Chart, convertData = true) {
       // 清除配置变化重新生成图表的定时器
       window.cancelAnimationFrame(this.reRenderTimer);
       // 清除afterRender的定时器
-      clearTimeout(this.afterRenderTimer);
+      window.cancelAnimationFrame(this.afterRenderTimer);
 
       if (this.chartProcess.destroy) {
         this.chart && this.chartProcess.destroy.call(this, this.chart);
@@ -375,7 +375,7 @@ function g2Factory(name, Chart, convertData = true) {
         this.chartProcess.afterRender ||
         this.afterRenderCallbacks.length > 0
       ) {
-        this.afterRenderTimer = setTimeout(() => {
+        this.afterRenderTimer = requestAnimationFrame(() => {
           if (this.chart && this.chartProcess.afterRender) {
             this.chartProcess.afterRender.call(
               this,
@@ -388,7 +388,7 @@ function g2Factory(name, Chart, convertData = true) {
               cb && cb.call(this, this.chart, config || this.props.config);
             });
           }
-        }, 50);
+        });
       }
     }
 
