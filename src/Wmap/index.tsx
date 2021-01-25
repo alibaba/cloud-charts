@@ -421,7 +421,7 @@ export class Map extends Base<WmapConfig, MapProps> {
       // G2 图层需要转化数据格式
       let { data } = props;
       if (layerConfig.dataType !== 'g2') {
-        data = convertMapData(data);
+        data = convertMapData(data, type.displayName);
       }
       if (type.displayName === MapArea.displayName) {
         drawMapArea(this, chart, ds, layerConfig, data);
@@ -482,7 +482,7 @@ export class Map extends Base<WmapConfig, MapProps> {
     const { ds } = this;
     let data = newData;
     if (config.dataType !== 'g2') {
-      data = convertMapData(newData);
+      data = convertMapData(newData, viewName);
     }
     if (viewName === MapArea.displayName) {
       drawMapArea(this, chart, ds, config, data);
@@ -653,7 +653,7 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       .polygon()
       .position('x*y')
       // 如果用连续型颜色，需要对数组倒序，否则颜色对应的数值会从小开始
-      .color('type', getMapContinuousColor(config.areaColors))
+      .color('areaType', getMapContinuousColor(config.areaColors))
       // .opacity('value')
       .tooltip('name*value', (name, value) => ({
         name,
@@ -696,7 +696,7 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       .point()
       .position('x*y')
       .shape('circle')
-      .color('type', config.pointColors)
+      .color('pointType', config.pointColors)
       .tooltip('name*value', (name, value) => ({
         name,
         value,
@@ -863,10 +863,20 @@ interface RawMapData {
 }
 
 // 转换地图数据结构，因为和默认结构不同，需要特殊处理。
-function convertMapData(data: RawMapData[]) {
+function convertMapData(data: RawMapData[], viewName: string) {
   if (!Array.isArray(data)) {
     return [];
   }
+  let typeName = 'type';
+  if (viewName === MapArea.displayName) {
+    typeName = 'areaType';
+  }
+  if (viewName === MapPoint.displayName) {
+    typeName = 'pointType';
+  }
+  // if (viewName === MapHeatMap.displayName) {
+  //   typeName = 'heatmapType';
+  // }
   const result: MapData = [];
   data.forEach(item => {
     const { name = '', data: itemData } = item;
@@ -876,7 +886,7 @@ function convertMapData(data: RawMapData[]) {
     itemData.forEach(d => {
       result.push({
         ...d,
-        type: d.type || name,
+        [typeName]: d.type || name,
       });
     });
   });
