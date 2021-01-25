@@ -38,7 +38,13 @@
   "dependencies": {
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.1.1",
+    "@types/classnames": "^2.2.10",
+    "@types/lodash": "^4.14.161",
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^16.9.13",
+    "@types/react-dom": "^16.9.4",
     "classnames": "^2.2.5",
+    "lodash": "^4.17.20",
     "prop-types": "^15.5.10",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
@@ -50,10 +56,6 @@
     "@storybook/addon-links": "^5.2.6",
     "@storybook/addons": "^5.2.6",
     "@storybook/react": "^5.2.6",
-    "@types/classnames": "^2.2.10",
-    "@types/lodash": "^4.14.161",
-    "@types/react": "^16.9.13",
-    "@types/react-dom": "^16.9.4",
     "awesome-typescript-loader": "^5.2.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
@@ -69,8 +71,6 @@
     "babel-preset-stage-0": "^6.24.1",
     "build-plugin-component": "^1.0.3",
     "eslint": "^6.0.1",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
     "sass-extract": "^2.1.0",
     "sass-extract-js": "^0.4.0",
     "sass-extract-loader": "^1.1.0"
