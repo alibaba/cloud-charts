@@ -1,6 +1,6 @@
 @import "themes/index";
 
-$font-path: '../font';
+$font-path: '../font' !default;
 
 /* Widgets 专用字体，仅包含20个字符 */
 @font-face {

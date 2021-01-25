@@ -28,10 +28,14 @@ module.exports = ({ context, log, modifyUserConfig, onHook }) => {
 
   if (command === 'build') {
     const tempCssFile = [];
-    glob.sync(
+    const scssFile = glob.sync(
       `${rootDir}/src/**/index.scss`
-    )
-      .forEach((item, i) => {
+    );
+    // 额外增加 cdn.scss
+    scssFile.push(`${rootDir}/src/cdn.scss`);
+    scssFile.push(`${rootDir}/src/Wicon/cdn.scss`);
+
+    scssFile.forEach((item, i) => {
         if (item.indexOf('themes/index.scss') > -1) {
           return;
         }
