@@ -30,6 +30,8 @@ export interface DrawLineConfig {
   lineWidth?: number;
   /** 元素样式 */
   geomStyle?: GeomStyleConfig;
+  /** 是否数据排序 */
+  sortable?: boolean;
 }
 
 /**
@@ -56,30 +58,34 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
 
   let lineGeom = null;
 
+  const geomConfig = {
+    sortable: config.sortable,
+  };
+
   if (config.area && config.stack) {
-    chart.area()
+    chart.area(geomConfig)
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
       .adjust('stack');
-    lineGeom = chart.line()
+    lineGeom = chart.line(geomConfig)
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
       .adjust('stack');
   } else if (config.area && !config.stack) {
-    chart.area()
+    chart.area(geomConfig)
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
       .shape(areaShape)
-    lineGeom = chart.line()
+    lineGeom = chart.line(geomConfig)
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
   } else {
-    lineGeom = chart.line()
+    lineGeom = chart.line(geomConfig)
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
@@ -96,13 +102,13 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
   if (config.symbol) {
     let pointGeom = null;
     if (config.area && config.stack) {
-      pointGeom = chart.point()
+      pointGeom = chart.point(geomConfig)
         .adjust('stack')
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
     } else {
-      pointGeom = chart.point()
+      pointGeom = chart.point(geomConfig)
         .position(['x', yAxisKey])
         .color('type', config.colors)
         .shape('circle')
