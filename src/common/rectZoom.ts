@@ -3,6 +3,7 @@
 // import { registerAction } from "@antv/g2";
 // import ResetButton from '@antv/g2/esm/interaction/action/view/button';
 import { Chart, Types, Language } from "./types";
+import themes from '../themes';
 
 export interface ZoomConfig {
   zoom?: boolean;
@@ -92,8 +93,22 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
             // @ts-ignore
             if (resetAction.cfg) {
               // @ts-ignore
-              resetAction.cfg.text = (locale[language] || locale['zh-cn']).reset
-              // TODO 重置按钮根据主题设置样式
+              Object.assign(resetAction.cfg, {
+                text: (locale[language] || locale['zh-cn']).reset,
+                textStyle: {
+                  fill: themes['widgets-color-blue'],
+                },
+                style: {
+                  fill: themes['widgets-color-background'],
+                  stroke: themes['widgets-color-gray'],
+                  lineWidth: 0.5,
+                  // strokeWidth: 1,
+                },
+                activeStyle: {
+                  fill: themes['widgets-color-background'],
+                  stroke: themes['widgets-color-blue'],
+                }
+              });
             }
           }
           return enable;
