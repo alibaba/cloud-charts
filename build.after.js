@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-const Config = require('webpack-chain');
+// const Config = require('webpack-chain');
 const { getWebpackConfig } = require('build-scripts-config');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const packageInfo = require('./package.json');
@@ -11,7 +11,7 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
   const { command, commandArgs, rootDir, userConfig } = context;
   const { library, libraryTarget = 'umd', libraryExport } = userConfig;
 
-  function setBuildConfig(config, theme = 'normal') {
+  function setBuildConfig(config, theme = 'index') {
     // 调整构建目录
     config.output
       .path(path.resolve(rootDir, 'build'))
@@ -80,10 +80,9 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
     onlineConfig.target('web');
     onlineConfig.context(rootDir);
 
+    setBuildConfig(onlineConfig);
+
     onlineConfig.output
-      .path(path.resolve(rootDir, 'build'))
-      .filename('[name].js')
-      .publicPath('/build/')
       .library(library)
       .libraryExport(libraryExport)
       .libraryTarget(libraryTarget);
@@ -102,6 +101,9 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
     const pluginsConfig = getWebpackConfig(mode);
     pluginsConfig.target('web');
     pluginsConfig.context(rootDir);
+
+    setBuildConfig(pluginsConfig);
+
     pluginsConfig.output
       .library(`${library}[name]`)
       .libraryExport(libraryExport)
@@ -124,20 +126,72 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
   }
 
 
-  // 调整 webpack 配置
+  // 调整 umd 包 webpack 配置
   // config 为 webpack-chain 实例
-  onGetWebpackConfig(config => {
+  onGetWebpackConfig('component-dist', config => {
+    setBuildConfig(config);
 
-    if (command === 'build'|| commandArgs.online) {
-      setBuildConfig(config);
-    }
-
-    if (command === 'build' && commandArgs.analyzer) {
+    if (commandArgs.analyzer) {
       config
         .plugin('analyzer')
         .use(BundleAnalyzerPlugin);
     }
-
-    console.log(Config.toString(config.toConfig()));
   });
+
+  // onGetWebpackConfig(config => {
+  //   console.log(Config.toString(config.toConfig()));
+  // });
+
+  // 主题包
+  if (!commandArgs.online && !commandArgs.analyzer) {
+    const themeConfig = getWebpackConfig('production');
+    themeConfig.target('web');
+    themeConfig.context(rootDir);
+
+    setBuildConfig(themeConfig, 'dark');
+
+    themeConfig.module.rule('scss').use('sass-loader').tap(options => {
+      return {
+        ...options,
+        // additionalData: (content, loaderContext) => {
+        //   // More information about available properties https://webpack.js.org/api/loaders/
+        //   const { resourcePath, rootContext } = loaderContext;
+        //   const relativePath = path.relative(rootContext, resourcePath);
+        //   console.log('relativePath', relativePath);
+        //   return content;
+        //   // if (relativePath === "styles/foo.scss") {
+        //   //   return "$value: 100px;" + content;
+        //   // }
+        //   //
+        //   // return "$value: 200px;" + content;
+        // },
+        // 由于 build-plugin-component -> build-scripts-config -> sass-loader 版本是 8.x，所以使用 prependData。
+        // 如果更新了依赖版本，可以用 additionalData
+        prependData: (loaderContext) => {
+          // More information about available properties https://webpack.js.org/api/loaders/
+          const { resourcePath, rootContext } = loaderContext;
+          // const relativePath = path.relative(rootContext, resourcePath);
+
+          const themePath = path.relative(resourcePath, path.join(rootContext, './src/themes/dark.scss'));
+          // console.log('relativePath', relativePath, resourcePath);
+          // if (relativePath === 'src/index.scss') {
+          //   return '@import "themes/dark";'
+          // }
+          return `@import "${themePath.slice(3)}"; `;
+        },
+      }
+    })
+
+    themeConfig.output
+      .library(library)
+      .libraryExport(libraryExport)
+      .libraryTarget(libraryTarget);
+
+    themeConfig
+      .entry('dark')
+      .add(path.resolve(rootDir, 'src/index.scss'))
+      .add(path.resolve(rootDir, 'src/index.ts'));
+
+    registerTask('theme-dark', themeConfig);
+  }
 };
