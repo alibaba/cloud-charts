@@ -37,6 +37,8 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   polar?: boolean;
   innerRadius?: number;
   geomStyle?: GeomStyleConfig;
+  minSize?: number;
+  maxSize?: number;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -236,8 +238,12 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
-  let geom = chart.interval().position(['x', 'y']);
+  const { stack, stackReverse, marginRatio, dodgeStack, size, minSize, maxSize } = config;
+  const geomConfig = {
+    minColumnWidth: minSize || null,
+    maxColumnWidth: maxSize || null,
+  };
+  let geom = chart.interval(geomConfig).position(['x', 'y']);
   if (dodgeStack) {
     geom = geom.color(field, colors).adjust([
       {
