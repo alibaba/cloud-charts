@@ -585,6 +585,8 @@ export function setG2Theme(theme: Theme) {
   legendKeys.forEach((key) => {
     const style = legendStyle[key];
     merge(style, {
+      // 关闭默认主题中的最大宽度限制
+      maxItemWidth: null,
       // 这里设置 itemValue 会导致一直显示 value，所以放到 legend 中配置
       itemStates: {
         active: {
