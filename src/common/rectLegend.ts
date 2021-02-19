@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, ChartData, Types, G2Dependents } from "./types";
-import { merge } from './common';
+import { customFormatter, customFormatterConfig, merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
 import { warn } from './log';
@@ -39,7 +39,7 @@ import { warn } from './log';
 
 type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'right-bottom' | 'left' | 'left-top' | 'left-bottom' | 'bottom' | 'bottom-left' | 'bottom-right';
 
-export interface LegendConfig {
+export interface LegendConfig extends customFormatterConfig {
   visible?: boolean;
   autoCollapse?: boolean;
   /** @deprecated 暂时无法修改分页尺寸 */
@@ -213,6 +213,8 @@ export default function (
     }
 
     if (showData) {
+      const customValueFormatter = customFormatter(config.legend || {});
+
       legendConfig.itemValue = {
         style: {
           fill: themes['widgets-legend-text'],
@@ -225,6 +227,8 @@ export default function (
           const value = getLastValue(item.name, this.rawData, isOneDataGroup);
           if (valueFormatter) {
             return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
+          } else if (customValueFormatter) {
+            return customValueFormatter(value)
           }
           return value;
         },

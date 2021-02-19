@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import { getRawData, merge } from './common';
+import { customFormatter, customFormatterConfig, getRawData, merge } from './common';
 
 // 排序函数
 const sortFun = {
@@ -15,7 +15,7 @@ const sortFun = {
   },
 };
 
-export interface TooltipConfig {
+export interface TooltipConfig extends customFormatterConfig {
   visible?: boolean;
   sort?: 'asce' | 'desc' | Function;
   showTitle?: boolean;
@@ -58,6 +58,9 @@ export default function(
       nameFormatter,
       valueFormatter,
       customConfig,
+      unit,
+      decimal,
+      grouping,
     } = config.tooltip || {};
 
     const tooltipConfig: Types.TooltipCfg = {
@@ -106,10 +109,15 @@ export default function(
 
     chart.tooltip(tooltipConfig);
 
-    if (sort || titleFormatter || nameFormatter || valueFormatter) {
+    if (
+      sort || titleFormatter || nameFormatter || valueFormatter ||
+      unit || (decimal !== undefined && decimal !== null) || grouping
+    ) {
       if (onTooltipChange) {
         chart.on('tooltip:change', onTooltipChange);
       } else {
+        const customValueFormatter = customFormatter(config.tooltip || {});
+
         chart.on('tooltip:change', (ev: any) => {
           // x: 当前鼠标的 x 坐标,
           // y: 当前鼠标的 y 坐标,
@@ -140,6 +148,8 @@ export default function(
 
             if (valueFormatter) {
               item.value = valueFormatter(item.value, raw, index, items);
+            } else if (customValueFormatter) {
+              item.value = customValueFormatter(item.value);
             }
             if (nameFormatter) {
               item.name = nameFormatter(item.name, raw, index, items);

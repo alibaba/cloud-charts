@@ -1,9 +1,9 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import { merge } from './common';
+import { merge, customFormatter, customFormatterConfig } from './common';
 
-export interface YAxisConfig {
+export interface YAxisConfig extends customFormatterConfig {
   visible?: boolean;
   alias?: boolean;
   autoRotate?: boolean;
@@ -40,7 +40,7 @@ export default function (
         rotate,
         autoHide,
         autoEllipsis,
-        formatter: labelFormatter,
+        formatter: labelFormatter || customFormatter(config.yAxis || {}),
       },
     };
 

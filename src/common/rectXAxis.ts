@@ -2,9 +2,9 @@
 
 import { Chart, Types, G2Dependents } from "./types";
 import themes from '../themes';
-import { merge } from './common';
+import { merge, customFormatter, customFormatterConfig } from './common';
 
-export interface XAxisConfig {
+export interface XAxisConfig extends customFormatterConfig {
   visible?: boolean;
   alias?: boolean;
   autoRotate?: boolean;
@@ -47,7 +47,7 @@ export default function (
         rotate,
         autoHide,
         autoEllipsis,
-        formatter: labelFormatter,
+        formatter: labelFormatter || customFormatter(config.xAxis || {}),
       },
     };
 

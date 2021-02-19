@@ -373,3 +373,37 @@ export function filterKey(obj: Types.LooseObject, keys: string[]) {
 //
 //   return [top, right, bottom, left];
 // }
+
+export interface customFormatterConfig {
+  unit?: string;
+  decimal?: number;
+  grouping?: boolean | string;
+}
+
+/**
+ * 自定义格式化函数，支持 单位、小数位、千分位 处理
+ * */
+export function customFormatter(config: customFormatterConfig) {
+  const { unit, decimal = 6, grouping } = config;
+
+  if (!unit && (decimal === undefined || decimal === null) && !grouping) {
+    return null;
+  }
+  return function (v: any) {
+    let result = v;
+    let newUnit = unit || '';
+    if (isInvalidNumber(v)) {
+      return `${v}${newUnit}`;
+    }
+
+    // 小数位
+    result = numberDecimal(result, decimal);
+
+    // 千分位
+    if (grouping) {
+      result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
+    }
+
+    return `${result}${newUnit}`;
+  }
+}
