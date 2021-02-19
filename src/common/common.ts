@@ -41,30 +41,31 @@ export function propertyAssign(keys: string[], target: Types.LooseObject, source
   }
   keys.forEach((key) => {
     // 仅判断undefined的情况
-    if (source[key] !== undefined) {
-      // 忽略 tickCount: 'auto'
-      if (key === 'tickCount' && source[key] === 'auto') {
-        warn('config.axis', `tickCount: 'auto' 被替换为 Axis.autoHide: true`);
-        return;
-      }
-      // 将部分限制了类型的key属性转换为需要的类型
-      if (keyType[key] !== 'number') {
-        target[key] = source[key];
-      } else if (source[key] === null) {
-        // 设置null则直接赋值
-        target[key] = null;
-      } else if (!isInvalidNumber(source[key])) {
-        // 是数字时才赋值，否则直接跳过
-        target[key] = Number(source[key]);
-      }
-      // if (keyType[key] === 'number') {
-      //   if (!isInvalidNumber(source[key])) {
-      //     target[key] = Number(source[key]);
-      //   }
-      // } else {
-      //   target[key] = source[key];
-      // }
+    if (source[key] === undefined) {
+      return;
     }
+    // 忽略 tickCount: 'auto'
+    if (key === 'tickCount' && source[key] === 'auto') {
+      warn('config.axis', `tickCount: 'auto' 被替换为 Axis.autoHide: true`);
+      return;
+    }
+    // 将部分限制了类型的key属性转换为需要的类型
+    if (keyType[key] !== 'number') {
+      target[key] = source[key];
+    } else if (source[key] === null) {
+      // 设置null则直接赋值
+      target[key] = null;
+    } else if (!isInvalidNumber(source[key])) {
+      // 是数字时才赋值，否则直接跳过
+      target[key] = Number(source[key]);
+    }
+    // if (keyType[key] === 'number') {
+    //   if (!isInvalidNumber(source[key])) {
+    //     target[key] = Number(source[key]);
+    //   }
+    // } else {
+    //   target[key] = source[key];
+    // }
   });
 
   return target;
@@ -214,10 +215,12 @@ export function isInvalidNumber(v: any) {
  * */
 export function numberDecimal(num: any, decimal = 2) {
   if (isInvalidNumber(num) || isInvalidNumber(decimal)) {
-    return '-';
+    return num;
   }
 
-  return Math.round(Number(num) * Math.pow(10, decimal)) / Math.pow(10, decimal);
+  // 小数位被转换为整数且不小于0
+  let d = Math.max(0, Math.round(decimal));
+  return Math.round(Number(num) * Math.pow(10, d)) / Math.pow(10, d);
 }
 
 /**
@@ -230,7 +233,7 @@ export function numberDecimal(num: any, decimal = 2) {
  * */
 export function beautifyNumber(num: any, char = ',') {
   if (isInvalidNumber(num)) {
-    return '-';
+    return num;
   }
   const isNegative = num < 0;
   const numberArr = num.toString().split('.');
