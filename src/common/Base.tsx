@@ -218,16 +218,16 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       data: newData,
       width: newWidth,
       height: newHeight,
-      // padding: newPadding,
       config: newConfig,
+      event: newEvent,
       // changeConfig = true,
     } = this.props;
     const {
       data: oldData,
       width: oldWidth,
       height: oldHeight,
-      // padding: oldPadding,
       config: oldConfig,
+      event: oldEvent,
     } = prevProps;
 
     this.language = this.props.language || 'zh-cn';
@@ -240,6 +240,18 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
         return;
       }
     // }
+
+    // 更新事件
+    if (newEvent !== oldEvent) {
+      // 清除旧事件
+      Object.keys(oldEvent).forEach(eventKey => {
+        this.chart.off(fixEventName(eventKey), oldEvent[eventKey]);
+      });
+      // 绑定新事件
+      Object.keys(newEvent).forEach(eventKey => {
+        this.chart.on(fixEventName(eventKey), newEvent[eventKey]);
+      });
+    }
 
     let needAfterRender = false;
 
