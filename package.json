@@ -41,13 +41,13 @@
     "@types/classnames": "^2.2.10",
     "@types/lodash": "^4.14.161",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.13",
-    "@types/react-dom": "^16.9.4",
+    "@types/react": "15.6 || 16",
+    "@types/react-dom": "15.6 || 16",
     "classnames": "^2.2.5",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.0",
     "prop-types": "^15.5.10",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "15.6 || 16",
+    "react-dom": "15.6 || 16"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",
