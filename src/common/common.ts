@@ -2,12 +2,10 @@ import { Colors, Types } from "./types";
 import themes from '../themes';
 import { warn } from './log';
 
-export { isEqual, isEqualWith, merge } from 'lodash'
-// 引入 lodash 的 isEqual 代替
-// export { } from 'lodash/isEqual';
-// export { default as isEqualWith } from 'lodash/isEqualWith';
-// export { default as merge } from 'lodash/merge';
-// export { default as merge } from './merge';
+import isEqual from 'lodash/isEqual';
+import isEqualWith from 'lodash/isEqualWith';
+import merge from 'lodash/merge';
+export { isEqual, isEqualWith, merge };
 
 export const requestAnimationFrame = window && window.requestAnimationFrame;
 
