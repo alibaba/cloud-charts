@@ -3,6 +3,24 @@
 import { Chart, Types } from "./types";
 import { customFormatter, customFormatterConfig, getRawData, merge } from './common';
 
+// import TooltipController from '@antv/g2/esm/chart/controller/tooltip';
+// import { registerComponentController } from '@antv/g2/esm/chart/controller';
+// // 自定义 TooltipController 来处理 titleFormatter 的问题
+// class WidgetsTooltipController extends TooltipController {
+//   getTooltipItems(point: Types.Point) {
+//     const rawItems = super.getTooltipItems(point);
+//     const view = this.view;
+//     const option = view.getOptions().tooltip;
+//     // @ts-ignore
+//     if (rawItems.length > 0 && typeof option !== 'boolean' && option.customTitle) {
+//       // @ts-ignore
+//       rawItems[0].title = option.customTitle(rawItems[0].title || rawItems[0].name, rawItems);
+//     }
+//     return rawItems;
+//   }
+// }
+// registerComponentController('tooltip', WidgetsTooltipController);
+
 // 排序函数
 const sortFun = {
   // 升序
@@ -96,7 +114,17 @@ export default function(
     };
 
     if (titleFormatter) {
-      tooltipConfig.title = '_customTitle_';
+      // 下面这段是 TooltipCfg.title 不为 function 的逻辑
+      // tooltipConfig.title = '_customTitle_';
+
+      // 下面这段是 TooltipCfg.title 为 function 的逻辑
+      tooltipConfig.title = function (title, item) {
+        return titleFormatter(title, item);
+      };
+
+      // 下面这行是配合自定义 TooltipController
+      // // @ts-ignore
+      // tooltipConfig.customTitle = titleFormatter;
     }
 
     if (componentConfig) {
@@ -132,13 +160,13 @@ export default function(
             items.sort(sortFun[sort]);
           }
 
-          // 格式化标题
-          if (titleFormatter && !items[0].data.hasCustomTitle) {
-            // ev.title = titleFormatter(ev.title, ev.items);
-            // items[0].title = titleFormatter(items[0].title, items);
-            items[0].data._customTitle_ = titleFormatter(items[0].data.x, items);
-            items[0].data.hasCustomTitle = true;
-          }
+          // 格式化标题，下面这段是 TooltipCfg.title 不为 function 的逻辑
+          // if (titleFormatter && !items[0].data.hasCustomTitle) {
+          //   // ev.title = titleFormatter(ev.title, ev.items);
+          //   // items[0].title = titleFormatter(items[0].title, items);
+          //   items[0].data._customTitle_ = titleFormatter(items[0].data.x, items);
+          //   items[0].data.hasCustomTitle = true;
+          // }
           // console.log(ev);
 
           // 对每一项格式化 名字 和 值
