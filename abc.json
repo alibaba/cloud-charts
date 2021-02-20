@@ -1,8 +1,4 @@
 {
-  "assets": {
-    "type": "builder",
-    "builder": {
-      "name": "@ali/builder-component"
-    }
-  }
+  "type": "ice-app",
+  "builder": "@ali/builder-ice-app"
 }
