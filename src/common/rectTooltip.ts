@@ -2,7 +2,8 @@
 
 import { Chart, Types } from "./types";
 import { customFormatter, customFormatterConfig, getRawData, merge } from './common';
-// import { ReactChild } from 'react';
+import { ReactElement } from 'react';
+import { render } from 'react-dom';
 
 // import TooltipController from '@antv/g2/esm/chart/controller/tooltip';
 // import { registerComponentController } from '@antv/g2/esm/chart/controller';
@@ -47,7 +48,7 @@ export interface TooltipConfig extends customFormatterConfig {
   valueFormatter?: Function;
   /** Html 自定义内容块 */
   customContent?: (title: string, data: any[]) => string | HTMLElement;
-  // reactContent?: (title: string, data: any[]) => ReactChild;
+  reactContent?: (title: string, data: any[]) => ReactElement;
 }
 
 /**
@@ -80,7 +81,7 @@ export default function(
       nameFormatter,
       valueFormatter,
       customContent,
-      // reactContent,
+      reactContent,
       customConfig,
       unit,
       decimal,
@@ -134,10 +135,18 @@ export default function(
       // tooltipConfig.customTitle = titleFormatter;
     }
 
-    // // react tooltip 渲染模式
-    // if (reactContent) {
-    //
-    // }
+    // react tooltip 渲染模式
+    if (reactContent) {
+      const reactContentDom = document.createElement('div');
+      reactContentDom.classList.add('g2-tooltip');
+      reactContentDom.style.width = 'auto';
+      reactContentDom.style.height = 'auto';
+
+      tooltipConfig.customContent = function (title, data) {
+        render(reactContent(title, data), reactContentDom);
+        return reactContentDom;
+      }
+    }
 
     if (componentConfig) {
       Object.assign(tooltipConfig, componentConfig);
