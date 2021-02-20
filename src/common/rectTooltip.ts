@@ -2,6 +2,7 @@
 
 import { Chart, Types } from "./types";
 import { customFormatter, customFormatterConfig, getRawData, merge } from './common';
+// import { ReactChild } from 'react';
 
 // import TooltipController from '@antv/g2/esm/chart/controller/tooltip';
 // import { registerComponentController } from '@antv/g2/esm/chart/controller';
@@ -44,6 +45,9 @@ export interface TooltipConfig extends customFormatterConfig {
   titleFormatter?: Function;
   nameFormatter?: Function;
   valueFormatter?: Function;
+  /** Html 自定义内容块 */
+  customContent?: (title: string, data: any[]) => string | HTMLElement;
+  // reactContent?: (title: string, data: any[]) => ReactChild;
 }
 
 /**
@@ -75,6 +79,8 @@ export default function(
       titleFormatter,
       nameFormatter,
       valueFormatter,
+      customContent,
+      // reactContent,
       customConfig,
       unit,
       decimal,
@@ -111,6 +117,7 @@ export default function(
       //     </ul>
       //   `;
       // },
+      customContent,
     };
 
     if (titleFormatter) {
@@ -126,6 +133,11 @@ export default function(
       // // @ts-ignore
       // tooltipConfig.customTitle = titleFormatter;
     }
+
+    // // react tooltip 渲染模式
+    // if (reactContent) {
+    //
+    // }
 
     if (componentConfig) {
       Object.assign(tooltipConfig, componentConfig);
