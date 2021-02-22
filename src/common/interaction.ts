@@ -1,9 +1,9 @@
-import { registerAction, registerInteraction } from '@antv/g2/esm/core';
+import { registerInteraction } from '@antv/g2/esm/core';
 import { G2Dependents, Types } from './types';
 import ListUnchecked from '@antv/g2/esm/interaction/action/component/list-unchecked';
 
 // 图例单选 Action
-class ListChecked extends ListUnchecked {
+export class ListChecked extends ListUnchecked {
   toggle() {
     // 获取原始事件
     const originEvent = this.context.event.event;
@@ -37,8 +37,6 @@ class ListChecked extends ListUnchecked {
     }
   }
 }
-
-registerAction('list-checked', ListChecked);
 
 // 图例单选模式封装交互
 registerInteraction('legend-custom-filter', {

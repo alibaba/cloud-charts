@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart } from '@antv/g2/esm';
+import { Chart, registerAction } from '@antv/g2/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
@@ -8,8 +8,9 @@ import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
-import './interaction';
-// import './g2Hacker';
+import { ListChecked } from './interaction';
+
+registerAction('list-checked', ListChecked);
 
 // 图表唯一id
 let uniqueId = 0;
