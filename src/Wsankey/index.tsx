@@ -67,14 +67,14 @@ export class Sankey extends Base<WsankeyConfig> {
     // chart.tooltip({
     //   showTitle: false,
     // });
-    rectTooltip.call(this, chart, config, {}, null, {
+    rectTooltip(this, chart, config, {}, null, {
       showTitle: false,
       showMarkers: false,
       showCrosshairs: false,
       shared: false,
     });
 
-    rectLegend.call(this, chart, config);
+    rectLegend(this, chart, config, {}, false);
 
     chart.axis(false);
     chart.scale({

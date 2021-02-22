@@ -77,10 +77,10 @@ export class Nightingale extends Base<WnightingaleConfig> {
     });
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, true);
+    rectLegend(this, chart, config, null, true);
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -100,9 +100,9 @@ export class Nightingale extends Base<WnightingaleConfig> {
       warn('config.axis', '属性已废弃，请使用 config.xAxis 属性');
     }
 
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     const geom = chart
       .interval()
@@ -167,10 +167,10 @@ export default Wnightingale;
 //     });
 
 //     // 设置图例
-//     rectLegend.call(this, chart, config, null, true);
+//     rectLegend(this, chart, config, null, true);
 
 //     // tooltip
-//     rectTooltip.call(this, chart, config, {
+//     rectTooltip(this, chart, config, {
 //       showTitle: false,
 //       crosshairs: null,
 //     });

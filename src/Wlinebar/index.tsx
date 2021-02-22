@@ -281,7 +281,7 @@ export class Linebar extends Base<WlinebarConfig> {
     chart.scale(defs);
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
@@ -299,11 +299,11 @@ export class Linebar extends Base<WlinebarConfig> {
           yAxisConfig.position = 'right';
         }
 
-        rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
+        rectYAxis(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
       });
     } else {
       // 设置单个Y轴
-      rectYAxis.call(this, chart, config);
+      rectYAxis(this, chart, config);
     }
 
     // 设置图例
@@ -346,7 +346,7 @@ export class Linebar extends Base<WlinebarConfig> {
 
 
     // tooltip
-    rectTooltip.call(this, chart, config, {}, null, {
+    rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
       showMarkers: false
     });
@@ -389,10 +389,10 @@ export class Linebar extends Base<WlinebarConfig> {
     // 绘制辅助线，辅助背景区域
     viewGuide(config, lineView, rawLineData, barView, rawBarData);
 
-    legendFilter.call(this, barView, config, 'rawBarData');
-    legendFilter.call(this, lineView, config, 'rawLineData');
+    legendFilter(this, barView, 'rawBarData');
+    legendFilter(this, lineView, 'rawLineData');
 
-    rectLegend.call(this, chart, config, {
+    rectLegend(this, chart, config, {
       items: getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config),
     }, false);
 

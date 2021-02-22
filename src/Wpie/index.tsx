@@ -129,7 +129,7 @@ export class Pie extends Base<WpieConfig> {
 
   isChangeEqual(objValue: any, othValue: any, key: string) {
     if (key === 'selectData' && objValue !== othValue) {
-      selectGeom.call(this, this.geom, objValue);
+      selectGeom(this.geom, objValue);
       return true;
     }
     return undefined;
@@ -184,7 +184,7 @@ export class Pie extends Base<WpieConfig> {
     // const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
     // 设置图例
-    rectLegend.call(this, chart, config, {
+    rectLegend(this, chart, config, {
       // autoCollapse: false,
       // position: 'right',
       // itemTpl: (value, itemColor, checked, index) => {
@@ -249,7 +249,7 @@ export class Pie extends Base<WpieConfig> {
     });
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -326,7 +326,7 @@ export class Pie extends Base<WpieConfig> {
 
     chart.on('afterrender', () => {
       // 默认选中效果
-      selectGeom.call(this, this.geom, config.selectData);
+      selectGeom(this.geom, config.selectData);
 
       updateChildrenPosition(chart, this.chartDom);
     });

@@ -96,16 +96,16 @@ export class Rectangle extends Base<WrectangleConfig> {
     chart.data(rectangleDataView.rows);
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     // 设置图例
     chart.legend(false);
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -247,16 +247,16 @@ export default Wrectangle;
 //     chart.source(rectangleDataView, defs);
 
 //     // 设置X轴
-//     rectXAxis.call(this, chart, config);
+//     rectXAxis(this, chart, config);
 
 //     // 设置单个Y轴
-//     rectYAxis.call(this, chart, config);
+//     rectYAxis(this, chart, config);
 
 //     // 设置图例
 //     chart.legend(false);
 
 //     // tooltip
-//     rectTooltip.call(this, chart, config, {
+//     rectTooltip(this, chart, config, {
 //       showTitle: false,
 //       crosshairs: null,
 //     });

@@ -4,7 +4,6 @@ import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/type
 import Base from "../common/Base";
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
-import legendFilter from '../common/legendFilter';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -116,23 +115,21 @@ export class Candlestick extends Base<WcandlestickConfig> {
     chart.data(computeDataType(data));
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     chart.legend('x', false);
     chart.legend('y', false);
     // 设置图例
-    rectLegend.call(this, chart, config, {
+    rectLegend(this, chart, config, {
       // useHtml: false,
     }, true, 'trend');
 
-    legendFilter.call(this, chart, config);
-
     // tooltip
     const { showTitle, showColon } = config.tooltip || {};
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,

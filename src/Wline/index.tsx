@@ -112,7 +112,7 @@ export class Line extends Base<WlineConfig> {
     chart.data(data);
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
@@ -127,20 +127,20 @@ export class Line extends Base<WlineConfig> {
           yAxisConfig.grid = null;
         }
 
-        rectYAxis.call(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
+        rectYAxis(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
       });
     } else {
       // 设置单个Y轴
-      rectYAxis.call(this, chart, config);
+      rectYAxis(this, chart, config);
     }
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, false, 'type');
 
-    legendFilter.call(this, chart);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config);
+    rectTooltip(this, chart, config);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

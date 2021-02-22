@@ -106,19 +106,19 @@ export class Bar extends Base<WbarConfig> {
 
     // 设置单个Y轴
     if (!config.facet) {
-      rectYAxis.call(this, chart, config);
+      rectYAxis(this, chart, config);
     }
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, false, 'type');
 
-    legendFilter.call(this, chart);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {}, null, {
+    rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
       showMarkers: false
     });
@@ -210,7 +210,7 @@ export class Bar extends Base<WbarConfig> {
             }
           }
 
-          rectYAxis.call(self, view, config, 'y', yAxisCustomConfig);
+          rectYAxis(self, view, config, 'y', yAxisCustomConfig);
 
           // Tooltip 背景区域
           view.interaction('active-region');

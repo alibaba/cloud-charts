@@ -140,10 +140,10 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     chart.axis(false);
 
-    rectLegend.call(this, chart, config, {}, true, null, true);
+    rectLegend(this, chart, config, {}, true, null, true);
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,

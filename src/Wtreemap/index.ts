@@ -88,10 +88,10 @@ export class Treemap extends Base<WtreemapConfig> {
     chart.data(nodes);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, "type");
+    rectLegend(this, chart, config, null, false, "type");
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -347,7 +347,7 @@ export default Wtreemap;
 //       chart.source(nodes);
 
 //       // tooltip
-//       rectTooltip.call(this, chart, config, { crosshairs: false });
+//       rectTooltip(this, chart, config, { crosshairs: false });
 
 //       if (nodes.some((x) => x.brand)) {
 //         drawNestedTreemap(chart, config, config.colors);

@@ -21,13 +21,15 @@ export interface XAxisConfig extends customFormatterConfig {
 /**
  * rectXAxis 直角坐标系的X轴配置
  *
+ * @param {this} ctx 组件实例 this 指针
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
  * */
-export default function (
+export default function<T> (
+  ctx: T,
   chart: Chart,
-  config: { grid?: boolean; xAxis?: XAxisConfig },
+  config: { grid?: boolean; xAxis?: Types.ScaleOption & XAxisConfig | false },
   defaultConfig?: Types.AxisCfg
 ) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {

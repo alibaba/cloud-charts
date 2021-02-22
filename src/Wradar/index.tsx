@@ -81,18 +81,18 @@ export class Radar extends Base<WradarConfig> {
     });
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
       // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type', true);
+    rectLegend(this, chart, config, null, false, 'type', true);
 
-    legendFilter.call(this, chart, config);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {}, null, {
+    rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: true,
       crosshairs: {
         type: 'xy',
@@ -188,7 +188,7 @@ export default Wradar;
 //     });
 
 //     // 设置X轴
-//     rectXAxis.call(this, chart, config, {
+//     rectXAxis(this, chart, config, {
 //       line: null,
 //       tickLine: null,
 //       grid: {
@@ -211,7 +211,7 @@ export default Wradar;
 //     //   },
 //     // });
 //     // 设置Y轴
-//     rectYAxis.call(this, chart, config, 'y', {
+//     rectYAxis(this, chart, config, 'y', {
 //       label: {
 //         offset: 8,
 //         textStyle: {
@@ -238,12 +238,12 @@ export default Wradar;
 //     });
 
 //     // 设置图例
-//     rectLegend.call(this, chart, config);
+//     rectLegend(this, chart, config);
 
-//     legendFilter.call(this, chart, config);
+//     legendFilter(this, chart, config);
 
 //     // tooltip
-//     rectTooltip.call(this, chart, config, {
+//     rectTooltip(this, chart, config, {
 //       crosshairs: null,
 //     });
 

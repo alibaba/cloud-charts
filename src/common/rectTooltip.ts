@@ -54,20 +54,22 @@ export interface TooltipConfig extends customFormatterConfig {
 /**
  * rectTooltip 直角坐标系的tooltip配置
  *
+ * @param {this} ctx 组件实例 this 指针
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
  * @param {Function} onTooltipChange 自定义 tooltip:change 事件
  * @param {Object} componentConfig
  * */
-export default function(
+export default function<T>(
+  ctx: T,
   chart: Chart,
-  config: { tooltip?: TooltipConfig },
+  config: { tooltip?: TooltipConfig | boolean; },
   defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function,
   componentConfig?: Types.TooltipCfg
 ) {
-  if (config.tooltip === false || (config.tooltip && config.tooltip.visible === false)) {
+  if (config.tooltip === false || (config.tooltip && typeof config.tooltip !== 'boolean' && config.tooltip.visible === false)) {
     chart.tooltip(false);
   } else {
     const {
@@ -86,7 +88,7 @@ export default function(
       unit,
       decimal,
       grouping,
-    } = config.tooltip || {};
+    } = (config.tooltip === true ? {} : (config.tooltip || {})) as TooltipConfig;
 
     const tooltipConfig: Types.TooltipCfg = {
       ...defaultConfig,
@@ -165,7 +167,7 @@ export default function(
       if (onTooltipChange) {
         chart.on('tooltip:change', onTooltipChange);
       } else {
-        const customValueFormatter = customFormatter(config.tooltip || {});
+        const customValueFormatter = customFormatter(config.tooltip === true ? {} : (config.tooltip || {}));
 
         chart.on('tooltip:change', (ev: any) => {
           // x: 当前鼠标的 x 坐标,
@@ -193,7 +195,7 @@ export default function(
           // 对每一项格式化 名字 和 值
           items.forEach((item: any, index: number) => {
             // @ts-ignore
-            const raw = getRawData(config, this.rawData, item);
+            const raw = getRawData(config, ctx.rawData, item);
 
             if (valueFormatter) {
               item.value = valueFormatter(item.value, raw, index, items);

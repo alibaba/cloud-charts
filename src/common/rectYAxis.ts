@@ -17,14 +17,16 @@ export interface YAxisConfig extends customFormatterConfig {
 /**
  * rectYAxis 直角坐标系的单个Y轴配置
  *
+ * @param {this} ctx 组件实例 this 指针
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {string} yField 数据映射字段
  * @param {Object} defaultConfig 组件的自定义配置
  * */
-export default function (
+export default function<T> (
+  ctx: T,
   chart: Chart,
-  config: { yAxis?: YAxisConfig },
+  config: { yAxis?: Types.ScaleOption & YAxisConfig | false; },
   yField: string = 'y',
   defaultConfig?: Types.AxisCfg
 ) {

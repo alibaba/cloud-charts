@@ -99,18 +99,18 @@ export class Histogram extends Base<WhistogramConfig> {
 
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, "type");
+    rectLegend(this, chart, config, null, false, "type");
 
-    legendFilter.call(this, chart, config);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -278,18 +278,18 @@ export default Whistogram;
 //     chart.source(dataView, defs);
 
 //     // 设置Y轴
-//     rectYAxis.call(this, chart, config);
+//     rectYAxis(this, chart, config);
 
 //     // 设置X轴
-//     rectXAxis.call(this, chart, config);
+//     rectXAxis(this, chart, config);
 
 //     // 设置图例
-//     rectLegend.call(this, chart, config, null, false, "type");
+//     rectLegend(this, chart, config, null, false, "type");
 
-//     legendFilter.call(this, chart, config);
+//     legendFilter(this, chart, config);
 
 //     // tooltip
-//     rectTooltip.call(this, chart, config, {
+//     rectTooltip(this, chart, config, {
 //       crosshairs: config.polar ? undefined : {}
 //     });
 

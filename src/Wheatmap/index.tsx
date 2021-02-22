@@ -93,22 +93,22 @@ export class Heatmap extends Base<WheatmapConfig> {
     }
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config, undefined, {
+    rectYAxis(this, chart, config, undefined, {
       grid: null,
     });
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     chart.legend('x', false);
     chart.legend('y', false);
     // 设置图例
-    rectLegend.call(this, chart, config);
+    rectLegend(this, chart, config, {}, false, 'type');
 
-    legendFilter.call(this, chart, config);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -231,22 +231,22 @@ export default Wheatmap;
 //     }
 
 //     // 设置单个Y轴
-//     rectYAxis.call(this, chart, config, undefined, {
+//     rectYAxis(this, chart, config, undefined, {
 //       grid: null,
 //     });
 
 //     // 设置X轴
-//     rectXAxis.call(this, chart, config);
+//     rectXAxis(this, chart, config);
 
 //     chart.legend('x', false);
 //     chart.legend('y', false);
 //     // 设置图例
-//     rectLegend.call(this, chart, config);
+//     rectLegend(this, chart, config);
 
-//     legendFilter.call(this, chart, config);
+//     legendFilter(this, chart, config);
 
 //     // tooltip
-//     rectTooltip.call(this, chart, config, {
+//     rectTooltip(this, chart, config, {
 //       showTitle: false,
 //       crosshairs: null,
 //     });

@@ -371,7 +371,7 @@ export class Map extends Base<WmapConfig, MapProps> {
 
     chart.axis(false);
 
-    rectTooltip.call(
+    rectTooltip(
       this,
       chart,
       config,
@@ -404,7 +404,7 @@ export class Map extends Base<WmapConfig, MapProps> {
     );
 
     // 设置图例
-    rectLegend.call(this, chart, config, {});
+    rectLegend(this, chart, config, {}, false);
 
     const ds = new DataSet();
     this.ds = ds;

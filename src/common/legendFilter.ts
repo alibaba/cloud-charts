@@ -5,18 +5,19 @@ import { View, Types } from "./types";
 /**
  * 图例变灰设置。
  *
+ * @param {this} ctx 组件实例 this 指针
  * @param {View} chart 图表对象，或者是view对象
  * @param {string} [dataKey] 原始数据挂载的key，用于动态获取原始数据
  *
  * */
-export default function(chart: View, dataKey = 'rawData') {
+export default function<T>(ctx: T, chart: View, dataKey = 'rawData') {
   chart.filter('type', (value, record) => {
     if (record && typeof record === 'object') {
       if (record.visible === false) {
         return false
       } else if (record.visible === undefined) {
         // @ts-ignore
-        const rawData = this[dataKey] || [];
+        const rawData = ctx[dataKey] || [];
         const dataItem = rawData.filter((group:Types.LooseObject) => group.name === value);
         if (dataItem[0] && dataItem[0].visible === false) {
           return false;

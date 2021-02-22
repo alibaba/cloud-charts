@@ -104,6 +104,7 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
 /**
  * rectLegend 直角坐标系legend配置。
  *
+ * @param {this} ctx 组件实例 this 指针
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
@@ -112,17 +113,18 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
  * @param {boolean} isPolar 是否极坐标系
  * @param {function} itemFormatter 组件自定义的 item 格式函数
  * */
-export default function (
+export default function<T> (
+  ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig },
+  config: { legend?: LegendConfig | boolean; },
   defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
-  field: string,
+  field?: string,
   isPolar?: boolean,
   itemFormatter?: (item: G2Dependents.ListItem, i: number) => G2Dependents.ListItem
 ) {
   // 设置图例
-  if (config.legend === false || (config.legend && config.legend.visible === false)) {
+  if (config.legend === false || (config.legend && typeof config.legend !== 'boolean' && config.legend.visible === false)) {
     chart.legend(false);
   } else {
     const {
@@ -148,7 +150,7 @@ export default function (
       // 自定义配置
       customConfig,
       // style = {},
-    } = config.legend || {};
+    } = (config.legend === true ? {} : (config.legend || {})) as LegendConfig;
 
     if (collapseRow) {
       warn('config.legend', `collapseRow 已废弃，暂时无法修改分页尺寸`);
@@ -213,7 +215,7 @@ export default function (
     }
 
     if (showData) {
-      const customValueFormatter = customFormatter(config.legend || {});
+      const customValueFormatter = customFormatter(config.legend === true ? {} : (config.legend || {}));
 
       legendConfig.itemValue = {
         style: {
@@ -224,7 +226,7 @@ export default function (
         },
         formatter: (text, item, index) => {
           // @ts-ignore
-          const value = getLastValue(item.name, this.rawData, isOneDataGroup);
+          const value = getLastValue(item.name, ctx.rawData, isOneDataGroup);
           if (valueFormatter) {
             return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
           } else if (customValueFormatter) {

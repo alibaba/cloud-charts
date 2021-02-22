@@ -121,16 +121,16 @@ export class Scatter extends Base<WscatterConfig> {
       };
     }
 
-    rectXAxis.call(this, chart, config, xAxis);
+    rectXAxis(this, chart, config, xAxis);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
-    rectTooltip.call(this, chart, config, {
+    rectTooltip(this, chart, config, {
       crosshairs: null,
     }, null, {crosshairs: {type: 'xy'}});
 
-    legendFilter.call(this, chart, config);
+    legendFilter(this, chart);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
@@ -162,7 +162,7 @@ export class Scatter extends Base<WscatterConfig> {
     chart.legend('extra', false);
 
     // fix: 设置 rectLegend 后如果再调用 chart.legend 会生成默认图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, false, 'type');
   }
 }
 

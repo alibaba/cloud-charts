@@ -89,18 +89,18 @@ export class Box extends Base<WboxConfig> {
     chart.data(data);
 
     // 设置单个Y轴
-    rectYAxis.call(this, chart, config);
+    rectYAxis(this, chart, config);
 
     // 设置X轴
-    rectXAxis.call(this, chart, config);
+    rectXAxis(this, chart, config);
 
     // 设置图例
-    rectLegend.call(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, false, 'type');
 
-    legendFilter.call(this, chart);
+    legendFilter(this, chart);
 
     // tooltip
-    rectTooltip.call(this, chart, config, {}, null, {
+    rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
       showMarkers: false,
     });
