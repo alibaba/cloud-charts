@@ -192,7 +192,7 @@ export default function<T> (
       chart.removeInteraction('legend-active');
     }
     if (onHover) {
-      warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter', onHover }`);
+      warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter': onHover }`);
       chart.on('legend-item:mouseenter', onHover);
     }
 
@@ -207,7 +207,7 @@ export default function<T> (
       }
     }
     if (onClick) {
-      warn('config.legend', `onClick 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:click', onClick }`);
+      warn('config.legend', `onClick 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:click': onClick }`);
       chart.on('legend-item:click', onClick);
     }
     if (defaultClickBehavior !== undefined) {
