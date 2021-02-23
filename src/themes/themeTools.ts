@@ -627,6 +627,9 @@ export function setG2Theme(theme: Theme) {
     height: `${baseFontSizeNum / 2}px`,
     marginRight: `${baseFontSizeNum / 3}px`,
   });
+  Object.assign(tooltipStyle['g2-tooltip-value'], {
+    marginLeft: `${2 * baseFontSizeNum / 3}px`,
+  });
 
   // slider 样式
   const sliderStyle = g2Theme.components.slider.common;
