@@ -80,6 +80,7 @@ stories.add('堆叠面积线柱图', () => (
     <Wlinebar height="300" config={{
       area: true,
       stack: true,
+      size: 60
     }} data={data} />
   </Wcontainer>
 ));
@@ -430,7 +431,7 @@ class ChangeData extends React.Component {
           legend: {
             position: 'top',
             align: 'center',
-          }
+          },
         }} data={this.state.data} />
       </Wcontainer>
     );
