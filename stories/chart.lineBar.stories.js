@@ -80,7 +80,7 @@ stories.add('堆叠面积线柱图', () => (
     <Wlinebar height="300" config={{
       area: true,
       stack: true,
-      size: 60
+      barSize: 60
     }} data={data} />
   </Wcontainer>
 ));

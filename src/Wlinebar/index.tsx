@@ -28,7 +28,6 @@ interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   tooltip?: TooltipConfig | boolean,
   guide?: GuideConfig,
   grid?: boolean,
-  size?: GeomSizeConfig;
 }
 
 function getLegendItems(
@@ -201,7 +200,7 @@ export class Linebar extends Base<WlinebarConfig> {
       spline: false,
       grid: false,
       symbol: false,
-      size: null,
+      barSize: null,
       // lineLabel: undefined,
       // barLabel: undefined,
       // TODO
@@ -478,9 +477,10 @@ interface BarConfig {
   dodgeStack?: boolean;
   lineLabel?: LabelConfig | boolean,
   barGeomStyle?: GeomStyleConfig;
+  barSize?: GeomSizeConfig;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, barSize } = config;
 
   let intervalGeom = null;
   if (dodgeStack) {
@@ -516,7 +516,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
       }]);
   }
 
-  geomSize(intervalGeom, size, null, 'y', 'x*y*type*facet*extra');
+  geomSize(intervalGeom, barSize, null, 'y', 'x*y*type*facet*extra');
 
   geomStyle(intervalGeom, config.barGeomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
 
