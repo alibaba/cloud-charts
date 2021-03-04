@@ -8,6 +8,8 @@ TXD-Widgets 是一个面向业务的开箱即用图表库，只为让前端图�
 
 [官方网站](https://widgets.alibaba-inc.com/) - [图表示例](https://widgets.alibaba-inc.com/example) - [API文档](https://widgets.alibaba-inc.com/documentation) - [可视化编辑](https://widgets.alibaba-inc.com/studio) 
 
+欢迎关注我们的开源版本：https://github.com/alibaba/cloud-charts
+
 ## 安装
 
 ### 浏览器引入
@@ -16,8 +18,8 @@ TXD-Widgets 是一个面向业务的开箱即用图表库，只为让前端图�
 
 ```html
 <!-- 引入在线资源 -->
-<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/2.6.4/index.css">
-<script src="https://g.alicdn.com/aisc/aisc-widgets/2.6.4/index.js"></script>
+<link rel="stylesheet" href="https://g.alicdn.com/aisc/aisc-widgets/3.0.0/index.css">
+<script src="https://g.alicdn.com/aisc/aisc-widgets/3.0.0/index.js"></script>
 ```
 
 ```html
@@ -110,14 +112,13 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 npm run storybook
 
 //发布日常
-$ fie publish -d
+$ def publish -d
 
 //发布tnpm，在发布线上前完成
-$ npm run build
 $ tnpm publish
 
 //发布线上
-$ fie publish -o
+$ def publish -o
 ```
 
 ### 组件命名规范
