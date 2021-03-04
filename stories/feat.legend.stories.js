@@ -3,8 +3,9 @@ import React, { useEffect, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
+import { withKnobs, select, radios } from "@storybook/addon-knobs";
 
-import { Wcontainer, Wline, Wlinebar } from '@alicloud/cloud-charts';
+import { Wcontainer, Wline, Wlinebar, Wpie } from '@alicloud/cloud-charts';
 
 const data = [
   {
@@ -42,53 +43,129 @@ const lineBarData = [
   }
 ];
 
+
 const stories = storiesOf('legend', module);
-const handleClick = action('onClick');
-stories.add('config.legend.onClick', () => (
+stories.addDecorator(withKnobs);
+// const handleClick = action('onClick');
+// stories.add('config.legend.onClick', () => (
+//   <Wcontainer className="demos">
+//     <Wline height="300" config={{
+//       legend: {
+//         // onClick: (e) => {
+//         //   handleClick('config.legend.onClick', e);
+//         // },
+//       }
+//     }} data={data} />
+//   </Wcontainer>
+// ));
+//
+// function LineLegendClick() {
+//   const chart = useRef();
+//   useEffect(() => {
+//     if (chart.current) {
+//       const legend = chart.current.get('legendController').legends['top-center'][0];
+//       legend && legend.on('itemclick', handleClick);
+//     }
+//   }, []);
+//   return (
+//     <Wcontainer className="demos">
+//       <Wline getChartInstance={c => (chart.current = c)} height="300" data={data} />
+//     </Wcontainer>
+//   );
+// }
+// stories.add('线图图例点击', () => (
+//   <LineLegendClick />
+// ));
+//
+// function LineBarLegendClick() {
+//   const chart = useRef();
+//   useEffect(() => {
+//     if (chart.current) {
+//       const legends = chart.current.get('legendController').legends['top-center'];
+//       legends[0] && legends[0].on('itemclick', handleClick);
+//       legends[1] && legends[1].on('itemclick', handleClick);
+//     }
+//   }, []);
+//   return (
+//     <Wcontainer className="demos">
+//       <Wlinebar getChartInstance={c => (chart.current = c)} height="300" data={lineBarData} />
+//     </Wcontainer>
+//   );
+// }
+// stories.add('线柱图图例点击', () => (
+//   <LineBarLegendClick />
+// ));
+
+
+const positionOptions = {
+  '顶部': 'top',
+  '底部': 'bottom',
+};
+const alignOptions = {
+  '左': 'left',
+  '中': 'center',
+  '右': 'right',
+};
+const radioOptions = {
+  '上左': 'top-left',
+  '上中': 'top',
+  '上右': 'top-right',
+  '下左': 'bottom-left',
+  '下中': 'bottom',
+  '下右': 'bottom-right',
+  '左上': 'left-top',
+  '左中': 'left',
+  '左下': 'left-bottom',
+  '右上': 'right-top',
+  '右中': 'right',
+  '右下': 'right-bottom',
+};
+stories.add('图例位置测试-line', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
       legend: {
-        onClick: (e) => {
-          handleClick('config.legend.onClick', e);
-        },
+        // position: select('上下位置', positionOptions, 'top'),
+        // align: select('左右分布', alignOptions, 'left'),
+        position: radios('位置', radioOptions, 'top'),
+        align: '',
       }
     }} data={data} />
   </Wcontainer>
 ));
 
-function LineLegendClick() {
-  const chart = useRef();
-  useEffect(() => {
-    if (chart.current) {
-      const legend = chart.current.get('legendController').legends['top-center'][0];
-      legend && legend.on('itemclick', handleClick);
-    }
-  }, []);
-  return (
-    <Wcontainer className="demos">
-      <Wline getChartInstance={c => (chart.current = c)} height="300" data={data} />
-    </Wcontainer>
-  );
-}
-stories.add('线图图例点击', () => (
-  <LineLegendClick />
+stories.add('图例位置测试-linebar', () => (
+  <Wcontainer className="demos">
+    <Wlinebar height="300" config={{
+      legend: {
+        // position: select('上下位置', positionOptions, 'top'),
+        // align: select('左右分布', alignOptions, 'left'),
+        position: radios('位置', radioOptions, 'top'),
+        align: '',
+      }
+    }} data={lineBarData} />
+  </Wcontainer>
 ));
 
-function LineBarLegendClick() {
-  const chart = useRef();
-  useEffect(() => {
-    if (chart.current) {
-      const legends = chart.current.get('legendController').legends['top-center'];
-      legends[0] && legends[0].on('itemclick', handleClick);
-      legends[1] && legends[1].on('itemclick', handleClick);
-    }
-  }, []);
-  return (
-    <Wcontainer className="demos">
-      <Wlinebar getChartInstance={c => (chart.current = c)} height="300" data={lineBarData} />
-    </Wcontainer>
-  );
-}
-stories.add('线柱图图例点击', () => (
-  <LineBarLegendClick />
+const pieData = [
+  {
+    "name": "浏览器占比",
+    "data": [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7]
+    ]
+  }
+];
+stories.add('图例位置测试-pie', () => (
+  <Wcontainer className="demos">
+    <Wpie height="300" config={{
+      legend: {
+        position: radios('位置', radioOptions, 'top'),
+        align: '',
+      }
+    }} data={pieData} />
+  </Wcontainer>
 ));

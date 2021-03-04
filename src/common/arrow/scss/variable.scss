@@ -1,0 +1,9 @@
+@import "../../../themes/index";
+
+$warrow-prefix: '.#{$base-prefix}-warrow';
+$warrow-width: 10px;
+$warrow-height: 8px;
+
+$blue: getVar(widgets-color-blue, $widgets-color-blue);
+$orange: getVar(widgets-color-orange, $widgets-color-orange);
+$red: getVar(widgets-color-red, $widgets-color-red);

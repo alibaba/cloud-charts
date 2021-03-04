@@ -1,0 +1,108 @@
+/// Base Size
+/// @type Length
+$size-base: 4px !default;
+
+/// S0
+/// @export length
+/// @unconfigurable
+$s0: 0;
+
+/// S1
+/// @unconfigurable
+/// @export length
+$s1: $size-base * 1;
+
+/// S2
+/// @export length
+/// @unconfigurable
+$s2: $size-base * 2;
+
+/// S3
+/// @export length
+/// @unconfigurable
+$s3: $size-base * 3;
+
+/// S4
+/// @export length
+/// @unconfigurable
+$s4: $size-base * 4;
+
+/// S5
+/// @export length
+/// @unconfigurable
+$s5: $size-base * 5;
+
+/// S6
+/// @export length
+/// @unconfigurable
+$s6: $size-base * 6;
+
+/// S7
+/// @export length
+/// @unconfigurable
+$s7: $size-base * 7;
+
+/// S8
+/// @export length
+/// @unconfigurable
+$s8: $size-base * 8;
+
+/// S9
+/// @export length
+/// @unconfigurable
+$s9: $size-base * 9;
+
+/// S10
+/// @export length
+/// @unconfigurable
+$s10: $size-base * 10;
+
+/// S11
+/// @export length
+/// @unconfigurable
+$s11: $size-base * 11;
+
+/// S12
+/// @export length
+/// @unconfigurable
+$s12: $size-base * 12;
+
+/// S13
+/// @export length
+/// @unconfigurable
+$s13: $size-base * 13;
+
+/// S14
+/// @export length
+/// @unconfigurable
+$s14: $size-base * 14;
+
+/// S15
+/// @export length
+/// @unconfigurable
+$s15: $size-base * 15;
+
+/// S16
+/// @export length
+/// @unconfigurable
+$s16: $size-base * 16;
+
+// =============================================== //
+
+/// Base Radius
+/// @export
+/// @type length
+$corner-radius-base: 4px !default;
+
+/// No Radius
+/// @export
+/// @type Length
+$corner-radius-r0: 0px !default;
+
+/// R1
+/// @export
+/// @type Length
+$corner-radius-r1: 4px !default;
+
+// =============================================== //
+

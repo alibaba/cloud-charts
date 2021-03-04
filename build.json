@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    "./build.before.js",
+    "build-plugin-component",
+    "./build.after.js"
+  ],
+  "filename": "index",
+  "library": "CloudCharts",
+  "libraryTarget": "umd"
+}
