@@ -106,7 +106,7 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
 
     pluginsConfig.output
       .library(`${library}[name]`)
-      .libraryExport(libraryExport)
+      .libraryExport('default')
       .libraryTarget(libraryTarget);
 
     const pluginPath = path.resolve(rootDir, './src/plugins');
