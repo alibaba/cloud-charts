@@ -1,3 +1,7 @@
+### 1.0.0 (2021-03-05)
+
+1.0 大版本正式发布，详细请见：https://www.yuque.com/docs/share/6f29041d-dab8-44c7-8848-fa376ee4e9e8
+
 ### 0.1.10 (2021-01-15)
 
 #### New Features

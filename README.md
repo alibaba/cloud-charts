@@ -16,6 +16,18 @@
 
 - 一键切换主题。
 
+## 1.0 全新来袭
+
+[详细信息](https://www.yuque.com/docs/share/6f29041d-dab8-44c7-8848-fa376ee4e9e8)
+
+- 全面拥抱 TypeScript
+
+- 交互能力增强
+
+- 平滑升级保障
+
+- 大量优化迭代
+
 ## 安装
 
 ```bash
