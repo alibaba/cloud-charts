@@ -301,8 +301,8 @@ export class Pie extends Base<WpieConfig> {
       chart.interaction('element-single-selected', {
         start: [
           {
-            isEnable() {
-              if (data.length > 1) {
+            isEnable(context: any) {
+              if (context.view.options.data.length > 1) {
                 return true;
               }
               return false;

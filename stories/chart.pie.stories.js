@@ -20,6 +20,12 @@ const data = [
   },
 ];
 
+const temp = [
+  {
+    name: '浏览器占比',
+    data: [['Firefox', 45.0]],
+  },
+];
 // function WdashboardDemo() {
 //   const data = number('仪表盘数字', 20);
 //   const arr = array('值域范围', [0, 100],);
@@ -31,6 +37,39 @@ const data = [
 //   }, [data, arr]);
 //   return <Wdashboard data={count} config={{range}} className="demos"/>;
 // }
+
+class NewData extends React.Component {
+  state = {
+    data
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      let t = Date.now();
+
+      this.setState({
+        data: temp,
+      })
+    }, 2000);
+  }
+
+  render(){
+    return (
+      <Wcontainer className="demos">
+        <Wpie
+          height="300"
+          config={{
+            select: true,
+            geomStyle: {
+              cursor: 'pointer',
+            },
+          }}
+          data={this.state.data}
+        />
+      </Wcontainer>
+    );
+  }
+}
 
 const stories = storiesOf('Wpie', module);
 stories.addDecorator(withKnobs);
@@ -117,33 +156,7 @@ stories.add('带内容环图', () => (
 ));
 stories.add('带点选饼图', () => (
   <Wcontainer className="demos">
-    <div>
-      <Wpie
-        height="300"
-        config={{
-          select: true,
-          geomStyle: {
-            cursor: 'pointer',
-          },
-        }}
-        data={[
-          {
-            name: '浏览器占比',
-            data: [['Firefox', 45.0]],
-          },
-        ]}
-      />
-      <Wpie
-        height="300"
-        config={{
-          select: true,
-          geomStyle: {
-            cursor: 'pointer',
-          },
-        }}
-        data={data}
-      />
-    </div>
+    <NewData />
   </Wcontainer>
 ));
 stories.add('带标签环图', () => (

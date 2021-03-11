@@ -111,13 +111,19 @@ ReactDOM.render(<Demo />, document.getElementById('mountNode'));
 // 测试使用 storybook
 npm run storybook
 
-//发布日常
+// 切分支
+$ git checkout -b daily/3.0.x
+
+// 更新版本号
+$ tnpm version patch
+
+// 发布日常
 $ def publish -d
 
-//发布tnpm，在发布线上前完成
+// 发布tnpm，在发布线上前完成
 $ tnpm publish
 
-//发布线上
+// 发布线上
 $ def publish -o
 ```
 
