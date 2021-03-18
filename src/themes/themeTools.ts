@@ -288,6 +288,26 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     legendItemMarginBottom: fontSize1,
     /** 图例与图表绘图区域的偏移距离  */
     legendPadding: [8, 8, 8, 8],
+    /** 水平布局的图例与绘图区域偏移距离 */
+    legendHorizontalPadding: [8, 0, 8, 0],
+    /** 垂直布局的图例与绘图区域偏移距离 */
+    legendVerticalPadding: [0, 8, 0, 8],
+
+    // 图例分页器
+    /** 图例分页器 marker 大小 */
+    legendPageNavigatorMarkerSize: 12,
+    /** 图例分页器 marker 非激活状态填充色 */
+    legendPageNavigatorMarkerInactiveFillColor: BLACK_COLORS[100],
+    /** 图例分页器 marker 非激活状态填充色透明度 */
+    legendPageNavigatorMarkerInactiveFillOpacity: 0.45,
+    /** 图例分页器 marker 填充色 */
+    legendPageNavigatorMarkerFillColor: BLACK_COLORS[100],
+    /** 图例分页器 marker 填充色透明度 */
+    legendPageNavigatorMarkerFillOpacity: 1,
+    /** 图例分页器文本颜色 */
+    legendPageNavigatorTextFillColor: BLACK_COLORS[45],
+    /** 图例分页器文本字体大小 */
+    legendPageNavigatorTextFontSize: 12,
 
     /** 连续图例滑块填充色 */
     sliderRailFillColor: BLACK_COLORS[15],
@@ -566,7 +586,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** hollowInterval inactive 状态下边框透明度 */
     hollowIntervalInactiveBorderOpacity: 0.3,
-  };
+  } as Types.StyleSheet;
 }
 
 const legendKeys = ['common', 'top', 'right', 'bottom', 'left'];
