@@ -263,15 +263,16 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
         Array.isArray(oldData) &&
         newData.length !== oldData.length)
     ) {
+      const mergeConfig = merge({}, this.defaultConfig, newConfig)
       const data =
         this.convertData &&
-        newConfig.dataType !== 'g2'
-          ? highchartsDataToG2Data(newData, newConfig)
+        mergeConfig.dataType !== 'g2'
+          ? highchartsDataToG2Data(newData, mergeConfig)
           : newData;
       this.rawData = newData;
       this.changeData(
         this.chart,
-        merge({}, this.defaultConfig, newConfig),
+        mergeConfig,
         data
       );
       // if (this.chartProcess.changeData) {
