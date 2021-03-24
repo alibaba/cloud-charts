@@ -110,6 +110,8 @@ export class Rectangle extends Base<WrectangleConfig> {
       chart,
       config,
       {
+        // 指定为 count，避免 Axis 类型为 time 时会报错。
+        title: 'count',
         showTitle: false,
         showMarkers: false,
         showCrosshairs: false,
