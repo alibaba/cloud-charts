@@ -54,6 +54,7 @@ function ThemeDemo() {
     // Aone: 'aone',
     // 阿里云: 'aliyun',
     // 阿里云暗色: 'aliyun-dark',
+    云效: 'yunxiao',
     自定义: {
       'widgets-container-background': '#f2f3f7',
     },

@@ -13,6 +13,7 @@ import {
 // [theme].style 文件根据 [theme].scss 自动生成，请勿直接修改
 import normalStyle from './normal.style';
 import darkStyle from './dark.style';
+import yunxiaoStyle from './yunxiao.style';
 
 interface ThemesMap {
   [themeName: string]: {
@@ -33,6 +34,11 @@ const themeMap: ThemesMap = {
     js: convertKey(convertJsStyle('dark', darkStyle)),
     css: convertCSS(darkStyle),
     rawCSS: darkStyle,
+  },
+  yunxiao: {
+    js: convertKey(convertJsStyle('yunxiao', yunxiaoStyle)),
+    css: convertCSS(yunxiaoStyle),
+    rawCSS: yunxiaoStyle,
   },
 };
 // alias index as normal

@@ -1,0 +1,118 @@
+@import "./base.scss";
+
+// 背景颜色
+$widgets-color-background: #FFFFFF;
+$widgets-color-layout-background: #F7F7F7;
+
+// 主色和状态色
+$widgets-color-blue: #41aaf0;
+$widgets-color-orange: #fa8c15;
+$widgets-color-red: #e62412;
+$widgets-color-green: #43bf7e;
+$widgets-color-gray: #e5e5e5;
+
+// 图形元素色阶
+$widgets-color-category-1: $widgets-color-blue;
+$widgets-color-category-2: #7777ee;
+$widgets-color-category-3: #74d8a9;
+$widgets-color-category-4: #525ec0;
+$widgets-color-category-5: #336acb;
+$widgets-color-category-6: #976fd1;
+$widgets-color-category-7: #c85dc0;
+$widgets-color-category-8: #9699c6;
+$widgets-color-category-9: #7ca9f7;
+$widgets-color-category-10: #a6aaf6;
+$widgets-color-category-11: #43bf7e;
+$widgets-color-category-12: #9552c0;
+
+$widgets-color-linear-1: $widgets-color-blue;
+$widgets-color-linear-2: #89caf5;
+$widgets-color-linear-3: #d7edfc;
+$widgets-color-linear-4: #66baf2;
+$widgets-color-linear-5: #b1ddfa;
+$widgets-color-linear-6: #ebf5fc;
+$widgets-color-linear-7: #52b2f2;
+$widgets-color-linear-8: #78c3f5;
+$widgets-color-linear-9: #9ed4f7;
+$widgets-color-linear-10: #c3e4fa;
+
+// 文字颜色
+$widgets-color-text-1: #292929;
+$widgets-color-text-2: #6e6e6e;
+$widgets-color-text-3: #cecece;
+$widgets-color-disable: #cecece;
+
+// 字体
+$widgets-font-family-txd-m-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+$widgets-font-family-txd-r-number: TXDDINRegularNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+
+// 字号
+$widgets-font-size-1: 12px;
+$widgets-font-size-2: 14px;
+$widgets-font-size-3: 16px;
+$widgets-font-size-4: 18px;
+$widgets-font-size-5: 24px;
+$widgets-font-size-6: 28px;
+$widgets-font-size-7: 32px;
+
+// 图例 Legend
+$widgets-legend-uncheck: #BFBFBF;
+$widgets-legend-text: #262626;
+
+// label
+$widgets-label-text: #262626;
+
+// 提示信息 tooltip
+$widgets-tooltip-background: $widgets-color-background;
+$widgets-tooltip-padding: 12px;
+$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+$widgets-tooltip-corner-radius: 4px;
+$widgets-tooltip-cross-line: #dddddd;
+$widgets-tooltip-cross-react: #CCD6EC;
+$widgets-tooltip-cross-react-opacity: 0.3;
+$widgets-tooltip-title: #8C8C8C;
+$widgets-tooltip-text: #262626;
+$widgets-tooltip-marker-fill: $widgets-color-background;
+
+// 轴 Axis
+$widgets-axis-label: #8C8C8C;
+$widgets-axis-line: #E5E5E5;
+$widgets-axis-grid: #F7F7F7;
+// CHECK 线粗细 默认 1
+
+// 辅助标记 guide
+$widgets-guide-region-opacity: 0.1;
+
+// 图形元素 geom
+$widgets-shape-area-opacity: 0.1;
+$widgets-shape-interval-opacity: 1;
+
+// 卡片
+$widgets-container-background: $widgets-color-background;
+$widgets-container-padding: 20px;
+$widgets-container-mobile-padding: 12px;
+$widgets-container-corner-radius: 4px;
+$widgets-container-shadow: none;
+$widgets-container-title: #262626;
+$widgets-container-split-line: #E5E5E5;
+
+// 地图
+$widgets-map-area-bg: #E5E5E5;
+$widgets-map-area-border: $widgets-color-background;
+$widgets-map-label: #595959;
+
+// 圆环
+$widgets-circle-stroke-background: #F7F7F7;
+$widgets-circle-number: currentColor;
+$widgets-circle-stroke-width: 6px;
+
+// 桑基图
+$widgets-sankey-edge: #E5E5E5;
+$widgets-sankey-node-text: #8C8C8C;
+
+// 滚动条颜色
+$widgets-scrollbar-bg: #EBECF0;
+$widgets-scrollbar-thumb: #C4C6CF;
+
+// 线图粗细
+$widgets-line-width: 3;

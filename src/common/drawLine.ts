@@ -3,6 +3,7 @@ import { Chart, Colors } from "./types";
 import label, { LabelConfig } from './label';
 import geomSize, { GeomSizeConfig } from './geomSize';
 import geomStyle, { GeomStyleConfig } from './geomStyle';
+import themes from '../themes/index';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -92,7 +93,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
   }
 
   geomStyle(lineGeom, config.geomStyle, {
-    lineWidth: config.lineWidth || 2,
+    lineWidth: config.lineWidth || themes['widgets-line-width'],
     lineJoin: 'round',
   }, `x*${yAxisKey}*type*extra`);
 

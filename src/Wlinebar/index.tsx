@@ -595,7 +595,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   }
 
   geomStyle(lineGeom, config.lineGeomStyle, {
-    lineWidth,
+    lineWidth: lineWidth || themes['widgets-line-width'],
     lineJoin: 'round',
   }, `x*${yAxisKey}*${legendKey}*extra`);
 

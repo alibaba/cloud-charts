@@ -492,7 +492,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     hollowPointInactiveBorderOpacity: 0.3,
 
     /** 线图粗细 */
-    lineBorder: 2,
+    lineBorder: theme['widgets-line-width'],
     /** 线图颜色 */
     lineBorderColor: QUALITATIVE_10[0],
     /** 线图透明度 */
