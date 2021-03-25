@@ -1,5 +1,6 @@
 'use strict';
 import { View } from '@antv/data-set/lib/view';
+import '@antv/data-set/lib/api/statistics';
 import '@antv/data-set/lib/transform/bin/histogram';
 
 import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
