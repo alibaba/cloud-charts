@@ -1,5 +1,6 @@
 'use strict';
 import { View } from '@antv/data-set/lib/view';
+import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/treemap';
 
 import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';

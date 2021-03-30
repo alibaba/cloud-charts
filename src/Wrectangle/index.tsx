@@ -12,6 +12,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import { DataSet } from '@antv/data-set/lib/data-set';
+import '@antv/data-set/lib/api/statistics';
 import '@antv/data-set/lib/transform/bin/rectangle';
 
 import './index.scss';
