@@ -200,6 +200,7 @@ export class Linebar extends Base<WlinebarConfig> {
       spline: false,
       grid: false,
       symbol: false,
+      barSize: null,
       // lineLabel: undefined,
       // barLabel: undefined,
       // TODO
@@ -476,9 +477,10 @@ interface BarConfig {
   dodgeStack?: boolean;
   lineLabel?: LabelConfig | boolean,
   barGeomStyle?: GeomStyleConfig;
+  barSize?: GeomSizeConfig;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, barSize } = config;
 
   let intervalGeom = null;
   if (dodgeStack) {
@@ -513,6 +515,8 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
       }]);
   }
+
+  geomSize(intervalGeom, barSize, null, 'y', 'x*y*type*facet*extra');
 
   geomStyle(intervalGeom, config.barGeomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
 
