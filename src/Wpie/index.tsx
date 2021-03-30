@@ -298,7 +298,20 @@ export class Pie extends Base<WpieConfig> {
       .adjust('stack');
 
     if (config.select) {
-      chart.interaction('element-single-selected');
+      chart.interaction('element-single-selected', {
+        start: [
+          {
+            isEnable(context: any) {
+              if (context.view.options.data.length > 1) {
+                return true;
+              }
+              return false;
+            },
+            trigger: 'element:click',
+            action: 'element-single-selected:toggle',
+          }
+        ]
+      });
     }
 
     geomStyle(this.geom, config.geomStyle);
