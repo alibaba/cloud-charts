@@ -12,3 +12,4 @@ build
 es
 lib
 demo/*.js
+.history/
