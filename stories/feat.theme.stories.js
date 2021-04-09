@@ -52,6 +52,7 @@ function ThemeDemo() {
     默认: 'normal',
     暗色: 'dark',
     自定义: {
+      'name':'customTheme',
       'widgets-container-background': '#f2f3f7',
     },
   }, themes.name);
