@@ -1,3 +1,30 @@
+### 1.0.0 (2021-03-05)
+
+1.0 大版本正式发布，详细请见：https://www.yuque.com/docs/share/6f29041d-dab8-44c7-8848-fa376ee4e9e8
+
+### 0.1.10 (2021-01-15)
+
+#### New Features
+
+- 组件增加“允许函数配置项更新”的选项。
+- 优化 afterrender 渲染周期。
+
+#### Bug Fixes
+
+- 自动计算padding在图例设定固定折叠行数后可能不正确的问题。
+
+### 0.1.9 (2020-12-11)
+
+#### Refactor
+
+- style(g2Theme.js): add userSelect attribute to prevent users from selecting text of the legend
+
+#### Bug Fixes
+
+- 一些scss样式计算错误，导致被 less 引用时报错
+
+- 饼图图例出现滚动条(Chrome 87)
+
 ### 0.1.8 (2020-11-20)
 
 #### New Features

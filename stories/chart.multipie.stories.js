@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, number, array } from "@storybook/addon-knobs";
+// import { action } from '@storybook/addon-actions';
+// import { linkTo } from '@storybook/addon-links';
+// import { withKnobs, number, array } from "@storybook/addon-knobs";
 
 import { WmultiPie, Wnumber, Wcontainer } from '@alicloud/cloud-charts';
 
@@ -76,5 +76,30 @@ stories.add('多重饼图', () => (
   </div>
 ));
 
-
-stories.addDecorator(withKnobs);
+stories.add('多重环图', () => (
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '33.33%' }}>
+      <Wcontainer className="demos">
+        <WmultiPie height="300" config={{ cycle: true }} data={multiPieData} />
+      </Wcontainer>
+    </div>
+    <div style={{ width: '33.33%' }}>
+      <Wcontainer className="demos">
+        <WmultiPie height="300" config={{
+          cycle: true,
+          tooltip: {
+            valueFormatter(n, ...args) {
+              console.log(args);
+              return n;
+            }
+          }
+        }} data={multiPieData2} />
+      </Wcontainer>
+    </div>
+    <div style={{ width: '33.33%' }}>
+      <Wcontainer className="demos">
+        <WmultiPie height="300" config={{ cycle: true }} data={multiPieData3} />
+      </Wcontainer>
+    </div>
+  </div>
+));

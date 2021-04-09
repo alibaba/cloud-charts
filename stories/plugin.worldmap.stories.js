@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, plugins } from '@alicloud/cloud-charts';
-import '@alicloud/cloud-charts/plugins/WorldMap/index';
+import '@alicloud/cloud-charts/plugins/worldmap/index';
 const { WorldMap } = plugins;
 
 const areaData = [

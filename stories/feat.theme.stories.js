@@ -2,9 +2,10 @@ import React, { useMemo, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, select, color } from "@storybook/addon-knobs";
 
 import { themes, Wcontainer, Wline, Wbar, Wlinebar } from '@alicloud/cloud-charts';
+import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 
 
 const data = [
@@ -89,3 +90,13 @@ function ThemeDemo() {
 stories.add('主题动态切换', () => (
   <ThemeDemo />
 ));
+
+stories.add('亮暗颜色判断测试', () => {
+  const bg = color('背景色', '#fff')
+  const isDark = isContrastColorWhite(bg);
+  return (
+    <div style={{ width: 300, height: 300, background: bg }}>
+      <span style={{ color: isDark ? '#fff' : '#333' }}>isDark: {String(isDark)}</span>
+    </div>
+  );
+});

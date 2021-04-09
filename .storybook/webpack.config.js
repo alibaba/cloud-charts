@@ -8,7 +8,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const packageInfo = require('../package');
-const srcPath = path.resolve(__dirname, '../components');
+const srcPath = path.resolve(__dirname, '../src');
 
 module.exports = {
   plugins: [
@@ -36,14 +36,16 @@ module.exports = {
           },
         }],
       },
+      {
+        test: /\.(ts|tsx)$/,
+        use: ['awesome-typescript-loader'],
+      }
     ],
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     alias: {
       '@alicloud/cloud-charts': srcPath,
-      '@alicloud/cloud-charts/lib': srcPath,
-      '@antv/data-set$': path.resolve(__dirname, '../components/common/dataSet'),
-      '@antv/data-set/lib': '@antv/data-set/lib'
     }
   },
 };

@@ -211,13 +211,17 @@ stories.add('基础地图', () => (
 ));
 stories.add('带标签基础地图', () => (
   <Wcontainer className="demos" height={400}>
-    <Wmap config={{ label: true }} />
+    <Wmap config={{
+      label: true,
+      background: {
+        fill: 'rgba(200,200,200,0.2)'
+      }
+    }} />
   </Wcontainer>
 ));
 stories.add('区块地图', () => (
   <Wcontainer className="demos" height={400}>
     <Wmap config={{
-      padding: ['auto','auto','auto','auto'],
       tooltip: {
         nameFormatter(n, ...args) {
           console.log(args);
