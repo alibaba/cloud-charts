@@ -2,13 +2,15 @@
 
 import { Line, WlineConfig } from '../Wline';
 import errorWrap from '../common/errorWrap';
+import themes from '../themes';
 
 export class Miniline extends Line {
   chartName = 'G2MiniLine';
 
   getDefaultConfig(): WlineConfig {
+    const lineWidth = themes['widgets-line-width'];
     return {
-      padding: [0, 0, 0, 0],
+      padding: [lineWidth, lineWidth, lineWidth, lineWidth],
       xAxis: {
         visible: false,
         type: 'time', // 默认为线性
