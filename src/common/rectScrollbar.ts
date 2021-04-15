@@ -20,8 +20,8 @@ export default function(chart: Chart, config: ScrollbarConfig) {
   }
 
   const scrollbarConfig: Types.ScrollbarCfg = {
-    // 由于 scrollbar controller 内部对主题变量取值路径不对，暂时在这里传入参数设置
-    categorySize: pxToNumber(themes['widgets-font-size-1']) * 3,
+    // categorySize 目前只能在这里传入参数设置
+    categorySize: pxToNumber(themes['widgets-font-size-1']) * 4,
   };
 
   if (typeof config.scrollbar === 'object') {
