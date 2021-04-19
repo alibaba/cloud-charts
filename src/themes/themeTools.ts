@@ -438,6 +438,19 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** Geometry innerLabel 文本描边粗细 */
     innerLabelBorder: 0,
 
+    /** Geometry overflowLabel 文本颜色 */
+    overflowLabelFillColor: BLACK_COLORS[65],
+    /** Geometry overflowLabel 文本字体大小 */
+    overflowLabelFontSize: fontSize1,
+    /** Geometry overflowLabel 文本行高 */
+    overflowLabelLineHeight: fontSize1,
+    /** Geometry overflowLabel 文本字体粗细 */
+    overflowLabelFontWeight: 'normal',
+    /** Geometry overflowLabel 文本描边颜色 */
+    overflowLabelBorderColor: WHITE_COLORS[100],
+    /** Geometry overflowLabel 文本描边粗细 */
+    overflowLabelBorder: 1,
+
     /** Geometry label　文本连接线粗细 */
     labelLineBorder: 1,
     /** Geometry label 文本连接线颜色 */
@@ -592,7 +605,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** hollowInterval inactive 状态下边框透明度 */
     hollowIntervalInactiveBorderOpacity: 0.3,
-  } as Types.StyleSheet;
+  };
 }
 
 const legendKeys = ['common', 'top', 'right', 'bottom', 'left'];
