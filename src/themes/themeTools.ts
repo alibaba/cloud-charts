@@ -439,7 +439,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     innerLabelBorder: 0,
 
     /** Geometry overflowLabel 文本颜色 */
-    overflowLabelFillColor: BLACK_COLORS[65],
+    overflowLabelFillColor: theme['widgets-label-text'], // BLACK_COLORS[65],
     /** Geometry overflowLabel 文本字体大小 */
     overflowLabelFontSize: fontSize1,
     /** Geometry overflowLabel 文本行高 */
