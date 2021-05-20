@@ -6,6 +6,15 @@ import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, Wmap } from '@alife/aisc-widgets';
 
+import { registerComponentController, registerInteraction } from '@antv/g2';
+import Gestrue from '@antv/g2/esm/chart/controller/gesture';
+
+registerComponentController('gesture', Gestrue);
+
+registerInteraction('view-move', {
+
+})
+
 const areaData = [
   {
     "name": "一",
@@ -243,7 +252,11 @@ const baseAreaData = [
         "value": 43
       },
       {
-        "name": "内蒙古",
+        "name": "陕西",
+        "value": 43
+      },
+      {
+        "name": "青海",
         "value": 43
       },
     ]
@@ -251,14 +264,18 @@ const baseAreaData = [
 ];
 const outAreaData = [
   {
-    "name": "一",
+    "name": "二",
     "data": [
       {
-        "name": "北京",
+        "name": "浙江",
         "value": 43
       },
       {
         "name": "陕西",
+        "value": 43
+      },
+      {
+        "name": "青海",
         "value": 43
       },
     ]
@@ -269,12 +286,32 @@ stories.add('区块凸起地图', () => {
   const ref = useRef();
   useEffect(() => {
     console.log(ref.current);
+    ref.current.bgMapView.interaction('brush');
+
+    ref.current.chart.on('pan', (ev) => {
+      // const { points } = ev;
+      console.log('pan', ev);
+    });
   }, []);
   return (
     <Wcontainer className="demos" height={400}>
-      <Wmap config={{}} ref={ref}>
+      <Wmap
+        config={{
+          tooltip: false,
+          legend: false,
+        }}
+        ref={ref}
+      >
         <Wmap.Area data={baseAreaData} />
-        <Wmap.Area data={outAreaData} />
+        <Wmap.Area
+          config={{
+            // 45ffff - 109eff
+            padding: [0, 0, 8, 0],
+            areaColors() {
+              return 'l(90) 0:#45ffff 1:#109eff';
+            },
+          }}
+          data={outAreaData} />
       </Wmap>
     </Wcontainer>
   );
