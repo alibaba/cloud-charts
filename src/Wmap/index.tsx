@@ -36,7 +36,7 @@ import './index.scss';
 import Wshoot, { ShootProps } from "../Wshoot";
 import { FullCrossName } from '../constants';
 import { warn } from '../common/log';
-import { merge } from '../common/common';
+import { filterKey, merge } from '../common/common';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -189,7 +189,7 @@ export class Map extends Base<WmapConfig, MapProps> {
 
       if (!isInit) {
         const { data, config: propsConfig } = props;
-        const layerConfig = Object.assign({}, config, propsConfig);
+        const layerConfig = Object.assign({}, filterKey(config, ['padding']), propsConfig);
 
         this.changeChildData(this.chart, layerConfig, type.displayName, data, key || index);
       }
@@ -426,7 +426,7 @@ export class Map extends Base<WmapConfig, MapProps> {
       }
       // @ts-ignore
       const { props, type, key } = child;
-      const layerConfig = Object.assign({}, config, props.config);
+      const layerConfig = Object.assign({}, filterKey(config, ['padding']), props.config);
       // G2 图层需要转化数据格式
       let { data } = props;
       if (layerConfig.dataType !== 'g2') {
@@ -663,7 +663,7 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       });
 
     const areaMapView = chart.createView({
-      padding: 0,
+      padding: config.padding || 0,
     });
     areaMapView.data(areaMapDataView.rows);
     const areaGeom = areaMapView
@@ -710,7 +710,7 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       });
 
     const pointMapView = chart.createView({
-      padding: 0,
+      padding: config.padding || 0,
     });
     pointMapView.data(pointMapDataView.rows);
     const pointGeom = pointMapView
@@ -791,7 +791,7 @@ function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       });
 
     const heatMapView = chart.createView({
-      padding: 0,
+      padding: config.padding || 0,
     });
     heatMapView.data(heatMapDataView.rows);
     chart.legend('value', false);
