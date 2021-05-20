@@ -93,6 +93,12 @@ interface CustomProps {
   render(data: Types.LooseObject, index: number, otherProps: any): React.ReactNode;
 }
 
+interface CustomView {
+  id: string | number;
+  view: View;
+  dataView: DataView;
+}
+
 export class Map extends Base<WmapConfig, MapProps> {
   public static Area = MapArea;
   public static Point = MapPoint;
@@ -154,12 +160,12 @@ export class Map extends Base<WmapConfig, MapProps> {
   convertChildren(children = this.props.children, config = this.props.config, isInit = false) {
     const customPointLayer: CustomProps[] = [];
     const shootLayer: ShootProps[] = [];
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, (child, index) => {
       if (!child) {
         return;
       }
       // @ts-ignore
-      const { props, type } = child;
+      const { props, type, key } = child;
 
       if (type.displayName === MapCustom.displayName) {
         let newData = props.data;
@@ -185,7 +191,7 @@ export class Map extends Base<WmapConfig, MapProps> {
         const { data, ...propsConfig } = props;
         const layerConfig = Object.assign({}, config, propsConfig);
 
-        this.changeChildData(this.chart, layerConfig, type.displayName, data);
+        this.changeChildData(this.chart, layerConfig, type.displayName, data, key || index);
       }
     });
     if (!isInit) {
@@ -336,12 +342,15 @@ export class Map extends Base<WmapConfig, MapProps> {
   bgMapDataView: DataView = null;
   bgMapView: View = null;
 
+  areaMapList: CustomView[] = [];
   areaMapDataView: DataView = null;
   areaMapView: View = null;
 
+  pointMapList: CustomView[] = [];
   pointMapDataView: DataView = null;
   pointMapView: View = null;
 
+  heatMapList: CustomView[] = [];
   heatMapDataView: DataView = null;
   heatMapView: View = null;
 
@@ -411,12 +420,12 @@ export class Map extends Base<WmapConfig, MapProps> {
 
     drawMapBackground(this, chart, ds, config);
 
-    React.Children.forEach(this.props.children, (child: MapChild) => {
+    React.Children.forEach(this.props.children, (child: MapChild, index) => {
       if (!child) {
         return;
       }
       // @ts-ignore
-      const { props, type } = child;
+      const { props, type, key } = child;
       const layerConfig = Object.assign({}, config, props.config);
       // G2 图层需要转化数据格式
       let { data } = props;
@@ -424,13 +433,13 @@ export class Map extends Base<WmapConfig, MapProps> {
         data = convertMapData(data, type.displayName);
       }
       if (type.displayName === MapArea.displayName) {
-        drawMapArea(this, chart, ds, layerConfig, data);
+        drawMapArea(this, chart, ds, layerConfig, data, key || index);
       }
       if (type.displayName === MapPoint.displayName) {
-        drawMapPoint(this, chart, ds, layerConfig, data);
+        drawMapPoint(this, chart, ds, layerConfig, data, key || index);
       }
       if (type.displayName === MapHeatMap.displayName) {
-        drawHeatMap(this, chart, ds, layerConfig, data);
+        drawHeatMap(this, chart, ds, layerConfig, data, key || index);
       }
     });
 
@@ -478,20 +487,20 @@ export class Map extends Base<WmapConfig, MapProps> {
     this.convertChildren(this.props.children, this.props.config, true);
   }
 
-  changeChildData(chart: Chart, config: WmapConfig, viewName: string, newData: ChartData) {
+  changeChildData(chart: Chart, config: WmapConfig, viewName: string, newData: ChartData, key: string | number) {
     const { ds } = this;
     let data = newData;
     if (config.dataType !== 'g2') {
       data = convertMapData(newData, viewName);
     }
     if (viewName === MapArea.displayName) {
-      drawMapArea(this, chart, ds, config, data);
+      drawMapArea(this, chart, ds, config, data, key);
     }
     if (viewName === MapPoint.displayName) {
-      drawMapPoint(this, chart, ds, config, data);
+      drawMapPoint(this, chart, ds, config, data, key);
     }
     if (viewName === MapHeatMap.displayName) {
-      drawHeatMap(this, chart, ds, config, data);
+      drawHeatMap(this, chart, ds, config, data, key);
     }
   }
 
@@ -504,6 +513,9 @@ export class Map extends Base<WmapConfig, MapProps> {
     this.areaMapDataView = null;
     this.pointMapDataView = null;
     this.heatMapDataView = null;
+    this.areaMapList = [];
+    this.pointMapList = [];
+    this.heatMapList = [];
   }
 }
 
@@ -614,16 +626,21 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
   ctx.projection = projection;
 }
 
+function getView(list: CustomView[], key: string | number) {
+  return list.find(item => item.id === key);
+}
+
 // 绘制分级统计地图
-function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { areaMapDataView, areaMapView } = ctx;
-  if (areaMapDataView) {
+function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData, key: string | number) {
+  const areaMap = getView(ctx.areaMapList, key);
+  if (areaMap) {
+    let { dataView: areaMapDataView, view: areaMapView } = areaMap;
     if (areaMapDataView.origin !== data) {
       areaMapDataView.source(data);
       areaMapView.data(areaMapDataView.rows);
     }
   } else {
-    areaMapDataView = ds
+    const areaMapDataView = ds
       .createView()
       .source(data)
       .transform({
@@ -662,21 +679,25 @@ function drawMapArea(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
 
     geomStyle(areaGeom, config.geomStyle);
 
-    ctx.areaMapDataView = areaMapDataView;
-    ctx.areaMapView = areaMapView;
+    ctx.areaMapList.push({
+      id: key,
+      view: areaMapView,
+      dataView: areaMapDataView,
+    });
   }
 }
 
 // 绘制散点图
-function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { pointMapDataView, pointMapView } = ctx;
-  if (pointMapDataView) {
+function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData, key: string | number) {
+  const pointMap = getView(ctx.pointMapList, key);
+  if (pointMap) {
+    let { dataView: pointMapDataView, view: pointMapView } = pointMap;
     if (pointMapDataView.origin !== data) {
       pointMapDataView.source(data);
       pointMapView.data(pointMapDataView.rows);
     }
   } else {
-    pointMapDataView = ds
+    const pointMapDataView = ds
       .createView()
       .source(data)
       .transform({
@@ -739,21 +760,25 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       // });
     }
 
-    ctx.pointMapDataView = pointMapDataView;
-    ctx.pointMapView = pointMapView;
+    ctx.pointMapList.push({
+      id: key,
+      view: pointMapView,
+      dataView: pointMapDataView,
+    });
   }
 }
 
 // 绘制热力图
-function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData) {
-  let { heatMapDataView, heatMapView } = ctx;
-  if (heatMapDataView) {
+function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, data: MapData, key: string | number) {
+  const heatMap = getView(ctx.heatMapList, key);
+  if (heatMap) {
+    let { dataView: heatMapDataView, view: heatMapView } = heatMap;
     if (heatMapDataView.origin !== data) {
       heatMapDataView.source(data);
       heatMapView.data(heatMapDataView.rows);
     }
   } else {
-    heatMapDataView = ds
+    const heatMapDataView = ds
       .createView()
       .source(data)
       .transform({
@@ -782,8 +807,11 @@ function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
 
     geomSize(heatGeom, config.size, 16, 'value', 'name*value');
 
-    ctx.heatMapDataView = heatMapDataView;
-    ctx.heatMapView = heatMapView;
+    ctx.heatMapList.push({
+      id: key,
+      view: heatMapView,
+      dataView: heatMapDataView,
+    });
   }
 }
 

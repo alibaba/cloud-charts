@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -233,6 +233,53 @@ stories.add('区块地图', () => (
     </Wmap>
   </Wcontainer>
 ));
+
+const baseAreaData = [
+  {
+    "name": "一",
+    "data": [
+      {
+        "name": "浙江",
+        "value": 43
+      },
+      {
+        "name": "内蒙古",
+        "value": 43
+      },
+    ]
+  },
+];
+const outAreaData = [
+  {
+    "name": "一",
+    "data": [
+      {
+        "name": "北京",
+        "value": 43
+      },
+      {
+        "name": "陕西",
+        "value": 43
+      },
+    ]
+  },
+];
+
+stories.add('区块凸起地图', () => {
+  const ref = useRef();
+  useEffect(() => {
+    console.log(ref.current);
+  }, []);
+  return (
+    <Wcontainer className="demos" height={400}>
+      <Wmap config={{}} ref={ref}>
+        <Wmap.Area data={baseAreaData} />
+        <Wmap.Area data={outAreaData} />
+      </Wmap>
+    </Wcontainer>
+  );
+});
+
 stories.add('散点地图', () => (
   <Wcontainer className="demos" height={400}>
     <Wmap config={{}}>
