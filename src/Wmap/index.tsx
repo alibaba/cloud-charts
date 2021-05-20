@@ -188,7 +188,7 @@ export class Map extends Base<WmapConfig, MapProps> {
       }
 
       if (!isInit) {
-        const { data, ...propsConfig } = props;
+        const { data, config: propsConfig } = props;
         const layerConfig = Object.assign({}, config, propsConfig);
 
         this.changeChildData(this.chart, layerConfig, type.displayName, data, key || index);
