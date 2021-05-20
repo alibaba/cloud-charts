@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select, radios } from "@storybook/addon-knobs";
 
-import { Wcontainer, Wline, Wlinebar } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wbar } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -66,6 +66,61 @@ stories.add('tickLine', () => (
         tickLine: true,
       },
     }} data={data} />
+  </Wcontainer>
+));
+
+
+let barData = [
+  {
+    "name":"柱1",
+    "dodge": '分组1',
+    "data":[]
+  },
+  {
+    "name":"柱2",
+    "dodge": '分组2',
+    "data":[]
+  },
+  {
+    "name":"柱3",
+    "dodge": '分组2',
+    "data":[]
+  },
+  {
+    "name":"柱4",
+    "dodge": '分组2',
+    "data":[]
+  },
+];
+
+for (let i = 0; i < 10; i++) {
+  const name = i + '-------------------' + i;
+  barData[0].data.push([name, Math.random() * 100 + 300]);
+  barData[1].data.push([name, Math.random() * 100 + 100]);
+  barData[2].data.push([name, Math.random() * 100 + 100]);
+  barData[3].data.push([name, Math.random() * 100 + 100]);
+}
+
+let barConfig = {
+  dodgeStack: true,
+  column: false,
+  xAxis: {
+    autoEllipsis: true,
+    autoHide: false,
+    customConfig: {
+      verticalLimitLength: 100,
+      label: {
+        style: {
+
+        }
+      }
+    }
+  }
+};
+
+stories.add('超出省略', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={barConfig} data={barData} />
   </Wcontainer>
 ));
 
