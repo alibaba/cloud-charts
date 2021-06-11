@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import { Wcontainer, Wmap } from '@alife/aisc-widgets';
+import { Wcontainer, Wmap, Wplaceholder } from '@alife/aisc-widgets';
 
 import { registerComponentController, registerAction, registerInteraction } from '@antv/g2';
 import Gestrue from '@antv/g2/esm/chart/controller/gesture';
@@ -506,7 +506,7 @@ stories.add('区块凸起地图', () => {
   useEffect(() => {
     // console.log(ref.current.bgMapView.getXScale());
     // console.log(ref.current.bgMapView.getYScales());
-    ref.current.bgMapView.interaction('view-pinch');
+    // ref.current.bgMapView.interaction('view-pinch');
 
     // ref.current.chart.on('polygon:click', (ev) => {
     //   // const { points } = ev;
@@ -523,15 +523,15 @@ stories.add('区块凸起地图', () => {
         ref={ref}
       >
         <Wmap.Area data={areaData} />
-        {/*<Wmap.Area*/}
-        {/*  config={{*/}
-        {/*    // 45ffff - 109eff*/}
-        {/*    padding: [0, 0, 8, 0],*/}
-        {/*    areaColors() {*/}
-        {/*      return 'l(90) 0:#45ffff 1:#109eff';*/}
-        {/*    },*/}
-        {/*  }}*/}
-        {/*  data={outAreaData} />*/}
+        <Wmap.Area
+          config={{
+            // 45ffff - 109eff
+            padding: [0, 0, 8, 0],
+            areaColors() {
+              return 'l(90) 0:#45ffff 1:#109eff';
+            },
+          }}
+          data={outAreaData} />
       </Wmap>
     </Wcontainer>
   );
@@ -760,3 +760,56 @@ function DoubleShootDemo() {
 stories.add('双层飞线地图', () => (
   <DoubleShootDemo />
 ));
+
+// const geoAreaData = [
+//   {
+//     "name": "一",
+//     "data": [
+//       {
+//         "name": "怀柔区",
+//         "value": 43
+//       },
+//       {
+//         "name": "海淀区",
+//         "value": 43
+//       },
+//       {
+//         "name": "朝阳区",
+//         "value": 43
+//       },
+//     ]
+//   },
+// ];
+stories.add('自定义地图数据', () => {
+  const [loading, setLoading] = React.useState(false);
+  const [geoData, setGeoData] = React.useState(undefined);
+
+  React.useEffect(() => {
+    setLoading(true);
+    // 示例中使用 DataV.GeoAtlas 工具作为数据源：https://datav.aliyun.com/tools/atlas/
+    // 实际使用请使用静态化数据保证稳定性。
+    fetch('https://geo.datav.aliyun.com/areas_v2/bound/330000_full.json')
+      .then(res => res.json())
+      .then((res) => {
+        setGeoData(res);
+        setLoading(false);
+      })
+      .catch(e => {
+        setGeoData(undefined);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <Wcontainer>
+      {
+        loading ? <Wplaceholder loading /> : (
+          <Wmap height={500} geoData={geoData} config={{
+            label: true,
+            showSouthChinaSea: false,
+          }} />
+        )
+      }
+    </Wcontainer>
+  );
+});
