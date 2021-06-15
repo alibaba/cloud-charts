@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, Wmap, Wplaceholder } from '@alife/aisc-widgets';
-
+import adcodeMap from './data/adcode.json';
 import { registerComponentController, registerAction, registerInteraction } from '@antv/g2';
 import Gestrue from '@antv/g2/esm/chart/controller/gesture';
 
@@ -808,6 +808,86 @@ stories.add('自定义地图数据', () => {
             label: true,
             showSouthChinaSea: false,
           }} />
+        )
+      }
+    </Wcontainer>
+  );
+});
+
+stories.add('地图数据选择器', () => {
+  const [code, setCode] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [geoData, setGeoData] = React.useState(undefined);
+  const historyRef = React.useRef([]);
+
+  React.useEffect(() => {
+    if (code) {
+      setLoading(true);
+      // 示例中使用 DataV.GeoAtlas 工具作为数据源：https://datav.aliyun.com/tools/atlas/
+      // 实际使用请使用静态化数据保证稳定性。
+      fetch(`https://geo.datav.aliyun.com/areas_v2/bound/${code}_full.json`)
+        .then(res => res.json())
+        .then((res) => {
+          setGeoData(res);
+          setLoading(false);
+        })
+        .catch(e => {
+          setCode('');
+          setGeoData(undefined);
+          setLoading(false);
+        });
+    } else {
+      setLoading(true);
+      setGeoData(undefined);
+      requestAnimationFrame(() => {
+        setLoading(false);
+      });
+    }
+  }, [code]);
+
+  function handleGetChart(chart) {
+    if (chart) {
+      chart.interaction('element-highlight');
+      chart.on('polygon:click', function (e) {
+        const name = e && e.data && e.data.data && e.data.data.name
+        if (name && adcodeMap[name]) {
+          historyRef.current.push({
+            name,
+            adcode: adcodeMap[name],
+          });
+          setCode(adcodeMap[name]);
+        }
+      });
+    }
+  }
+
+  return (
+    <Wcontainer>
+      {
+        loading ? <Wplaceholder loading /> : (
+          <Wmap height={500} geoData={geoData} config={{
+            label: true,
+            showSouthChinaSea: false,
+            background: {
+              cursor: 'pointer'
+            }
+          }} getChartInstance={handleGetChart} />
+        )
+      }
+      {
+        code && (
+          <div>
+            当前区域：{historyRef.current[historyRef.current.length - 1].name}
+            <button onClick={() => {
+              historyRef.current.pop();
+              if (historyRef.current.length === 0) {
+                setCode('');
+              } else {
+                setCode(historyRef.current[historyRef.current.length - 1].adcode);
+              }
+            }}>返回上一级</button>
+            <a href={`https://geo.datav.aliyun.com/areas_v2/bound/${code}_full.json`} target="_blank">下载数据</a>
+          </div>
         )
       }
     </Wcontainer>
