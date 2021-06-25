@@ -761,25 +761,22 @@ stories.add('双层飞线地图', () => (
   <DoubleShootDemo />
 ));
 
-// const geoAreaData = [
-//   {
-//     "name": "一",
-//     "data": [
-//       {
-//         "name": "怀柔区",
-//         "value": 43
-//       },
-//       {
-//         "name": "海淀区",
-//         "value": 43
-//       },
-//       {
-//         "name": "朝阳区",
-//         "value": 43
-//       },
-//     ]
-//   },
-// ];
+// let maxDepth = 0;
+// function getTreeDepth(data, depth) {
+//   if (depth > maxDepth) {
+//     maxDepth = depth;
+//   }
+//   data.forEach((d) => {
+//     if (Array.isArray(d)) {
+//       getTreeDepth(d, depth + 1);
+//     }
+//   });
+// }
+// getTreeDepth(taiwanData60.features[0].geometry.coordinates, 0);
+// taiwanData60.features[0].geometry.coordinates.forEach((polygon) => {
+//   polygon[0].reverse();
+// });
+// console.log(maxDepth);
 stories.add('自定义地图数据', () => {
   const [loading, setLoading] = React.useState(false);
   const [geoData, setGeoData] = React.useState(undefined);
