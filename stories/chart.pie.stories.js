@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
@@ -175,3 +175,28 @@ stories.add('带标签环图', () => (
 // stories.add('仪表盘', () => (
 //   <WdashboardDemo data={11} className="demos"/>
 // ));
+
+stories.add('饼图数据从有到无', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD([]);
+      // setD([{ name: '浏览器占比', data: [] }]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        height="300"
+        config={{
+          cycle: true,
+          legend: {
+            showData: false
+          }
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
