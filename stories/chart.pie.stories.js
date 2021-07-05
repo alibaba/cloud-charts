@@ -191,8 +191,15 @@ stories.add('饼图数据从有到无', () => {
         height="300"
         config={{
           cycle: true,
+          tooltip: {
+            valueFormatter: function(v, data) {
+              return v + '%'
+            },
+          },
           legend: {
-            showData: false
+            // valueFormatter: function(v, data){
+            //   return v + '%';
+            // }
           }
         }}
         data={d}

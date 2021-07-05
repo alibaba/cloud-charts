@@ -232,7 +232,7 @@ export class Pie extends Base<WpieConfig> {
       const { name } = item;
       const raw = (this.rawData && this.rawData[0]) || {};
       let value = 0;
-      raw.data.forEach((r: any) => {
+      raw && raw.data.forEach((r: any) => {
         if (Array.isArray(r) && r[0] === name) {
           value = r[1];
         } else if (typeof r === 'object' && r.x === name) {
