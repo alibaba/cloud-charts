@@ -197,9 +197,10 @@ stories.add('饼图数据从有到无', () => {
             },
           },
           legend: {
-            // valueFormatter: function(v, data){
-            //   return v + '%';
-            // }
+            valueFormatter: function(v, data){
+              console.log(v);
+              return v + '%';
+            }
           }
         }}
         data={d}
