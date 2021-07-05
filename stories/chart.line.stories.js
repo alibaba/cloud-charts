@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -224,6 +224,32 @@ stories.add('带辅助标记', () => (
     }} data={[]} />
   </Wcontainer>
 ));
+
+stories.add('数据从有到无', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD([]);
+      // setD([{ name: '浏览器占比', data: [] }]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wline height="300" config={{
+        area: true,
+        legend: {
+          nameFormatter: function(v, data){
+            return 'name:' + v;
+          },
+          valueFormatter: function(v, data){
+            return v + '%';
+          }
+        }
+      }} data={d}/>
+    </Wcontainer>
+  );
+});
 
 
 // // 齐全度展示图

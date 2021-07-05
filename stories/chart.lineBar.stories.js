@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -440,3 +440,29 @@ class ChangeData extends React.Component {
 stories.add('更新数据', () => (
   <ChangeData />
 ));
+
+stories.add('数据从有到无', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD([]);
+      // setD([{ name: '浏览器占比', data: [] }]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wlinebar height="300" config={{
+        yAxis: [
+          {},
+          {},
+        ],
+        legend: {
+          valueFormatter: function(v, data){
+            return v + '%';
+          }
+        }
+      }} data={d}/>
+    </Wcontainer>
+  );
+});

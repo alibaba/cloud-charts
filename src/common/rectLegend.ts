@@ -368,7 +368,7 @@ export default function<T> (
 function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean) {
   const dataGroup = getItemData(name, rawData, isOneDataGroup);
   if (!dataGroup) {
-    return name;
+    return '';
   }
   if (isOneDataGroup) {
     if (Array.isArray(dataGroup)) {
@@ -388,7 +388,7 @@ function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean)
       return lastItem.y;
     }
   }
-  return name;
+  return '';
 }
 function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean): undefined | Types.LooseObject | (number | string)[] {
   if (!rawData) {
