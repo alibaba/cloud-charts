@@ -39,6 +39,10 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   geomStyle?: GeomStyleConfig;
   minSize?: number;
   maxSize?: number;
+  /** 默认宽度占比，interval类型和schema类型通用 */
+  columnWidthRatio?: number;
+  /** 组内间距 */
+  dodgePadding?: number;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -238,10 +242,12 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size, minSize, maxSize } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
+    columnWidthRatio: columnWidthRatio || null,
+    dodgePadding: dodgePadding || null,
   };
   let geom = chart.interval(geomConfig).position(['x', 'y']);
   if (dodgeStack) {
