@@ -79,9 +79,10 @@ export interface GuideLineConfig {
 }
 export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
+  const rawText = text || ''
   const {
     title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY, ...textConfig
-  } = (typeof text === 'string' ? { title: text } : text) as GuideLineTextConfig;
+  } = (typeof rawText === 'string' ? { title: rawText } : rawText) as GuideLineTextConfig;
   const color = getStatusColor(status);
   const defaultOffsetY = offsetY === undefined ? pxToNumber(themes['widgets-font-size-1'])/2 : offsetY;
 
