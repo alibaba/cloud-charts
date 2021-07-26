@@ -890,3 +890,104 @@ stories.add('地图数据选择器', () => {
     </Wcontainer>
   );
 });
+
+
+function useJsonp() {
+  const [data, setData] = useState();
+  useEffect(() => {
+    const callbackFuncName = `jsonpCallback_${Math.random().toString(36).substring(2)}`;
+    const scriptEl = addScript(`http://typhoon.zjwater.gov.cn/Api/TyphoonInfo/202106?callback=${callbackFuncName}&_=${Date.now()}`);
+
+    window[callbackFuncName] = (res) => {
+      setData(res && res[0]);
+      removeScript(scriptEl);
+      window[callbackFuncName] = undefined;
+    };
+  }, []);
+
+  return data;
+}
+
+function addScript(src) {
+  const script = document.createElement('script');
+  script.setAttribute('type', 'text/javascript');
+  script.src = src;
+  document.body.appendChild(script);
+  return script;
+}
+
+function removeScript(script) {
+  document.body.removeChild(script);
+}
+
+const colorMap = {
+  '热带低压': '#0aff00',
+  '热带风暴': '#0164ff',
+  '强热带风暴': '#fffb05',
+  '台风': '#ffad02',
+  '强台风': '#f170f9',
+  '超强台风': '#fe0305',
+}
+
+const projection = Wmap.getGeoProjection('geoConicEqualArea')
+projection
+  // @ts-ignore
+  .center([0, 36.4])
+  .parallels([25, 47])
+  .scale(1000)
+  .rotate([-105, 0])
+  .translate([0, 0])
+  .clipExtent([[-100, -100], [960, 500]]);
+
+const config = {
+  projection,
+}
+
+stories.add('台风路线图', () => {
+  const mapRef = useRef();
+  const data = useJsonp();
+  const [points, setPoints] = useState([]);
+  useEffect(() => {
+    if (data && mapRef.current) {
+      const list = data.points.map((d) => {
+        return {
+          color: colorMap[d.strong],
+          ...mapRef.current.convertPosition({
+            lat: d.lat,
+            lng: d.lng,
+          }),
+        };
+      });
+      setPoints(list);
+    }
+  }, [data, mapRef.current]);
+  return (
+    <div style={{ position: 'relative' }}>
+      <Wmap height={400} ref={mapRef} config={config} />
+      {
+        points.length > 0 && (
+          <div>
+            <svg style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0 }}>
+              <path d={`M${points.map(p => `${p.x},${p.y}`).join(' L')}`} fill="none" stroke="#0164ff" />
+              <g>
+                {
+                  points.map((d, i) => {
+                    return <circle cx={d.x} cy={d.y} fill={d.color} r={2} />
+                  })
+                }
+              </g>
+            </svg>
+            <img
+              style={{
+                position: 'absolute',
+                top: points[points.length - 1].y - 20,
+                left: points[points.length - 1].x - 20,
+              }}
+              src="http://typhoon.zjwater.gov.cn/images/typhoon.gif"
+            />
+          </div>
+        )
+      }
+    </div>
+  );
+});
