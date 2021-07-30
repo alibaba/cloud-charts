@@ -1,3 +1,13 @@
+### 1.0.8 (2021-07-30)
+
+#### New Features
+
+- 图例更新到无数据时，valueFormatter 第一项返回空字符串
+
+#### Bug Fixes
+
+- 饼图带图例 formatter 时从有数据到无数据报错的问题。
+
 ### 1.0.7 (2021-07-30)
 
 #### New Features
