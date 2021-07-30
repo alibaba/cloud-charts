@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -240,3 +240,37 @@ stories.add('分组堆叠图', () => (
         />
     </Wcontainer>
 ));
+
+stories.add('从有数据到无数据', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD([]);
+      // setD([{ name: '浏览器占比', data: [] }]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          zoom: true,
+          geomStyle: {
+            cursor: 'pointer',
+          },
+          legend: {
+            showData: true,
+            nameFormatter: function(v, data){
+              return v + '%';
+            },
+            valueFormatter: function(v, data){
+              return v + '%';
+            }
+          }
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  )
+});
