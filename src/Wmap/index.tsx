@@ -274,7 +274,7 @@ export class Map extends Base<WmapConfig, MapProps> {
   }
 
   render() {
-    const { className = '', style, children, data, width, height, padding, geoData, config, language, event, getChartInstance, enableFunctionUpdate, renderer, animate, ...otherProps } = this.props;
+    const { className = '', style, children, data, width, height, padding, geoData, config, language, event, interaction, getChartInstance, enableFunctionUpdate, renderer, animate, ...otherProps } = this.props;
     const { customPointLayer, shootLayer } = this.state;
     return (
       <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>

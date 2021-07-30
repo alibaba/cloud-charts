@@ -63,6 +63,9 @@ export interface ChartProps<ChartConfig> {
   event?: {
     [eventKey: string]: () => void;
   };
+  interaction?: {
+    [actionName: string]: Types.LooseObject
+  };
   language?: Language;
   getChartInstance?: (chart: Chart) => void;
   enableFunctionUpdate?: boolean;
@@ -221,6 +224,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       height: newHeight,
       config: newConfig,
       event: newEvent,
+      interaction: newInteraction,
       // changeConfig = true,
     } = this.props;
     const {
@@ -229,6 +233,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       height: oldHeight,
       config: oldConfig,
       event: oldEvent,
+      interaction: oldInteraction,
     } = prevProps;
 
     this.language = this.props.language || 'zh-cn';
@@ -251,6 +256,17 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       // 绑定新事件
       Object.keys(newEvent).forEach(eventKey => {
         this.chart.on(fixEventName(eventKey), newEvent[eventKey]);
+      });
+    }
+
+    if (newInteraction !== oldInteraction) {
+      // 清除旧交互
+      Object.keys(oldInteraction).forEach(interactionName => {
+        this.chart.removeInteraction(interactionName);
+      });
+      // 绑定新交互
+      Object.keys(newInteraction).forEach(interactionName => {
+        this.chart.interaction(interactionName, newInteraction[interactionName]);
       });
     }
 
@@ -369,6 +385,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       // forceFit,
       config,
       event,
+      interaction,
       animate,
       ...otherProps
     } = currentProps;
@@ -415,6 +432,13 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     if (chart && event) {
       Object.keys(event).forEach(eventKey => {
         chart.on(fixEventName(eventKey), event[eventKey]);
+      });
+    }
+
+    // 绑定交互
+    if (chart && interaction) {
+      Object.keys(interaction).forEach(interactionName => {
+        chart.interaction(interactionName, interaction[interactionName]);
       });
     }
 
@@ -529,6 +553,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       padding,
       config,
       event,
+      interaction,
       animate,
       language,
       localRefresh,
