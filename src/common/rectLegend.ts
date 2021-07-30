@@ -396,10 +396,10 @@ function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean):
   }
 
   if (isOneDataGroup) {
-    const originData = rawData[0] || {};
+    const originData = rawData[0];
     let result = undefined;
 
-    originData.data.some((r: any) => {
+    originData && originData.data.some((r: any) => {
       if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
         result = r;
         return true;
