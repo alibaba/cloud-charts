@@ -2,9 +2,15 @@ import { registerTheme } from "@antv/g2/esm/core";
 import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style-sheet';
 import { Types } from '../common/types';
-import normalStyle from './normal.style';
-import { merge, pxToNumber } from "../common/common";
 import { FullCrossName } from '../constants';
+import normalStyle from './normal.style';
+// 直接引入 merge 和 pxToNumber，避免下方的循环依赖链路：
+// themes/index => themeTools => common/common => themes/index
+import merge from 'lodash/merge';
+
+function pxToNumber(px: string) {
+  return Number(px.replace('px', ''));
+}
 
 export interface Theme extends Partial<typeof normalStyle> {
   name?: string;
