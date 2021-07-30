@@ -2,6 +2,10 @@ import { VERSION } from './constants';
 import themes, { Themes } from './themes/index';
 import './index.scss';
 
+// 导出 G2 核心包
+import * as G2Core from '@antv/g2/esm/core';
+export { G2Core };
+
 export const version = VERSION;
 export { VERSION } ;
 
