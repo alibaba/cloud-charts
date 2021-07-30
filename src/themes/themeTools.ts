@@ -660,5 +660,22 @@ export function setG2Theme(theme: Theme) {
     opacity: 0,
   };
 
+  // slider 样式
+  const scrollbarStyle = g2Theme.components.scrollbar;
+  // scrollbarStyle.common.categorySize = baseFontSizeNum * 10;
+  Object.assign(scrollbarStyle, {
+    default: {
+      style: {
+        trackColor: theme['widgets-scrollbar-bg'],
+        thumbColor: theme['widgets-scrollbar-thumb'],
+      },
+    },
+    hover: {
+      style: {
+        thumbColor: theme['widgets-scrollbar-thumb'],
+      },
+    },
+  });
+
   registerTheme('default', g2Theme);
 }
