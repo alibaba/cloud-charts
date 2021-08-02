@@ -22,6 +22,7 @@ export interface DrawLineConfig {
   step?: string | boolean;
   /** 是否展示线上点 */
   symbol?: {
+    shape: string;
     size?: GeomSizeConfig;
     geomStyle?: GeomStyleConfig;
   } | boolean;
@@ -116,6 +117,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
     }
 
     if (typeof config.symbol === 'object') {
+      pointGeom.shape(config.symbol.shape || 'circle'); // 配置形状
       geomSize(pointGeom, config.symbol.size, 3, yAxisKey, 'type');
 
       if (config.symbol.geomStyle) {
