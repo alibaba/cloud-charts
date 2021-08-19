@@ -2,7 +2,7 @@
 
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
-import { DataSet } from '@antv/data-set/lib/data-set';
+import { View } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -119,7 +119,7 @@ export class Bar extends Base<WbarConfig> {
     chart.scale(defs);
 
     if (config.percentStack) {
-      const dataView = computerData(config, data);
+      const dataView = computerData(data);
       chart.data(dataView.rows);
     } else {
       chart.data(data);
@@ -252,7 +252,7 @@ export class Bar extends Base<WbarConfig> {
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
     if (config.percentStack) {
-      const dataView = computerData(config, data);
+      const dataView = computerData(data);
       chart.changeData(dataView.rows);
     } else {
       chart.changeData(data);
@@ -320,10 +320,8 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
   label(geom, config);
 }
 
-function computerData(config: WbarConfig, data: any) {
-  const ds = new DataSet();
-  const dv = ds
-    .createView()
+function computerData(data: any) {
+  const dv = new View()
     .source(data);
   dv.transform({
       type: 'percent',
