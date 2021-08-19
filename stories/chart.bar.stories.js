@@ -274,3 +274,14 @@ stories.add('从有数据到无数据', () => {
     </Wcontainer>
   )
 });
+stories.add('百分比堆叠柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{
+        percentStack: true,
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));
