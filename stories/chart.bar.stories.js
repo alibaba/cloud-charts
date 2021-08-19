@@ -274,14 +274,22 @@ stories.add('从有数据到无数据', () => {
     </Wcontainer>
   )
 });
-stories.add('百分比堆叠柱状图', () => (
-  <Wcontainer className="demos">
-    <Wbar
-      height="300"
-      config={{
-        percentStack: true,
-      }}
-      data={data}
-    />
-  </Wcontainer>
-));
+stories.add('百分比堆叠柱状图', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    setTimeout(() => {
+      setD(data2)
+    }, 2000);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          percentStack: true,
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
