@@ -292,7 +292,7 @@ stories.add('百分比堆叠柱状图', () => {
       <Wbar
         height="300"
         config={{
-          percentStack: true,
+          percentage: true,
           stack: true,
           yAxis: {
             max: 1,
@@ -314,7 +314,7 @@ stories.add('分组百分比堆叠柱状图', () => {
       <Wbar
         height="300"
         config={{
-          percentStack: true,
+          percentage: true,
           dodgeStack: true,
           yAxis: {
             max: 1,

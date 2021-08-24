@@ -46,7 +46,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   /** 组内间距 */
   dodgePadding?: number;
   /** 百分比堆叠柱状图 */
-  percentStack: boolean;
+  percentage: boolean;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -80,7 +80,7 @@ export class Bar extends Base<WbarConfig> {
       dodgeStack: false,
       stack: false,
       stackReverse: true,
-      percentStack: false,
+      percentage: false,
       marginRatio: 0,
       grid: false,
       zoom: false,
@@ -118,7 +118,7 @@ export class Bar extends Base<WbarConfig> {
 
     chart.scale(defs);
 
-    if (config.percentStack) {
+    if (config.percentage) {
       const dataView = computerData(config, data);
       this.barDataView = dataView;
       chart.data(dataView.rows);
@@ -128,7 +128,7 @@ export class Bar extends Base<WbarConfig> {
 
     // 设置单个Y轴
     if (!config.facet) {
-      if (config.percentStack) {
+      if (config.percentage) {
         rectYAxis(this, chart, config, 'percent');
       } else {
         rectYAxis(this, chart, config);
@@ -256,7 +256,7 @@ export class Bar extends Base<WbarConfig> {
     rectScrollbar(chart, config);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
-    if (config.percentStack && this.barDataView) {
+    if (config.percentage && this.barDataView) {
       this.barDataView.source(data);
       chart.changeData(this.barDataView.rows);
     } else {
@@ -272,7 +272,7 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, percentStack, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
@@ -280,7 +280,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
     dodgePadding: dodgePadding || null,
   };
   let geom = chart.interval(geomConfig).position(['x', 'y']);
-  if (percentStack) {
+  if (percentage) {
     geom = geom.position(['x', 'percent']);
   }
   if (dodgeStack) {
