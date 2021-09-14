@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/console-charts",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "react charts component",
   "files": [
     "demo/",
@@ -30,7 +30,7 @@
     "component"
   ],
   "dependencies": {
-    "@alicloud/cloud-charts": "^0.1.8",
+    "@alicloud/cloud-charts": "^1.0.0",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {
