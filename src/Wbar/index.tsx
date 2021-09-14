@@ -2,7 +2,7 @@
 
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
-import { DataSet } from '@antv/data-set/lib/data-set';
+import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -51,6 +51,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
 
 export class Bar extends Base<WbarConfig> {
   chartName = 'G2Bar';
+  private barDataView: DataView;
   getDefaultConfig(): WbarConfig {
     return {
       colors: themes.category_12,
@@ -119,7 +120,8 @@ export class Bar extends Base<WbarConfig> {
     chart.scale(defs);
 
     if (config.percentStack) {
-      const dataView = computerData(config, data);
+      const dataView = computerData(data);
+      this.barDataView = dataView;
       chart.data(dataView.rows);
     } else {
       chart.data(data);
@@ -251,9 +253,9 @@ export class Bar extends Base<WbarConfig> {
     rectScrollbar(chart, config);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
-    if (config.percentStack) {
-      const dataView = computerData(config, data);
-      chart.changeData(dataView.rows);
+    if (config.percentStack && this.barDataView) {
+      this.barDataView.source(data);
+      chart.changeData(this.barDataView.rows);
     } else {
       chart.changeData(data);
     }
@@ -320,10 +322,8 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
   label(geom, config);
 }
 
-function computerData(config: WbarConfig, data: any) {
-  const ds = new DataSet();
-  const dv = ds
-    .createView()
+function computerData(data: any) {
+  const dv = new DataView()
     .source(data);
   dv.transform({
       type: 'percent',
