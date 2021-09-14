@@ -16,6 +16,7 @@ import drawLine, { DrawLineConfig } from '../common/drawLine';
 
 import './index.scss';
 import polarLegendLayout from '../common/polarLegendLayout';
+import autoTimeMask from '../common/autoTimeMask';
 
 // 3.x代码
 export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
@@ -60,17 +61,22 @@ export class Radar extends Base<WradarConfig> {
   init(chart: Chart, config: WradarConfig, data: any) {
 
     const defs: Record<string, Types.ScaleOption> = {
+      x: propertyAssign(propertyMap.axis, {
+        // type: 'time',
+        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+        // range: [0, 1],
+      }, config.xAxis),
+      y: propertyAssign(propertyMap.axis, {
+        type: 'linear',
+        tickCount: 5,
+        nice: true,
+      }, config.yAxis),
       type: {
         type: 'cat',
       },
     };
 
-    // 轴设置
-    defs.y = propertyAssign(propertyMap.axis, {
-      type: 'linear',
-      tickCount: 5,
-      nice: true,
-    }, config.yAxis);
+    autoTimeMask(defs, this.rawData);
 
     chart.scale(defs);
     chart.data(data);

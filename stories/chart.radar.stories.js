@@ -38,3 +38,31 @@ stories.addDecorator(withKnobs);
 stories.add('雷达图', () => (
     <Wradar height="300" data={data} />
 ));
+
+const timeData = [
+  {
+    "name":"某日",
+    "data":[]
+  }
+];
+const now = new Date('2021-07-21 01:00:00').valueOf();
+for(var i = 0; i < 25; i++) {
+  const t = now - (25 - i) * 3600000;
+  const value = Math.round(Math.random() * Math.random() * 200 + Math.sin(i / 800) * 300) + 800;
+  if (i < 3) {
+    timeData[0].data.push([t, 0]);
+  } else {
+    timeData[0].data.push([t, value]);
+  }
+}
+
+let options = {
+  xAxis: {
+    type: 'time',
+    mask: 'HH:mm',
+    tickCount: 12,
+  }
+};
+stories.add('时序雷达图', () => (
+  <Wradar height="300" data={timeData} config={options} />
+));
