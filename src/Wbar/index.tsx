@@ -2,6 +2,8 @@
 
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
+import { DataSet } from '@antv/data-set/lib/data-set';
+import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
@@ -43,6 +45,8 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   columnWidthRatio?: number;
   /** 组内间距 */
   dodgePadding?: number;
+  /** 百分比堆叠柱状图 */
+  percentStack: boolean;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -75,6 +79,7 @@ export class Bar extends Base<WbarConfig> {
       dodgeStack: false,
       stack: false,
       stackReverse: true,
+      percentStack: false,
       marginRatio: 0,
       grid: false,
       zoom: false,
@@ -103,10 +108,22 @@ export class Bar extends Base<WbarConfig> {
       facet: {
         sync: true,
       },
+      percent: {
+        min: 0,
+        formatter(val) {
+          return (val * 100).toFixed(2) + '%';
+        },
+      }
     };
 
     chart.scale(defs);
-    chart.data(data);
+
+    if (config.percentStack) {
+      const dataView = computerData(config, data);
+      chart.data(dataView.rows);
+    } else {
+      chart.data(data);
+    }
 
     // 设置单个Y轴
     if (!config.facet) {
@@ -242,7 +259,7 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, percentStack, marginRatio, dodgeStack, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
@@ -250,7 +267,15 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
     dodgePadding: dodgePadding || null,
   };
   let geom = chart.interval(geomConfig).position(['x', 'y']);
-  if (dodgeStack) {
+  if (percentStack) {
+    geom = geom.position(['x', 'percent']);
+    geom = geom.color(field, colors).adjust([
+      {
+        type: 'stack',
+        reverseOrder: !stackReverse, // 层叠顺序倒序
+      },
+    ]);
+  } else if (dodgeStack) {
     geom = geom.color(field, colors).adjust([
       {
         type: 'dodge',
@@ -285,4 +310,20 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
 
   label(geom, config);
+}
+
+function computerData(config: WbarConfig, data: any) {
+  const ds = new DataSet();
+  const dv = ds
+    .createView()
+    .source(data);
+  dv.transform({
+      type: 'percent',
+      field: 'y',
+      dimension: 'type',
+      groupBy: ['x'],
+      as: 'percent',
+    });
+
+  return dv;
 }
