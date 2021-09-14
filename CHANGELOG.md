@@ -1,3 +1,21 @@
+### 1.0.10 (2021-09-14)
+
+#### New Features
+
+- Wbar 增加分组百分比堆叠柱图
+
+### 1.0.9(2021-08-19)
+
+#### New Features
+
+- Wbar 增加百分比堆叠柱图
+- Wline 增加自定义shape
+- Wbar & Wlinebar 增加 columnWidthRatio 和 dodgePadding 等配置
+
+#### Bug Fixes
+
+- guide line 不设置 text 属性会报错的问题
+
 ### 1.0.8 (2021-07-30)
 
 #### New Features
