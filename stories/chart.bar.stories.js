@@ -206,6 +206,11 @@ let data3 = [
         "data":[]
     },
     {
+        "name":"柱5",
+        "dodge": '分组1',
+        "data":[]
+    },
+    {
         "name":"柱2",
         "dodge": '分组2',
         "data":[]
@@ -227,6 +232,7 @@ for (let i = 0; i < 10; i++) {
     data3[1].data.push([name, Math.random() * 100 + 100]);
     data3[2].data.push([name, Math.random() * 100 + 100]);
     data3[3].data.push([name, Math.random() * 100 + 100]);
+    data3[4].data.push([name, Math.random() * 100 + 100]);
 }
 let options2 = {
     dodgeStack: true
@@ -279,9 +285,39 @@ stories.add('百分比堆叠柱状图', () => (
     <Wbar
       height="300"
       config={{
-        percentStack: true,
+        percentage: true,
       }}
       data={data}
     />
   </Wcontainer>
 ));
+
+stories.add('分组百分比堆叠柱状图', () => {
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          percentStack: true,
+          dodgeStack: true,
+          yAxis: {
+            max: 1,
+            min: 0,
+            labelFormatter: function(value) {
+              return (value * 100).toFixed(2) + '%';
+            },
+          },
+          tooltip: {
+            nameFormatter: function(v, data) {
+              return data.dodge + '-' + v;
+            },
+            valueFormatter: function(v) {
+              return (v * 100).toFixed(2) + '%';
+            },
+          }
+        }}
+        data={data3}
+      />
+    </Wcontainer>
+  );
+});

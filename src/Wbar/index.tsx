@@ -46,7 +46,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   /** 组内间距 */
   dodgePadding?: number;
   /** 百分比堆叠柱状图 */
-  percentStack: boolean;
+  percentage: boolean;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -80,7 +80,7 @@ export class Bar extends Base<WbarConfig> {
       dodgeStack: false,
       stack: false,
       stackReverse: true,
-      percentStack: false,
+      percentage: false,
       marginRatio: 0,
       grid: false,
       zoom: false,
@@ -109,18 +109,17 @@ export class Bar extends Base<WbarConfig> {
       facet: {
         sync: true,
       },
-      percent: {
-        min: 0,
-        formatter(val) {
-          return (val * 100).toFixed(2) + '%';
-        },
-      }
+      percent: propertyAssign(propertyMap.axis, {
+        nice: true,
+        type: 'linear',
+        tickCount: 5,
+      }, config.yAxis),
     };
 
     chart.scale(defs);
 
-    if (config.percentStack) {
-      const dataView = computerData(data);
+    if (config.percentage) {
+      const dataView = computerData(config, data);
       this.barDataView = dataView;
       chart.data(dataView.rows);
     } else {
@@ -129,7 +128,11 @@ export class Bar extends Base<WbarConfig> {
 
     // 设置单个Y轴
     if (!config.facet) {
-      rectYAxis(this, chart, config);
+      if (config.percentage) {
+        rectYAxis(this, chart, config, 'percent');
+      } else {
+        rectYAxis(this, chart, config);
+      }
     }
 
     // 设置X轴
@@ -253,7 +256,7 @@ export class Bar extends Base<WbarConfig> {
     rectScrollbar(chart, config);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
-    if (config.percentStack && this.barDataView) {
+    if (config.percentage && this.barDataView) {
       this.barDataView.source(data);
       chart.changeData(this.barDataView.rows);
     } else {
@@ -269,7 +272,7 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, percentStack, marginRatio, dodgeStack, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
@@ -277,15 +280,10 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
     dodgePadding: dodgePadding || null,
   };
   let geom = chart.interval(geomConfig).position(['x', 'y']);
-  if (percentStack) {
+  if (percentage) {
     geom = geom.position(['x', 'percent']);
-    geom = geom.color(field, colors).adjust([
-      {
-        type: 'stack',
-        reverseOrder: !stackReverse, // 层叠顺序倒序
-      },
-    ]);
-  } else if (dodgeStack) {
+  }
+  if (dodgeStack) {
     geom = geom.color(field, colors).adjust([
       {
         type: 'dodge',
@@ -322,16 +320,27 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
   label(geom, config);
 }
 
-function computerData(data: any) {
+function computerData(config: WbarConfig,data: any) {
+  const { dodgeStack } = config;
   const dv = new DataView()
     .source(data);
-  dv.transform({
+  if (dodgeStack) {
+    dv.transform({
+      type: 'percent',
+      field: 'y',
+      dimension: 'type',
+      groupBy: ['x', 'dodge'],
+      as: 'percent',
+    });
+  } else {
+    dv.transform({
       type: 'percent',
       field: 'y',
       dimension: 'type',
       groupBy: ['x'],
       as: 'percent',
     });
-
+  }
+      
   return dv;
 }
