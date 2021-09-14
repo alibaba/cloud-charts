@@ -203,25 +203,37 @@ stories.add('动态数据', () => (
   <NewData />
 ));
 
-stories.add('带辅助标记', () => (
+stories.add('修改shape', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{
-      guide: {
-        line: {
-          top: true,
-          text: '80%',
-          status: 'error',
-          axis: 'y',
-          value: 5000,
-        },
-        filter: {
-          status: 'error', // normal | success | warning | error
-          // 区域位置
-          axis: 'x',
-          value: [1483718400000, 'max'],
-        },
-      },
-    }} data={[]} />
+      // guide: {
+      //   line: {
+      //     top: true,
+      //     text: '80%',
+      //     status: 'error',
+      //     axis: 'x',
+      //     value: 1483718400000,
+      //   },
+      //   filter: {
+      //     status: 'error', // normal | success | warning | error
+      //     // 区域位置
+      //     axis: 'x',
+      //     value: [1483718400000, 'max'],
+      //   },
+      // },
+      area: true,
+      // 还要考虑选中状态样式
+      symbol: {
+        // shape支持函数？
+        shape: 'triangle-down', // 内置图形, 'circle', 'diamond', 'square', 'triangle', 'triangle-down', 'hexagon'
+        size: 5, // 大小
+        geomStyle: { // 样式
+          // stroke: 'red',
+          fill: 'red',
+          lineWidth: 1
+        }
+      }
+    }} data={data} />
   </Wcontainer>
 ));
 
