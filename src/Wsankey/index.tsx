@@ -36,6 +36,7 @@ export class Sankey extends Base<WsankeyConfig> {
   getDefaultConfig(): WsankeyConfig {
     return {
       // padding: ['auto', 40, 'auto', 'auto'],
+      colors: themes.category_12,
       legend: {
         align: 'center',
         position: 'bottom',

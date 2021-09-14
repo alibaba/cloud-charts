@@ -1,5 +1,5 @@
 'use strict';
-// 依赖更新部分
+
 import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from "../common/Base";
 import errorWrap from '../common/errorWrap';
@@ -8,15 +8,13 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-
-// 2.x版本依赖
 import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
-
-import './index.scss';
 import polarLegendLayout from '../common/polarLegendLayout';
 import autoTimeMask from '../common/autoTimeMask';
+import themes from '../themes';
+import './index.scss';
 
 // 3.x代码
 export interface WradarConfig extends BaseChartConfig, DrawLineConfig {
@@ -33,7 +31,8 @@ export class Radar extends Base<WradarConfig> {
 
   getDefaultConfig(): WradarConfig {
     return {
-      // colors: themes.category_12,
+      colors: themes.category_12,
+      areaColors: [],
       xAxis: {
         labelFormatter: null,
       },

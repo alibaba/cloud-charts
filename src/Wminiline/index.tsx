@@ -11,6 +11,8 @@ export class Miniline extends Line {
     const lineWidth = themes['widgets-line-width'];
     return {
       padding: [lineWidth, lineWidth, lineWidth, lineWidth],
+      colors: themes.category_12,
+      areaColors: [],
       xAxis: {
         visible: false,
         type: 'time', // 默认为线性
