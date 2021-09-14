@@ -250,6 +250,14 @@ export class Bar extends Base<WbarConfig> {
 
     rectScrollbar(chart, config);
   }
+  changeData(chart: Chart, config: WbarConfig, data: any) {
+    if (config.percentStack) {
+      const dataView = computerData(config, data);
+      chart.changeData(dataView.rows);
+    } else {
+      chart.changeData(data);
+    }
+  }
 }
 
 const Wbar: typeof Bar = errorWrap(Bar);
