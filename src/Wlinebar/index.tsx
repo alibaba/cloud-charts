@@ -478,13 +478,25 @@ interface BarConfig {
   lineLabel?: LabelConfig | boolean,
   barGeomStyle?: GeomStyleConfig;
   barSize?: GeomSizeConfig;
+  barMinSize?: number;
+  barMaxSize?: number;
+  /** 默认宽度占比，interval类型和schema类型通用 */
+  columnWidthRatio?: number;
+  /** 组内间距 */
+  dodgePadding?: number;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, barSize } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, barSize, barMinSize, barMaxSize, columnWidthRatio, dodgePadding } = config;
+  const geomConfig = {
+    minColumnWidth: barMinSize || null,
+    maxColumnWidth: barMaxSize || null,
+    columnWidthRatio: columnWidthRatio || null,
+    dodgePadding: dodgePadding || null,
+  };
 
   let intervalGeom = null;
   if (dodgeStack) {
-    intervalGeom = chart.interval()
+    intervalGeom = chart.interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
       .adjust([
@@ -499,7 +511,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
         },
       ]);
   } else if (stack) {
-    intervalGeom = chart.interval()
+    intervalGeom = chart.interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
       .adjust([{
@@ -507,7 +519,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
         reverseOrder: !stackReverse, // 层叠顺序倒序
       }]);
   } else {
-    intervalGeom = chart.interval()
+    intervalGeom = chart.interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
       .adjust([{
