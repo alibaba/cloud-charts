@@ -225,8 +225,8 @@ stories.add('修改shape', () => (
       // 还要考虑选中状态样式
       symbol: {
         // shape支持函数？
-        shape: 'triangle-down', // 内置图形, 'circle', 'diamond', 'square', 'triangle', 'triangle-down', 'hexagon'
-        size: 5, // 大小
+        shape: 'square', // 内置图形, 'circle', 'diamond', 'square', 'triangle', 'triangle-down'
+        size: 6, // 大小
         geomStyle: { // 样式
           // stroke: 'red',
           fill: 'red',

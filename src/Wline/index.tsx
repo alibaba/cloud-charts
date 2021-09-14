@@ -139,8 +139,32 @@ export class Line extends Base<WlineConfig> {
 
     legendFilter(this, chart);
 
+    // tooltip的标记点配置
+    let markerOptions = {
+      marker: {
+        symbol: 'circle',
+      }
+    };
+
+    if (config.symbol && typeof config.symbol === 'object') {
+      // 样式合并
+      markerOptions.marker = Object.assign(markerOptions.marker, config.symbol.geomStyle);
+      // 图形
+      if (config.symbol.shape) {
+        markerOptions.marker.symbol = config.symbol.shape;
+      }
+      // 大小
+      if (typeof config.symbol.size === 'number') {
+        markerOptions.marker = Object.assign(markerOptions.marker, {
+          r: config.symbol.size + 4,
+          width: config.symbol.size + 4,
+          height: config.symbol.size + 4,
+        });
+      }
+    }
+
     // tooltip
-    rectTooltip(this, chart, config);
+    rectTooltip(this, chart, config, markerOptions);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
