@@ -46,7 +46,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   /** 组内间距 */
   dodgePadding?: number;
   /** 百分比堆叠柱状图 */
-  percentage: boolean;
+  percentage?: boolean;
 }
 
 export class Bar extends Base<WbarConfig> {
