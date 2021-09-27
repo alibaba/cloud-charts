@@ -2,6 +2,10 @@ import { VERSION } from './constants';
 import themes, { Themes } from './themes/index';
 import './cdn.scss';
 
+// 导出 G2 核心包
+import * as G2Core from '@antv/g2/esm/core';
+export { G2Core };
+
 export const version = VERSION;
 export { VERSION } ;
 
@@ -19,7 +23,7 @@ export { plugins, pluginManager } from './plugins';
 // 暴露工具类
 export { default as Util } from './Util';
 
-export { default as Wline, Line as RawWline } from './Wline';
+export { default as Wline, Line as RawLine } from './Wline';
 export { default as Wlinebar, Linebar as RawLinebar } from './Wlinebar';
 export { default as Wpie, Pie as RawPie } from './Wpie';
 export { default as Wradar, Radar as RawRadar } from './Wradar';
@@ -37,7 +41,7 @@ export { default as Wscatter, Scatter as RawScatter } from './Wscatter';
 export { default as Whistogram, Histogram as RawHistogram } from './Whistogram';
 export { default as Wtreemap, Treemap as RawTreemap } from './Wtreemap';
 export { default as Wcandlestick, Candlestick as RawCandlestick } from './Wcandlestick';
-export { default as Whierarchy } from './Whierarchy';
+export { default as Whierarchy, Hierarchy as RawHierarchy } from './Whierarchy';
 
 // 业务组件，没有依赖其它图表库
 export { default as Wnumber } from './Wnumber/index';
