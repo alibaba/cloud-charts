@@ -1,3 +1,10 @@
+### 1.0.12 (2021-10-14)
+
+#### New Features
+
+- Wmap label 属性支持 style 配置样式
+- Wline area 允许独立配置样式
+
 ### 1.0.11 (2021-09-14)
 
 #### New Features
