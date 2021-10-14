@@ -840,7 +840,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
   });
 
   // @ts-ignore label 需要函数处理，无法放到 label 工具函数中
-  const { offset = 0, textStyle = {}, labelFormatter } =
+  const { offset = 0, style, textStyle = {}, labelFormatter } =
     typeof labelConfig === 'object' ? labelConfig : {};
 
   const labelMapView = chart.createView({
@@ -851,11 +851,15 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
     .point()
     .position('x*y')
     .size(0)
+    // 由于需要根据 name 判断小尺寸 label 的字号，这里暂时不能用标准 label 函数处理
     .label('name', function (name) {
       let fontSize = themes['widgets-font-size-1'].replace('px', '');
       // 对一些尺寸非常小的形状特殊处理，以显示出来。
       if (minLabel.indexOf(name) > -1) {
         fontSize = String(Number(fontSize) * 2 / 3);
+      }
+      if (textStyle) {
+        warn('Wmap.config.label', 'textStyle 属性已废弃，请使用 style 属性');
       }
       const labelStyle = {
         fill: themes['widgets-map-label'],
@@ -863,6 +867,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
         fontSize: fontSize,
         textBaseline: 'middle',
         ...textStyle,
+        ...style,
       }
       const result: Types.GeometryLabelCfg = {
         offset,
