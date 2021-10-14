@@ -13,7 +13,9 @@ export interface DrawLineConfig {
   /** 面积颜色 */
   areaColors?: Colors;
   /** 是否为面积图 */
-  area?: boolean;
+  area?: boolean | {
+    geomStyle?: GeomStyleConfig;
+  };
   /** 是否为堆叠图，仅在 area: true 时生效 */
   stack?: boolean;
   /** 是否线条平滑 */
@@ -59,13 +61,14 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
   }
 
   let lineGeom = null;
+  let areaGeom = null;
 
   const geomConfig = {
     sortable: config.sortable,
   };
 
   if (config.area && config.stack) {
-    chart.area(geomConfig)
+    areaGeom = chart.area(geomConfig)
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
@@ -77,7 +80,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .shape(lineShape)
       .adjust('stack');
   } else if (config.area && !config.stack) {
-    chart.area(geomConfig)
+    areaGeom = chart.area(geomConfig)
       .position(['x', yAxisKey])
       .color('type', areaColors)
       .tooltip(false)
@@ -91,6 +94,12 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
+  }
+
+  if (areaGeom && typeof config.area === 'object') {
+    if (config.area.geomStyle) {
+      geomStyle(areaGeom, config.area.geomStyle, {}, `x*${yAxisKey}*type*extra`);
+    }
   }
 
   geomStyle(lineGeom, config.geomStyle, {
