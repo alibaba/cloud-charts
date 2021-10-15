@@ -2,32 +2,33 @@
 
 #### New Features
 
-- Wmap label 属性支持 style 配置样式
+- Wmap label 属性支持 style 配置样式。
+- Wline area 允许独立配置样式。
 
 ### 3.0.11 (2021-09-27)
 
 #### Bug Fixes
 
-- Wbar 分组百分比堆叠柱图调整为选填项
-- CDN 字体路径更新
+- Wbar 分组百分比堆叠柱图调整为选填项。
+- CDN 字体路径更新。
 
 ### 3.0.10 (2021-08-24)
 
 #### New Features
 
-- Wbar 增加分组百分比堆叠柱图
+- Wbar 增加分组百分比堆叠柱图。
 
 ### 3.0.9 (2021-08-19)
 
 #### New Features
 
-- Wbar 增加百分比堆叠柱图
+- Wbar 增加百分比堆叠柱图。
 
 ### 3.0.8 (2021-07-05)
 
 #### New Features
 
-- 图例更新到无数据时，valueFormatter 第一项返回空字符串
+- 图例更新到无数据时，valueFormatter 第一项返回空字符串。
 
 #### Bug Fixes
 
