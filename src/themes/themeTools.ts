@@ -650,12 +650,14 @@ export function setG2Theme(theme: Theme) {
 
   // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
+
   Object.assign(tooltipStyle['g2-tooltip'], {
-    padding: `0 ${baseFontSize} 0 ${baseFontSize}`,
+    padding: `0 ${theme['widgets-tooltip-padding']} ${Math.max(0, pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum)}px ${theme['widgets-tooltip-padding']}`,
   });
   Object.assign(tooltipStyle['g2-tooltip-title'], {
     marginBottom: baseFontSize,
-    marginTop: baseFontSize,
+    marginTop: theme['widgets-tooltip-padding'],
+    color: theme['widgets-tooltip-title'],
   });
   Object.assign(tooltipStyle['g2-tooltip-list-item'], {
     marginBottom: baseFontSize,
