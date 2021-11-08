@@ -679,7 +679,7 @@ export function setG2Theme(theme: Theme) {
     opacity: 0,
   };
 
-  // slider 样式
+  // scrollbar 样式
   const scrollbarStyle = g2Theme.components.scrollbar;
   // scrollbarStyle.common.categorySize = baseFontSizeNum * 10;
   Object.assign(scrollbarStyle, {
