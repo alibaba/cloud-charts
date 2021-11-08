@@ -1,43 +1,51 @@
+### 1.0.13 (2021-11-08)
+
+#### Bug Fixes
+
+- 修复 tooltip padding 不生效的问题。
+- 修复 柱形状 active region 交互样式无法跟随主题的问题
+- 注释修复
+
 ### 1.0.12 (2021-10-14)
 
 #### New Features
 
-- Wmap label 属性支持 style 配置样式
-- Wline area 允许独立配置样式
+- Wmap label 属性支持 style 配置样式。
+- Wline area 允许独立配置样式。
 
 ### 1.0.11 (2021-09-14)
 
 #### New Features
 
-- CDN 字体版本入口文件同步更新
+- CDN 字体版本入口文件同步更新。
 
 #### Bug Fixes
 
-- 柱图的percentage百分比配置项调整为选填项
+- 柱图的percentage百分比配置项调整为选填项。
 
 ### 1.0.10 (2021-09-14)
 
 #### New Features
 
-- Wbar 增加分组百分比堆叠柱图
+- Wbar 增加分组百分比堆叠柱图。
 
 ### 1.0.9(2021-08-19)
 
 #### New Features
 
-- Wbar 增加百分比堆叠柱图
-- Wline 增加自定义shape
-- Wbar & Wlinebar 增加 columnWidthRatio 和 dodgePadding 等配置
+- Wbar 增加百分比堆叠柱图。
+- Wline 增加自定义shape。
+- Wbar & Wlinebar 增加 columnWidthRatio 和 dodgePadding 等配置。
 
 #### Bug Fixes
 
-- guide line 不设置 text 属性会报错的问题
+- guide line 不设置 text 属性会报错的问题。
 
 ### 1.0.8 (2021-07-30)
 
 #### New Features
 
-- 图例更新到无数据时，valueFormatter 第一项返回空字符串
+- 图例更新到无数据时，valueFormatter 第一项返回空字符串。
 
 #### Bug Fixes
 
