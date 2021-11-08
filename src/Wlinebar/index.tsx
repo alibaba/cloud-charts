@@ -18,8 +18,9 @@ import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import './index.scss';
+import { activeRegionWithTheme } from '../common/interaction';
 import { warn } from '../common/log';
+import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false,
@@ -360,7 +361,7 @@ export class Linebar extends Base<WlinebarConfig> {
     this.barView = barView;
 
     // Tooltip 背景区域
-    barView.interaction('active-region');
+    activeRegionWithTheme(barView);
 
     const lineView = chart.createView({
       padding: config.padding === 'auto' ? 'auto' : 0,

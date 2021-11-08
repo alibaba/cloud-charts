@@ -14,6 +14,7 @@ import guide, { GuideConfig } from '../common/guide';
 // import { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
 
 interface WboxConfig extends BaseChartConfig {
@@ -104,7 +105,7 @@ export class Box extends Base<WboxConfig> {
       showCrosshairs: false,
       showMarkers: false,
     });
-    chart.interaction('active-region');
+    activeRegionWithTheme(chart);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

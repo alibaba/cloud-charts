@@ -13,6 +13,7 @@ import { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from "../common/errorWrap";
+import { activeRegionWithTheme } from '../common/interaction';
 
 function computeDataType(data: any) {
   if (Array.isArray(data)) {
@@ -157,7 +158,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
           </div>`
       }
     );
-    chart.interaction('active-region');
+    activeRegionWithTheme(chart);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);

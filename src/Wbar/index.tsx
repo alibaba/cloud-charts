@@ -18,6 +18,7 @@ import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import rectZoom, { ZoomConfig } from "../common/rectZoom";
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
+import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
 
 interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
@@ -239,14 +240,14 @@ export class Bar extends Base<WbarConfig> {
           rectYAxis(self, view, config, 'y', yAxisCustomConfig);
 
           // Tooltip 背景区域
-          view.interaction('active-region');
+          activeRegionWithTheme(view);
 
           drawBar(view, config, config.colors);
         },
       });
     } else {
       // Tooltip 背景区域
-      chart.interaction('active-region');
+      activeRegionWithTheme(chart);
 
       drawBar(chart, config, config.colors);
     }

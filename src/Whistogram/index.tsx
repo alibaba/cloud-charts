@@ -17,6 +17,7 @@ import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
 import legendFilter from '../common/legendFilter';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import { activeRegionWithTheme } from '../common/interaction';
 
 // 3.x代码
 export interface WhistogramConfig extends BaseChartConfig {
@@ -143,7 +144,7 @@ export class Histogram extends Base<WhistogramConfig> {
       chartCoord.transpose();
     }
 
-    chart.interaction('active-region');
+    activeRegionWithTheme(chart);
 
     drawHist(chart, config);
   }
