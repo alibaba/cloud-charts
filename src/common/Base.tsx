@@ -286,11 +286,17 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
           ? highchartsDataToG2Data(newData, mergeConfig)
           : newData;
       this.rawData = newData;
+
+      this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
+
       this.changeData(
         this.chart,
         mergeConfig,
         data
       );
+
+      this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', mergeConfig, data);
+
       // if (this.chartProcess.changeData) {
       //   this.chart &&
       //     this.chartProcess.changeData.call(
