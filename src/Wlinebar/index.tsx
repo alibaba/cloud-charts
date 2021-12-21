@@ -23,12 +23,12 @@ import { warn } from '../common/log';
 import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
-  guide?: GuideConfig,
-  grid?: boolean,
+  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
+  guide?: GuideConfig;
+  grid?: boolean;
 }
 
 function getLegendItems(
@@ -476,7 +476,7 @@ interface BarConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   dodgeStack?: boolean;
-  barLabel?: LabelConfig | boolean,
+  barLabel?: LabelConfig | boolean;
   barGeomStyle?: GeomStyleConfig;
   barSize?: GeomSizeConfig;
   barMinSize?: number;
@@ -542,15 +542,15 @@ interface LineConfig {
   // colors?: string[];
   // areaColors?: string[];
   lineColors?: Colors;
-  area?: boolean,
-  stack?: boolean, // 仅Area有效
-  spline?: boolean,
-  step?: string | boolean,
+  area?: boolean;
+  stack?: boolean; // 仅Area有效
+  spline?: boolean;
+  step?: string | boolean;
   symbol?: {
     size?: GeomSizeConfig;
     geomStyle?: GeomStyleConfig;
-  } | boolean,
-  lineLabel?: LabelConfig | boolean,
+  } | boolean;
+  lineLabel?: LabelConfig | boolean;
   lineWidth?: number;
   lineGeomStyle?: GeomStyleConfig;
 }
