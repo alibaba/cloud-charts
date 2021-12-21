@@ -10,7 +10,7 @@ export interface YAxisConfig extends customFormatterConfig {
   rotate?: number;
   autoHide?: boolean;
   autoEllipsis?: boolean;
-  labelFormatter?(): string;
+  labelFormatter?: Types.AxisCfg['label']['formatter'];
   customConfig?: Types.AxisCfg;
 }
 

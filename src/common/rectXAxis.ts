@@ -11,7 +11,7 @@ export interface XAxisConfig extends customFormatterConfig {
   rotate?: number;
   autoHide?: boolean;
   autoEllipsis?: boolean;
-  labelFormatter?(): string;
+  labelFormatter?: Types.AxisCfg['label']['formatter'];
   tickLine?: boolean | G2Dependents.AxisTickLineCfg;
   customConfig?: Types.AxisCfg;
   // 数据项中使用
