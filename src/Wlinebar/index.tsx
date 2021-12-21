@@ -476,7 +476,7 @@ interface BarConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   dodgeStack?: boolean;
-  lineLabel?: LabelConfig | boolean,
+  barLabel?: LabelConfig | boolean,
   barGeomStyle?: GeomStyleConfig;
   barSize?: GeomSizeConfig;
   barMinSize?: number;
