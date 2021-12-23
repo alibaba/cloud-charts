@@ -6,7 +6,7 @@ import errorWrap from '../common/errorWrap';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
-import { LabelConfig } from '../common/label';
+import label, { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import { pxToNumber, numberDecimal } from '../common/common';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
@@ -155,18 +155,14 @@ export class Funnel extends Base<WfunnelConfig> {
 
     // TODO 自定义label
     if(config.label) {
-      let temp = {};
-      temp = config.label || {};
-      geom.label('y',
-      {
-        offset: pxToNumber(themes['widgets-font-size-1']),
+      label(geom, config, 'y', {}, null, true, {
+        position: 'middle',
         labelLine: {
           style: {
             lineWidth: 1,
             stroke: themes['widgets-axis-line'],
           },
         },
-        ...temp,
       });
     }
 
