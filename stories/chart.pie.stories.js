@@ -20,6 +20,20 @@ const data = [
   },
 ];
 
+const data_0 = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 0],
+      ['IE', 0],
+      ['Chrome', 0],
+      ['Safari', 0],
+      ['Opera', 0],
+      ['Others', 0],
+    ],
+  },
+];
+
 const temp = [
   {
     name: '浏览器占比',
@@ -88,7 +102,7 @@ stories.add('饼图', () => (
             return v + v;
           },
           valueFormatter(v) {
-            return `${v} %`;
+            return `${v}%`;
           },
         },
         tooltip: {
@@ -102,6 +116,24 @@ stories.add('饼图', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('饼图-为0测试', () => (
+  <Wcontainer className="demos">
+    <Wpie
+      width={300}
+      height="300"
+      config={{
+        legend: {
+          valueFormatter(v, d) {
+            return d.percent;
+          },
+        },
+      }}
+      data={data_0}
+    />
+  </Wcontainer>
+));
+
 stories.add('标签饼图', () => (
   <Wcontainer className="demos">
     <Wpie
