@@ -79,10 +79,12 @@ export default function geomStyle(
       geom.style({
         fields: parseFields(defaultFields),
         callback(...args) {
+          // fixed: 对象 s 保持同一个引用，不同的 style callback 函数运行时互相覆盖的问题
+          const res = { ...s };
           funcList.forEach(({ key, value }) => {
-            s[key] = value(...args);
+            res[key] = value(...args);
           });
-          return s;
+          return res;
         },
       });
     } else {

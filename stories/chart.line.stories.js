@@ -447,3 +447,27 @@ stories.add('区域面积图', () => (
     }} data={rangeAreaData} />
   </Wcontainer>
 ));
+
+stories.add('带虚线图', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" config={{
+      geomStyle: {
+        lineDash(x, y, type) {
+          console.log('dash', x, y, type);
+          if (type === '机房B') {
+            return [4, 4];
+          }
+          return null;
+        }
+      },
+      // geomStyle(x, y, type) {
+      //   if (type === '机房B') {
+      //     return {
+      //       lineDash: [4,4],
+      //     }
+      //   }
+      //   return {};
+      // }
+    }} data={data} />
+  </Wcontainer>
+));
