@@ -1,3 +1,15 @@
+### 1.0.14 (2021-12-13)
+
+#### New Features
+
+- 增加 beforeWidgetsInit & afterWidgetsInit 特殊事件
+- 增加 beforeWidgetsChangeData & afterWidgetsChangeData 特殊事件
+- chore: 补充 node-sass 依赖 && 适配底层 sass-loader 更新后的编译配置
+
+#### Bug Fixes
+
+- geomStyle 某些情况下样式互相影响的问题
+
 ### 1.0.13 (2021-11-08)
 
 #### Bug Fixes
