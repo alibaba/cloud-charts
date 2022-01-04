@@ -425,9 +425,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       chart.animate(config.animate);
     }
 
-    // 开始渲染
-    chart.render();
-
     // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
     if (chart && event) {
       Object.keys(event).forEach(eventKey => {
@@ -447,6 +444,9 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     if (typeof currentProps.getChartInstance === 'function') {
       currentProps.getChartInstance(chart);
     }
+
+    // 开始渲染
+    chart.render();
 
     this.handleAfterRender(config);
   }
