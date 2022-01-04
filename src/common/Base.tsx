@@ -61,7 +61,7 @@ export interface ChartProps<ChartConfig> {
   config?: ChartConfig;
   data?: ChartData;
   event?: {
-    [eventKey: string]: () => void;
+    [eventKey: string]: Function;
   };
   interaction?: {
     [actionName: string]: Types.LooseObject
@@ -401,6 +401,8 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       ...otherProps,
     });
 
+    this.chart = chart;
+
     // 预处理数据
     const data =
       this.convertData &&
@@ -417,8 +419,12 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       }
     }
 
+    this.emitWidgetsEvent(event, 'beforeWidgetsInit', config, data);
+
     // 绘制逻辑
     chart && this.init(chart, config, data);
+
+    this.emitWidgetsEvent(event, 'afterWidgetsInit', config, data);
 
     // 全局动画设置
     if (typeof config.animate === 'boolean') {
@@ -439,8 +445,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       });
     }
 
-    this.chart = chart;
-
     if (typeof currentProps.getChartInstance === 'function') {
       currentProps.getChartInstance(chart);
     }
@@ -449,6 +453,12 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     chart.render();
 
     this.handleAfterRender(config);
+  }
+
+  private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
+    if (this.chart && event && event[name]) {
+      event[name].apply(this.chart, args);
+    }
   }
 
   public size: number[] = [0, 0];
