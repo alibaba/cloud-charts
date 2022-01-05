@@ -118,7 +118,7 @@ export default class Wcontainer extends React.Component<WcontainerProps, Wcontai
               );
             }
             // @ts-ignore
-            if (child.type.displayName === 'Wminiline') {
+            if (child.type.isG2Chart) {
               return (
                 <div className={`${prefix}-col ${prefix}-col-fixed-4`} key={i}>
                   {child}
