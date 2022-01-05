@@ -1,3 +1,36 @@
+### 3.0.15 (2022-01-04)
+
+#### New Features
+
+- 饼图支持空数据时展示灰色块
+- Wbar 增加 dodge 配置项，控制分类模式。优化 geom 绘制逻辑
+
+#### Bug Fixes
+
+- 饼图总数为0显示NAN的问题
+- 漏斗图labelformater失效的问题
+- 分面柱状图 yAxis.labelFormatter 失效的问题
+- 轴配置类型不严谨
+
+### 3.0.14 (2021-12-13)
+
+#### New Features
+
+- 增加 beforeWidgetsInit & afterWidgetsInit 特殊事件
+- 增加 beforeWidgetsChangeData & afterWidgetsChangeData 特殊事件
+- chore: 补充 node-sass 依赖 && 适配底层 sass-loader 更新后的编译配置
+
+#### Bug Fixes
+
+- geomStyle 某些情况下样式互相影响的问题
+
+### 3.0.13 (2021-11-4)
+
+#### Bug Fixes
+
+- 修复 tooltip padding 不生效的问题
+- 柱形状 active region 交互样式无法跟随主题的问题
+
 ### 3.0.12 (2021-10-14)
 
 #### New Features
