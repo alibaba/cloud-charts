@@ -239,7 +239,8 @@ export class Pie extends Base<WpieConfig> {
           value = r.y
         }
       });
-      const percent = numberDecimal(value / this.totalData, 4);
+
+      const percent = this.totalData === 0 ? 0 : numberDecimal(value / this.totalData, 4);
 
       return {
         ...raw,
