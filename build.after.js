@@ -167,8 +167,8 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
         // },
         // 由于 build-plugin-component -> build-scripts-config -> sass-loader 版本是 8.x，所以使用 prependData。
         // 如果更新了依赖版本，可以用 additionalData
-        // prependData: (loaderContext) => {
-        additionalData: (content, loaderContext) => {
+        prependData: (loaderContext) => {
+        // additionalData: (content, loaderContext) => {
           // More information about available properties https://webpack.js.org/api/loaders/
           const { resourcePath, rootContext } = loaderContext;
           // const relativePath = path.relative(rootContext, resourcePath);
