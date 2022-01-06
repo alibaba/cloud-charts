@@ -215,7 +215,7 @@ export class Bar extends Base<WbarConfig> {
           },
         },
         eachView: function (view: any, facet: any) {
-          let yAxisCustomConfig = null;
+          let yAxisCustomConfig: Types.AxisCfg = null;
 
           // 为 labelFormatter 的第二个参数添加分面信息
           if (config.yAxis && config.yAxis.visible !== false) {
@@ -223,14 +223,15 @@ export class Bar extends Base<WbarConfig> {
             if (labelFormatter) {
               yAxisCustomConfig = {
                 label: {
-                  formatter: (...args: any[]) => {
-                    args[1] = Object.assign(
-                        {
-                          facet: facet.colValue || facet.rowValue,
-                        },
-                        args[1]
+                  formatter: (text, item, index) => {
+                    return labelFormatter(
+                      text,
+                      {
+                        facet: facet.colValue || facet.rowValue,
+                        ...item,
+                      },
+                      index
                     );
-                    return labelFormatter();
                   },
                 },
               };
