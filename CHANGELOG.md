@@ -1,3 +1,17 @@
+### 1.0.15 (2022-01-06)
+
+#### New Features
+
+- 饼图支持空数据时展示灰色块
+- Wbar 增加 dodge 配置项，控制分类模式。优化 geom 绘制逻辑
+
+#### Bug Fixes
+
+- 饼图总数为0显示NAN的问题
+- 漏斗图labelformater失效的问题
+- 分面柱状图 yAxis.labelFormatter 失效的问题
+- 轴配置类型不严谨
+
 ### 1.0.14 (2021-12-13)
 
 #### New Features
