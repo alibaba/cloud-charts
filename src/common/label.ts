@@ -13,6 +13,7 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
   field?: string;
   /** @deprecated key 属性已废弃，请使用 field 属性 */
   key?: string;
+  offset?: number;
 }
 
 /**

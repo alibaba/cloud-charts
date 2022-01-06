@@ -153,15 +153,22 @@ export class Funnel extends Base<WfunnelConfig> {
 
     geomStyle(geom, config.geomStyle);
 
-    // TODO 自定义label
-    if(config.label) {
+    if (config.label) {
       label(geom, config, 'y', {}, null, true, {
-        position: 'middle',
         labelLine: {
           style: {
             lineWidth: 1,
             stroke: themes['widgets-axis-line'],
           },
+        },
+        content: (v, item, index) => {
+          if (typeof config.label === 'boolean') {
+            return v['y'];
+          }
+          if (config.label.labelFormatter) {
+            return config.label.labelFormatter(v['y'], item, index);
+          }
+          return v['y'];
         },
       });
     }
@@ -191,7 +198,7 @@ function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, perce
     top = true,
     style = {}
   } = configPercent;
-  const positionY = config.align === 'center' ? 'median' : 'start';
+  const positionY = config.align === 'center' ? 'center' : 'start';
 
   data.forEach((d: { y: any; x: any; }, i: any) => {
     let content = `${numberDecimal(100 * d.y / data[0].y)}%`;
