@@ -127,6 +127,8 @@ export class Pie extends Base<WpieConfig> {
 
   protected geom: Geometry = null;
 
+  protected noDataShape: G2Dependents.IShape = null;
+
   isChangeEqual(objValue: any, othValue: any, key: string) {
     if (key === 'selectData' && objValue !== othValue) {
       selectGeom(this.geom, objValue);
@@ -343,6 +345,70 @@ export class Pie extends Base<WpieConfig> {
       selectGeom(this.geom, config.selectData);
 
       updateChildrenPosition(chart, this.chartDom);
+    });
+
+    // 空数据渲染效果
+    chart.on('beforepaint', () => {
+      if (this.totalData !== 0 && this.noDataShape) {
+        this.noDataShape.remove(true);
+        this.noDataShape = null;
+      }
+    });
+    chart.on('afterpaint', () => {
+      if (this.totalData === 0 && !this.noDataShape) {
+        const bgGroup = chart.getLayer('bg' as any);
+        const coordinate = chart.getCoordinate();
+        const { radius, innerRadius } = coordinate;
+        const { x: centerX, y: centerY } = coordinate.getCenter();
+        const pieSize = Math.min(chart.coordinateBBox.width, chart.coordinateBBox.height) * radius;
+        const outerR = pieSize / 2;
+
+        const path = [
+          ['M', centerX, centerY - outerR],
+          ['A', outerR, outerR, 0, 1, 1, centerX, centerY + outerR],
+          ['A', outerR, outerR, 0, 1, 1, centerX, centerY - outerR],
+          // ['Z'],
+        ];
+        if (innerRadius > 0) {
+          const innerR = pieSize * innerRadius / 2;
+          path.push(
+            ['M', centerX, centerY - innerR],
+            ['A', innerR, innerR, 0, 0, 0, centerX, centerY + innerR],
+            ['A', innerR, innerR, 0, 0, 0, centerX, centerY - innerR],
+            // ['Z'],
+          );
+        }
+        this.noDataShape = bgGroup.addShape({
+          id: 'no-data-path',
+          name: 'no-data-path',
+          type: 'path',
+          attrs: {
+            path,
+            fill: themes['widgets-circle-stroke-background'],
+          },
+        });
+
+        // shape.set('tip', 'sdfhsjkdhk');
+        //
+        // registerInteraction('no-data-text', {
+        //   start: [
+        //     {
+        //       trigger: 'no-data-path:mousemove',
+        //       action: 'ellipsis-text:show',
+        //       throttle: { wait: 50, leading: true, trailing: false },
+        //     },
+        //     {
+        //       trigger: 'no-data-path:touchstart',
+        //       action: 'ellipsis-text:show',
+        //       throttle: { wait: 50, leading: true, trailing: false },
+        //     },
+        //   ],
+        //   end: [
+        //     { trigger: 'no-data-path:mouseleave', action: 'ellipsis-text:hide' },
+        //     { trigger: 'no-data-path:touchend', action: 'ellipsis-text:hide' },
+        //   ],
+        // });
+      }
     });
 
   }
