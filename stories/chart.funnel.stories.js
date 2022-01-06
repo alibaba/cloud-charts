@@ -18,7 +18,7 @@ const stories = storiesOf('Wfunnel', module);
 stories.addDecorator(withKnobs);
 
 stories.add('漏斗图', () => (
-    <Wfunnel height="300" data={data} />
+    <Wfunnel height="300" data={data} config={{}}/>
 ));
 
 const directionData = [
@@ -143,6 +143,18 @@ stories.add('横向-底部', () => (
       data={directionData}
     />
   </Wcontainer>
+));
+
+stories.add('漏斗图-自定义label', () => (
+  <Wfunnel height="300" data={data} config={{
+    percent: false,
+    label: {
+      offset: 50,
+      labelFormatter: (v, d) => {
+        return  `${d._origin.x} - ${v}`;
+      }
+    }
+  }}/>
 ));
 
 stories.add('动态数据', () => (

@@ -23,7 +23,7 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
  * @param {string} [field] 映射数据的字段，默认为y
  * @param {object} [defaultConfig] 图表额外配置项
  * @param {string} [extraConfigKey] 额外配置项的key，会在 config.label 的基础上额外扩展，且配置优先级高于默认的 label
- *
+ * @param {boolean} [useCustomOffset] 是否适用用户自定义偏移量
  * */
 
 const defaultConfigKey = 'label';
