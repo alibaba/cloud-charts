@@ -30,6 +30,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
   column?: boolean;
+  dodge?: boolean;
   dodgeStack?: boolean;
   stack?: boolean;
   stackReverse?: boolean;
@@ -78,6 +79,7 @@ export class Bar extends Base<WbarConfig> {
         valueFormatter: null,
       },
       column: true,
+      dodge: true,
       dodgeStack: false,
       stack: false,
       stackReverse: true,
@@ -274,19 +276,19 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
     columnWidthRatio: columnWidthRatio || null,
     dodgePadding: dodgePadding || null,
   };
-  let geom = chart.interval(geomConfig).position(['x', 'y']);
+  let geom = chart.interval(geomConfig).position(['x', 'y']).color(field, colors);
   if (percentage) {
     geom = geom.position(['x', 'percent']);
   }
   if (dodgeStack) {
-    geom = geom.color(field, colors).adjust([
+    geom = geom.adjust([
       {
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
@@ -299,15 +301,15 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
     ]);
   } else if (stack) {
     // 堆叠
-    geom = geom.color(field, colors).adjust([
+    geom = geom.adjust([
       {
         type: 'stack',
         reverseOrder: !stackReverse, // 层叠顺序倒序
       },
     ]);
-  } else {
+  } else if (dodge) {
     // 分组
-    geom = geom.color(field, colors).adjust([
+    geom = geom.adjust([
       {
         type: 'dodge',
         marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
