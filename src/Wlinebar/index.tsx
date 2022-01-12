@@ -540,9 +540,11 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
 
 interface LineConfig {
   // colors?: string[];
-  // areaColors?: string[];
+  areaColors?: string[];
   lineColors?: Colors;
-  area?: boolean;
+  area?: boolean | {
+    geomStyle?: GeomStyleConfig;
+  };
   stack?: boolean; // 仅Area有效
   spline?: boolean;
   step?: string | boolean;
@@ -555,12 +557,14 @@ interface LineConfig {
   lineGeomStyle?: GeomStyleConfig;
 }
 function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
+  let areaColors = config.areaColors || config.lineColors;
+  if (Array.isArray(config.lineColors) && Array.isArray(config.areaColors)) {
+    areaColors = mergeArray([], config.lineColors, config.areaColors);
+  }
+  
   let lineGeom = null;
+  let areaGeom = null;
   const { lineWidth } = config;
-  // const geomStyle = config.lineGeomStyle || {};
-  // if (lineWidth !== undefined) {
-  //   geomStyle.lineWidth = lineWidth;
-  // }
 
   // 区域、堆叠、平滑曲线
   const lineShape = config.spline ? 'smooth' : 'line';
@@ -569,9 +573,10 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   const stack = config.stack || config.dodgeStack;
 
   if (config.area && stack) {
-    chart.area()
+    areaGeom = chart.area()
       .position(['x', yAxisKey])
       .color(legendKey, config.lineColors)
+      .tooltip(false)
       .shape(areaShape)
       .adjust('stack');
     lineGeom = chart.line()
@@ -579,32 +584,27 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
       .color(legendKey, config.lineColors)
       .shape(lineShape)
       .adjust('stack');
-      // .style({
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
   } else if (config.area && !stack) {
-    chart.area()
+    areaGeom = chart.area()
       .position(['x', yAxisKey])
       .color(legendKey, config.lineColors)
+      .tooltip(false)
       .shape(areaShape)
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color(legendKey, config.lineColors)
       .shape(lineShape);
-      // .style({
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
   } else {
     lineGeom = chart.line()
       .position(['x', yAxisKey])
       .color(legendKey, config.lineColors)
       .shape(lineShape);
-      // .style({
-      //   lineJoin: 'round',
-      //   ...geomStyle,
-      // });
+  }
+
+  if (areaGeom && typeof config.area === 'object') {
+    if (config.area.geomStyle) {
+      geomStyle(areaGeom, config.area.geomStyle, {}, `x*${yAxisKey}*type*extra`);
+    }
   }
 
   geomStyle(lineGeom, config.lineGeomStyle, {
@@ -707,4 +707,21 @@ function getGuideView(config: WlinebarConfig, guide: SimpleGuideConfig, lineView
   }
 
   return lineView;
+}
+
+function mergeArray(target: string[], ...source: string[][]) {
+  source.forEach((s) => {
+    if (!s || s.length === 0) {
+      return;
+    }
+    s.forEach((item, i) => {
+      if (i >= target.length) {
+        target.push(item);
+      } else {
+        target[i] = item;
+      }
+    });
+  });
+
+  return target;
 }
