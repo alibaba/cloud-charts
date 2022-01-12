@@ -338,19 +338,14 @@ const Wlinescatter: typeof Linescatter = errorWrap(Linescatter);
 
 export default Wlinescatter;
 
-interface jitterConfig {
-  adjustNames?: string[];
-}
-
 interface ScatterConfig {
   scatterColors?: Colors;
   scatterSize?: GeomSizeConfig;
-  jitter?: jitterConfig | boolean;
   scatterLabel?: LabelConfig | boolean;
   scatterGeomStyle?: GeomStyleConfig;
 }
 function drawScatter(chart: View, config: WlinescatterConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { scatterColors, jitter, scatterSize, scatterGeomStyle } = config;
+  const { scatterColors, scatterSize, scatterGeomStyle } = config;
 
   let intervalGeom = null;
 
@@ -359,17 +354,6 @@ function drawScatter(chart: View, config: WlinescatterConfig, yAxisKey = 'y', le
   .color('type', scatterColors)
   .position('x*y')
   .shape('circle');
-
-  if (jitter) {
-    if (typeof jitter === 'object') {
-      intervalGeom.adjust({
-        type: 'jitter',
-        ...jitter,
-      });
-    } else {
-      intervalGeom.adjust('jitter');
-    }
-  }
 
   geomStyle(intervalGeom, scatterGeomStyle)
 
