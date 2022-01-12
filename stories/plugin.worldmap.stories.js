@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, plugins } from '@alife/aisc-widgets';
-import '@alife/aisc-widgets/plugins/worldmap/index';
-const { WorldMap } = plugins;
+import WorldMap from '@alife/aisc-widgets/plugins/worldmap/index';
 
 const areaData = [
   {

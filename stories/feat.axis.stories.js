@@ -1,9 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select, radios } from "@storybook/addon-knobs";
 
 import { Wcontainer, Wline, Wbar } from '@alife/aisc-widgets';
 
@@ -45,7 +42,7 @@ const data = [
 
 
 const stories = storiesOf('axis', module);
-stories.addDecorator(withKnobs);
+
 stories.add('轴标题', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{

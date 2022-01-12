@@ -1,8 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { storiesOf } from '@storybook/react';
-// import { action } from '@storybook/addon-actions';
-// import { linkTo } from '@storybook/addon-links';
-// import { withKnobs, number, array } from "@storybook/addon-knobs";
 
 import { WmultiPie, Wnumber, Wcontainer } from '@alife/aisc-widgets';
 

@@ -31,7 +31,7 @@ interface WcontainerState {
   criticalError?: Error;
 }
 
-export default class Wcontainer extends React.Component<WcontainerProps, WcontainerState> {
+class Wcontainer extends React.Component<WcontainerProps, WcontainerState> {
   static displayName = 'Wcontainer';
 
   static defaultProps = {
@@ -214,6 +214,8 @@ export default class Wcontainer extends React.Component<WcontainerProps, Wcontai
     );
   }
 }
+
+export default Wcontainer;
 
 function chunks(arr: React.ReactNode, maxSpan: number) {
   const rs: React.ReactElement[] = [];

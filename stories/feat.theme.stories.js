@@ -1,7 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 import { withKnobs, select, color } from "@storybook/addon-knobs";
 
 import { themes, Wcontainer, Wline, Wbar, Wlinebar } from '@alife/aisc-widgets';

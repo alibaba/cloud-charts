@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from "@storybook/addon-knobs";
 
 import { Wcontainer, Wfunnel } from '@alife/aisc-widgets';
 
@@ -15,7 +12,6 @@ const data = [
 ];
 
 const stories = storiesOf('Wfunnel', module);
-stories.addDecorator(withKnobs);
 
 stories.add('漏斗图', () => (
     <Wfunnel height="300" data={data} config={{}}/>

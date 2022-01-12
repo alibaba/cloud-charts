@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, select } from "@storybook/addon-knobs";
 import { Whistogram, Wcontainer } from '@alife/aisc-widgets';
 
 const data = [
@@ -46,7 +45,6 @@ const options_2 =  {
   },
 };
 const stories = storiesOf('Whistogram', module);
-stories.addDecorator(withKnobs);
 
 stories.add('直方图', () => (
   <Wcontainer className="demos">

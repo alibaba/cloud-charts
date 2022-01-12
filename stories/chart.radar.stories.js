@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from "@storybook/addon-knobs";
 
 import { Wcontainer, Wradar } from '@alife/aisc-widgets';
 
@@ -33,7 +30,6 @@ const data = [
 ];
 
 const stories = storiesOf('Wradar', module);
-stories.addDecorator(withKnobs);
 
 stories.add('雷达图', () => (
     <Wradar height="300" data={data} />

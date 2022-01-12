@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-import { withKnobs, select } from '@storybook/addon-knobs';
 
 import { Wcontainer, Wrectangle } from '@alife/aisc-widgets';
 
@@ -883,7 +880,7 @@ const defaultData = [
 ];
 
 const stories = storiesOf('Wrectangle', module);
-stories.addDecorator(withKnobs);
+
 stories.add('分箱图', () => <Wrectangle height="300" data={defaultData} />);
 
 const data1 = [];
