@@ -2,7 +2,6 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
 import { Wcontainer, Wline, Wbar, Util, Wscatter } from '@alicloud/cloud-charts';
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
 
 import { Wsankey, Wcontainer } from '@alicloud/cloud-charts';
 
