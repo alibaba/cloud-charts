@@ -18,7 +18,6 @@ import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import { activeRegionWithTheme } from '../common/interaction';
 import { warn } from '../common/log';
 import './index.scss';
 
@@ -96,7 +95,7 @@ function getLegendItems(
     lineStyle.fill = null;
   }
   getItems(lineData, lineGeom, lineShapeType, lineColors, lineStyle);
-  
+
   return result;
 }
 
@@ -111,8 +110,8 @@ export class Linescatter extends Base<WlinescatterConfig> {
       scatterColors: themes.linear_10,
       padding: 'auto',
       xAxis: {
-        type: 'timeCat', // 默认为线性
-        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        type: 'time',
+        mask: 'auto', // 上述type为time时，此字段生效
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
         // autoRotate: false,
@@ -174,7 +173,6 @@ export class Linescatter extends Base<WlinescatterConfig> {
     const scatterData = highchartsDataToG2Data(rawScatterData, config as DataAdapterConfig, {
       // type: 'scatterType',
     });
-    console.log(rawScatterData, scatterData);
 
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(propertyMap.axis, {
@@ -237,27 +235,24 @@ export class Linescatter extends Base<WlinescatterConfig> {
 
     // tooltip
     rectTooltip(this, chart, config, {}, null, {
-      showCrosshairs: false,
-      showMarkers: false
+      // showCrosshairs: false,
+      // showMarkers: false
     });
 
     // 正式开始绘图，创建两个不同的view
-    const scatterView = chart.createView({
-      padding: config.padding === 'auto' ? 'auto' : 0,
-    });
-    scatterView.data(scatterData);
-    this.scatterView = scatterView;
-
-    // Tooltip 背景区域
-    activeRegionWithTheme(scatterView);
-
     const lineView = chart.createView({
       padding: config.padding === 'auto' ? 'auto' : 0,
     });
     lineView.data(lineData);
     this.lineView = lineView;
+
+    const scatterView = chart.createView({
+      padding: config.padding === 'auto' ? 'auto' : 0,
+    });
+    scatterView.data(scatterData);
+    this.scatterView = scatterView;
     // 关闭一个View的X轴，避免重叠字体变粗
-    lineView.axis('x', false);
+    scatterView.axis('x', false);
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
@@ -270,7 +265,7 @@ export class Linescatter extends Base<WlinescatterConfig> {
       });
     } else {
       // 单Y轴时同时关闭一个View的Y轴，避免重叠字体变粗
-      lineView.axis('y', false);
+      scatterView.axis('y', false);
 
       drawScatter(scatterView, config, 'y', 'type');
       drawLine(lineView, config, 'y', 'type');
@@ -347,19 +342,17 @@ interface ScatterConfig {
 function drawScatter(chart: View, config: WlinescatterConfig, yAxisKey = 'y', legendKey = 'type') {
   const { scatterColors, scatterSize, scatterGeomStyle } = config;
 
-  let intervalGeom = null;
-
-  intervalGeom = chart
-  .point()
-  .color('type', scatterColors)
-  .position('x*y')
-  .shape('circle');
+  const intervalGeom = chart
+    .point()
+    .color('type', scatterColors)
+    .position(['x', yAxisKey])
+    .shape('circle');
 
   geomStyle(intervalGeom, scatterGeomStyle)
 
   label(intervalGeom, config, yAxisKey, null, 'scatterLabel');
 
-  geomSize(intervalGeom, scatterSize, 4, 'y', 'x*y*type*extra');
+  geomSize(intervalGeom, scatterSize, 4, yAxisKey, `x*${yAxisKey}*${legendKey}*extra`);
 
   return intervalGeom;
 }
