@@ -172,7 +172,7 @@ export class Linebar extends Base<WlinebarConfig> {
       padding: 'auto',
       xAxis: {
         type: 'timeCat', // 默认为线性
-        mask: 'YYYY-MM-DD HH:mm:ss', // 上述type为time时，此字段生效
+        mask: 'auto', // 上述type为time时，此字段生效
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
         // autoRotate: false,
@@ -529,7 +529,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
       }]);
   }
 
-  geomSize(intervalGeom, barSize, null, 'y', 'x*y*type*facet*extra');
+  geomSize(intervalGeom, barSize, null, yAxisKey, `x*${yAxisKey}*${legendKey}*extra`);
 
   geomStyle(intervalGeom, config.barGeomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
 
@@ -561,7 +561,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   if (Array.isArray(config.lineColors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.lineColors, config.areaColors);
   }
-  
+
   let lineGeom = null;
   let areaGeom = null;
   const { lineWidth } = config;
