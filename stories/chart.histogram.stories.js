@@ -46,7 +46,6 @@ const options_2 =  {
   },
 };
 const stories = storiesOf('Whistogram', module);
-stories.addDecorator(withKnobs);
 
 stories.add('直方图', () => (
   <Wcontainer className="demos">

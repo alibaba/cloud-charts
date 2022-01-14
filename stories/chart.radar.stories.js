@@ -33,7 +33,6 @@ const data = [
 ];
 
 const stories = storiesOf('Wradar', module);
-stories.addDecorator(withKnobs);
 
 stories.add('雷达图', () => (
     <Wradar height="300" data={data} />

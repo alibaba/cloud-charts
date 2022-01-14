@@ -45,7 +45,7 @@ const data = [
 
 
 const stories = storiesOf('axis', module);
-stories.addDecorator(withKnobs);
+
 stories.add('轴标题', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{

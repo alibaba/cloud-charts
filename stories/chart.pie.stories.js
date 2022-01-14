@@ -73,7 +73,6 @@ class NewData extends React.Component {
 }
 
 const stories = storiesOf('Wpie', module);
-stories.addDecorator(withKnobs);
 
 stories.add('饼图', () => (
   <Wcontainer className="demos">

@@ -51,7 +51,7 @@ const data = [
 
 
 const stories = storiesOf('tooltip', module);
-stories.addDecorator(withKnobs);
+
 stories.add('样式测试', () => (
   <Wcontainer className="demos">
     <Wline height="300" config={{}} data={data} />

@@ -883,7 +883,7 @@ const defaultData = [
 ];
 
 const stories = storiesOf('Wrectangle', module);
-stories.addDecorator(withKnobs);
+
 stories.add('分箱图', () => <Wrectangle height="300" data={defaultData} />);
 
 const data1 = [];

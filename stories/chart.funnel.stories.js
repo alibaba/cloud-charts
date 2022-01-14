@@ -15,7 +15,6 @@ const data = [
 ];
 
 const stories = storiesOf('Wfunnel', module);
-stories.addDecorator(withKnobs);
 
 stories.add('漏斗图', () => (
     <Wfunnel height="300" data={data} config={{}}/>
