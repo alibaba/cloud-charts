@@ -35,19 +35,16 @@
     "es/",
     "build/"
   ],
-  "dependencies": {
-    "@antv/data-set": "^0.11.5",
-    "@antv/g2": "^4.1.35",
-    "@types/classnames": "^2.2.10",
-    "@types/lodash": "^4.14.161",
-    "@types/prop-types": "^15.7.3",
-    "@types/react": "15.6 || 16 || 17",
-    "@types/react-dom": "15.6 || 16 || 17",
-    "classnames": "^2.2.5",
-    "lodash": "^4.17.0",
+  "peerDependencies": {
     "prop-types": "^15.5.10",
     "react": "15.6 || 16 || 17",
     "react-dom": "15.6 || 16 || 17"
+  },
+  "dependencies": {
+    "@antv/data-set": "^0.11.5",
+    "@antv/g2": "^4.1.35",
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.0"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",
@@ -55,6 +52,11 @@
     "@storybook/addon-essentials": "^6.4.12",
     "@storybook/addon-knobs": "6.4.0",
     "@storybook/react": "^6.4.12",
+    "@types/classnames": "^2.2.10",
+    "@types/lodash": "^4.14.161",
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "15.6 || 16 || 17",
+    "@types/react-dom": "15.6 || 16 || 17",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
