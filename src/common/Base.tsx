@@ -71,6 +71,7 @@ export interface ChartProps<ChartConfig> {
   enableFunctionUpdate?: boolean;
   // G2 顶层属性
   padding?: Types.ViewPadding;
+  appendPadding?: Types.ViewAppendPadding;
   localRefresh?: boolean;
   renderer?: 'canvas' | 'svg';
   syncViewPadding?: boolean;
@@ -383,11 +384,12 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       currentProps = this.beforeInit(currentProps);
     }
     currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
+    currentProps.config.appendPadding = currentProps.appendPadding || currentProps.config.appendPadding;
     const {
       width,
       height,
       data: initData,
-      padding,
+      // padding,
       // forceFit,
       config,
       event,
@@ -401,6 +403,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       width: this.size[0],
       height: this.size[1] || 200,
       padding: config.padding,
+      appendPadding: config.appendPadding,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
@@ -567,6 +570,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       width,
       height,
       padding,
+      appendPadding,
       config,
       event,
       interaction,
