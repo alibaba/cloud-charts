@@ -67,14 +67,43 @@ export interface ChartProps<ChartConfig> {
     [actionName: string]: Types.LooseObject
   };
   language?: Language;
+  /** 获取图表实例的回调 */
   getChartInstance?: (chart: Chart) => void;
+  /** 是否响应配置项中的函数更新，默认关闭。 */
   enableFunctionUpdate?: boolean;
   // G2 顶层属性
+  /**
+   * 设置图表的内边距，使用方式参考 CSS 盒模型。
+   * 下图黄色区域即为 padding 的范围。
+   * ![](https://gw.alipayobjects.com/mdn/rms_2274c3/afts/img/A*pYwiQrdXGJ8AAAAAAAAAAABkARQnAQ)
+   *
+   * @example
+   * 1. padding: 20
+   * 2. padding: [ 10, 30, 30 ]
+   */
   padding?: Types.ViewPadding;
+  /**
+   * 设置图表的内边距在padding的基础上增加appendPadding的调整。
+   * @example
+   * 1. padding: 20
+   * 2. padding: [ 10, 30, 30 ]
+   */
   appendPadding?: Types.ViewAppendPadding;
+  /** 是否开启局部刷新，默认开启。 */
   localRefresh?: boolean;
+  /** 指定渲染引擎，默认使用 canvas。 */
   renderer?: 'canvas' | 'svg';
-  syncViewPadding?: boolean;
+  /**
+   * 是否同步子 view 的 padding，可以是 boolean / SyncViewPaddingFn
+   * 比如:
+   *  view1 的 padding 10
+   *  view2 的 padding 20
+   * 那么两个子 view 的 padding 统一变成最大的 20.
+   *
+   * 如果是 Funcion，则使用自定义的方式去计算子 view 的 padding，这个函数中去修改所有的 views autoPadding 值
+   */
+  syncViewPadding?: boolean | Types.SyncViewPaddingFn;
+  // 已废弃属性
   /** @deprecated 该属性移至 config.animate */
   animate?: boolean;
   /** @deprecated 自定义图表请使用类继承 */
