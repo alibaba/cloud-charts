@@ -4,234 +4,235 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { Wcontainer, Wmap, Wplaceholder } from '@alife/aisc-widgets';
+// @ts-ignore
 import adcodeMap from './data/adcode.json';
-import { registerComponentController, registerAction, registerInteraction } from '@antv/g2';
-import Gestrue from '@antv/g2/esm/chart/controller/gesture';
-
-registerComponentController('gesture', Gestrue);
-
-import TransformAction from '@antv/g2/esm/interaction/action/view/scale-transform';
-
-const log = action('action');
-
-class Pinch extends TransformAction {
-  zoomRatio = 0.05;
-  zoomMin = 1;
-  zoomMax = 3;
-  current = 1;
-  /**
-   * 缩小
-   */
-  // zoomIn() {
-  //   this.zoom(this.zoomRatio);
-  // }
-
-  zoom() {
-    const { zoom = 1, direction } = this.context.event;
-    const { current, zoomMax, zoomMin, zoomRatio } = this;
-    log('pinch', zoom, direction);
-    let scale = 0;
-    // 放大
-    if (zoom > 1 || direction === 'up') {
-      scale -= zoomRatio;
-    }
-    // 缩小
-    if (zoom < 1 || direction === 'down') {
-      scale += zoomRatio;
-    }
-    if (!scale) {
-      return;
-    }
-    this.zoomScale(scale);
-    // const dims = this.dims;
-    // const [xRange, yRange] = dims.map((dim) => {
-    //   return this.zoomDim(dim, scale);
-    // });
-
-
-    const xScale = this.getScale('x');
-    const yScale = this.getScale('y');
-    // console.log(xScale);
-    // console.log('r', (xScale.max - xScale.min) / (yScale.max - yScale.min));
-    // console.log('nowXRange', xScale.max - xScale.min);
-
-
-    this.context.view.getRootView().render(true);
-  }
-
-  // 等比例缩放
-  zoomScale(ratio) {
-    const view = this.context.view;
-    const xScale = this.getScale('x');
-    const yScale = this.getScale('y');
-
-    if (!this.cacheScaleDefs.x) {
-      this.cacheScaleDefs.x = {
-        // @ts-ignore
-        nice: xScale.nice,
-        min: xScale.min,
-        max: xScale.max,
-      };
-    }
-    if (!this.cacheScaleDefs.y) {
-      this.cacheScaleDefs.y = {
-        // @ts-ignore
-        nice: yScale.nice,
-        min: yScale.min,
-        max: yScale.max,
-      };
-    }
-    // 原始比例
-    const wh = (this.cacheScaleDefs.x.max - this.cacheScaleDefs.x.min) / (this.cacheScaleDefs.y.max - this.cacheScaleDefs.y.min);
-    // 使用使用原始度量作为缩放标准
-    const xScaleDef = this.cacheScaleDefs.x;
-    const xRange = xScaleDef.max - xScaleDef.min;
-    const { min, max } = xScale;
-    const d = ratio * xRange;
-    const toMin = min - d;
-    const toMax = max + d;
-    const curXRange = toMax - toMin;
-    console.log('targetXRange', curXRange, d);
-    // const scaled = curRange / xRange;
-    // if (toMax > toMin && scaled < 500 && scaled > 0.01) {
-      view.scale(xScale.field, {
-        // @ts-ignore
-        sync: true,
-        nice: false,
-        min: toMin,
-        max: toMax,
-      });
-    // }
-
-    const targetYRange = curXRange / wh;
-    const { min: yMin, max: yMax } = yScale;
-    const curYRange = yMax - yMin;
-    const yD = (targetYRange - curYRange) / 2;
-
-    view.scale(yScale.field, {
-      // @ts-ignore
-      sync: true,
-      nice: false,
-      min: yMin - yD,
-      max: yMax + yD,
-    });
-  }
-
-  /**
-   * 放大
-   */
-  // zoomOut() {
-  //   this.zoom(-1 * this.zoomRatio);
-  // }
-
-  // 缩放度量
-  zoomDim(dim, dRatio) {
-    if (this.hasDim(dim)) {
-      const scale = this.getScale(dim);
-      if (scale.isLinear) {
-        return this.zoomLinear(dim, scale, dRatio);
-      }
-      //  else { // 暂时仅处理连续字段
-      // this.zoomCategory(dim, scale, normalPoint);
-      // }
-    }
-  }
-  // linear 度量平移
-  zoomLinear(dim, scale, dRatio) {
-    const view = this.context.view;
-    // 只有第一次缓存，否则无法回滚
-    if (!this.cacheScaleDefs[dim]) {
-      this.cacheScaleDefs[dim] = {
-        // @ts-ignore
-        nice: scale.nice,
-        min: scale.min,
-        max: scale.max,
-      };
-    }
-    // 使用使用原始度量作为缩放标准
-    const scaleDef = this.cacheScaleDefs[dim];
-    const range = scaleDef.max - scaleDef.min;
-    const { min, max } = scale;
-    const d = dRatio * range;
-    const toMin = min - d;
-    const toMax = max + d;
-    const curRange = toMax - toMin;
-    const scaled = curRange / range;
-    if (toMax > toMin && scaled < 500 && scaled > 0.01) {
-      view.scale(scale.field, {
-        // @ts-ignore
-        sync: true,
-        nice: false,
-        min: min - d,
-        max: max + d,
-      });
-
-      console.log(dim, scaled);
-
-      return range;
-    }
-  }
-}
-registerAction('pinch', Pinch);
-
-registerInteraction('view-pinch', {
-  start: [
-    {
-      trigger: 'pan',
-      isEnable(context) {
-        // log('pan', context.event);
-        // console.log(context.event);
-        context.event.originalEvent.preventDefault();
-        return true;
-      },
-      action: 'pinch:zoom',
-      throttle: { wait: 100, leading: true, trailing: false },
-    },
-    {
-      trigger: 'pinch',
-      isEnable(context) {
-        // const { points, zoom, center } = ev;
-        // log('pinch', context.event.zoom, context.event.center);
-        context.event.originalEvent.preventDefault();
-        return true;
-      },
-      action: 'pinch:zoom',
-      throttle: { wait: 100, leading: true, trailing: false },
-    },
-    // {
-    //   trigger: 'plot:pinch',
-    //   isEnable(context) {
-    //     log('plot:pinch');
-    //     context.event.gEvent.preventDefault();
-    //     return false;
-    //   },
-    //   action: 'pinch:zoomOut',
-    //   throttle: { wait: 100, leading: true, trailing: false },
-    // },
-    // {
-    //   trigger: 'plot:pinch',
-    //   isEnable(context) {
-    //     log('plot:pinch');
-    //     context.event.gEvent.preventDefault();
-    //     return true
-    //   },
-    //   action: 'pinch:zoomIn',
-    //   throttle: { wait: 100, leading: true, trailing: false },
-    // },
-  ],
-})
-
-const mList = document.getElementsByName('viewport');
-if (mList && mList[0]) {
-  mList[0].content = 'width=device-width, initial-scale=1, user-scalable=0';
-}
-
-if (window !== window.parent) {
-  const pMList = window.parent.document.getElementsByName('viewport');
-  if (pMList && pMList[0]) {
-    pMList[0].content = 'width=device-width, initial-scale=1, user-scalable=0';
-  }
-}
+// import { registerComponentController, registerAction, registerInteraction } from '@antv/g2';
+// import Gestrue from '@antv/g2/esm/chart/controller/gesture';
+//
+// registerComponentController('gesture', Gestrue);
+//
+// import TransformAction from '@antv/g2/esm/interaction/action/view/scale-transform';
+//
+// const log = action('action');
+//
+// class Pinch extends TransformAction {
+//   zoomRatio = 0.05;
+//   zoomMin = 1;
+//   zoomMax = 3;
+//   current = 1;
+//   /**
+//    * 缩小
+//    */
+//   // zoomIn() {
+//   //   this.zoom(this.zoomRatio);
+//   // }
+//
+//   zoom() {
+//     const { zoom = 1, direction } = this.context.event;
+//     const { current, zoomMax, zoomMin, zoomRatio } = this;
+//     log('pinch', zoom, direction);
+//     let scale = 0;
+//     // 放大
+//     if (zoom > 1 || direction === 'up') {
+//       scale -= zoomRatio;
+//     }
+//     // 缩小
+//     if (zoom < 1 || direction === 'down') {
+//       scale += zoomRatio;
+//     }
+//     if (!scale) {
+//       return;
+//     }
+//     this.zoomScale(scale);
+//     // const dims = this.dims;
+//     // const [xRange, yRange] = dims.map((dim) => {
+//     //   return this.zoomDim(dim, scale);
+//     // });
+//
+//
+//     const xScale = this.getScale('x');
+//     const yScale = this.getScale('y');
+//     // console.log(xScale);
+//     // console.log('r', (xScale.max - xScale.min) / (yScale.max - yScale.min));
+//     // console.log('nowXRange', xScale.max - xScale.min);
+//
+//
+//     this.context.view.getRootView().render(true);
+//   }
+//
+//   // 等比例缩放
+//   zoomScale(ratio) {
+//     const view = this.context.view;
+//     const xScale = this.getScale('x');
+//     const yScale = this.getScale('y');
+//
+//     if (!this.cacheScaleDefs.x) {
+//       this.cacheScaleDefs.x = {
+//         // @ts-ignore
+//         nice: xScale.nice,
+//         min: xScale.min,
+//         max: xScale.max,
+//       };
+//     }
+//     if (!this.cacheScaleDefs.y) {
+//       this.cacheScaleDefs.y = {
+//         // @ts-ignore
+//         nice: yScale.nice,
+//         min: yScale.min,
+//         max: yScale.max,
+//       };
+//     }
+//     // 原始比例
+//     const wh = (this.cacheScaleDefs.x.max - this.cacheScaleDefs.x.min) / (this.cacheScaleDefs.y.max - this.cacheScaleDefs.y.min);
+//     // 使用使用原始度量作为缩放标准
+//     const xScaleDef = this.cacheScaleDefs.x;
+//     const xRange = xScaleDef.max - xScaleDef.min;
+//     const { min, max } = xScale;
+//     const d = ratio * xRange;
+//     const toMin = min - d;
+//     const toMax = max + d;
+//     const curXRange = toMax - toMin;
+//     console.log('targetXRange', curXRange, d);
+//     // const scaled = curRange / xRange;
+//     // if (toMax > toMin && scaled < 500 && scaled > 0.01) {
+//       view.scale(xScale.field, {
+//         // @ts-ignore
+//         sync: true,
+//         nice: false,
+//         min: toMin,
+//         max: toMax,
+//       });
+//     // }
+//
+//     const targetYRange = curXRange / wh;
+//     const { min: yMin, max: yMax } = yScale;
+//     const curYRange = yMax - yMin;
+//     const yD = (targetYRange - curYRange) / 2;
+//
+//     view.scale(yScale.field, {
+//       // @ts-ignore
+//       sync: true,
+//       nice: false,
+//       min: yMin - yD,
+//       max: yMax + yD,
+//     });
+//   }
+//
+//   /**
+//    * 放大
+//    */
+//   // zoomOut() {
+//   //   this.zoom(-1 * this.zoomRatio);
+//   // }
+//
+//   // 缩放度量
+//   zoomDim(dim, dRatio) {
+//     if (this.hasDim(dim)) {
+//       const scale = this.getScale(dim);
+//       if (scale.isLinear) {
+//         return this.zoomLinear(dim, scale, dRatio);
+//       }
+//       //  else { // 暂时仅处理连续字段
+//       // this.zoomCategory(dim, scale, normalPoint);
+//       // }
+//     }
+//   }
+//   // linear 度量平移
+//   zoomLinear(dim, scale, dRatio) {
+//     const view = this.context.view;
+//     // 只有第一次缓存，否则无法回滚
+//     if (!this.cacheScaleDefs[dim]) {
+//       this.cacheScaleDefs[dim] = {
+//         // @ts-ignore
+//         nice: scale.nice,
+//         min: scale.min,
+//         max: scale.max,
+//       };
+//     }
+//     // 使用使用原始度量作为缩放标准
+//     const scaleDef = this.cacheScaleDefs[dim];
+//     const range = scaleDef.max - scaleDef.min;
+//     const { min, max } = scale;
+//     const d = dRatio * range;
+//     const toMin = min - d;
+//     const toMax = max + d;
+//     const curRange = toMax - toMin;
+//     const scaled = curRange / range;
+//     if (toMax > toMin && scaled < 500 && scaled > 0.01) {
+//       view.scale(scale.field, {
+//         // @ts-ignore
+//         sync: true,
+//         nice: false,
+//         min: min - d,
+//         max: max + d,
+//       });
+//
+//       console.log(dim, scaled);
+//
+//       return range;
+//     }
+//   }
+// }
+// registerAction('pinch', Pinch);
+//
+// registerInteraction('view-pinch', {
+//   start: [
+//     {
+//       trigger: 'pan',
+//       isEnable(context) {
+//         // log('pan', context.event);
+//         // console.log(context.event);
+//         context.event.originalEvent.preventDefault();
+//         return true;
+//       },
+//       action: 'pinch:zoom',
+//       throttle: { wait: 100, leading: true, trailing: false },
+//     },
+//     {
+//       trigger: 'pinch',
+//       isEnable(context) {
+//         // const { points, zoom, center } = ev;
+//         // log('pinch', context.event.zoom, context.event.center);
+//         context.event.originalEvent.preventDefault();
+//         return true;
+//       },
+//       action: 'pinch:zoom',
+//       throttle: { wait: 100, leading: true, trailing: false },
+//     },
+//     // {
+//     //   trigger: 'plot:pinch',
+//     //   isEnable(context) {
+//     //     log('plot:pinch');
+//     //     context.event.gEvent.preventDefault();
+//     //     return false;
+//     //   },
+//     //   action: 'pinch:zoomOut',
+//     //   throttle: { wait: 100, leading: true, trailing: false },
+//     // },
+//     // {
+//     //   trigger: 'plot:pinch',
+//     //   isEnable(context) {
+//     //     log('plot:pinch');
+//     //     context.event.gEvent.preventDefault();
+//     //     return true
+//     //   },
+//     //   action: 'pinch:zoomIn',
+//     //   throttle: { wait: 100, leading: true, trailing: false },
+//     // },
+//   ],
+// })
+//
+// const mList = document.getElementsByName('viewport');
+// if (mList && mList[0]) {
+//   mList[0].content = 'width=device-width, initial-scale=1, user-scalable=0';
+// }
+//
+// if (window !== window.parent) {
+//   const pMList = window.parent.document.getElementsByName('viewport');
+//   if (pMList && pMList[0]) {
+//     pMList[0].content = 'width=device-width, initial-scale=1, user-scalable=0';
+//   }
+// }
 
 const areaData = [
   {

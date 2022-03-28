@@ -15,7 +15,11 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@alife/aisc-widgets": ["src/"] // 此处映射是相对于"baseUrl"
+    }
   },
   "include": ["src/*.ts", "src/*.tsx"],
   "exclude": ["node_modules", "build", "public"]
