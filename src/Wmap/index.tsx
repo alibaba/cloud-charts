@@ -60,6 +60,7 @@ interface WmapConfig extends BaseChartConfig {
   background?: {
     fill?: string;
     stroke?: string;
+    [key: string]: any;
   };
   areaColors?: Colors;
   pointColors?: Colors;

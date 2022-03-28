@@ -713,7 +713,7 @@ function DoubleShootDemo() {
     const dataLen = shootData.length;
     const changeData = () => {
       const newData = [];
-      const newDoubleData = [];
+      const newDoubleData: any[] = [];
       const len = Math.round(Math.random() * 10) + 10;
       for (let i = 0; i < len; i++) {
         let fIndex = Math.round(Math.random() * (dataLen - 1));
@@ -750,8 +750,8 @@ function DoubleShootDemo() {
   return (
     <Wcontainer className="demos" height={600}>
       <Wmap>
-        <Wmap.Shoot data={data} config={shootConfig} debug={1} />
-        <Wmap.Shoot data={doubleData} config={shootConfig} debug={2} />
+        <Wmap.Shoot data={data} config={shootConfig} />
+        <Wmap.Shoot data={doubleData} config={shootConfig} />
         <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />
       </Wmap>
     </Wcontainer>
