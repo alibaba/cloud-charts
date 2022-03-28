@@ -37,15 +37,15 @@ const sortFun = {
 
 export interface TooltipConfig extends customFormatterConfig {
   visible?: boolean;
-  sort?: 'asce' | 'desc' | Function;
+  sort?: 'asce' | 'desc' | ((a: any, b: any) => number);
   showTitle?: boolean;
   showColon?: boolean;
   position?: 'top' | 'bottom' | 'left' | 'right';
   offset?: number;
   customConfig?: Types.TooltipCfg;
-  titleFormatter?: Function;
-  nameFormatter?: Function;
-  valueFormatter?: Function;
+  titleFormatter?: (title: string, datum: Types.Datum) => string;
+  nameFormatter?: (name: any, datum: Types.Datum, index: number, items: any[]) => string | number;
+  valueFormatter?: (value: any, datum: Types.Datum, index: number, items: any[]) => string | number;
   /** Html 自定义内容块 */
   customContent?: (title: string, data: any[]) => string | HTMLElement;
   reactContent?: (title: string, data: any[]) => ReactElement;

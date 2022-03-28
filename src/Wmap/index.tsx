@@ -66,7 +66,7 @@ interface WmapConfig extends BaseChartConfig {
   heatColors?: Colors;
   showSouthChinaSea?: boolean;
   type?: string;
-  projection?: Function;
+  projection?: (...args: any[]) => any;
 
   legend?: LegendConfig | boolean,
   tooltip?: TooltipConfig | boolean,
@@ -337,7 +337,7 @@ export class Map extends Base<WmapConfig, MapProps> {
 
   ds: DataSet = null;
 
-  projection: Function = null;
+  projection: (...args: any[]) => any = null;
 
   bgMapDataView: DataView = null;
   bgMapView: View = null;
@@ -978,7 +978,7 @@ export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
   return point;
 }
 
-function getProjectionPosition(point: Types.LooseObject, view: DataView, projection: Function, lng: number, lat: number) {
+function getProjectionPosition(point: Types.LooseObject, view: DataView, projection: (...args: any[]) => any, lng: number, lat: number) {
   // @ts-ignore
   const projectedCoord = view.geoProjectPosition([lng, lat], projection, true);
   point.x = projectedCoord[0];
