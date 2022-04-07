@@ -1,5 +1,5 @@
 import eventBus from "../common/eventBus";
-import { FullThemeName, THEME } from '../constants';
+import { FullThemeEventName, FullThemeName, THEME } from '../constants';
 import { themeLog } from "../common/log";
 import {
   setThemeStyle,
@@ -106,6 +106,13 @@ export function setTheme(theme: string | Theme = defaultThemeName, refreshChart:
 }
 
 setTheme(defaultThemeName, false);
+
+// 根据事件设置图表主题
+document.addEventListener(FullThemeEventName, function (e: CustomEvent) {
+  if (e.detail) {
+    setTheme(e.detail);
+  }
+});
 
 // themes.getTheme = getTheme;
 // themes.setTheme = setTheme;
