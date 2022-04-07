@@ -1,3 +1,4 @@
+import './global';
 import { VERSION } from './constants';
 import themes, { Themes } from './themes/index';
 import './cdn.scss';

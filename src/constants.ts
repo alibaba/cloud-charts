@@ -11,14 +11,6 @@ export { THEME };
 export const FullCamelName = 'AiscWidgets';
 export const FullCrossName = 'aisc-widgets';
 export const FullTrackName = 'AiscWidgetsTrackEnable';
+export const FullThemeName = 'AiscWidgetsDefaultTheme';
 export const TrackName = 'aisc-widgets.use.init';
 export const PrefixName = 'aisc';
-
-declare global {
-  interface Window {
-    /**
-     * 通过全局变量控制是否开启用户跟踪系统
-     * */
-    AiscWidgetsTrackEnable?: boolean;
-  }
-}
