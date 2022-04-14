@@ -1,12 +1,12 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors, G2Dependents } from '../common/types';
 import Base from "../common/Base";
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
-import { propertyAssign, propertyMap } from '../common/common';
+import { propertyAssign, propertyMap, pxToNumber, merge } from '../common/common';
 import legendFilter from '../common/legendFilter';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
@@ -20,6 +20,31 @@ import rectZoom, { ZoomConfig } from "../common/rectZoom";
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
+
+interface FacetConfig {
+  type?: "mirror" | "rect" | "list" | "matrix" | "circle" | "tree";
+  transpose?: boolean;
+  /**
+   * @title facet view padding。
+   */
+  padding?: number[];
+  /**
+   * @title 分面 view 之间的间隔， 百分比或像素值
+   */
+  spacing?: [number | string, number | string];
+  /**
+   * @title 是否显示标题。
+   */
+  showTitle?: boolean;
+  title?: {
+    /** x 方向偏移 */
+    offsetX?: number;
+    /** y 方向偏移 */
+    offsetY?: number;
+    /** 格式化 */
+    formatter?: (val: any) => any;
+  } & Omit<G2Dependents.EnhancedTextCfg, 'content'>;
+}
 
 interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   colors?: Colors;
@@ -36,7 +61,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   stackReverse?: boolean;
   marginRatio?: number;
   grid?: boolean;
-  facet?: boolean;
+  facet?: boolean | FacetConfig;
   size?: GeomSizeConfig;
   polar?: boolean;
   innerRadius?: number;
@@ -194,28 +219,25 @@ export class Bar extends Base<WbarConfig> {
     // }
 
     if (config.facet) {
-      const facetConfig: { type: "mirror" | "rect" | "list" | "matrix" | "circle" | "tree", transpose: boolean, padding: number[] } =
-        typeof config.facet === 'object'
-          ? config.facet
-          : {
-              type: 'mirror',
-              transpose: false,
-              padding: [20, 0, 20, 0],
-            };
-      const self = this;
-      chart.facet(facetConfig.type, {
-        fields: ['facet'],
-        transpose: facetConfig.transpose,
-        padding: facetConfig.padding,
-        rowTitle: {
-          offsetX: 15,
-          style: {
-            fontSize: themes['widgets-font-size-1'],
-            textAlign: 'center',
-            rotate: 90,
-            fill: themes['widgets-axis-label'],
-          },
+      const facetConfig = typeof config.facet === 'object' ? config.facet : {};
+      const facetTitleConfig = merge({
+        offsetX: pxToNumber(themes['widgets-font-size-1']),
+        // 底层使用 view.annotation().text 绘制，可以使用 rotate 进行翻转
+        rotate: config.column ? Math.PI / 2 : undefined,
+        style: {
+          fontSize: pxToNumber(themes['widgets-font-size-1']),
+          textAlign: 'center',
+          fill: themes['widgets-axis-label'],
         },
+      }, facetConfig.title || {});
+      const self = this;
+      chart.facet(facetConfig.type || 'mirror', {
+        fields: ['facet'],
+        transpose: facetConfig.transpose || !config.column,
+        padding: facetConfig.padding,
+        spacing: facetConfig.spacing || (config.column ? [0, 18] : [32, 0]),
+        showTitle: typeof facetConfig.showTitle === 'boolean' ? facetConfig.showTitle : true,
+        title: facetTitleConfig,
         eachView: function (view: any, facet: any) {
           let yAxisCustomConfig: Types.AxisCfg = null;
 

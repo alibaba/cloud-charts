@@ -175,7 +175,7 @@ let data2 = [
     }
 ];
 for (let i = 0; i < 10; i++) {
-    const name = i + '-' + i;
+    const name = i + '------' + i;
     data2[0].data.push([name, Math.random() * 100 + 100]);
     data2[1].data.push([name, Math.random() * 100 + 100]);
     data2[2].data.push([name, Math.random() * 100 + 100]);
@@ -185,7 +185,10 @@ let options1 = {
     padding: [40, 24, 20, 44],
     // colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
     marginRatio: 0.05,
-    facet: true
+    facet: {
+      spacing: [48, 0],
+    },
+    column: false,
 };
 stories.add('镜面柱图', () => (
     <Wcontainer className="demos">
