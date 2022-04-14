@@ -575,7 +575,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   if (config.area && stack) {
     areaGeom = chart.area()
       .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
+      .color(legendKey, areaColors)
       .tooltip(false)
       .shape(areaShape)
       .adjust('stack');
@@ -587,7 +587,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   } else if (config.area && !stack) {
     areaGeom = chart.area()
       .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
+      .color(legendKey, areaColors)
       .tooltip(false)
       .shape(areaShape)
     lineGeom = chart.line()
