@@ -71,6 +71,14 @@ interface WpieConfig extends BaseChartConfig {
   select?: boolean;
   innerRadius?: number;
   outerRadius?: number;
+  /**
+   * 用于极坐标，配置起始弧度。
+   */
+  startAngle?: number;
+  /**
+   * 用于极坐标，配置结束弧度。
+   */
+  endAngle?: number;
   label?: LabelConfig | boolean,
   selectData?: string;
   geomStyle?: GeomStyleConfig;
@@ -160,6 +168,12 @@ export class Pie extends Base<WpieConfig> {
     };
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
+    }
+    if (config.startAngle !== undefined) {
+      thetaConfig.startAngle = config.startAngle
+    }
+    if (config.endAngle !== undefined) {
+      thetaConfig.endAngle = config.endAngle
     }
     // coordinate translate 操作会导致饼图变形，暂时换一种方式实现
     /*const coord = */chart.coordinate('theta', thetaConfig);
