@@ -1,5 +1,5 @@
 import eventBus from "../common/eventBus";
-import { THEME } from '../constants';
+import { FullThemeEventName, FullThemeName, THEME } from '../constants';
 import { themeLog } from "../common/log";
 import {
   setThemeStyle,
@@ -41,7 +41,7 @@ themeMap.index = themeMap.normal;
 const normalMap = { index: true, normal: true };
 
 // 默认主题包
-const defaultThemeName = process.env.NODE_ENV === 'production' ? THEME : 'normal';
+const defaultThemeName = window[FullThemeName] || (process.env.NODE_ENV === 'production' ? THEME : 'normal');
 
 export interface Themes extends Theme {
   getTheme: typeof getTheme;
@@ -64,7 +64,7 @@ export function getTheme(name?: string) {
   return undefined;
 }
 
-export function setTheme(theme: string | {} = defaultThemeName, refreshChart: boolean = true) {
+export function setTheme(theme: string | Theme = defaultThemeName, refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && (theme === currentThemeName || (theme in normalMap && currentThemeName in normalMap))) {
     return;
   }
@@ -100,6 +100,13 @@ export function setTheme(theme: string | {} = defaultThemeName, refreshChart: bo
 }
 
 setTheme(defaultThemeName, false);
+
+// 根据事件设置图表主题
+document.addEventListener(FullThemeEventName, function (e: CustomEvent) {
+  if (e.detail) {
+    setTheme(e.detail);
+  }
+});
 
 // themes.getTheme = getTheme;
 // themes.setTheme = setTheme;
