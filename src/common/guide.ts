@@ -62,8 +62,8 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
   }
 }
 
-interface GuideLineTextConfig extends G2Dependents.LineAnnotationTextCfg {
-  title: string,
+interface GuideLineTextConfig extends Omit<G2Dependents.LineAnnotationTextCfg, 'content'> {
+  title: string | number,
   align?: 'start' | 'center' | 'end' | 'left' | 'right',
 }
 
