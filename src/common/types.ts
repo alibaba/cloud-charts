@@ -1,4 +1,4 @@
-import { ColorAttrCallback, ViewPadding } from "@antv/g2/esm/interface";
+import { ColorAttrCallback, ViewPadding, ViewAppendPadding } from "@antv/g2/esm/interface";
 
 export * from '@antv/g2/esm/core';
 
@@ -6,6 +6,7 @@ export * as G2Dependents from "@antv/g2/esm/dependents";
 
 export interface BaseChartConfig {
   padding?: ViewPadding;
+  appendPadding?: ViewAppendPadding;
   dataType?: string;
   animate?: boolean;
 }
