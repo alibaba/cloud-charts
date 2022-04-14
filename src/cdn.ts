@@ -1,4 +1,4 @@
-import './global.d.ts';
+import './global.ts';
 import { VERSION } from './constants';
 import themes, { Themes } from './themes/index';
 import './cdn.scss';
