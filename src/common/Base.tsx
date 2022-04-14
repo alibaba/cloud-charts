@@ -144,9 +144,6 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
     this.autoResize = this.autoResize.bind(this);
     this.rerender = this.rerender.bind(this);
-
-    // 图表初始化时记录日志
-    chartLog(this.chartName, 'init');
   }
 
   // 图表生命周期
@@ -188,6 +185,9 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   // 基类自己的生命周期
 
   componentDidMount() {
+    // 图表初始化时记录日志
+    chartLog(this.chartName, 'init');
+    
     this.language = this.props.language || 'zh-cn';
 
     // 设置初始高宽
