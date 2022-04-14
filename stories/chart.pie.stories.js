@@ -235,3 +235,21 @@ stories.add('饼图数据从有到无', () => {
     </Wcontainer>
   );
 });
+
+stories.add('限定角度', () => (
+  <Wcontainer className="demos">
+    <Wpie
+      width={500}
+      height="300"
+      config={{
+        cycle: true,
+        startAngle: Math.PI,
+        endAngle: 1.5 * Math.PI,
+        // outerRadius: 1,
+      }}
+      data={data}
+    >
+      asdklfh
+    </Wpie>
+  </Wcontainer>
+));

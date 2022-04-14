@@ -24,6 +24,14 @@ interface WmultipieConfig extends BaseChartConfig {
   cycle?: boolean;
   innerRadius?: number;
   outerRadius?: number;
+  /**
+   * 用于极坐标，配置起始弧度。
+   */
+  startAngle?: number;
+  /**
+   * 用于极坐标，配置结束弧度。
+   */
+  endAngle?: number;
   geomStyle?: GeomStyleConfig;
 }
 
@@ -132,6 +140,12 @@ export class MultiPie extends Base<WmultipieConfig> {
     const thetaConfig: Types.CoordinateCfg = {
       radius: Math.max(Math.min(config.outerRadius, 1), 0.01),
     };
+    if (config.startAngle !== undefined) {
+      thetaConfig.startAngle = config.startAngle
+    }
+    if (config.endAngle !== undefined) {
+      thetaConfig.endAngle = config.endAngle
+    }
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
     }
