@@ -25,6 +25,7 @@ export { default as Util } from './Util';
 
 export { default as Wline, Line as RawLine } from './Wline';
 export { default as Wlinebar, Linebar as RawLinebar } from './Wlinebar';
+export { default as Wlinescatter, Linescatter as RawLinescatter } from './Wlinescatter';
 export { default as Wpie, Pie as RawPie } from './Wpie';
 export { default as Wradar, Radar as RawRadar } from './Wradar';
 export { default as Wbar, Bar as RawBar } from './Wbar';
