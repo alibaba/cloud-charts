@@ -79,7 +79,7 @@ interface WmapConfig extends BaseChartConfig {
 
 export interface MapProps extends ChartProps<WmapConfig> {
   geoData?: any;
-  children?: MapChild;
+  children?: React.ReactNode;
 }
 
 interface MapState {
@@ -426,6 +426,9 @@ export class Map extends Base<WmapConfig, MapProps> {
       }
       // @ts-ignore
       const { props, type, key } = child;
+      if (!props || !type) {
+        return;
+      }
       const layerConfig = Object.assign({}, filterKey(config, ['padding']), props.config);
       // G2 图层需要转化数据格式
       let { data } = props;
