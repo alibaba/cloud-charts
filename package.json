@@ -24,7 +24,7 @@
     "email": "zhaoye.zzy@alibaba-inc.com"
   },
   "publishConfig": {
-    "registry": "http://registry.npm.alibaba-inc.com"
+    "registry": "https://registry.npm.alibaba-inc.com"
   },
   "files": [
     "package.json",
