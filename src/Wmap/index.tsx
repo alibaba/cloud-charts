@@ -844,7 +844,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
   });
 
   // @ts-ignore label 需要函数处理，无法放到 label 工具函数中
-  const { offset = 0, style, textStyle = {}, labelFormatter } =
+  const { offset = 0, style, textStyle, labelFormatter } =
     typeof labelConfig === 'object' ? labelConfig : {};
 
   const labelMapView = chart.createView({
@@ -870,7 +870,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
         // 需要去掉 px 的字符串
         fontSize: fontSize,
         textBaseline: 'middle',
-        ...textStyle,
+        ...(textStyle || {}),
         ...style,
       }
       const result: Types.GeometryLabelCfg = {
