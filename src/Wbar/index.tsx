@@ -267,7 +267,7 @@ export class Bar extends Base<WbarConfig> {
           // Tooltip 背景区域
           activeRegionWithTheme(view);
 
-          drawBar(view, config, config.colors);
+          drawBar(view, config, config.colors, facet);
         },
       });
     } else {
@@ -297,7 +297,7 @@ export default Wbar;
 
 // export default errorWrap(Wbar);
 
-function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type') {
+function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) {
   const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
@@ -305,7 +305,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
     columnWidthRatio: columnWidthRatio || null,
     dodgePadding: dodgePadding || null,
   };
-  let geom = chart.interval(geomConfig).position(['x', 'y']).color(field, colors);
+  let geom = chart.interval(geomConfig).position(['x', 'y']).color('type', colors);
   if (percentage) {
     geom = geom.position(['x', 'percent']);
   }
@@ -343,7 +343,11 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
 
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
 
-  label({ geom: geom, config: config });
+  label({
+    geom: geom,
+    config: config,
+    extraCallbackParams: facet ? [facet] : undefined,
+  });
 }
 
 function computerData(config: WbarConfig,data: any) {
