@@ -140,8 +140,8 @@ function drawHierarchy(chart: Chart, config: WhierarchyConfig, colors: Colors, f
     }))
     .style(config.borderStyle)
     .label(
-      'depth*name*value*x*y',
-      (depth, name, value, xs, ys) =>
+      'name*value*x*y*depth',
+      (name, value, xs, ys, depth) =>
         config.labelRender(
           depth,
           name,
