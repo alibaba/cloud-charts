@@ -154,7 +154,7 @@ export class Scatter extends Base<WscatterConfig> {
 
     geomStyle(geom, config.geomStyle)
 
-    label(geom, config);
+    label({ geom: geom, config: config });
 
     geomSize(geom, config.size, 4, 'y', 'x*y*type*extra');
     chart.legend('x', false);

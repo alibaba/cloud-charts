@@ -114,7 +114,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
       stroke: themes['widgets-color-background'],
     });
 
-    label(geom, config, 'x', {});
+    label({ geom: geom, config: config, field: 'x' });
 
     polarLegendLayout(chart);
 

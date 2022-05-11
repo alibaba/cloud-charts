@@ -343,7 +343,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, field = 'type
 
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
 
-  label(geom, config);
+  label({ geom: geom, config: config });
 }
 
 function computerData(config: WbarConfig,data: any) {

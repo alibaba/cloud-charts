@@ -533,7 +533,7 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
 
   geomStyle(intervalGeom, config.barGeomStyle, {}, `x*${yAxisKey}*${legendKey}*extra`);
 
-  label(intervalGeom, config, yAxisKey, null, 'barLabel');
+  label({ geom: intervalGeom, config: config, field: yAxisKey, extraConfigKey: 'barLabel' });
 
   return intervalGeom;
 }
@@ -612,7 +612,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
     lineJoin: 'round',
   }, `x*${yAxisKey}*${legendKey}*extra`);
 
-  label(lineGeom, config, yAxisKey, null, 'lineLabel');
+  label({ geom: lineGeom, config: config, field: yAxisKey, extraConfigKey: 'lineLabel' });
 
   // 曲线默认点
   if (config.symbol) {

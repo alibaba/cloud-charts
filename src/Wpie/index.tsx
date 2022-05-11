@@ -334,22 +334,27 @@ export class Pie extends Base<WpieConfig> {
     geomStyle(this.geom, config.geomStyle);
 
     const labelField = 'y';
-    label(this.geom, config, labelField, null, undefined, false, {
-      offset: 20,
-      content: ((v, item, index) => {
-        if (typeof config.label === 'boolean') {
-          return v[labelField];
-        }
-        if (config.label.labelFormatter) {
-          const percent = numberDecimal(v[labelField] / this.totalData, 4);
+    label({
+      geom: this.geom,
+      config: config,
+      field: labelField,
+      componentConfig: {
+        offset: 20,
+        content: ((v, item, index) => {
+          if (typeof config.label === 'boolean') {
+            return v[labelField];
+          }
+          if (config.label.labelFormatter) {
+            const percent = numberDecimal(v[labelField] / this.totalData, 4);
 
-          return config.label.labelFormatter(v[labelField], {
-            ...item,
-            percent,
-          } as Types.MappingDatum, index);
-        }
-        return v[labelField];
-      }) as Types.GeometryLabelContentCallback,
+            return config.label.labelFormatter(v[labelField], {
+              ...item,
+              percent,
+            } as Types.MappingDatum, index);
+          }
+          return v[labelField];
+        }) as Types.GeometryLabelContentCallback,
+      }
     });
 
     polarLegendLayout(chart);

@@ -143,18 +143,23 @@ export class Heatmap extends Base<WheatmapConfig> {
       stroke: themes['widgets-map-area-border'],
     });
 
-    label(geom, config, 'y', {}, null, true, {
-      position: 'middle',
-      offset: 0,
-      content(data, item, i) {
-        if (!config.label) {
-          return;
+    label({
+      geom: geom,
+      config: config,
+      useCustomOffset: true,
+      componentConfig: {
+        position: 'middle',
+        offset: 0,
+        content(data, item, i) {
+          if (!config.label) {
+            return;
+          }
+          let result = (Array.isArray(data.extra) ? data.extra[0] : data.extra.value) || '-';
+          if (typeof config.label === 'object' && config.label.labelFormatter) {
+            result = config.label.labelFormatter(result, item, i);
+          }
+          return result;
         }
-        let result = (Array.isArray(data.extra) ? data.extra[0] : data.extra.value) || '-';
-        if (typeof config.label === 'object' && config.label.labelFormatter) {
-          result = config.label.labelFormatter(result, item, i);
-        }
-        return result;
       }
     });
   }

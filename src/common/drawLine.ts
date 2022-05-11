@@ -107,7 +107,7 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
     lineJoin: 'round',
   }, `x*${yAxisKey}*type*extra`);
 
-  label(lineGeom, config, yAxisKey);
+  label({ geom: lineGeom, config: config, field: yAxisKey });
 
   // 曲线上圆点
   if (config.symbol) {
