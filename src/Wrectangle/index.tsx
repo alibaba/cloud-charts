@@ -136,8 +136,13 @@ export class Rectangle extends Base<WrectangleConfig> {
 
     geomStyle(geom, config.geomStyle, undefined, 'x*y*count');
 
-    label(geom, config, 'count', {
-      offset: 0,
+    label({
+      geom: geom,
+      config: config,
+      field: 'count',
+      defaultConfig: {
+        offset: 0,
+      },
     });
 
     // chart.render();

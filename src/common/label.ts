@@ -30,13 +30,23 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
 const defaultConfigKey = 'label';
 
 export default function (
-  geom: Geometry,
-  config: { label?: LabelConfig | boolean, [key: string]: any },
-  field = 'y',
-  defaultConfig?: Types.GeometryLabelCfg,
-  extraConfigKey?: string,
-  useCustomOffset?: boolean,
-  componentConfig?: Types.GeometryLabelCfg,
+  {
+    geom,
+    config,
+    field = 'y',
+    defaultConfig = {},
+    extraConfigKey = null,
+    useCustomOffset = undefined,
+    componentConfig = undefined
+  }: {
+    geom: Geometry,
+    config: { label?: LabelConfig | boolean; [p: string]: any },
+    field?: string,
+    defaultConfig?: Types.GeometryLabelCfg,
+    extraConfigKey?: string,
+    useCustomOffset?: boolean,
+    componentConfig?: Types.GeometryLabelCfg
+  }
 ) {
   let configLabel = config[defaultConfigKey];
   if (extraConfigKey && config[extraConfigKey] !== undefined) {

@@ -350,7 +350,7 @@ function drawScatter(chart: View, config: WlinescatterConfig, yAxisKey = 'y', le
 
   geomStyle(intervalGeom, scatterGeomStyle)
 
-  label(intervalGeom, config, yAxisKey, null, 'scatterLabel');
+  label({ geom: intervalGeom, config: config, field: yAxisKey, extraConfigKey: 'scatterLabel' });
 
   geomSize(intervalGeom, scatterSize, 4, yAxisKey, `x*${yAxisKey}*${legendKey}*extra`);
 
@@ -431,7 +431,7 @@ function drawLine(chart: View, config: WlinescatterConfig, yAxisKey = 'y', legen
     lineJoin: 'round',
   }, `x*${yAxisKey}*${legendKey}*extra`);
 
-  label(lineGeom, config, yAxisKey, null, 'lineLabel');
+  label({ geom: lineGeom, config: config, field: yAxisKey, extraConfigKey: 'lineLabel' });
 
   // 曲线默认点
   if (config.symbol) {

@@ -164,7 +164,7 @@ function drawHist(chart: Chart, config: WhistogramConfig, field = "type") {
 
   geomStyle(geom, config.geomStyle);
 
-  label(geom, config);
+  label({ geom: geom, config: config });
 }
 
 function computerData(config: WhistogramConfig, data: ChartData) {

@@ -736,9 +736,14 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       warn('config.labels', '属性已废弃，请使用 config.label');
     }
 
-    label(pointGeom, config, 'name', {
-      // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
-      animate: false,
+    label({
+      geom: pointGeom,
+      config: config,
+      field: 'name',
+      defaultConfig: {
+        // FIXME 默认的动画会导致部分label不显示，暂时关闭动画
+        animate: false,
+      },
     });
     if (config.labels || config.label) {
       // let labelConfig = {};

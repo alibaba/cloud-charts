@@ -154,22 +154,27 @@ export class Funnel extends Base<WfunnelConfig> {
     geomStyle(geom, config.geomStyle);
 
     if (config.label) {
-      label(geom, config, 'y', {}, null, true, {
-        labelLine: {
-          style: {
-            lineWidth: 1,
-            stroke: themes['widgets-axis-line'],
+      label({
+        geom: geom,
+        config: config,
+        useCustomOffset: true,
+        componentConfig: {
+          labelLine: {
+            style: {
+              lineWidth: 1,
+              stroke: themes['widgets-axis-line'],
+            },
           },
-        },
-        content: (v, item, index) => {
-          if (typeof config.label === 'boolean') {
+          content: (v, item, index) => {
+            if (typeof config.label === 'boolean') {
+              return v['y'];
+            }
+            if (config.label.labelFormatter) {
+              return config.label.labelFormatter(v['y'], item, index);
+            }
             return v['y'];
-          }
-          if (config.label.labelFormatter) {
-            return config.label.labelFormatter(v['y'], item, index);
-          }
-          return v['y'];
-        },
+          },
+        }
       });
     }
 
