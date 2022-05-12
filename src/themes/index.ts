@@ -53,7 +53,7 @@ const themes: Themes = {
   getTheme,
   setTheme,
 };
-let currentThemeName = '';
+let currentThemeName = process.env.NODE_ENV === 'production' ? THEME : 'normal';
 
 export function getTheme(name?: string) {
   if (!name) {
