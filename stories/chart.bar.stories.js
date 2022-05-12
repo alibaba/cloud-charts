@@ -163,32 +163,61 @@ let data2 = [
         "facet": '分面2',
         "data":[]
     },
-    {
-        "name":"柱3",
-        "facet": '分面1',
-        "data":[]
-    },
-    {
-        "name":"柱4",
-        "facet": '分面2',
-        "data":[]
-    }
+    // {
+    //     "name":"柱3",
+    //     "facet": '分面1',
+    //     "data":[]
+    // },
+    // {
+    //     "name":"柱4",
+    //     "facet": '分面2',
+    //     "data":[]
+    // }
 ];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 6; i++) {
     const name = i + '------' + i;
-    data2[0].data.push([name, Math.random() * 100 + 100]);
-    data2[1].data.push([name, Math.random() * 100 + 100]);
-    data2[2].data.push([name, Math.random() * 100 + 100]);
-    data2[3].data.push([name, Math.random() * 100 + 100]);
+    data2[0].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+    data2[1].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+    // data2[2].data.push([name, Math.random() * 100 + 100]);
+    // data2[3].data.push([name, Math.random() * 100 + 100]);
 }
 let options1 = {
-    padding: [40, 24, 20, 44],
-    // colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
-    marginRatio: 0.05,
-    facet: {
-      spacing: [48, 0],
-    },
-    column: false,
+  padding: [40, 32, 12, 32],
+  colors: ['#43BF7E', '#297ACC'],
+  column: false,
+  xAxis: {
+    visible: false,
+  },
+  facet: {
+    padding: [0, 0, 12, 0],
+    spacing: [0, 0]
+  },
+  label: {
+    position: 'right',
+    callback(_v, facet) {
+      return {
+        style: {
+          textAlign: facet.columnIndex === 1 ? 'start' : 'end',
+          fill: facet.columnIndex === 1 ? '#297ACC' : '#43BF7E',
+        },
+      };
+    }
+  },
+  columnWidthRatio: 0.4,
+  geomStyle(x, y, type) {
+    if (type === '柱1') {
+      return {
+        // 设置柱形状的圆角
+        radius: [0, 0, 2, 2],
+      };
+    }
+    if (type === '柱2') {
+      return {
+        // 设置柱形状的圆角
+        radius: [2, 2, 0, 0],
+      };
+    }
+  },
 };
 stories.add('镜面柱图', () => (
     <Wcontainer className="demos">

@@ -14,6 +14,7 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
   /** @deprecated key 属性已废弃，请使用 field 属性 */
   key?: string;
   offset?: number;
+  callback?: Types.LabelCallback;
 }
 
 /**
@@ -37,15 +38,17 @@ export default function (
     defaultConfig = {},
     extraConfigKey = null,
     useCustomOffset = undefined,
-    componentConfig = undefined
+    componentConfig = undefined,
+    extraCallbackParams,
   }: {
-    geom: Geometry,
-    config: { label?: LabelConfig | boolean; [p: string]: any },
-    field?: string,
-    defaultConfig?: Types.GeometryLabelCfg,
-    extraConfigKey?: string,
-    useCustomOffset?: boolean,
-    componentConfig?: Types.GeometryLabelCfg
+    geom: Geometry;
+    config: { label?: LabelConfig | boolean; [p: string]: any };
+    field?: string;
+    defaultConfig?: Types.GeometryLabelCfg;
+    extraConfigKey?: string;
+    useCustomOffset?: boolean;
+    componentConfig?: Types.GeometryLabelCfg;
+    extraCallbackParams?: any[];
   }
 ) {
   let configLabel = config[defaultConfigKey];
@@ -69,6 +72,7 @@ export default function (
     customConfig,
     field: userField,
     key,
+    callback,
     // style,
     // textStyle,
     ...otherConfigs
@@ -119,5 +123,15 @@ export default function (
     labelConfig.offset = Number(offset);
   }
 
-  geom.label(newField, labelConfig);
+  if (callback) {
+    if (extraCallbackParams) {
+      geom.label(newField, function (...args){
+        return callback(...args, ...extraCallbackParams);
+      }, labelConfig);
+    } else {
+      geom.label(newField, callback, labelConfig);
+    }
+  } else {
+    geom.label(newField, labelConfig);
+  }
 }
