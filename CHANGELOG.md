@@ -1,3 +1,16 @@
+### 1.0.20 (2022-05-11)
+
+#### New Features
+
+- 优化相邻层次图 label 逻辑
+- 全局 label 增加 callback 配置能力
+- 优化 label 函数入参模式
+
+#### Bug Fixes
+
+- Wmap 开启 label 有冗余报错
+- 通过 window 设置默认主题时会报错的问题
+
 ### 1.0.19 (2022-04-14)
 
 #### New Features
