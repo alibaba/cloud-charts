@@ -54,6 +54,7 @@ const themes: Themes = {
   setTheme,
 };
 let currentThemeName = '';
+let currentRawCss = {};
 
 export function getTheme(name?: string) {
   if (!name) {
@@ -74,14 +75,15 @@ export function setTheme(theme: string | Theme = defaultTheme, refreshChart: boo
     newTheme = themeMap[theme].js;
     currentThemeName = theme;
     setThemeStyle(themeMap[theme].css);
+    currentRawCss = themeMap[theme].rawCSS;
     // 打点
     themeLog(theme);
   } else if (typeof theme === 'object') {
     // 传入对象，直接覆盖对应的key和css
     newTheme = convertKey(theme);
 
-    // TODO 多次传入对象，css 每次都会在 current 的基础上直接处理，而不会集成前一次的结果。需要改进。
-    const newCSS = Object.assign({}, themeMap[currentThemeName].rawCSS, theme);
+    // 多次传入对象，css 会在 currentRawCss 的基础上处理
+    const newCSS = Object.assign({}, currentRawCss, theme);
     setThemeStyle(convertCSS(newCSS));
     // 打点
     themeLog(newTheme.name || 'customTheme');
