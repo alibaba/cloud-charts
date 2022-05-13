@@ -41,7 +41,7 @@ themeMap.index = themeMap.normal;
 const normalMap = { index: true, normal: true };
 
 // 默认主题包
-const defaultThemeName = window[FullThemeName] || (process.env.NODE_ENV === 'production' ? THEME : 'normal');
+const defaultTheme = process.env.NODE_ENV === 'production' ? THEME : 'normal';
 
 export interface Themes extends Theme {
   getTheme: typeof getTheme;
@@ -64,7 +64,7 @@ export function getTheme(name?: string) {
   return undefined;
 }
 
-export function setTheme(theme: string | Theme = defaultThemeName, refreshChart: boolean = true) {
+export function setTheme(theme: string | Theme = defaultTheme, refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && (theme === currentThemeName || (theme in normalMap && currentThemeName in normalMap))) {
     return;
   }
@@ -99,7 +99,11 @@ export function setTheme(theme: string | Theme = defaultThemeName, refreshChart:
   }
 }
 
-setTheme(defaultThemeName, false);
+setTheme(defaultTheme, false);
+
+if (window[FullThemeName]) {
+  setTheme(window[FullThemeName], false);
+}
 
 // 根据事件设置图表主题
 document.addEventListener(FullThemeEventName, function (e: CustomEvent) {
