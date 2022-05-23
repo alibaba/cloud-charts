@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, registerAction } from '@antv/g2/esm';
+import { Chart, View, registerAction } from '@antv/g2/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
@@ -52,6 +52,39 @@ function fixEventName(eventName: string): string {
   }
   return eventName
 }
+
+function setGeometryAnimateRecursive(view: View) {
+  if (view.geometries) {
+    const geometries = view.geometries;
+    for (let i = 0; i < geometries.length; i++) {
+      const geometry = geometries[i];
+      geometry.animate(true);
+    }
+  }
+  if (view.views) {
+    const views = view.views;
+    for (let i = 0; i < views.length; i++) {
+      setGeometryAnimateRecursive(views[i]);
+    }
+  }
+}
+
+// function getGeometryAnimateRecursive(view: View, viewParentKey: string = 'root', result: Record<string, any> = {}) {
+//   if (view.geometries) {
+//     const geometries = view.geometries;
+//     for (let i = 0; i < geometries.length; i++) {
+//       const geometry = geometries[i];
+//       result[`view${viewParentKey}-geom${i}`] = geometry.animateOption;
+//     }
+//   }
+//   if (view.views) {
+//     const views = view.views;
+//     for (let i = 0; i < views.length; i++) {
+//       getGeometryAnimateRecursive(views[i], `view${viewParentKey}-view${i}`, result);
+//     }
+//   }
+//   return result;
+// }
 
 export interface ChartProps<ChartConfig> {
   className?: string;
@@ -187,7 +220,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   componentDidMount() {
     // 图表初始化时记录日志
     chartLog(this.chartName, 'init');
-    
+
     this.language = this.props.language || 'zh-cn';
 
     // 设置初始高宽
@@ -515,8 +548,17 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
   handleChangeSize(config: ChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
     this.setSize([w, h]);
 
+    const notSetAnimate = this.props.animate === undefined && (!config || config.animate === undefined);
+    if (notSetAnimate) {
+      this.chart.animate(false);
+    }
     // 强制转换为数字
     this.changeSize(this.chart, config, Number(w), Number(h));
+    if (notSetAnimate) {
+      this.chart.animate(true);
+      // G2 关闭 view 动画后，在渲染时会递归关闭所有 geom 的动画，这里需要反向操作手动开启 animate
+      setGeometryAnimateRecursive(this.chart);
+    }
 
     // if (this.chartProcess.changeSize) {
     //   this.chart &&

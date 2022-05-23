@@ -470,3 +470,77 @@ stories.add('带虚线图', () => (
     }} data={data} />
   </Wcontainer>
 ));
+
+stories.add('带区域渲染折线 changeSize', () => {
+  const c = {
+    // "padding": [
+    //   10,
+    //   20,
+    //   30,
+    //   30
+    // ],
+    "yAxis": {
+      "min": 0
+    },
+    "xAxis": {
+      "type": "time",
+      "mask": "YYYY-MM-DD"
+    },
+    "tooltip": {},
+    "guide": {
+      "area": {
+        "axis": "y",
+        "value": [
+          51,
+          70
+        ],
+        "status": "warning"
+      },
+      "filter": {
+        "axis": "y",
+        "value": [
+          51,
+          70
+        ],
+        "status": "warning"
+      }
+    },
+    "colors": [
+      "#A5B0BD"
+    ],
+    "symbol": true,
+    "legend": false
+  };
+  return (
+    <Wline
+      config={c}
+      data={[
+        {
+          "name": "资源健康度",
+          "data": [
+            [
+              1649174400000,
+              79
+            ],
+            [
+              1650038400000,
+              0
+            ],
+            [
+              1650902400000,
+              79.56
+            ],
+            [
+              1651766400000,
+              79.62
+            ],
+            [
+              1652198400000,
+              0
+            ]
+          ]
+        }
+      ]}
+    />
+  );
+})

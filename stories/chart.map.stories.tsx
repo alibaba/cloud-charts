@@ -540,7 +540,7 @@ stories.add('区块凸起地图', () => {
 stories.add('散点地图', () => (
   <Wcontainer className="demos" height={400}>
     <Wmap config={{}}>
-      <Wmap.Point data={pointData} />
+      <Wmap.Point config={{ label: true }} data={pointData} />
     </Wmap>
   </Wcontainer>
 ));
