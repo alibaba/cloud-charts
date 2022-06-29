@@ -605,7 +605,7 @@ class Shoot {
     sCtx.globalCompositeOperation = 'lighter';
 
     // shadow
-    sCtx.shadowColor = this.config.bullet.shadowColor;
+    sCtx.shadowColor = color || this.config.bullet.shadowColor;
     sCtx.shadowBlur = 20;
     sCtx.shadowOffsetX = 0;
     sCtx.shadowOffsetY = 0;
