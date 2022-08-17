@@ -214,7 +214,7 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     polarLegendLayout(chart);
 
-    chart.on('afterrender', () => {
+    chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
   }

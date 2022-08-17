@@ -236,6 +236,42 @@ stories.add('饼图数据从有到无', () => {
   );
 });
 
+stories.add('饼图数据从无到有', () => {
+  const [d, setD] = useState([]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(data);
+      // setD([{ name: '浏览器占比', data: [] }]);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        height="300"
+        config={{
+          cycle: true,
+          tooltip: {
+            valueFormatter: function(v, data) {
+              return v + '%'
+            },
+          },
+          legend: {
+            valueFormatter: function(v, data){
+              return v + '%';
+            }
+          }
+        }}
+        data={d}
+      >
+        <Wnumber bottomTitle="现代浏览器占比" unit="%">
+          72.5
+        </Wnumber>
+      </Wpie>
+    </Wcontainer>
+  );
+});
+
 stories.add('限定角度', () => (
   <Wcontainer className="demos">
     <Wpie

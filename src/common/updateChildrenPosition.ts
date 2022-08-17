@@ -2,7 +2,7 @@ import { Chart } from '../common/types';
 import { FullCrossName } from '../constants';
 
 /**
- * updateChildrenPosition，需要在 chart afterRender 中调用
+ * updateChildrenPosition，需要在 chart afterpaint 中调用，相比 afterrender 事件，在数据更新后也会触发 afterpaint
  *
  * @param {Chart} chart 图表实例
  * @param {HTMLElement} dom 元素节点

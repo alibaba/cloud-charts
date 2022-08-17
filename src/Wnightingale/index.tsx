@@ -118,7 +118,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
 
     polarLegendLayout(chart);
 
-    chart.on('afterrender', () => {
+    chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
   }
