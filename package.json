@@ -44,7 +44,8 @@
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.1.35",
     "classnames": "^2.2.5",
-    "lodash": "^4.17.0"
+    "lodash": "^4.17.0",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",
