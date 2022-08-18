@@ -1,6 +1,6 @@
 {
   "name": "@alife/aisc-widgets",
-  "version": "3.0.21",
+  "version": "3.0.22",
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
