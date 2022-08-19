@@ -359,13 +359,6 @@ export class Pie extends Base<WpieConfig> {
 
     polarLegendLayout(chart);
 
-    chart.on('afterrender', () => {
-      // 默认选中效果
-      selectGeom(this.geom, config.selectData);
-
-      updateChildrenPosition(chart, this.chartDom);
-    });
-
     // 空数据渲染效果
     chart.on('beforepaint', () => {
       if (this.totalData !== 0 && this.noDataShape) {
@@ -374,6 +367,11 @@ export class Pie extends Base<WpieConfig> {
       }
     });
     chart.on('afterpaint', () => {
+      // 默认选中效果
+      selectGeom(this.geom, config.selectData);
+
+      updateChildrenPosition(chart, this.chartDom);
+
       if (this.totalData === 0 && !this.noDataShape) {
         const bgGroup = chart.getLayer('bg' as any);
         const coordinate = chart.getCoordinate();
