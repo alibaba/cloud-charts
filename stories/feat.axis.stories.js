@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
@@ -128,3 +128,133 @@ stories.add('超出省略', () => (
 //     }} data={lineBarData} />
 //   </Wcontainer>
 // ));
+
+const configList = [
+  {
+    yAxis: {
+      tickMethod: 'wilkinson-extended',
+    },
+    animate: false,
+  },
+  {
+    name: 'wilkinson-extended with minLimit',
+    yAxis: {
+      tickMethod: 'wilkinson-extended',
+      minLimit: 0,
+    },
+    animate: false,
+  },
+  {
+    yAxis: {
+      tickMethod: 'r-pretty',
+    },
+    animate: false,
+  },
+  {
+    yAxis: {
+      tickMethod: 'd3-linear',
+    },
+    animate: false,
+  },
+  {
+    yAxis: {
+      tickMethod: 'integer',
+      // minLimit: 0,
+    },
+    animate: false,
+  },
+];
+
+stories.add('tick 计算', () => {
+  const [height, setHeight] = useState(360);
+  const [dataHeight, setDataHeight] = useState(1);
+  const [lineStart, setLineStart] = useState(0);
+  const [lineEnd, setLineEnd] = useState(-1);
+
+  const barData = useMemo(() => {
+    return [
+      {
+        name: '测试数据',
+        data: [
+          ['数据一', dataHeight],
+          // ['数据二', dataHeight * 2]
+        ],
+      },
+    ];
+  }, [dataHeight]);
+
+  const lineData = useMemo(() => {
+    const result = [];
+    const now = new Date().setMilliseconds(0);
+    const len = 5;
+
+    const step = (lineEnd - lineStart) / (len - 1);
+
+    for (let i = 0; i < len; i++) {
+      result.push([now - (len - i) * 60000, lineStart + i * step]);
+    }
+    return [
+      {
+        name: '测试数据',
+        data: result,
+      },
+    ];
+  }, [lineStart, lineEnd]);
+
+  return (
+    <div>
+      <p>
+        图表高度
+        <span style={{ display: 'inline-block', marginLeft: 8, width: 36 }}>{height}</span>
+        <input style={{ width: 720 }} type="range" onChange={e => setHeight(Number(e.target.value))} min="200" max="500" value={height} step="1" />
+      </p>
+      <p>柱图</p>
+      <p>
+        数据大小
+        <span style={{ display: 'inline-block', marginLeft: 8, width: 36 }}>{dataHeight}</span>
+        <input style={{ width: 720 }} type="range" onChange={e => setDataHeight(Number(e.target.value))} min="-100" max="500" value={dataHeight} step="1" />
+      </p>
+      <div style={{ display: 'flex' }}>
+        {
+          configList.map((c, i) => {
+            return (
+              <div key={i} style={{ flex: `${100 / configList.length}%`, padding: '0 20px' }}>
+                <span>yAxis config</span>
+                <pre style={{ height: 80, background: '#f7f7f7', padding: 20 }}>
+                  {JSON.stringify(c.yAxis, null, 2)}
+                </pre>
+                <Wbar height={height} config={c} data={barData} />
+              </div>
+            );
+          })
+        }
+      </div>
+      <p>线图</p>
+      <p>
+        数据起始
+        <span style={{ display: 'inline-block', marginLeft: 8, width: 36 }}>{lineStart}</span>
+        <input style={{ width: 720 }} type="range" onChange={e => setLineStart(Number(e.target.value))} min="-100" max="500" value={lineStart} step="1" />
+      </p>
+      <p>
+        数据结束
+        <span style={{ display: 'inline-block', marginLeft: 8, width: 36 }}>{lineEnd}</span>
+        <input style={{ width: 720 }} type="range" onChange={e => setLineEnd(Number(e.target.value))} min="-100" max="500" value={lineEnd} step="1" />
+      </p>
+      <div style={{ display: 'flex' }}>
+        {
+          configList.map((c, i) => {
+            return (
+              <div key={i} style={{ flex: `${100 / configList.length}%`, padding: '0 20px' }}>
+                <span>yAxis config</span>
+                <pre style={{ height: 80, background: '#f7f7f7', padding: 20 }}>
+                  {JSON.stringify(c.yAxis, null, 2)}
+                </pre>
+                <Wline height={height} config={c} data={lineData} />
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  );
+});
