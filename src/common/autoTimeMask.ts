@@ -71,8 +71,7 @@ function getAutoMask(def: Types.ScaleOption, data: any): string {
 
   const spanIndex = getTimeIndex(span);
   const intervalIndex = getTimeIndex(interval);
-  if (intervalIndex > spanIndex) {
-    return defaultMask;
-  }
-  return maskMap[intervalIndex][spanIndex];
+
+  // 如果记录表中没有记录，则使用默认 mask
+  return maskMap[intervalIndex][spanIndex] || defaultMask;
 }
