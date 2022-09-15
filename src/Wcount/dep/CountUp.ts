@@ -51,10 +51,14 @@ export class CountUp {
   paused = true;
   frameVal: number;
 
+  public endVal: number;
+
+  public options?: CountUpOptions;
+
   constructor(
     target: string | HTMLElement | HTMLInputElement,
-    public endVal: number,
-    public options?: CountUpOptions
+    endVal: number,
+    options?: CountUpOptions
   ) {
     this.options = {
       ...this.defaults,

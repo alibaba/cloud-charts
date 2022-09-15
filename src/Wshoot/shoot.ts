@@ -78,7 +78,13 @@ class Shoot {
   sCtx: CanvasRenderingContext2D;
   tween: Tween;
 
-  constructor(private canvas: HTMLCanvasElement, private getPosition: getPositionFun, protected config: ShootConfig) {
+  private canvas: HTMLCanvasElement;
+
+  private getPosition: getPositionFun;
+
+  protected config: ShootConfig;
+
+  constructor(canvas: HTMLCanvasElement, getPosition: getPositionFun, config: ShootConfig) {
     // this.uuid = generateUniqueId();
     this.getPosition = getPosition;
     this.config = merge({
