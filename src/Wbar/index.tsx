@@ -46,6 +46,9 @@ interface FacetConfig {
   } & Omit<G2Dependents.EnhancedTextCfg, 'content'>;
 }
 
+interface ColumnConfig {
+  reflect?: boolean;
+}
 interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
@@ -54,7 +57,7 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
-  column?: boolean;
+  column?: ColumnConfig | boolean;
   dodge?: boolean;
   dodgeStack?: boolean;
   stack?: boolean;
@@ -188,8 +191,13 @@ export class Bar extends Base<WbarConfig> {
       : chart.coordinate();
 
     // 横向柱状图
-    if (!config.column) {
+    if (!config.column || typeof config.column === 'object') {
+      const columnConfig = typeof config.column === 'object' ? config.column : {};
       chartCoord.transpose();
+      // 横向镜像
+      if (columnConfig.reflect) {
+        chartCoord.reflect('x');
+      }
     }
 
     // // 玉玦图，需要手动添加 数据标记
@@ -298,7 +306,7 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) {
-  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize = 24, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
