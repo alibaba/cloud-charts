@@ -62,6 +62,28 @@ export interface LegendConfig extends customFormatterConfig {
   /** @deprecated config.legend.defaultClickBehavior 已废弃，请使用 chart.on('legend-item:click', onClick) 绑定自定义点击事件 */
   defaultClickBehavior?: boolean;
   customConfig?: Types.LegendCfg;
+  // 尺寸相关配置
+  /**
+   * @title 最大宽度
+   * @description **分类图例适用**，图例项最大宽度设置。
+   */
+  maxWidth?: number;
+  /**
+   * @title 最大高度
+   * @description **分类图例适用**，图例项最大高度设置。
+   */
+  maxHeight?: number;
+  /**
+   * @title 最大宽度比例
+   * @description **分类图例适用**，图例项最大宽度比例（以 view 的 bbox 宽度为参照，默认 0.45）。
+   */
+  maxWidthRatio?: number;
+  /**
+   * @title 最大高度比例
+   * @description **分类图例适用**，图例项最大高度比例（以 view 的 bbox 高度为参照，默认 0.45）。
+   */
+  maxHeightRatio?: number;
+
 }
 
 function getPosition(position?: string, align?: string): Position {
@@ -151,6 +173,10 @@ export default function<T> (
       // 自定义配置
       customConfig,
       // style = {},
+      maxWidth,
+      maxHeight,
+      maxWidthRatio,
+      maxHeightRatio,
     } = (config.legend === true ? {} : (config.legend || {})) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -182,7 +208,11 @@ export default function<T> (
           lineAppendWidth: 0,
           fillOpacity: 1,
         },
-      }
+      },
+      maxWidth,
+      maxHeight,
+      maxWidthRatio: maxWidthRatio || 0.45,
+      maxHeightRatio: maxHeightRatio || 0.45,
     };
 
     // legend hover 相关事件
