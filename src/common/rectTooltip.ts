@@ -1,9 +1,10 @@
 'use strict';
 
 import { Chart, Types } from "./types";
-import { customFormatter, customFormatterConfig, getRawData, merge } from './common';
+import { customFormatter, customFormatterConfig, getRawData, merge, pxToNumber } from './common';
 import { ReactElement } from 'react';
 import { render } from 'react-dom';
+import themes from '../themes';
 
 // import TooltipController from '@antv/g2/esm/chart/controller/tooltip';
 // import { registerComponentController } from '@antv/g2/esm/chart/controller';
@@ -49,6 +50,8 @@ export interface TooltipConfig extends customFormatterConfig {
   /** Html 自定义内容块 */
   customContent?: (title: string, data: any[]) => string | HTMLElement;
   reactContent?: (title: string, data: any[]) => ReactElement;
+  /** 内容分列展示 */
+  columns?: number | false;
 }
 
 /**
@@ -85,6 +88,7 @@ export default function<T>(
       customContent,
       reactContent,
       customConfig,
+      columns,
       unit,
       decimal,
       grouping,
@@ -148,6 +152,43 @@ export default function<T>(
         render(reactContent(title, data), reactContentDom);
         return reactContentDom;
       }
+    }
+
+    // 多列设置无法和自定义内容同时使用
+    if (columns !== false && !reactContent && !customContent) {
+      const tooltipListStyle: Types.LooseObject = {};
+      if (columns > 1) {
+        tooltipListStyle['column-count'] = columns;
+      }
+      merge(tooltipConfig, {
+        domStyles: {
+          'g2-tooltip-list': tooltipListStyle,
+        },
+      });
+      const fontSize1 = themes['widgets-font-size-1'];
+      const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
+
+      // 在 tooltip 展示前，根据 items 个数更新
+      chart.on('tooltip:show', (ev: any) => {
+        if (ev.view) {
+          const chartHeight = ev.view.height;
+          // 图表高度最多能容纳的 tooltip 项个数
+          const maxLen = Math.floor((chartHeight - (3 * baseFontSizeNum)) / (2 * baseFontSizeNum));
+          const { items } = ev.data;
+          // 计算最终分列数，自动计算最多分 3 列，最少 1 列
+          const computeColumns = columns || Math.min(3, Math.max(1, Math.ceil(items.length / maxLen)));
+
+          const tooltipOptions = ev.view.getOptions().tooltip;
+
+          tooltipOptions.domStyles['g2-tooltip-list']['column-count'] = computeColumns;
+
+          if (items.length % computeColumns !== 0) {
+            tooltipOptions.domStyles['g2-tooltip-list'].margin = `0 0 ${fontSize1} 0`;
+          } else {
+            tooltipOptions.domStyles['g2-tooltip-list'].margin = 0;
+          }
+        }
+      });
     }
 
     if (componentConfig) {

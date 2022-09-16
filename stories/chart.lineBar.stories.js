@@ -42,6 +42,9 @@ stories.add('线柱图', () => (
       lineGeomStyle: {
         cursor: 'pointer',
       },
+      tooltip: {
+        columns: 2,
+      },
     }} data={data} />
   </Wcontainer>
 ));
