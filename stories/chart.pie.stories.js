@@ -289,3 +289,41 @@ stories.add('限定角度', () => (
     </Wpie>
   </Wcontainer>
 ));
+
+const longData = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7],
+      ['Firefox111Firefox111', 45.0],
+      ['IE111IE111', 26.8],
+      ['Chrome111Chrome111', 12.8],
+      ['Safari111Safari111', 8.5],
+      ['Opera111Opera111', 6.2],
+      ['Others111Others111', 0.7],
+    ],
+  },
+];
+stories.add('饼图图例切分', () => (
+  <Wcontainer className="demos">
+    <Wpie
+      width={380}
+      height="240"
+      config={{
+        legend: {
+          customConfig: {
+            // maxWidth: 300,
+            // maxItemWidth: 300,
+            // maxWidthRatio: 0.5,
+          },
+        },
+      }}
+      data={longData}
+    />
+  </Wcontainer>
+));
