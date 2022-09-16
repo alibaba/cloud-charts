@@ -268,6 +268,16 @@ for (let i = 0; i < 10; i++) {
 let options2 = {
     dodgeStack: true
 };
+
+let data4 = [
+  {
+      "name":"柱1",
+      "data":[
+        ['一', 56]
+      ]
+  },
+];
+
 stories.add('分组堆叠图', () => (
     <Wcontainer className="demos">
         <Wbar
@@ -364,6 +374,20 @@ stories.add('分组百分比堆叠柱状图', () => {
           }
         }}
         data={data3}
+      />
+    </Wcontainer>
+  );
+});
+
+stories.add('单数据柱图', () => {
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          // maxSize: 24
+        }}
+        data={data4}
       />
     </Wcontainer>
   );

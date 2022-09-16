@@ -298,7 +298,7 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) {
-  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize = 24, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
