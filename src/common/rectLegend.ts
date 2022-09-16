@@ -101,21 +101,22 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
   if (userPadding) {
     return userPadding;
   }
-  const len = base * 2 / 3;
+  const len = base * 4 / 3;
+  const lrLen = base * 2;
   const [p] = position.split('-');
   switch (p) {
     case 'bottom':
       return [len, 0, 0, 0];
     case 'left':
       if (isPolar === true) {
-        return [0, base, 0, 0];
+        return [0, lrLen, 0, 0];
       }
       return [0, len, 0, 0];
     case 'top':
       return [0, 0, len, 0];
     case 'right':
       if (isPolar === true) {
-        return [0, 0, 0, base];
+        return [0, 0, 0, lrLen];
       }
       return [0, 0, 0, len];
   }
