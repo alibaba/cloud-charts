@@ -1,6 +1,7 @@
 'use strict';
 
 import { Chart, View, registerAction } from '@antv/g2/esm';
+import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
@@ -9,8 +10,11 @@ import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
+import { integer } from './tickMethod';
 
 registerAction('list-checked', ListChecked);
+
+registerTickMethod('integer', integer);
 
 // 图表唯一id
 let uniqueId = 0;
