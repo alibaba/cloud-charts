@@ -57,9 +57,9 @@ $font-path-r: '../font/txddinregular' !default;
   //  user-select: none;
   //}
 
-  .g2-tooltip-item-value {
-    margin-left: getVar(s2, $s2);
-  }
+  // .g2-tooltip-item-value {
+  //   margin-left: getVar(s2, $s2);
+  // }
 
   ::-webkit-scrollbar {
     background: getVar(widgets-scrollbar-bg, $widgets-scrollbar-bg);
