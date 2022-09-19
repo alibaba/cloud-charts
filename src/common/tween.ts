@@ -13,7 +13,11 @@ export class Tween {
   lastUpdate: number;
   _isPlay: boolean;
 
-  constructor(private config: TweenConfig, private callback: TweenCallback) {
+  private config: TweenConfig;
+
+  private callback: TweenCallback;
+
+  constructor(config: TweenConfig, callback: TweenCallback) {
     const { maxFps } = config;
     this.config = config;
     this.callback = callback;
