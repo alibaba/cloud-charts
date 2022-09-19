@@ -248,7 +248,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 坐标轴刻度文本字体粗细 */
     axisLabelFontWeight: 'normal',
     /** 坐标轴刻度文本距离坐标轴线的间距 */
-    axisLabelOffset: fontSize1, // CHECK 8px 还是 12px
+    axisLabelOffset: fontSize1,
 
     /** 坐标轴网格线颜色 */
     axisGridBorderColor: theme['widgets-axis-grid'],
