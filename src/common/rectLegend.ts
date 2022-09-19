@@ -41,9 +41,10 @@ type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'righ
 
 export interface LegendConfig extends customFormatterConfig {
   visible?: boolean;
+  /** 是否支持分页 */
   autoCollapse?: boolean;
-  /** @deprecated 暂时无法修改分页尺寸 */
-  collapseRow?: 'auto' | number;
+  /** 分页尺寸 */
+  collapseRow?: number;
   position?: Position;
   align?: string;
   padding?: [number, number, number, number];
@@ -152,16 +153,13 @@ export default function<T> (
       // style = {},
     } = (config.legend === true ? {} : (config.legend || {})) as LegendConfig;
 
-    if (collapseRow) {
-      warn('config.legend', `collapseRow 已废弃，暂时无法修改分页尺寸`);
-    }
-
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
 
     const legendConfig: Types.LegendCfg = {
       ...defaultConfig,
       position: getPosition(position, align),
       flipPage: autoCollapse,
+      maxRow: collapseRow,
       itemName: {
         // formatter: nameFormatter,
         formatter: (text, item, index) => {
