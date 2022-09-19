@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@antv/data-set": "^0.11.5",
-    "@antv/g2": "^4.1.1",
+    "@antv/g2": "^4.2.1",
     "classnames": "^2.2.5",
     "lodash": "^4.17.0"
   },
