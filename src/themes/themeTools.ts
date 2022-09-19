@@ -661,7 +661,7 @@ export function setG2Theme(theme: Theme) {
   });
   Object.assign(tooltipStyle['g2-tooltip-list-item'], {
     marginBottom: baseFontSize,
-    marginTop: baseFontSize,
+    marginTop: 0,
   });
   Object.assign(tooltipStyle['g2-tooltip-marker'], {
     width: `${baseFontSizeNum / 2}px`,
