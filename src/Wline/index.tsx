@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
@@ -12,16 +12,17 @@ import autoTimeMask from '../common/autoTimeMask';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-import rectZoom, { ZoomConfig } from "../common/rectZoom";
+import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
+import { warn } from '../common/log';
 import './index.scss';
 
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig, SliderConfig {
   /** X轴配置项 */
-  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   /** Y轴配置项 */
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   /** 图例配置项 */
   legend?: LegendConfig | boolean;
   /** 提示信息配置项 */
@@ -77,11 +78,15 @@ export class Line extends Base<WlineConfig> {
   }
   init(chart: Chart, config: WlineConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        type: 'time',
-        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1],
-      }, config.xAxis),
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          type: 'time',
+          // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+          range: [0, 1],
+        },
+        config.xAxis,
+      ),
       type: {
         type: 'cat',
       },
@@ -89,18 +94,26 @@ export class Line extends Base<WlineConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
+        defs[`y${yIndex}`] = propertyAssign(
+          propertyMap.axis,
+          {
+            type: 'linear',
+            tickCount: 5,
+            nice: true,
+          },
+          axis,
+        );
+      });
+    } else {
+      defs.y = propertyAssign(
+        propertyMap.axis,
+        {
           type: 'linear',
           tickCount: 5,
           nice: true,
-        }, axis);
-      });
-    } else {
-      defs.y = propertyAssign(propertyMap.axis, {
-        type: 'linear',
-        tickCount: 5,
-        nice: true,
-      }, config.yAxis);
+        },
+        config.yAxis,
+      );
     }
 
     autoTimeMask(defs, this.rawData);
@@ -143,7 +156,7 @@ export class Line extends Base<WlineConfig> {
     let markerOptions = {
       marker: {
         symbol: 'circle',
-      }
+      },
     };
 
     if (config.symbol && typeof config.symbol === 'object') {
@@ -182,6 +195,35 @@ export class Line extends Base<WlineConfig> {
 
     // 缩略轴
     rectSlider(chart, config);
+  }
+
+  public calcDataSize(data: any): void {
+    // 统计每个type的数据点数量
+    const count: any = {};
+    data.forEach((item: any) => {
+      const type = item?.type || 'undefined';
+      if (type in count) {
+        count[type] += 1;
+      } else {
+        count[type] = 1;
+      }
+    });
+    const n = Math.max(...(Object.values(count) as any));
+    this.dataSize = n;
+  }
+
+  public detectBigData(): void {
+    const threshold = 10;
+
+    if (!this.dataSize) {
+      return;
+    }
+
+    const width = this.chart.width;
+
+    if (width / this.dataSize < threshold) {
+      warn('Wline', '该线图数据量过多，会影响展示效果，建议减少数据量或加大宽度');
+    }
   }
 }
 
