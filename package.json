@@ -46,6 +46,7 @@
   "dependencies": {
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.2.1",
+    "@antv/scale": "0.3.18",
     "classnames": "^2.2.5",
     "lodash": "^4.17.0"
   },
@@ -80,6 +81,7 @@
     "sass-extract": "^2.1.0",
     "sass-extract-js": "^0.4.0",
     "sass-extract-loader": "^1.1.0",
+    "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.0"
   },
   "author": "maplor@163.com"
