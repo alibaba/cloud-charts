@@ -1,9 +1,9 @@
 'use strict';
 
 import { Chart, Geometry, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
-import Base from '../common/Base';
+import Base from "../common/Base";
 import themes from '../themes/index';
-import { /*pxToNumber,*/ numberDecimal /*isInvalidNumber*/ } from '../common/common';
+import { /*pxToNumber,*/ numberDecimal, /*isInvalidNumber*/ } from '../common/common';
 import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
@@ -12,7 +12,6 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
 import errorWrap from '../common/errorWrap';
 import updateChildrenPosition from '../common/updateChildrenPosition';
-import { warn } from '../common/log';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -80,7 +79,7 @@ interface WpieConfig extends BaseChartConfig {
    * 用于极坐标，配置结束弧度。
    */
   endAngle?: number;
-  label?: LabelConfig | boolean;
+  label?: LabelConfig | boolean,
   selectData?: string;
   geomStyle?: GeomStyleConfig;
 }
@@ -119,7 +118,7 @@ export class Pie extends Base<WpieConfig> {
   changeData(chart: Chart, config: WpieConfig, data: ChartData) {
     // 更新数据总和值，保证百分比的正常
     let totalData = 0;
-    data.forEach((d: { y: number }) => {
+    data.forEach((d: { y: number; }) => {
       totalData += d.y;
     });
     this.totalData = totalData;
@@ -171,13 +170,13 @@ export class Pie extends Base<WpieConfig> {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
     }
     if (config.startAngle !== undefined) {
-      thetaConfig.startAngle = config.startAngle;
+      thetaConfig.startAngle = config.startAngle
     }
     if (config.endAngle !== undefined) {
-      thetaConfig.endAngle = config.endAngle;
+      thetaConfig.endAngle = config.endAngle
     }
     // coordinate translate 操作会导致饼图变形，暂时换一种方式实现
-    /*const coord = */ chart.coordinate('theta', thetaConfig);
+    /*const coord = */chart.coordinate('theta', thetaConfig);
 
     // if (config.coord) {
     //   const { transform } = config.coord || {};
@@ -201,80 +200,70 @@ export class Pie extends Base<WpieConfig> {
     // const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
     // 设置图例
-    rectLegend(
-      this,
-      chart,
-      config,
-      {
-        // autoCollapse: false,
-        // position: 'right',
-        // itemTpl: (value, itemColor, checked, index) => {
-        //   const { nameFormatter, valueFormatter, showData = true } = config.legend || {};
-        //
-        //   const item = (this.data && this.data[index]) || {};
-        //   const raw = (this.rawData && this.rawData[0]) || {};
-        //   const percent = numberDecimal(item.y / this.totalData, 4);
-        //
-        //   const result = nameFormatter ? nameFormatter(value, {
-        //     ...raw,
-        //     percent,
-        //     itemColor,
-        //     checked,
-        //   }, index) : value;
-        //
-        //   if (showData) {
-        //     const number = valueFormatter ? valueFormatter(item.y, {
-        //       ...raw,
-        //       percent,
-        //       itemColor,
-        //       checked,
-        //     }, index) : item.y;
-        //     return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-        //     '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-        //     '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
-        //   }
-        //
-        //   return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
-        //   '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
-        //   '<span class="g2-legend-text">'}${result}</span></li>`;
-        // },
-        // 'g2-legend': {
-        //   ...legendHtmlContainer,
-        //   position: 'static',
-        //   overflow: 'auto',
-        //   // inline flex items 不能使用百分比的margin/padding，设置为固定大小
-        //   marginLeft: `${Math.max(pxToNumber(themes['widgets-font-size-4']) - drawPadding[1], 0)}px`,
-        // },
-        // 'g2-legend-list-item': {
-        //   ...legendHtmlListItem,
-        //   marginRight: 0,
-        // },
-      },
-      true,
-      null,
-      true,
-      (item: G2Dependents.ListItem, index: number) => {
-        const { name } = item;
-        const raw = (this.rawData && this.rawData[0]) || {};
-        let value = 0;
-        raw.data &&
-          raw.data.forEach((r: any) => {
-            if (Array.isArray(r) && r[0] === name) {
-              value = r[1];
-            } else if (typeof r === 'object' && r.x === name) {
-              value = r.y;
-            }
-          });
+    rectLegend(this, chart, config, {
+      // autoCollapse: false,
+      // position: 'right',
+      // itemTpl: (value, itemColor, checked, index) => {
+      //   const { nameFormatter, valueFormatter, showData = true } = config.legend || {};
+      //
+      //   const item = (this.data && this.data[index]) || {};
+      //   const raw = (this.rawData && this.rawData[0]) || {};
+      //   const percent = numberDecimal(item.y / this.totalData, 4);
+      //
+      //   const result = nameFormatter ? nameFormatter(value, {
+      //     ...raw,
+      //     percent,
+      //     itemColor,
+      //     checked,
+      //   }, index) : value;
+      //
+      //   if (showData) {
+      //     const number = valueFormatter ? valueFormatter(item.y, {
+      //       ...raw,
+      //       percent,
+      //       itemColor,
+      //       checked,
+      //     }, index) : item.y;
+      //     return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+      //     '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+      //     '<span class="g2-legend-text">'}${result}</span>` + `<span class="g2-legend-value">${number}</span></li>`;
+      //   }
+      //
+      //   return `${'<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+      //   '<i class="g2-legend-marker" style="background-color:{color};"></i>' +
+      //   '<span class="g2-legend-text">'}${result}</span></li>`;
+      // },
+      // 'g2-legend': {
+      //   ...legendHtmlContainer,
+      //   position: 'static',
+      //   overflow: 'auto',
+      //   // inline flex items 不能使用百分比的margin/padding，设置为固定大小
+      //   marginLeft: `${Math.max(pxToNumber(themes['widgets-font-size-4']) - drawPadding[1], 0)}px`,
+      // },
+      // 'g2-legend-list-item': {
+      //   ...legendHtmlListItem,
+      //   marginRight: 0,
+      // },
+    }, true, null, true, (item: G2Dependents.ListItem, index: number) => {
+      const { name } = item;
+      const raw = (this.rawData && this.rawData[0]) || {};
+      let value = 0;
+      raw.data && raw.data.forEach((r: any) => {
+        if (Array.isArray(r) && r[0] === name) {
+          value = r[1];
+        } else if (typeof r === 'object' && r.x === name) {
+          value = r.y
+        }
+      });
 
-        const percent = this.totalData === 0 ? 0 : numberDecimal(value / this.totalData, 4);
+      const percent = this.totalData === 0 ? 0 : numberDecimal(value / this.totalData, 4);
 
-        return {
-          ...raw,
-          percent,
-          ...item,
-        };
-      },
-    );
+      return {
+        ...raw,
+        percent,
+        ...item,
+      }
+    });
 
     // tooltip
     rectTooltip(
@@ -299,26 +288,16 @@ export class Pie extends Base<WpieConfig> {
           }
 
           if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(
-              item.value,
-              {
-                ...raw,
-                percent,
-              },
-              index,
-              items,
-            );
+            item.value = config.tooltip.valueFormatter(item.value, {
+              ...raw,
+              percent,
+            }, index, items);
           }
           if (config.tooltip.nameFormatter) {
-            item.name = config.tooltip.nameFormatter(
-              item.name,
-              {
-                ...raw,
-                percent,
-              },
-              index,
-              items,
-            );
+            item.name = config.tooltip.nameFormatter(item.name, {
+              ...raw,
+              percent,
+            }, index, items);
           }
         });
       },
@@ -327,10 +306,13 @@ export class Pie extends Base<WpieConfig> {
         showMarkers: false,
         showCrosshairs: false,
         shared: false,
-      },
+      }
     );
 
-    this.geom = chart.interval().position('y').color('x', config.colors).adjust('stack');
+    this.geom = chart.interval()
+      .position('y')
+      .color('x', config.colors)
+      .adjust('stack');
 
     if (config.select) {
       chart.interaction('element-single-selected', {
@@ -344,8 +326,8 @@ export class Pie extends Base<WpieConfig> {
             },
             trigger: 'element:click',
             action: 'element-single-selected:toggle',
-          },
-        ],
+          }
+        ]
       });
     }
 
@@ -365,18 +347,14 @@ export class Pie extends Base<WpieConfig> {
           if (config.label.labelFormatter) {
             const percent = numberDecimal(v[labelField] / this.totalData, 4);
 
-            return config.label.labelFormatter(
-              v[labelField],
-              {
-                ...item,
-                percent,
-              } as Types.MappingDatum,
-              index,
-            );
+            return config.label.labelFormatter(v[labelField], {
+              ...item,
+              percent,
+            } as Types.MappingDatum, index);
           }
           return v[labelField];
         }) as Types.GeometryLabelContentCallback,
-      },
+      }
     });
 
     polarLegendLayout(chart);
@@ -409,7 +387,7 @@ export class Pie extends Base<WpieConfig> {
           // ['Z'],
         ];
         if (innerRadius > 0) {
-          const innerR = (pieSize * innerRadius) / 2;
+          const innerR = pieSize * innerRadius / 2;
           path.push(
             ['M', centerX, centerY - innerR],
             ['A', innerR, innerR, 0, 0, 0, centerX, centerY + innerR],
@@ -449,24 +427,7 @@ export class Pie extends Base<WpieConfig> {
         // });
       }
     });
-  }
 
-  public calcDataSize(data: any): void {
-    this.dataSize = data.length;
-  }
-
-  public detectBigData(): void {
-    const threshold = 20;
-
-    if (!this.dataSize) {
-      return;
-    }
-
-    const radius = Math.min(this.chart?.coordinateBBox?.height, this.chart?.coordinateBBox?.width);
-
-    if (this.dataSize > 10 || radius / this.dataSize < threshold) {
-      warn('Wpie', '该饼图分片数量过多，会影响展示效果，建议减少数据量或加大半径');
-    }
   }
 }
 
