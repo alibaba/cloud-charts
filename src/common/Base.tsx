@@ -3,7 +3,7 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language, Types } from "./types";
+import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
@@ -30,7 +30,7 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
   if (Array.isArray(padding)) {
     for (let i = 0; i < padding.length; i++) {
       if (padding[i] === 'auto') {
-        warn('config.padding', '不再支持 auto 和 数值 混用，请使用 config.padding = \'auto\'');
+        warn('config.padding', "不再支持 auto 和 数值 混用，请使用 config.padding = 'auto'");
         return 'auto';
       }
     }
@@ -39,12 +39,12 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
 }
 
 const needFixEventName = {
-  'plotenter': 'plot:enter',
-  'plotmove': 'plot:move',
-  'plotleave': 'plot:leave',
-  'plotclick': 'plot:click',
-  'plotdblclick': 'plot:dblclick',
-}
+  plotenter: 'plot:enter',
+  plotmove: 'plot:move',
+  plotleave: 'plot:leave',
+  plotclick: 'plot:click',
+  plotdblclick: 'plot:dblclick',
+};
 /** 修复部分事件名称改变导致在新版不生效的问题 */
 function fixEventName(eventName: string): string {
   // @ts-ignore
@@ -54,7 +54,7 @@ function fixEventName(eventName: string): string {
     // @ts-ignore
     return needFixEventName[eventName];
   }
-  return eventName
+  return eventName;
 }
 
 function setGeometryAnimateRecursive(view: View) {
@@ -101,7 +101,7 @@ export interface ChartProps<ChartConfig> {
     [eventKey: string]: Function;
   };
   interaction?: {
-    [actionName: string]: Types.LooseObject
+    [actionName: string]: Types.LooseObject;
   };
   language?: Language;
   /** 获取图表实例的回调 */
@@ -153,7 +153,10 @@ export interface ChartProps<ChartConfig> {
  * @template ChartConfig 泛型 - 配置项
  * @template Props 泛型 - Props参数
  * */
-class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>> extends React.Component<Props> {
+class Base<
+  ChartConfig extends BaseChartConfig,
+  Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>,
+> extends React.Component<Props> {
   static defaultProps? = {};
 
   static isG2Chart = true;
@@ -172,12 +175,16 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
   protected rawData: ChartData;
 
+  protected dataSize: number;
+
+  private detectTime: any;
+
   constructor(props: Props) {
     super(props);
     this.chart = null;
     this.chartDom = null;
     this.chartId = generateUniqueId();
-    this.defaultConfig = ({} as ChartConfig);
+    this.defaultConfig = {} as ChartConfig;
 
     this.autoResize = this.autoResize.bind(this);
     this.rerender = this.rerender.bind(this);
@@ -190,34 +197,52 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
   /** 获取图表默认配置项 */
   public getDefaultConfig(): ChartConfig {
-    return ({} as ChartConfig);
+    return {} as ChartConfig;
   }
 
   /** 初始化前对props额外处理 */
   public beforeInit?(props: Props): Props;
 
   /** 初始化函数 */
-  public init(chart: Chart, config: ChartConfig, data: ChartData): void { };
+  public init(chart: Chart, config: ChartConfig, data: ChartData): void {}
 
   /** 自定义判断配置项是否更改 */
   public isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
+  /** 计算数据量 */
+  public calcDataSize(data: ChartData): void {}
+
+  /** 节流 */
+  public throttleDetect(){
+    const now = Date.now();
+    if(now-this.detectTime<1000){
+      return;
+    }
+    this.detectBigData(this.props.config);
+    this.detectTime = now;
+  }
+
+  /** 判断数据量是否超标，超标则给出提示 */
+  public detectBigData(config: ChartConfig): void {}
+
   /** 更新数据 */
   public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
-  };
+    this.calcDataSize(data);
+    this.throttleDetect();
+  }
 
   /** 更新尺寸 */
   public changeSize(chart: Chart, config: ChartConfig, width: number, height: number): void {
     chart && chart.changeSize(width, height);
-  };
+    this.throttleDetect();
+  }
 
   /** @deprecated 图表渲染后回调 */
   public afterRender?(config: ChartConfig): void;
 
   /** 销毁图表 */
   public destroy?(): void;
-
 
   // 基类自己的生命周期
 
@@ -249,14 +274,14 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     this.handleDestroy();
 
     // this.reRenderTimer = requestAnimationFrame(() => {
-      if (!this.chartDom) {
-        return;
-      }
-      this.initSize();
+    if (!this.chartDom) {
+      return;
+    }
+    this.initSize();
 
-      this.initChart();
+    this.initChart();
 
-      this.isReRendering = false;
+    this.isReRendering = false;
     // });
   }
 
@@ -307,32 +332,32 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
-      if (this.checkConfigChange(newConfig, oldConfig)) {
-        this.rerender();
+    if (this.checkConfigChange(newConfig, oldConfig)) {
+      this.rerender();
 
-        return;
-      }
+      return;
+    }
     // }
 
     // 更新事件
     if (newEvent !== oldEvent) {
       // 清除旧事件
-      Object.keys(oldEvent).forEach(eventKey => {
+      Object.keys(oldEvent).forEach((eventKey) => {
         this.chart.off(fixEventName(eventKey), oldEvent[eventKey]);
       });
       // 绑定新事件
-      Object.keys(newEvent).forEach(eventKey => {
+      Object.keys(newEvent).forEach((eventKey) => {
         this.chart.on(fixEventName(eventKey), newEvent[eventKey]);
       });
     }
 
     if (newInteraction !== oldInteraction) {
       // 清除旧交互
-      Object.keys(oldInteraction).forEach(interactionName => {
+      Object.keys(oldInteraction).forEach((interactionName) => {
         this.chart.removeInteraction(interactionName);
       });
       // 绑定新交互
-      Object.keys(newInteraction).forEach(interactionName => {
+      Object.keys(newInteraction).forEach((interactionName) => {
         this.chart.interaction(interactionName, newInteraction[interactionName]);
       });
     }
@@ -342,25 +367,16 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     // 数据有变化
     if (
       newData !== oldData ||
-      (Array.isArray(newData) &&
-        Array.isArray(oldData) &&
-        newData.length !== oldData.length)
+      (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)
     ) {
-      const mergeConfig = merge({}, this.defaultConfig, newConfig)
+      const mergeConfig = merge({}, this.defaultConfig, newConfig);
       const data =
-        this.convertData &&
-        mergeConfig.dataType !== 'g2'
-          ? highchartsDataToG2Data(newData, mergeConfig)
-          : newData;
+        this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
-      this.changeData(
-        this.chart,
-        mergeConfig,
-        data
-      );
+      this.changeData(this.chart, mergeConfig, data);
 
       this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', mergeConfig, data);
 
@@ -414,7 +430,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       this.chart && this.destroy();
     }
     if (this.unmountCallbacks.length > 0) {
-      this.unmountCallbacks.forEach(cb => {
+      this.unmountCallbacks.forEach((cb) => {
         cb && cb.call(this, this.chart);
       });
     }
@@ -479,11 +495,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     this.chart = chart;
 
     // 预处理数据
-    const data =
-      this.convertData &&
-      config.dataType !== 'g2'
-        ? highchartsDataToG2Data(initData, config)
-        : initData;
+    const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
     this.rawData = initData;
 
     if (animate !== undefined) {
@@ -508,14 +520,14 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
     // 绑定事件，这里透传了G2的所有事件，暂时不做额外封装
     if (chart && event) {
-      Object.keys(event).forEach(eventKey => {
+      Object.keys(event).forEach((eventKey) => {
         chart.on(fixEventName(eventKey), event[eventKey]);
       });
     }
 
     // 绑定交互
     if (chart && interaction) {
-      Object.keys(interaction).forEach(interactionName => {
+      Object.keys(interaction).forEach((interactionName) => {
         chart.interaction(interactionName, interaction[interactionName]);
       });
     }
@@ -528,6 +540,10 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     chart.render();
 
     this.handleAfterRender(config);
+
+    // 检测数据量
+    this.calcDataSize(data);
+    this.throttleDetect();
   }
 
   private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
@@ -592,11 +608,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
       const parentSize = getParentSize(element, props.width, props.height);
       // 读取的高宽需要是有效值，0 也不可以
-      if (
-        !(parentSize[0] === size[0] && parentSize[1] === size[1]) &&
-        parentSize[0] &&
-        parentSize[1]
-      ) {
+      if (!(parentSize[0] === size[0] && parentSize[1] === size[1]) && parentSize[0] && parentSize[1]) {
         this.handleChangeSize(props.config, parentSize[0], parentSize[1]);
 
         this.handleAfterRender();
@@ -628,7 +640,7 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
           this.afterRender(config || this.props.config);
         }
         if (this.afterRenderCallbacks.length > 0) {
-          this.afterRenderCallbacks.forEach(cb => {
+          this.afterRenderCallbacks.forEach((cb) => {
             cb && cb.call(this, this.chart, config || this.props.config);
           });
         }
@@ -661,15 +673,14 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
     } = this.props;
     return (
       <div
-        ref={dom => (this.chartDom = dom)}
+        ref={(dom) => (this.chartDom = dom)}
         id={this.chartId}
         key={this.chartId}
         className={`${rootClassName + this.chartName} ${className}`}
         style={style}
-        {...otherProps}>
-        {children ? (
-          <div className={rootChildClassName}>{children}</div>
-        ) : null}
+        {...otherProps}
+      >
+        {children ? <div className={rootChildClassName}>{children}</div> : null}
       </div>
     );
   }
