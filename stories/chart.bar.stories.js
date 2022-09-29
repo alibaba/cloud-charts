@@ -190,7 +190,7 @@ let options1 = {
   },
   facet: {
     padding: [0, 0, 12, 0],
-    spacing: [0, 0]
+    spacing: [0, 0],
   },
   label: {
     position: 'right',
@@ -201,7 +201,7 @@ let options1 = {
           fill: facet.columnIndex === 1 ? '#297ACC' : '#43BF7E',
         },
       };
-    }
+    },
   },
   columnWidthRatio: 0.4,
   geomStyle(x, y, type) {
@@ -218,16 +218,100 @@ let options1 = {
       };
     }
   },
+  // colors: [COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory1, COLORS.widgetsColorCategory3, COLORS.widgetsColorCategory3],
 };
-stories.add('镜面柱图', () => (
+const tempData = [
+  {
+    "name": "碳排量",
+    "data": [
+      [
+        "联通",
+        0.0061
+      ],
+      [
+        "自建",
+        10.9167
+      ]
+    ],
+    "facet": "分面1"
+  },
+  {
+    "name": "度电排量",
+    "data": [
+      [
+        "联通",
+        0.0006
+      ],
+      [
+        "自建",
+        0.0009
+      ]
+    ],
+    "facet": "分面2"
+  }
+];
+const tempData_2 = [
+  {
+    "name": "碳排量",
+    "data": [
+      [
+        "联通",
+        0.0061
+      ],
+      [
+        "自建",
+        10.9167
+      ]
+    ],
+    "facet": "分面1"
+  },
+  {
+    "name": "度电排量",
+    "data": [
+      [
+        "联通",
+        5.0061
+      ],
+      [
+        "自建",
+        10.9167
+      ]
+    ],
+    "facet": "分面2"
+  }
+];
+stories.add('镜面柱图', () => {
+  return (
     <Wcontainer className="demos">
-        <Wbar
-            height="300"
-            config={options1}
-            data={data2}
-        />
+      <Wbar height="300" config={options1} data={data2} />
     </Wcontainer>
-));
+  );
+});
+
+const config_2 = {
+  padding: [40, 24, 20, 44],
+  marginRatio: 0.05,
+  facet: true,
+};
+stories.add('多视图情况下（数据更新）', () => {
+  const [d, setD] = useState(tempData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(tempData_2);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={options1}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
 
 
 let data3 = [
@@ -325,7 +409,7 @@ stories.add('百分比堆叠柱状图', () => {
   const [d, setD] = useState(data);
   useEffect(() => {
     setTimeout(() => {
-      setD(data2)
+      setD(data4)
     }, 2000);
   }, []);
   return (
@@ -379,7 +463,7 @@ stories.add('分组百分比堆叠柱状图', () => {
   );
 });
 
-stories.add('单数据柱图', () => {
+stories.add('横向柱图（从右往左）', () => {
   return (
     <Wcontainer className="demos">
       <Wbar
