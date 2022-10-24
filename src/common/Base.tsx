@@ -175,8 +175,6 @@ class Base<
 
   protected rawData: ChartData;
 
-  protected dataSize: number;
-
   private detectTime: any;
 
   constructor(props: Props) {
@@ -228,14 +226,11 @@ class Base<
   /** 更新数据 */
   public changeChartData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
-    this.calcDataSize(data);
-    this.throttleDetect();
   }
 
   /** 更新尺寸 */
   public changeSize(chart: Chart, config: ChartConfig, width: number, height: number): void {
     chart && chart.changeSize(width, height);
-    this.throttleDetect();
   }
 
   /** @deprecated 图表渲染后回调 */
@@ -547,10 +542,6 @@ class Base<
     chart.render();
 
     this.handleAfterRender(config);
-
-    // 检测数据量
-    this.calcDataSize(data);
-    this.throttleDetect();
   }
 
   private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
