@@ -213,9 +213,9 @@ class Base<
   public calcDataSize(data: ChartData): void {}
 
   /** 节流 */
-  public throttleDetect(){
+  public throttleDetect() {
     const now = Date.now();
-    if(now-this.detectTime<1000){
+    if (now - this.detectTime < 1000) {
       return;
     }
     this.detectBigData(this.props.config);
@@ -226,7 +226,7 @@ class Base<
   public detectBigData(config: ChartConfig): void {}
 
   /** 更新数据 */
-  public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
+  public changeChartData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
     this.calcDataSize(data);
     this.throttleDetect();
@@ -364,11 +364,17 @@ class Base<
 
     let needAfterRender = false;
 
+    const dataChanged =
+      newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
+    const sizeChanged = newWidth !== oldWidth || newHeight !== oldHeight;
+
+    // 数据与尺寸同时改变
+    if (dataChanged && sizeChanged) {
+      this.rerender();
+    }
+
     // 数据有变化
-    if (
-      newData !== oldData ||
-      (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length)
-    ) {
+    else if (dataChanged) {
       const mergeConfig = merge({}, this.defaultConfig, newConfig);
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
@@ -376,7 +382,7 @@ class Base<
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
-      this.changeData(this.chart, mergeConfig, data);
+      this.changeChartData(this.chart, mergeConfig, data);
 
       this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', mergeConfig, data);
 
@@ -394,8 +400,9 @@ class Base<
 
       needAfterRender = true;
     }
+
     // 传入的长宽有变化
-    if (newWidth !== oldWidth || newHeight !== oldHeight) {
+    else {
       this.handleChangeSize(newConfig, newWidth, newHeight);
 
       needAfterRender = true;

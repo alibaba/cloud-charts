@@ -42,6 +42,40 @@ stories.add('柱状图', () => (
     <Wbar height="300" config={{}} data={data} />
   </Wcontainer>
 ));
+
+const test = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+];
+
+stories.add('数据与尺寸同时变', () => {
+  const [chartData, setChartData] = useState(test);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const changedData = test.map((group) => ({
+        name: group.name,
+        data: group.data.slice(0, 3),
+      }));
+      setChartData(changedData);
+    }, 5000);
+  }, []);
+
+  return <Wbar height="300" width={chartData[0].data.length * 50} config={{}} data={chartData} />;
+});
+
 stories.add('堆叠柱状图', () => (
   <Wcontainer className="demos">
     <Wbar
@@ -117,13 +151,13 @@ stories.add('拖拽缩放', () => (
       }}
       data={data}
       event={{
-        'zoom:start': s => {
+        'zoom:start': (s) => {
           action('zoom:start')(s);
         },
-        'zoom:end': s => {
+        'zoom:end': (s) => {
           action('zoom:end')(s);
         },
-        'zoom:reset': s => {
+        'zoom:reset': (s) => {
           action('zoom:reset')(s);
         },
       }}
@@ -143,7 +177,7 @@ stories.add('点击下钻', () => (
       }}
       data={data}
       event={{
-        'interval:click': s => {
+        'interval:click': (s) => {
           action('interval:click')(s);
         },
       }}
@@ -151,35 +185,34 @@ stories.add('点击下钻', () => (
   </Wcontainer>
 ));
 
-
 let data2 = [
-    {
-        "name":"柱1",
-        "facet": '分面1',
-        "data":[]
-    },
-    {
-        "name":"柱2",
-        "facet": '分面2',
-        "data":[]
-    },
-    // {
-    //     "name":"柱3",
-    //     "facet": '分面1',
-    //     "data":[]
-    // },
-    // {
-    //     "name":"柱4",
-    //     "facet": '分面2',
-    //     "data":[]
-    // }
+  {
+    name: '柱1',
+    facet: '分面1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    facet: '分面2',
+    data: [],
+  },
+  // {
+  //     "name":"柱3",
+  //     "facet": '分面1',
+  //     "data":[]
+  // },
+  // {
+  //     "name":"柱4",
+  //     "facet": '分面2',
+  //     "data":[]
+  // }
 ];
 for (let i = 0; i < 6; i++) {
-    const name = i + '------' + i;
-    data2[0].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
-    data2[1].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
-    // data2[2].data.push([name, Math.random() * 100 + 100]);
-    // data2[3].data.push([name, Math.random() * 100 + 100]);
+  const name = i + '------' + i;
+  data2[0].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+  data2[1].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+  // data2[2].data.push([name, Math.random() * 100 + 100]);
+  // data2[3].data.push([name, Math.random() * 100 + 100]);
 }
 let options1 = {
   padding: [40, 32, 12, 32],
@@ -190,7 +223,7 @@ let options1 = {
   },
   facet: {
     padding: [0, 0, 12, 0],
-    spacing: [0, 0]
+    spacing: [0, 0],
   },
   label: {
     position: 'right',
@@ -201,7 +234,7 @@ let options1 = {
           fill: facet.columnIndex === 1 ? '#297ACC' : '#43BF7E',
         },
       };
-    }
+    },
   },
   columnWidthRatio: 0.4,
   geomStyle(x, y, type) {
@@ -220,72 +253,61 @@ let options1 = {
   },
 };
 stories.add('镜面柱图', () => (
-    <Wcontainer className="demos">
-        <Wbar
-            height="300"
-            config={options1}
-            data={data2}
-        />
-    </Wcontainer>
+  <Wcontainer className="demos">
+    <Wbar height="300" config={options1} data={data2} />
+  </Wcontainer>
 ));
 
-
 let data3 = [
-    {
-        "name":"柱1",
-        "dodge": '分组1',
-        "data":[]
-    },
-    {
-        "name":"柱5",
-        "dodge": '分组1',
-        "data":[]
-    },
-    {
-        "name":"柱2",
-        "dodge": '分组2',
-        "data":[]
-    },
-    {
-        "name":"柱3",
-        "dodge": '分组2',
-        "data":[]
-    },
-    {
-        "name":"柱4",
-        "dodge": '分组2',
-        "data":[]
-    },
+  {
+    name: '柱1',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱5',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱3',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱4',
+    dodge: '分组2',
+    data: [],
+  },
 ];
 for (let i = 0; i < 10; i++) {
-    const name = i + '-' + i;
-    data3[0].data.push([name, Math.random() * 100 + 100]);
-    data3[1].data.push([name, Math.random() * 100 + 100]);
-    data3[2].data.push([name, Math.random() * 100 + 100]);
-    data3[3].data.push([name, Math.random() * 100 + 100]);
-    data3[4].data.push([name, Math.random() * 100 + 100]);
+  const name = i + '-' + i;
+  data3[0].data.push([name, Math.random() * 100 + 100]);
+  data3[1].data.push([name, Math.random() * 100 + 100]);
+  data3[2].data.push([name, Math.random() * 100 + 100]);
+  data3[3].data.push([name, Math.random() * 100 + 100]);
+  data3[4].data.push([name, Math.random() * 100 + 100]);
 }
 let options2 = {
-    dodgeStack: true
+  dodgeStack: true,
 };
 
 let data4 = [
   {
-      "name":"柱1",
-      "data":[
-        ['一', 56]
-      ]
+    name: '柱1',
+    data: [['一', 56]],
   },
 ];
 
 stories.add('分组堆叠图', () => (
-    <Wcontainer className="demos">
-        <Wbar
-            height="300"
-            config={options2}
-            data={data3}
-        />
-    </Wcontainer>
+  <Wcontainer className="demos">
+    <Wbar height="300" config={options2} data={data3} />
+  </Wcontainer>
 ));
 
 stories.add('从有数据到无数据', () => {
@@ -308,24 +330,24 @@ stories.add('从有数据到无数据', () => {
           },
           legend: {
             showData: true,
-            nameFormatter: function(v, data){
+            nameFormatter: function (v, data) {
               return v + '%';
             },
-            valueFormatter: function(v, data){
+            valueFormatter: function (v, data) {
               return v + '%';
-            }
-          }
+            },
+          },
         }}
         data={d}
       />
     </Wcontainer>
-  )
+  );
 });
 stories.add('百分比堆叠柱状图', () => {
   const [d, setD] = useState(data);
   useEffect(() => {
     setTimeout(() => {
-      setD(data2)
+      setD(data2);
     }, 2000);
   }, []);
   return (
@@ -360,18 +382,18 @@ stories.add('分组百分比堆叠柱状图', () => {
           yAxis: {
             max: 1,
             min: 0,
-            labelFormatter: function(value) {
+            labelFormatter: function (value) {
               return (value * 100).toFixed(2) + '%';
             },
           },
           tooltip: {
-            nameFormatter: function(v, data) {
+            nameFormatter: function (v, data) {
               return data.dodge + '-' + v;
             },
-            valueFormatter: function(v) {
+            valueFormatter: function (v) {
               return (v * 100).toFixed(2) + '%';
             },
-          }
+          },
         }}
         data={data3}
       />
@@ -387,7 +409,7 @@ stories.add('单数据柱图', () => {
         config={{
           // maxSize: 24
           column: {
-            reflect: true
+            reflect: true,
           },
           guide: {
             line: {
