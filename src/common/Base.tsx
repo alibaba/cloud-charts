@@ -224,7 +224,7 @@ class Base<
   public detectBigData(config: ChartConfig): void {}
 
   /** 更新数据 */
-  public changeChartData(chart: Chart, config: ChartConfig, data: ChartData): void {
+  public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
   }
 
@@ -377,7 +377,7 @@ class Base<
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
-      this.changeChartData(this.chart, mergeConfig, data);
+      this.changeData(this.chart, mergeConfig, data);
 
       this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', mergeConfig, data);
 

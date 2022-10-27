@@ -297,7 +297,6 @@ export class Bar extends Base<WbarConfig> {
         const facetInstance = chart?.facetInstance?.facets;
         const facetValue = (!config.column || typeof config.column === 'object') ? facetInstance?.[idx]?.columnValue : facetInstance?.[idx]?.rowValue;
         const facetData = data?.filter((el: any) => el.facet === facetValue);
-        console.log(facetInstance, facetData);
         subView.changeData(facetData);
       })
     } else if (config.percentage && this.barDataView) {
