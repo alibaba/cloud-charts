@@ -397,7 +397,7 @@ class Base<
     }
 
     // 传入的长宽有变化
-    else {
+    else if (sizeChanged) {
       this.handleChangeSize(newConfig, newWidth, newHeight);
 
       needAfterRender = true;
