@@ -120,6 +120,9 @@ $ tnpm version patch
 // 发布日常
 $ def publish -d
 
+// code Review
+https://space.o2.alibaba-inc.com/app/7154/iteration
+
 // 发布tnpm，在发布线上前完成
 $ tnpm publish
 
