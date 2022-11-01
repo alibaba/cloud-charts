@@ -339,13 +339,17 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
     let needAfterRender = false;
 
+    const dataChanged =
+    newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
+    const sizeChanged = newWidth !== oldWidth || newHeight !== oldHeight;
+
+    // 数据与尺寸同时改变
+    if (dataChanged && sizeChanged) {
+      this.rerender();
+    }
+
     // 数据有变化
-    if (
-      newData !== oldData ||
-      (Array.isArray(newData) &&
-        Array.isArray(oldData) &&
-        newData.length !== oldData.length)
-    ) {
+    else if (dataChanged) {
       const mergeConfig = merge({}, this.defaultConfig, newConfig)
       const data =
         this.convertData &&
@@ -378,8 +382,9 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
 
       needAfterRender = true;
     }
+
     // 传入的长宽有变化
-    if (newWidth !== oldWidth || newHeight !== oldHeight) {
+    else if (sizeChanged) {
       this.handleChangeSize(newConfig, newWidth, newHeight);
 
       needAfterRender = true;
