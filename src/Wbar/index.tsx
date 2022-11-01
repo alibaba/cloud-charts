@@ -290,7 +290,16 @@ export class Bar extends Base<WbarConfig> {
     rectScrollbar(chart, config);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
-    if (config.percentage && this.barDataView) {
+    // 分面需要对数据进行筛选处理
+    if (config.facet) {
+      chart.views.forEach((subView, idx) => {
+        // 目前想到每个视图获取对应的分面数据的情况通过分面的实例进行获取，后面看有没有更好的情况
+        const facetInstance = chart?.facetInstance?.facets;
+        const facetValue = (!config.column || typeof config.column === 'object') ? facetInstance?.[idx]?.columnValue : facetInstance?.[idx]?.rowValue;
+        const facetData = data?.filter((el: any) => el.facet === facetValue);
+        subView.changeData(facetData);
+      })
+    } else if (config.percentage && this.barDataView) {
       this.barDataView.source(data);
       chart.changeData(this.barDataView.rows);
     } else {
