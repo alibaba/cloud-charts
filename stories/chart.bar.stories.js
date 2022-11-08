@@ -64,16 +64,23 @@ stories.add('数据与尺寸同时变', () => {
   const [chartData, setChartData] = useState(test);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const changedData = test.map((group) => ({
         name: group.name,
         data: group.data.slice(0, 3),
       }));
       setChartData(changedData);
     }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
-  return <Wbar height="300" width={chartData[0].data.length * 50} config={{}} data={chartData} />;
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" width={chartData[0].data.length * 50} config={{}} data={chartData} />
+    </Wcontainer>
+  );
 });
 
 stories.add('堆叠柱状图', () => (

@@ -6,35 +6,51 @@ import { Wcontainer, Wfunnel } from '@alife/aisc-widgets';
 
 const data = [
   {
-    "name":"流量转化",
-    "data":[["浏览网站",50000],["放入购物车",35000],["生成订单",25000],["支付订单",15000],["完成交易",8000]]
-  }
+    name: '流量转化',
+    data: [
+      ['浏览网站', 50000],
+      ['放入购物车', 35000],
+      ['生成订单', 25000],
+      ['支付订单', 15000],
+      ['完成交易', 8000],
+    ],
+  },
 ];
 
 const stories = storiesOf('Wfunnel', module);
 
-stories.add('漏斗图', () => (
-    <Wfunnel height="300" data={data} config={{}}/>
-));
+stories.add('漏斗图', () => <Wfunnel height="300" data={data} config={{}} />);
 
 const directionData = [
   {
-    "name":"柱1",
-    "data":[["一", 100], ["二", 75], ["三", 50], ["四", 20], ["五", 10]]
-  }
+    name: '柱1',
+    data: [
+      ['一', 100],
+      ['二', 75],
+      ['三', 50],
+      ['四', 20],
+      ['五', 10],
+    ],
+  },
 ];
 
 const directionData_2 = [
   {
-    "name":"柱1",
-    "data":[["一", 100], ["二", 40], ["三", 20], ["四", 15], ["五", 10]]
-  }
+    name: '柱1',
+    data: [
+      ['一', 100],
+      ['二', 40],
+      ['三', 20],
+      ['四', 15],
+      ['五', 10],
+    ],
+  },
 ];
 
 class NewData extends React.Component {
   state = {
-    data: directionData
-  }
+    data: directionData,
+  };
 
   componentDidMount() {
     setInterval(() => {
@@ -42,14 +58,14 @@ class NewData extends React.Component {
 
       this.setState({
         data: directionData_2,
-      })
+      });
     }, 2000);
   }
 
-  render(){
+  render() {
     return (
       <Wcontainer className="demos">
-        <Wfunnel height="300" config={{}} data={this.state.data}/>
+        <Wfunnel height="300" config={{}} data={this.state.data} />
       </Wcontainer>
     );
   }
@@ -142,17 +158,19 @@ stories.add('横向-底部', () => (
 ));
 
 stories.add('漏斗图-自定义label', () => (
-  <Wfunnel height="300" data={data} config={{
-    percent: false,
-    label: {
-      offset: 50,
-      labelFormatter: (v, d) => {
-        return  `${d._origin.x} - ${v}`;
-      }
-    }
-  }}/>
+  <Wfunnel
+    height="300"
+    data={data}
+    config={{
+      percent: false,
+      label: {
+        offset: 50,
+        labelFormatter: (v, d) => {
+          return `${d._origin.x} - ${v}`;
+        },
+      },
+    }}
+  />
 ));
 
-stories.add('动态数据', () => (
-  <NewData />
-));
+stories.add('动态数据', () => <NewData />);

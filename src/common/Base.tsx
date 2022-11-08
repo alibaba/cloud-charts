@@ -11,6 +11,7 @@ import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
+import BigDataType, { CalculationType, ExceedJudgeType } from './bigDataType';
 
 registerAction('list-checked', ListChecked);
 
@@ -175,7 +176,11 @@ class Base<
 
   protected rawData: ChartData;
 
-  private detectTime: any;
+  protected dataSize: number;
+
+  private detectTimer: any;
+
+  private bigDataConfig: any;
 
   constructor(props: Props) {
     super(props);
@@ -207,21 +212,86 @@ class Base<
   /** 自定义判断配置项是否更改 */
   public isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
-  /** 计算数据量 */
-  public calcDataSize(data: ChartData): void {}
-
-  /** 节流 */
-  public throttleDetect() {
-    const now = Date.now();
-    if (now - this.detectTime < 1000) {
-      return;
+  /** 防抖 */
+  public debounceDetect() {
+    if (this.detectTimer) {
+      clearTimeout(this.detectTimer);
+      this.detectTimer = null;
     }
-    this.detectBigData(this.props.config);
-    this.detectTime = now;
+    this.detectTimer = setTimeout(() => {
+      this.detectBigData();
+    }, 500);
   }
 
-  /** 判断数据量是否超标，超标则给出提示 */
-  public detectBigData(config: ChartConfig): void {}
+  /** 计算数据量 */
+  public calcDataSize(data: any) {
+    if (!data) {
+      this.dataSize = 0;
+      return;
+    }
+    const type = this.bigDataConfig?.calculation;
+
+    if (type === CalculationType.COMMON) {
+      this.dataSize = data.length > 0 ? Math.max(...data.map((item: any) => item.data.length)) : 0;
+    } else if (type === CalculationType.COUNT) {
+      this.dataSize = data.length;
+    } else if (type === CalculationType.SUM) {
+      this.dataSize =
+        data.length > 0 ? data.map((item: any) => item.data.length).reduce((pre: number, cur: number) => pre + cur) : 0;
+    } else if (type === CalculationType.LEVEL) {
+      this.dataSize = this.calcTreeDataSize(data);
+    }
+  }
+
+  private calcTreeDataSize(root: any) {
+    let queue = [root];
+    let res = 0;
+
+    while (queue.length) {
+      res = queue.length;
+      let newQueue: any[] = [];
+      queue.forEach((node: any) => {
+        if (node?.children?.length) {
+          newQueue = [...newQueue, ...node.children];
+        }
+      });
+      queue = newQueue;
+    }
+    return res;
+  }
+
+  /** 判断数据量是否超标 */
+  public detectBigData() {
+    if (!this.dataSize || this.dataSize === 0 || !this?.chart?.coordinateBBox) {
+      return;
+    }
+    const judgements = this.bigDataConfig?.exceedJudge;
+    const { config } = this.props;
+
+    judgements?.forEach((judgement: any) => {
+      const { type, threshold, message } = judgement;
+      let isExceed = false;
+      if (type === ExceedJudgeType.LEGNTH) {
+        const isHorizontal =
+          config &&
+          ((config?.column !== undefined && (!config?.column || typeof config?.column === 'object')) ||
+            (this.chartName === 'G2Funnel' && config?.direction !== 'horizontal'));
+        const length = isHorizontal ? this.chart?.coordinateBBox?.height ?? 0 : this.chart.coordinateBBox?.width ?? 0;
+        isExceed = length > 0 && length / this.dataSize < threshold;
+      } else if (type === ExceedJudgeType.AREA) {
+        isExceed = (this.chart?.coordinateBBox?.height * this.chart?.coordinateBBox?.width) / this.dataSize < threshold;
+      } else if (type === ExceedJudgeType.NUMBER) {
+        isExceed = this.dataSize > threshold;
+      } else if (type === ExceedJudgeType.POLAR) {
+        const radius = Math.min(this.chart?.coordinateBBox?.height, this.chart?.coordinateBBox?.width);
+        isExceed = radius < threshold;
+      }
+
+      if (isExceed) {
+        warn(this.chartName.slice(2, this.chartName.length), message);
+      }
+    });
+  }
 
   /** 更新数据 */
   public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
@@ -234,7 +304,7 @@ class Base<
   }
 
   /** @deprecated 图表渲染后回调 */
-  public afterRender?(config: ChartConfig): void;
+  // public afterRender?(config: ChartConfig): void;
 
   /** 销毁图表 */
   public destroy?(): void;
@@ -357,7 +427,7 @@ class Base<
       });
     }
 
-    let needAfterRender = false;
+    // let needAfterRender = false;
 
     const dataChanged =
       newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
@@ -374,6 +444,8 @@ class Base<
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
+
+      this.calcDataSize(newData);
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -393,19 +465,19 @@ class Base<
       //   this.chart && this.chart.changeData(data);
       // }
 
-      needAfterRender = true;
+      // needAfterRender = true;
     }
 
     // 传入的长宽有变化
     else if (sizeChanged) {
       this.handleChangeSize(newConfig, newWidth, newHeight);
 
-      needAfterRender = true;
+      // needAfterRender = true;
     }
 
-    if (needAfterRender) {
-      this.handleAfterRender(newConfig);
-    }
+    // if (needAfterRender) {
+    //   this.handleAfterRender(newConfig);
+    // }
   }
 
   // 渲染控制，仅 class、style、children 变化会触发渲染
@@ -426,7 +498,11 @@ class Base<
     // 清除配置变化重新生成图表的定时器
     // window.cancelAnimationFrame(this.reRenderTimer);
     // 清除afterRender的定时器
-    clearTimeout(this.afterRenderTimer);
+    // clearTimeout(this.afterRenderTimer);
+
+    this.chart.off('afterpaint', () => {
+      this.debounceDetect();
+    });
 
     if (this.destroy) {
       this.chart && this.destroy();
@@ -446,7 +522,7 @@ class Base<
       this.props.getChartInstance(null);
     }
 
-    this.afterRenderCallbacks = [];
+    // this.afterRenderCallbacks = [];
     this.unmountCallbacks = [];
   }
 
@@ -538,10 +614,35 @@ class Base<
       currentProps.getChartInstance(chart);
     }
 
+    // 获取大数据判断参数
+    this.bigDataConfig = (BigDataType as any)?.[this.chartName];
+
+    // 判断是否特殊情况
+    const specialCases = this.bigDataConfig?.specialCases ?? [];
+    for (const sp of specialCases) {
+      let isSame = true;
+      Object.keys(sp?.config ?? {}).forEach((key: string) => {
+        if ((currentProps.config as any)?.[key] !== sp?.config?.[key]) {
+          isSame = false;
+        }
+      });
+      if (isSame) {
+        this.bigDataConfig = sp;
+        break;
+      }
+    }
+
+    // 计算数据量
+    this.calcDataSize(this.rawData);
+
+    chart.on('afterpaint', () => {
+      this.debounceDetect();
+    });
+
     // 开始渲染
     chart.render();
 
-    this.handleAfterRender(config);
+    // this.handleAfterRender(config);
   }
 
   private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
@@ -609,7 +710,7 @@ class Base<
       if (!(parentSize[0] === size[0] && parentSize[1] === size[1]) && parentSize[0] && parentSize[1]) {
         this.handleChangeSize(props.config, parentSize[0], parentSize[1]);
 
-        this.handleAfterRender();
+        // this.handleAfterRender();
       }
     });
   }
@@ -627,24 +728,29 @@ class Base<
     }
   }
 
-  protected afterRenderCallbacks: ((chart: Chart, config: ChartConfig) => void)[] = [];
+  // protected afterRenderCallbacks: ((chart: Chart, config: ChartConfig) => void)[] = [];
 
-  protected afterRenderTimer: any = null;
+  // protected afterRenderTimer: any = null;
 
-  handleAfterRender(config?: ChartConfig) {
-    if (this.afterRender || this.afterRenderCallbacks.length > 0) {
-      this.afterRenderTimer = setTimeout(() => {
-        if (this.chart && this.afterRender) {
-          this.afterRender(config || this.props.config);
-        }
-        if (this.afterRenderCallbacks.length > 0) {
-          this.afterRenderCallbacks.forEach((cb) => {
-            cb && cb.call(this, this.chart, config || this.props.config);
-          });
-        }
-      }, 50);
-    }
-  }
+  // handleAfterRender(config?: ChartConfig) {
+  //   if (this.afterRender || this.afterRenderCallbacks.length > 0) {
+  //     this.afterRenderTimer = setTimeout(() => {
+  //       if (this.chart && this.afterRender) {
+  //         this.afterRender(config || this.props.config);
+  //       }
+  //       if (this.afterRenderCallbacks.length > 0) {
+  //         this.afterRenderCallbacks.forEach((cb) => {
+  //           cb && cb.call(this, this.chart, config || this.props.config);
+  //         });
+  //       }
+  //     }, 50);
+  //   }
+
+  //   // 大数据检测
+  //   setTimeout(() => {
+  //     this.throttleDetect();
+  //   }, 500);
+  // }
 
   render() {
     const {
