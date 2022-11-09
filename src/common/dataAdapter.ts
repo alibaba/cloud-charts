@@ -1,7 +1,7 @@
 'use strict';
-import { Types, BaseChartConfig } from "./types";
+import { Types, BaseChartConfig } from './types';
 
-export interface DataAdapterConfig extends BaseChartConfig{
+export interface DataAdapterConfig extends BaseChartConfig {
   xAxis?: {
     categories?: number[] | string[];
   };
@@ -34,7 +34,11 @@ interface dataFields {
  *
  * @return {Array} json-array 型数据
  * */
-export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapterData[], config: DataAdapterConfig, dataFields?: dataFields) {
+export default function highchartsDataToG2Data(
+  data: DataAdapterData | DataAdapterData[],
+  config: DataAdapterConfig,
+  dataFields?: dataFields,
+) {
   if (!data) {
     return [];
   }
@@ -44,18 +48,12 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
   const { /*x: xField = 'x', y: yField = 'y',*/ type: typeField = 'type' } = dataFields || {};
   const newData: Types.LooseObject[] = [];
   if (Array.isArray(config.yAxis)) {
-    data.forEach(oneData => {
+    data.forEach((oneData, index) => {
       if (!oneData || !Array.isArray(oneData.data)) {
         return;
       }
 
-      const {
-        name: dataName,
-        yAxis: yIndex = 0,
-        dodge,
-        visible,
-        ...groupExtra
-      } = oneData;
+      const { name: dataName, yAxis: yIndex = 0, dodge, visible, ...groupExtra } = oneData;
 
       oneData.data.forEach((d, i) => {
         if (Array.isArray(d)) {
@@ -67,13 +65,9 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             groupExtra,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
-        } else if (
-          config.xAxis &&
-          config.xAxis.categories &&
-          config.xAxis.categories[i]
-        ) {
+        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
           const x = config.xAxis.categories[i];
           const y = typeof d === 'number' ? d : d[0];
           newData.push({
@@ -83,7 +77,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             groupExtra,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
         } else {
           const { x, y, ...extra } = d;
@@ -94,13 +88,13 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             groupExtra,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
         }
       });
     });
   } else {
-    data.forEach(oneData => {
+    data.forEach((oneData, index) => {
       if (!oneData || !Array.isArray(oneData.data)) {
         return;
       }
@@ -118,13 +112,9 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             facet,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
-        } else if (
-          config.xAxis &&
-          config.xAxis.categories &&
-          config.xAxis.categories[i]
-        ) {
+        } else if (config.xAxis && config.xAxis.categories && config.xAxis.categories[i]) {
           const x = config.xAxis.categories[i];
           const y = typeof d === 'number' ? d : d[0];
           newData.push({
@@ -135,7 +125,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             facet,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
         } else if (typeof d === 'number') {
           newData.push({
@@ -143,8 +133,8 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             y: d,
             groupExtra,
             visible,
-            [typeField]: dataName,
-          })
+            [typeField]: dataName || `undefined-name-${index}`,
+          });
         } else {
           const { x, y, ...extra } = d;
           newData.push({
@@ -155,7 +145,7 @@ export default function highchartsDataToG2Data(data: DataAdapterData | DataAdapt
             facet,
             dodge,
             visible,
-            [typeField]: dataName,
+            [typeField]: dataName || `undefined-name-${index}`,
           });
         }
       });
