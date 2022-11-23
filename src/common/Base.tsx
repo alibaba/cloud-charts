@@ -541,7 +541,7 @@ class Base<
     };
 
     // 数据中name未指定时，legend与tooltip也不显示名称
-    if (currentProps?.config?.legend) {
+    if (currentProps?.config?.legend && currentProps.config?.legend?.nameFormatter) {
       currentProps.config.legend.nameFormatter = (name: string, data: any, index: number) => {
         if (name.startsWith('undefined-name-')) {
           return '';
@@ -553,7 +553,7 @@ class Base<
       };
     }
 
-    if (currentProps?.config?.tooltip) {
+    if (currentProps?.config?.tooltip && currentProps.config?.tooltip?.nameFormatter) {
       currentProps.config.tooltip.nameFormatter = (name: string, data: any, index: number, rawData: any) => {
         if (name.startsWith('undefined-name-')) {
           return '';
