@@ -90,8 +90,13 @@
     color: $color;
     font-size: $font-size;
     line-height: 1;
+    width: 100%;
   }
   #{$wplaceholder-prefix}-children-text {
     margin-top: $gap-size;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
   }
 }

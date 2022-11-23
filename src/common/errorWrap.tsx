@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BaseChartConfig, Chart } from './types';
 import { BaseClass, ChartProps } from './Base';
 import { FullCrossName } from '../constants';
+import Wplaceholder from '../Wplaceholder';
 
 interface ErrorProps {
   forwardedRef?: React.Ref<any>;
@@ -62,7 +63,8 @@ interface ErrorState {
       if (this.state.errorStack) {
         const { className = '', style } = this.props;
         // You can render any custom fallback UI
-        return <pre className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</pre>;
+        // return <pre className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</pre>;
+        return <Wplaceholder error children={<div className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</div>} />
       }
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
