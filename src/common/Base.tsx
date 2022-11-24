@@ -12,6 +12,8 @@ import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType, ExceedJudgeType } from './bigDataType';
+import { checkEmptyData } from './checkFunctions';
+import EmptyDataType, { ProcessType } from './emptyDataType';
 
 registerAction('list-checked', ListChecked);
 
@@ -260,7 +262,7 @@ class Base<
     return res;
   }
 
-  /** 判断数据量是否超标 */
+  /** 判断数据量是否超标（渲染后） */
   public detectBigData() {
     if (!this.dataSize || this.dataSize === 0 || !this?.chart?.coordinateBBox) {
       return;
@@ -291,6 +293,33 @@ class Base<
         warn(this.chartName.slice(2, this.chartName.length), message);
       }
     });
+  }
+
+  /** 渲染前的数据检查 */
+  public checkDataBeforeRender(data: any) {
+    // 检查空数据，若为空数据则返回覆盖的配置项
+    console.log(this.chartName);
+
+    if (checkEmptyData(data)) {
+      this.dataState = 'empty';
+      // 直角坐标系显示空坐标轴
+      if ((EmptyDataType as any)[this.chartName] === ProcessType.RECT) {
+        return {
+          xAxis: {
+            min: 0,
+            max: 100,
+            label: null,
+          },
+          yAxis: {
+            min: 0,
+            max: 100,
+            label: null,
+          },
+        };
+      }
+    }
+
+    return null;
   }
 
   /** 更新数据 */
@@ -445,6 +474,10 @@ class Base<
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
 
+      // 检查数据
+      this.checkDataBeforeRender(newData);
+
+      // 重新计算数据量
       this.calcDataSize(newData);
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
@@ -534,10 +567,14 @@ class Base<
 
   initChart() {
     this.defaultConfig = this.getDefaultConfig();
+
+    // 数据检查
+    const specialConfig: any = this.checkDataBeforeRender(this.props.data);
+
     // 合并默认配置项
     let currentProps: Props = {
       ...this.props,
-      config: merge({}, this.defaultConfig, this.props.config),
+      config: merge({}, this.defaultConfig, specialConfig ?? this.props.config),
     };
 
     // 数据中name未指定时，legend与tooltip也不显示名称
@@ -662,6 +699,7 @@ class Base<
     this.calcDataSize(this.rawData);
 
     chart.on('afterpaint', () => {
+      // 检测大数据
       this.debounceDetect();
     });
 
