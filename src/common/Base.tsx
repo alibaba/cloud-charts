@@ -692,12 +692,12 @@ class Base<
       // 检测大数据
       this.debounceDetect();
 
-      chart.annotation().html({
-        html: '<p>暂无数据</p>',
-        alignX: 'middle',
-        alignY: 'middle',
-        position: ['50%', '50%'],
-      });
+      // chart.annotation().html({
+      //   html: '<p>暂无数据</p>',
+      //   alignX: 'middle',
+      //   alignY: 'middle',
+      //   position: ['50%', '50%'],
+      // });
     });
 
     // 开始渲染
