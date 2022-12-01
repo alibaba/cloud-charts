@@ -14,6 +14,7 @@ import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
 import { checkEmptyData, checkBigData } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
+import themes from '../themes/index';
 
 registerAction('list-checked', ListChecked);
 
@@ -238,12 +239,14 @@ class Base<
     const type = this.bigDataConfig?.calculation;
 
     if (type === CalculationType.COMMON) {
-      this.dataSize = data.length > 0 ? Math.max(...data.map((item: any) => item.data.length)) : 0;
+      this.dataSize = data?.length > 0 ? Math.max(...data.map((item: any) => item?.data?.length ?? 0)) : 0;
     } else if (type === CalculationType.COUNT) {
-      this.dataSize = data.length;
+      this.dataSize = data?.length;
     } else if (type === CalculationType.SUM) {
       this.dataSize =
-        data.length > 0 ? data.map((item: any) => item.data.length).reduce((pre: number, cur: number) => pre + cur) : 0;
+        data?.length > 0
+          ? data.map((item: any) => item?.data?.length ?? 0).reduce((pre: number, cur: number) => pre + cur)
+          : 0;
     } else if (type === CalculationType.LEVEL) {
       this.dataSize = this.calcTreeDataSize(data);
     }
@@ -455,7 +458,6 @@ class Base<
       // const { isEmpty } = this.checkDataBeforeRender(newData);
 
       const mergeConfig = merge({}, this.defaultConfig, newConfig);
-      console.log('merge config:', mergeConfig);
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
@@ -579,6 +581,11 @@ class Base<
       config: merge({}, this.defaultConfig, this.props.config, specialConfig),
     };
 
+    // 空数据时双y轴取消
+    if (isEmpty && Array.isArray(currentProps?.config?.yAxis) && !Array.isArray(specialConfig?.yAxis)) {
+      currentProps.config.yAxis = specialConfig.yAxis;
+    }
+
     // 数据中name未指定时，legend与tooltip也不显示名称
     if (currentProps?.config?.legend && currentProps.config?.legend?.nameFormatter) {
       currentProps.config.legend.nameFormatter = (name: string, data: any, index: number) => {
@@ -683,7 +690,7 @@ class Base<
     if (isEmpty) {
       // 设置背景色
       if (fillBackground) {
-        this.chartDom.style.backgroundColor = '#F7F7F7';
+        this.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
       }
 
       // 加暂无数据提示
@@ -700,7 +707,7 @@ class Base<
       });
     } else {
       // 设置背景色
-      this.chartDom.style.backgroundColor = '#FFFFFF';
+      this.chartDom.style.backgroundColor = themes['widgets-container-background'];
     }
 
     // 记录是否是空状态，用于无数据状态变成有数据状态的切换
