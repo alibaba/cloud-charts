@@ -1,3 +1,5 @@
+import themes from '../themes/index';
+
 /**
  * 判断是否无数据的方法分类
  *  COMMON    {name: xxx, data: [xxx]}
@@ -32,6 +34,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false, // 是否填充背景色
   },
   // 箱型图
   G2Box: {
@@ -51,6 +54,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 烛形图
   G2Wcandlestick: {
@@ -70,21 +74,42 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 漏斗图
   G2Funnel: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {},
+    replacement: {
+      config: {
+        padding: 0,
+      },
+    },
+    fillBackground: true,
   },
   // 热力图
   G2Heatmap: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {},
+    replacement: {
+      config: {
+        padding: 0,
+      },
+    },
+    fillBackground: true,
   },
   // 层次图
   G2Hierarchy: {
     emptyJudge: EmptyJudgeType.CHILDREN,
-    replacement: {},
+    replacement: {
+      data: {
+        name: '',
+        children: [],
+      },
+      config: {
+        tooltip: false,
+        colors: themes['widgets-color-layout-background'],
+      },
+    },
+    fillBackground: true,
   },
   // 直方图
   G2Histogram: {
@@ -104,6 +129,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 线图
   G2Line: {
@@ -123,6 +149,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 线柱图
   G2LineBar: {
@@ -147,6 +174,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 线点图
   G2LineScatter: {
@@ -171,6 +199,7 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 地图
   // G2Map: {
@@ -191,9 +220,10 @@ const EmptyDataType = {
       },
       config: {
         legend: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
       },
     },
+    fillBackground: false,
   },
   // 玫瑰图
   G2Nightingale: {
@@ -208,10 +238,11 @@ const EmptyDataType = {
       config: {
         legend: false,
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
         label: false,
       },
     },
+    fillBackground: false,
   },
   // 饼图
   G2Pie: {
@@ -221,10 +252,11 @@ const EmptyDataType = {
       config: {
         legend: false,
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
         label: false,
       },
     },
+    fillBackground: false,
   },
   // 雷达图
   G2Radar: {
@@ -249,19 +281,35 @@ const EmptyDataType = {
         },
         legend: false,
         tooltip: false,
-        colors: '#e6e6e6',
+        colors: themes['widgets-color-layout-background'],
       },
     },
+    fillBackground: false,
   },
   // 分箱图
   G2Rectangle: {
     emptyJudge: EmptyJudgeType.ARRAY,
-    replacement: {},
+    replacement: {
+      data: [{ x: 0, y: 0 }],
+      config: {
+        xAxis: false,
+        yAxis: false,
+        tooltip: false,
+        legend: false,
+      },
+    },
+    fillBackground: true,
   },
   // 桑基图
   G2Sankey: {
     emptyJudge: EmptyJudgeType.GRAPH,
-    replacement: {},
+    replacement: {
+      data: {
+        nodes: [],
+        links: [],
+      },
+    },
+    fillBackground: true,
   },
   // 散点图
   G2Scatter: {
@@ -281,11 +329,22 @@ const EmptyDataType = {
         },
       },
     },
+    fillBackground: false,
   },
   // 树图
   G2Treemap: {
     emptyJudge: EmptyJudgeType.CHILDREN,
-    replacement: {},
+    replacement: {
+      data: {
+        name: '',
+        children: [],
+      },
+      config: {
+        tooltip: false,
+        colors: themes['widgets-color-layout-background'],
+      },
+    },
+    fillBackground: true,
   },
 };
 
