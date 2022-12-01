@@ -571,7 +571,9 @@ class Base<
       data: specialData,
       config: specialConfig,
       fillBackground,
-    } = this.checkDataBeforeRender(this.props.data);
+    } = this.convertData && this.props?.config?.dataType !== 'g2'
+      ? this.checkDataBeforeRender(this.props.data)
+      : { isEmpty: false, data: null, config: null, fillBackground: false };
 
     this.defaultConfig = this.getDefaultConfig();
 
@@ -687,7 +689,7 @@ class Base<
     }
 
     // 空数据处理
-    if (isEmpty) {
+    if (isEmpty && !this.props.children) {
       // 设置背景色
       if (fillBackground) {
         this.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
