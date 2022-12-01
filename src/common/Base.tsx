@@ -184,6 +184,8 @@ class Base<
 
   private bigDataConfig: any;
 
+  private emptyState: boolean;
+
   constructor(props: Props) {
     super(props);
     this.chart = null;
@@ -438,23 +440,25 @@ class Base<
       newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
     const sizeChanged = newWidth !== oldWidth || newHeight !== oldHeight;
 
-    // 数据与尺寸同时改变
-    if (dataChanged && sizeChanged) {
+    // 数据与尺寸同时改变,或从空状态变成有数据状态
+    if ((dataChanged && sizeChanged) || (dataChanged && this.emptyState)) {
       this.rerender();
     }
 
     // 数据有变化
     else if (dataChanged) {
+      // 重新计算数据量
+      this.calcDataSize(newData);
+
+      // 检查数据
+      // 有数据变为无数据暂时不处理
+      // const { isEmpty } = this.checkDataBeforeRender(newData);
+
       const mergeConfig = merge({}, this.defaultConfig, newConfig);
+      console.log('merge config:', mergeConfig);
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
-
-      // 检查数据
-      this.checkDataBeforeRender(newData);
-
-      // 重新计算数据量
-      this.calcDataSize(newData);
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -508,10 +512,6 @@ class Base<
     // window.cancelAnimationFrame(this.reRenderTimer);
     // 清除afterRender的定时器
     // clearTimeout(this.afterRenderTimer);
-
-    this.chart.off('afterpaint', () => {
-      this.debounceDetect();
-    });
 
     if (this.destroy) {
       this.chart && this.destroy();
@@ -698,7 +698,13 @@ class Base<
         alignY: 'middle',
         position: ['50%', '50%'],
       });
+    } else {
+      // 设置背景色
+      this.chartDom.style.backgroundColor = '#FFFFFF';
     }
+
+    // 记录是否是空状态，用于无数据状态变成有数据状态的切换
+    this.emptyState = isEmpty;
 
     /*
     // 后置检测，暂时不用
