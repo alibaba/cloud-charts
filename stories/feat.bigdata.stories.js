@@ -28,7 +28,7 @@ function generateData(number) {
 
 const stories = storiesOf('bigdata', module);
 
-const lineData = generateData(100);
+const lineData = generateData(400);
 
 stories.add('线图', () => (
   <Wcontainer className="demos">
@@ -45,7 +45,7 @@ stories.add('线图', () => (
   </Wcontainer>
 ));
 
-const barData = generateData(30);
+const barData = generateData(100);
 
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
@@ -87,7 +87,7 @@ stories.add('饼图', () => (
   </Wcontainer>
 ));
 
-const scatterData = generateData(1000);
+const scatterData = generateData(2000);
 
 stories.add('散点图', () => (
   <Wcontainer className="demos">

@@ -16,6 +16,12 @@ import {
   Wradar,
   WmultiPie,
   Wnightingale,
+  Wfunnel,
+  Wheatmap,
+  Whierarchy,
+  Wrectangle,
+  Wsankey,
+  Wtreemap,
 } from '@alife/aisc-widgets';
 
 const stories = storiesOf('emptyData', module);
@@ -50,13 +56,13 @@ stories.add('直方图', () => (
   </Wcontainer>
 ));
 
-stories.add('线柱图（有问题）', () => (
+stories.add('线柱图', () => (
   <Wcontainer className="demos">
     <Wlinebar height="300" data={[]} />
   </Wcontainer>
 ));
 
-stories.add('线点图（有问题）', () => (
+stories.add('线点图', () => (
   <Wcontainer className="demos">
     <Wlinescatter height="300" data={[]} />
   </Wcontainer>
@@ -109,3 +115,47 @@ stories.add('玫瑰环图', () => (
     <Wnightingale height="300" data={[]} config={{ cycle: true }} />
   </Wcontainer>
 ));
+
+stories.add('漏斗图', () => (
+  <Wcontainer className="demos">
+    <Wfunnel height="300" data={[]} />
+  </Wcontainer>
+));
+
+stories.add('热力图', () => (
+  <Wcontainer className="demos">
+    <Wheatmap height="300" data={[]} />
+  </Wcontainer>
+));
+
+stories.add('层次图', () => (
+  <Wcontainer className="demos">
+    <Whierarchy height="300" data={{ children: [] }} />
+  </Wcontainer>
+));
+
+stories.add('分箱图', () => (
+  <Wcontainer className="demos">
+    <Wrectangle height="300" data={[]} />
+  </Wcontainer>
+));
+
+stories.add('桑基图', () => (
+  <Wcontainer className="demos">
+    <Wsankey height="300" data={{ nodes: [] }} />
+  </Wcontainer>
+));
+
+stories.add('树图', () => (
+  <Wcontainer className="demos">
+    <Wtreemap height="300" data={{}} />
+  </Wcontainer>
+));
+
+/*
+stories.add('从无数据到有数据', () => (
+  <Wcontainer className="demos">
+    <Wline height="300" data={[]} />
+  </Wcontainer>
+));
+*/

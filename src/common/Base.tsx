@@ -11,8 +11,8 @@ import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
-import BigDataType, { CalculationType, ExceedJudgeType } from './bigDataType';
-import { checkEmptyData } from './checkFunctions';
+import BigDataType, { CalculationType } from './bigDataType';
+import { checkEmptyData, checkBigData } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 
 registerAction('list-checked', ListChecked);
@@ -215,15 +215,17 @@ class Base<
   public isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
   /** 防抖 */
-  public debounceDetect() {
+  /*
+  public debounceDetect(data: any) {
     if (this.detectTimer) {
       clearTimeout(this.detectTimer);
       this.detectTimer = null;
     }
     this.detectTimer = setTimeout(() => {
-      this.detectBigData();
+      return this.checkDataBeforeRender(data);
     }, 500);
   }
+  */
 
   /** 计算数据量 */
   public calcDataSize(data: any) {
@@ -262,53 +264,37 @@ class Base<
     return res;
   }
 
-  /** 判断数据量是否超标（渲染后） */
-  public detectBigData() {
-    if (!this.dataSize || this.dataSize === 0 || !this?.chart?.coordinateBBox) {
-      return;
-    }
-    const judgements = this.bigDataConfig?.exceedJudge;
-    const { config } = this.props;
-
-    judgements?.forEach((judgement: any) => {
-      const { type, threshold, message } = judgement;
-      let isExceed = false;
-      if (type === ExceedJudgeType.LEGNTH) {
-        const isHorizontal =
-          config &&
-          ((config?.column !== undefined && (!config?.column || typeof config?.column === 'object')) ||
-            (this.chartName === 'G2Funnel' && config?.direction !== 'horizontal'));
-        const length = isHorizontal ? this.chart?.coordinateBBox?.height ?? 0 : this.chart.coordinateBBox?.width ?? 0;
-        isExceed = length > 0 && length / this.dataSize < threshold;
-      } else if (type === ExceedJudgeType.AREA) {
-        isExceed = (this.chart?.coordinateBBox?.height * this.chart?.coordinateBBox?.width) / this.dataSize < threshold;
-      } else if (type === ExceedJudgeType.NUMBER) {
-        isExceed = this.dataSize > threshold;
-      } else if (type === ExceedJudgeType.POLAR) {
-        const radius = Math.min(this.chart?.coordinateBBox?.height, this.chart?.coordinateBBox?.width);
-        isExceed = radius < threshold;
-      }
-
-      if (isExceed) {
-        warn(this.chartName.slice(2, this.chartName.length), message);
-      }
-    });
-  }
-
   /** 渲染前的数据检查 */
   public checkDataBeforeRender(data: any) {
+    // todo: 检查数据格式
+
     // 检查空数据，若为空数据则返回覆盖的数据与配置项
     if (checkEmptyData(data, this.chartName)) {
-      const { data: replacementData, config: replacementConfig } = (EmptyDataType as any)[this.chartName].replacement;
+      const { replacement, fillBackground } = (EmptyDataType as any)[this.chartName];
+      const { data: replacementData, config: replacementConfig } = replacement;
       return {
+        isEmpty: true,
         data: replacementData ?? null,
         config: replacementConfig ?? null,
+        fillBackground,
       };
     }
 
+    // 检查大数据
+    const isExceed = checkBigData(
+      this.chartName,
+      this.props.config,
+      this.bigDataConfig?.exceedJudge,
+      this.dataSize,
+      this.chartDom.offsetWidth,
+      this.chartDom.offsetHeight,
+    );
+
     return {
+      isEmpty: false,
       data: null,
       config: null,
+      fillBackground: false,
     };
   }
 
@@ -556,12 +542,38 @@ class Base<
   }
 
   initChart() {
-    this.defaultConfig = this.getDefaultConfig();
+    // 获取大数据判断参数
+    this.bigDataConfig = (BigDataType as any)?.[this.chartName];
+
+    // 判断是否特殊情况
+    const specialCases = this.bigDataConfig?.specialCases ?? [];
+    for (const sp of specialCases) {
+      let isSame = true;
+      Object.keys(sp?.config ?? {}).forEach((key: string) => {
+        if ((this.props.config as any)?.[key] !== sp?.config?.[key]) {
+          isSame = false;
+        }
+      });
+      if (isSame) {
+        this.bigDataConfig = sp;
+        break;
+      }
+    }
+
+    // 计算数据量
+    this.calcDataSize(this.props.data);
 
     // 数据检查
-    const { data: specialData, config: specialConfig }: any = this.checkDataBeforeRender(this.props.data);
+    const {
+      isEmpty,
+      data: specialData,
+      config: specialConfig,
+      fillBackground,
+    } = this.checkDataBeforeRender(this.props.data);
 
-    // 合并默认配置项
+    this.defaultConfig = this.getDefaultConfig();
+
+    // 合并默认配置项与特殊配置项
     let currentProps: Props = {
       ...this.props,
       config: merge({}, this.defaultConfig, this.props.config, specialConfig),
@@ -667,38 +679,34 @@ class Base<
       currentProps.getChartInstance(chart);
     }
 
-    // 获取大数据判断参数
-    this.bigDataConfig = (BigDataType as any)?.[this.chartName];
-
-    // 判断是否特殊情况
-    const specialCases = this.bigDataConfig?.specialCases ?? [];
-    for (const sp of specialCases) {
-      let isSame = true;
-      Object.keys(sp?.config ?? {}).forEach((key: string) => {
-        if ((currentProps.config as any)?.[key] !== sp?.config?.[key]) {
-          isSame = false;
-        }
-      });
-      if (isSame) {
-        this.bigDataConfig = sp;
-        break;
+    // 空数据处理
+    if (isEmpty) {
+      // 设置背景色
+      if (fillBackground) {
+        this.chartDom.style.backgroundColor = '#F7F7F7';
       }
-    }
 
-    // 计算数据量
-    this.calcDataSize(this.rawData);
-
-    chart.on('afterpaint', () => {
-      // 检测大数据
-      this.debounceDetect();
-
+      // 加暂无数据提示
       chart.annotation().html({
-        html: '<p>暂无数据</p>',
+        html: `
+          <div style="display: flex; align-items: center;">
+            <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
+            <span style="font-size: 12px;color: #808080; margin-left: 5px;">暂无数据<span>
+          </div>
+        `,
         alignX: 'middle',
         alignY: 'middle',
         position: ['50%', '50%'],
       });
+    }
+
+    /*
+    // 后置检测，暂时不用
+    chart.on('afterpaint', () => {
+      // 检测大数据
+      this.debounceDetect();
     });
+    */
 
     // 开始渲染
     chart.render();
