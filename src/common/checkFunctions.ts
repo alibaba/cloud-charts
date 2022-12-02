@@ -6,13 +6,18 @@ import { warn } from './log';
 export function checkEmptyData(data: any, chartType: string) {
   const type = (EmptyDataType as any)[chartType]?.emptyJudge;
   if (type === EmptyJudgeType.COMMON) {
-    return !data || data?.length === 0 || data?.every((item: any) => !item?.data || item?.data?.length === 0);
+    return (
+      !data ||
+      !Array.isArray(data) ||
+      data?.length === 0 ||
+      data?.every((item: any) => !item?.data || item?.data?.length === 0)
+    );
   }
   if (type === EmptyJudgeType.CHILDREN) {
-    return !data || Object.keys(data)?.length === 0 || !data?.children || data?.children?.length === 0;
+    return !data || !data?.children || data?.children?.length === 0;
   }
   if (type === EmptyJudgeType.ARRAY) {
-    return !data || data?.length === 0 || data?.every((item: any) => item?.x === undefined || item?.y === undefined);
+    return !data || data?.length === 0;
   }
   if (type === EmptyJudgeType.GRAPH) {
     return !data || !data?.nodes || data?.nodes?.length === 0 || !data?.links || data?.links?.length === 0;

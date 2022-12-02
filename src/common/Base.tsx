@@ -239,14 +239,21 @@ class Base<
     const type = this.bigDataConfig?.calculation;
 
     if (type === CalculationType.COMMON) {
-      this.dataSize = data?.length > 0 ? Math.max(...data.map((item: any) => item?.data?.length ?? 0)) : 0;
+      if (Array.isArray(data) && data.length > 0) {
+        const types = Array.from(new Set(data.map((item: any) => item.type)));
+        const typeCount = types.map((type: any) => data.filter((item: any) => item.type === type).length);
+        this.dataSize = Math.max(...typeCount);
+      } else {
+        this.dataSize = 0;
+      }
     } else if (type === CalculationType.COUNT) {
-      this.dataSize = data?.length;
-    } else if (type === CalculationType.SUM) {
-      this.dataSize =
-        data?.length > 0
-          ? data.map((item: any) => item?.data?.length ?? 0).reduce((pre: number, cur: number) => pre + cur)
-          : 0;
+      this.dataSize = data?.length ?? 0;
+    } else if (type === CalculationType.SPECIAL) {
+      if (Array.isArray(data) && data.length > 0) {
+        this.dataSize = Math.max(...data.map((item: any) => item?.data?.length ?? 0));
+      } else {
+        this.dataSize = 0;
+      }
     } else if (type === CalculationType.LEVEL) {
       this.dataSize = this.calcTreeDataSize(data);
     }
@@ -450,17 +457,17 @@ class Base<
 
     // 数据有变化
     else if (dataChanged) {
-      // 重新计算数据量
-      this.calcDataSize(newData);
-
-      // 检查数据
-      // 有数据变为无数据暂时不处理
-      // const { isEmpty } = this.checkDataBeforeRender(newData);
-
       const mergeConfig = merge({}, this.defaultConfig, newConfig);
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
+
+      // 重新计算数据量
+      this.calcDataSize(data);
+
+      // 检查数据
+      // 有数据变为无数据暂时不处理，只检查大数据
+      this.checkDataBeforeRender(newData);
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -545,6 +552,8 @@ class Base<
 
   initChart() {
     // 合并默认配置项
+    this.defaultConfig = this.getDefaultConfig();
+
     let currentProps: Props = {
       ...this.props,
       config: merge({}, this.defaultConfig, this.props.config),
@@ -562,12 +571,12 @@ class Base<
       data: initData,
       // padding,
       // forceFit,
-      config,
       event,
       interaction,
       animate,
       ...otherProps
     } = currentProps;
+    let { config } = currentProps;
 
     // 预处理数据
     const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
@@ -591,34 +600,25 @@ class Base<
       }
     }
 
-    console.log('data:',data);
-
     // 计算数据量
-    this.calcDataSize(this.props.data);
+    this.calcDataSize(data);
 
     // 数据检查
-    const {
-      isEmpty,
-      data: specialData,
-      config: specialConfig,
-      fillBackground,
-    } = this.convertData && this.props?.config?.dataType !== 'g2'
-      ? this.checkDataBeforeRender(this.props.data)
-      : { isEmpty: false, data: null, config: null, fillBackground: false };
-
-    this.defaultConfig = this.getDefaultConfig();
+    const { isEmpty, data: specialData, config: specialConfig, fillBackground } = this.checkDataBeforeRender(data);
 
     // 合并特殊配置项
-    
+    if (isEmpty) {
+      config = merge({}, config, specialConfig);
 
-    // 空数据时双y轴取消
-    if (isEmpty && Array.isArray(currentProps?.config?.yAxis) && !Array.isArray(specialConfig?.yAxis)) {
-      currentProps.config.yAxis = specialConfig.yAxis;
+      // 空数据时双y轴取消
+      if (Array.isArray(config?.yAxis) && !Array.isArray(specialConfig?.yAxis)) {
+        config.yAxis = specialConfig.yAxis;
+      }
     }
 
     // 数据中name未指定时，legend与tooltip也不显示名称
-    if (currentProps?.config?.legend && currentProps.config?.legend?.nameFormatter) {
-      currentProps.config.legend.nameFormatter = (name: string, data: any, index: number) => {
+    if (config?.legend && config?.legend?.nameFormatter) {
+      config.legend.nameFormatter = (name: string, data: any, index: number) => {
         if (name.startsWith('undefined-name-')) {
           return '';
         }
@@ -629,8 +629,8 @@ class Base<
       };
     }
 
-    if (currentProps?.config?.tooltip && currentProps.config?.tooltip?.nameFormatter) {
-      currentProps.config.tooltip.nameFormatter = (name: string, data: any, index: number, rawData: any) => {
+    if (config?.tooltip && config?.tooltip?.nameFormatter) {
+      config.tooltip.nameFormatter = (name: string, data: any, index: number, rawData: any) => {
         if (name.startsWith('undefined-name-')) {
           return '';
         }
@@ -641,7 +641,6 @@ class Base<
       };
     }
 
-    
     // 生成图表实例
     const chart = new Chart({
       container: this.chartDom,
@@ -656,8 +655,6 @@ class Base<
     });
 
     this.chart = chart;
-
-    
 
     if (animate !== undefined) {
       warn('animate', '请使用 config.animate 设置动画开关。');

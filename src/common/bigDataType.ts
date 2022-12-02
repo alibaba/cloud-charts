@@ -1,25 +1,25 @@
 /**
  * 【数据量计算方法】
  *
- * 常规计算COMMON：每个data长度的最大值
+ * 常规计算COMMON：{x, y, type, dodge, facet} 不同type单独统计，取最大值，忽略dodge与facet
  * 柱状图
  * 折线图
  * 饼图
- * 烛形图
- * 漏斗图
- * 线柱图
- * 线点图
  * 玫瑰图
  * 雷达图
- *
- * 直接计算个数COUNT: 直接计算数据个数
  * 箱型图
+ *
+ * 直接计算个数COUNT: 直接取数组长度
+ * 烛形图
+ * 漏斗图
+ * 散点图
+ *
+ * 特殊计算SPECIAL: [{name:'xxx',data:[], type: 'xxx', dodge: 'xxx'}] 取最大值
+ * 线柱图
+ * 线点图
  *
  * 分层计算LEVEL: 计算每层个数，取最外层的数量
  * 多重饼图(多重环图)
- *
- * 计算所有数据总数SUM：计算所有data的总数
- * 散点图
  *
  * 不考虑大数据情况：
  * 热力图（色块图）
@@ -33,7 +33,7 @@
 export const CalculationType = {
   COMMON: 'COMMON',
   COUNT: 'COUNT',
-  SUM: 'SUM',
+  SPECIAL: 'SPECIAL',
   LEVEL: 'LEVEL',
 };
 
@@ -111,7 +111,7 @@ const BigDataType = {
   },
   // 箱型图
   G2Box: {
-    calculation: CalculationType.COUNT,
+    calculation: CalculationType.COMMON,
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
@@ -127,7 +127,7 @@ const BigDataType = {
   },
   // 烛形图
   G2Wcandlestick: {
-    calculation: CalculationType.COMMON,
+    calculation: CalculationType.COUNT,
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
@@ -143,7 +143,7 @@ const BigDataType = {
   },
   // 漏斗图
   G2Funnel: {
-    calculation: CalculationType.COMMON,
+    calculation: CalculationType.COUNT,
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
@@ -170,7 +170,7 @@ const BigDataType = {
   },
   // 线柱图
   G2LineBar: {
-    calculation: CalculationType.COMMON,
+    calculation: CalculationType.SPECIAL,
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
@@ -181,7 +181,7 @@ const BigDataType = {
   },
   // 线点图
   G2LineScatter: {
-    calculation: CalculationType.COMMON,
+    calculation: CalculationType.SPECIAL,
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
@@ -264,7 +264,7 @@ const BigDataType = {
   },
   // 散点图
   G2Scatter: {
-    calculation: CalculationType.SUM,
+    calculation: CalculationType.COUNT,
     exceedJudge: [
       {
         type: ExceedJudgeType.AREA,

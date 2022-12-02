@@ -503,3 +503,41 @@ stories.add('横向柱图（从右往左）', () => {
     </Wcontainer>
   );
 });
+
+const facetData = [
+  {
+    name: '柱1',
+    facet: '分面1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    facet: '分面2',
+    data: [],
+  },
+];
+
+for (let i = 0; i < 8; i++) {
+  const name = i + '-' + i;
+  facetData[0].data.push([name, Math.round(Math.random() * 50 + 50 + i * 20)]);
+  facetData[1].data.push([name, Math.round(Math.random() * 50 + 50 + i * 10)]);
+}
+
+stories.add('分面柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{
+        column: false,
+        xAxis: {
+          visible: false,
+        },
+        facet: {
+          padding: [0, 0, 12, 0],
+          spacing: [0, 0],
+        },
+      }}
+      data={facetData}
+    />
+  </Wcontainer>
+));
