@@ -544,6 +544,35 @@ class Base<
   }
 
   initChart() {
+    // 合并默认配置项
+    let currentProps: Props = {
+      ...this.props,
+      config: merge({}, this.defaultConfig, this.props.config),
+    };
+
+    // 开始初始化图表
+    if (this.beforeInit) {
+      currentProps = this.beforeInit(currentProps);
+    }
+    currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
+    currentProps.config.appendPadding = currentProps.appendPadding || currentProps.config.appendPadding;
+    const {
+      width,
+      height,
+      data: initData,
+      // padding,
+      // forceFit,
+      config,
+      event,
+      interaction,
+      animate,
+      ...otherProps
+    } = currentProps;
+
+    // 预处理数据
+    const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
+    this.rawData = initData;
+
     // 获取大数据判断参数
     this.bigDataConfig = (BigDataType as any)?.[this.chartName];
 
@@ -562,6 +591,8 @@ class Base<
       }
     }
 
+    console.log('data:',data);
+
     // 计算数据量
     this.calcDataSize(this.props.data);
 
@@ -577,11 +608,8 @@ class Base<
 
     this.defaultConfig = this.getDefaultConfig();
 
-    // 合并默认配置项与特殊配置项
-    let currentProps: Props = {
-      ...this.props,
-      config: merge({}, this.defaultConfig, this.props.config, specialConfig),
-    };
+    // 合并特殊配置项
+    
 
     // 空数据时双y轴取消
     if (isEmpty && Array.isArray(currentProps?.config?.yAxis) && !Array.isArray(specialConfig?.yAxis)) {
@@ -613,24 +641,7 @@ class Base<
       };
     }
 
-    // 开始初始化图表
-    if (this.beforeInit) {
-      currentProps = this.beforeInit(currentProps);
-    }
-    currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
-    currentProps.config.appendPadding = currentProps.appendPadding || currentProps.config.appendPadding;
-    const {
-      width,
-      height,
-      data: initData,
-      // padding,
-      // forceFit,
-      config,
-      event,
-      interaction,
-      animate,
-      ...otherProps
-    } = currentProps;
+    
     // 生成图表实例
     const chart = new Chart({
       container: this.chartDom,
@@ -646,9 +657,7 @@ class Base<
 
     this.chart = chart;
 
-    // 预处理数据
-    const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
-    this.rawData = initData;
+    
 
     if (animate !== undefined) {
       warn('animate', '请使用 config.animate 设置动画开关。');

@@ -17,7 +17,7 @@ export const EmptyJudgeType = {
 const EmptyDataType = {
   // 柱状图
   G2Bar: {
-    emptyJudge: EmptyJudgeType.COMMON, // 检测空数据的方式
+    emptyJudge: EmptyJudgeType.ARRAY, // 检测空数据的方式
     replacement: {
       // 空状态下替换的数据与配置项
       data: [],
