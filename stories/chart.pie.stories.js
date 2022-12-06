@@ -51,8 +51,8 @@ const temp = [
 
 class NewData extends React.Component {
   state = {
-    data
-  }
+    data,
+  };
 
   componentDidMount() {
     setInterval(() => {
@@ -60,11 +60,11 @@ class NewData extends React.Component {
 
       this.setState({
         data: temp,
-      })
+      });
     }, 2000);
   }
 
-  render(){
+  render() {
     return (
       <Wcontainer className="demos">
         <Wpie
@@ -220,15 +220,15 @@ stories.add('饼图数据从有到无', () => {
         config={{
           cycle: true,
           tooltip: {
-            valueFormatter: function(v, data) {
-              return v + '%'
+            valueFormatter: function (v, data) {
+              return v + '%';
             },
           },
           legend: {
-            valueFormatter: function(v, data){
+            valueFormatter: function (v, data) {
               return v + '%';
-            }
-          }
+            },
+          },
         }}
         data={d}
       />
@@ -252,15 +252,15 @@ stories.add('饼图数据从无到有', () => {
         config={{
           cycle: true,
           tooltip: {
-            valueFormatter: function(v, data) {
-              return v + '%'
+            valueFormatter: function (v, data) {
+              return v + '%';
             },
           },
           legend: {
-            valueFormatter: function(v, data){
+            valueFormatter: function (v, data) {
               return v + '%';
-            }
-          }
+            },
+          },
         }}
         data={d}
       >
@@ -324,6 +324,37 @@ stories.add('饼图图例切分', () => (
         },
       }}
       data={longData}
+    />
+  </Wcontainer>
+));
+
+const zeroData = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 0],
+      ['Others', 0],
+    ],
+  },
+];
+
+stories.add('可筛选为全0的饼图', () => (
+  <Wcontainer className="demos">
+    <Wpie
+      width={300}
+      height="300"
+      data={zeroData}
+      config={{
+        legend: {
+          valueFormatter(v, d) {
+            return d.percent;
+          },
+        },
+      }}
     />
   </Wcontainer>
 ));

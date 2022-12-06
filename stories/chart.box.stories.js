@@ -33,3 +33,32 @@ stories.add('箱型图', () => (
     <Wbox height="300" config={options} data={data} />
   </Wcontainer>
 ));
+
+const zeroData = [
+  {
+    name: '柱1',
+    data: [['一', [1, 9, 16, 22, 24]]],
+  },
+  {
+    name: '柱2',
+    data: [['二', [3, 10, 17, 28, 32]]],
+  },
+  {
+    name: '柱3',
+    data: [['三', [2, 8, 12, 19, 26]]],
+  },
+  {
+    name: '柱4',
+    data: [['四', [0, 0, 0, 0, 0]]],
+  },
+  {
+    name: '柱5',
+    data: [['五', [0, 0, 0, 0, 0]]],
+  },
+];
+
+stories.add('可筛选出全为0的箱型图', () => (
+  <Wcontainer className="demos">
+    <Wbox height="300" config={options} data={zeroData} />
+  </Wcontainer>
+));

@@ -174,3 +174,18 @@ stories.add('漏斗图-自定义label', () => (
 ));
 
 stories.add('动态数据', () => <NewData />);
+
+const zeroData = [
+  {
+    name: '流量转化',
+    data: [
+      ['浏览网站', 50000],
+      ['放入购物车', 35000],
+      ['生成订单', 25000],
+      ['支付订单', 0],
+      ['完成交易', 0],
+    ],
+  },
+];
+
+stories.add('可筛选出全为0的漏斗图', () => <Wfunnel height="300" data={zeroData} config={{}} />);
