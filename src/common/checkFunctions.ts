@@ -45,9 +45,11 @@ export function checkBigData(
     let isExceed = false;
     if (type === ExceedJudgeType.LEGNTH) {
       const isHorizontal =
-        config &&
-        ((config?.column !== undefined && (!config?.column || typeof config?.column === 'object')) ||
-          (chartName === 'G2Funnel' && config?.direction !== 'horizontal'));
+        judgement?.directionConfig === 'column'
+          ? config?.column !== undefined && (!config?.column || typeof config?.column === 'object')
+          : judgement?.directionConfig === 'direction'
+          ? config?.direction !== 'horizontal'
+          : false;
       const length = isHorizontal ? height ?? 0 : width ?? 0;
       isExceed = length > 0 && length / dataSize < threshold;
     } else if (type === ExceedJudgeType.AREA) {
