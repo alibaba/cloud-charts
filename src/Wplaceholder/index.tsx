@@ -100,7 +100,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
           {emptySvg}
           <span
             style={{
-              marginRight: 4,
+              marginLeft: 4,
             }}
           >
             {text}
