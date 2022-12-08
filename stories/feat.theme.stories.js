@@ -76,6 +76,10 @@ function ThemeDemo() {
             <Wbar height="300" config={{
               xAxis: {
                 type: 'timeCat'
+              },
+              stack: true,
+              label: {
+                position: 'middle'
               }
             }} data={data} />
           </Wcontainer>

@@ -5,42 +5,42 @@ $widgets-color-background: #FFFFFF !default;
 $widgets-color-layout-background: #F7F7F7 !default;
 
 // 主色和状态色
-$widgets-color-blue: #3F90FF !default;
-$widgets-color-orange: #FA8C15 !default;
-$widgets-color-red: #E62412 !default;
-$widgets-color-green: #15AD31 !default;
-$widgets-color-gray: #E5E5E5 !default;
+$widgets-color-blue: #297acc !default;
+$widgets-color-orange: #f98e1a !default;
+$widgets-color-red: #e84738 !default;
+$widgets-color-green: #23b066 !default;
+$widgets-color-gray: #aaaaaa !default;
 
 // 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue !default;
-$widgets-color-category-2: #5CCDBB !default;
-$widgets-color-category-3: #FACD4F !default;
-$widgets-color-category-4: #9979F2 !default;
-$widgets-color-category-5: #006CD9 !default;
-$widgets-color-category-6: #4AD051 !default;
-$widgets-color-category-7: #5C60E6 !default;
-$widgets-color-category-8: #CD5C97 !default;
-$widgets-color-category-9: #52D7FF !default;
-$widgets-color-category-10: #FAB34F !default;
-$widgets-color-category-11: #E65C5C !default;
-$widgets-color-category-12: #9B5CE6 !default;
+$widgets-color-category-2: #43bf7e !default;
+$widgets-color-category-3: #8a87f5 !default;
+$widgets-color-category-4: #f7a854 !default;
+$widgets-color-category-5: #e8d36b !default;
+$widgets-color-category-6: #d48fff !default;
+$widgets-color-category-7: #85ba2f !default;
+$widgets-color-category-8: #57ccd9 !default;
+$widgets-color-category-9: #49add1 !default;
+$widgets-color-category-10: #d95777 !default;
+$widgets-color-category-11: #ffe7a1 !default;
+$widgets-color-category-12: #a4acbd !default;
 
 $widgets-color-linear-1: $widgets-color-blue !default;
-$widgets-color-linear-2: #529BFF !default;
-$widgets-color-linear-3: #65A6FF !default;
-$widgets-color-linear-4: #78B1FF !default;
-$widgets-color-linear-5: #8CBCFF !default;
-$widgets-color-linear-6: #9FC7FF !default;
-$widgets-color-linear-7: #B2D3FF !default;
-$widgets-color-linear-8: #C5DDFF !default;
-$widgets-color-linear-9: #D6E7FF !default;
-$widgets-color-linear-10: #EBF3FF !default;
+$widgets-color-linear-2: #3b85d1 !default;
+$widgets-color-linear-3: #4d91d6 !default;
+$widgets-color-linear-4: #609edb !default;
+$widgets-color-linear-5: #75aae0 !default;
+$widgets-color-linear-6: #8ab7e6 !default;
+$widgets-color-linear-7: #a0c5eb !default;
+$widgets-color-linear-8: #b6d3f0 !default;
+$widgets-color-linear-9: #cee1f5 !default;
+$widgets-color-linear-10: #e6f0fa !default;
 
 // 文字颜色
-$widgets-color-text-1: #262626 !default;
-$widgets-color-text-2: #595959 !default;
-$widgets-color-text-3: #8c8c8c !default;
-$widgets-color-disable: #BFBFBF !default;
+$widgets-color-text-1: #333333 !default;
+$widgets-color-text-2: #696969 !default;
+$widgets-color-text-3: #808080 !default;
+$widgets-color-disable: #aaaaaa !default;
 
 // 字体
 $widgets-font-family-txd-m-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
@@ -56,27 +56,27 @@ $widgets-font-size-6: 28px !default;
 $widgets-font-size-7: 32px !default;
 
 // 图例 Legend
-$widgets-legend-uncheck: #BFBFBF !default;
-$widgets-legend-text: #262626 !default;
+$widgets-legend-uncheck: #aaaaaa !default;
+$widgets-legend-text: #333333 !default;
 
 // label
-$widgets-label-text: #262626 !default;
+$widgets-label-text: #333333 !default;
 
 // 提示信息 tooltip
 $widgets-tooltip-background: $widgets-color-background !default;
 $widgets-tooltip-padding: 12px !default;
-$widgets-tooltip-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2) !default;
+$widgets-tooltip-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18) !default;
 $widgets-tooltip-corner-radius: 4px !default;
-$widgets-tooltip-cross-line: #dddddd !default;
-$widgets-tooltip-cross-react: #CCD6EC !default;
-$widgets-tooltip-cross-react-opacity: 0.3 !default;
-$widgets-tooltip-title: #8C8C8C !default;
-$widgets-tooltip-text: #262626 !default;
+$widgets-tooltip-cross-line: #d9d9d9 !default;
+$widgets-tooltip-cross-react: #d9d9d9 !default;
+$widgets-tooltip-cross-react-opacity: 0.5 !default;
+$widgets-tooltip-title: #808080 !default;
+$widgets-tooltip-text: #333333 !default;
 $widgets-tooltip-marker-fill: $widgets-color-background !default;
 
 // 轴 Axis
-$widgets-axis-label: #8C8C8C !default;
-$widgets-axis-line: #E5E5E5 !default;
+$widgets-axis-label: #808080 !default;
+$widgets-axis-line: #e5e5e5 !default;
 $widgets-axis-grid: #F7F7F7 !default;
 // CHECK 线粗细 默认 1
 
@@ -99,7 +99,7 @@ $widgets-container-split-line: #E5E5E5 !default;
 // 地图
 $widgets-map-area-bg: #E5E5E5 !default;
 $widgets-map-area-border: $widgets-color-background !default;
-$widgets-map-label: #595959 !default;
+$widgets-map-label: #333333 !default;
 
 // 圆环
 $widgets-circle-stroke-background: #F7F7F7 !default;
@@ -108,7 +108,7 @@ $widgets-circle-stroke-width: 6px !default;
 
 // 桑基图
 $widgets-sankey-edge: #E5E5E5 !default;
-$widgets-sankey-node-text: #8C8C8C !default;
+$widgets-sankey-node-text: #808080 !default;
 
 // 滚动条颜色
 $widgets-scrollbar-bg: #EBECF0 !default;

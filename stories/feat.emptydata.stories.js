@@ -27,7 +27,7 @@ import {
 
 const stories = storiesOf('emptyData', module);
 
-stories.add('无数据', () => (
+stories.add('业务图表空数据', () => (
   <Wplaceholder empty height={300} />
 ));
 
