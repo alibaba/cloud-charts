@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BaseChartConfig, Chart } from './types';
 import { BaseClass, ChartProps } from './Base';
-import { FullCrossName } from '../constants';
+// import { FullCrossName } from '../constants';
 import Wplaceholder from '../Wplaceholder';
 
 interface ErrorProps {
@@ -16,7 +16,11 @@ interface ErrorState {
  * errorWrap 错误捕获HOC
  *
  * */
-/*#__PURE__*/function errorWrap<T extends BaseClass<ChartConfig, Props>, ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>>(Component: T): T {
+/*#__PURE__*/ function errorWrap<
+  T extends BaseClass<ChartConfig, Props>,
+  ChartConfig extends BaseChartConfig,
+  Props extends ChartProps<ChartConfig> = ChartProps<ChartConfig>,
+>(Component: T): T {
   class ErrorBoundary extends React.Component<Props & ErrorProps, ErrorState> {
     static isG2Chart = true;
     static displayName = Component.displayName;
@@ -43,7 +47,7 @@ interface ErrorState {
       return true;
     }
 
-    componentDidCatch(error: Error/*, info*/) {
+    componentDidCatch(error: Error /*, info*/) {
       // Display fallback UI
       this.setState({ errorStack: error.stack });
     }
@@ -61,15 +65,28 @@ interface ErrorState {
 
     render() {
       if (this.state.errorStack) {
-        const { className = '', style } = this.props;
+        const { className = '', style, height } = this.props;
         // You can render any custom fallback UI
         // return <pre className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</pre>;
-        return <Wplaceholder error children={<div className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</div>} />
+        return (
+          <Wplaceholder
+            error
+            children={
+              // <div className={`${FullCrossName} widgets-error-info ${className}`} style={style}>
+              //   {this.state.errorStack}
+              // </div>
+              <>图表异常</>
+            }
+            style={{
+              height: height ?? 300
+            }}
+          />
+        );
       }
       const { forwardedRef = this.oldReactRef, ...rest } = this.props;
 
       // @ts-ignore 将自定义的 prop 属性 “forwardedRef” 定义为 ref
-      return (<Component ref={forwardedRef} {...rest as Props} />);
+      return <Component ref={forwardedRef} {...(rest as Props)} />;
     }
   }
 

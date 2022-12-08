@@ -22,9 +22,14 @@ import {
   Wrectangle,
   Wsankey,
   Wtreemap,
+  Wplaceholder
 } from '@alife/aisc-widgets';
 
 const stories = storiesOf('emptyData', module);
+
+stories.add('无数据', () => (
+  <Wplaceholder empty height={300} />
+));
 
 stories.add('线图', () => (
   <Wcontainer className="demos">
