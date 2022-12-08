@@ -3,6 +3,7 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
+import _ from 'lodash';
 import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
@@ -149,6 +150,8 @@ export interface ChartProps<ChartConfig> {
   animate?: boolean;
   /** @deprecated 自定义图表请使用类继承 */
   customChart?: any;
+  /** 是否使用业务配置覆盖规则，默认为否。 */
+  force?: boolean
 }
 
 /**
@@ -303,6 +306,7 @@ class Base<
     );
 
     return {
+      isExceed: isExceed,
       isEmpty: false,
       data: null,
       config: null,
@@ -467,7 +471,19 @@ class Base<
 
       // 检查数据
       // 有数据变为无数据暂时不处理，只检查大数据
-      this.checkDataBeforeRender(newData);
+      const { isExceed } = this.checkDataBeforeRender(newData);
+
+      // 大数据情况下执行配置项的约束
+      const configChecked = this.props?.force ? false : isExceed;
+      if (configChecked) {
+        const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
+        // 暂时这么写，做配置项的合并
+        Object.keys(filterConfig)?.forEach((key: string) => {
+          if (mergeConfig.hasOwnProperty(key)) {
+            mergeConfig[key] = filterConfig?.[key];
+          }
+        })
+      }
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -574,6 +590,7 @@ class Base<
       event,
       interaction,
       animate,
+      force,
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
@@ -604,8 +621,9 @@ class Base<
     this.calcDataSize(data);
 
     // 数据检查
-    const { isEmpty, data: specialData, config: specialConfig, fillBackground } = this.checkDataBeforeRender(data);
+    const { isEmpty, isExceed, data: specialData, config: specialConfig, fillBackground } = this.checkDataBeforeRender(data);
 
+    // 根据规则判断对图表配置项做一步处理
     // 合并特殊配置项
     if (isEmpty) {
       config = merge({}, config, specialConfig);
@@ -616,6 +634,7 @@ class Base<
       }
     }
 
+    // 这一部分可以写到空数据规则里面
     // 数据中name未指定时，legend与tooltip也不显示名称
     if (config?.legend && config?.legend?.nameFormatter) {
       config.legend.nameFormatter = (name: string, data: any, index: number) => {
@@ -639,6 +658,18 @@ class Base<
         }
         return name;
       };
+    }
+
+    // 大数据情况下执行配置项的约束
+    const configChecked = force ? false : isExceed;
+    if (configChecked) {
+      const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
+      // 暂时这么写，做配置项的合并
+      Object.keys(filterConfig)?.forEach((key: string) => {
+        if (config.hasOwnProperty(key)) {
+          config[key] = filterConfig?.[key];
+        }
+      })
     }
 
     // 生成图表实例
