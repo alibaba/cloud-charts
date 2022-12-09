@@ -148,6 +148,7 @@ const BigDataType: any = {
       {
         type: ExceedJudgeType.LEGNTH,
         threshold: 30,
+        directionConfig: 'direction',
         message: '该漏斗图数据过于密集，会影响展示效果，建议减少数据量或加大图表尺寸',
       },
       {
