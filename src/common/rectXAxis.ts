@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, G2Dependents } from "./types";
+import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
 import { merge, customFormatter, customFormatterConfig } from './common';
 
@@ -11,6 +11,7 @@ export interface XAxisConfig extends customFormatterConfig {
   rotate?: number;
   autoHide?: boolean;
   autoEllipsis?: boolean;
+  label?: any;
   labelFormatter?: Types.AxisCfg['label']['formatter'];
   tickLine?: boolean | G2Dependents.AxisTickLineCfg;
   customConfig?: Types.AxisCfg;
@@ -26,16 +27,26 @@ export interface XAxisConfig extends customFormatterConfig {
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
  * */
-export default function<T> (
+export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { grid?: boolean; xAxis?: Types.ScaleOption & XAxisConfig | false },
-  defaultConfig?: Types.AxisCfg
+  config: { grid?: boolean; xAxis?: (Types.ScaleOption & XAxisConfig) | false },
+  defaultConfig?: Types.AxisCfg,
 ) {
   if (config.xAxis === false || (config.xAxis && config.xAxis.visible === false)) {
     chart.axis('x', false);
   } else {
-    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, tickLine, customConfig } = config.xAxis || {};
+    const {
+      alias,
+      autoRotate = false,
+      rotate,
+      autoHide,
+      autoEllipsis,
+      label,
+      labelFormatter,
+      tickLine,
+      customConfig,
+    } = config.xAxis || {};
     let myTickLine = null;
     if (typeof tickLine === 'boolean' && tickLine) {
       myTickLine = {};
@@ -44,13 +55,16 @@ export default function<T> (
       ...defaultConfig,
       title: null, // 默认不展示坐标轴的标题
       tickLine: myTickLine,
-      label: {
-        autoRotate,
-        rotate,
-        autoHide,
-        autoEllipsis,
-        formatter: labelFormatter || customFormatter(config.xAxis || {}),
-      },
+      label:
+        label === undefined
+          ? {
+              autoRotate,
+              rotate,
+              autoHide,
+              autoEllipsis,
+              formatter: labelFormatter || customFormatter(config.xAxis || {}),
+            }
+          : label,
     };
 
     // if (rotate) {

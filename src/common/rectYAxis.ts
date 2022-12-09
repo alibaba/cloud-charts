@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types } from "./types";
+import { Chart, Types } from './types';
 import { merge, customFormatter, customFormatterConfig } from './common';
 
 export interface YAxisConfig extends customFormatterConfig {
@@ -10,6 +10,7 @@ export interface YAxisConfig extends customFormatterConfig {
   rotate?: number;
   autoHide?: boolean;
   autoEllipsis?: boolean;
+  label?: any;
   labelFormatter?: Types.AxisCfg['label']['formatter'];
   customConfig?: Types.AxisCfg;
 }
@@ -23,27 +24,39 @@ export interface YAxisConfig extends customFormatterConfig {
  * @param {string} yField 数据映射字段
  * @param {Object} defaultConfig 组件的自定义配置
  * */
-export default function<T> (
+export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { yAxis?: Types.ScaleOption & YAxisConfig | false; },
+  config: { yAxis?: (Types.ScaleOption & YAxisConfig) | false },
   yField: string = 'y',
-  defaultConfig?: Types.AxisCfg
+  defaultConfig?: Types.AxisCfg,
 ) {
   if (config.yAxis === false || (config.yAxis && config.yAxis.visible === false)) {
     chart.axis(yField, false);
   } else {
-    const { alias, autoRotate = false, rotate, autoHide, autoEllipsis, labelFormatter, customConfig } = config.yAxis || {};
+    const {
+      alias,
+      autoRotate = false,
+      rotate,
+      autoHide,
+      autoEllipsis,
+      label,
+      labelFormatter,
+      customConfig,
+    } = config.yAxis || {};
     const yConfig: Types.AxisCfg = {
       ...defaultConfig,
       title: null, // 不展示坐标轴的标题
-      label: {
-        autoRotate,
-        rotate,
-        autoHide,
-        autoEllipsis,
-        formatter: labelFormatter || customFormatter(config.yAxis || {}),
-      },
+      label:
+        label === undefined
+          ? {
+              autoRotate,
+              rotate,
+              autoHide,
+              autoEllipsis,
+              formatter: labelFormatter || customFormatter(config.yAxis || {}),
+            }
+          : label,
     };
 
     // // 关闭了X轴，需要显示第一条grid
