@@ -450,6 +450,32 @@ class Base<ChartConfig extends BaseChartConfig, Props extends ChartProps<ChartCo
       ...this.props,
       config: merge({}, this.defaultConfig, this.props.config),
     };
+
+    // 数据中name未指定时，legend与tooltip也不显示名称
+    if (currentProps?.config?.legend) {
+      currentProps.config.legend.nameFormatter = (name: string, data: any, index: number) => {
+        if (name.startsWith('undefined-name-')) {
+          return '';
+        }
+        if (this.props.config?.legend?.nameFormatter) {
+          return this.props.config?.legend?.nameFormatter(name, data, index);
+        }
+        return name;
+      };
+    }
+
+    if (currentProps?.config?.tooltip) {
+      currentProps.config.tooltip.nameFormatter = (name: string, data: any, index: number, rawData: any) => {
+        if (name.startsWith('undefined-name-')) {
+          return '';
+        }
+        if (this.props.config?.tooltip?.nameFormatter) {
+          return this.props.config?.tooltip?.nameFormatter(name, data, index, rawData);
+        }
+        return name;
+      };
+    }
+
     // 开始初始化图表
     if (this.beforeInit) {
       currentProps = this.beforeInit(currentProps);

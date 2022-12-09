@@ -104,21 +104,26 @@ const stepOptions = {
 };
 stories.add('阶梯折线图', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{
-      step: select('阶梯形状', stepOptions, null),
-    }} data={data} />
+    <Wline
+      height="300"
+      config={{
+        step: select('阶梯形状', stepOptions, null),
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
 
 const singleData = [
   {
-    "name":"机房A",
-    "data":[[1483632000000,4854]]
-  }, {
-    "name":"机房B",
-    "yAxis": 1,
-    "data":[[1483632000000,6548]]
-  }
+    name: '机房A',
+    data: [[1483632000000, 4854]],
+  },
+  {
+    name: '机房B',
+    yAxis: 1,
+    data: [[1483632000000, 6548]],
+  },
 ];
 stories.add('单个点折线图', () => (
   <Wcontainer className="demos">
@@ -127,28 +132,31 @@ stories.add('单个点折线图', () => (
 ));
 stories.add('Tooltip 设置', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{
-      tooltip: {
-        titleFormatter: function(v) {
-          return 'title: ' + v;
+    <Wline
+      height="300"
+      config={{
+        tooltip: {
+          titleFormatter: function (v) {
+            return 'title: ' + v;
+          },
+          nameFormatter: function (v) {
+            return 'name: ' + v;
+          },
+          valueFormatter: function (v) {
+            return 'value: ' + v;
+          },
         },
-        nameFormatter: function(v) {
-          return 'name: ' + v;
-        },
-        valueFormatter: function(v) {
-          return 'value: ' + v;
-        },
-      }
-    }} data={data} />
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
-
 
 const data1 = [];
 const data2 = [];
 
 let now = Date.now();
-for(var i = 0; i < 30; i++) {
+for (var i = 0; i < 30; i++) {
   let t = now - (30 - i) * 1000;
   data1.push([t, Math.round(Math.random() * 60) + 300]);
   data2.push([t, Math.round(Math.random() * 60) + 300]);
@@ -157,14 +165,15 @@ class NewData extends React.Component {
   state = {
     data: [
       {
-        "name":"机房A",
-        "data": data1
-      },{
-        "name":"机房B",
-        "data": data2
-      }
-    ]
-  }
+        name: '机房A',
+        data: data1,
+      },
+      {
+        name: '机房B',
+        data: data2,
+      },
+    ],
+  };
 
   componentDidMount() {
     setInterval(() => {
@@ -179,60 +188,64 @@ class NewData extends React.Component {
       this.setState({
         data: [
           {
-            "name":"机房A",
-            "data": data1
-          },{
-            "name":"机房B",
-            "data": data2
-          }
-        ]
-      })
+            name: '机房A',
+            data: data1,
+          },
+          {
+            name: '机房B',
+            data: data2,
+          },
+        ],
+      });
     }, 1000);
   }
 
-  render(){
+  render() {
     return (
       <Wcontainer className="demos">
-        <Wline height="300" config={{}} data={this.state.data}/>
+        <Wline height="300" config={{}} data={this.state.data} />
       </Wcontainer>
     );
   }
 }
-stories.add('动态数据', () => (
-  <NewData />
-));
+stories.add('动态数据', () => <NewData />);
 
 stories.add('修改shape', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{
-      // guide: {
-      //   line: {
-      //     top: true,
-      //     text: '80%',
-      //     status: 'error',
-      //     axis: 'x',
-      //     value: 1483718400000,
-      //   },
-      //   filter: {
-      //     status: 'error', // normal | success | warning | error
-      //     // 区域位置
-      //     axis: 'x',
-      //     value: [1483718400000, 'max'],
-      //   },
-      // },
-      area: true,
-      // 还要考虑选中状态样式
-      symbol: {
-        // shape支持函数？
-        shape: 'square', // 内置图形, 'circle', 'diamond', 'square', 'triangle', 'triangle-down'
-        size: 6, // 大小
-        geomStyle: { // 样式
-          // stroke: 'red',
-          fill: 'red',
-          lineWidth: 1
-        }
-      }
-    }} data={data} />
+    <Wline
+      height="300"
+      config={{
+        // guide: {
+        //   line: {
+        //     top: true,
+        //     text: '80%',
+        //     status: 'error',
+        //     axis: 'x',
+        //     value: 1483718400000,
+        //   },
+        //   filter: {
+        //     status: 'error', // normal | success | warning | error
+        //     // 区域位置
+        //     axis: 'x',
+        //     value: [1483718400000, 'max'],
+        //   },
+        // },
+        area: true,
+        // 还要考虑选中状态样式
+        symbol: {
+          // shape支持函数？
+          shape: 'square', // 内置图形, 'circle', 'diamond', 'square', 'triangle', 'triangle-down'
+          size: 6, // 大小
+          geomStyle: {
+            // 样式
+            // stroke: 'red',
+            fill: 'red',
+            lineWidth: 1,
+          },
+        },
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
 
@@ -247,21 +260,24 @@ stories.add('数据从有到无', () => {
   }, []);
   return (
     <Wcontainer className="demos">
-      <Wline height="300" config={{
-        area: true,
-        legend: {
-          nameFormatter: function(v, data){
-            return 'name:' + v;
+      <Wline
+        height="300"
+        config={{
+          area: true,
+          legend: {
+            nameFormatter: function (v, data) {
+              return 'name:' + v;
+            },
+            valueFormatter: function (v, data) {
+              return v + '%';
+            },
           },
-          valueFormatter: function(v, data){
-            return v + '%';
-          }
-        }
-      }} data={d}/>
+        }}
+        data={d}
+      />
     </Wcontainer>
   );
 });
-
 
 // // 齐全度展示图
 // const attendData = [
@@ -402,8 +418,8 @@ const rangeAreaData = [
       [1483718400000, 8514],
       [1483804800000, 8666],
       [1483891200000, 8023],
-      [1483977600000, 6018]
-    ]
+      [1483977600000, 6018],
+    ],
   },
   {
     name: '范围',
@@ -415,59 +431,67 @@ const rangeAreaData = [
       [1483718400000, [6514, 10000]],
       [1483804800000, [6666, 10000]],
       [1483891200000, [6023, 10000]],
-      [1483977600000, [4018, 8654]]
-    ]
+      [1483977600000, [4018, 8654]],
+    ],
   },
 ];
 stories.add('区域面积图', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{
-      area: {
+    <Wline
+      height="300"
+      config={{
+        area: {
+          geomStyle(x, y, type, extra) {
+            if (type === '平均值') {
+              return {
+                opacity: 0,
+                fill: 'transparent',
+              };
+            }
+            return {};
+          },
+        },
         geomStyle(x, y, type, extra) {
-          if (type === '平均值') {
+          if (type === '范围') {
             return {
               opacity: 0,
               fill: 'transparent',
+              stroke: 'transparent',
             };
           }
           return {};
         },
-      },
-      geomStyle(x, y, type, extra) {
-        if (type === '范围') {
-          return {
-            opacity: 0,
-            fill: 'transparent',
-            stroke: 'transparent',
-          };
-        }
-        return {};
-      },
-    }} data={rangeAreaData} />
+      }}
+      data={rangeAreaData}
+    />
   </Wcontainer>
 ));
 
 stories.add('带虚线图', () => (
   <Wcontainer className="demos">
-    <Wline height="300" config={{
-      geomStyle: {
-        lineDash(x, y, type) {
-          console.log('dash', x, y, type);
-          if (type === '机房B') {
-            return [4, 4];
-          }
-          return null;
-        }
-      },
-      // geomStyle(x, y, type) {
-      //   if (type === '机房B') {
-      //     return {
-      //       lineDash: [4,4],
-      //     }
-      //   }
-      //   return {};
-      // }
-    }} data={data} />
+    <Wline
+      height="300"
+      config={{
+        geomStyle: {
+          lineDash(x, y, type) {
+            console.log('dash', x, y, type);
+            if (type === '机房B') {
+              return [4, 4];
+            }
+            return null;
+          },
+        },
+        // geomStyle(x, y, type) {
+        //   if (type === '机房B') {
+        //     return {
+        //       lineDash: [4,4],
+        //     }
+        //   }
+        //   return {};
+        // }
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
 
@@ -479,68 +503,89 @@ stories.add('带区域渲染折线 changeSize', () => {
     //   30,
     //   30
     // ],
-    "yAxis": {
-      "min": 0
+    yAxis: {
+      min: 0,
     },
-    "xAxis": {
-      "type": "time",
-      "mask": "YYYY-MM-DD"
+    xAxis: {
+      type: 'time',
+      mask: 'YYYY-MM-DD',
     },
-    "tooltip": {},
-    "guide": {
-      "area": {
-        "axis": "y",
-        "value": [
-          51,
-          70
-        ],
-        "status": "warning"
+    tooltip: {},
+    guide: {
+      area: {
+        axis: 'y',
+        value: [51, 70],
+        status: 'warning',
       },
-      "filter": {
-        "axis": "y",
-        "value": [
-          51,
-          70
-        ],
-        "status": "warning"
-      }
+      filter: {
+        axis: 'y',
+        value: [51, 70],
+        status: 'warning',
+      },
     },
-    "colors": [
-      "#A5B0BD"
-    ],
-    "symbol": true,
-    "legend": false
+    colors: ['#A5B0BD'],
+    symbol: true,
+    legend: false,
   };
   return (
     <Wline
       config={c}
       data={[
         {
-          "name": "资源健康度",
-          "data": [
-            [
-              1649174400000,
-              79
-            ],
-            [
-              1650038400000,
-              0
-            ],
-            [
-              1650902400000,
-              79.56
-            ],
-            [
-              1651766400000,
-              79.62
-            ],
-            [
-              1652198400000,
-              0
-            ]
-          ]
-        }
+          name: '资源健康度',
+          data: [
+            [1649174400000, 79],
+            [1650038400000, 0],
+            [1650902400000, 79.56],
+            [1651766400000, 79.62],
+            [1652198400000, 0],
+          ],
+        },
       ]}
     />
   );
-})
+});
+
+const multipleData = [
+  {
+    name: '',
+    data: [
+      [1483372800000, 1592],
+      [1483459200000, 1092],
+      [1483545600000, 1714],
+      [1483632000000, 2984],
+      [1483718400000, 3514],
+      [1483804800000, 3666],
+      [1483891200000, 3023],
+      [1483977600000, 3018],
+    ],
+  },
+  {
+    name: '',
+    data: [
+      [1483372800000, 2592],
+      [1483459200000, 2092],
+      [1483545600000, 3714],
+      [1483632000000, 4984],
+      [1483718400000, 7514],
+      [1483804800000, 7666],
+      [1483891200000, 7023],
+      [1483977600000, 5018],
+    ],
+  },
+  {
+    name: '机房C',
+    data: [
+      [1483372800000, 7592],
+      [1483459200000, 9092],
+      [1483545600000, 8714],
+      [1483632000000, 8984],
+      [1483718400000, 11514],
+      [1483804800000, 11666],
+      [1483891200000, 11023],
+      [1483977600000, 9018],
+    ],
+  },
+];
+
+stories.add('不指定name', () => <Wline height="300" data={multipleData} />);
