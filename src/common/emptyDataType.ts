@@ -1,3 +1,5 @@
+import themes from '../themes/index';
+
 /**
  * 判断是否无数据的方法分类
  *  COMMON    {name: xxx, data: [xxx]}
@@ -104,7 +106,7 @@ const EmptyDataType = {
       },
       config: {
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
       },
     },
     fillBackground: true,
@@ -218,7 +220,7 @@ const EmptyDataType = {
       },
       config: {
         legend: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
       },
     },
     fillBackground: false,
@@ -236,7 +238,7 @@ const EmptyDataType = {
       config: {
         legend: false,
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
         label: false,
       },
     },
@@ -250,7 +252,7 @@ const EmptyDataType = {
       config: {
         legend: false,
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
         label: false,
       },
     },
@@ -279,7 +281,7 @@ const EmptyDataType = {
         },
         legend: false,
         tooltip: false,
-        colors: '#e6e6e6',
+        colors: themes['widgets-color-layout-background'],
       },
     },
     fillBackground: false,
@@ -339,7 +341,7 @@ const EmptyDataType = {
       },
       config: {
         tooltip: false,
-        colors: '#F7F7F7',
+        colors: themes['widgets-color-layout-background'],
       },
     },
     fillBackground: true,
