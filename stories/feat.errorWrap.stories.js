@@ -31,10 +31,12 @@ const stories = storiesOf('errorWrap', module);
 stories.add('不完整数据', () => (
   <Wcontainer className="demos">
     <Wsankey
-      height="300"
+      height={300}
       config={{}}
       data={{
-        nodes: [],
+        nodes: [
+          {}
+        ],
         links: [
           { source: 0, target: 1, value: 5 },
           { source: 0, target: 2, value: 1 },

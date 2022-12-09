@@ -41,8 +41,10 @@ const noDataSvg = <svg width="43px" height="36px" viewBox="0 0 43 36" style={{ma
   {/*</g>*/}
 </svg>;
 
+const emptySvg = <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
+
 // 获取显示文案
-function getLocaleText (locale: LocaleItem, loading: boolean, error: boolean, noData: boolean) {
+function getLocaleText (locale: LocaleItem, loading: boolean, error: boolean, noData: boolean,empty: boolean) {
   // 优先取error状态
   if (error) {
     return locale.error;
@@ -55,6 +57,10 @@ function getLocaleText (locale: LocaleItem, loading: boolean, error: boolean, no
   if (noData) {
     return locale.noData;
   }
+  // 其次取loading状态
+  if (empty) {
+    return locale.empty;
+  }
   return null;
 }
 
@@ -66,6 +72,7 @@ interface WplaceholderProps {
   loading?: boolean;
   error?: boolean;
   noData?: boolean;
+  empty?: boolean;
   locale?: LocaleItem;
   language?: keyof (typeof Locale);
 }
@@ -80,13 +87,26 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
     chartLog('Wplaceholder', 'init');
   }
 
-  renderText(loading: boolean, error: boolean, noData: boolean) {
+  renderText(loading: boolean, error: boolean, noData: boolean, empty: boolean) {
     const { locale, language, children } = this.props;
     // text 优先判断传入的locale，其次判断传入的language，最后取中文locale
-    const text = getLocaleText(locale || Locale[language] || Locale['zh-cn'], loading, error, noData) || '';
+    const text = getLocaleText(locale || Locale[language] || Locale['zh-cn'], loading, error, noData, empty) || '';
     if (children) {
       // 优先渲染children
       return <div className={prefix + '-children-text'}>{children}</div>;
+    } else if (empty) {
+      return (
+        <div className={prefix + '-children-text'}>
+          {emptySvg}
+          <span
+            style={{
+              marginRight: 4,
+            }}
+          >
+            {text}
+          </span>
+        </div>
+      );
     } else if (text) {
       return <div className={prefix + '-children-text'}>{text}</div>;
     } else {
@@ -95,12 +115,13 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
   }
 
   render() {
-    const { className, width, height = '100%', style, loading, error, noData, ...otherProps } = this.props;
+    const { className, width, height = '100%', style, loading, error, noData, empty, ...otherProps } = this.props;
 
     const mainClasses = classNames(prefix, {
       [FullCrossName]: true,
       [prefix + '-loading']: !error && loading,
       [prefix + '-no-data']: !error && !loading && noData,
+      [prefix + '-empty']: !error && !loading && empty,
       [prefix + '-error']: !!error,
       [className]: !!className
     });
@@ -110,6 +131,8 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       renderSvg = errorSvg;
     } else if (!loading && noData) {
       renderSvg = noDataSvg;
+    } else if (empty) {
+      renderSvg = <></>;
     }
 
     return (
@@ -123,7 +146,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       >
         <div className={prefix + '-children'}>
           {renderSvg}
-          {this.renderText(loading, error, noData)}
+          {this.renderText(loading, error, noData, empty)}
         </div>
       </div>
     );
