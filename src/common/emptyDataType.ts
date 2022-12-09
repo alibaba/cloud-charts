@@ -38,7 +38,7 @@ const EmptyDataType = {
   },
   // 箱型图
   G2Box: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [],
       config: {
@@ -58,7 +58,7 @@ const EmptyDataType = {
   },
   // 烛形图
   G2Wcandlestick: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [],
       config: {
@@ -78,7 +78,7 @@ const EmptyDataType = {
   },
   // 漏斗图
   G2Funnel: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       config: {
         padding: 0,
@@ -88,7 +88,7 @@ const EmptyDataType = {
   },
   // 热力图
   G2Heatmap: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       config: {
         padding: 0,
@@ -113,7 +113,7 @@ const EmptyDataType = {
   },
   // 直方图
   G2Histogram: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [],
       config: {
@@ -133,7 +133,7 @@ const EmptyDataType = {
   },
   // 线图
   G2Line: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [],
       config: {
@@ -227,7 +227,7 @@ const EmptyDataType = {
   },
   // 玫瑰图
   G2Nightingale: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [
         {
@@ -246,7 +246,7 @@ const EmptyDataType = {
   },
   // 饼图
   G2Pie: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [{ x: 'a', y: 100 }],
       config: {
@@ -260,7 +260,7 @@ const EmptyDataType = {
   },
   // 雷达图
   G2Radar: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [
         { x: 'a', y: 0 },
@@ -313,7 +313,7 @@ const EmptyDataType = {
   },
   // 散点图
   G2Scatter: {
-    emptyJudge: EmptyJudgeType.COMMON,
+    emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
       data: [],
       config: {
