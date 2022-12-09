@@ -3,7 +3,6 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
-import _ from 'lodash';
 import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
@@ -151,7 +150,7 @@ export interface ChartProps<ChartConfig> {
   /** @deprecated 自定义图表请使用类继承 */
   customChart?: any;
   /** 是否使用业务配置覆盖规则，默认为否。 */
-  force?: boolean
+  force?: boolean;
 }
 
 /**
@@ -482,7 +481,7 @@ class Base<
           if (mergeConfig.hasOwnProperty(key)) {
             mergeConfig[key] = filterConfig?.[key];
           }
-        })
+        });
       }
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
@@ -621,7 +620,13 @@ class Base<
     this.calcDataSize(data);
 
     // 数据检查
-    const { isEmpty, isExceed, data: specialData, config: specialConfig, fillBackground } = this.checkDataBeforeRender(data);
+    const {
+      isEmpty,
+      isExceed,
+      data: specialData,
+      config: specialConfig,
+      fillBackground,
+    } = this.checkDataBeforeRender(data);
 
     // 根据规则判断对图表配置项做一步处理
     // 合并特殊配置项
@@ -669,7 +674,7 @@ class Base<
         if (config.hasOwnProperty(key)) {
           config[key] = filterConfig?.[key];
         }
-      })
+      });
     }
 
     // 生成图表实例
