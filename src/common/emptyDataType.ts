@@ -23,12 +23,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },
@@ -42,12 +42,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },
@@ -61,12 +61,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },
@@ -95,12 +95,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },
@@ -114,12 +114,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },
@@ -127,12 +127,50 @@ const EmptyDataType = {
   // 线柱图
   G2LineBar: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {},
+    replacement: {
+      data: [],
+      config: {
+        xAxis: {
+          min: 0,
+          max: 100,
+          label: false,
+        },
+        yAxis: {
+          min: 0,
+          max: 100,
+          label: {
+            style: {
+              opacity: 0,
+            },
+            offset: -30,
+          },
+        },
+      },
+    },
   },
   // 线点图
   G2LineScatter: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {},
+    replacement: {
+      data: [],
+      config: {
+        xAxis: {
+          min: 0,
+          max: 100,
+          label: false,
+        },
+        yAxis: {
+          min: 0,
+          max: 100,
+          label: {
+            style: {
+              opacity: 0,
+            },
+            offset: -30,
+          },
+        },
+      },
+    },
   },
   // 地图
   // G2Map: {
@@ -160,12 +198,33 @@ const EmptyDataType = {
   // 玫瑰图
   G2Nightingale: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {},
+    replacement: {
+      data: [
+        {
+          x: 'a',
+          y: 100,
+        },
+      ],
+      config: {
+        legend: false,
+        tooltip: false,
+        colors: '#F7F7F7',
+        label: false,
+      },
+    },
   },
   // 饼图
   G2Pie: {
     emptyJudge: EmptyJudgeType.COMMON,
-    replacement: {}, // 饼图无需替换数据与配置项
+    replacement: {
+      data: [{ x: 'a', y: 100 }],
+      config: {
+        legend: false,
+        tooltip: false,
+        colors: '#F7F7F7',
+        label: false,
+      },
+    },
   },
   // 雷达图
   G2Radar: {
@@ -181,12 +240,12 @@ const EmptyDataType = {
       ],
       config: {
         xAxis: {
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         legend: false,
         tooltip: false,
@@ -213,12 +272,12 @@ const EmptyDataType = {
         xAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
         yAxis: {
           min: 0,
           max: 100,
-          label: null,
+          label: false,
         },
       },
     },

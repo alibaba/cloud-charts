@@ -50,7 +50,6 @@ stories.add('直方图', () => (
   </Wcontainer>
 ));
 
-/*
 stories.add('线柱图（有问题）', () => (
   <Wcontainer className="demos">
     <Wlinebar height="300" data={[]} />
@@ -62,7 +61,6 @@ stories.add('线点图（有问题）', () => (
     <Wlinescatter height="300" data={[]} />
   </Wcontainer>
 ));
-*/
 
 stories.add('散点图', () => (
   <Wcontainer className="demos">
@@ -96,6 +94,18 @@ stories.add('多重饼图', () => (
 
 stories.add('多重环图', () => (
   <Wcontainer className="demos">
-    <WmultiPie height="300" data={{ name: 'test', children: [] }} config={{ innerRadius: 0.6, cycle: true }} />
+    <WmultiPie height="300" data={{ name: 'test', children: [] }} config={{ cycle: true }} />
+  </Wcontainer>
+));
+
+stories.add('玫瑰图', () => (
+  <Wcontainer className="demos">
+    <Wnightingale height="300" data={[]} />
+  </Wcontainer>
+));
+
+stories.add('玫瑰环图', () => (
+  <Wcontainer className="demos">
+    <Wnightingale height="300" data={[]} config={{ cycle: true }} />
   </Wcontainer>
 ));
