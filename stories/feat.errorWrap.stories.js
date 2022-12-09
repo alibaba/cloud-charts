@@ -2,7 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { Wcontainer, Wline, Wbar, Wpie, Wscatter, Wsankey } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wbar, Wpie, Wscatter, Wsankey } from '@alicloud/cloud-charts';
 
 function generateData(number) {
   const random = (seed) => {

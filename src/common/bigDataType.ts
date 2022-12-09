@@ -69,7 +69,7 @@ export const ExceedJudgeType = {
   NUMBER: 'NUMBER',
 };
 
-const BigDataType = {
+const BigDataType: any = {
   // 柱状图
   G2Bar: {
     calculation: CalculationType.COMMON,
@@ -93,11 +93,13 @@ const BigDataType = {
         },
         calculation: CalculationType.COMMON,
         exceedJudge: [
+          /*
           {
             type: ExceedJudgeType.POLAR,
             threshold: 100,
             message: '该极坐标柱状图数据过于密集，会影响展示效果，建议加大图表半径',
           },
+          */
           {
             type: ExceedJudgeType.NUMBER,
             threshold: 10,
@@ -192,11 +194,13 @@ const BigDataType = {
   G2MultiPie: {
     calculation: CalculationType.LEVEL,
     exceedJudge: [
+      /*
       {
         type: ExceedJudgeType.POLAR,
         threshold: 100,
         message: '该多重饼图数据过于密集，会影响展示效果，建议加大图表半径',
       },
+      */
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 20,
@@ -208,11 +212,13 @@ const BigDataType = {
   G2Nightingale: {
     calculation: CalculationType.COMMON,
     exceedJudge: [
+      /*
       {
         type: ExceedJudgeType.POLAR,
         threshold: 100,
         message: '该玫瑰图数据过于密集，会影响展示效果，建议减少数据量或加大图表半径',
       },
+      */
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 15,
@@ -224,11 +230,13 @@ const BigDataType = {
   G2Pie: {
     calculation: CalculationType.COMMON,
     exceedJudge: [
+      /*
       {
         type: ExceedJudgeType.POLAR,
         threshold: 80,
         message: '该饼图数据过于密集，会影响展示效果，建议减少数据量或加大图表半径',
       },
+      */
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 10,
@@ -240,11 +248,13 @@ const BigDataType = {
   G2Radar: {
     calculation: CalculationType.COMMON,
     exceedJudge: [
+      /*
       {
         type: ExceedJudgeType.POLAR,
         threshold: 100,
         message: '该雷达图数据过于密集，会影响展示效果，建议减少数据量或加大图表半径',
       },
+      */
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 30,
