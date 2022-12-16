@@ -276,10 +276,10 @@ class Base<
     return res;
   }
 
+  // todo: 检查数据格式
+
   /** 渲染前的数据检查 */
   public checkDataBeforeRender(data: any) {
-    // todo: 检查数据格式
-
     // 检查空数据，若为空数据则返回覆盖的数据与配置项
     if (checkEmptyData(data, this.chartName)) {
       const { replacement, fillBackground } = (EmptyDataType as any)[this.chartName];
@@ -467,7 +467,7 @@ class Base<
 
       // 检查数据
       // 有数据变为无数据暂时不处理，只检查大数据
-      this.checkDataBeforeRender(newData);
+      this.checkDataBeforeRender(data);
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
