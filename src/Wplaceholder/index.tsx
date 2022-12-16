@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import merge from 'lodash/merge';
 import chartLog from "../common/log";
 import Locale, { LocaleItem } from './locale';
 import './index.scss';
@@ -141,7 +141,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       background: themes?.name === 'dark' ? themes['widgets-color-background'] : themes['widgets-color-layout-background']
     };
 
-    const newStyle = !!empty ? _.merge(emptyStyle, style) : style;
+    const newStyle = !!empty ? merge(emptyStyle, style) : style;
     
     return (
       <div className={mainClasses}
