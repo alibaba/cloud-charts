@@ -15,6 +15,7 @@ function pxToNumber(px: string) {
 export interface Theme extends Partial<typeof normalStyle> {
   name?: string;
   category_12?: string[];
+  category_20?: string[];
   linear_10?: string[];
   order_10?: string[];
   // [key: string]: number | string | string[];
@@ -85,6 +86,29 @@ export function convertJsStyle(name: string, theme: Theme): Theme {
       theme['widgets-color-category-10'],
       theme['widgets-color-category-11'],
       theme['widgets-color-category-12'],
+    ],
+    // 分类色阶 - 20色
+    category_20: [
+      theme['widgets-color-category-1'],
+      theme['widgets-color-category-2'],
+      theme['widgets-color-category-3'],
+      theme['widgets-color-category-4'],
+      theme['widgets-color-category-5'],
+      theme['widgets-color-category-6'],
+      theme['widgets-color-category-7'],
+      theme['widgets-color-category-8'],
+      theme['widgets-color-category-9'],
+      theme['widgets-color-category-10'],
+      theme['widgets-color-category-11'],
+      theme['widgets-color-category-12'],
+      theme['widgets-color-category-13'],
+      theme['widgets-color-category-14'],
+      theme['widgets-color-category-15'],
+      theme['widgets-color-category-16'],
+      theme['widgets-color-category-17'],
+      theme['widgets-color-category-18'],
+      theme['widgets-color-category-19'],
+      theme['widgets-color-category-20'],
     ],
     // 连续色阶，比较接近的颜色会错开
     linear_10: [
@@ -178,14 +202,14 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     theme['widgets-color-category-10'],
     theme['widgets-color-category-11'],
     theme['widgets-color-category-12'],
-    '#945FB9',
-    '#DECFEA',
-    '#FF9845',
-    '#FFE0C7',
-    '#1E9493',
-    '#BBDEDE',
-    '#FF99C3',
-    '#FFE0ED',
+    theme['widgets-color-category-13'],
+    theme['widgets-color-category-14'],
+    theme['widgets-color-category-15'],
+    theme['widgets-color-category-16'],
+    theme['widgets-color-category-17'],
+    theme['widgets-color-category-18'],
+    theme['widgets-color-category-19'],
+    theme['widgets-color-category-20'],
   ];
 
   return {

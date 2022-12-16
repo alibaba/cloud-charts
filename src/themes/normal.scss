@@ -24,6 +24,14 @@ $widgets-color-category-9: #49add1 !default;
 $widgets-color-category-10: #d95777 !default;
 $widgets-color-category-11: #ffe7a1 !default;
 $widgets-color-category-12: #a4acbd !default;
+$widgets-color-category-13: #457000 !default;
+$widgets-color-category-14: #5AABF2 !default;
+$widgets-color-category-15: #DB5B00 !default;
+$widgets-color-category-16: #007FAD !default;
+$widgets-color-category-17: #E68AA1 !default;
+$widgets-color-category-18: #61BAAE !default;
+$widgets-color-category-19: #BD44C2 !default;
+$widgets-color-category-20: #A6A3F7 !default;
 
 $widgets-color-linear-1: $widgets-color-blue !default;
 $widgets-color-linear-2: #3b85d1 !default;
@@ -102,7 +110,7 @@ $widgets-map-area-border: $widgets-color-background !default;
 $widgets-map-label: #333333 !default;
 
 // 圆环
-$widgets-circle-stroke-background: #F7F7F7 !default;
+$widgets-circle-stroke-background: rgba(0, 0, 0, 0.04) !default;
 $widgets-circle-number: currentColor !default;
 $widgets-circle-stroke-width: 6px !default;
 
