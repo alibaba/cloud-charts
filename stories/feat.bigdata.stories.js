@@ -28,7 +28,7 @@ function generateData(number) {
 
 const stories = storiesOf('bigdata', module);
 
-const lineData = generateData(400);
+const lineData = generateData(100);
 
 stories.add('线图', () => (
   <Wcontainer className="demos">
@@ -39,8 +39,11 @@ stories.add('线图', () => (
           type: 'time',
           mask: 'HH:mm:ss',
         },
+        symbol: true,
+        spline: true,
       }}
       data={lineData}
+      // force
     />
   </Wcontainer>
 ));

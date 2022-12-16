@@ -1,46 +1,54 @@
 @import "./base.scss";
 
 // 背景颜色
-$widgets-color-background: #232533;
-$widgets-color-layout-background: #171924 !default;
+$widgets-color-background: #141414;
+$widgets-color-layout-background: #0a0a0a !default;
 
 // 主色和状态色
-$widgets-color-blue: #3F90FF;
-$widgets-color-orange: #FF9919;
-$widgets-color-red: #FF656B;
-$widgets-color-green: #3FC453;
-$widgets-color-gray: #393C4D;
+$widgets-color-blue: #307ac9;
+$widgets-color-orange: #ff8d16;
+$widgets-color-red: #f2493a;
+$widgets-color-green: #1b9657;
+$widgets-color-gray: #666666;
 
 // 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue;
-$widgets-color-category-2: #5CCDBB;
-$widgets-color-category-3: #FACD4F;
-$widgets-color-category-4: #9979F2;
-$widgets-color-category-5: #006CD9;
-$widgets-color-category-6: #4AD051;
-$widgets-color-category-7: #5C60E6;
-$widgets-color-category-8: #CD5C97;
-$widgets-color-category-9: #52D7FF;
-$widgets-color-category-10: #FAB34F;
-$widgets-color-category-11: #E65C5C;
-$widgets-color-category-12: #9B5CE6;
+$widgets-color-category-2: #1b9657;
+$widgets-color-category-3: #5b50ba;
+$widgets-color-category-4: #d47815;
+$widgets-color-category-5: #b0a046;
+$widgets-color-category-6: #781ad6;
+$widgets-color-category-7: #527d0e;
+$widgets-color-category-8: #0e9dad;
+$widgets-color-category-9: #19779c;
+$widgets-color-category-10: #d95777;
+$widgets-color-category-11: #ffdc73;
+$widgets-color-category-12: #727a8a;
+$widgets-color-category-13: #40571C;
+$widgets-color-category-14: #398CD4;
+$widgets-color-category-15: #E66000;
+$widgets-color-category-16: #38A3C9;
+$widgets-color-category-17: #E04F6C;
+$widgets-color-category-18: #42B3A4;
+$widgets-color-category-19: #7236AD;
+$widgets-color-category-20: #9B94FF;
 
 $widgets-color-linear-1: $widgets-color-blue;
-$widgets-color-linear-2: #3C85EB;
-$widgets-color-linear-3: #397AD6;
-$widgets-color-linear-4: #3670C2;
-$widgets-color-linear-5: #3464AD;
-$widgets-color-linear-6: #315A99;
-$widgets-color-linear-7: #2E5084;
-$widgets-color-linear-8: #2B4470;
-$widgets-color-linear-9: #283B5E;
-$widgets-color-linear-10: #252F47;
+$widgets-color-linear-2: #2d70b7;
+$widgets-color-linear-3: #2a66a5;
+$widgets-color-linear-4: #285b93;
+$widgets-color-linear-5: #255181;
+$widgets-color-linear-6: #22476f;
+$widgets-color-linear-7: #1f3d5c;
+$widgets-color-linear-8: #1c334a;
+$widgets-color-linear-9: #1a2838;
+$widgets-color-linear-10: #171e26;
 
 // 文字颜色
-$widgets-color-text-1: #F7F8F2;
-$widgets-color-text-2: #C5CACE;
-$widgets-color-text-3: #9EA5B2;
-$widgets-color-disable: #777D8F;
+$widgets-color-text-1: #cccccc;
+$widgets-color-text-2: #8c8c8c;
+$widgets-color-text-3: #666666;
+$widgets-color-disable: #4d4d4d;
 
 // 字体
 $widgets-font-family-txd-m-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
@@ -56,28 +64,28 @@ $widgets-font-size-6: 28px !default;
 $widgets-font-size-7: 32px !default;
 
 // 图例 Legend
-$widgets-legend-uncheck: #777D8F;
-$widgets-legend-text: #F7F8F2;
+$widgets-legend-uncheck: #4d4d4d;
+$widgets-legend-text: #cccccc;
 
 // label
-$widgets-label-text: #F7F8F2;
+$widgets-label-text: #cccccc;
 
 // 提示信息 tooltip
-$widgets-tooltip-background: #323545;
+$widgets-tooltip-background: #141414;
 $widgets-tooltip-padding: 12px !default;
 $widgets-tooltip-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
 $widgets-tooltip-corner-radius: 4px !default;
-$widgets-tooltip-cross-line: #51566B;
-$widgets-tooltip-cross-react: #404354;
-$widgets-tooltip-cross-react-opacity: 0.5;
-$widgets-tooltip-title: #9EA5B2;
-$widgets-tooltip-text: #F7F8F2;
+$widgets-tooltip-cross-line: #4d4d4d;
+$widgets-tooltip-cross-react: #4d4d4d;
+$widgets-tooltip-cross-react-opacity: 0.3;
+$widgets-tooltip-title: #666666;
+$widgets-tooltip-text: #cccccc;
 $widgets-tooltip-marker-fill: $widgets-color-background;
 
 // 轴 Axis
-$widgets-axis-label: #9EA5B2;
-$widgets-axis-line: #393C4D;
-$widgets-axis-grid: #323545;
+$widgets-axis-label: #8a8a8a;
+$widgets-axis-line: #333333;
+$widgets-axis-grid: #333333;
 
 // 辅助标记 guide
 $widgets-guide-region-opacity: 0.1 !default;
@@ -93,25 +101,25 @@ $widgets-container-mobile-padding: 12px !default;
 $widgets-container-corner-radius: 4px !default;
 $widgets-container-shadow: none !default;
 $widgets-container-title: $widgets-color-text-1;
-$widgets-container-split-line: #393C4D;
+$widgets-container-split-line: #1c1c1c;
 
 // 地图
-$widgets-map-area-bg: #393C4D;
-$widgets-map-area-border: #232533;
-$widgets-map-label: #C5CACE;
+$widgets-map-area-bg: #333333;
+$widgets-map-area-border: #141414;
+$widgets-map-label: #cccccc;
 
 // 圆环
-$widgets-circle-stroke-background: #51566B;
+$widgets-circle-stroke-background: rgba(255, 255, 255, 0.2);
 $widgets-circle-number: currentColor;
 $widgets-circle-stroke-width: 6px !default;
 
 // 桑基图
-$widgets-sankey-edge: #393C4D;
-$widgets-sankey-node-text: #9EA5B2;
+$widgets-sankey-edge: #333333;
+$widgets-sankey-node-text: #8c8c8c;
 
 // 滚动条颜色
-$widgets-scrollbar-bg: #404354;
-$widgets-scrollbar-thumb: #51566B;
+$widgets-scrollbar-bg: #4d4d4d;
+$widgets-scrollbar-thumb: #333333;
 
 // 线图粗细
 $widgets-line-width: 2;

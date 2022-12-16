@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select, color } from "@storybook/addon-knobs";
 
-import { themes, Wcontainer, Wline, Wbar, Wlinebar } from '@alife/aisc-widgets';
+import { themes, Wcontainer, Wline, Wbar, Wlinebar, Wplaceholder } from '@alife/aisc-widgets';
 import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 
 
@@ -67,6 +67,14 @@ function ThemeDemo() {
     <div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
+          <Wplaceholder empty height={300} />
+        </div>
+        <div style={{ flex: '1 1 33.33%' }}>
+          <Wline height="300" data={[]} />
+        </div>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: '1 1 33.33%' }}>
           <Wcontainer className="demos">
             <Wline height="300" data={data} />
           </Wcontainer>
@@ -76,13 +84,22 @@ function ThemeDemo() {
             <Wbar height="300" config={{
               xAxis: {
                 type: 'timeCat'
+              },
+              colors:['#131313'],
+              stack: true,
+              label: {
+                position: 'middle'
               }
             }} data={data} />
           </Wcontainer>
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wcontainer className="demos">
-            <Wlinebar height="300" data={lineBarData} />
+            <Wlinebar height="300" data={lineBarData} config={{
+              label: {
+                position: 'middle'
+              }
+            }}/>
           </Wcontainer>
         </div>
       </div>

@@ -166,10 +166,17 @@ const BigDataType = {
     exceedJudge: [
       {
         type: ExceedJudgeType.LEGNTH,
+        // 一个像素超多4个数据点
         threshold: 4,
         message: '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度',
       },
     ],
+    // 需要过滤的配置项
+    // 图形/度量/坐标轴/提示等等
+    filterConfig: {
+      symbol: false,
+      spling: false
+    }
   },
   // 线柱图
   G2LineBar: {
