@@ -417,7 +417,6 @@ class Base<
 
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
-    console.log(this.checkConfigChange(newConfig, oldConfig));
     if (this.checkConfigChange(newConfig, oldConfig)) {
       this.rerender();
 
