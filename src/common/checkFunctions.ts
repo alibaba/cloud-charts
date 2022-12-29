@@ -74,7 +74,8 @@ export function checkBigData(
 }
 
 // 颜色检测
-export function checkColor(config: any, chartType: string) {
+export function checkColor(config: any, chartType: string, chart: any) {
+  // console.log(config, chart);
   // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
   const filterColors: string[] = [];
   const themeString = JSON.stringify(themes);
