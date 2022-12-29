@@ -594,8 +594,6 @@ class Base<
     } = currentProps;
     let { config } = currentProps;
 
-    checkColor(config, this.chartName);
-
     // 预处理数据
     const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
     this.rawData = initData;
@@ -693,6 +691,9 @@ class Base<
     });
 
     this.chart = chart;
+
+    // 检测颜色规则
+    checkColor(config, this.chartName, chart);
 
     if (animate !== undefined) {
       warn('animate', '请使用 config.animate 设置动画开关。');
