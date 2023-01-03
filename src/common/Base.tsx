@@ -12,7 +12,7 @@ import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
-import { checkEmptyData, checkBigData } from './checkFunctions';
+import { checkEmptyData, checkBigData, checkColor } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 
@@ -417,6 +417,7 @@ class Base<
 
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
+      console.log(this.checkConfigChange(newConfig, oldConfig))
     if (this.checkConfigChange(newConfig, oldConfig)) {
       this.rerender();
 
@@ -593,6 +594,8 @@ class Base<
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
+
+    checkColor(config, this.chartName);
 
     // 预处理数据
     const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;

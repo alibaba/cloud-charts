@@ -1,5 +1,6 @@
 import EmptyDataType, { EmptyJudgeType } from './emptyDataType';
 import { ExceedJudgeType } from './bigDataType';
+import themes from '../themes';
 import { warn } from './log';
 
 // 空数据检测
@@ -70,4 +71,23 @@ export function checkBigData(
     }
   });
   return res;
+}
+
+// 颜色检测
+export function checkColor(config: any, chartType: string) {
+  // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
+  const filterColors: string[] = [];
+  const themeString = JSON.stringify(themes);
+  Object.keys(config).forEach((sub: string) =>{
+    if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
+      config[sub].forEach((color: string) =>{
+        if (!themeString.includes(color)) {
+          filterColors.push(color);
+        }
+      })
+    }
+  });
+  if(filterColors.length > 0) {
+    warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除`);
+  }
 }
