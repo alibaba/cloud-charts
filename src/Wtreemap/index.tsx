@@ -2,6 +2,7 @@
 import { View } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/treemap';
+import '@antv/data-set/lib/connector/hierarchy.js';
 
 import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
 import Base from '../common/Base';
