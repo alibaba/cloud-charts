@@ -9,9 +9,9 @@ export function checkEmptyData(data: any, chartType: string) {
   if (type === EmptyJudgeType.COMMON) {
     return (
       !data ||
-      !Array.isArray(data) ||
-      data?.length === 0 ||
-      data?.every((item: any) => !item?.data || item?.data?.length === 0)
+      (Array.isArray(data) && data?.length === 0) ||
+      (Array.isArray(data) && data?.every((item: any) => !item?.data || item?.data?.length === 0)) ||
+      Object.keys(data)?.length === 0
     );
   }
   if (type === EmptyJudgeType.CHILDREN) {
