@@ -2,10 +2,12 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 import chartLog from "../common/log";
 import Locale, { LocaleItem } from './locale';
 import './index.scss';
 import { FullCrossName, PrefixName } from '../constants';
+import themes from '../themes/index';
 
 const prefix = `${PrefixName}-wplaceholder`;
 
@@ -135,12 +137,18 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       renderSvg = <></>;
     }
 
+    const emptyStyle = {
+      background: themes?.name === 'dark' ? themes['widgets-color-background'] : themes['widgets-color-layout-background']
+    };
+
+    const newStyle = !!empty ? _.merge(emptyStyle, style) : style;
+    
     return (
       <div className={mainClasses}
            style={{
              width,
              height,
-             ...style
+             ...newStyle
            }}
            {...otherProps}
       >
