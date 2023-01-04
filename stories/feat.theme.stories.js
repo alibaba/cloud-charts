@@ -199,7 +199,7 @@ function ThemeDemo() {
                 xAxis: {
                   type: 'timeCat',
                 },
-                colors: ['#131313'],
+                colors: ['#131313', '#297ACC'],
                 stack: true,
                 label: {
                   position: 'middle',

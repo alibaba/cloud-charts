@@ -82,7 +82,7 @@ export function checkColor(config: any, chartType: string, chart: any) {
   Object.keys(config).forEach((sub: string) =>{
     if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
       config[sub].forEach((color: string) =>{
-        if (!themeString.includes(color)) {
+        if (!themeString.toUpperCase().includes(color.toUpperCase())) {
           filterColors.push(color);
         }
       })
