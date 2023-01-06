@@ -753,8 +753,8 @@ class Base<
         position: ['50%', '50%'],
       });
     } else {
-      // 设置背景色
-      this.chartDom.style.backgroundColor = themes['widgets-container-background'];
+      // 当不是无数据状态时需要删除对应背景色
+      this.chartDom.style.removeProperty('background-color');
     }
 
     // 记录是否是空状态，用于无数据状态变成有数据状态的切换
