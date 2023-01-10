@@ -18,6 +18,7 @@ import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import rectZoom, { ZoomConfig } from "../common/rectZoom";
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
+import rectSlider, { SliderConfig } from '../common/rectSlider';
 import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
 
@@ -49,7 +50,9 @@ interface FacetConfig {
 interface ColumnConfig {
   reflect?: boolean;
 }
-interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig {
+
+// TODO 目前G2默认缩略轴为线图，分类型数据不推荐使用，这里暂时开放为一个趋势关系，后期研究缩略轴怎么显示
+interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig, SliderConfig {
   colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
@@ -287,6 +290,11 @@ export class Bar extends Base<WbarConfig> {
 
     rectZoom(chart, config, this.language);
 
+
+    // 缩略轴
+    rectSlider(chart, config);
+
+    // 滚动条
     rectScrollbar(chart, config);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {

@@ -30,7 +30,7 @@ export default function(chart: Chart, config: SliderConfig) {
     trendCfg: {
       lineStyle: {
         stroke: themes['widgets-color-category-1'],
-      }
+      },
     } as G2Dependents.TrendCfg,
     textStyle: {},
   };
