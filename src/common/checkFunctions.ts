@@ -74,9 +74,8 @@ export function checkBigData(
 }
 
 // 颜色检测
+// 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
 export function checkColor(config: any, chartType: string, chart: any) {
-  // console.log(config, chart);
-  // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
   const filterColors: string[] = [];
   const themeString = JSON.stringify(themes);
   Object.keys(config).forEach((sub: string) =>{
@@ -90,5 +89,16 @@ export function checkColor(config: any, chartType: string, chart: any) {
   });
   if(filterColors.length > 0) {
     warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除`);
+  }
+}
+
+// 间距检测
+// 目标是检测config里面所有自定义的间距配置
+export function checkPadding(config: any) {
+  if(config.hasOwnProperty('padding') && config.padding) {
+    const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
+    if (!checkPaddingValue) {
+      warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，需要删除。如特殊需求，请使用appendPadding配置`);
+    }
   }
 }
