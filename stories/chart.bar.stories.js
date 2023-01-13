@@ -578,3 +578,19 @@ stories.add('可筛选出全为0的柱状图', () => (
     <Wbar height="300" config={{}} data={zeroData} />
   </Wcontainer>
 ));
+
+const specialData = [
+  {
+    name: 'test',
+    data: [
+      ['slb', 400],
+      ['vpc', 200],
+    ],
+  },
+];
+
+stories.add('极端数据', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{}} data={specialData} />
+  </Wcontainer>
+));

@@ -78,16 +78,16 @@ export function checkBigData(
 export function checkColor(config: any, chartType: string, chart: any) {
   const filterColors: string[] = [];
   const themeString = JSON.stringify(themes);
-  Object.keys(config).forEach((sub: string) =>{
+  Object.keys(config).forEach((sub: string) => {
     if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
-      config[sub].forEach((color: string) =>{
+      config[sub].forEach((color: string) => {
         if (!themeString.toUpperCase().includes(color.toUpperCase())) {
           filterColors.push(color);
         }
-      })
+      });
     }
   });
-  if(filterColors.length > 0) {
+  if (filterColors.length > 0) {
     warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除`);
   }
 }
@@ -95,10 +95,41 @@ export function checkColor(config: any, chartType: string, chart: any) {
 // 间距检测
 // 目标是检测config里面所有自定义的间距配置
 export function checkPadding(config: any) {
-  if(config.hasOwnProperty('padding') && config.padding) {
+  if (config.hasOwnProperty('padding') && config.padding) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
-      warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，需要删除。如特殊需求，请使用appendPadding配置`);
+      warn(
+        'Padding',
+        `检测出额外配置了图表间距padding: [${config.padding}]，需要删除。如特殊需求，请使用appendPadding配置`,
+      );
+    }
+  }
+}
+
+// 图形尺寸与间距检测（后置）
+// 暂时只检测柱状图的柱宽与间距
+export function checkSize(chartType: string, chart: any) {
+  if (chartType === 'G2Bar') {
+    if (chart?.coordinateInstance?.isPolar) {
+      // 极坐标柱状图不检测
+      return;
+    }
+    const isHorizontal = chart?.coordinateInstance?.isTransposed || false;
+
+    // 检查柱宽
+    const length = isHorizontal ? chart?.coordinateInstance?.height : chart?.coordinateInstance?.width;
+    const rectWidth = Math.round(chart?.geometries?.[0]?.defaultSize * length);
+    if (rectWidth > 24) {
+      warn('Bar', '检测出柱图的柱宽过大，建议减小柱宽，不宜超过24');
+    }
+    // 检查柱子之间的间距
+    const data = chart?.geometries?.[0]?.dataArray?.[0];
+    if (!data || data.length <= 1) {
+      return;
+    }
+    const rectMargin = Math.round(Math.abs(isHorizontal ? data?.[1]?.y - data?.[0]?.y : data?.[1]?.x - data?.[0]?.x));
+    if (rectMargin < 4) {
+      warn('Bar', '检测出柱图中柱子之间的间距过小，建议通过减少数量量或设置配置项来加大间距，不宜小于4');
     }
   }
 }

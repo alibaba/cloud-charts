@@ -12,7 +12,7 @@ import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
-import { checkEmptyData, checkBigData, checkColor, checkPadding } from './checkFunctions';
+import { checkEmptyData, checkBigData, checkColor, checkPadding, checkSize } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 
@@ -672,7 +672,15 @@ class Base<
       // 暂时这么写，做配置项的合并
       Object.keys(filterConfig)?.forEach((key: string) => {
         if (config.hasOwnProperty(key)) {
-          config[key] = filterConfig?.[key];
+          if (key === 'slider' && filterConfig?.[key]?.open) {
+            // 缩略轴自适应
+            config[key] = {
+              start: 0,
+              end: Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
+            };
+          } else {
+            config[key] = filterConfig?.[key];
+          }
         }
       });
     }
@@ -762,13 +770,11 @@ class Base<
     // 记录是否是空状态，用于无数据状态变成有数据状态的切换
     this.emptyState = isEmpty;
 
-    /*
-    // 后置检测，暂时不用
+    // 后置检测
     chart.on('afterpaint', () => {
-      // 检测大数据
-      this.debounceDetect();
+      // 检测图形尺寸与间距，目前仅检测柱状图的柱宽与间距
+      checkSize(this.chartName, this.chart);
     });
-    */
 
     // 开始渲染
     chart.render();

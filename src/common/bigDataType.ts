@@ -79,12 +79,14 @@ const BigDataType = {
         type: ExceedJudgeType.LEGNTH,
         threshold: 15,
         directionConfig: 'column', // 是否水平方向的判断字段
-        message: '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度。推荐开启缩略轴slider或滚动条scrollBar配置',
+        message:
+          '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度。已自动开启缩略轴slider配置，若要关闭可加force配置项，也可通过配置scrollbar改为滚动条效果',
       },
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 30,
-        message: '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用其他图表。推荐开启缩略轴slider或滚动条scrollBar配置',
+        message:
+          '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用其他图表。已自动开启缩略轴slider配置，若要关闭可加force配置项，也可通过配置scrollbar改为滚动条效果',
       },
     ],
     specialCases: [
@@ -113,8 +115,11 @@ const BigDataType = {
     filterConfig: {
       symbol: false,
       spling: false,
-      slider: true
-    }
+      slider: {
+        open: true, // 是否开启缩略轴
+        coef: 30, // 控制缩略轴长度的系数
+      },
+    },
   },
   // 箱型图
   G2Box: {
@@ -173,7 +178,8 @@ const BigDataType = {
         type: ExceedJudgeType.LEGNTH,
         // 一个像素超多4个数据点
         threshold: 4,
-        message: '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置',
+        message:
+          '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度。已自动开启缩略轴slider配置，并关闭标记点、圆滑曲线、面积图等配置项，若要关闭可加force配置项',
       },
     ],
     // 需要过滤的配置项
@@ -181,8 +187,12 @@ const BigDataType = {
     filterConfig: {
       symbol: false,
       spling: false,
-      slider: true
-    }
+      slider: {
+        open: true,
+        coef: 100,
+      },
+      area: false,
+    },
   },
   // 线柱图
   G2LineBar: {
@@ -256,7 +266,8 @@ const BigDataType = {
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 10,
-        message: '该饼图分块过多，会影响可读性，默认开启数据收敛，在提示信息中可以查看详情，设置配置项force为true强制关闭该处理',
+        message:
+          '该饼图分块过多，会影响可读性，默认开启数据收敛，在提示信息中可以查看详情，设置配置项force为true强制关闭该处理',
       },
     ],
   },

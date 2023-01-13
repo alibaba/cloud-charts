@@ -28,7 +28,7 @@ function generateData(number) {
 
 const stories = storiesOf('bigdata', module);
 
-const lineData = generateData(300);
+const lineData = generateData(400);
 
 stories.add('线图', () => (
   <Wcontainer className="demos">
@@ -41,7 +41,8 @@ stories.add('线图', () => (
         },
         symbol: true,
         spline: true,
-        slider: true
+        slider: true,
+        area: true,
       }}
       data={lineData}
       // force
@@ -60,7 +61,7 @@ stories.add('柱状图', () => (
           type: 'timeCat',
           mask: 'HH:mm:ss',
         },
-        slider: true
+        slider: true,
       }}
       data={barData}
     />
