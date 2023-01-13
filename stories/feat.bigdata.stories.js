@@ -62,6 +62,7 @@ stories.add('柱状图', () => (
           mask: 'HH:mm:ss',
         },
         slider: true,
+        columnWidthRatio: 1,
       }}
       data={barData}
     />
