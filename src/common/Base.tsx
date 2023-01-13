@@ -478,8 +478,15 @@ class Base<
         const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
         // 暂时这么写，做配置项的合并
         Object.keys(filterConfig)?.forEach((key: string) => {
-          if (mergeConfig.hasOwnProperty(key)) {
-            mergeConfig[key] = filterConfig?.[key];
+          if (key === 'slider' && filterConfig?.[key]?.open) {
+            // 缩略轴自适应
+            config[key] = {
+              start: 1 - Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
+              end: 1,
+              ...(typeof config[key] === 'object' ? config[key] : {}),
+            };
+          } else {
+            config[key] = filterConfig?.[key];
           }
         });
       }
@@ -671,16 +678,15 @@ class Base<
       const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
       // 暂时这么写，做配置项的合并
       Object.keys(filterConfig)?.forEach((key: string) => {
-        if (config.hasOwnProperty(key)) {
-          if (key === 'slider' && filterConfig?.[key]?.open) {
-            // 缩略轴自适应
-            config[key] = {
-              start: 0,
-              end: Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
-            };
-          } else {
-            config[key] = filterConfig?.[key];
-          }
+        if (key === 'slider' && filterConfig?.[key]?.open) {
+          // 缩略轴自适应
+          config[key] = {
+            start: 1 - Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
+            end: 1,
+            ...(typeof config[key] === 'object' ? config[key] : {}),
+          };
+        } else {
+          config[key] = filterConfig?.[key];
         }
       });
     }

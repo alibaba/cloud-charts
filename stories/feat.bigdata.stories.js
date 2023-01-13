@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
@@ -41,7 +41,6 @@ stories.add('线图', () => (
         },
         symbol: true,
         spline: true,
-        slider: true,
         area: true,
       }}
       data={lineData}
@@ -110,3 +109,24 @@ stories.add('散点图', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('数据从无到有', () => {
+  const [d, setD] = useState([]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(lineData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wline
+        height="300"
+        config={{
+          area: true,
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
