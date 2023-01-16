@@ -106,6 +106,21 @@ export function checkPadding(config: any) {
   }
 }
 
+// 图形尺寸检测
+// 检测config中自定义的图形尺寸
+// 目前仅检测散点图的size
+export function checkSizeConfig(chartType: string, config: any) {
+  if (chartType === 'G2Scatter') {
+    const { size = [4, 20] } = config;
+    if ((Array.isArray(size) && size[0] < 4) || (typeof size === 'number' && size < 4)) {
+      warn('Scatter', '检测出散点图配置项中size过小，建议不小于4，否则会影响图表的展示效果');
+    }
+    if ((Array.isArray(size) && size[1] > 20) || (typeof size === 'number' && size > 4)) {
+      warn('Scatter', '检测出散点图配置项中size过大，建议不大于20，否则会影响图表的展示效果');
+    }
+  }
+}
+
 // 图形尺寸与间距检测（后置）
 // 暂时只检测柱状图的柱宽与间距
 export function checkSize(chartType: string, chart: any) {

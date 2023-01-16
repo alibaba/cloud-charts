@@ -12,7 +12,7 @@ import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
-import { checkEmptyData, checkBigData, checkColor, checkPadding, checkSize } from './checkFunctions';
+import { checkEmptyData, checkBigData, checkColor, checkPadding, checkSize, checkSizeConfig } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 
@@ -710,6 +710,8 @@ class Base<
     checkColor(config, this.chartName, chart);
     // 检测间距
     checkPadding(config);
+    // 检测尺寸
+    checkSizeConfig(this.chartName, config);
 
     if (animate !== undefined) {
       warn('animate', '请使用 config.animate 设置动画开关。');

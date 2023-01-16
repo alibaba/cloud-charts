@@ -120,3 +120,22 @@ stories.add('扰动点图', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('气泡图', () => (
+  <Wcontainer className="demos">
+    <Wscatter
+      height="300"
+      config={{
+        xAxis: {
+          type: 'time',
+          mask: 'YYYY-MM-DD',
+        },
+        size: [2, 20],
+        geomStyle: {
+          fillOpacity: 0.6,
+        },
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));
