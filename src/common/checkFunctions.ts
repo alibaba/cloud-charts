@@ -77,11 +77,11 @@ export function checkBigData(
 // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
 export function checkColor(config: any, chartType: string, chart: any) {
   const filterColors: string[] = [];
-  const themeString = JSON.stringify(themes);
+  const themeString = JSON.stringify(themes).toUpperCase();
   Object.keys(config).forEach((sub: string) => {
     if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
       config[sub].forEach((color: string) => {
-        if (!themeString.toUpperCase().includes(color.toUpperCase())) {
+        if (!themeString.includes(color.toUpperCase())) {
           filterColors.push(color);
         }
       });
