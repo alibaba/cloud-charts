@@ -79,12 +79,12 @@ const BigDataType: any = {
         type: ExceedJudgeType.LEGNTH,
         threshold: 15,
         directionConfig: 'column', // 是否水平方向的判断字段
-        message: '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度',
+        message: '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度。推荐开启缩略轴slider或滚动条scrollBar配置',
       },
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 30,
-        message: '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用其他图表',
+        message: '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用其他图表。推荐开启缩略轴slider或滚动条scrollBar配置',
       },
     ],
     specialCases: [
@@ -110,6 +110,11 @@ const BigDataType: any = {
         ],
       },
     ],
+    filterConfig: {
+      symbol: false,
+      spling: false,
+      slider: true
+    }
   },
   // 箱型图
   G2Box: {
@@ -168,14 +173,15 @@ const BigDataType: any = {
         type: ExceedJudgeType.LEGNTH,
         // 一个像素超多4个数据点
         threshold: 4,
-        message: '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度',
+        message: '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置',
       },
     ],
     // 需要过滤的配置项
     // 图形/度量/坐标轴/提示等等
     filterConfig: {
       symbol: false,
-      spling: false
+      spling: false,
+      slider: true
     }
   },
   // 线柱图
@@ -250,7 +256,7 @@ const BigDataType: any = {
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 10,
-        message: '该饼图分块过多，会影响可读性，建议减少数据量或改用其他图表',
+        message: '该饼图分块过多，会影响可读性，默认开启数据收敛，在提示信息中可以查看详情，设置配置项force为true强制关闭该处理',
       },
     ],
   },
