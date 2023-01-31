@@ -127,7 +127,10 @@ export function checkSize(chartType: string, chart: any) {
     if (!data || data.length <= 1) {
       return;
     }
-    const rectMargin = Math.round(Math.abs(isHorizontal ? data?.[1]?.y - data?.[0]?.y : data?.[1]?.x - data?.[0]?.x));
+    const delta = Math.abs(data?.[1]?.points?.[0]?.x - data?.[0]?.points?.[2]?.x);
+    const rectMargin = Math.round(
+      (isHorizontal ? chart?.coordinateInstance?.height : chart?.coordinateInstance?.width) * delta,
+    );
     if (rectMargin < 4) {
       warn('Bar', '检测出柱图中柱子之间的间距过小，建议通过减少数量量或设置配置项来加大间距，不宜小于4');
     }
