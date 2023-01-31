@@ -114,7 +114,7 @@ const BigDataType: any = {
     ],
     filterConfig: {
       symbol: false,
-      spling: false,
+      spline: false,
       slider: {
         open: true, // 是否开启缩略轴
         coef: 30, // 控制缩略轴长度的系数
@@ -186,7 +186,7 @@ const BigDataType: any = {
     // 图形/度量/坐标轴/提示等等
     filterConfig: {
       symbol: false,
-      spling: false,
+      spline: false,
       slider: {
         open: true,
         coef: 100,
