@@ -594,3 +594,49 @@ stories.add('极端数据', () => (
     <Wbar height="300" config={{}} data={specialData} />
   </Wcontainer>
 ));
+
+const manyData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+      ['十', 45],
+      ['十一', 6],
+      ['十二', 89],
+      ['十三', 32],
+    ],
+  },
+];
+
+const littleData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+    ],
+  },
+];
+
+stories.add('从多数据到少数据（不作处理）', () => {
+  const [d, setD] = useState(manyData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(littleData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} />
+    </Wcontainer>
+  );
+});

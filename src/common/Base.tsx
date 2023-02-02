@@ -12,7 +12,15 @@ import { FullCrossName } from '../constants';
 import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
-import { checkEmptyData, checkBigData, checkColor, checkPadding, checkSize, checkSizeConfig } from './checkFunctions';
+import {
+  checkEmptyData,
+  checkBigData,
+  checkColor,
+  checkPadding,
+  checkSize,
+  checkSizeConfig,
+  checkExtremeData,
+} from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 
@@ -294,6 +302,27 @@ class Base<
       };
     }
 
+    // 检查极端数据
+    const {
+      isExtreme,
+      data: replacementData,
+      config: replacementConfig,
+    } = checkExtremeData(
+      data,
+      this.chartName,
+      this.props.config,
+      this.chartDom.offsetWidth,
+      this.chartDom.offsetHeight,
+      this.dataSize,
+    );
+    if (isExtreme) {
+      return {
+        isExtreme,
+        data: replacementData ?? null,
+        config: replacementConfig ?? null,
+      };
+    }
+
     // 检查大数据
     const isExceed = checkBigData(
       this.chartName,
@@ -460,7 +489,7 @@ class Base<
 
     // 数据有变化
     else if (dataChanged) {
-      const mergeConfig = merge({}, this.defaultConfig, newConfig);
+      let mergeConfig = merge({}, this.defaultConfig, newConfig);
       const data =
         this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
       this.rawData = newData;
@@ -469,8 +498,14 @@ class Base<
       this.calcDataSize(data);
 
       // 检查数据
-      // 有数据变为无数据暂时不处理，只检查大数据
-      const { isExceed } = this.checkDataBeforeRender(newData);
+      // 数据变化时，若替换配置项，必须重绘图表才能生效，因此此处暂不进行各种数据处理
+      /*
+      const { isExceed, isExtreme, config: specialConfig } = this.checkDataBeforeRender(data);
+
+      // 极端数据处理
+      if (isExtreme) {
+        mergeConfig = merge({}, mergeConfig, specialConfig);
+      }
 
       // 大数据情况下执行配置项的约束
       const configChecked = this.props?.force ? false : isExceed;
@@ -480,16 +515,17 @@ class Base<
         Object.keys(filterConfig)?.forEach((key: string) => {
           if (key === 'slider' && filterConfig?.[key]?.open) {
             // 缩略轴自适应
-            config[key] = {
+            mergeConfig[key] = {
               start: 1 - Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
               end: 1,
-              ...(typeof config[key] === 'object' ? config[key] : {}),
+              ...(typeof mergeConfig[key] === 'object' ? mergeConfig[key] : {}),
             };
           } else {
-            config[key] = filterConfig?.[key];
+            mergeConfig[key] = filterConfig?.[key];
           }
         });
       }
+      */
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -630,6 +666,7 @@ class Base<
     const {
       isEmpty,
       isExceed,
+      isExtreme,
       data: specialData,
       config: specialConfig,
       fillBackground,
@@ -670,6 +707,11 @@ class Base<
         }
         return name;
       };
+    }
+
+    // 极端数据处理
+    if (isExtreme) {
+      config = merge({}, config, specialConfig);
     }
 
     // 大数据情况下执行配置项的约束
