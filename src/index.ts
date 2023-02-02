@@ -37,6 +37,7 @@ export { default as Wmap, Map as RawMap } from './Wmap'
 export { default as Wrectangle, Rectangle as RawRectangle } from './Wrectangle';
 export { default as Wminiline, Miniline as RawMiniline } from './Wminiline';
 export { default as WmultiPie, MultiPie as RawMultiPie } from './Wmultipie';
+export { default as Wmulticircle, MultiCircle as RawMultiCircle } from './Wmulticircle';
 export { default as Wbox, Box as RawBox } from './Wbox';
 export { default as Wsankey, Sankey as RawSankey } from './Wsankey';
 export { default as Wscatter, Scatter as RawScatter } from './Wscatter';
