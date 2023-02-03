@@ -267,7 +267,7 @@ const BigDataType = {
         type: ExceedJudgeType.NUMBER,
         threshold: 10,
         message:
-          '该饼图分块过多，会影响可读性，默认开启数据收敛，在提示信息中可以查看详情，设置配置项force为true强制关闭该处理',
+          '该饼图分块过多，会影响可读性，推荐开启autoFormat进行数据收敛，问题码#02-3',
       },
     ],
   },
