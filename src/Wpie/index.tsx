@@ -133,7 +133,14 @@ export class Pie extends Base<WpieConfig> {
     // 更新挂载的转换数据
     // this.data = data;
 
-    chart.changeData(data);
+    const { isExeed, result: newData, newRawData} = formatBigData(data, this.rawData, totalData, config);
+
+    if (isExeed && config.autoFormat) {
+      this.rawData = newRawData;
+      chart.changeData(newData);
+    } else {
+      chart.changeData(data);
+    }
   }
 
   protected geom: Geometry = null;

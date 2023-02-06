@@ -2,14 +2,11 @@
 
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
 import Base from "../common/Base";
-// import { View as DataView } from '@antv/data-set/lib/view';
-// import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import legendFilter from '../common/legendFilter';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-import label, { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';import updateChildrenPosition from '../common/updateChildrenPosition';
 import './index.scss';
@@ -18,7 +15,6 @@ interface WmulticircleConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
-  label?: LabelConfig | boolean;
   size?: GeomSizeConfig;
   innerRadius?: number;
   geomStyle?: GeomStyleConfig;
@@ -32,7 +28,6 @@ interface WmulticircleConfig extends BaseChartConfig {
 
 export class MultiCircle extends Base<WmulticircleConfig> {
   chartName = 'G2MultiCircle';
-  // private barDataView: DataView;
 
   getDefaultConfig(): WmulticircleConfig {
     return {
@@ -48,7 +43,6 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       },
       marginRatio: 0,
       size: null,
-      label: false,
       innerRadius: 0,
     };
   }
@@ -72,8 +66,6 @@ export class MultiCircle extends Base<WmulticircleConfig> {
 
     chart.scale(defs);
 
-    // const dataView = computerData(data);
-    // this.barDataView = dataView;
     chart.data(data);
 
     // 设置图例
@@ -93,26 +85,20 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     });
 
     chart.interaction('element-active');
-    
+
     drawBar(chart, config, config.colors);
 
     chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
   }
-  // changeData(chart: Chart, data: any) {
-  //   if (this.barDataView) {
-  //     this.barDataView.source(data);
-  //     chart.changeData(this.barDataView.rows);
-  //   }
-  // }
 }
 
 const Wmulticircle: typeof MultiCircle = errorWrap(MultiCircle);
 
 export default Wmulticircle;
 
-function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors, facet?: any) {
+function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors) {
   const { size, minSize = 4, maxSize, columnWidthRatio } = config;
   let geomConfig: any = {
     minColumnWidth: minSize || null,
@@ -140,24 +126,4 @@ function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors, facet
   geomSize(geom, size, null, 'y', 'x*y*type*facet*extra');
 
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
-
-  label({
-    geom: geom,
-    config: config,
-    extraCallbackParams: facet ? [facet] : undefined,
-  });
 }
-
-// function computerData(data: any) {
-//   const dv = new DataView().source(data);
-
-//   dv.transform({
-//     type: 'percent',
-//     field: 'y',
-//     dimension: 'x',
-//     groupBy: ['type'],
-//     as: 'percent'
-//   });
-
-//   return dv;
-// }
