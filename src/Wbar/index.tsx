@@ -132,12 +132,6 @@ export class Bar extends Base<WbarConfig> {
         propertyMap.axis,
         {
           // type: 'cat',
-          formatter: (value: any) => {
-            if (value.startsWith('widgets-pad-')) {
-              return '';
-            }
-            return value;
-          },
         },
         config.xAxis,
       ),
