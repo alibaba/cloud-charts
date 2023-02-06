@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig, Colors, G2Dependents } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
 import errorWrap from '../common/errorWrap';
@@ -13,17 +13,17 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import label, { LabelConfig } from "../common/label";
+import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import rectZoom, { ZoomConfig } from "../common/rectZoom";
+import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
 
 interface FacetConfig {
-  type?: "mirror" | "rect" | "list" | "matrix" | "circle" | "tree";
+  type?: 'mirror' | 'rect' | 'list' | 'matrix' | 'circle' | 'tree';
   transpose?: boolean;
   /**
    * @title facet view padding。
@@ -54,8 +54,8 @@ interface ColumnConfig {
 // TODO 目前G2默认缩略轴为线图，分类型数据不推荐使用，这里暂时开放为一个趋势关系，后期研究缩略轴怎么显示
 interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig, SliderConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | false;
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -128,14 +128,22 @@ export class Bar extends Base<WbarConfig> {
   init(chart: Chart, config: WbarConfig, data: any) {
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        // type: 'cat',
-      }, config.xAxis),
-      y: propertyAssign(propertyMap.axis, {
-        nice: true,
-        type: 'linear',
-        tickCount: 5,
-      }, config.yAxis),
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          // type: 'cat',
+        },
+        config.xAxis,
+      ),
+      y: propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+          type: 'linear',
+          tickCount: 5,
+        },
+        config.yAxis,
+      ),
       type: {
         type: 'cat',
         sync: true,
@@ -143,11 +151,15 @@ export class Bar extends Base<WbarConfig> {
       facet: {
         sync: true,
       },
-      percent: propertyAssign(propertyMap.axis, {
-        nice: true,
-        type: 'linear',
-        tickCount: 5,
-      }, config.yAxis),
+      percent: propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+          type: 'linear',
+          tickCount: 5,
+        },
+        config.yAxis,
+      ),
     };
 
     chart.scale(defs);
@@ -180,7 +192,7 @@ export class Bar extends Base<WbarConfig> {
     // tooltip
     rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
-      showMarkers: false
+      showMarkers: false,
     });
 
     // 绘制辅助线，辅助背景区域
@@ -231,16 +243,19 @@ export class Bar extends Base<WbarConfig> {
 
     if (config.facet) {
       const facetConfig = typeof config.facet === 'object' ? config.facet : {};
-      const facetTitleConfig = merge({
-        offsetX: pxToNumber(themes['widgets-font-size-1']),
-        // 底层使用 view.annotation().text 绘制，可以使用 rotate 进行翻转
-        rotate: config.column ? Math.PI / 2 : undefined,
-        style: {
-          fontSize: pxToNumber(themes['widgets-font-size-1']),
-          textAlign: 'center',
-          fill: themes['widgets-axis-label'],
+      const facetTitleConfig = merge(
+        {
+          offsetX: pxToNumber(themes['widgets-font-size-1']),
+          // 底层使用 view.annotation().text 绘制，可以使用 rotate 进行翻转
+          rotate: config.column ? Math.PI / 2 : undefined,
+          style: {
+            fontSize: pxToNumber(themes['widgets-font-size-1']),
+            textAlign: 'center',
+            fill: themes['widgets-axis-label'],
+          },
         },
-      }, facetConfig.title || {});
+        facetConfig.title || {},
+      );
       const self = this;
       chart.facet(facetConfig.type || 'mirror', {
         fields: ['facet'],
@@ -265,7 +280,7 @@ export class Bar extends Base<WbarConfig> {
                         facet: facet.colValue || facet.rowValue,
                         ...item,
                       },
-                      index
+                      index,
                     );
                   },
                 },
@@ -290,7 +305,6 @@ export class Bar extends Base<WbarConfig> {
 
     rectZoom(chart, config, this.language);
 
-
     // 缩略轴
     rectSlider(chart, config);
 
@@ -303,10 +317,13 @@ export class Bar extends Base<WbarConfig> {
       chart.views.forEach((subView, idx) => {
         // 目前想到每个视图获取对应的分面数据的情况通过分面的实例进行获取，后面看有没有更好的情况
         const facetInstance = chart?.facetInstance?.facets;
-        const facetValue = (!config.column || typeof config.column === 'object') ? facetInstance?.[idx]?.columnValue : facetInstance?.[idx]?.rowValue;
+        const facetValue =
+          !config.column || typeof config.column === 'object'
+            ? facetInstance?.[idx]?.columnValue
+            : facetInstance?.[idx]?.rowValue;
         const facetData = data?.filter((el: any) => el.facet === facetValue);
         subView.changeData(facetData);
-      })
+      });
     } else if (config.percentage && this.barDataView) {
       this.barDataView.source(data);
       chart.changeData(this.barDataView.rows);
@@ -323,7 +340,19 @@ export default Wbar;
 // export default errorWrap(Wbar);
 
 function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) {
-  const { stack, stackReverse, marginRatio, dodge, dodgeStack, percentage, size, minSize, maxSize = 24, columnWidthRatio, dodgePadding } = config;
+  const {
+    stack,
+    stackReverse,
+    marginRatio,
+    dodge,
+    dodgeStack,
+    percentage,
+    size,
+    minSize,
+    maxSize = 24,
+    columnWidthRatio,
+    dodgePadding,
+  } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
@@ -375,10 +404,9 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
   });
 }
 
-function computerData(config: WbarConfig,data: any) {
+function computerData(config: WbarConfig, data: any) {
   const { dodgeStack } = config;
-  const dv = new DataView()
-    .source(data);
+  const dv = new DataView().source(data);
   if (dodgeStack) {
     dv.transform({
       type: 'percent',
@@ -396,6 +424,6 @@ function computerData(config: WbarConfig,data: any) {
       as: 'percent',
     });
   }
-      
+
   return dv;
 }

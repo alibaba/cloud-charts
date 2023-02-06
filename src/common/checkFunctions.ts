@@ -73,6 +73,48 @@ export function checkBigData(
   return res;
 }
 
+// 极端数据检测
+export function checkExtremeData(
+  data: any,
+  chartName: string,
+  config: any,
+  width: number,
+  height: number,
+  dataSize: number,
+) {
+  if (!dataSize || dataSize === 0 || !width || !height) {
+    return {
+      isExtreme: false,
+    };
+  }
+
+  // 柱图
+  // 检测数据量过少，极坐标与横着的情况不处理
+  // 暂时单独写，待统一
+  if (chartName === 'G2Bar' && config?.polar !== true && (config?.column === undefined || config?.column === true)) {
+    const length = width - 50;
+    const minCount = Math.ceil(length / 104);
+    if (dataSize < minCount) {
+      const values = Array.from(new Set(data.map((item: any) => item.x)));
+      for (let i = 0; i < minCount - dataSize; i += 1) {
+        values.push(`widgets-pad-${i}`);
+      }
+      return {
+        isExtreme: true,
+        config: {
+          xAxis: {
+            values,
+          },
+        },
+      };
+    }
+  }
+
+  return {
+    isExtreme: false,
+  };
+}
+
 // 颜色检测
 // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
 export function checkColor(config: any, chartType: string, chart: any) {
