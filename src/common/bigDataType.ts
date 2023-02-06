@@ -80,13 +80,13 @@ const BigDataType: any = {
         threshold: 15,
         directionConfig: 'column', // 是否水平方向的判断字段
         message:
-          '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度。已自动开启缩略轴slider配置，若要关闭可加force配置项，也可通过配置scrollbar改为滚动条效果.问题码#05-2',
+          '该柱图柱子过于密集，会影响展示效果，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置或滚动条scrollbar配置，问题码#05-2',
       },
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 30,
         message:
-          '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用其他图表。已自动开启缩略轴slider配置，若要关闭可加force配置项，也可通过配置scrollbar改为滚动条效果。问题码#05-2',
+          '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置或滚动条scrollbar配置，问题码#05-2',
       },
     ],
     specialCases: [
@@ -115,10 +115,10 @@ const BigDataType: any = {
     filterConfig: {
       symbol: false,
       spline: false,
-      slider: {
-        open: true, // 是否开启缩略轴
-        coef: 30, // 控制缩略轴长度的系数
-      },
+      // slider: {
+      //   open: true, // 是否开启缩略轴
+      //   coef: 30, // 控制缩略轴长度的系数
+      // },
     },
   },
   // 箱型图
@@ -179,7 +179,7 @@ const BigDataType: any = {
         // 一个像素超多4个数据点
         threshold: 4,
         message:
-          '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度。已自动开启缩略轴slider配置，并关闭标记点、圆滑曲线、面积图等配置项，若要关闭可加force配置项。问题码#05-1',
+          '该线图数据过于密集，会影响展示效果，建议减少数据量或加大图表宽度。已自动关闭标记点、圆滑曲线、面积图等配置项，若要关闭可加force配置项。推荐开启缩略轴slider配置，问题码#05-1',
       },
     ],
     // 需要过滤的配置项
@@ -187,10 +187,10 @@ const BigDataType: any = {
     filterConfig: {
       symbol: false,
       spline: false,
-      slider: {
-        open: true,
-        coef: 100,
-      },
+      // slider: {
+      //   open: true,
+      //   coef: 100,
+      // },
       area: false,
     },
   },
