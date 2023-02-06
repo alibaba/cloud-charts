@@ -100,12 +100,6 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       updateChildrenPosition(chart, this.chartDom);
     });
   }
-  // changeData(chart: Chart, data: any) {
-  //   if (this.barDataView) {
-  //     this.barDataView.source(data);
-  //     chart.changeData(this.barDataView.rows);
-  //   }
-  // }
 }
 
 const Wmulticircle: typeof MultiCircle = errorWrap(MultiCircle);
