@@ -69,7 +69,7 @@ export const ExceedJudgeType = {
   NUMBER: 'NUMBER',
 };
 
-const BigDataType = {
+const BigDataType: any = {
   // 柱状图
   G2Bar: {
     calculation: CalculationType.COMMON, // 计算数据量的方式
