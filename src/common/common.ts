@@ -1,4 +1,4 @@
-import { Colors, Types } from "./types";
+import { Colors, Types } from './types';
 import themes from '../themes';
 import { warn } from './log';
 
@@ -11,9 +11,27 @@ export const requestAnimationFrame = window && window.requestAnimationFrame;
 
 export const propertyMap = {
   axis: [
-    'type', 'showLast', 'alias', 'sync', 'mask', 'base', 'exponent', 'values',
-    'range', 'min', 'max', 'minLimit', 'maxLimit', 'nice',
-    'ticks', 'tickMethod', 'tickCount', 'maxTickCount', 'tickInterval', 'minTickInterval', 'formatter',
+    'type',
+    'showLast',
+    'alias',
+    'sync',
+    'mask',
+    'base',
+    'exponent',
+    'values',
+    'range',
+    'min',
+    'max',
+    'minLimit',
+    'maxLimit',
+    'nice',
+    'ticks',
+    'tickMethod',
+    'tickCount',
+    'maxTickCount',
+    'tickInterval',
+    'minTickInterval',
+    'formatter',
   ],
 };
 
@@ -388,6 +406,11 @@ export function customFormatter(config: customFormatterConfig) {
     return null;
   }
   return function (v: any) {
+    // 柱状图极端情况特殊处理
+    if (typeof v === 'string' && v.startsWith('widgets-pad-')) {
+      return '';
+    }
+
     let result = v;
     let newUnit = unit || '';
     if (isInvalidNumber(v)) {
@@ -403,5 +426,5 @@ export function customFormatter(config: customFormatterConfig) {
     }
 
     return `${result}${newUnit}`;
-  }
+  };
 }
