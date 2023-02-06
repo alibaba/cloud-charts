@@ -81,7 +81,11 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-) {
+): {
+  isExtreme: boolean;
+  data?: any;
+  config?: any;
+} {
   if (!dataSize || dataSize === 0 || !width || !height) {
     return {
       isExtreme: false,
