@@ -67,6 +67,7 @@ interface WpieConfig extends BaseChartConfig {
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   autoSort?: boolean;
+  autoFormat?: boolean;
   cycle?: boolean;
   select?: boolean;
   innerRadius?: number;
@@ -114,6 +115,7 @@ export class Pie extends Base<WpieConfig> {
   }
 
   totalData = 0;
+  sourceData: ChartData = [];
 
   changeData(chart: Chart, config: WpieConfig, data: ChartData) {
     // 更新数据总和值，保证百分比的正常
@@ -122,6 +124,7 @@ export class Pie extends Base<WpieConfig> {
       totalData += d.y;
     });
     this.totalData = totalData;
+    this.sourceData = data;
 
     // 不要忘记排序的状态
     if (config.autoSort) {
@@ -158,8 +161,28 @@ export class Pie extends Base<WpieConfig> {
     // 挂载转换后的数据
     // this.data = data;
 
+    // 计算得总数据
+    let totalData = 0;
+    data.forEach((d) => {
+      totalData += d.y;
+    });
+    this.totalData = totalData;
+
+    // 处理后的原始数据
+    this.sourceData = data;
+
+    // 大数据重构，需要用到原始数据，必须开启排序
+    const { isExeed, result: newData, newRawData} = formatBigData(data, this.rawData, totalData, config);
+
+    // console.log(this.sourceData, newData);
     chart.scale(defs);
-    chart.data(data);
+
+    if (isExeed && config.autoFormat) {
+      this.rawData = newRawData;
+      chart.data(newData);
+    } else {
+      chart.data(this.sourceData);
+    }
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
     const thetaConfig: Types.CoordinateCfg = {
@@ -189,13 +212,6 @@ export class Pie extends Base<WpieConfig> {
     //     transformCoord(coord, transform);
     //   }
     // }
-
-    // 计算得总数据
-    let totalData = 0;
-    data.forEach((d) => {
-      totalData += d.y;
-    });
-    this.totalData = totalData;
 
     // const drawPadding = getDrawPadding(config.drawPadding, config.label, this.defaultConfig.drawPadding);
 
@@ -311,8 +327,13 @@ export class Pie extends Base<WpieConfig> {
 
     this.geom = chart.interval()
       .position('y')
-      .color('x', config.colors)
       .adjust('stack');
+
+    if (isExeed && config.autoFormat) {
+      this.geom = this.geom.color('x', themes.category_12.slice(0, 5).concat(themes['widgets-axis-line']));
+    } else {
+      this.geom = this.geom.color('x', config.colors);
+    }
 
     if (config.select) {
       chart.interaction('element-single-selected', {
@@ -366,6 +387,7 @@ export class Pie extends Base<WpieConfig> {
         this.noDataShape = null;
       }
     });
+
     chart.on('afterpaint', () => {
       // 默认选中效果
       selectGeom(this.geom, config.selectData);
@@ -434,3 +456,59 @@ export class Pie extends Base<WpieConfig> {
 const Wpie: typeof Pie = errorWrap(Pie);
 
 export default Wpie;
+
+function formatBigData(data: ChartData, rawData: ChartData, totalData: number, config: WpieConfig) {
+  // if (!config.autoSort) return { isExeed: false, result: data };
+  let isExeed = false;
+  // 处理后的结果
+  let result: ChartData = [];
+  // 处理后的原始数据
+  let newRawData: any = [];
+  // 超过5个数据后，剩余数据的占比
+  let remainData = 0;
+  data?.forEach((item: any, index: number) => {
+    if (index > 4) {
+      remainData += item?.y;
+    }
+  });
+
+  const raw = (rawData && rawData[0]) || {};
+  remainData = Number(remainData.toFixed(1));
+  // 展示类别大于5，且剩余内容小于长度/周长的后10%，剩余内容改为其他
+  if (Array.isArray(data) && data?.length > 5 && (numberDecimal(remainData / totalData, 2) <= 0.1)) {
+    isExeed = true;
+    result = data.slice(0, 5);
+
+    // 饼图的其他配置暂时不加上
+    result.push({
+      x: '其他',
+      y: remainData
+    })
+    result.map((item: any) => {
+      const newData = raw?.data?.slice(0, 5).concat([['其他', remainData]]);
+      if (item?.groupExtra) {
+        item.groupExtra.data = newData;
+      } else {
+        item.groupExtra = {
+          data: newData
+        };
+        item.type = raw?.name;
+      }
+      newRawData = [
+        {
+          name: raw?.name,
+          data: newData
+        }
+      ];
+    });
+  } else {
+    isExeed = false;
+    result = data;
+  }
+
+  return {
+    isExeed,
+    result,
+    newRawData,
+  };
+}
