@@ -289,7 +289,14 @@ class Base<
   // todo: 检查数据格式
 
   /** 渲染前的数据检查 */
-  public checkDataBeforeRender(data: any) {
+  public checkDataBeforeRender(data: any): {
+    isEmpty?: boolean;
+    isExtreme?: boolean;
+    isExceed?: boolean;
+    data?: any;
+    config?: any;
+    fillBackground?: boolean;
+  } {
     // 检查空数据，若为空数据则返回覆盖的数据与配置项
     if (checkEmptyData(data, this.chartName)) {
       const { replacement, fillBackground } = (EmptyDataType as any)[this.chartName];
@@ -723,7 +730,7 @@ class Base<
         if (key === 'slider' && filterConfig?.[key]?.open) {
           // 缩略轴自适应
           config[key] = {
-            start: 1 - Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
+            start: 1 - Math.max(Number(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2)), 0.01),
             end: 1,
             ...(typeof config[key] === 'object' ? config[key] : {}),
           };
