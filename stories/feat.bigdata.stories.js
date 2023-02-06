@@ -88,9 +88,12 @@ const pieData = [
 ];
 
 stories.add('饼图', () => (
-  <Wcontainer className="demos">
+  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <Wpie height="300" config={{
+      autoFormat: true
+    }} data={pieData} />
     <Wpie height="300" config={{}} data={pieData} />
-  </Wcontainer>
+  </div>
 ));
 
 const scatterData = generateData(2000);
