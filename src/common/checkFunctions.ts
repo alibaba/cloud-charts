@@ -81,7 +81,11 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-) {
+): {
+  isExtreme: boolean;
+  data?: any;
+  config?: any;
+} {
   if (!dataSize || dataSize === 0 || !width || !height) {
     return {
       isExtreme: false,
@@ -145,7 +149,7 @@ export function checkColor(config: any, chartType: string, chart: any) {
     }
   });
   if (filterColors.length > 0) {
-    warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除`);
+    warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。问题码#03`);
   }
 }
 
@@ -157,7 +161,7 @@ export function checkPadding(config: any) {
     if (!checkPaddingValue) {
       warn(
         'Padding',
-        `检测出额外配置了图表间距padding: [${config.padding}]，需要删除。如特殊需求，请使用appendPadding配置`,
+        `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`,
       );
     }
   }
