@@ -250,9 +250,7 @@ class Base<
 
     if (type === CalculationType.COMMON) {
       if (Array.isArray(data) && data.length > 0) {
-        const types = Array.from(new Set(data.map((item: any) => item.type)));
-        const typeCount = types.map((type: any) => data.filter((item: any) => item.type === type).length);
-        this.dataSize = Math.max(...typeCount);
+        this.dataSize = Array.from(new Set(data.map((item: any) => item.x)))?.length ?? 0;
       } else {
         this.dataSize = 0;
       }
@@ -710,7 +708,7 @@ class Base<
     }
 
     // 极端数据处理
-    if (isExtreme) {
+    if (isExtreme && !force) {
       config = merge({}, config, specialConfig);
     }
 
