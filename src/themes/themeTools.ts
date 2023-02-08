@@ -1,4 +1,4 @@
-import { registerTheme } from "@antv/g2/esm/core";
+import { registerTheme } from '@antv/g2/esm/core';
 import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style-sheet';
 import { Types } from '../common/types';
@@ -590,7 +590,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     intervalFillOpacity: theme['widgets-shape-interval-opacity'],
 
     /** interval active 状态下边框粗细 */
-    intervalActiveBorder: 1,
+    intervalActiveBorder: 0,
     /** interval active 状态下边框颜色 */
     intervalActiveBorderColor: BLACK_COLORS[100],
     intervalActiveBorderOpacity: 1,
@@ -669,14 +669,17 @@ export function setG2Theme(theme: Theme) {
           },
         },
       },
-    })
+    });
   });
 
   // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
 
   Object.assign(tooltipStyle['g2-tooltip'], {
-    padding: `0 ${theme['widgets-tooltip-padding']} ${Math.max(0, pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum)}px ${theme['widgets-tooltip-padding']}`,
+    padding: `0 ${theme['widgets-tooltip-padding']} ${Math.max(
+      0,
+      pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum,
+    )}px ${theme['widgets-tooltip-padding']}`,
   });
   Object.assign(tooltipStyle['g2-tooltip-title'], {
     marginBottom: baseFontSize,
@@ -693,12 +696,12 @@ export function setG2Theme(theme: Theme) {
     marginRight: `${baseFontSizeNum / 3}px`,
   });
   Object.assign(tooltipStyle['g2-tooltip-value'], {
-    marginLeft: `${2 * baseFontSizeNum / 3}px`,
+    marginLeft: `${(2 * baseFontSizeNum) / 3}px`,
   });
 
   // slider 样式
   const sliderStyle = g2Theme.components.slider.common;
-  const p = baseFontSizeNum * 2 / 3;
+  const p = (baseFontSizeNum * 2) / 3;
   sliderStyle.padding = [baseFontSizeNum, p, 0, 0];
   sliderStyle.height = 3 * baseFontSizeNum;
   sliderStyle.textStyle = {

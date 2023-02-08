@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, ChartData, Types, G2Dependents } from "./types";
+import { Chart, ChartData, Types, G2Dependents } from './types';
 import { customFormatter, customFormatterConfig, merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
@@ -8,8 +8,8 @@ import { warn } from './log';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
-* 提取渐变色中的第一个颜色，具体逻辑来自 G2 内部
-* */
+ * 提取渐变色中的第一个颜色，具体逻辑来自 G2 内部
+ * */
 // // const regexTags = /[MLHVQTCSAZ]([^MLHVQTCSAZ]*)/ig;
 // // const regexDot = /[^\s\,]+/ig;
 // const regexLG = /^l\s*\(\s*([\d.]+)\s*\)\s*(.*)/i;
@@ -37,7 +37,19 @@ import { warn } from './log';
 //   return color;
 // }
 
-type Position = 'top' | 'top-left' | 'top-right' | 'right' | 'right-top' | 'right-bottom' | 'left' | 'left-top' | 'left-bottom' | 'bottom' | 'bottom-left' | 'bottom-right';
+type Position =
+  | 'top'
+  | 'top-left'
+  | 'top-right'
+  | 'right'
+  | 'right-top'
+  | 'right-bottom'
+  | 'left'
+  | 'left-top'
+  | 'left-bottom'
+  | 'bottom'
+  | 'bottom-left'
+  | 'bottom-right';
 
 export interface LegendConfig extends customFormatterConfig {
   visible?: boolean;
@@ -83,7 +95,6 @@ export interface LegendConfig extends customFormatterConfig {
    * @description **分类图例适用**，图例项最大高度比例（以 view 的 bbox 高度为参照，默认 0.45）。
    */
   maxHeightRatio?: number;
-
 }
 
 function getPosition(position?: string, align?: string): Position {
@@ -97,11 +108,11 @@ function getPosition(position?: string, align?: string): Position {
   return position as Position;
 }
 
-function getPadding(position: string, base: number,  userPadding?: number[], isPolar?: boolean) {
+function getPadding(position: string, base: number, userPadding?: number[], isPolar?: boolean) {
   if (userPadding) {
     return userPadding;
   }
-  const len = base * 4 / 3;
+  const len = (base * 4) / 3;
   const lrLen = base * 2;
   const [p] = position.split('-');
   switch (p) {
@@ -123,8 +134,6 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
   return [len, len, len, len];
 }
 
-
-
 /**
  * rectLegend 直角坐标系legend配置。
  *
@@ -137,18 +146,21 @@ function getPadding(position: string, base: number,  userPadding?: number[], isP
  * @param {boolean} isPolar 是否极坐标系
  * @param {function} itemFormatter 组件自定义的 item 格式函数
  * */
-export default function<T> (
+export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig | boolean; },
+  config: { legend?: LegendConfig | boolean },
   defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
   field?: string,
   isPolar?: boolean,
-  itemFormatter?: (item: G2Dependents.ListItem, i: number) => G2Dependents.ListItem
+  itemFormatter?: (item: G2Dependents.ListItem, i: number) => G2Dependents.ListItem,
 ) {
   // 设置图例
-  if (config.legend === false || (config.legend && typeof config.legend !== 'boolean' && config.legend.visible === false)) {
+  if (
+    config.legend === false ||
+    (config.legend && typeof config.legend !== 'boolean' && config.legend.visible === false)
+  ) {
     chart.legend(false);
   } else {
     const {
@@ -178,7 +190,7 @@ export default function<T> (
       maxHeight,
       maxWidthRatio,
       maxHeightRatio,
-    } = (config.legend === true ? {} : (config.legend || {})) as LegendConfig;
+    } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
 
@@ -194,7 +206,7 @@ export default function<T> (
             return nameFormatter(text, itemFormatter ? itemFormatter(item, index) : item, index);
           }
           return text;
-        }
+        },
       },
       // background: {
       //   padding: 0,
@@ -217,11 +229,16 @@ export default function<T> (
     };
 
     // legend hover 相关事件
-    if (!hoverable) {
-      chart.removeInteraction('legend-active');
+    // 移除默认交互
+    chart.removeInteraction('legend-active');
+    if (hoverable) {
+      chart.interaction('legend-highlight');
     }
     if (onHover) {
-      warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter': onHover }`);
+      warn(
+        'config.legend',
+        `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter': onHover }`,
+      );
       chart.on('legend-item:mouseenter', onHover);
     }
 
@@ -244,7 +261,7 @@ export default function<T> (
     }
 
     if (showData) {
-      const customValueFormatter = customFormatter(config.legend === true ? {} : (config.legend || {}));
+      const customValueFormatter = customFormatter(config.legend === true ? {} : config.legend || {});
 
       legendConfig.itemValue = {
         style: {
@@ -259,7 +276,7 @@ export default function<T> (
           if (valueFormatter) {
             return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
           } else if (customValueFormatter) {
-            return customValueFormatter(value)
+            return customValueFormatter(value);
           }
           return value;
         },
@@ -419,7 +436,11 @@ function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean)
   }
   return '';
 }
-function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean): undefined | Types.LooseObject | (number | string)[] {
+function getItemData(
+  name: string,
+  rawData: ChartData,
+  isOneDataGroup: boolean,
+): undefined | Types.LooseObject | (number | string)[] {
   if (!rawData) {
     return undefined;
   }
@@ -428,13 +449,14 @@ function getItemData(name: string, rawData: ChartData, isOneDataGroup: boolean):
     const originData = rawData[0];
     let result = undefined;
 
-    originData && originData.data.some((r: any) => {
-      if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
-        result = r;
-        return true;
-      }
-      return false;
-    });
+    originData &&
+      originData.data.some((r: any) => {
+        if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
+          result = r;
+          return true;
+        }
+        return false;
+      });
 
     // if (Array.isArray(result)) {
     //   result = {

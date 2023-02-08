@@ -43,7 +43,7 @@ stories.add('柱状图', () => (
   </Wcontainer>
 ));
 
-const test = [
+const testData = [
   {
     name: '柱1',
     data: [
@@ -61,7 +61,7 @@ const test = [
 ];
 
 stories.add('数据与尺寸同时变', () => {
-  const [chartData, setChartData] = useState(test);
+  const [chartData, setChartData] = useState(testData);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -397,9 +397,6 @@ stories.add('从有数据到无数据', () => {
           },
           legend: {
             showData: true,
-            nameFormatter: function (v, data) {
-              return v + '%';
-            },
             valueFormatter: function (v, data) {
               return v + '%';
             },
