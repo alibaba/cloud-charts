@@ -258,3 +258,35 @@ stories.add('tick 计算', () => {
     </div>
   );
 });
+
+stories.add('多条柱图整数 tick', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{
+        yAxis: {
+          min: 0,
+          tickMethod: 'integer',
+        },
+      }}
+      data={[
+        {
+          "name": "删除",
+          "type": "bar",
+          "data": [
+            ["产品线", 1],
+            ["负载均衡", 1]
+          ]
+        },
+        {
+          "name": "更新",
+          "type": "bar",
+          "data": [
+            ["应用系统", 10],
+            ["产品线", 2]
+          ]
+        }
+      ]}
+    />
+  </Wcontainer>
+));
