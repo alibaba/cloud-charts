@@ -496,6 +496,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** 点图 active 状态下描边颜色 */
     pointActiveBorderColor: BLACK_COLORS[100],
+    pointActiveBorder: 0,
 
     /** 点图 selected 状态下描边粗细 */
     pointSelectedBorder: 2,
@@ -542,7 +543,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     lineBorderOpacity: 1,
 
     /** 线图 Active 状态下粗细 */
-    lineActiveBorder: 3,
+    lineActiveBorder: theme['widgets-line-width'],
 
     /** 线图 selected 状态下粗细 */
     lineSelectedBorder: 3,
