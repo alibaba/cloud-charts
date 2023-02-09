@@ -264,8 +264,13 @@ stories.add('多条柱图整数 tick', () => (
     <Wbar
       height="300"
       config={{
+        scrollbar: true,
         yAxis: {
-          min: 0,
+          // max: 50,
+          tickCount: 10,
+          // min: 0,
+          // nice: false,
+          // min: 0,
           tickMethod: 'integer',
         },
       }}
