@@ -721,7 +721,7 @@ class Base<
 
     // 大数据情况下执行配置项的约束
     const configChecked = force ? false : isExceed;
-    if (configChecked) {
+    if (configChecked && config) {
       const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
       // 暂时这么写，做配置项的合并
       Object.keys(filterConfig)?.forEach((key: string) => {
