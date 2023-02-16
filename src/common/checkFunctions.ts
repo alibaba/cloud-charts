@@ -114,16 +114,135 @@ export function checkExtremeData(
     const minCount = Math.floor(length / (groups * barWidth + 80));
 
     if (dataSize < minCount) {
-      const values = Array.from(new Set(data.map((item: any) => item.x)));
-      for (let i = 0; i < minCount - dataSize; i += 1) {
-        values.push(`widgets-pad-${i}`);
+      if (config?.force === true) {
+        return {
+          isExtreme: true,
+        };
       }
+      // x轴类型
+      const axisType = config?.xAxis?.type ?? 'cat';
+
+      // 颜色
+      const colors = config?.colors ?? themes.category_20;
+
+      // 原数据中类型
+      const dataTypes = Array.from(new Set(data.map((x: any) => x.type)));
+
+      const newData = [...data];
+      const lastData = data[data.length - 1];
+      let newColors = colors;
+      let xAxis = {};
+      const { extreme } = config ?? {};
+
+      // 分类数据
+      if (axisType === 'cat') {
+        // 分类数据默认隐藏占位
+
+        // 是否左对齐
+        // 优先级： 用户配置>特殊情况（数据量为1）>默认配置
+        const alignLeft =
+          extreme === true || extreme?.alignLeft === true
+            ? true
+            : extreme === false || extreme?.alignLeft === false
+            ? false
+            : dataSize === 1;
+
+        // 是否显示占位
+        // 优先级：用户配置>默认配置
+        const showPlaceholder = extreme === true || extreme?.showPlaceholder === true;
+
+        // 左对齐，无占位
+        if (alignLeft && !showPlaceholder) {
+          const values = Array.from(new Set(data.map((item: any) => item.x)));
+          for (let i = 0; i < minCount - dataSize; i += 1) {
+            values.push(`widgets-pad-${i}`);
+          }
+          xAxis = { values };
+          warn('Bar', '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08');
+        }
+        // 左对齐且显示占位
+        else if (alignLeft && showPlaceholder) {
+          for (let i = 0; i < minCount - dataSize; i += 1) {
+            newData.push({
+              x: `widgets-pad-${i}`,
+              y: lastData.y,
+              type: 'widgets-pad-type',
+            });
+          }
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-layout-background']];
+          warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
+        }
+        // 无特殊处理
+        else {
+          warn('Bar', '当前数据量较少，推荐通过extreme配置项开启左对齐与占位补全。问题码#08');
+        }
+      }
+      // 时间分类数据
+      else if (axisType === 'timeCat') {
+        // 时间分类数据默认开启
+
+        // 是否左对齐
+        // 优先级： 用户配置>默认配置
+        const alignLeft = !(extreme === false || extreme?.alignLeft === false);
+
+        // 是否显示占位
+        // 优先级：用户配置>默认配置
+        const showPlaceholder = !(extreme === false || extreme?.showPlaceholder === false);
+
+        const values = Array.from(new Set(data.map((item: any) => item.x)));
+        const minX = Math.min(...(values as number[]));
+        const maxX = Math.max(...(values as number[]));
+        const step = maxX !== minX ? Math.floor((maxX - minX) / dataSize) : 100;
+
+        // 左对齐，无占位
+        if (alignLeft && !showPlaceholder) {
+          const newValues = [...values];
+          for (let i = 0; i < minCount - dataSize; i += 1) {
+            newValues.push(maxX + step * (i + 1));
+          }
+          xAxis = { values: newValues, ticks: values };
+          warn('Bar', '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08');
+        }
+        // 左对齐且显示占位
+        else if (alignLeft && showPlaceholder) {
+          for (let i = 0; i < minCount - dataSize; i += 1) {
+            newData.push({
+              x: maxX + step * (i + 1),
+              y: lastData.y,
+              type: 'widgets-pad-type',
+            });
+          }
+          xAxis = {
+            ticks: values,
+          };
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-layout-background']];
+          warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
+        }
+        // 无特殊处理
+        else {
+          warn('Bar', '当前数据量较少，推荐通过extreme配置项开启左对齐与占位补全。问题码#08');
+        }
+      }
+
       return {
         isExtreme: true,
+        data: newData,
         config: {
-          xAxis: {
-            values,
+          colors: newColors,
+          tooltip: false,
+          legend: {
+            items: dataTypes.map((t: string, index: number) => ({
+              name: t,
+              value: t,
+              marker: {
+                symbol: 'square',
+                style: {
+                  fill: newColors[index],
+                },
+              },
+            })),
           },
+          xAxis,
         },
       };
     }
@@ -159,10 +278,7 @@ export function checkPadding(config: any) {
   if (config.hasOwnProperty('padding') && config.padding) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
-      warn(
-        'Padding',
-        `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`,
-      );
+      warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);
     }
   }
 }

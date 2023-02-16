@@ -159,6 +159,15 @@ export interface ChartProps<ChartConfig> {
   customChart?: any;
   /** 是否使用业务配置覆盖规则，默认为否。 */
   force?: boolean;
+  /** 极端数据场景开关 */
+  extreme?:
+    | boolean
+    | {
+        // 柱图是否左对齐
+        alignLeft?: boolean;
+        // 是否显示占位
+        showPlaceholder?: boolean;
+      };
 }
 
 /**
@@ -638,6 +647,7 @@ class Base<
       interaction,
       animate,
       force,
+      extreme,
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
@@ -824,6 +834,11 @@ class Base<
 
     // 记录是否是空状态，用于无数据状态变成有数据状态的切换
     this.emptyState = isEmpty;
+
+    // 极端数据关闭部分交互
+    if (isExtreme && !force) {
+      this.chart.removeInteraction('active-region');
+    }
 
     // 后置检测
     chart.on('afterpaint', () => {

@@ -190,6 +190,7 @@ export default function <T>(
       maxHeight,
       maxWidthRatio,
       maxHeightRatio,
+      items,
     } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -202,6 +203,9 @@ export default function <T>(
       itemName: {
         // formatter: nameFormatter,
         formatter: (text, item, index) => {
+          // if (text === 'widgets-pad-type') {
+          //   return '';
+          // }
           if (nameFormatter) {
             return nameFormatter(text, itemFormatter ? itemFormatter(item, index) : item, index);
           }
@@ -226,6 +230,7 @@ export default function <T>(
       maxHeight,
       maxWidthRatio: maxWidthRatio || 0.45,
       maxHeightRatio: maxHeightRatio || 0.45,
+      items,
     };
 
     // legend hover 相关事件
