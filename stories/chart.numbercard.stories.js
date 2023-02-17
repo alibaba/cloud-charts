@@ -12,31 +12,24 @@ stories.add('指标卡片基础用法', () => (
     value={100}
     //labelTooltip="测试数据tooltip"
     unit="%"
-    status="success"
+    //status="success"
     itemStyle={{
       width: 250,
     }}
-    //icon={<TwoToneIcon type="cloud" size="xl" color="#5a5a5a" />}
+    // icon={<TwoToneIcon type="cloud" size="xl" color="#5a5a5a" />}
   />
 ));
 
 stories.add('带数值趋势的指标卡片', () => (
   <Wnumbercard
     label="测试数据"
-    value={100}
-    unit="%"
+    value={673242}
+    unit="个"
     status="success"
     itemStyle={{
       width: 250,
     }}
-    chart={{
-      type: 'trend',
-      data: -34.54324,
-      position: 'right',
-      // config: {
-      //   tooltip: 'dasfhldgafhjk',
-      // },
-    }}
+    trend={34.5}
   />
 ));
 

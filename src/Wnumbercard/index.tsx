@@ -7,21 +7,6 @@ import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
 import './index.scss';
 
-export interface IconProps {
-  type: string;
-  size?: string;
-  color?: string;
-}
-
-export interface TrendProps {
-  type: 'trend';
-  data: number;
-  position?: 'left' | 'right' | 'top' | 'bottom';
-  config?: {
-    tooltip?: string | React.ReactNode;
-  };
-}
-
 export interface LineProps {
   type: 'line';
   data: any[];
@@ -53,9 +38,9 @@ export interface CircleProps {
 
 export interface IDataItem {
   label: string | React.ReactNode;
-  hideTooltip?: boolean;
-  labelTooltip?: string | React.ReactNode;
-  tooltipIcon?: React.ReactNode;
+  // hideTooltip?: boolean;
+  // labelTooltip?: string | React.ReactNode;
+  // tooltipIcon?: React.ReactNode;
   value?: number | React.ReactNode;
   unit?: string;
   status?: 'working' | 'success' | 'warning' | 'error';
@@ -63,37 +48,31 @@ export interface IDataItem {
   labelStyle?: React.CSSProperties;
   valueStyle?: React.CSSProperties;
   statusStyle?: React.CSSProperties;
-  icon?: IconProps | React.ReactNode;
+  icon?: React.ReactNode;
   iconPosition?: 'left' | 'right' | 'top' | 'bottom';
-  chart?: TrendProps | LineProps | CircleProps | React.ReactNode;
+  trend?: number;
+  chart?: LineProps | CircleProps | React.ReactNode;
   onClick?: React.MouseEventHandler;
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
-  const iconPosition = props?.iconPosition || 'right';
+  const iconPosition = props?.iconPosition || 'left';
   const chartPosition = props?.chart?.position || 'right';
 
   const iconElement = props?.icon && React.isValidElement(props.icon) ? props.icon : false;
 
-  const trendChart = props?.chart?.type === 'trend' && (
-    <div
-      className="item-trend"
-      style={{
-        flex: chartPosition === 'left' || chartPosition === 'right' ? '0 0 80px' : '0 0 40px',
-      }}
-    >
-      {props?.chart?.data < 0 ? (
+  const trendChart = props?.trend !== undefined && typeof props?.trend === 'number' && (
+    <div className={`item-trend ${props?.trend < 0 ? 'trend-down' : 'trend-up'}`}>
+      {props?.trend < 0 ? (
         <svg width={10} height={14}>
-          <polygon points="0,4 8,4 4,12" className="trend-down" />
+          <polygon points="0,2 10,2 5,12" className="trend-down" />
         </svg>
       ) : (
         <svg width={10} height={14}>
-          <polygon points="0,12 8,12 4,4" className="trend-up" />
+          <polygon points="0,12 10,12 5,2" className="trend-up" />
         </svg>
       )}
-      <span className={`trend-value number ${props?.chart?.data < 0 ? 'trend-value-down' : 'trend-value-up'}`}>
-        {Math.abs(props?.chart?.data || 0)}%
-      </span>
+      <span className="trend-value number">{Math.abs(props?.trend || 0)}%</span>
     </div>
   );
 
@@ -134,7 +113,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     </div>
   );
 
-  const chartElement = (React.isValidElement(props?.chart) && props.chart) || trendChart || lineChart || circleChart;
+  const chartElement = (React.isValidElement(props?.chart) && props.chart) || lineChart || circleChart;
 
   return (
     <div
@@ -157,23 +136,26 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         }}
       >
         {(iconPosition === 'left' || iconPosition === 'top') && iconElement}
-        <div className="label-value-container" style={{ marginLeft: iconElement && iconPosition === 'left' ? 8 : 0 }}>
-          <div className="item-label-container" style={{ marginBottom: props.value ? 8 : 0 }}>
-            <div className="item-label" style={props.labelStyle || {}}>
-              {props.label || ''}
-            </div>
-          </div>
-          <div className="item-value" style={props.valueStyle || {}}>
+        <div className="main-content" style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}>
+          <div className="label-value-container">
             {props.status && (
               <div className={`item-status ${props.status || 'success'}`} style={props.statusStyle || {}} />
             )}
-            {typeof props.value === 'number' ? (
-              <span className="value-number number">{props.value || 0}</span>
-            ) : (
-              props.value
-            )}
+            <div className="item-value" style={props.valueStyle || {}}>
+              {typeof props.value === 'number' ? (
+                <span className="value-number number">{formatNumber(props.value || 0)}</span>
+              ) : (
+                props.value
+              )}
 
-            {props.unit && <div className="item-unit">{props.unit}</div>}
+              {props.unit && <div className="item-unit">{props.unit}</div>}
+              {trendChart}
+            </div>
+          </div>
+          <div className="item-label-container" style={{ marginTop: props.value ? 8 : 0 }}>
+            <div className="item-label" style={props.labelStyle || {}}>
+              {props.label || ''}
+            </div>
           </div>
         </div>
         {(iconPosition === 'right' || iconPosition === 'bottom') && iconElement}
@@ -281,4 +263,11 @@ function calcCardMinWidth(cardProps: IDataItem) {
   } else {
     return 192;
   }
+}
+
+// 格式化数字
+function formatNumber(num: number) {
+  const str = num.toString();
+  const reg = str.indexOf('.') > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g;
+  return str.replace(reg, '$1,');
 }
