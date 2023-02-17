@@ -190,7 +190,6 @@ export default function <T>(
       maxHeight,
       maxWidthRatio,
       maxHeightRatio,
-      items,
     } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -230,7 +229,6 @@ export default function <T>(
       maxHeight,
       maxWidthRatio: maxWidthRatio || 0.45,
       maxHeightRatio: maxHeightRatio || 0.45,
-      items,
     };
 
     // legend hover 相关事件
