@@ -656,11 +656,9 @@ export function setG2Theme(theme: Theme) {
         active: {
           nameStyle: {
             opacity: 1,
-            fontWeight: 500
           },
           valueStyle: {
             opacity: 1,
-            fontWeight: 500
           },
         },
         unchecked: {
@@ -677,10 +675,13 @@ export function setG2Theme(theme: Theme) {
         },
         inactive: {
           nameStyle: {
-            opacity: 1,
+            fill: theme['widgets-legend-uncheck'],
+          },
+          valueStyle: {
+            fill: theme['widgets-legend-uncheck'],
           },
           markerStyle: {
-            opacity: 1,
+            opacity: 0.3,
           },
         },
       },

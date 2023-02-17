@@ -576,7 +576,7 @@ stories.add('可筛选出全为0的柱状图', () => (
   </Wcontainer>
 ));
 
-const specialData = [
+const extremeData1 = [
   {
     name: 'test',
     data: [
@@ -586,9 +586,45 @@ const specialData = [
   },
 ];
 
-stories.add('极端数据', () => (
+const extremeData2 = [
+  {
+    name: 'test',
+    data: [['slb', 400]],
+  },
+];
+
+stories.add('极端数据1（分类型)', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{}} data={specialData} />
+    <Wbar height="300" config={{ extreme: { alignLeft: true, showPlaceholder: true } }} data={extremeData1} />
+  </Wcontainer>
+));
+
+stories.add('极端数据2（分类型)', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" data={extremeData2} />
+  </Wcontainer>
+));
+
+const extremeData3 = [
+  {
+    name: '机房A',
+    data: [
+      [1483372800000, 1592],
+      [1483459200000, 4092],
+    ],
+  },
+  {
+    name: '机房B',
+    data: [[1483372800000, 3592]],
+  },
+];
+stories.add('极端数据（时间分类型)', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{ xAxis: { type: 'timeCat' }, extreme: { showPlaceholder: false } }}
+      data={extremeData3}
+    />
   </Wcontainer>
 ));
 

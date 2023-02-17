@@ -202,6 +202,9 @@ export default function <T>(
       itemName: {
         // formatter: nameFormatter,
         formatter: (text, item, index) => {
+          // if (text === 'widgets-pad-type') {
+          //   return '';
+          // }
           if (nameFormatter) {
             return nameFormatter(text, itemFormatter ? itemFormatter(item, index) : item, index);
           }
