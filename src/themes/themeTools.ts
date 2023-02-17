@@ -687,7 +687,6 @@ export function setG2Theme(theme: Theme) {
       },
     });
   });
-  console.log(legendStyle);
 
   // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
