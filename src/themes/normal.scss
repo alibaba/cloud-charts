@@ -1,8 +1,9 @@
 @import './base.scss';
 
 // 背景颜色
-$widgets-color-background: #ffffff !default;
-$widgets-color-layout-background: #f7f7f7 !default;
+$widgets-color-background: #FFFFFF !default;
+$widgets-color-layout-background: #F7F7F7 !default;
+$widgets-color-container-background: #F7F7F7 !default;
 
 // 主色和状态色
 $widgets-color-blue: #297acc !default;
@@ -10,6 +11,8 @@ $widgets-color-orange: #f98e1a !default;
 $widgets-color-red: #e84738 !default;
 $widgets-color-green: #23b066 !default;
 $widgets-color-gray: #aaaaaa !default;
+$widgets-color-purple: #6B67E0 !default;
+$widgets-color-yellow: #FAC31E !default;
 
 // 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue !default;
@@ -43,6 +46,15 @@ $widgets-color-linear-7: #a0c5eb !default;
 $widgets-color-linear-8: #b6d3f0 !default;
 $widgets-color-linear-9: #cee1f5 !default;
 $widgets-color-linear-10: #e6f0fa !default;
+
+// 告警等级色
+$widgets-color-p1: #BF0030 !default;
+$widgets-color-p2: #E84738 !default;
+$widgets-color-p3: #F98E1A !default;
+$widgets-color-p4: #FAC31E !default;
+$widgets-color-p5: #D1BB4F !default;
+$widgets-color-p6: #00BACF !default;
+$widgets-color-p7: #1289B8 !default;
 
 // 文字颜色
 $widgets-color-text-1: #333333 !default;

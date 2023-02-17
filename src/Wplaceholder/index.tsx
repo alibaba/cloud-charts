@@ -138,7 +138,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
     }
 
     const emptyStyle = {
-      background: themes?.name === 'dark' ? themes['widgets-color-background'] : themes['widgets-color-layout-background']
+      background: themes['widgets-color-container-background']
     };
 
     const newStyle = !!empty ? merge(emptyStyle, style) : style;
