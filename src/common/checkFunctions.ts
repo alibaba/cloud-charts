@@ -1,9 +1,7 @@
 import EmptyDataType, { EmptyJudgeType } from './emptyDataType';
 import { ExceedJudgeType } from './bigDataType';
 import themes from '../themes';
-import { FullCrossName } from '../constants';
 import { warn } from './log';
-import { postMessage } from './postMessage';
 
 // 空数据检测
 export function checkEmptyData(data: any, chartType: string) {
@@ -76,7 +74,6 @@ export function checkBigData(
 }
 
 // 极端数据检测
-// 区分只改变config，还是data和config一起改变
 export function checkExtremeData(
   data: any,
   chartName: string,
@@ -132,13 +129,17 @@ export function checkExtremeData(
       const dataTypes = Array.from(new Set(data.map((x: any) => x.type)));
 
       const newData = [...data];
-      const lastData = data[data.length - 1];
       let newColors = colors;
       let xAxis = {};
       const { extreme } = config ?? {};
 
       // 分类数据
       if (axisType === 'cat') {
+        // 计算最后一个柱子的y值
+        const xValues = Array.from(new Set(data.map((item: any) => item.x)));
+        const lastX = xValues[xValues.length - 1];
+        const lastY = data.findLast((item: any) => item.x === lastX).y;
+
         // 分类数据默认隐藏占位
 
         // 是否左对齐
@@ -168,11 +169,11 @@ export function checkExtremeData(
           for (let i = 0; i < minCount - dataSize; i += 1) {
             newData.push({
               x: `widgets-pad-${i}`,
-              y: lastData.y,
+              y: lastY,
               type: 'widgets-pad-type',
             });
           }
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-layout-background']];
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-numbercard-color-bg']];
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
@@ -182,6 +183,16 @@ export function checkExtremeData(
       }
       // 时间分类数据
       else if (axisType === 'timeCat') {
+        // 计算最后一个柱子的y值
+        let lastY = data?.[0]?.y ?? 0;
+        let curMax = data?.[0]?.x ?? 0;
+        data.forEach((item: any) => {
+          if (item.x > curMax) {
+            curMax = item.x;
+            lastY = item.y;
+          }
+        });
+
         // 时间分类数据默认开启
 
         // 是否左对齐
@@ -211,14 +222,14 @@ export function checkExtremeData(
           for (let i = 0; i < minCount - dataSize; i += 1) {
             newData.push({
               x: maxX + step * (i + 1),
-              y: lastData.y,
+              y: lastY,
               type: 'widgets-pad-type',
             });
           }
           xAxis = {
             ticks: values,
           };
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-layout-background']];
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-numbercard-color-bg']];
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
@@ -245,11 +256,7 @@ export function checkExtremeData(
               },
             })),
           },
-          xAxis: {
-            ...xAxis,
-            autoHide: false,
-            autoEllipsis: true
-          },
+          xAxis,
         },
       };
     }
@@ -265,10 +272,10 @@ export function checkExtremeData(
 export function checkColor(config: any, chartType: string, chart: any) {
   const filterColors: string[] = [];
   const themeString = JSON.stringify(themes).toUpperCase();
-  Object.keys(config)?.forEach((sub: string) => {
+  Object.keys(config).forEach((sub: string) => {
     if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
       config[sub].forEach((color: string) => {
-        if (!themeString.includes(color?.toUpperCase())) {
+        if (!themeString.includes(color.toUpperCase())) {
           filterColors.push(color);
         }
       });
@@ -276,80 +283,16 @@ export function checkColor(config: any, chartType: string, chart: any) {
   });
   if (filterColors.length > 0) {
     warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。问题码#03`);
-
-    // Teamix.test测试用
-    const errorInfo: any = {};
-    const nodeMap: any = {};
-    const chartClass = `${FullCrossName} ${chartType}`;
-    errorInfo[chart?.ele?.id] = {
-      value: filterColors
-    };
-    nodeMap[chart?.ele?.id] = {
-      tagName: 'div',
-      className: chartClass,
-      selector: `#${chart.ele.id}`,
-    };
-    postMessage({
-      nodeMap,
-      designInfo: [
-        {
-          checkItem: 'COLOR',
-          title: '颜色应和主题保持一致',
-          result: [
-            {
-              key: "colors",
-              weight: 10,
-              description: `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。`,
-              errorInfo,
-              errorNumber: filterColors?.length,
-            }
-          ]
-        }
-      ]
-    });
   }
 }
 
 // 间距检测
 // 目标是检测config里面所有自定义的间距配置
-export function checkPadding(config: any, chartName: string, chart: any) {
-  const filterComps = ['G2Map', 'G2MiniLine', 'Wlinescatter', 'Wscatter'];
-  // 增加需要过滤的组件 && 配置项
-  if (config.hasOwnProperty('padding') && config.padding && !filterComps.includes(chartName) && (!config.facet || !config.column)) {
+export function checkPadding(config: any) {
+  if (config.hasOwnProperty('padding') && config.padding) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
       warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);
-
-      // Teamix.test测试用
-      const errorInfo: any = {};
-      const nodeMap: any = {};
-      const chartClass = `${FullCrossName} ${chartName}`;
-      errorInfo[chart?.ele?.id] = {
-        value: config.padding
-      };
-      nodeMap[chart?.ele?.id] = {
-        tagName: 'div',
-        className: chartClass,
-        selector: `#${chart.ele.id}`,
-      };
-      postMessage({
-        nodeMap,
-        designInfo: [
-          {
-            checkItem: 'PADDING',
-            title: '图表不需要内设间距',
-            result: [
-              {
-                key: "padding",
-                weight: 10,
-                description: `检测出额外配置了图表间距padding: [${config.padding}]。`,
-                errorInfo,
-                errorNumber: 1,
-              }
-            ]
-          }
-        ]
-      });
     }
   }
 }

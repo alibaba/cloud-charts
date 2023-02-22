@@ -620,11 +620,7 @@ const extremeData3 = [
 ];
 stories.add('极端数据（时间分类型)', () => (
   <Wcontainer className="demos">
-    <Wbar
-      height="300"
-      config={{ xAxis: { type: 'timeCat' }, extreme: { showPlaceholder: false } }}
-      data={extremeData3}
-    />
+    <Wbar height="300" config={{ xAxis: { type: 'timeCat' } }} data={extremeData3} />
   </Wcontainer>
 ));
 
