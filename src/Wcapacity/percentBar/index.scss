@@ -1,0 +1,90 @@
+@import '../../themes/index';
+
+$label-size: getVar(widgets-font-size-6, $widgets-font-size-6);$unit-size: getVar(widgets-font-size-2, $widgets-font-size-2);$guide-size: getVar(widgets-font-size-3, $widgets-font-size-3);
+$title-size: getVar(widgets-font-size-1, $widgets-font-size-1);$label-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
+$title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
+
+.percent-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: 200px;
+
+  .bar-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background: var(--color-fill1-2, #f7f7f7);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .bar-guide-line {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-width: 1px;
+      border-style: dashed;
+      border-bottom: none;
+      border-left: none;
+      border-right: none;
+      z-index: 999;
+
+      .bar-guide-text {
+        text-align: right;
+        font-size: $guide-size;
+      }
+    }
+
+    .process-bar {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      overflow: hidden;
+
+      .process-back {
+        position: relative;
+        width: 200%;
+        height: 100%;
+        opacity: 0.7;
+        backface-visibility: hidden;
+        transform: translate3d(0, 0, 0) scale(1, 1) perspective(1px);
+        -webkit-font-smoothing: subpixel-antialiased;
+        animation: wave 3s linear infinite;
+      }
+    }
+
+    .percent-bar-label-content {
+      position: relative;
+      z-index: 3;
+      margin-bottom: 12px;
+      line-height: 1;
+      font-size: $label-size;
+      color: $label-color;
+
+      .percent-bar-label-unit {
+        font-size: $unit-size;
+      }
+    }
+
+    .percent-bar-label-title {
+      position: relative;
+      z-index: 3;
+      line-height: 1;
+      font-size: $title-size;
+      color: $title-color;
+    }
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
