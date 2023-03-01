@@ -60,8 +60,8 @@ stories.add('柱状图', () => (
           type: 'timeCat',
           mask: 'HH:mm:ss',
         },
-        slider: true,
-        columnWidthRatio: 1,
+        // slider: true,
+        // columnWidthRatio: 1,
       }}
       data={barData}
     />

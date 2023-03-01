@@ -39,7 +39,11 @@ const data = [
 const stories = storiesOf('Wbar', module);
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{}} data={data} />
+    <Wbar height="300" config={{
+      legend: {
+        position: 'top'
+      }
+    }} data={data} />
   </Wcontainer>
 ));
 
@@ -65,7 +69,7 @@ stories.add('数据与尺寸同时变', () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const changedData = test.map((group) => ({
+      const changedData = testData.map((group) => ({
         name: group.name,
         data: group.data.slice(0, 3),
       }));
@@ -580,8 +584,8 @@ const extremeData1 = [
   {
     name: 'test',
     data: [
-      ['slb', 400],
-      ['vpc', 200],
+      ['slb1231212423523254123123123125212441', 400],
+      ['vpc234232324', 200],
     ],
   },
 ];
