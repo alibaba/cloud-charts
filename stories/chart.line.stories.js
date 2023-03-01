@@ -23,7 +23,7 @@ const data = [
   {
     name: '机房B',
     yAxis: 1,
-    visible: false,
+    // visible: false,
     data: [
       [1483372800000, 6051],
       [1483459200000, 3278],
@@ -157,7 +157,8 @@ stories.add('阶梯折线图', () => (
     <Wline
       height="300"
       config={{
-        step: select('阶梯形状', stepOptions, null),
+        // step: select('阶梯形状', stepOptions, null),
+        step: true,
       }}
       data={data}
     />
@@ -177,7 +178,7 @@ const singleData = [
 ];
 stories.add('单个点折线图', () => (
   <Wcontainer className="demos">
-    <Wline height="300" data={singleData} />
+    <Wline height="300" data={singleData} force />
   </Wcontainer>
 ));
 stories.add('Tooltip 设置', () => (
@@ -304,7 +305,6 @@ stories.add('数据从有到无', () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setD([]);
-      // setD([{ name: '浏览器占比', data: [] }]);
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -657,7 +657,7 @@ const zeroData = [
   {
     name: '机房B',
     yAxis: 1,
-    visible: false,
+    // visible: false,
     data: [
       [1483372800000, 0],
       [1483459200000, 0],
@@ -669,6 +669,135 @@ const zeroData = [
       [1483977600000, 0],
     ],
   },
+  {
+    name: '机房C',
+    data: [
+      [1483372800000, 1592],
+      [1483459200000, 1092],
+      [1483545600000, 1714],
+      [1483632000000, 2984],
+      [1483718400000, 3514],
+      [1483804800000, 3666],
+      [1483891200000, 3023],
+      [1483977600000, 3018],
+    ],
+  },
+  {
+    name: '机房D',
+    data: [
+      [1483372800000, 2592],
+      [1483459200000, 2092],
+      [1483545600000, 3714],
+      [1483632000000, 4984],
+      [1483718400000, 7514],
+      [1483804800000, 7666],
+      [1483891200000, 7023],
+      [1483977600000, 5018],
+    ],
+  },
+  {
+    name: '机房Es',
+    data: [
+      [1483372800000, 7592],
+      [1483459200000, 9092],
+      [1483545600000, 8714],
+      [1483632000000, 8984],
+      [1483718400000, 11514],
+      [1483804800000, 11666],
+      [1483891200000, 11023],
+      [1483977600000, 9018],
+    ],
+  },
 ];
 
 stories.add('可筛选出全为0的线图', () => <Wline height="300" data={zeroData} />);
+
+stories.add('极端数据场景（少）', () => {
+  const [d, setD] = useState([
+    {
+      name: '浏览器占比',
+      data: [
+        [1483459200000, 1592],
+        [1483545600000, 3714],
+        [1483632000000, 4854],
+        [1483718400000, 6514],
+      ],
+    },
+  ]);
+  const [d2, setD2] = useState(data);
+  const [d3, setD3] = useState(data);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(data);
+      setD2([
+        {
+          name: '浏览器占比',
+          data: [
+            [1483459200000, 1592],
+            [1483545600000, 3714],
+            [1483632000000, 4854],
+            [1483718400000, 6514],
+          ],
+        },
+      ]);
+    }, 2000);
+    setD3();
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <>
+      <Wcontainer className="demos" title="极端少-不极端">
+        <Wline
+          height="300"
+          config={{
+            area: true,
+            legend: {
+              nameFormatter: function (v, data) {
+                return 'name:' + v;
+              },
+              valueFormatter: function (v, data) {
+                return v + '%';
+              },
+            },
+          }}
+          data={d}
+          // force // 测试强制开关
+        />
+      </Wcontainer>
+      <Wcontainer title="不极端-极端少">
+        <Wline
+          height="300"
+          config={{
+            area: true,
+            legend: {
+              nameFormatter: function (v, data) {
+                return 'name:' + v;
+              },
+              valueFormatter: function (v, data) {
+                return v + '%';
+              },
+            },
+          }}
+          data={d2}
+        />
+      </Wcontainer>
+      <Wcontainer className="demos" title="不极端-大数据">
+        <Wline
+          height="300"
+          config={{
+            area: true,
+            legend: {
+              nameFormatter: function (v, data) {
+                return 'name:' + v;
+              },
+              valueFormatter: function (v, data) {
+                return v + '%';
+              },
+            },
+          }}
+          data={d}
+        />
+      </Wcontainer>
+    </>
+  );
+});
