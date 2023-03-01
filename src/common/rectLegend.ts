@@ -235,7 +235,13 @@ export default function <T>(
     // 移除默认交互
     chart.removeInteraction('legend-active');
     if (hoverable) {
-      chart.interaction('legend-highlight');
+      // 复写高亮交互, 点击图例后高亮重置
+      chart.interaction('legend-highlight', {
+        end: [
+          { trigger: 'legend-item:mouseleave', action: ['list-highlight:reset', 'element-highlight:reset'] },
+          { trigger: 'legend-item:click', action: ['list-highlight:reset', 'element-highlight:reset'] },
+        ],
+      });
     }
     if (onHover) {
       warn(
