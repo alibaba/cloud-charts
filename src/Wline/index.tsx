@@ -111,7 +111,7 @@ export class Line extends Base<WlineConfig> {
     chart.scale(defs);
 
     // 只有属于极端数据切不强制默认才会合并配置项
-    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize, config);
+    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize);
     let newConfig = config;
     if (isExtreme && !this.props.force) {
       newConfig = Object.assign(config, extremeConfig);
@@ -192,7 +192,7 @@ export class Line extends Base<WlineConfig> {
     rectSlider(chart, config);
   }
   public changeData(chart: Chart, config: WlineConfig, data: any): void {
-    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize, config);
+    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize);
     let newConfig = config;
     const { area, label, symbol } = newConfig;
 
@@ -203,20 +203,6 @@ export class Line extends Base<WlineConfig> {
     const compareConfig = {
       area, label, symbol
     }
-
-    console.log(compareConfig, extremeConfig, this.checkConfigChange(compareConfig, extremeConfig));
-    // 注意需要更新config
-    // if (isExtreme) {
-    //   if (Array.isArray(config.yAxis)) {
-    //     config.yAxis.forEach((axis, yIndex) => {
-    //       drawLine(chart, newConfig, `y${yIndex}`);
-    //     });
-    //   } else {
-    //     drawLine(chart, newConfig);
-    //   }
-    //   chart.changeData(data);
-    // } else {
-    // }
 
     // 如果极端场景配置项改变则重新渲染，否则只更新数据
     if (this.checkConfigChange(compareConfig, extremeConfig)) {
@@ -233,9 +219,7 @@ const Wline: typeof Line = errorWrap(Line);
 
 export default Wline;
 
-function simpleCheckExtreme<T>(data: any, dataSize: number, config: WlineConfig) {
-  const { area, label, symbol } = config;
-
+function simpleCheckExtreme<T>(data: any, dataSize: number) {
   // 计算最大最小值，优化只有一个点的时候的Y轴刻度
   let min = data?.[0]?.y;
   let max = data?.[0]?.y;

@@ -98,6 +98,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           tooltip: false,
           ...props?.chart?.config,
         }}
+        force
       />
     </div>
   );
