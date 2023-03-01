@@ -287,7 +287,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 图例标题文本字体大小 */
     legendTitleTextFontSize: fontSize1,
     /** 图例标题文本行高 */
-    legendTitleTextLineHeight: fontSize1 * 1.5,
+    legendTitleTextLineHeight: fontSize1,
     /** 图例标题文本字体粗细 */
     legendTitleTextFontWeight: 'normal',
 
@@ -325,7 +325,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     // 图例分页器
     /** 图例分页器 marker 大小 */
-    legendPageNavigatorMarkerSize: 12,
+    legendPageNavigatorMarkerSize: fontSize1,
     /** 图例分页器 marker 非激活状态填充色 */
     legendPageNavigatorMarkerInactiveFillColor: BLACK_COLORS[100],
     /** 图例分页器 marker 非激活状态填充色透明度 */
@@ -337,7 +337,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 图例分页器文本颜色 */
     legendPageNavigatorTextFillColor: BLACK_COLORS[45],
     /** 图例分页器文本字体大小 */
-    legendPageNavigatorTextFontSize: 12,
+    legendPageNavigatorTextFontSize: fontSize1,
 
     /** 连续图例滑块填充色 */
     sliderRailFillColor: BLACK_COLORS[15],

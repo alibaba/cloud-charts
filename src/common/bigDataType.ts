@@ -86,7 +86,7 @@ const BigDataType: any = {
         type: ExceedJudgeType.NUMBER,
         threshold: 30,
         message:
-          '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置或滚动条scrollbar配置，问题码#05-2',
+          '该柱图柱子数量过多，不利于数据间的比较，建议减少数据量或加大图表宽度。推荐开启缩略轴slider配置或滚动条scrollbar配置，如轴文本太长也可开启autoEllipsis配置项。问题码#05-2',
       },
     ],
     specialCases: [
