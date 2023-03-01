@@ -81,6 +81,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
+  force: boolean,
 ): {
   isExtreme: boolean;
   data?: any;
@@ -114,7 +115,7 @@ export function checkExtremeData(
     const minCount = Math.floor(length / (groups * barWidth + 80));
 
     if (dataSize < minCount) {
-      if (config?.force === true) {
+      if (force === true) {
         return {
           isExtreme: true,
         };
