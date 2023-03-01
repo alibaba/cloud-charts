@@ -173,7 +173,7 @@ export function checkExtremeData(
               type: 'widgets-pad-type',
             });
           }
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-numbercard-color-bg']];
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
@@ -229,7 +229,7 @@ export function checkExtremeData(
           xAxis = {
             ticks: values,
           };
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-numbercard-color-bg']];
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
