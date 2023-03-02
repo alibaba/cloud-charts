@@ -64,12 +64,12 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   const trendChart = props?.trend !== undefined && typeof props?.trend === 'number' && (
     <div className={`item-trend ${props?.trend < 0 ? 'trend-down' : 'trend-up'}`}>
       {props?.trend < 0 ? (
-        <svg width={10} height={14}>
-          <polygon points="0,2 10,2 5,12" className="trend-down" />
+        <svg width={10} height={12}>
+          <polygon points="0,2 10,2 5,10" className="trend-down" />
         </svg>
-      ) : (
-        <svg width={10} height={14}>
-          <polygon points="0,12 10,12 5,2" className="trend-up" />
+      ) : ( 
+        <svg width={10} height={12}>
+          <polygon points="0,10 10,10 5,2" className="trend-up" />
         </svg>
       )}
       <span className="trend-value number">{Math.abs(props?.trend || 0)}%</span>
