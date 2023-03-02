@@ -41,7 +41,7 @@ stories.add('单水位', () => (
         // endColor: 'rgba(39,137,242,0)', // 波浪尾部颜色
         guide: {
           threshold: '80%',
-          // status: 'error',
+          status: 'error',
         },
       }}
       height={200} // 柱高度

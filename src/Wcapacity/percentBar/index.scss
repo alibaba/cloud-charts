@@ -34,7 +34,7 @@ $title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
       z-index: 999;
 
       .bar-guide-text {
-        text-align: right;
+        text-align: left;
         font-size: $guide-size;
       }
     }
@@ -49,7 +49,7 @@ $title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
         position: relative;
         width: 200%;
         height: 100%;
-        opacity: 0.7;
+        opacity: 0.4;
         backface-visibility: hidden;
         transform: translate3d(0, 0, 0) scale(1, 1) perspective(1px);
         -webkit-font-smoothing: subpixel-antialiased;
