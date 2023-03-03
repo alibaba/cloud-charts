@@ -122,13 +122,6 @@ export class Line extends Base<WlineConfig> {
 
     chart.scale(defs);
 
-    // 只有属于极端数据切不强制默认才会合并配置项
-    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize);
-    let newConfig = config;
-    if (isExtreme && this.props.force !== true) {
-      newConfig = Object.assign(config, extremeConfig);
-    }
-
     chart.data(data);
 
     // 设置X轴
@@ -191,10 +184,10 @@ export class Line extends Base<WlineConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
-        drawLine(chart, newConfig, `y${yIndex}`);
+        drawLine(chart, config, `y${yIndex}`);
       });
     } else {
-      drawLine(chart, newConfig);
+      drawLine(chart, config);
     }
 
     // 拖拽缩放
@@ -203,65 +196,9 @@ export class Line extends Base<WlineConfig> {
     // 缩略轴
     rectSlider(chart, config);
   }
-  public changeData(chart: Chart, config: WlineConfig, data: any): void {
-    const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize);
-    let newConfig = config;
-    const { area, label, symbol } = newConfig;
-
-    if (isExtreme && this.props.force !== true) {
-      newConfig = Object.assign(config, extremeConfig);
-    }
-    // 需要比较的配置项对象
-    const compareConfig = {
-      area,
-      label,
-      symbol,
-    };
-
-    // 如果极端场景配置项改变则重新渲染，否则只更新数据
-    if (this.checkConfigChange(compareConfig, extremeConfig)) {
-      this.rerender();
-    } else {
-      chart.changeData(data);
-    }
-  }
 }
 
 /** Wline 折线图 */
 const Wline: typeof Line = errorWrap(Line);
 
 export default Wline;
-
-function simpleCheckExtreme<T>(data: any, dataSize: number) {
-  // 计算最大最小值，优化只有一个点的时候的Y轴刻度
-  let min = data?.[0]?.y;
-  let max = data?.[0]?.y;
-  const typeSet: any = [];
-  data?.forEach((el: any) => {
-    if (el?.visible || el?.type?.includes('undefined') || el?.visible === undefined) {
-      typeSet.push(el?.type);
-      min = el.y < min ? el.y : min;
-      max = el.y > max ? el.y : max;
-    }
-  });
-
-  const extremeConfig: any = {
-    area: true,
-    symbol: true,
-    label: true,
-  };
-
-  if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
-    warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
-    return {
-      extremeConfig,
-      isExtreme: true,
-    };
-  }
-
-  // 不是极端场景则用默认配置项
-  return {
-    extremeConfig: {},
-    isExtreme: false,
-  };
-}

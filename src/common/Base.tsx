@@ -209,6 +209,8 @@ class Base<
 
   private emptyState: boolean;
 
+  private extremeState: boolean;
+
   constructor(props: Props) {
     super(props);
     this.chart = null;
@@ -516,34 +518,19 @@ class Base<
       this.calcDataSize(data);
 
       // 检查数据
-      // 数据变化时，若替换配置项，必须重绘图表才能生效，因此此处暂不进行各种数据处理
-      /*
-      const { isExceed, isExtreme, config: specialConfig } = this.checkDataBeforeRender(data);
+      // 数据变化时，若替换配置项，必须重绘图表才能生效，暂时只处理极端数据场景
+      const { isExtreme } = this.checkDataBeforeRender(data);
 
-      // 极端数据处理
-      if (isExtreme) {
-        mergeConfig = merge({}, mergeConfig, specialConfig);
+      // 线图：极端数据与非极端数据之间切换，则进行重绘
+      // 柱图：除了正常数据之间转换都需要重绘
+      if (
+        (this.chartName === 'G2Line' && isExtreme !== this.extremeState) ||
+        (this.chartName === 'G2Bar' && isExtreme) ||
+        this.extremeState
+      ) {
+        this.rerender();
+        return;
       }
-
-      // 大数据情况下执行配置项的约束
-      const configChecked = this.props?.force ? false : isExceed;
-      if (configChecked) {
-        const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
-        // 暂时这么写，做配置项的合并
-        Object.keys(filterConfig)?.forEach((key: string) => {
-          if (key === 'slider' && filterConfig?.[key]?.open) {
-            // 缩略轴自适应
-            mergeConfig[key] = {
-              start: 1 - Math.max(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2), 0.01),
-              end: 1,
-              ...(typeof mergeConfig[key] === 'object' ? mergeConfig[key] : {}),
-            };
-          } else {
-            mergeConfig[key] = filterConfig?.[key];
-          }
-        });
-      }
-      */
 
       this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
 
@@ -837,6 +824,9 @@ class Base<
 
     // 记录是否是空状态，用于无数据状态变成有数据状态的切换
     this.emptyState = isEmpty;
+
+    // 记录是否是极端数据状态，用于数据变化时的判断
+    this.extremeState = isExtreme;
 
     // 极端数据关闭部分交互
     if (isExtreme && !(force === true || force?.extreme === true)) {

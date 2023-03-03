@@ -99,7 +99,9 @@ export function checkExtremeData(
   // 检测数据量过少，极坐标与横着的情况不处理，分面也不处理
   // 暂时单独写，待统一
   if (
-    (chartName === 'G2Bar' && config?.polar !== true && (config?.column === undefined || config?.column === true)) ||
+    chartName === 'G2Bar' &&
+    config?.polar !== true &&
+    (config?.column === undefined || config?.column === true) &&
     !config?.facet
   ) {
     // 图表宽度，50是估算的padding
@@ -262,6 +264,34 @@ export function checkExtremeData(
             autoEllipsis: true,
           },
         },
+      };
+    }
+  }
+  // 线图
+  else if (chartName === 'G2Line') {
+    // 计算最大最小值，优化只有一个点的时候的Y轴刻度
+    let min = data?.[0]?.y;
+    let max = data?.[0]?.y;
+    const typeSet: any = [];
+    data?.forEach((el: any) => {
+      if (el?.visible || el?.type?.includes('undefined') || el?.visible === undefined) {
+        typeSet.push(el?.type);
+        min = el.y < min ? el.y : min;
+        max = el.y > max ? el.y : max;
+      }
+    });
+
+    const extremeConfig: any = {
+      area: true,
+      symbol: true,
+      label: true,
+    };
+
+    if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
+      warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
+      return {
+        config: extremeConfig,
+        isExtreme: true,
       };
     }
   }
