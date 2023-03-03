@@ -79,8 +79,44 @@ stories.add('面积曲线图', () => (
     <Wline
       height="300"
       config={{
-        area: true,
+        // area: true,
         spline: true,
+        guide: {
+          line: [
+            {
+              top: true,
+              text: {
+                title: '水平线',
+                position: 'start',
+                // align: 'start',
+              },
+              // status: 'warning',
+              axis: 'y',
+              value: 7000,
+              // 自定义样式，可设置为虚线
+              style: {
+                lineDash: [4, 4]
+              }
+            },
+            {
+              top: true,
+              text: {
+                title: '垂直线',
+                position: 'end',
+                align: 'center',
+              },
+              status: 'none',
+              axis: 'x',
+              value: 1483718400000,
+            },
+          ],
+          filter: {
+            status: 'error', // normal | success | warning | error
+            // 区域位置
+            axis: 'x',
+            value: [1483718400000, 'max'],
+          },
+        },
       }}
       data={data}
     />
