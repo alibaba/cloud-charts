@@ -39,11 +39,15 @@ const data = [
 const stories = storiesOf('Wbar', module);
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{
-      legend: {
-        position: 'top'
-      }
-    }} data={data} />
+    <Wbar
+      height="300"
+      config={{
+        legend: {
+          position: 'top',
+        },
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
 
@@ -476,9 +480,9 @@ stories.add('横向柱图（从右往左）', () => {
         height="300"
         config={{
           // maxSize: 24
-          column: {
-            reflect: true,
-          },
+          // column: {
+          //   reflect: true,
+          // },
           guide: {
             line: {
               // 显示标题相关
@@ -495,7 +499,7 @@ stories.add('横向柱图（从右往左）', () => {
               status: 'error', // normal | success | warning | error
               // 区域位置
               axis: 'y',
-              value: [50, 'max'],
+              value: [20, 'max'],
             },
           },
         }}
@@ -599,7 +603,7 @@ const extremeData2 = [
 
 stories.add('极端数据1（分类型)', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{ extreme: { alignLeft: true, showPlaceholder: true } }} data={extremeData1} />
+    <Wbar height="300" data={extremeData1} />
   </Wcontainer>
 ));
 
@@ -652,10 +656,7 @@ const manyData = [
 const littleData = [
   {
     name: '柱1',
-    data: [
-      ['一', 59],
-      ['二', 23],
-    ],
+    data: [['一', 59]],
   },
 ];
 
@@ -670,6 +671,62 @@ stories.add('从多数据到少数据（不作处理）', () => {
   return (
     <Wcontainer className="demos">
       <Wbar height="300" data={d} />
+    </Wcontainer>
+  );
+});
+
+stories.add('从少数据到多数据（不作处理）', () => {
+  const [d, setD] = useState(littleData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(manyData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} />
+    </Wcontainer>
+  );
+});
+
+const stackData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+  {
+    name: '柱2',
+    data: [
+      ['一', 92],
+      ['二', 15],
+      ['三', 4],
+      ['四', 49],
+      ['五', 64],
+      ['六', 76],
+      ['七', 21],
+      ['八', 100],
+      ['九', 71],
+    ],
+  },
+];
+
+stories.add('极端数据+堆叠', () => {
+  const [d, setD] = useState(stackData);
+
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} force={false} config={{ stack: true }} />
     </Wcontainer>
   );
 });

@@ -21,16 +21,28 @@ stories.add('指标卡片基础用法', () => (
 ));
 
 stories.add('带数值趋势的指标卡片', () => (
-  <Wnumbercard
-    label="测试数据"
-    value={673242}
-    unit="个"
-    status="success"
-    itemStyle={{
-      width: 250,
-    }}
-    trend={34.5}
-  />
+  <>
+    <Wnumbercard
+      label="测试数据"
+      value={673242}
+      unit="个"
+      status="success"
+      itemStyle={{
+        width: 250,
+      }}
+      trend={34.5}
+    />
+    <Wnumbercard
+      label="测试数据"
+      value={673242}
+      unit="个"
+      status="success"
+      itemStyle={{
+        width: 250,
+      }}
+      trend={-34.5}
+    />
+  </>
 ));
 
 stories.add('带线图的指标卡片', () => (

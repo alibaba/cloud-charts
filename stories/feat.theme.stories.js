@@ -199,6 +199,7 @@ function ThemeDemo() {
             <Wbar
               height="300"
               config={{
+                // padding: [20,20],
                 xAxis: {
                   type: 'timeCat',
                 },

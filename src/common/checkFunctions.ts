@@ -2,6 +2,8 @@ import EmptyDataType, { EmptyJudgeType } from './emptyDataType';
 import { ExceedJudgeType } from './bigDataType';
 import themes from '../themes';
 import { warn } from './log';
+import { FullCrossName } from '../constants';
+import { postMessage } from './postMessage';
 
 // 空数据检测
 export function checkEmptyData(data: any, chartType: string) {
@@ -81,7 +83,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-  force: boolean,
+  force: any,
 ): {
   isExtreme: boolean;
   data?: any;
@@ -94,28 +96,27 @@ export function checkExtremeData(
   }
 
   // 柱图
-  // 检测数据量过少，极坐标与横着的情况不处理
+  // 检测数据量过少，极坐标与横着的情况不处理，分面也不处理
   // 暂时单独写，待统一
-  if (chartName === 'G2Bar' && config?.polar !== true && (config?.column === undefined || config?.column === true)) {
+  if (
+    chartName === 'G2Bar' &&
+    config?.polar !== true &&
+    (config?.column === undefined || config?.column === true) &&
+    !config?.facet
+  ) {
     // 图表宽度，50是估算的padding
     const length = width - 50;
 
-    // 根据stack、dodgeStack、facet等配置项计算一组柱子的宽度，从而计算至少需要几组柱子
-    const barWidth = config?.size ?? 24;
-    const facets = Array.from(new Set(data?.map((item: any) => item?.facet)));
-    const types = Math.max(
-      ...(facets || [])?.map(
-        (facet: string) =>
-          Array.from(new Set(data?.filter((item: any) => item?.facet === facet)?.map((item: any) => item?.type)))
-            ?.length ?? 0,
-      ),
-    );
+    // 根据stack、dodgeStack等配置项计算一组柱子的宽度，从而计算至少需要几组柱子
+    const barWidth = 24;
+    const types = Array.from(new Set(data?.map((item: any) => item?.type)))?.length ?? 0;
     const dodges = Array.from(new Set(data?.map((item: any) => item?.dodge)))?.length ?? 1;
     const groups = config?.dodgeStack ? dodges : config?.stack ? 1 : types;
     const minCount = Math.floor(length / (groups * barWidth + 80));
 
     if (dataSize < minCount) {
-      if (force === true) {
+      if (force === true || force?.extreme === true) {
+        warn('Bar', '当前数据量较少，推荐关闭force配置项开启极端数据自适应。问题码#08');
         return {
           isExtreme: true,
         };
@@ -132,7 +133,7 @@ export function checkExtremeData(
       const newData = [...data];
       let newColors = colors;
       let xAxis = {};
-      const { extreme } = config ?? {};
+      const { extreme } = force ?? {};
 
       // 分类数据
       if (axisType === 'cat') {
@@ -146,15 +147,15 @@ export function checkExtremeData(
         // 是否左对齐
         // 优先级： 用户配置>特殊情况（数据量为1）>默认配置
         const alignLeft =
-          extreme === true || extreme?.alignLeft === true
+          force === false || extreme === false || extreme?.alignLeft === false
             ? true
-            : extreme === false || extreme?.alignLeft === false
-            ? false
+            : extreme === true || extreme?.alignLeft === true
+            ? true
             : dataSize === 1;
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
-        const showPlaceholder = extreme === true || extreme?.showPlaceholder === true;
+        const showPlaceholder = force === false || extreme === false || extreme?.showPlaceholder === false;
 
         // 左对齐，无占位
         if (alignLeft && !showPlaceholder) {
@@ -198,11 +199,11 @@ export function checkExtremeData(
 
         // 是否左对齐
         // 优先级： 用户配置>默认配置
-        const alignLeft = !(extreme === false || extreme?.alignLeft === false);
+        const alignLeft = !(extreme === true || extreme?.alignLeft === true);
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
-        const showPlaceholder = !(extreme === false || extreme?.showPlaceholder === false);
+        const showPlaceholder = !(extreme === true || extreme?.showPlaceholder === true);
 
         const values = Array.from(new Set(data.map((item: any) => item.x)));
         const minX = Math.min(...(values as number[]));
@@ -257,8 +258,40 @@ export function checkExtremeData(
               },
             })),
           },
-          xAxis,
+          xAxis: {
+            ...xAxis,
+            autoHide: false,
+            autoEllipsis: true,
+          },
         },
+      };
+    }
+  }
+  // 线图
+  else if (chartName === 'G2Line') {
+    // 计算最大最小值，优化只有一个点的时候的Y轴刻度
+    let min = data?.[0]?.y;
+    let max = data?.[0]?.y;
+    const typeSet: any = [];
+    data?.forEach((el: any) => {
+      if (el?.visible || el?.type?.includes('undefined') || el?.visible === undefined) {
+        typeSet.push(el?.type);
+        min = el.y < min ? el.y : min;
+        max = el.y > max ? el.y : max;
+      }
+    });
+
+    const extremeConfig: any = {
+      area: true,
+      symbol: true,
+      label: true,
+    };
+
+    if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
+      warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
+      return {
+        config: extremeConfig,
+        isExtreme: true,
       };
     }
   }
@@ -284,16 +317,85 @@ export function checkColor(config: any, chartType: string, chart: any) {
   });
   if (filterColors.length > 0) {
     warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。问题码#03`);
+
+    // Teamix.test测试用
+    const errorInfo: any = {};
+    const nodeMap: any = {};
+    const chartClass = `${FullCrossName} ${chartType}`;
+    errorInfo[chart?.ele?.id] = {
+      value: filterColors,
+    };
+    nodeMap[chart?.ele?.id] = {
+      tagName: 'div',
+      className: chartClass,
+      selector: `#${chart.ele.id}`,
+    };
+    postMessage({
+      nodeMap,
+      designInfo: [
+        {
+          checkItem: 'COLOR',
+          title: '颜色应和主题保持一致',
+          result: [
+            {
+              key: 'colors',
+              weight: 10,
+              description: `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。`,
+              errorInfo,
+              errorNumber: filterColors?.length,
+            },
+          ],
+        },
+      ],
+    });
   }
 }
 
 // 间距检测
 // 目标是检测config里面所有自定义的间距配置
-export function checkPadding(config: any) {
-  if (config.hasOwnProperty('padding') && config.padding) {
+export function checkPadding(config: any, chartName: string, chart: any) {
+  const filterComps = ['G2Map', 'G2MiniLine', 'Wlinescatter', 'Wscatter'];
+  // 增加需要过滤的组件 && 配置项
+  if (
+    config.hasOwnProperty('padding') &&
+    config.padding &&
+    !filterComps.includes(chartName) &&
+    (!config.facet || !config.column)
+  ) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
       warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);
+
+      // Teamix.test测试用
+      const errorInfo: any = {};
+      const nodeMap: any = {};
+      const chartClass = `${FullCrossName} ${chartName}`;
+      errorInfo[chart?.ele?.id] = {
+        value: config.padding,
+      };
+      nodeMap[chart?.ele?.id] = {
+        tagName: 'div',
+        className: chartClass,
+        selector: `#${chart.ele.id}`,
+      };
+      postMessage({
+        nodeMap,
+        designInfo: [
+          {
+            checkItem: 'PADDING',
+            title: '图表不需要内设间距',
+            result: [
+              {
+                key: 'padding',
+                weight: 10,
+                description: `检测出额外配置了图表间距padding: [${config.padding}]。`,
+                errorInfo,
+                errorNumber: 1,
+              },
+            ],
+          },
+        ],
+      });
     }
   }
 }
