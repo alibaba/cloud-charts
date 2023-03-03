@@ -157,16 +157,19 @@ export interface ChartProps<ChartConfig> {
   animate?: boolean;
   /** @deprecated 自定义图表请使用类继承 */
   customChart?: any;
-  /** 是否使用业务配置覆盖规则，默认为否。 */
-  force?: boolean;
-  /** 极端数据场景开关 */
-  extreme?:
+  /** 是否使用业务配置覆盖规则，默认为否。true表示关闭所有处理 */
+  force?:
     | boolean
     | {
-        // 柱图是否左对齐
-        alignLeft?: boolean;
-        // 是否显示占位
-        showPlaceholder?: boolean;
+        /** 极端数据场景开关,true表示关闭对应处理 */
+        extreme?:
+          | boolean
+          | {
+              // 柱图是否左对齐
+              alignLeft?: boolean;
+              // 是否显示占位
+              showPlaceholder?: boolean;
+            };
       };
 }
 
@@ -648,7 +651,6 @@ class Base<
       interaction,
       animate,
       force,
-      extreme,
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
@@ -726,12 +728,12 @@ class Base<
     }
 
     // 极端数据处理
-    if (isExtreme && !force) {
+    if (isExtreme && !(force === true || force?.extreme === true)) {
       config = merge({}, config, specialConfig);
     }
 
     // 大数据情况下执行配置项的约束
-    const configChecked = force ? false : isExceed;
+    const configChecked = force === true ? false : isExceed;
     if (configChecked && config) {
       const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
       // 暂时这么写，做配置项的合并
@@ -837,7 +839,7 @@ class Base<
     this.emptyState = isEmpty;
 
     // 极端数据关闭部分交互
-    if (isExtreme && !force) {
+    if (isExtreme && !(force === true || force?.extreme === true)) {
       this.chart.removeInteraction('active-region');
     }
 

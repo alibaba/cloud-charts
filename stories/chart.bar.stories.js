@@ -39,11 +39,15 @@ const data = [
 const stories = storiesOf('Wbar', module);
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{
-      legend: {
-        position: 'top'
-      }
-    }} data={data} />
+    <Wbar
+      height="300"
+      config={{
+        legend: {
+          position: 'top',
+        },
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
 
@@ -599,7 +603,7 @@ const extremeData2 = [
 
 stories.add('极端数据1（分类型)', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{ extreme: { alignLeft: true, showPlaceholder: true } }} data={extremeData1} />
+    <Wbar height="300" data={extremeData1} />
   </Wcontainer>
 ));
 
