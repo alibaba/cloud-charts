@@ -96,22 +96,18 @@ export function checkExtremeData(
   }
 
   // 柱图
-  // 检测数据量过少，极坐标与横着的情况不处理
+  // 检测数据量过少，极坐标与横着的情况不处理，分面也不处理
   // 暂时单独写，待统一
-  if (chartName === 'G2Bar' && config?.polar !== true && (config?.column === undefined || config?.column === true)) {
+  if (
+    (chartName === 'G2Bar' && config?.polar !== true && (config?.column === undefined || config?.column === true)) ||
+    !config?.facet
+  ) {
     // 图表宽度，50是估算的padding
     const length = width - 50;
 
-    // 根据stack、dodgeStack、facet等配置项计算一组柱子的宽度，从而计算至少需要几组柱子
-    const barWidth = config?.size ?? 24;
-    const facets = Array.from(new Set(data?.map((item: any) => item?.facet)));
-    const types = Math.max(
-      ...(facets || [])?.map(
-        (facet: string) =>
-          Array.from(new Set(data?.filter((item: any) => item?.facet === facet)?.map((item: any) => item?.type)))
-            ?.length ?? 0,
-      ),
-    );
+    // 根据stack、dodgeStack等配置项计算一组柱子的宽度，从而计算至少需要几组柱子
+    const barWidth = 24;
+    const types = Array.from(new Set(data?.map((item: any) => item?.type)))?.length ?? 0;
     const dodges = Array.from(new Set(data?.map((item: any) => item?.dodge)))?.length ?? 1;
     const groups = config?.dodgeStack ? dodges : config?.stack ? 1 : types;
     const minCount = Math.floor(length / (groups * barWidth + 80));
@@ -263,7 +259,7 @@ export function checkExtremeData(
           xAxis: {
             ...xAxis,
             autoHide: false,
-            autoEllipsis: true
+            autoEllipsis: true,
           },
         },
       };
