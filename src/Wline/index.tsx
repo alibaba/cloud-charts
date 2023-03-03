@@ -238,7 +238,7 @@ function simpleCheckExtreme<T>(data: any, dataSize: number) {
     label: true,
   };
 
-  if (new Set(typeSet)?.size < 2 && dataSize < 6) {
+  if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
     warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
     return {
       extremeConfig,
