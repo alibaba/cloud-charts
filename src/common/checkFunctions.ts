@@ -129,7 +129,7 @@ export function checkExtremeData(
 
       // 颜色
       let colors = config?.colors ?? themes.category_20;
-      if (colors.length < dataTypes.length) {
+      if (Array.isArray(colors) && colors.length < dataTypes.length) {
         colors = [...colors, ...themes.category_20.slice(colors.length, dataTypes.length)];
       }
 
