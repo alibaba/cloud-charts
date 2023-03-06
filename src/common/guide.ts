@@ -30,10 +30,10 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
   if (guideLine) {
     if (Array.isArray(guideLine)) {
       guideLine.forEach((line) => {
-        drawGuideLine(chart, line);
+        drawGuideLine(chart, line, config);
       });
     } else {
-      drawGuideLine(chart, guideLine);
+      drawGuideLine(chart, guideLine, config);
     }
   }
 
@@ -50,10 +50,10 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
   if (guideFilter) {
     if (Array.isArray(guideFilter)) {
       guideFilter.forEach((filter) => {
-        drawGuideFilter(chart, filter);
+        drawGuideFilter(chart, filter, config);
       });
     } else {
-      drawGuideFilter(chart, guideFilter);
+      drawGuideFilter(chart, guideFilter, config);
     }
   }
 
@@ -77,19 +77,41 @@ export interface GuideLineConfig {
   style?: G2Dependents.ShapeAttrs;
   text?: string | GuideLineTextConfig;
 }
-export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
+export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, config: any) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
   const rawText = text || ''
   const {
-    title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY, ...textConfig
+    title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY, offsetX, ...textConfig
   } = (typeof rawText === 'string' ? { title: rawText } : rawText) as GuideLineTextConfig;
   const color = getStatusColor(status);
-  const defaultOffsetY = offsetY === undefined ? pxToNumber(themes['widgets-font-size-1'])/2 : offsetY;
+
+  // 更新处理文本位置
+  let defaultOffsetY = pxToNumber(themes['widgets-font-size-1']);
+  let defaultOffsetX = 0;
+
+  if (offsetY !== undefined) {
+    defaultOffsetY = offsetY;
+  // 不是镜面和横向的时候
+  } else if (!!config.column || !config.facet) {
+    if (axis === 'y') {
+      defaultOffsetY = -(pxToNumber(themes['widgets-font-size-1']) / 2)
+    }
+  }
+
+  if (offsetX !== undefined) {
+    defaultOffsetX = offsetX;
+  } else if (!!config.column || !config.facet) {
+    if (axis === 'y') {
+      defaultOffsetX = (pxToNumber(themes['widgets-font-size-1']) * (typeof rawText === 'string' ? rawText?.length : 3)) + 8;
+    }
+  }
 
   const guideConfig = {
     top,
     style: {
       stroke: color,
+      // 默认为虚线
+      lineDash: [4, 4],
       ...style,
     },
     text: {
@@ -103,6 +125,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig) {
       // X 轴时关闭自动旋转
       autoRotate: axis !== 'x',
       offsetY: defaultOffsetY,
+      offsetX: defaultOffsetX,
       ...textConfig,
     },
     // @ts-ignore
@@ -241,13 +264,23 @@ export interface GuideFilterConfig {
   apply?: string[];
   style?: G2Dependents.ShapeAttrs;
 }
-export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig) {
+export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig, config: any) {
   const { top = true, status, axis, value, start, end, apply, style } = guideFilter;
   const color = getStatusColor(status);
 
+  let guideColor = color;
+  // 如果镜面或横向不处理
+  if (!!config.facet || (config.hasOwnProperty('column') && !(config?.column === true))) {
+    guideColor = color;
+  } else if (axis === 'y') {
+    guideColor = `l(90) 0:${color} 1:${color}00`;
+  } else {
+    guideColor = `l(180) 0:${color} 1:${color}00`;
+  }
+  
   const guideConfig = {
     top,
-    color,
+    color: guideColor,
     apply,
     style,
     // @ts-ignore

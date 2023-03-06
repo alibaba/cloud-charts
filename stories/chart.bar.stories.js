@@ -480,9 +480,9 @@ stories.add('横向柱图（从右往左）', () => {
         height="300"
         config={{
           // maxSize: 24
-          column: {
-            reflect: true,
-          },
+          // column: {
+          //   reflect: true,
+          // },
           guide: {
             line: {
               // 显示标题相关
@@ -499,7 +499,7 @@ stories.add('横向柱图（从右往左）', () => {
               status: 'error', // normal | success | warning | error
               // 区域位置
               axis: 'y',
-              value: [50, 'max'],
+              value: [20, 'max'],
             },
           },
         }}

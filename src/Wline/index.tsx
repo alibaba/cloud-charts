@@ -15,7 +15,6 @@ import legendFilter from '../common/legendFilter';
 import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
-import { warn } from '../common/log';
 import './index.scss';
 
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig, SliderConfig {

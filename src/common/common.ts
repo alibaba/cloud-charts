@@ -179,7 +179,8 @@ export function getStatusColor(status: string) {
     warning: themes['widgets-color-orange'],
     orange: themes['widgets-color-orange'],
 
-    normal: themes['widgets-color-blue'],
+    // 运行色和主色有区分
+    normal: themes['widgets-color-normal'],
     blue: themes['widgets-color-blue'],
 
     success: themes['widgets-color-green'],
@@ -195,9 +196,10 @@ export function getStatusColor(status: string) {
 const statusColorMap: { [key: string]: string } = {
   error: 'red',
   warning: 'orange',
-  normal: 'blue',
+  normal: 'normal',
   success: 'green',
   none: 'gray',
+  blue: 'blue',
 };
 /**
  * 根据状态获得颜色名称
