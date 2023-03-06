@@ -124,16 +124,20 @@ export function checkExtremeData(
       // x轴类型
       const axisType = config?.xAxis?.type ?? 'cat';
 
-      // 颜色
-      const colors = config?.colors ?? themes.category_20;
-
       // 原数据中类型
       const dataTypes = Array.from(new Set(data.map((x: any) => x.type)));
+
+      // 颜色
+      let colors = config?.colors ?? themes.category_20;
+      if (colors.length < dataTypes.length) {
+        colors = [...colors, ...themes.category_20.slice(colors.length, dataTypes.length)];
+      }
 
       const newData = [...data];
       let newColors = colors;
       let xAxis = {};
       const { extreme } = force ?? {};
+      let needColor = false;
 
       // 分类数据
       if (axisType === 'cat') {
@@ -175,7 +179,7 @@ export function checkExtremeData(
               type: 'widgets-pad-type',
             });
           }
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
+          needColor = true;
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
@@ -231,12 +235,29 @@ export function checkExtremeData(
           xAxis = {
             ticks: values,
           };
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
+          needColor = true;
           warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
         }
         // 无特殊处理
         else {
           warn('Bar', '当前数据量较少，推荐通过extreme配置项开启左对齐与占位补全。问题码#08');
+        }
+      }
+
+      if (needColor) {
+        // 颜色处理
+        if (Array.isArray(colors)) {
+          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
+        } else if (typeof colors === 'string') {
+          newColors = [...dataTypes.map(() => colors), themes['widgets-color-container-background']];
+        } else if (typeof colors === 'function') {
+          newColors = (type: string) => {
+            if (type === 'widgets-pad-type') {
+              return themes['widgets-color-container-background'];
+            } else {
+              return colors(type);
+            }
+          };
         }
       }
 
@@ -253,7 +274,7 @@ export function checkExtremeData(
               marker: {
                 symbol: 'square',
                 style: {
-                  fill: newColors[index],
+                  fill: Array.isArray(newColors) ? newColors[index] : newColors(t),
                 },
               },
             })),
