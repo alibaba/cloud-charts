@@ -179,6 +179,9 @@ function ThemeDemo() {
     <div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
+          <Wplaceholder loading height={200} />
+        </div>
+        <div style={{ flex: '1 1 33.33%' }}>
           <Wplaceholder empty height={200} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
