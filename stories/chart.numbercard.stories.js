@@ -127,6 +127,9 @@ stories.add('带圆环的指标卡片', () => (
       type: 'circle',
       data: 0.45,
       position: 'right',
+      config: {
+        // status: 'normal'
+      }
     }}
   />
 ));

@@ -5,9 +5,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
-import './index.scss';
 import { beautifyNumber } from '../common/common';
 import { PrefixName } from '../constants';
+import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
 
@@ -66,23 +66,23 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   const iconElement = props?.icon && React.isValidElement(props.icon) ? props.icon : false;
 
   const trendChart = props?.trend !== undefined && typeof props?.trend === 'number' && (
-    <div className={`item-trend ${props?.trend < 0 ? 'trend-down' : 'trend-up'}`}>
+    <div className={`${prefix}-item-trend ${props?.trend < 0 ? prefix + '-trend-down' : prefix + '-trend-up'}`}>
       {props?.trend < 0 ? (
         <svg width={10} height={12}>
-          <polygon points="0,2 10,2 5,10" className="trend-down" />
+          <polygon points="0,2 10,2 5,10" className={`${prefix}-trend-down`} />
         </svg>
       ) : (
         <svg width={10} height={12}>
-          <polygon points="0,10 10,10 5,2" className="trend-up" />
+          <polygon points="0,10 10,10 5,2" className={`${prefix}-trend-up`} />
         </svg>
       )}
-      <span className={`trend-value ${prefix}-number`}>{Math.abs(props?.trend || 0)}%</span>
+      <span className={`${prefix}-trend-value ${prefix}-number`}>{Math.abs(props?.trend || 0)}%</span>
     </div>
   );
 
   const lineChart = props?.chart?.type === 'line' && (
     <div
-      className="item-line"
+      className={`${prefix}-item-line`}
       style={{
         alignSelf: chartPosition === 'top' || chartPosition === 'bottom' ? 'flex-start' : 'center',
       }}
@@ -109,7 +109,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
   const circleChart = props?.chart?.type === 'circle' && (
     <div
-      className="item-circle"
+      className={`${prefix}-item-circle`}
       style={{
         alignSelf: chartPosition === 'top' || chartPosition === 'bottom' ? 'flex-start' : 'center',
       }}
@@ -133,7 +133,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     >
       {(chartPosition === 'left' || chartPosition === 'top') && chartElement}
       <div
-        className="item-content"
+        className={`${prefix}-item-content`}
         style={{
           flexDirection: iconPosition === 'left' || iconPosition === 'right' ? 'row' : 'column',
           justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
@@ -141,24 +141,32 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         }}
       >
         {(iconPosition === 'left' || iconPosition === 'top') && iconElement}
-        <div className="main-content" style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}>
-          <div className="label-value-container">
+        <div
+          className={`${prefix}-main-content`}
+          style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}
+        >
+          <div className={`${prefix}-label-value-container`}>
             {props.status && (
-              <div className={`item-status ${props.status || 'success'}`} style={props.statusStyle || {}} />
+              <div
+                className={`${prefix}-item-status ${prefix + '-' + props.status || prefix + '-success'}`}
+                style={props.statusStyle || {}}
+              />
             )}
-            <div className="item-value" style={props.valueStyle || {}}>
+            <div className={`${prefix}-item-value`} style={props.valueStyle || {}}>
               {typeof props.value === 'number' ? (
-                <span className={`value-number ${prefix}-number`}>{beautifyNumber(props.value || 0, ',')}</span>
+                <span className={`${prefix}-value-number ${prefix}-number`}>
+                  {beautifyNumber(props.value || 0, ',')}
+                </span>
               ) : (
                 props.value
               )}
 
-              {props.unit && <div className="item-unit">{props.unit}</div>}
+              {props.unit && <div className={`${prefix}-item-unit`}>{props.unit}</div>}
               {trendChart}
             </div>
           </div>
-          <div className="item-label-container" style={{ marginTop: props.value ? 8 : 0 }}>
-            <div className="item-label" style={props.labelStyle || {}}>
+          <div className={`${prefix}-item-label-container`} style={{ marginTop: props.value ? 8 : 0 }}>
+            <div className={`${prefix}-item-label`} style={props.labelStyle || {}}>
               {props.label || ''}
             </div>
           </div>
@@ -230,7 +238,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
       {dataByRow.map((row: IDataItem[], rowIndex: number) => (
         <div
           key={rowIndex}
-          className="data-overview-row"
+          className={`${prefix}-data-overview-row`}
           style={{ marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom }}
         >
           {row.map((item: IDataItem, colIndex: number) => {
