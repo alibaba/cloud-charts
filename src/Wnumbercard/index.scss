@@ -25,7 +25,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
   justify-content: space-between;
   align-items: center;
 
-  .item-content {
+  #{$wnumbercard-prefix}-item-content {
     display: flex;
     width: 100%;
     height: 100%;
@@ -34,47 +34,47 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     align-items: center;
   }
 
-  .main-content {
+  #{$wnumbercard-prefix}-main-content {
     min-width: 0;
     flex: 1;
   }
 
-  .label-value-container {
+  #{$wnumbercard-prefix}-label-value-container {
     display: flex;
     align-items: center;
 
-    .item-status {
+    #{$wnumbercard-prefix}-item-status {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       margin-right: 8px;
       background: $green;
 
-      &.working {
+      &#{$wnumbercard-prefix}-working {
         background: $blue;
       }
 
-      &.success {
+      &#{$wnumbercard-prefix}-success {
         background: $green;
       }
 
-      &.warning {
+      &#{$wnumbercard-prefix}-warning {
         background: $orange;
       }
 
-      &.error {
+      &#{$wnumbercard-prefix}-error {
         background: $red;
       }
     }
   }
 
-  .item-label-container {
+  #{$wnumbercard-prefix}-item-label-container {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
-  .item-label {
+  #{$wnumbercard-prefix}-item-label {
     font-size: 12px;
     color: $label-color;
     overflow: hidden;
@@ -85,7 +85,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     cursor: default;
   }
 
-  .item-value {
+  #{$wnumbercard-prefix}-item-value {
     display: flex;
     align-items: flex-end;
     line-height: 1;
@@ -95,23 +95,23 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    .item-unit {
+    #{$wnumbercard-prefix}-item-unit {
       font-size: 12px;
       margin-left: 2px;
     }
   }
 
-  .value-number {
+  #{$wnumbercard-prefix}-value-number {
     font-size: 28px;
   }
 
-  .question-icon {
+  #{$wnumbercard-prefix}-question-icon {
     width: 14px;
     height: 14px;
     margin-left: 2px;
   }
 
-  .item-trend {
+  #{$wnumbercard-prefix}-item-trend {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -121,31 +121,31 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     border-radius: 2px;
     margin-left: 8px;
 
-    .trend-down {
+    #{$wnumbercard-prefix}-trend-down {
       fill: $red;
     }
 
-    .trend-up {
+    #{$wnumbercard-prefix}-trend-up {
       fill: $blue;
     }
 
-    .trend-value {
+    #{$wnumbercard-prefix}-trend-value {
       font-size: 12px;
       margin-left: 4px;
     }
   }
 
-  .trend-down {
+  #{$wnumbercard-prefix}-trend-down {
     background-color: $red-bg;
     color: $red;
   }
 
-  .trend-up {
+  #{$wnumbercard-prefix}-trend-up {
     background-color: $blue-bg;
     color: $blue;
   }
 
-  .item-line {
+  #{$wnumbercard-prefix}-item-line {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,7 +157,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
   width: 100%;
   height: 100%;
 
-  .data-overview-row {
+  #{$wnumbercard-prefix}-data-overview-row {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
