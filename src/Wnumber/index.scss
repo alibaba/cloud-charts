@@ -12,9 +12,11 @@
       color: $red;
     }
     &.raise {
-      color: $blue;
+      color: $normal;
     }
-
+    &.normal{
+      color: $normal;
+    }
     &.blue {
       color: $blue;
     }
@@ -36,7 +38,7 @@
         color: $red;
       }
       >.raise {
-        color: $blue;
+        color: $normal;
       }
     }
     #{$wnumber-prefix}-unit {
@@ -61,9 +63,11 @@
         color: $red;
       }
       &.raise {
-        color: $blue;
+        color: $normal;
       }
-
+      &.normal{
+        color: $normal;
+      }
       &.blue {
         color: $blue;
       }
