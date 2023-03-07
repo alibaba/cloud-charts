@@ -3,6 +3,7 @@ export interface IProps {
   config?: ConfigItem;
   height?: number;
   style?: any;
+  prefix?: string;
 }
 
 interface GuideConfig {

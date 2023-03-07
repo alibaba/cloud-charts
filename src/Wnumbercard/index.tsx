@@ -7,6 +7,9 @@ import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
 import './index.scss';
 import { beautifyNumber } from '../common/common';
+import { PrefixName } from '../constants';
+
+const prefix = `${PrefixName}-wnumbercard`;
 
 export interface LineProps {
   type: 'line';
@@ -73,7 +76,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <polygon points="0,10 10,10 5,2" className="trend-up" />
         </svg>
       )}
-      <span className="trend-value number">{Math.abs(props?.trend || 0)}%</span>
+      <span className={`trend-value ${prefix}-number`}>{Math.abs(props?.trend || 0)}%</span>
     </div>
   );
 
@@ -119,7 +122,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
   return (
     <div
-      className="data-item-container"
+      className={`${prefix}-data-item-container`}
       style={{
         ...(props?.itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
@@ -145,7 +148,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
             )}
             <div className="item-value" style={props.valueStyle || {}}>
               {typeof props.value === 'number' ? (
-                <span className="value-number number">{beautifyNumber(props.value || 0, ',')}</span>
+                <span className={`value-number ${prefix}-number`}>{beautifyNumber(props.value || 0, ',')}</span>
               ) : (
                 props.value
               )}
@@ -218,7 +221,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
 
   return (
     <div
-      className="data-overview-container"
+      className={`${prefix}-data-overview-container`}
       ref={container}
       style={{
         flexDirection: props?.direction || 'row',
