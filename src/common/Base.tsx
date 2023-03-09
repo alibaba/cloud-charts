@@ -330,6 +330,7 @@ class Base<
       this.chartDom.offsetWidth,
       this.chartDom.offsetHeight,
       this.dataSize,
+      this.props?.force,
     );
     if (isExtreme) {
       return {

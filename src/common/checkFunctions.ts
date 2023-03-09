@@ -81,6 +81,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
+  force: boolean,
 ): {
   isExtreme: boolean;
   data?: any;
