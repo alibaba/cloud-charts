@@ -265,10 +265,10 @@ export function checkExtremeData(
 export function checkColor(config: any, chartType: string, chart: any) {
   const filterColors: string[] = [];
   const themeString = JSON.stringify(themes).toUpperCase();
-  Object.keys(config).forEach((sub: string) => {
+  Object.keys(config)?.forEach((sub: string) => {
     if (sub.toUpperCase().includes('COLOR') && Array.isArray(config[sub])) {
       config[sub].forEach((color: string) => {
-        if (!themeString.includes(color.toUpperCase())) {
+        if (!themeString.includes(color?.toUpperCase())) {
           filterColors.push(color);
         }
       });
@@ -281,8 +281,10 @@ export function checkColor(config: any, chartType: string, chart: any) {
 
 // 间距检测
 // 目标是检测config里面所有自定义的间距配置
-export function checkPadding(config: any) {
-  if (config.hasOwnProperty('padding') && config.padding) {
+export function checkPadding(config: any, chartName: string) {
+  // 需要过滤的组件
+  const filterComps = ['G2Map', 'G2MiniLine', 'Wlinescatter', 'Wscatter'];
+  if (config.hasOwnProperty('padding') && config.padding && !filterComps.includes(chartName) && !config.facet) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
       warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);

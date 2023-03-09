@@ -768,7 +768,7 @@ class Base<
     // 检测颜色规则
     checkColor(config, this.chartName, chart);
     // 检测间距
-    checkPadding(config);
+    checkPadding(config, this.chartName);
     // 检测尺寸
     checkSizeConfig(this.chartName, config);
 
