@@ -185,7 +185,16 @@ export class Bar extends Base<WbarConfig> {
     rectXAxis(this, chart, config);
 
     // 设置图例
-    rectLegend(this, chart, config, null, false, 'type');
+    rectLegend(
+      this,
+      chart,
+      config,
+      {
+        items: config?.legend?.items,
+      },
+      false,
+      'type',
+    );
 
     legendFilter(this, chart);
 
