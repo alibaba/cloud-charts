@@ -1,4 +1,4 @@
-@import "./base.scss";
+@import './base.scss';
 
 // 背景颜色
 $widgets-color-background: #141414;
@@ -24,14 +24,14 @@ $widgets-color-category-9: #19779c;
 $widgets-color-category-10: #d95777;
 $widgets-color-category-11: #ffdc73;
 $widgets-color-category-12: #727a8a;
-$widgets-color-category-13: #40571C;
-$widgets-color-category-14: #398CD4;
-$widgets-color-category-15: #E66000;
-$widgets-color-category-16: #38A3C9;
-$widgets-color-category-17: #E04F6C;
-$widgets-color-category-18: #42B3A4;
-$widgets-color-category-19: #7236AD;
-$widgets-color-category-20: #9B94FF;
+$widgets-color-category-13: #40571c;
+$widgets-color-category-14: #398cd4;
+$widgets-color-category-15: #e66000;
+$widgets-color-category-16: #38a3c9;
+$widgets-color-category-17: #e04f6c;
+$widgets-color-category-18: #42b3a4;
+$widgets-color-category-19: #7236ad;
+$widgets-color-category-20: #9b94ff;
 
 $widgets-color-linear-1: $widgets-color-blue;
 $widgets-color-linear-2: #2d70b7;
@@ -51,8 +51,10 @@ $widgets-color-text-3: #666666;
 $widgets-color-disable: #4d4d4d;
 
 // 字体
-$widgets-font-family-txd-m-number: TXDDINMediumNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
-$widgets-font-family-txd-r-number: TXDDINRegularNumber, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", Arial, sans-serif !default;
+$widgets-font-family-txd-m-number: TXDDINMediumNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
+  Arial, sans-serif !default;
+$widgets-font-family-txd-r-number: TXDDINRegularNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
+  Arial, sans-serif !default;
 
 // 字号
 $widgets-font-size-1: 12px !default;
@@ -123,3 +125,9 @@ $widgets-scrollbar-thumb: #333333;
 
 // 线图粗细
 $widgets-line-width: 2;
+
+// 数据指标卡
+$widgets-numbercard-color-bg: #1c1c1c !default;
+$widgets-numbercard-color-text: #e6e6e6 !default;
+$widgets-numbercard-color-red-bg: #522825 !default;
+$widgets-numbercard-color-blue-bg: #263c54 !default;

@@ -1,20 +1,21 @@
 @import '../themes/index';
 
-$bg-color: getVar(widgets-color-layout-background, $widgets-color-layout-background);
+$bg-color: getVar(widgets-numbercard-color-bg, $widgets-numbercard-color-bg);
 
 $blue: getVar(widgets-color-blue, $widgets-color-blue);
 $green: getVar(widgets-color-green, $widgets-color-green);
 $orange: getVar(widgets-color-orange, $widgets-color-orange);
 $red: getVar(widgets-color-red, $widgets-color-red);
 
-$text-color-1: getVar(widgets-color-text-1, $widgets-color-text-1);
-$text-color-2: getVar(widgets-color-text-2, $widgets-color-text-2);
-$text-color-3: getVar(widgets-color-text-3, $widgets-color-text-3);
+$red-bg: getVar(widgets-numbercard-color-red-bg, $widgets-numbercard-color-red-bg);
+$blue-bg: getVar(widgets-numbercard-color-blue-bg, $widgets-numbercard-color-blue-bg);
+
+$text-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
 .data-item-container {
-  padding: 12px;
+  padding: 12px 20px 12px 16px;
   background: $bg-color;
   display: flex;
   flex-direction: row;
@@ -30,38 +31,14 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     align-items: center;
   }
 
-  .label-value-container {
+  .main-content {
     min-width: 0;
     flex: 1;
   }
 
-  .item-label-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .item-label {
-    font-size: 12px;
-    color: $text-color-1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 1;
-    max-width: 100%;
-    cursor: default;
-  }
-
-  .item-value {
+  .label-value-container {
     display: flex;
     align-items: center;
-    font-size: 24px;
-    line-height: 1;
-    color: $text-color-2;
-    // max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
     .item-status {
       width: 6px;
@@ -86,6 +63,34 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
         background: $red;
       }
     }
+  }
+
+  .item-label-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .item-label {
+    font-size: 12px;
+    color: $text-color;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1;
+    max-width: 100%;
+    cursor: default;
+  }
+
+  .item-value {
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+    color: $text-color;
+    // max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     .item-unit {
       font-size: 12px;
@@ -94,7 +99,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
   }
 
   .value-number {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .question-icon {
@@ -108,7 +113,10 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     align-items: center;
     justify-content: flex-end;
     font-size: 14px;
-    height: 14px;
+    //height: 20px;
+    padding: 3px;
+    border-radius: 2px;
+    margin-left: 8px;
 
     .trend-down {
       fill: $red;
@@ -120,15 +128,18 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
 
     .trend-value {
       font-size: 14px;
+      margin-left: 3px;
     }
+  }
 
-    .trend-value-down {
-      color: $red;
-    }
+  .trend-down {
+    background-color: $red-bg;
+    color: $red;
+  }
 
-    .trend-value-up {
-      color: $blue;
-    }
+  .trend-up {
+    background-color: $blue-bg;
+    color: $blue;
   }
 
   .item-line {
