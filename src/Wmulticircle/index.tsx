@@ -123,7 +123,7 @@ function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors) {
     lineCap: 'round'
   });
 
-  geomSize(geom, size, null, 'y', 'x*y*type*facet*extra');
+  geomSize(geom, size, null, 'y', 'x*y*type*extra');
 
-  geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
+  geomStyle(geom, config.geomStyle, {}, 'x*y*type*extra');
 }

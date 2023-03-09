@@ -487,7 +487,7 @@ interface BarConfig {
   dodgePadding?: number;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, barSize, barMinSize, barMaxSize, columnWidthRatio, dodgePadding } = config;
+  const { stack, stackReverse, marginRatio, dodgeStack, barSize, barMinSize, barMaxSize = 24, columnWidthRatio, dodgePadding } = config;
   const geomConfig = {
     minColumnWidth: barMinSize || null,
     maxColumnWidth: barMaxSize || null,
