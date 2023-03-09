@@ -2,6 +2,8 @@ import EmptyDataType, { EmptyJudgeType } from './emptyDataType';
 import { ExceedJudgeType } from './bigDataType';
 import themes from '../themes';
 import { warn } from './log';
+import { FullCrossName } from '../constants';
+import { postMessage } from './postMessage';
 
 // 空数据检测
 export function checkEmptyData(data: any, chartType: string) {
@@ -308,16 +310,80 @@ export function checkColor(config: any, chartType: string, chart: any) {
   });
   if (filterColors.length > 0) {
     warn('Colors', `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。问题码#03`);
+
+    // Teamix.test测试用
+    const errorInfo: any = {};
+    const nodeMap: any = {};
+    const chartClass = `${FullCrossName} ${chartType}`;
+    errorInfo[chart?.ele?.id] = {
+      value: filterColors
+    };
+    nodeMap[chart?.ele?.id] = {
+      tagName: 'div',
+      className: chartClass,
+      selector: `#${chart.ele.id}`,
+    };
+    postMessage({
+      nodeMap,
+      designInfo: [
+        {
+          checkItem: 'COLOR',
+          title: '颜色应和主题保持一致',
+          result: [
+            {
+              key: "colors",
+              weight: 10,
+              description: `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。`,
+              errorInfo,
+              errorNumber: filterColors?.length,
+            }
+          ]
+        }
+      ]
+    });
   }
 }
 
 // 间距检测
 // 目标是检测config里面所有自定义的间距配置
-export function checkPadding(config: any) {
-  if (config.hasOwnProperty('padding') && config.padding) {
+export function checkPadding(config: any, chartName: string, chart: any) {
+  const filterComps = ['G2Map', 'G2MiniLine', 'Wlinescatter', 'Wscatter'];
+  // 增加需要过滤的组件 && 配置项
+  if (config.hasOwnProperty('padding') && config.padding && !filterComps.includes(chartName) && (!config.facet || !config.column)) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
       warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);
+
+      // Teamix.test测试用
+      const errorInfo: any = {};
+      const nodeMap: any = {};
+      const chartClass = `${FullCrossName} ${chartName}`;
+      errorInfo[chart?.ele?.id] = {
+        value: config.padding
+      };
+      nodeMap[chart?.ele?.id] = {
+        tagName: 'div',
+        className: chartClass,
+        selector: `#${chart.ele.id}`,
+      };
+      postMessage({
+        nodeMap,
+        designInfo: [
+          {
+            checkItem: 'PADDING',
+            title: '图表不需要内设间距',
+            result: [
+              {
+                key: "padding",
+                weight: 10,
+                description: `检测出额外配置了图表间距padding: [${config.padding}]。`,
+                errorInfo,
+                errorNumber: 1,
+              }
+            ]
+          }
+        ]
+      });
     }
   }
 }
