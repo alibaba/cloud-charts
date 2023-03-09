@@ -83,7 +83,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-  force: boolean,
+  force: any,
 ): {
   isExtreme: boolean;
   data?: any;
@@ -316,7 +316,7 @@ export function checkColor(config: any, chartType: string, chart: any) {
     const nodeMap: any = {};
     const chartClass = `${FullCrossName} ${chartType}`;
     errorInfo[chart?.ele?.id] = {
-      value: filterColors
+      value: filterColors,
     };
     nodeMap[chart?.ele?.id] = {
       tagName: 'div',
@@ -331,15 +331,15 @@ export function checkColor(config: any, chartType: string, chart: any) {
           title: '颜色应和主题保持一致',
           result: [
             {
-              key: "colors",
+              key: 'colors',
               weight: 10,
               description: `检测出不符合主题色彩的色值：${filterColors.join(',')}，建议删除。`,
               errorInfo,
               errorNumber: filterColors?.length,
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     });
   }
 }
@@ -349,7 +349,12 @@ export function checkColor(config: any, chartType: string, chart: any) {
 export function checkPadding(config: any, chartName: string, chart: any) {
   const filterComps = ['G2Map', 'G2MiniLine', 'Wlinescatter', 'Wscatter'];
   // 增加需要过滤的组件 && 配置项
-  if (config.hasOwnProperty('padding') && config.padding && !filterComps.includes(chartName) && (!config.facet || !config.column)) {
+  if (
+    config.hasOwnProperty('padding') &&
+    config.padding &&
+    !filterComps.includes(chartName) &&
+    (!config.facet || !config.column)
+  ) {
     const checkPaddingValue = config.padding === 0 || config.padding === 'auto';
     if (!checkPaddingValue) {
       warn('Padding', `检测出额外配置了图表间距padding: [${config.padding}]，建议删除。问题码#04`);
@@ -359,7 +364,7 @@ export function checkPadding(config: any, chartName: string, chart: any) {
       const nodeMap: any = {};
       const chartClass = `${FullCrossName} ${chartName}`;
       errorInfo[chart?.ele?.id] = {
-        value: config.padding
+        value: config.padding,
       };
       nodeMap[chart?.ele?.id] = {
         tagName: 'div',
@@ -374,15 +379,15 @@ export function checkPadding(config: any, chartName: string, chart: any) {
             title: '图表不需要内设间距',
             result: [
               {
-                key: "padding",
+                key: 'padding',
                 weight: 10,
                 description: `检测出额外配置了图表间距padding: [${config.padding}]。`,
                 errorInfo,
                 errorNumber: 1,
-              }
-            ]
-          }
-        ]
+              },
+            ],
+          },
+        ],
       });
     }
   }

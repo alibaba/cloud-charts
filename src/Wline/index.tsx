@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes';
 import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
@@ -12,7 +12,7 @@ import autoTimeMask from '../common/autoTimeMask';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
-import rectZoom, { ZoomConfig } from "../common/rectZoom";
+import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 import { warn } from '../common/log';
@@ -20,9 +20,9 @@ import './index.scss';
 
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig, SliderConfig {
   /** X轴配置项 */
-  xAxis?: Types.ScaleOption & XAxisConfig | false;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   /** Y轴配置项 */
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   /** 图例配置项 */
   legend?: LegendConfig | boolean;
   /** 提示信息配置项 */
@@ -78,11 +78,15 @@ export class Line extends Base<WlineConfig> {
   }
   init(chart: Chart, config: WlineConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        type: 'time',
-        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1],
-      }, config.xAxis),
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          type: 'time',
+          // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+          range: [0, 1],
+        },
+        config.xAxis,
+      ),
       type: {
         type: 'cat',
       },
@@ -90,18 +94,26 @@ export class Line extends Base<WlineConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
+        defs[`y${yIndex}`] = propertyAssign(
+          propertyMap.axis,
+          {
+            type: 'linear',
+            tickCount: 5,
+            nice: true,
+          },
+          axis,
+        );
+      });
+    } else {
+      defs.y = propertyAssign(
+        propertyMap.axis,
+        {
           type: 'linear',
           tickCount: 5,
           nice: true,
-        }, axis);
-      });
-    } else {
-      defs.y = propertyAssign(propertyMap.axis, {
-        type: 'linear',
-        tickCount: 5,
-        nice: true,
-      }, config.yAxis);
+        },
+        config.yAxis,
+      );
     }
 
     autoTimeMask(defs, this.rawData);
@@ -113,7 +125,7 @@ export class Line extends Base<WlineConfig> {
     // 只有属于极端数据切不强制默认才会合并配置项
     const { extremeConfig, isExtreme } = simpleCheckExtreme(data, this.dataSize);
     let newConfig = config;
-    if (isExtreme && !this.props.force) {
+    if (isExtreme && this.props.force !== true) {
       newConfig = Object.assign(config, extremeConfig);
     }
 
@@ -151,7 +163,7 @@ export class Line extends Base<WlineConfig> {
     let markerOptions = {
       marker: {
         symbol: 'circle',
-      }
+      },
     };
 
     if (config.symbol && typeof config.symbol === 'object') {
@@ -196,13 +208,15 @@ export class Line extends Base<WlineConfig> {
     let newConfig = config;
     const { area, label, symbol } = newConfig;
 
-    if (isExtreme && !this.props.force) {
+    if (isExtreme && this.props.force !== true) {
       newConfig = Object.assign(config, extremeConfig);
     }
     // 需要比较的配置项对象
     const compareConfig = {
-      area, label, symbol
-    }
+      area,
+      label,
+      symbol,
+    };
 
     // 如果极端场景配置项改变则重新渲染，否则只更新数据
     if (this.checkConfigChange(compareConfig, extremeConfig)) {
@@ -210,7 +224,6 @@ export class Line extends Base<WlineConfig> {
     } else {
       chart.changeData(data);
     }
-
   }
 }
 
@@ -242,7 +255,7 @@ function simpleCheckExtreme<T>(data: any, dataSize: number) {
     warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
     return {
       extremeConfig,
-      isExtreme: true
+      isExtreme: true,
     };
   }
 
