@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { Wbar, Wcontainer } from '@alife/aisc-widgets';
+import { Wbar, Wcontainer } from '@alicloud/cloud-charts';
 
 const data = [
   {
