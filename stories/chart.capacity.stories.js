@@ -2,7 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { Wcapacity } from '@alife/aisc-widgets';
+import { Wcapacity } from '@alicloud/cloud-charts';
 
 const stories = storiesOf('Wcapacity', module);
 

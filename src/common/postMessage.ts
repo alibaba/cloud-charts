@@ -8,7 +8,7 @@ window.postMessage({
   url: window.location.href,
   event: "getModuleInfo",
   moduleType: 'ApsaraStack',
-  moduleName: "@alife/aisc-widgets", // 图表库依赖名称
+  moduleName: "@alicloud/cloud-charts", // 图表库依赖名称
   moduleVersion: VERSION, // 图表库依赖版本
   componentName: FullCamelName, // 图表库通用组件名，没有可不填
 },"*");
@@ -19,7 +19,7 @@ export function postMessage(resultData: any) {
     moduleType: 'ApsaraStack',
     url: window.location.href,
     event: "getChartTestInfo",
-    moduleName: "@alife/aisc-widgets",
+    moduleName: "@alicloud/cloud-charts",
     moduleVersion: VERSION,
     resultData
   });
