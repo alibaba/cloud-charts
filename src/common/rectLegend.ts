@@ -220,8 +220,16 @@ export default function<T> (
     };
 
     // legend hover 相关事件
-    if (!hoverable) {
-      chart.removeInteraction('legend-active');
+    // 移除默认交互
+    chart.removeInteraction('legend-active');
+    if (hoverable) {
+      // 复写高亮交互, 点击图例后高亮重置
+      chart.interaction('legend-highlight', {
+        end: [
+          { trigger: 'legend-item:mouseleave', action: ['list-highlight:reset', 'element-highlight:reset'] },
+          { trigger: 'legend-item:click', action: ['list-highlight:reset', 'element-highlight:reset'] },
+        ],
+      });
     }
     if (onHover) {
       warn('config.legend', `onHover 属性已废弃，请使用通用事件方法 props.event = { 'legend-item:mouseenter': onHover }`);
