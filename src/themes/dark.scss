@@ -3,6 +3,7 @@
 // 背景颜色
 $widgets-color-background: #141414;
 $widgets-color-layout-background: #0a0a0a !default;
+$widgets-color-container-background: #1c1c1c;
 
 // 主色和状态色
 $widgets-color-blue: #307ac9;
@@ -10,6 +11,8 @@ $widgets-color-orange: #ff8d16;
 $widgets-color-red: #f2493a;
 $widgets-color-green: #1b9657;
 $widgets-color-gray: #666666;
+$widgets-color-purple: #6154D6;
+$widgets-color-yellow: #FFC619;
 
 // 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue;
@@ -43,6 +46,15 @@ $widgets-color-linear-7: #1f3d5c;
 $widgets-color-linear-8: #1c334a;
 $widgets-color-linear-9: #1a2838;
 $widgets-color-linear-10: #171e26;
+
+// 告警等级色
+$widgets-color-p1: #B81838;
+$widgets-color-p2: #F2493A;
+$widgets-color-p3: #FF8D16;
+$widgets-color-p4: #FAC31E;
+$widgets-color-p5: #D1BB4F;
+$widgets-color-p6: #00BACF;
+$widgets-color-p7: #1289B8;
 
 // 文字颜色
 $widgets-color-text-1: #cccccc;

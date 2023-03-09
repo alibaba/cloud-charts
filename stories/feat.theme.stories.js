@@ -64,16 +64,19 @@ function ThemeDemo() {
     <div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
-          <Wplaceholder empty height={300} />
+          <Wplaceholder empty height={200} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
-          <Wline height="300" data={[]} />
+          <Wline height="200" data={[]} />
         </div>
       </div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wcontainer className="demos">
-            <Wline height="300" data={data} />
+            <Wline height="300" data={data} config={{
+              colors: ['#00FFFF'],
+              areaColors: ['l(90) 0:#00FFFF 1:#00FFFF00'], // 颜色渐变
+            }}/>
           </Wcontainer>
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
