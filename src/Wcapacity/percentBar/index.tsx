@@ -20,7 +20,7 @@ function getClipPath(width: number, height: number) {
 }
 
 function PercentBar(props: IProps) {
-  const { data, config } = props;
+  const { data, config, prefix } = props;
   const ref = useRef(null);
   const [width, setWidth] = useState(0);
 
@@ -55,24 +55,24 @@ function PercentBar(props: IProps) {
 
   return (
     <div
-      className="percent-container"
+      className={`${prefix}-percent-container`}
       style={{
         width: config.barSize || 200,
         ...config.percentConfig
       }}
       ref={ref}
     >
-      <div className="bar-container" style={config.barConfig}>
+      <div className={`${prefix}-bar-container`} style={config.barConfig}>
         {config?.guide && (
           <div
-            className="bar-guide-line"
+            className={`${prefix}-bar-guide-line`}
             style={{
               height: config.guide?.threshold ?? '80%',
               borderTopColor: statusColors[config.guide?.status ?? 'normal'],
             }}
           >
             <Wnumber
-              className="bar-guide-text"
+              className={`${prefix}-bar-guide-text`}
               style={{
                 color: statusColors[config.guide?.status ?? 'normal'],
               }}
@@ -82,7 +82,7 @@ function PercentBar(props: IProps) {
           </div>
         )}
         <div
-          className="process-bar"
+          className={`${prefix}-process-bar`}
           style={{
             width: config.barSize || config?.percentConfig?.width || 200,
             height: data.percent.displayNumber === 0 ? '15px' : `${data.percent.displayNumber}%`,
@@ -90,7 +90,7 @@ function PercentBar(props: IProps) {
           }}
         >
           <div
-            className="process-back"
+            className={`${prefix}-process-back`}
             style={{
               background: `linear-gradient(180deg, transparent 19px, ${data.percent.displayNumber === 0 ? themes['widgets-tooltip-cross-line'] : statusColors[config.startColor] || config.startColor || themes['widgets-color-category-1']} 0%, ${
                 config.endColor || 'rgba(0,0,0,0)'
@@ -112,14 +112,14 @@ function PercentBar(props: IProps) {
           </div>
         </div>
         <Wnumber
-          className="percent-bar-label-content"
+          className={`${prefix}-percent-bar-label-content`}
           style={config.labelConfig}
         >
           {data.percent.displayNumber}
-          <span className="percent-bar-label-unit">{config?.labelConfig?.unit || '%'}</span>
+          <span className={`${prefix}-percent-bar-label-unit`}>{config?.labelConfig?.unit || '%'}</span>
         </Wnumber>
         <div
-          className="percent-bar-label-title"
+          className={`${prefix}-percent-bar-label-title`}
           style={config.titleConfig}
         >
           {data.percent.name}
