@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
 import './index.scss';
+import { beautifyNumber } from '../common/common';
 
 export interface LineProps {
   type: 'line';
@@ -67,7 +68,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         <svg width={10} height={12}>
           <polygon points="0,2 10,2 5,10" className="trend-down" />
         </svg>
-      ) : ( 
+      ) : (
         <svg width={10} height={12}>
           <polygon points="0,10 10,10 5,2" className="trend-up" />
         </svg>
@@ -144,7 +145,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
             )}
             <div className="item-value" style={props.valueStyle || {}}>
               {typeof props.value === 'number' ? (
-                <span className="value-number number">{formatNumber(props.value || 0)}</span>
+                <span className="value-number number">{beautifyNumber(props.value || 0, ',')}</span>
               ) : (
                 props.value
               )}
@@ -264,11 +265,4 @@ function calcCardMinWidth(cardProps: IDataItem) {
   } else {
     return 192;
   }
-}
-
-// 格式化数字
-function formatNumber(num: number) {
-  const str = num.toString();
-  const reg = str.indexOf('.') > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g;
-  return str.replace(reg, '$1,');
 }
