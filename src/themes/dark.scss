@@ -3,7 +3,7 @@
 // 背景颜色
 $widgets-color-background: #141414;
 $widgets-color-layout-background: #0a0a0a !default;
-$widgets-color-container-background: #1c1c1c;
+$widgets-color-container-background: #1c1c1c !default;
 
 // 主色和状态色
 $widgets-color-blue: #307ac9;
@@ -139,10 +139,9 @@ $widgets-scrollbar-thumb: #333333;
 $widgets-line-width: 2;
 
 // 数据指标卡
-$widgets-numbercard-color-bg: #1c1c1c;
-$widgets-numbercard-color-text: #e6e6e6;
-$widgets-numbercard-color-red-bg: #522825;
-$widgets-numbercard-color-blue-bg: #263c54;
+$widgets-numbercard-color-text: #e6e6e6 !default;
+$widgets-numbercard-color-red-bg: #522825 !default;
+$widgets-numbercard-color-blue-bg: #263c54 !default;
 
 // 水位
 $widgets-capacity-color-grey: #595F6B;

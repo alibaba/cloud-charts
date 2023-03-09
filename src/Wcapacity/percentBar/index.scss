@@ -1,5 +1,6 @@
 @import '../../themes/index';
 
+$bg-color: getVar(widgets-color-container-background, $widgets-color-container-background);
 $label-size: getVar(widgets-font-size-6, $widgets-font-size-6);$unit-size: getVar(widgets-font-size-2, $widgets-font-size-2);$guide-size: getVar(widgets-font-size-3, $widgets-font-size-3);
 $title-size: getVar(widgets-font-size-1, $widgets-font-size-1);$label-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
 $title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
@@ -16,7 +17,7 @@ $title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
     height: 100%;
     width: 100%;
     display: flex;
-    background: var(--color-fill1-2, #f7f7f7);
+    background: $bg-color;
     flex-direction: column;
     justify-content: center;
     align-items: center;
