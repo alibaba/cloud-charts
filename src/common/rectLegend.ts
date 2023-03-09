@@ -206,7 +206,7 @@ export default function<T> (
       marker: marker || {
         // symbol: 'circle',
         style: {
-          r: baseFontSizeNum / 3,
+          r: baseFontSizeNum / 4,
           // fill: styleSheet.legendMarkerColor,
           // lineCap: 'butt',
           lineAppendWidth: 0,
