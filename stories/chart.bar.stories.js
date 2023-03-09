@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { Wbar, Wcontainer } from '@alicloud/cloud-charts';
+import { Wbar, Wcontainer } from '@alife/aisc-widgets';
 
 const data = [
   {
@@ -39,9 +39,58 @@ const data = [
 const stories = storiesOf('Wbar', module);
 stories.add('柱状图', () => (
   <Wcontainer className="demos">
-    <Wbar height="300" config={{}} data={data} />
+    <Wbar
+      height="300"
+      config={{
+        legend: {
+          position: 'top',
+        },
+      }}
+      data={data}
+    />
   </Wcontainer>
 ));
+
+const testData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+];
+
+stories.add('数据与尺寸同时变', () => {
+  const [chartData, setChartData] = useState(testData);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const changedData = testData.map((group) => ({
+        name: group.name,
+        data: group.data.slice(0, 3),
+      }));
+      setChartData(changedData);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" width={chartData[0].data.length * 50} config={{}} data={chartData} />
+    </Wcontainer>
+  );
+});
+
 stories.add('堆叠柱状图', () => (
   <Wcontainer className="demos">
     <Wbar
@@ -117,13 +166,13 @@ stories.add('拖拽缩放', () => (
       }}
       data={data}
       event={{
-        'zoom:start': s => {
+        'zoom:start': (s) => {
           action('zoom:start')(s);
         },
-        'zoom:end': s => {
+        'zoom:end': (s) => {
           action('zoom:end')(s);
         },
-        'zoom:reset': s => {
+        'zoom:reset': (s) => {
           action('zoom:reset')(s);
         },
       }}
@@ -143,7 +192,7 @@ stories.add('点击下钻', () => (
       }}
       data={data}
       event={{
-        'interval:click': s => {
+        'interval:click': (s) => {
           action('interval:click')(s);
         },
       }}
@@ -151,35 +200,34 @@ stories.add('点击下钻', () => (
   </Wcontainer>
 ));
 
-
 let data2 = [
-    {
-        "name":"柱1",
-        "facet": '分面1',
-        "data":[]
-    },
-    {
-        "name":"柱2",
-        "facet": '分面2',
-        "data":[]
-    },
-    // {
-    //     "name":"柱3",
-    //     "facet": '分面1',
-    //     "data":[]
-    // },
-    // {
-    //     "name":"柱4",
-    //     "facet": '分面2',
-    //     "data":[]
-    // }
+  {
+    name: '柱1',
+    facet: '分面1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    facet: '分面2',
+    data: [],
+  },
+  // {
+  //     "name":"柱3",
+  //     "facet": '分面1',
+  //     "data":[]
+  // },
+  // {
+  //     "name":"柱4",
+  //     "facet": '分面2',
+  //     "data":[]
+  // }
 ];
 for (let i = 0; i < 6; i++) {
-    const name = i + '------' + i;
-    data2[0].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
-    data2[1].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
-    // data2[2].data.push([name, Math.random() * 100 + 100]);
-    // data2[3].data.push([name, Math.random() * 100 + 100]);
+  const name = i + '------' + i;
+  data2[0].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+  data2[1].data.push([name, Math.round(Math.random() * 1000000) / 10000]);
+  // data2[2].data.push([name, Math.random() * 100 + 100]);
+  // data2[3].data.push([name, Math.random() * 100 + 100]);
 }
 let options1 = {
   padding: [40, 32, 12, 32],
@@ -222,63 +270,39 @@ let options1 = {
 };
 const tempData = [
   {
-    "name": "碳排量",
-    "data": [
-      [
-        "联通",
-        0.0061
-      ],
-      [
-        "自建",
-        10.9167
-      ]
+    name: '碳排量',
+    data: [
+      ['联通', 0.0061],
+      ['自建', 10.9167],
     ],
-    "facet": "分面1"
+    facet: '分面1',
   },
   {
-    "name": "度电排量",
-    "data": [
-      [
-        "联通",
-        0.0006
-      ],
-      [
-        "自建",
-        0.0009
-      ]
+    name: '度电排量',
+    data: [
+      ['联通', 0.0006],
+      ['自建', 0.0009],
     ],
-    "facet": "分面2"
-  }
+    facet: '分面2',
+  },
 ];
 const tempData_2 = [
   {
-    "name": "碳排量",
-    "data": [
-      [
-        "联通",
-        0.0061
-      ],
-      [
-        "自建",
-        10.9167
-      ]
+    name: '碳排量',
+    data: [
+      ['联通', 0.0061],
+      ['自建', 10.9167],
     ],
-    "facet": "分面1"
+    facet: '分面1',
   },
   {
-    "name": "度电排量",
-    "data": [
-      [
-        "联通",
-        5.0061
-      ],
-      [
-        "自建",
-        10.9167
-      ]
+    name: '度电排量',
+    data: [
+      ['联通', 5.0061],
+      ['自建', 10.9167],
     ],
-    "facet": "分面2"
-  }
+    facet: '分面2',
+  },
 ];
 stories.add('镜面柱图', () => {
   return (
@@ -304,72 +328,61 @@ stories.add('多视图情况下（数据更新）', () => {
 
   return (
     <Wcontainer className="demos">
-      <Wbar
-        height="300"
-        config={options1}
-        data={d}
-      />
+      <Wbar height="300" config={options1} data={d} />
     </Wcontainer>
   );
 });
 
-
 let data3 = [
-    {
-        "name":"柱1",
-        "dodge": '分组1',
-        "data":[]
-    },
-    {
-        "name":"柱5",
-        "dodge": '分组1',
-        "data":[]
-    },
-    {
-        "name":"柱2",
-        "dodge": '分组2',
-        "data":[]
-    },
-    {
-        "name":"柱3",
-        "dodge": '分组2',
-        "data":[]
-    },
-    {
-        "name":"柱4",
-        "dodge": '分组2',
-        "data":[]
-    },
+  {
+    name: '柱1',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱5',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱3',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱4',
+    dodge: '分组2',
+    data: [],
+  },
 ];
 for (let i = 0; i < 10; i++) {
-    const name = i + '-' + i;
-    data3[0].data.push([name, Math.random() * 100 + 100]);
-    data3[1].data.push([name, Math.random() * 100 + 100]);
-    data3[2].data.push([name, Math.random() * 100 + 100]);
-    data3[3].data.push([name, Math.random() * 100 + 100]);
-    data3[4].data.push([name, Math.random() * 100 + 100]);
+  const name = i + '-' + i;
+  data3[0].data.push([name, Math.random() * 100 + 100]);
+  data3[1].data.push([name, Math.random() * 100 + 100]);
+  data3[2].data.push([name, Math.random() * 100 + 100]);
+  data3[3].data.push([name, Math.random() * 100 + 100]);
+  data3[4].data.push([name, Math.random() * 100 + 100]);
 }
 let options2 = {
-    dodgeStack: true
+  dodgeStack: true,
 };
 
 let data4 = [
   {
-      "name":"柱1",
-      "data":[
-        ['一', 56]
-      ]
+    name: '柱1',
+    data: [['一', 56]],
   },
 ];
 
 stories.add('分组堆叠图', () => (
-    <Wcontainer className="demos">
-        <Wbar
-            height="300"
-            config={options2}
-            data={data3}
-        />
-    </Wcontainer>
+  <Wcontainer className="demos">
+    <Wbar height="300" config={options2} data={data3} />
+  </Wcontainer>
 ));
 
 stories.add('从有数据到无数据', () => {
@@ -392,30 +405,43 @@ stories.add('从有数据到无数据', () => {
           },
           legend: {
             showData: true,
-            nameFormatter: function(v, data){
+            valueFormatter: function (v, data) {
               return v + '%';
             },
-            valueFormatter: function(v, data){
-              return v + '%';
-            }
-          }
+          },
         }}
         data={d}
       />
     </Wcontainer>
-  )
+  );
 });
-stories.add('百分比堆叠柱状图', () => (
-  <Wcontainer className="demos">
-    <Wbar
-      height="300"
-      config={{
-        percentage: true,
-      }}
-      data={data}
-    />
-  </Wcontainer>
-));
+stories.add('百分比堆叠柱状图', () => {
+  const [d, setD] = useState(data);
+  useEffect(() => {
+    setTimeout(() => {
+      setD(data4);
+    }, 2000);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          percentage: true,
+          stack: true,
+          yAxis: {
+            max: 1,
+            min: 0,
+            labelFormatter(value) {
+              return (value * 100).toFixed(2) + '%';
+            },
+          },
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
 
 stories.add('分组百分比堆叠柱状图', () => {
   return (
@@ -423,23 +449,23 @@ stories.add('分组百分比堆叠柱状图', () => {
       <Wbar
         height="300"
         config={{
-          percentStack: true,
+          percentage: true,
           dodgeStack: true,
           yAxis: {
             max: 1,
             min: 0,
-            labelFormatter: function(value) {
+            labelFormatter: function (value) {
               return (value * 100).toFixed(2) + '%';
             },
           },
           tooltip: {
-            nameFormatter: function(v, data) {
+            nameFormatter: function (v, data) {
               return data.dodge + '-' + v;
             },
-            valueFormatter: function(v) {
+            valueFormatter: function (v) {
               return (v * 100).toFixed(2) + '%';
             },
-          }
+          },
         }}
         data={data3}
       />
@@ -454,9 +480,9 @@ stories.add('横向柱图（从右往左）', () => {
         height="300"
         config={{
           // maxSize: 24
-          column: {
-            reflect: true
-          },
+          // column: {
+          //   reflect: true,
+          // },
           guide: {
             line: {
               // 显示标题相关
@@ -473,7 +499,7 @@ stories.add('横向柱图（从右往左）', () => {
               status: 'error', // normal | success | warning | error
               // 区域位置
               axis: 'y',
-              value: [50, 'max'],
+              value: [20, 'max'],
             },
           },
         }}
@@ -520,3 +546,187 @@ stories.add('分面柱状图', () => (
     />
   </Wcontainer>
 ));
+
+const zeroData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+  {
+    name: '柱2',
+    data: [
+      ['一', 0],
+      ['二', 0],
+      ['三', 0],
+      ['四', 0],
+      ['五', 0],
+      ['六', 0],
+      ['七', 0],
+      ['八', 0],
+      ['九', 0],
+    ],
+  },
+];
+
+stories.add('可筛选出全为0的柱状图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{}} data={zeroData} />
+  </Wcontainer>
+));
+
+const extremeData1 = [
+  {
+    name: 'test',
+    data: [
+      ['slb1231212423523254123123123125212441', 400],
+      ['vpc234232324', 200],
+    ],
+  },
+];
+
+const extremeData2 = [
+  {
+    name: 'test',
+    data: [['slb', 400]],
+  },
+];
+
+stories.add('极端数据1（分类型)', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" data={extremeData1} />
+  </Wcontainer>
+));
+
+stories.add('极端数据2（分类型)', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" data={extremeData2} />
+  </Wcontainer>
+));
+
+const extremeData3 = [
+  {
+    name: '机房A',
+    data: [
+      [1483372800000, 1592],
+      [1483459200000, 4092],
+    ],
+  },
+  {
+    name: '机房B',
+    data: [[1483372800000, 3592]],
+  },
+];
+stories.add('极端数据（时间分类型)', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={{ xAxis: { type: 'timeCat' }, colors: () => '#0000ff' }} data={extremeData3} />
+  </Wcontainer>
+));
+
+const manyData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+      ['十', 45],
+      ['十一', 6],
+      ['十二', 89],
+      ['十三', 32],
+    ],
+  },
+];
+
+const littleData = [
+  {
+    name: '柱1',
+    data: [['一', 59]],
+  },
+];
+
+stories.add('从多数据到少数据（不作处理）', () => {
+  const [d, setD] = useState(manyData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(littleData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} />
+    </Wcontainer>
+  );
+});
+
+stories.add('从少数据到多数据（不作处理）', () => {
+  const [d, setD] = useState(littleData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(manyData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} />
+    </Wcontainer>
+  );
+});
+
+const stackData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 100],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+  {
+    name: '柱2',
+    data: [
+      ['一', 92],
+      ['二', 15],
+      ['三', 4],
+      ['四', 49],
+      ['五', 64],
+      ['六', 76],
+      ['七', 21],
+      ['八', 100],
+      ['九', 71],
+    ],
+  },
+];
+
+stories.add('极端数据+堆叠', () => {
+  const [d, setD] = useState(stackData);
+
+  return (
+    <Wcontainer className="demos">
+      <Wbar height="300" data={d} force={false} config={{ stack: true }} />
+    </Wcontainer>
+  );
+});
