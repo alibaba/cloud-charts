@@ -557,14 +557,14 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** area 在 active 状态下的填充透明度 */
     areaActiveFillColor: QUALITATIVE_10[0],
-    areaActiveFillOpacity: 0.5,
+    areaActiveFillOpacity: theme['widgets-shape-area-opacity'],
 
     /** area 在 selected 状态下的填充透明度 */
     areaSelectedFillColor: QUALITATIVE_10[0],
     areaSelectedFillOpacity: 0.5,
 
     /** area inactive 状态下填充透明度 */
-    areaInactiveFillOpacity: 0.3,
+    areaInactiveFillOpacity: 0.3 * theme['widgets-shape-area-opacity'],
 
     /** hollowArea 颜色 */
     hollowAreaBorderColor: QUALITATIVE_10[0],
