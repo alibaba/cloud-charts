@@ -102,17 +102,13 @@ for (let i = 0; i < 10; i++) {
 
 let barConfig = {
   dodgeStack: true,
-  column: false,
+  // column: false,
   xAxis: {
-    autoEllipsis: true,
-    autoHide: false,
+    autoEllipsis: true, // 自动省略
+    autoHide: false, // 自动抽样隐藏标签
+    autoRotate: true, // 标签自动旋转
     customConfig: {
-      verticalLimitLength: 100,
-      label: {
-        style: {
-
-        }
-      }
+      verticalLimitLength: 50, // 省略字长限制
     }
   }
 };
