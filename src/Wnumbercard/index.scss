@@ -11,6 +11,7 @@ $red-bg: getVar(widgets-numbercard-color-red-bg, $widgets-numbercard-color-red-b
 $blue-bg: getVar(widgets-numbercard-color-blue-bg, $widgets-numbercard-color-blue-bg);
 
 $text-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
+$label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
@@ -73,7 +74,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
 
   .item-label {
     font-size: 12px;
-    color: $text-color;
+    color: $label-color;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -112,7 +113,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: 14px;
+    font-size: 12px;
     //height: 20px;
     padding: 3px;
     border-radius: 2px;
@@ -127,8 +128,8 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     }
 
     .trend-value {
-      font-size: 14px;
-      margin-left: 3px;
+      font-size: 12px;
+      margin-left: 4px;
     }
   }
 
