@@ -252,7 +252,11 @@ export function checkExtremeData(
               },
             })),
           },
-          xAxis,
+          xAxis: {
+            ...xAxis,
+            autoHide: false,
+            autoEllipsis: true
+          },
         },
       };
     }
