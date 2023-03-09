@@ -68,7 +68,9 @@
     }
 
   }
-
+  .normal{
+    color: $normal;
+  }
   .blue{
     color: $blue;
   }
@@ -90,7 +92,7 @@
       color: $red;
     }
     &.raise {
-      color: $blue;
+      color: $normal;
     }
   }
 
@@ -106,7 +108,7 @@
       color: $red;
     }
     >.raise {
-      color: $blue;
+      color: $normal;
     }
   }
 

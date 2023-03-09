@@ -180,7 +180,7 @@ export function getStatusColor(status: string) {
     orange: themes['widgets-color-orange'],
 
     // 运行色和主色有区分
-    normal: themes['widgets-color-normal'],
+    normal: themes['widgets-color-blue'],
     blue: themes['widgets-color-blue'],
 
     success: themes['widgets-color-green'],

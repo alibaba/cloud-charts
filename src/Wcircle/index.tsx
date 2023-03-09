@@ -39,7 +39,7 @@ export default class Wcircle extends React.Component<WcircleProps> {
     title: '',
     percent: 0,
     unit: '',
-    status: 'normal',
+    status: 'blue',
     radius: 70,
     strokeWidth: 6,
     linecap: 'round',

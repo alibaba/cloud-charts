@@ -5,9 +5,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
-import './index.scss';
 import { beautifyNumber } from '../common/common';
 import { PrefixName } from '../constants';
+import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
 
