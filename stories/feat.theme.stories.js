@@ -182,7 +182,7 @@ function ThemeDemo() {
           <Wplaceholder loading height={200} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
-          <Wplaceholder empty height={200} />
+          <Wplaceholder empty height={200} language={'en-us'}/>
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wline height="200" data={[]} />

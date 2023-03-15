@@ -1,5 +1,7 @@
+@charset "UTF-8";
 @import "../../themes/index";
 $wplaceholder-prefix: '.#{$base-prefix}-wplaceholder';
+$loading-prefix: '.#{$base-prefix}-wplaceholder-loading';
 
 $height: 32px;
 
@@ -10,6 +12,11 @@ $item-height-3: 32px;
 $fill: getVar(widgets-color-gray, $widgets-color-gray);
 $color: getVar(widgets-color-disable, $widgets-color-disable);
 $font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
-
 $gap-size: getVar(s2, $s2);
 
+$loading-indicator-size: 28px;
+$loading-vector-seconds: 5.6s;
+$loading-vector-dot-seconds: 1.4s;
+$loading-dot-size: 8px;
+$loading-dot-fill: getVar(widgets-color-normal, $widgets-color-normal);
+$loading-background: getVar(widgets-color-container-background, $widgets-color-container-background);
