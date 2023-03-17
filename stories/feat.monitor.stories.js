@@ -9,6 +9,7 @@ import { themes, Wcontainer, Wline, Wheatmap } from '@alife/aisc-widgets';
 const stories = storiesOf('monitor', module);
 stories.addDecorator(withKnobs);
 
+// tooltip超出问题
 stories.add('线图-秒级CPU', () => {
   const [d, setD] = useState([]);
   useEffect(() => {
@@ -34,6 +35,7 @@ stories.add('线图-秒级CPU', () => {
   );
 });
 
+// tooltip样式问题
 stories.add('热力图-代码提交', () => {
   const [d, setD] = useState([]);
   useEffect(() => {
