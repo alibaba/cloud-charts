@@ -84,5 +84,9 @@
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.0"
   },
+  "resolutions": {
+    "@antv/component": "0.8.28",
+    "@antv/util": "2.0.17"
+  },
   "author": "maplor@163.com"
 }
