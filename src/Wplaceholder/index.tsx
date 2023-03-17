@@ -7,7 +7,6 @@ import chartLog from '../common/log';
 import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
 import themes from '../themes/index';
-import './scss/loading.scss';
 import './index.scss';
 
 const prefix = `${PrefixName}-wplaceholder`;
