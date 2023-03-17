@@ -225,12 +225,12 @@
     bottom: 0;
   }
   45% {
-    bottom: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    bottom: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
   50% {
-    bottom: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    bottom: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
@@ -246,12 +246,12 @@
     top: 0;
   }
   45% {
-    top: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    top: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
   50% {
-    top: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    top: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
@@ -267,12 +267,12 @@
     left: 0;
   }
   45% {
-    left: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    left: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
   50% {
-    left: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    left: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
@@ -288,12 +288,12 @@
     right: 0;
   }
   45% {
-    right: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    right: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
   50% {
-    right: calc($loading-indicator-size / 2 - $loading-dot-size * 1.2 / 2);
+    right: calc(#{$loading-indicator-size} / 2 - #{$loading-dot-size} * 1.2 / 2);
     height: $loading-dot-size * 1.2;
     width: $loading-dot-size * 1.2;
   }
