@@ -25,72 +25,72 @@
     }
   }
 
-  // 加载动画
-  &#{$wplaceholder-prefix}-loading {
-    .item-1 {
-      animation: wplaceholder-loading-1 1s linear 0s infinite;
-    }
-    .item-2 {
-      animation: wplaceholder-loading-2 1s linear 0s infinite;
-    }
-    .item-3 {
-      animation: wplaceholder-loading-3 1s linear 0s infinite;
-    }
-  }
-  @keyframes wplaceholder-loading-1 {
-    0% {
-      height: $item-height-1;
-      y: $height - $item-height-1;
-    }
-    33% {
-      height: $item-height-3;
-      y: $height - $item-height-3;
-    }
-    66% {
-      height: $item-height-2;
-      y: $height - $item-height-2;
-    }
-    100% {
-      height: $item-height-1;
-      y: $height - $item-height-1;
-    }
-  }
-  @keyframes wplaceholder-loading-2 {
-    0% {
-      height: $item-height-3;
-      y: $height - $item-height-3;
-    }
-    33% {
-      height: $item-height-2;
-      y: $height - $item-height-2;
-    }
-    66% {
-      height: $item-height-1;
-      y: $height - $item-height-1;
-    }
-    100% {
-      height: $item-height-3;
-      y: $height - $item-height-3;
-    }
-  }
-  @keyframes wplaceholder-loading-3 {
-    0% {
-      height: $item-height-2;
-      y: $height - $item-height-2;
-    }
-    33% {
-      height: $item-height-1;
-      y: $height - $item-height-1;
-    }
-    66% {
-      height: $item-height-3;
-      y: $height - $item-height-3;
-    }
-    100% {
-      height: $item-height-2;
-      y: $height - $item-height-2;
-    }
-  }
+  // 加载动画 - 0315更新新版，旧版先保留
+  // &#{$wplaceholder-prefix}-loading {
+  //   .item-1 {
+  //     animation: wplaceholder-loading-1 1s linear 0s infinite;
+  //   }
+  //   .item-2 {
+  //     animation: wplaceholder-loading-2 1s linear 0s infinite;
+  //   }
+  //   .item-3 {
+  //     animation: wplaceholder-loading-3 1s linear 0s infinite;
+  //   }
+  // }
+  // @keyframes wplaceholder-loading-1 {
+  //   0% {
+  //     height: $item-height-1;
+  //     y: $height - $item-height-1;
+  //   }
+  //   33% {
+  //     height: $item-height-3;
+  //     y: $height - $item-height-3;
+  //   }
+  //   66% {
+  //     height: $item-height-2;
+  //     y: $height - $item-height-2;
+  //   }
+  //   100% {
+  //     height: $item-height-1;
+  //     y: $height - $item-height-1;
+  //   }
+  // }
+  // @keyframes wplaceholder-loading-2 {
+  //   0% {
+  //     height: $item-height-3;
+  //     y: $height - $item-height-3;
+  //   }
+  //   33% {
+  //     height: $item-height-2;
+  //     y: $height - $item-height-2;
+  //   }
+  //   66% {
+  //     height: $item-height-1;
+  //     y: $height - $item-height-1;
+  //   }
+  //   100% {
+  //     height: $item-height-3;
+  //     y: $height - $item-height-3;
+  //   }
+  // }
+  // @keyframes wplaceholder-loading-3 {
+  //   0% {
+  //     height: $item-height-2;
+  //     y: $height - $item-height-2;
+  //   }
+  //   33% {
+  //     height: $item-height-1;
+  //     y: $height - $item-height-1;
+  //   }
+  //   66% {
+  //     height: $item-height-3;
+  //     y: $height - $item-height-3;
+  //   }
+  //   100% {
+  //     height: $item-height-2;
+  //     y: $height - $item-height-2;
+  //   }
+  // }
 
   .placeholder-item {
     fill: $fill;
