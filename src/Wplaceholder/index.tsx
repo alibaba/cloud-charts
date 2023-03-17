@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import merge from 'lodash/merge';
 import chartLog from "../common/log";
-import Locale, { LocaleItem } from './locale';
+import Locale, { LocaleItem } from '../locales';
 import './index.scss';
 import { FullCrossName, PrefixName } from '../constants';
 import themes from '../themes/index';
