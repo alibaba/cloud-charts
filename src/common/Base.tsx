@@ -21,7 +21,7 @@ import {
   checkSizeConfig,
   checkExtremeData,
 } from './checkFunctions';
-import EmptyDataType from './emptyDataType';
+import getEmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
 
@@ -314,7 +314,7 @@ class Base<
   } {
     // 检查空数据，若为空数据则返回覆盖的数据与配置项
     if (checkEmptyData(data, this.chartName)) {
-      const { replacement, fillBackground } = (EmptyDataType as any)[this.chartName];
+      const { replacement, fillBackground } = (getEmptyDataType() as any)?.[this.chartName];
       const { data: replacementData, config: replacementConfig } = replacement;
       return {
         isEmpty: true,

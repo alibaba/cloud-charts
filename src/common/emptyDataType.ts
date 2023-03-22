@@ -14,7 +14,7 @@ export const EmptyJudgeType = {
   GRAPH: 'GRAPH',
 };
 
-const EmptyDataType = {
+const getEmptyDataType = () => ({
   // 柱状图
   G2Bar: {
     emptyJudge: EmptyJudgeType.ARRAY, // 检测空数据的方式
@@ -354,6 +354,6 @@ const EmptyDataType = {
     },
     fillBackground: true,
   },
-};
+});
 
-export default EmptyDataType;
+export default getEmptyDataType;
