@@ -20,6 +20,7 @@ import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import { activeRegionWithTheme } from '../common/interaction';
+import { getText } from '../ChartProvider';
 import './index.scss';
 
 interface FacetConfig {
@@ -95,7 +96,7 @@ export class Bar extends Base<WbarConfig> {
         categories: null,
         autoRotate: false,
         autoHide: false, // 分类轴默认不开启抽样显示
-        autoEllipsis: true
+        autoEllipsis: true,
       },
       yAxis: {
         labelFormatter: null, // 可以强制覆盖，手动设置label
@@ -314,7 +315,7 @@ export class Bar extends Base<WbarConfig> {
       drawBar(chart, config, config.colors);
     }
 
-    rectZoom(chart, config, this.language);
+    rectZoom(chart, config, getText('reset', this.context.language, this.context.locale));
 
     // 缩略轴
     rectSlider(chart, config);

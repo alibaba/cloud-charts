@@ -7,6 +7,7 @@ import chartLog from '../common/log';
 import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
 import themes from '../themes/index';
+import { ChartContext, getText } from '../ChartProvider';
 import './index.scss';
 
 const prefix = `${PrefixName}-wplaceholder`;
@@ -99,22 +100,10 @@ const loadingDom = (text: string) => {
 };
 
 // 获取显示文案
-function getLocaleText(locale: LocaleItem, loading: boolean, error: boolean, noData: boolean, empty: boolean) {
-  // 优先取error状态
-  if (error) {
-    return locale.error;
-  }
-  // 其次取loading状态
-  if (loading) {
-    return locale.loading;
-  }
-  // 其次取loading状态
-  if (noData) {
-    return locale.noData;
-  }
-  // 其次取loading状态
-  if (empty) {
-    return locale.empty;
+function getLocaleText(locale: LocaleItem, language: keyof typeof Locale, loading: boolean, error: boolean, noData: boolean, empty: boolean) {
+  const value = error ? 'error' : loading ? 'loading' : noData ? 'noData' : empty ? 'empty' : null;
+  if (value) {
+    return getText(value, language, locale);
   }
   return null;
 }
@@ -135,6 +124,8 @@ interface WplaceholderProps {
 export default class Wplaceholder extends React.Component<WplaceholderProps> {
   static displayName = 'Wplaceholder';
 
+  static contextType = ChartContext;
+
   constructor(props: WplaceholderProps) {
     super(props);
 
@@ -145,7 +136,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
   renderText(loading: boolean, error: boolean, noData: boolean, empty: boolean) {
     const { locale, language, children } = this.props;
     // text 优先判断传入的locale，其次判断传入的language，最后取中文locale
-    const text = getLocaleText(locale || Locale[language] || Locale['zh-cn'], loading, error, noData, empty) || '';
+    const text = getLocaleText(locale||this.context.locale,language||this.context.language, loading, error, noData, empty) || '';
     if (children) {
       // 优先渲染children
       return <div className={prefix + '-children-text'}>{children}</div>;
@@ -213,7 +204,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
         {...otherProps}
       >
         {loading ? (
-          loadingDom((locale || Locale[language] || Locale['zh-cn']).loading)
+          loadingDom(getText('loading',language||this.context.language,locale||this.context.locale))
         ) : (
           <div className={prefix + '-children'}>
             {renderSvg}

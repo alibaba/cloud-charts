@@ -8,7 +8,7 @@ import * as G2Core from '@antv/g2/esm/core';
 export { G2Core };
 
 export const version = VERSION;
-export { VERSION } ;
+export { VERSION };
 
 // 主题包和颜色值
 export const COLORS: Themes = themes;
@@ -33,7 +33,7 @@ export { default as Wbar, Bar as RawBar } from './Wbar';
 export { default as Wfunnel, Funnel as RawFunnel } from './Wfunnel';
 export { default as Wnightingale, Nightingale as RawNightingale } from './Wnightingale';
 export { default as Wheatmap, Heatmap as RawHeatmap } from './Wheatmap';
-export { default as Wmap, Map as RawMap } from './Wmap'
+export { default as Wmap, Map as RawMap } from './Wmap';
 export { default as Wrectangle, Rectangle as RawRectangle } from './Wrectangle';
 export { default as Wminiline, Miniline as RawMiniline } from './Wminiline';
 export { default as WmultiPie, MultiPie as RawMultiPie } from './Wmultipie';
@@ -58,3 +58,6 @@ export { default as Wcount } from './Wcount/index';
 // export { default as Wdashboard } from './Wdashboard/index';
 export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
 export { default as Wcapacity } from './Wcapacity/index';
+
+// 国际化
+export { default as ChartProvider } from './ChartProvider/index';

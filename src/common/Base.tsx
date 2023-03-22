@@ -23,7 +23,7 @@ import {
 } from './checkFunctions';
 import EmptyDataType from './emptyDataType';
 import themes from '../themes/index';
-import Locale from '../locales';
+import { ChartContext, getText } from '../ChartProvider';
 
 registerAction('list-checked', ListChecked);
 
@@ -211,6 +211,8 @@ class Base<
   private emptyState: boolean;
 
   private extremeState: boolean;
+
+  static contextType = ChartContext;
 
   constructor(props: Props) {
     super(props);
@@ -811,7 +813,11 @@ class Base<
         html: `
           <div style="display: flex; align-items: center;">
             <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
-            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${(Locale[this.language] || Locale['zh-cn']).empty}<span>
+            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${getText(
+              'empty',
+              this.context.language,
+              this.context.locale,
+            )}<span>
           </div>
         `,
         alignX: 'middle',

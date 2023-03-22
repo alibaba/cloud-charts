@@ -58,3 +58,6 @@ export { default as Wcount } from './Wcount/index';
 // export { default as Wdashboard } from './Wdashboard/index';
 export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
 export { default as Wcapacity } from './Wcapacity/index';
+
+// 国际化
+export { default as ChartProvider } from './ChartProvider/index';
