@@ -187,11 +187,11 @@ const BigDataType: any = {
     filterConfig: {
       symbol: false,
       spline: false,
+      area: false,
       // slider: {
       //   open: true,
       //   coef: 100,
       // },
-      area: false,
     },
   },
   // 线柱图
