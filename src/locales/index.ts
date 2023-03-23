@@ -12,4 +12,6 @@ export interface LocaleItem {
 export default {
   'zh-cn': zhCN,
   'en-us': enUS,
+  'zh-CN': zhCN,
+  'en-US': enUS,
 };

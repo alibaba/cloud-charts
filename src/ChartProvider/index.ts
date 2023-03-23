@@ -1,8 +1,9 @@
 import React from 'react';
 import LanguageMap, { LocaleItem } from '../locales';
+import { Language } from '../common/types';
 
 export interface ChartContextProps {
-  language: 'zh-cn' | 'en-us';
+  language?: Language;
   locale?: LocaleItem;
 }
 

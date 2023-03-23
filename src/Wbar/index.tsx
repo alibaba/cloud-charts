@@ -315,7 +315,7 @@ export class Bar extends Base<WbarConfig> {
       drawBar(chart, config, config.colors);
     }
 
-    rectZoom(chart, config, getText('reset', this.context.language, this.context.locale));
+    rectZoom(chart, config, getText('reset', this.language || this.context.language, this.context.locale));
 
     // 缩略轴
     rectSlider(chart, config);
