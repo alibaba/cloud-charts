@@ -139,6 +139,9 @@ export function checkExtremeData(
       const { extreme } = force ?? {};
       let needColor = false;
 
+      let alignLeft = false;
+      let showPlaceholder = false;
+
       // 分类数据
       if (axisType === 'cat') {
         // 计算最后一个柱子的y值
@@ -150,7 +153,7 @@ export function checkExtremeData(
 
         // 是否左对齐
         // 优先级： 用户配置>特殊情况（数据量为1）>默认配置
-        const alignLeft =
+        alignLeft =
           force === false || extreme === false || extreme?.alignLeft === false
             ? true
             : extreme === true || extreme?.alignLeft === true
@@ -159,7 +162,7 @@ export function checkExtremeData(
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
-        const showPlaceholder = force === false || extreme === false || extreme?.showPlaceholder === false;
+        showPlaceholder = force === false || extreme === false || extreme?.showPlaceholder === false;
 
         // 左对齐，无占位
         if (alignLeft && !showPlaceholder) {
@@ -203,11 +206,11 @@ export function checkExtremeData(
 
         // 是否左对齐
         // 优先级： 用户配置>默认配置
-        const alignLeft = !(extreme === true || extreme?.alignLeft === true);
+        alignLeft = !(extreme === true || extreme?.alignLeft === true);
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
-        const showPlaceholder = !(extreme === true || extreme?.showPlaceholder === true);
+        showPlaceholder = !(extreme === true || extreme?.showPlaceholder === true);
 
         const values = Array.from(new Set(data.map((item: any) => item.x)));
         const minX = Math.min(...(values as number[]));
@@ -265,25 +268,33 @@ export function checkExtremeData(
         isExtreme: true,
         data: newData,
         config: {
-          colors: newColors,
-          tooltip: false,
-          legend: {
-            items: dataTypes.map((t: string, index: number) => ({
-              name: t,
-              value: t,
-              marker: {
-                symbol: 'square',
-                style: {
-                  fill: Array.isArray(newColors) ? newColors[index] : newColors(t),
+          ...(alignLeft
+            ? {
+                legend: {
+                  items: dataTypes.map((t: string, index: number) => ({
+                    name: t,
+                    value: t,
+                    marker: {
+                      symbol: 'square',
+                      style: {
+                        fill: Array.isArray(newColors) ? newColors[index] : newColors(t),
+                      },
+                    },
+                  })),
                 },
-              },
-            })),
-          },
-          xAxis: {
-            ...xAxis,
-            autoHide: false,
-            autoEllipsis: true,
-          },
+                xAxis: {
+                  ...xAxis,
+                  autoHide: false,
+                  autoEllipsis: true,
+                },
+              }
+            : {}),
+          ...(alignLeft && showPlaceholder
+            ? {
+                colors: newColors,
+                tooltip: false,
+              }
+            : {}),
         },
       };
     }
