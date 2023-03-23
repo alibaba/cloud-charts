@@ -13,6 +13,8 @@ $fill: getVar(widgets-color-gray, $widgets-color-gray);
 $color: getVar(widgets-color-disable, $widgets-color-disable);
 $font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
 $gap-size: getVar(s2, $s2);
+$container-bg: getVar(widgets-color-container-background, $widgets-color-container-background);
+$children-text: getVar(widgets-color-text-3, $widgets-color-text-3);
 
 $loading-indicator-size: 28px;
 $loading-vector-seconds: 5.6s;

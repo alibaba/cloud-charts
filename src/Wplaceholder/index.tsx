@@ -8,6 +8,7 @@ import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
 import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
+import { warn } from '../common/log';
 import './index.scss';
 
 const prefix = `${PrefixName}-wplaceholder`;
@@ -181,17 +182,12 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       renderSvg = errorSvg;
     } else if (!loading && noData) {
       renderSvg = noDataSvg;
+      warn('Wplaceholder', 'noData属性已废弃，如果基础图表如Wline无数据，无需额外使用该组件，如为业务自定义组件，建议使用empty属性。');
     } else if (empty) {
       renderSvg = <></>;
     } else if (loading) {
       renderSvg = <></>;
     }
-
-    const emptyStyle = {
-      background: themes['widgets-color-container-background'],
-    };
-
-    const newStyle = !!empty ? merge(emptyStyle, style) : style;
 
     return (
       <div
@@ -199,7 +195,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
         style={{
           width,
           height,
-          ...newStyle,
+          ...style,
         }}
         {...otherProps}
       >

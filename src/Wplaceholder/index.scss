@@ -15,10 +15,10 @@
   .placeholder-box {}
 
   &#{$wplaceholder-prefix}-empty {
-    background: #f7f7f7;
+    background: $container-bg;
 
     #{$wplaceholder-prefix}-children-text {
-      color: #808080;
+      color: $children-text;
       display: flex;
       align-items: center;
       justify-content: center;
