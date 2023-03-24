@@ -33,6 +33,17 @@ stories.add('通用图表自定义', () => (
   </ChartProvider>
 ));
 
+stories.add('通用图表兼容', () => (
+  <ChartProvider
+    value={{
+      language: 'zh-cn',
+    }}
+  >
+    <Wbar height="300" data={[]} language="en-us" />
+    <Wline height="300" data={[]} />
+  </ChartProvider>
+));
+
 const data = [
   {
     name: '柱1',
@@ -70,7 +81,7 @@ stories.add('zoom', () => (
       language: 'en-us',
     }}
   >
-    <Wbar height="300" data={data} config={{ zoom: true }} />
+    <Wbar height="300" data={data} config={{ zoom: true }} language="zh-cn" />
   </ChartProvider>
 ));
 

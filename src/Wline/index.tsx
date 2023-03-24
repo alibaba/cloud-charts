@@ -191,7 +191,7 @@ export class Line extends Base<WlineConfig> {
     }
 
     // 拖拽缩放
-    rectZoom(chart, config, getText('reset', this.context.language, this.context.locale));
+    rectZoom(chart, config, getText('reset', this.language || this.context.language, this.context.locale));
 
     // 缩略轴
     rectSlider(chart, config);
