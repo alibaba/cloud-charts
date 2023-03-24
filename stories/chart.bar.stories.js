@@ -660,7 +660,7 @@ const littleData = [
   },
 ];
 
-stories.add('从多数据到少数据（不作处理）', () => {
+stories.add('从多数据到少数据', () => {
   const [d, setD] = useState(manyData);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -675,7 +675,7 @@ stories.add('从多数据到少数据（不作处理）', () => {
   );
 });
 
-stories.add('从少数据到多数据（不作处理）', () => {
+stories.add('从少数据到多数据', () => {
   const [d, setD] = useState(littleData);
   useEffect(() => {
     const timer = setTimeout(() => {
