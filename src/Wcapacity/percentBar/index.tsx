@@ -46,8 +46,9 @@ function PercentBar(props: IProps) {
     };
   }, [ref]);
 
+  // 默认态是图表主色
   const statusColors: any = {
-    normal: themes['widgets-capacity-color-grey'],
+    normal: themes['widgets-capacity-color-grey'], // 平常态是灰色
     success: themes['widgets-color-green'],
     warning: themes['widgets-color-orange'],
     error: themes['widgets-color-red'],
@@ -62,17 +63,17 @@ function PercentBar(props: IProps) {
       }}
       ref={ref}
     >
-      <div className={`${prefix}-bar-container`} style={config.barConfig}>
+      <div className={`${prefix}-bar-container ${data.percent.displayNumber === 0 ? 'empty' : config.startColor || 'default'}`} style={config.barConfig}>
         {config?.guide && (
           <div
-            className={`${prefix}-bar-guide-line`}
+            className={`${prefix}-bar-guide-line ${config.guide?.status ?? 'normal'}`}
             style={{
               height: config.guide?.threshold ?? '80%',
               borderTopColor: statusColors[config.guide?.status ?? 'normal'],
             }}
           >
             <Wnumber
-              className={`${prefix}-bar-guide-text`}
+              className={`${prefix}-bar-guide-text ${config.guide?.status ?? 'normal'}`}
               style={{
                 color: statusColors[config.guide?.status ?? 'normal'],
               }}
@@ -85,7 +86,7 @@ function PercentBar(props: IProps) {
           className={`${prefix}-process-bar`}
           style={{
             width: config.barSize || config?.percentConfig?.width || 200,
-            height: data.percent.displayNumber === 0 ? '15px' : `${data.percent.displayNumber}%`,
+            height: data.percent.displayNumber === 0 || data.percent.displayNumber === '-' ? '15px' : `calc(${data.percent.displayNumber}% + 15px)`,
             ...config.processBarConfig,
           }}
         >
@@ -112,7 +113,7 @@ function PercentBar(props: IProps) {
           </div>
         </div>
         <Wnumber
-          className={`${prefix}-percent-bar-label-content`}
+          className={`${prefix}-percent-bar-label-content ${config.size || 'medium'}`}
           style={config.labelConfig}
         >
           {data.percent.displayNumber}

@@ -13,6 +13,7 @@ interface GuideConfig {
 
 export interface ConfigItem {
   barConfig?: any;
+  size?: string;
   barSize: number;
   startColor?: string;
   endColor?: string;

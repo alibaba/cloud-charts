@@ -9,7 +9,7 @@ const stories = storiesOf('Wcapacity', module);
 const dafaultData = {
   percent: {
     name: '利用率',
-    displayNumber: 89,
+    displayNumber: 69,
   },
 };
 
@@ -17,6 +17,13 @@ const emptyData = {
   percent: {
     name: '利用率',
     displayNumber: 0,
+  },
+};
+
+const lessData = {
+  percent: {
+    name: '利用率',
+    displayNumber: 1.2,
   },
 };
 
@@ -43,6 +50,32 @@ stories.add('单水位', () => (
           threshold: '80%',
           status: 'error',
         },
+      }}
+      height={200} // 柱高度
+      style={{
+        marginBottom: 20,
+      }}
+    />
+    <Wcapacity
+      data={lessData}
+      config={{}}
+      height={200} // 柱高度
+      style={{
+        marginBottom: 20,
+      }}
+    />
+    <h4>自定义颜色</h4>
+    <Wcapacity
+      data={dafaultData}
+      config={{
+        startColor: '#F7A854',
+        barConfig: {
+          background: '#FFF5EB',
+        },
+        labelConfig: {
+          color: 'var(--color-text-1, #1A1A1A)',
+        },
+        size: 'large'
       }}
       height={200} // 柱高度
     />

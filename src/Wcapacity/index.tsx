@@ -1,14 +1,14 @@
 import * as React from 'react';
 import PercentBar from './percentBar';
 import { IProps } from './interface';
-import { FullCrossName } from '../constants';
+import { FullCrossName, PrefixName } from '../constants';
 
-const prefix = `${FullCrossName}-wcapacity`;
+const prefix = `${FullCrossName} ${PrefixName}-wcapacity`;
 
 const Wcapacity: React.FC<IProps> = ({ data, config, height, style }) => {
   return (
     <div
-      className={`${prefix}-container`}
+      className={prefix}
       style={{
         height: height || 100,
         ...style
