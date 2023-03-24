@@ -2,21 +2,12 @@
 
 // import { registerAction } from "@antv/g2";
 // import ResetButton from '@antv/g2/esm/interaction/action/view/button';
-import { Chart, Types, Language } from "./types";
+import { Chart, Types } from './types';
 import themes from '../themes';
 
 export interface ZoomConfig {
   zoom?: boolean;
 }
-
-const locale = {
-  'zh-cn': {
-    reset: '重置',
-  },
-  'en-us': {
-    reset: 'Reset',
-  },
-};
 
 function isNotInResetButton(context: Types.IInteractionContext) {
   return !(context.isInShape('button-rect') || context.isInShape('button-text'));
@@ -36,9 +27,9 @@ function isPointInViewNotInResetButton(context: Types.IInteractionContext) {
  *
  * @param {Chart} chart 图表实例
  * @param {ZoomConfig} config 配置项
- * @param {Language} language 当前语言
+ * @param {text} string 重置的文案
  * */
-export default function(chart: Chart, config: ZoomConfig, language?: Language) {
+export default function (chart: Chart, config: ZoomConfig, text: string) {
   if (!config.zoom) {
     return;
   }
@@ -49,13 +40,13 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
       {
         trigger: 'plot:mousemove',
         action: 'tooltip:show',
-        throttle: {wait: 50, leading: true, trailing: false},
+        throttle: { wait: 50, leading: true, trailing: false },
         isEnable: isNotInResetButton,
       },
       {
         trigger: 'plot:touchmove',
         action: 'tooltip:show',
-        throttle: {wait: 50, leading: true, trailing: false},
+        throttle: { wait: 50, leading: true, trailing: false },
         isEnable: isNotInResetButton,
       },
     ],
@@ -76,11 +67,15 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
         action: ['brush-x:start', 'x-rect-mask:start', 'x-rect-mask:show'],
         callback(context: Types.IInteractionContext) {
           // console.log('start', context, );
-          chart.emit('zoom:start', {
-            ...(context.getCurrentPoint())
-          }, context);
-        }
-      }
+          chart.emit(
+            'zoom:start',
+            {
+              ...context.getCurrentPoint(),
+            },
+            context,
+          );
+        },
+      },
     ],
     end: [
       {
@@ -94,7 +89,7 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
             if (resetAction.cfg) {
               // @ts-ignore
               Object.assign(resetAction.cfg, {
-                text: (locale[language] || locale['zh-cn']).reset,
+                text,
                 textStyle: {
                   fill: themes['widgets-color-blue'],
                 },
@@ -107,7 +102,7 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
                 activeStyle: {
                   fill: themes['widgets-color-background'],
                   stroke: themes['widgets-color-blue'],
-                }
+                },
               });
             }
           }
@@ -117,14 +112,18 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
         callback(context: Types.IInteractionContext) {
           const rangeFilterAction = context.getAction('brush-x');
 
-          chart.emit('zoom:end', {
-            // @ts-ignore
-            startPoint: rangeFilterAction.startPoint,
-            endPoint: context.getCurrentPoint(),
-            // @ts-ignore
-            data: context.view.filteredData,
-          }, context);
-        }
+          chart.emit(
+            'zoom:end',
+            {
+              // @ts-ignore
+              startPoint: rangeFilterAction.startPoint,
+              endPoint: context.getCurrentPoint(),
+              // @ts-ignore
+              data: context.view.filteredData,
+            },
+            context,
+          );
+        },
       },
     ],
     rollback: [
@@ -134,8 +133,8 @@ export default function(chart: Chart, config: ZoomConfig, language?: Language) {
         action: ['brush-x:reset', 'reset-button:hide', 'cursor:crosshair'],
         callback(context: Types.IInteractionContext) {
           chart.emit('zoom:reset', context);
-        }
-      }
+        },
+      },
     ],
   });
 }

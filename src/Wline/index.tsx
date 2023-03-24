@@ -15,6 +15,7 @@ import legendFilter from '../common/legendFilter';
 import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
+import { getText } from '../ChartProvider';
 import './index.scss';
 
 export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig, SliderConfig {
@@ -190,7 +191,7 @@ export class Line extends Base<WlineConfig> {
     }
 
     // 拖拽缩放
-    rectZoom(chart, config, this.language);
+    rectZoom(chart, config, getText('reset', this.context.language, this.context.locale));
 
     // 缩略轴
     rectSlider(chart, config);
