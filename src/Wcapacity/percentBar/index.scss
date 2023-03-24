@@ -91,7 +91,7 @@ $error-background: getVar(widgets-capacity-background-error, $widgets-capacity-b
       #{$wcapacity-prefix}-percent-bar-label-content {
         position: relative;
         z-index: 3;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
         line-height: 1;
         color: $label-color;
 
