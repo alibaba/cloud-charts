@@ -1,4 +1,4 @@
-import EmptyDataType, { EmptyJudgeType } from './emptyDataType';
+import getEmptyDataType, { EmptyJudgeType } from './emptyDataType';
 import { ExceedJudgeType } from './bigDataType';
 import themes from '../themes';
 import { warn } from './log';
@@ -7,7 +7,7 @@ import { postMessage } from './postMessage';
 
 // 空数据检测
 export function checkEmptyData(data: any, chartType: string) {
-  const type = (EmptyDataType as any)[chartType]?.emptyJudge;
+  const type = (getEmptyDataType() as any)[chartType]?.emptyJudge;
   if (type === EmptyJudgeType.COMMON) {
     return (
       !data ||
