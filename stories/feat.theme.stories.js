@@ -67,7 +67,7 @@ function ThemeDemo() {
           <Wplaceholder loading height={200} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
-          <Wplaceholder empty height={200} language={'en-us'}/>
+          <Wplaceholder empty height={200} language={'en-us'} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wline height="200" data={[]} language={'en-us'} />
@@ -76,10 +76,14 @@ function ThemeDemo() {
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wcontainer className="demos">
-            <Wline height="300" data={data} config={{
-              colors: ['#00FFFF'],
-              areaColors: ['l(90) 0:#00FFFF 1:#00FFFF00'], // 颜色渐变
-            }}/>
+            <Wline
+              height="300"
+              data={data}
+              config={{
+                colors: ['#00FFFF'],
+                areaColors: ['l(90) 0:#00FFFF 1:#00FFFF00'], // 颜色渐变
+              }}
+            />
           </Wcontainer>
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
@@ -120,6 +124,24 @@ stories.add('亮暗颜色判断测试', () => {
   return (
     <div style={{ width: 300, height: 300, background: bg }}>
       <span style={{ color: isDark ? '#fff' : '#333' }}>isDark: {String(isDark)}</span>
+    </div>
+  );
+});
+
+stories.add('颜色变量测试', () => {
+  return (
+    <div>
+      <Wbar
+        height="300"
+        config={{
+          xAxis: {
+            type: 'timeCat',
+          },
+          colors: ['error', 'warning'],
+          stack: true,
+        }}
+        data={data}
+      />
     </div>
   );
 });

@@ -3,7 +3,7 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
+import { BaseChartConfig, ChartData, Size, Language, Types, Colors } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
@@ -49,6 +49,32 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
     }
   }
   return padding as Types.ViewPadding;
+}
+
+/** 颜色映射 */
+function mapColors(colors: Colors) {
+  const colorMap: any = {
+    normal: 'widgets-color-normal',
+    warning: 'widgets-color-orange',
+    error: 'widgets-color-red',
+    success: 'widgets-color-green',
+    p1: 'widgets-color-p1',
+    p2: 'widgets-color-p2',
+    p3: 'widgets-color-p3',
+    p4: 'widgets-color-p4',
+    p5: 'widgets-color-p5',
+    p6: 'widgets-color-p6',
+    p7: 'widgets-color-p7',
+  };
+
+  let newColors = colors;
+  if (typeof colors === 'string') {
+    newColors = colors in colorMap ? (themes as any)[colorMap[colors]] : colors;
+  } else if (Array.isArray(colors)) {
+    newColors = colors.map((color: string) => (color in colorMap ? (themes as any)[colorMap[color]] : color));
+  }
+
+  return newColors;
 }
 
 const needFixEventName = {
@@ -306,7 +332,10 @@ class Base<
   // todo: 检查数据格式
 
   /** 渲染前的数据检查 */
-  public checkDataBeforeRender(data: any): {
+  public checkDataBeforeRender(
+    data: any,
+    config: any,
+  ): {
     isEmpty?: boolean;
     isExtreme?: boolean;
     isExceed?: boolean;
@@ -334,7 +363,7 @@ class Base<
     } = checkExtremeData(
       data,
       this.chartName,
-      this.props.config,
+      config,
       this.chartDom.offsetWidth,
       this.chartDom.offsetHeight,
       this.dataSize,
@@ -351,7 +380,7 @@ class Base<
     // 检查大数据
     const isExceed = checkBigData(
       this.chartName,
-      this.props.config,
+      config,
       this.bigDataConfig?.exceedJudge,
       this.dataSize,
       this.chartDom.offsetWidth,
@@ -524,7 +553,7 @@ class Base<
 
       // 检查数据
       // 数据变化时，若替换配置项，必须重绘图表才能生效，暂时只处理极端数据场景
-      const { isExtreme } = this.checkDataBeforeRender(data);
+      const { isExtreme } = this.checkDataBeforeRender(data, mergeConfig);
 
       // 线图：极端数据与非极端数据之间切换，则进行重绘
       // 柱图：除了正常数据之间转换都需要重绘
@@ -631,8 +660,14 @@ class Base<
     if (this.beforeInit) {
       currentProps = this.beforeInit(currentProps);
     }
+
+    // 处理padding
     currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
     currentProps.config.appendPadding = currentProps.appendPadding || currentProps.config.appendPadding;
+
+    // 颜色映射
+    currentProps.config.colors = mapColors(currentProps.config.colors);
+
     const {
       width,
       height,
@@ -680,7 +715,7 @@ class Base<
       data: specialData,
       config: specialConfig,
       fillBackground,
-    } = this.checkDataBeforeRender(data);
+    } = this.checkDataBeforeRender(data, config);
 
     // 根据规则判断对图表配置项做一步处理
     // 合并特殊配置项
