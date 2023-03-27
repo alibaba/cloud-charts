@@ -4,7 +4,7 @@ import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types, Colors } from './types';
-import { getParentSize, requestAnimationFrame, isEqualWith, merge } from './common';
+import { getParentSize, requestAnimationFrame, isEqualWith, merge, mapColors } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
 import eventBus from './eventBus';
@@ -49,32 +49,6 @@ function fixPadding(padding: Types.ViewPadding | (number | string)[]) {
     }
   }
   return padding as Types.ViewPadding;
-}
-
-/** 颜色映射 */
-function mapColors(colors: Colors) {
-  const colorMap: any = {
-    normal: 'widgets-color-normal',
-    warning: 'widgets-color-orange',
-    error: 'widgets-color-red',
-    success: 'widgets-color-green',
-    p1: 'widgets-color-p1',
-    p2: 'widgets-color-p2',
-    p3: 'widgets-color-p3',
-    p4: 'widgets-color-p4',
-    p5: 'widgets-color-p5',
-    p6: 'widgets-color-p6',
-    p7: 'widgets-color-p7',
-  };
-
-  let newColors = colors;
-  if (typeof colors === 'string') {
-    newColors = colors in colorMap ? (themes as any)[colorMap[colors]] : colors;
-  } else if (Array.isArray(colors)) {
-    newColors = colors.map((color: string) => (color in colorMap ? (themes as any)[colorMap[color]] : color));
-  }
-
-  return newColors;
 }
 
 const needFixEventName = {
