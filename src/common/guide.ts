@@ -92,7 +92,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
   if (offsetY !== undefined) {
     defaultOffsetY = offsetY;
   // 不是镜面和横向的时候
-  } else if (!!config.column || !config.facet) {
+  } else if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
     if (axis === 'y') {
       defaultOffsetY = -(pxToNumber(themes['widgets-font-size-1']) / 2)
     }
@@ -100,7 +100,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
 
   if (offsetX !== undefined) {
     defaultOffsetX = offsetX;
-  } else if (!!config.column || !config.facet) {
+  } else if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
     if (axis === 'y') {
       defaultOffsetX = (pxToNumber(themes['widgets-font-size-1']) * (typeof rawText === 'string' ? rawText?.length : 3)) + 8;
     }
@@ -270,7 +270,7 @@ export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterCon
 
   let guideColor = color;
   // 如果镜面或横向不处理
-  if (!!config.facet || (config.hasOwnProperty('column') && !(config?.column === true))) {
+  if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
     guideColor = color;
   } else if (axis === 'y') {
     guideColor = `l(90) 0:${color} 1:${color}00`;
