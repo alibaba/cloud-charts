@@ -130,7 +130,15 @@ export function checkExtremeData(
       // 颜色
       let colors = config?.colors ?? themes.category_20;
       if (Array.isArray(colors) && colors.length < dataTypes.length) {
-        colors = [...colors, ...themes.category_20.slice(colors.length, dataTypes.length)];
+        if (
+          !(colors.length === 12 && themes.category_12.every((val, index) => val === colors?.[index])) &&
+          !(colors.length === 20 && themes.category_20.every((val, index) => val === colors?.[index]))
+        ) {
+          colors = [...colors, ...themes.category_20.slice(colors.length, dataTypes.length)];
+        }
+        while (colors.length < dataTypes.length) {
+          colors = [...colors, ...colors.slice(0, dataTypes.length - colors.length)];
+        }
       }
 
       const newData = [...data];
