@@ -150,13 +150,30 @@ export function checkExtremeData(
       let alignLeft = false;
       let showPlaceholder = false;
 
+      // 计算最后一个柱子的y值
+      const xValues = Array.from(new Set(data.map((item: any) => item.x)));
+      const lastX = xValues[xValues.length - 1];
+      const dodges = Array.from(new Set(data.map((item: any) => item.dodge)));
+      const lastDodge = dodges[dodges.length - 1];
+      let lastY = 0;
+      if (config.dodgeStack && lastDodge) {
+        lastY = data
+          .filter((item: any) => item.x === lastX && item.dodge === lastDodge)
+          .map((item: any) => item.y || 0)
+          .reduce((pre: number, cur: number) => pre + cur);
+      } else if (config.stack) {
+        lastY = data
+          .filter((item: any) => item.x === lastX)
+          .map((item: any) => item.y || 0)
+          .reduce((pre: number, cur: number) => pre + cur);
+      } else if (config.dodge && lastDodge) {
+        lastY = data.findLast((item: any) => item.x === lastX && item.dodge === lastDodge).y;
+      } else {
+        lastY = data.findLast((item: any) => item.x === lastX).y;
+      }
+
       // 分类数据
       if (axisType === 'cat') {
-        // 计算最后一个柱子的y值
-        const xValues = Array.from(new Set(data.map((item: any) => item.x)));
-        const lastX = xValues[xValues.length - 1];
-        const lastY = data.findLast((item: any) => item.x === lastX).y;
-
         // 分类数据默认隐藏占位
 
         // 是否左对齐
@@ -201,6 +218,7 @@ export function checkExtremeData(
       // 时间分类数据
       else if (axisType === 'timeCat') {
         // 计算最后一个柱子的y值
+        /*
         let lastY = data?.[0]?.y ?? 0;
         let curMax = data?.[0]?.x ?? 0;
         data.forEach((item: any) => {
@@ -209,6 +227,7 @@ export function checkExtremeData(
             lastY = item.y;
           }
         });
+        */
 
         // 时间分类数据默认开启
 
