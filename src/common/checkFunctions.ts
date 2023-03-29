@@ -4,6 +4,7 @@ import themes from '../themes';
 import { warn } from './log';
 import { FullCrossName } from '../constants';
 import { postMessage } from './postMessage';
+import test from './test';
 
 // 空数据检测
 export function checkEmptyData(data: any, chartType: string) {
@@ -178,12 +179,15 @@ export function checkExtremeData(
 
         // 是否左对齐
         // 优先级： 用户配置>特殊情况（数据量为1）>默认配置
+        /*
         alignLeft =
           force === false || extreme === false || extreme?.alignLeft === false
             ? true
             : extreme === true || extreme?.alignLeft === true
-            ? true
+            ? false
             : dataSize === 1;
+            */
+        alignLeft = force === false || extreme === false || extreme?.alignLeft === false;
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
@@ -233,7 +237,8 @@ export function checkExtremeData(
 
         // 是否左对齐
         // 优先级： 用户配置>默认配置
-        alignLeft = !(extreme === true || extreme?.alignLeft === true);
+        //alignLeft = !(extreme === true || extreme?.alignLeft === true);
+        alignLeft = force === false || extreme === false || extreme?.alignLeft === false;
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
