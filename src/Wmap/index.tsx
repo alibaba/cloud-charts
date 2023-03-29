@@ -12,7 +12,7 @@ import '@antv/data-set/lib/transform/filter';
 import '@antv/data-set/lib/transform/geo/projection';
 import '@antv/data-set/lib/transform/geo/region';
 import { Chart, View, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
-import Base, { ChartProps, rootClassName } from "../common/Base";
+import Base, { ChartProps, rootClassName } from '../common/Base';
 import errorWrap from '../common/errorWrap';
 // @ts-ignore
 import chinaGeo from './mapData/chinaGeo.json';
@@ -21,22 +21,16 @@ import { provinceName, positionMap } from './mapData/chinaGeoInfo';
 import themes from '../themes/index';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
-import label, { LabelConfig } from "../common/label";
+import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import {
-  MapChild,
-  MapArea,
-  MapPoint,
-  MapHeatMap,
-  MapShoot,
-  MapCustom
-} from './child';
+import { MapChild, MapArea, MapPoint, MapHeatMap, MapShoot, MapCustom } from './child';
 import './index.scss';
-import Wshoot, { ShootProps } from "../Wshoot";
+import Wshoot, { ShootProps } from '../Wshoot';
 import { FullCrossName } from '../constants';
 import { warn } from '../common/log';
 import { filterKey, merge } from '../common/common';
+import { getText } from '../ChartProvider';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -54,8 +48,6 @@ const fixLngLatMap = {
   上海: [122.2818331, 31.0480268],
 };
 
-
-
 interface WmapConfig extends BaseChartConfig {
   background?: {
     fill?: string;
@@ -69,8 +61,8 @@ interface WmapConfig extends BaseChartConfig {
   type?: string;
   projection?: (...args: any[]) => any;
 
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
   /** @deprecated labels 已废弃，请使用 label */
   labels?: LabelConfig | boolean;
   label?: LabelConfig | boolean;
@@ -212,8 +204,8 @@ export class Map extends Base<WmapConfig, MapProps> {
 
     return (
       <div key={layerIndex} className={`${FullCrossName}-map-custom-container`}>
-        {
-          Array.isArray(data) && data.map((d, i) => {
+        {Array.isArray(data) &&
+          data.map((d, i) => {
             if (!d) {
               return null;
             }
@@ -227,8 +219,7 @@ export class Map extends Base<WmapConfig, MapProps> {
                 {render && render(d, i, otherProps)}
               </div>
             );
-          })
-        }
+          })}
       </div>
     );
   }
@@ -268,28 +259,62 @@ export class Map extends Base<WmapConfig, MapProps> {
       const { fill } = config.background || {};
       const mapColor = fill || themes['widgets-map-area-bg'];
 
-      return <SouthChinaSea key={southChinaSeaKey} className={`${FullCrossName}-map-south-china-sea`} fontColor={mapColor} landColor={mapColor} lineColor={mapColor} boxColor={mapColor} islandColor={mapColor} />;
+      return (
+        <SouthChinaSea
+          key={southChinaSeaKey}
+          className={`${FullCrossName}-map-south-china-sea`}
+          fontColor={mapColor}
+          landColor={mapColor}
+          lineColor={mapColor}
+          boxColor={mapColor}
+          islandColor={mapColor}
+          southSeaText={getText('southsea', this.context.language, this.context.locale)}
+          southSeaFontSize={this.context.language === 'zh-cn' || this.context.language === 'ZH-CN' ? 8 : 4}
+        />
+      );
     } else {
       return null;
     }
   }
 
   render() {
-    const { className = '', style, children, data, width, height, padding, geoData, config, language, event, interaction, getChartInstance, enableFunctionUpdate, renderer, animate, ...otherProps } = this.props;
+    const {
+      className = '',
+      style,
+      children,
+      data,
+      width,
+      height,
+      padding,
+      geoData,
+      config,
+      language,
+      event,
+      interaction,
+      getChartInstance,
+      enableFunctionUpdate,
+      renderer,
+      animate,
+      ...otherProps
+    } = this.props;
     const { customPointLayer, shootLayer } = this.state;
     return (
-      <div ref={dom => this.chartDom = dom} id={this.chartId} className={rootClassName + 'G2Map ' + className} style={style} {...otherProps}>
+      <div
+        ref={(dom) => (this.chartDom = dom)}
+        id={this.chartId}
+        className={rootClassName + 'G2Map ' + className}
+        style={style}
+        {...otherProps}
+      >
         {this.renderSouthChinaSea(config)}
-        {
-          shootLayer.length > 0 && shootLayer.map((shoot, i) => {
+        {shootLayer.length > 0 &&
+          shootLayer.map((shoot, i) => {
             return this.renderShootLayer(shoot, i);
-          })
-        }
-        {
-          customPointLayer.length > 0 && customPointLayer.map((layer, i) => {
+          })}
+        {customPointLayer.length > 0 &&
+          customPointLayer.map((layer, i) => {
             return this.renderCustomPointLayer(layer, i);
-          })
-        }
+          })}
       </div>
     );
   }
@@ -410,7 +435,7 @@ export class Map extends Base<WmapConfig, MapProps> {
         showCrosshairs: false,
         // crosshairs: null,
         showMarkers: false,
-      }
+      },
     );
 
     // 设置图例
@@ -533,7 +558,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
     // 自带中国地图数据
     geoData = chinaGeo;
   } else {
-    warn('Wmap', 'no geo data, can\'t draw the map!');
+    warn('Wmap', "no geo data, can't draw the map!");
   }
 
   const bgMapDataView = ds.createView('bgMap').source(geoData, {
@@ -576,9 +601,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
   // start: 按照投影后尺寸比例调整图表的真实比例
   const longitudeRange = bgMapDataView.range('x');
   const latitudeRange = bgMapDataView.range('y');
-  const ratio =
-    (longitudeRange[1] - longitudeRange[0]) /
-    (latitudeRange[1] - latitudeRange[0]);
+  const ratio = (longitudeRange[1] - longitudeRange[0]) / (latitudeRange[1] - latitudeRange[0]);
   ctx.bgMapRatio = ratio;
   const { width: chartWidth, height: chartHeight } = chart;
   const chartRatio = chartWidth / chartHeight;
@@ -599,8 +622,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
   ctx.bgMapSize = [width, height];
   // end: 按照投影后尺寸比例调整图表的真实比例
 
-  const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } =
-    config.background || {};
+  const { fill: bgFill, stroke: bgStroke, ...otherBgStyle } = config.background || {};
 
   const bgMapView = chart.createView({
     padding: 0,
@@ -610,7 +632,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
   bgMapView
     .polygon()
     .position('x*y')
-    .style('name', function(name) {
+    .style('name', function (name) {
       const result = {
         fill: bgFill || themes['widgets-map-area-bg'],
         stroke: bgStroke || themes['widgets-map-area-border'],
@@ -631,7 +653,7 @@ function drawMapBackground(ctx: Map, chart: Chart, ds: DataSet, config: WmapConf
 }
 
 function getView(list: CustomView[], key: string | number) {
-  return list.find(item => item.id === key);
+  return list.find((item) => item.id === key);
 }
 
 // 绘制分级统计地图
@@ -706,7 +728,7 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       .source(data)
       .transform({
         type: 'map',
-        callback: point => {
+        callback: (point) => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
           return convertPointPosition(ctx, newPoint);
@@ -725,8 +747,8 @@ function drawMapPoint(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, d
       .tooltip('name*value', (name, value) => ({
         name,
         value,
-      }))
-      // .active(false);
+      }));
+    // .active(false);
 
     geomSize(pointGeom, config.size, 4, 'value', 'name*value');
 
@@ -792,7 +814,7 @@ function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       .source(data)
       .transform({
         type: 'map',
-        callback: point => {
+        callback: (point) => {
           const newPoint = Object.assign({}, point);
           newPoint.type = String(newPoint.type);
           return convertPointPosition(ctx, newPoint);
@@ -812,7 +834,7 @@ function drawHeatMap(ctx: Map, chart: Chart, ds: DataSet, config: WmapConfig, da
       .tooltip('name*value', (name, value) => ({
         name,
         value,
-      }))
+      }));
 
     geomSize(heatGeom, config.size, 16, 'value', 'name*value');
 
@@ -829,9 +851,9 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
   const labelConfig = config.labels || config.label;
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
-  const labelData = ctx.bgMapDataView.rows.map(row => {
+  const labelData = ctx.bgMapDataView.rows.map((row) => {
     const label = {
-      name: row.name,
+      name: getText(row.properties.locale, ctx.context.language, ctx.context.locale),
       x: row.cX,
       y: row.cY,
     };
@@ -849,8 +871,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
   });
 
   // @ts-ignore label 需要函数处理，无法放到 label 工具函数中
-  const { offset = 0, style, textStyle, labelFormatter } =
-    typeof labelConfig === 'object' ? labelConfig : {};
+  const { offset = 0, style, textStyle, labelFormatter } = typeof labelConfig === 'object' ? labelConfig : {};
 
   const labelMapView = chart.createView({
     padding: 0,
@@ -865,7 +886,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
       let fontSize = themes['widgets-font-size-1'].replace('px', '');
       // 对一些尺寸非常小的形状特殊处理，以显示出来。
       if (minLabel.indexOf(name) > -1) {
-        fontSize = String(Number(fontSize) * 2 / 3);
+        fontSize = String((Number(fontSize) * 2) / 3);
       }
       if (textStyle) {
         warn('Wmap.config.label', 'textStyle 属性已废弃，请使用 style 属性');
@@ -877,7 +898,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
         textBaseline: 'middle',
         ...(textStyle || {}),
         ...style,
-      }
+      };
       const result: Types.GeometryLabelCfg = {
         offset,
         style: labelStyle,
@@ -887,16 +908,15 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
       if (labelFormatter) {
         result.content = (v, item, index) => {
           return labelFormatter(v['name'], item, index);
-        }
+        };
       }
       return result;
     })
-    .tooltip(false)
-    // .active(false);
+    .tooltip(false);
+  // .active(false);
 
   ctx.labelMapView = labelMapView;
 }
-
 
 type MapData = Types.LooseObject[];
 interface RawMapData {
@@ -920,12 +940,12 @@ function convertMapData(data: RawMapData[], viewName: string) {
   //   typeName = 'heatmapType';
   // }
   const result: MapData = [];
-  data.forEach(item => {
+  data.forEach((item) => {
     const { name = '', data: itemData } = item;
     if (!Array.isArray(itemData)) {
       return;
     }
-    itemData.forEach(d => {
+    itemData.forEach((d) => {
       result.push({
         ...d,
         [typeName]: d.type || name,
@@ -947,13 +967,7 @@ export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
 
   const { projection } = ctx;
   if (point.lng && point.lat) {
-    return getProjectionPosition(
-      point,
-      ctx.bgMapDataView,
-      projection,
-      Number(point.lng),
-      Number(point.lat)
-    );
+    return getProjectionPosition(point, ctx.bgMapDataView, projection, Number(point.lng), Number(point.lat));
   }
   if (point.name) {
     let { name } = point;
@@ -969,13 +983,7 @@ export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
     // @ts-ignore
     const position = positionMap[name];
     if (position) {
-      return getProjectionPosition(
-        point,
-        ctx.bgMapDataView,
-        projection,
-        position.lng,
-        position.lat
-      );
+      return getProjectionPosition(point, ctx.bgMapDataView, projection, position.lng, position.lat);
     }
   }
   if (!point.x || !point.y) {
@@ -984,7 +992,13 @@ export function convertPointPosition(ctx: Map, point: Types.LooseObject) {
   return point;
 }
 
-function getProjectionPosition(point: Types.LooseObject, view: DataView, projection: (...args: any[]) => any, lng: number, lat: number) {
+function getProjectionPosition(
+  point: Types.LooseObject,
+  view: DataView,
+  projection: (...args: any[]) => any,
+  lng: number,
+  lat: number,
+) {
   // @ts-ignore
   const projectedCoord = view.geoProjectPosition([lng, lat], projection, true);
   point.x = projectedCoord[0];

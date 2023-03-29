@@ -400,6 +400,7 @@ class Base<
     this.initChart();
 
     eventBus.on('setTheme', this.rerender);
+    eventBus.on('setLanguage', this.rerender);
   }
 
   protected isReRendering = false;

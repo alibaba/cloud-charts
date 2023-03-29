@@ -60,4 +60,4 @@ export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
 export { default as Wcapacity } from './Wcapacity/index';
 
 // 国际化
-export { default as ChartProvider } from './ChartProvider/index';
+export { default as ChartProvider, setLanguage } from './ChartProvider/index';

@@ -1,16 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Wbar, Wline, Wplaceholder, ChartProvider } from '@alife/aisc-widgets';
+import { Wbar, Wline, Wplaceholder, Wmap, ChartProvider, setLanguage } from '@alife/aisc-widgets';
 
 const stories = storiesOf('locale', module);
 
 stories.add('通用图表', () => (
-  <ChartProvider
-    value={{
-      language: 'zh-cn',
-    }}
-  >
+  <ChartProvider language="en-us">
     <Wbar height="300" data={[]} />
     <Wline height="300" data={[]} />
   </ChartProvider>
@@ -18,14 +14,12 @@ stories.add('通用图表', () => (
 
 stories.add('通用图表自定义', () => (
   <ChartProvider
-    value={{
-      locale: {
-        loading: '自定义加载中...',
-        error: '自定义数据异常',
-        noData: '自定义无数据',
-        empty: '自定义暂无数据',
-        reset: '自定义重置',
-      },
+    locale={{
+      loading: '自定义加载中...',
+      error: '自定义数据异常',
+      noData: '自定义无数据',
+      empty: '自定义暂无数据',
+      reset: '自定义重置',
     }}
   >
     <Wbar height="300" data={[]} />
@@ -34,11 +28,7 @@ stories.add('通用图表自定义', () => (
 ));
 
 stories.add('通用图表兼容', () => (
-  <ChartProvider
-    value={{
-      language: 'zh-cn',
-    }}
-  >
+  <ChartProvider language="zh-cn">
     <Wbar height="300" data={[]} language="en-us" />
     <Wline height="300" data={[]} />
   </ChartProvider>
@@ -76,21 +66,13 @@ const data = [
 ];
 
 stories.add('zoom', () => (
-  <ChartProvider
-    value={{
-      language: 'en-us',
-    }}
-  >
+  <ChartProvider language="en-us">
     <Wbar height="300" data={data} config={{ zoom: true }} language="zh-cn" />
   </ChartProvider>
 ));
 
 stories.add('Wplaceholder', () => (
-  <ChartProvider
-    value={{
-      language: 'en-us',
-    }}
-  >
+  <ChartProvider language="en-us">
     <Wplaceholder loading />
     <Wplaceholder noData />
     <Wplaceholder empty />
@@ -100,15 +82,13 @@ stories.add('Wplaceholder', () => (
 
 stories.add('Wplaceholder兼容', () => (
   <ChartProvider
-    value={{
-      language: 'en-us',
-      locale: {
-        loading: '自定义加载中...',
-        error: '自定义数据异常',
-        noData: '自定义无数据',
-        empty: '自定义暂无数据',
-        reset: '自定义重置',
-      },
+    language="en-us"
+    locale={{
+      loading: '自定义加载中...',
+      error: '自定义数据异常',
+      noData: '自定义无数据',
+      empty: '自定义暂无数据',
+      reset: '自定义重置',
     }}
   >
     <Wplaceholder loading language={'zh-cn'} />
@@ -124,5 +104,40 @@ stories.add('Wplaceholder兼容', () => (
     />
     <Wplaceholder empty />
     <Wplaceholder error />
+  </ChartProvider>
+));
+
+stories.add('setLanguage', () => {
+  useEffect(() => {
+    setTimeout(() => {
+      setLanguage('en-us');
+    }, 3000);
+  });
+
+  return <Wbar height="300" data={[]} />;
+});
+
+stories.add('优先级', () => {
+  useEffect(() => {
+    setTimeout(() => {
+      setLanguage('zh-cn');
+    }, 3000);
+  });
+
+  return (
+    <ChartProvider language="en-us">
+      <Wbar height="300" data={[]} />
+      <Wline height="300" data={[]} />
+    </ChartProvider>
+  );
+});
+
+stories.add('地图', () => (
+  <ChartProvider language="en-us">
+    <Wmap
+      config={{
+        label: true,
+      }}
+    />
   </ChartProvider>
 ));
