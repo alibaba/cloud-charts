@@ -9,7 +9,7 @@ const stories = storiesOf('Wcapacity', module);
 const dafaultData = {
   percent: {
     name: '利用率',
-    displayNumber: 69,
+    displayNumber: 120,
   },
 };
 
