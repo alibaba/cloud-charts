@@ -246,6 +246,7 @@ function ThemeDemo() {
       </div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1 1 33.33%' }}>
+        <Wcontainer className="demos">
           <Wpie height={200} data={[
             {
               name: '浏览器占比',
@@ -258,7 +259,13 @@ function ThemeDemo() {
                 ['Others', 0.7],
               ],
             },
-          ]}/>
+          ]} config={{
+            cycle: true,
+            showDecoration: {
+              innerRadius: 100 // 自定义圆环底
+            },
+          }}/>
+          </Wcontainer>
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wbar data={data} height={200} language={'en-us'} config={{
