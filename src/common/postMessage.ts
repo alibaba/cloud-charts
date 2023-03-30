@@ -42,6 +42,7 @@ export function calcChartScore(logMap: any) {
   Object.keys(logMap).forEach((chartName: string) => {
     // console.log(logMap);
     chartNumber += logMap[chartName].init ?? 0;
+    // 错误信息汇总
     errorInfoArray.push(logMap[chartName]?.rulesInfo ?? {});
 
     logMap[chartName]?.rulesInfo.forEach((subInfo: any) => {

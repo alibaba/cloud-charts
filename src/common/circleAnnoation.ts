@@ -40,7 +40,6 @@ export default function(chart: Chart, config: DecorationConfig, size: any, chart
     // 视图最小宽高减去图例间距
     const outerR = config.showDecoration?.outerRadius ?? numberDecimal(Math.min(viewWidth, viewHeight) / 2 - 14);
 
-    console.log(chart)
     if (Math.min(viewWidth, viewHeight) > 60) {
       if (config.cycle || chartName === 'G2MultiCircle') {
         chart.annotation().html({
