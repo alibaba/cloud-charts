@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Divider from './views/divider';
-import chartLog from "../common/log";
+import chartLog, { warn } from "../common/log";
 import { isMobileWithProps, MobileProps } from '../common/platform';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
@@ -52,6 +52,8 @@ class Wcontainer extends React.Component<WcontainerProps, WcontainerState> {
 
     // 图表初始化时记录日志
     chartLog('Wcontainer', 'init');
+
+    warn('Wcontainer', 'Wcontainer已经不推荐使用，建议改为ProCard组件');
 
     if (props.catchError) {
       this.componentDidCatch = (error, info) => {

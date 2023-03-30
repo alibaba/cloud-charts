@@ -6,7 +6,6 @@ import merge from 'lodash/merge';
 import chartLog from '../common/log';
 import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
-import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
 import { warn } from '../common/log';
 import './index.scss';
@@ -182,7 +181,17 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       renderSvg = errorSvg;
     } else if (!loading && noData) {
       renderSvg = noDataSvg;
-      warn('Wplaceholder', 'noData属性已废弃，如果基础图表如Wline无数据，无需额外使用该组件，如为业务自定义组件，建议使用empty属性。');
+      warn('Wplaceholder', 'noData属性已废弃，如果基础图表如Wline无数据，无需额外使用该组件，如为业务自定义组件，请使用empty属性。');
+
+      chartLog('Wplaceholder', 'rulesInfo', {
+        selector: `#${prefix}-no-data`,
+        checkItem: 'empty',
+        errorInfo: {
+          value: 'noData', // 错误的值
+          errorValue: 1, // 错误的数量
+          errorRate: 1
+        }
+      });
     } else if (empty) {
       renderSvg = <></>;
     } else if (loading) {

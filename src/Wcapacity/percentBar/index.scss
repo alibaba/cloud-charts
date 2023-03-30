@@ -8,12 +8,15 @@ $label-medium-size: getVar(widgets-font-size-3, $widgets-font-size-3);
 $title-size: getVar(widgets-font-size-1, $widgets-font-size-1);
 $label-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
 $title-color: getVar(widgets-color-text-2, $widgets-color-text-2);
+
 $default-background: getVar(widgets-capacity-background-default, $widgets-capacity-background-default);
 $success-background: getVar(widgets-capacity-background-success, $widgets-capacity-background-success);
 $warning-background: getVar(widgets-capacity-background-warning, $widgets-capacity-background-warning);
 $error-background: getVar(widgets-capacity-background-error, $widgets-capacity-background-error);
 
 #{$wcapacity-prefix} {
+  overflow: hidden;
+
   #{$wcapacity-prefix}-percent-container {
     display: flex;
     align-items: center;
