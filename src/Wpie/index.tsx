@@ -9,6 +9,7 @@ import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import label, { LabelConfig } from '../common/label';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import circleAnnotation, { DecorationConfig } from '../common/circleAnnoation';
 import polarLegendLayout from '../common/polarLegendLayout';
 import errorWrap from '../common/errorWrap';
 import updateChildrenPosition from '../common/updateChildrenPosition';
@@ -62,7 +63,7 @@ function selectGeom(geom: Geometry, selectKey?: string) {
 //   }
 // }
 
-interface WpieConfig extends BaseChartConfig {
+interface WpieConfig extends BaseChartConfig, DecorationConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -394,6 +395,8 @@ export class Pie extends Base<WpieConfig> {
         this.noDataShape = null;
       }
     });
+
+    circleAnnotation(chart, config, this.size, 'G2Pie');
 
     chart.on('afterpaint', () => {
       // 默认选中效果

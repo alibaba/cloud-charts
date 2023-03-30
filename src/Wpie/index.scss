@@ -1,9 +1,17 @@
 @import "../themes/index";
+$bg-color: getVar(widgets-color-container-background, $widgets-color-container-background);
+$bg-shadow: getVar(widgets-circle-inner-shadow, $widgets-circle-inner-shadow);
 
 .#{$base-name}.G2Pie {
   position: relative;
   text-align: center;
   box-sizing: border-box;
+
+  .#{$base-name}.circle-innerBackground {
+    background: $bg-color;
+    box-shadow: $bg-shadow;
+    z-index: 0;
+  }
 
   .#{$base-name}-children {
     position: absolute;
@@ -13,6 +21,7 @@
     max-width: 100%;
     max-height: 100%;
     transform: translate(-50%, -50%);
+    z-index: 999;
     //overflow: auto;
   }
 

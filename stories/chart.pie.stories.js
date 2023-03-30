@@ -162,6 +162,9 @@ stories.add('环图', () => (
       height="300"
       config={{
         cycle: true,
+        showDecoration: {
+          // innerRadius: 100 // 自定义圆环底
+        },
       }}
       data={data}
     />
