@@ -89,6 +89,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
   let defaultOffsetY = pxToNumber(themes['widgets-font-size-1']);
   let defaultOffsetX = 0;
 
+  warn('config.guide', '辅助线暂时不支持柱图镜面和横向的时候开启渐变')
   if (offsetY !== undefined) {
     defaultOffsetY = offsetY;
   // 不是镜面和横向的时候
