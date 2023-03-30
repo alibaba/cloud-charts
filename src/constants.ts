@@ -11,6 +11,8 @@ export { THEME };
 export const FullCamelName = 'AiscWidgets';
 export const FullCrossName = 'aisc-widgets';
 export const FullTrackName = 'AiscWidgetsTrackEnable';
+export const FullTestName = 'AiscWidgetsTestEnable';
+export const FullQualityName = 'AiscWidgetsQualityInfo';
 export const FullThemeName = 'AiscWidgetsDefaultTheme';
 export const FullThemeEventName = 'setAiscWidgetsTheme';
 export const TrackName = 'aisc-widgets.use.init';
