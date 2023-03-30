@@ -3,7 +3,7 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language, Types, Colors } from './types';
+import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge, mapColors } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';

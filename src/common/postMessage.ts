@@ -1,4 +1,6 @@
 import { VERSION, FullCamelName } from '../constants';
+import chartQuality from './chartQuality';
+import { numberDecimal } from './common';
 
 // Teamix.test对接
 // 跨源通信
@@ -23,4 +25,42 @@ export function postMessage(resultData: any) {
     moduleVersion: VERSION,
     resultData
   });
+}
+
+// 初始图表质量分数统计
+// 汇总计算分数
+// 初始为10分，根据错误率和权重扣分，最终每个图表取平均值
+export function calcChartScore(logMap: any) {
+  const score = 10;
+  // 错误分数
+  let errorScore = 0;
+  // 图表数量， Wcontainer算在内
+  let chartNumber = 0;
+  // test后期会用
+  const errorInfoArray: any = [];
+
+  Object.keys(logMap).forEach((chartName: string) => {
+    // console.log(logMap);
+    chartNumber += logMap[chartName].init ?? 0;
+    errorInfoArray.push(logMap[chartName]?.rulesInfo ?? {});
+
+    logMap[chartName]?.rulesInfo.forEach((subInfo: any) => {
+      const ruleInfo = chartQuality[subInfo.checkItem] ?? {};
+      // 错误分 = 权重 * 错误率， 0 为没错
+      errorScore += numberDecimal((ruleInfo?.weight ?? 0) * (subInfo.errorInfo?.errorRate ?? 0))
+    });
+
+    // 容器单独计算
+    if(chartName === 'Wcontainer') {
+      // 错误分 = 权重 * 使用容器组件的次数
+      errorScore += numberDecimal(chartQuality.Container.weight * (logMap[chartName]?.init ?? 0))
+    }
+  });
+  // 计算平均分
+  const avgErrorScore = numberDecimal(errorScore / chartNumber);
+  // 计算总得分
+  return {
+    rate: numberDecimal(score - avgErrorScore),
+    errorInfo: errorInfoArray
+  };
 }
