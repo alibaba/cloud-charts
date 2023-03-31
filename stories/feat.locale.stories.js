@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Wbar, Wline, Wplaceholder, Wmap, ChartProvider, setLanguage } from '@alife/aisc-widgets';
+import { Wbar, Wline, Wplaceholder, Wmap, ChartProvider, setLanguage } from '@alicloud/cloud-charts';
 
 const stories = storiesOf('locale', module);
 
