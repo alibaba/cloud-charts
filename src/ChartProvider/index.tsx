@@ -28,7 +28,6 @@ if (window[FullLanguageName]) {
 
 // 事件
 document.addEventListener(FullLanguageEventName, function (e: CustomEvent) {
-  console.log('event:', e);
   if (e.detail) {
     setLanguage(e.detail);
   }
@@ -63,7 +62,7 @@ export default ChartProvider;
 
 // 优先级: setLanguage设置的语言 > 图表中的自定义locale > provider的locale > 图表中的language > provider的language
 export const getText = (value: keyof LocaleItem, language: keyof typeof LanguageMap, locale: LocaleItem = null) => {
-  return currentLanguage
+  return currentLanguage && currentLanguage in LanguageMap
     ? LanguageMap?.[currentLanguage]?.[value]
-    : locale?.[value] || LanguageMap?.[language]?.[value];
+    : locale?.[value] || LanguageMap?.[language in LanguageMap ? language : 'zh-cn']?.[value];
 };
