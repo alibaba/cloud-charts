@@ -81,7 +81,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-  force: any
+  force: any,
 ): {
   isExtreme: boolean;
   data?: any;
@@ -299,23 +299,31 @@ export function checkExtremeData(
         config: {
           ...(alignLeft
             ? {
-                legend: {
-                  items: dataTypes.map((t: string, index: number) => ({
-                    name: t,
-                    value: t,
-                    marker: {
-                      symbol: 'square',
-                      style: {
-                        fill: Array.isArray(newColors) ? newColors[index] : newColors(t),
+                legend:
+                  config?.legend === false || config?.legend?.visible === false
+                    ? false
+                    : {
+                        items: dataTypes.map((t: string, index: number) => ({
+                          name: t,
+                          value: t,
+                          marker: {
+                            symbol: 'square',
+                            style: {
+                              fill: Array.isArray(newColors) ? newColors[index] : newColors(t),
+                            },
+                          },
+                        })),
+                        ...(config?.legend || {}),
                       },
-                    },
-                  })),
-                },
-                xAxis: {
-                  ...xAxis,
-                  autoHide: false,
-                  autoEllipsis: true,
-                },
+                xAxis:
+                  config?.xAxis === false || config?.xAxis?.visible === false
+                    ? false
+                    : {
+                        ...xAxis,
+                        autoHide: false,
+                        autoEllipsis: true,
+                        ...(config?.xAxis || {}),
+                      },
               }
             : {}),
           ...(alignLeft && showPlaceholder
@@ -386,8 +394,8 @@ export function checkColor(config: any, chartType: string, chart: any) {
       errorInfo: {
         value: filterColors, // 错误的值
         errorValue: filterColors?.length, // 错误的数量
-        errorRate: filterColors?.length > 12 ? 1 : filterColors?.length / 12 // 错误率， 颜色默认是12色
-      }
+        errorRate: filterColors?.length > 12 ? 1 : filterColors?.length / 12, // 错误率， 颜色默认是12色
+      },
     });
   }
 }
@@ -413,8 +421,8 @@ export function checkPadding(config: any, chartName: string, chart: any) {
         errorInfo: {
           value: config.padding, // 错误的值
           errorValue: 1, // 错误的数量
-          errorRate: 1
-        }
+          errorRate: 1,
+        },
       });
     }
   }
