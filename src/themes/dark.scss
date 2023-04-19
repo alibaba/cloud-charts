@@ -127,6 +127,8 @@ $widgets-map-label: #cccccc;
 $widgets-circle-stroke-background: rgba(255, 255, 255, 0.2);
 $widgets-circle-number: currentColor;
 $widgets-circle-stroke-width: 6px !default;
+$widgets-circle-outer-background: 'l(90) 0:#333333 1:#33333300';
+$widgets-circle-inner-shadow: 0 2px 11px 0 rgba(21, 21, 21, 1);
 
 // 桑基图
 $widgets-sankey-edge: #333333;

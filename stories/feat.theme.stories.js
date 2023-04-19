@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select, color } from '@storybook/addon-knobs';
 
-import { themes, Wcontainer, Wline, Wbar, Wlinebar, Wplaceholder } from '@alife/aisc-widgets';
+import { themes, Wcontainer, Wline, Wbar, Wlinebar, Wplaceholder, Wpie } from '@alife/aisc-widgets';
 import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 
 const data = [
@@ -182,7 +182,7 @@ function ThemeDemo() {
           <Wplaceholder loading height={200} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
-          <Wplaceholder empty height={200} language={'en-us'} />
+          <Wplaceholder noData height={200} language={'en-us'} />
         </div>
         <div style={{ flex: '1 1 33.33%' }}>
           <Wline height="200" data={[]} language={'en-us'} />
@@ -206,11 +206,14 @@ function ThemeDemo() {
             <Wbar
               height="300"
               config={{
-                // padding: [20,20],
+                padding: [20,20],
                 xAxis: {
                   type: 'timeCat',
+                  autoRotate: true,
+                  autoHide: false,
+                  // autoEllipsis: true
                 },
-                // colors: ['#131313', '#297ACC'],
+                colors: ['#238736', '#297ACC'],
                 stack: true,
                 label: {
                   position: 'middle',
@@ -232,12 +235,50 @@ function ThemeDemo() {
                 // label: {
                 //   // position: 'middle'
                 // },
+                colors: ['#238736', '#297ACC'],
                 tooltip: {
                   columns: false,
                 },
               }}
             />
           </Wcontainer>
+        </div>
+      </div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: '1 1 33.33%' }}>
+        <Wcontainer className="demos">
+          <Wpie height={200} data={[
+            {
+              name: '浏览器占比',
+              data: [
+                ['Firefox', 45.0],
+                ['IE', 26.8],
+                ['Chrome', 12.8],
+                ['Safari', 8.5],
+                ['Opera', 6.2],
+                ['Others', 0.7],
+              ],
+            },
+          ]} config={{
+            cycle: true,
+            showDecoration: {
+              innerRadius: 100 // 自定义圆环底
+            },
+          }}/>
+          </Wcontainer>
+        </div>
+        <div style={{ flex: '1 1 33.33%' }}>
+          <Wbar data={data} height={200} language={'en-us'} config={{
+            xAxis: {
+              type: 'timeCat',
+              autoRotate: true,
+              autoHide: false,
+              // autoEllipsis: true
+            },
+          }}/>
+        </div>
+        <div style={{ flex: '1 1 33.33%' }}>
+          <Wline height="200" data={data} language={'en-us'} />
         </div>
       </div>
     </div>

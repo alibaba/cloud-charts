@@ -1,5 +1,6 @@
 import { isMobile } from './platform';
-import { VERSION, THEME, FullTrackName, TrackName, FullCamelName } from '../constants';
+import { VERSION, THEME, FullTrackName, FullTestName, TrackName, FullCamelName, FullCrossName, FullQualityName } from '../constants';
+import { calcChartScore, postMessage  } from './postMessage';
 
 /**
  * 日志记录
@@ -9,6 +10,8 @@ import { VERSION, THEME, FullTrackName, TrackName, FullCamelName } from '../cons
 const logMap: {
   [chartName: string]: {
     init: number;
+    // 规则执行的错误统计
+    rulesInfo: any;
   };
 } = {};
 
@@ -18,15 +21,27 @@ const logMap: {
  * @param {string} name 图表名称
  * @param {string} logType 单次日志类型
  * */
-export default function chartLog(name: string, logType: string) {
+export default function chartLog(name: string, logType: string, logInfo?: any) {
   if (!logMap[name]) {
     logMap[name] = {
       init: 0,
+      rulesInfo: []
     };
   }
 
   if (logType === 'init') {
     logMap[name][logType] += 1;
+  } else if (logType === 'rulesInfo') {
+    const chartClass = `${FullCrossName} ${name}`;
+    logMap[name][logType].push({
+      domInfo: {
+        tagName: 'div',
+        className: chartClass,
+        selector: logInfo.selector,
+      },
+      checkItem: logInfo.checkItem,
+      errorInfo: logInfo.errorInfo
+    });
   }
 }
 
@@ -40,6 +55,8 @@ export function themeLog(name: string) {
 }
 
 let trackable = window[FullTrackName] !== false;
+let testable = window[FullTestName] !== false;
+
 /**
  * 打点控制函数
  *
@@ -52,9 +69,30 @@ export function track(enable: boolean): void {
   trackable = enable;
 }
 
+/**
+ * test控制函数
+ *
+ * @param {bool} enable 是否开启打点
+ * */
+export function test(enable: boolean): void {
+  // 新版本中 G2 不再打点，所以关闭该指令
+  // G2.track(enable);
+  // F2.track(enable);
+  testable = enable;
+}
+
 // 打点逻辑，使用黄金令箭
 const logUrl = `//gm.mmstat.com/${TrackName}`;
 setTimeout(() => {
+  // 规则计算部分
+  if (testable) {
+    const chartRulesResult = calcChartScore(logMap);
+    // 方便图表获取质量分数
+    window[FullQualityName] = chartRulesResult;
+    postMessage(chartRulesResult);
+  }
+
+  // 打点部分
   if (trackable && process.env.NODE_ENV === 'production') {
     const chartInit = Object.keys(logMap).map((name) => {
       const chartLog = logMap[name];

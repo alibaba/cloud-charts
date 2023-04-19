@@ -8,14 +8,17 @@ import legendFilter from '../common/legendFilter';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
-import geomStyle, { GeomStyleConfig } from '../common/geomStyle';import updateChildrenPosition from '../common/updateChildrenPosition';
+import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
+import circleAnnotation, { DecorationConfig } from '../common/circleAnnoation';
+import updateChildrenPosition from '../common/updateChildrenPosition';
 import './index.scss';
 
-interface WmulticircleConfig extends BaseChartConfig {
+interface WmulticircleConfig extends BaseChartConfig, DecorationConfig{
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   size?: GeomSizeConfig;
+  radius?: number;
   innerRadius?: number;
   geomStyle?: GeomStyleConfig;
   minSize?: number;
@@ -44,6 +47,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       marginRatio: 0,
       size: null,
       innerRadius: 0,
+      radius: 1,
     };
   }
 
@@ -79,9 +83,12 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       showMarkers: false
     });
 
+    circleAnnotation(chart, config, this.size, 'G2MultiCircle');
+
     // 设置坐标系
     chart.coordinate('theta', {
       innerRadius: config.innerRadius || 0.5,
+      radius: config.radius || 1,
     });
 
     chart.interaction('element-active');
