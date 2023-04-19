@@ -15,3 +15,5 @@ export const FullThemeName = 'AiscWidgetsDefaultTheme';
 export const FullThemeEventName = 'setAiscWidgetsTheme';
 export const TrackName = 'aisc-widgets.use.init';
 export const PrefixName = 'aisc';
+export const FullLanguageName = 'AiscWidgetsDefaultLanguage';
+export const FullLanguageEventName = 'setAiscWidgetsLanguage';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { Wbar, Wline, Wplaceholder, Wmap, ChartProvider, setLanguage } from '@alife/aisc-widgets';
@@ -141,3 +141,13 @@ stories.add('地图', () => (
     />
   </ChartProvider>
 ));
+
+stories.add('事件', () => {
+  useEffect(() => {
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+    }, 3000);
+  }, []);
+
+  return <Wline height="300" data={[]} />;
+});
