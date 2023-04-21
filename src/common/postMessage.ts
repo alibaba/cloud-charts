@@ -1,6 +1,5 @@
 import { VERSION, FullCamelName } from '../constants';
 import chartQuality from './chartQuality';
-import { numberDecimal } from './common';
 
 // Teamix.test对接
 // 跨源通信
@@ -64,4 +63,12 @@ export function calcChartScore(logMap: any) {
     rate: numberDecimal(score - avgErrorScore),
     errorInfo: errorInfoArray
   };
+}
+
+// 解决循环依赖的问题，原先这个工具函数在common内，就会导致以下情况
+// index -> theme -> log -> postMessage -> common -> log
+function numberDecimal(num: any, decimal = 2) {
+  // 小数位被转换为整数且不小于0
+  let d = Math.max(0, Math.round(decimal));
+  return Math.round(Number(num) * Math.pow(10, d)) / Math.pow(10, d);
 }
