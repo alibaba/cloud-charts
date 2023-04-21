@@ -1,5 +1,5 @@
 @import "../themes/index";
-$bg-color: getVar(widgets-color-container-background, $widgets-color-container-background);
+$bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
 $bg-shadow: getVar(widgets-circle-inner-shadow, $widgets-circle-inner-shadow);
 
 .#{$base-name}.G2MultiCircle {

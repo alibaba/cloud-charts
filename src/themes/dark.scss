@@ -4,6 +4,7 @@
 $widgets-color-background: #141414;
 $widgets-color-layout-background: #0a0a0a !default;
 $widgets-color-container-background: #1c1c1c !default;
+$widgets-color-decoration-background: #1c1c1c !default;
 
 // 主色和状态色
 $widgets-color-blue: #307ac9;
@@ -124,10 +125,10 @@ $widgets-map-area-border: #141414;
 $widgets-map-label: #cccccc;
 
 // 圆环
-$widgets-circle-stroke-background: rgba(255, 255, 255, 0.2);
+$widgets-circle-stroke-background: rgba(51, 51, 51, 0.5);
 $widgets-circle-number: currentColor;
 $widgets-circle-stroke-width: 6px !default;
-$widgets-circle-outer-background: 'l(90) 0:#333333 1:#33333300';
+$widgets-circle-outer-background: 'l(90) 0:rgba(51, 51, 51, 0.2) 1:rgba(20, 20, 20, 0.2)';
 $widgets-circle-inner-shadow: 0 2px 11px 0 rgba(21, 21, 21, 1);
 
 // 桑基图
