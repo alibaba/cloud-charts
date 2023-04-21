@@ -58,7 +58,7 @@ export function calcChartScore(logMap: any) {
     }
   });
   // 计算平均分
-  const avgErrorScore = numberDecimal(errorScore / chartNumber);
+  const avgErrorScore = chartNumber === 0 ? 0 : numberDecimal(errorScore / chartNumber);
   // 计算总得分
   return {
     rate: numberDecimal(score - avgErrorScore),
