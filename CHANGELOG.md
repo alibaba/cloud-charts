@@ -1,3 +1,14 @@
+### 3.0.38 (2022-04-21)
+
+#### New Features
+- 增加国际化事件和全局变量 setAiscWidgetsLanguage ｜ AiscWidgetsDefaultLanguage
+
+#### Bug Fixes
+- 修复极端数据场景用户自定义图例被覆盖的为你
+- 修复质量分数为NAN的问题
+- 修复全局依赖的问题
+- 修复地图国际化的问题
+
 ### 3.0.37 (2022-03-30)
 
 #### New Features
