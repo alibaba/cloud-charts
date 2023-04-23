@@ -17,6 +17,8 @@ export const FullThemeName = 'CloudChartsDefaultTheme';
 export const FullThemeEventName = 'setCloudChartsTheme';
 export const TrackName = 'cloud-chart.use.init';
 export const PrefixName = 'cloud';
+export const FullLanguageName = 'CloudChartsDefaultLanguage';
+export const FullLanguageEventName = 'setCloudChartsLanguage';
 
 declare global {
   interface Window {

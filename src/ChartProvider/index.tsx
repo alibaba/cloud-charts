@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LanguageMap, { LocaleItem } from '../locales';
 import { Language } from '../common/types';
 import eventBus from '../common/eventBus';
+import { FullLanguageName, FullLanguageEventName } from '../constants';
 
 export interface ChartProviderProps {
   language?: Language;
@@ -14,10 +15,24 @@ export const ChartContext = React.createContext<ChartProviderProps>({
 
 let currentLanguage: Language;
 
+// 函数
 export function setLanguage(language: Language) {
   currentLanguage = language;
   eventBus.emit('setLanguage');
 }
+
+// 全局变量
+if (window[FullLanguageName]) {
+  setLanguage(window[FullLanguageName]);
+}
+
+// 事件
+document.addEventListener(FullLanguageEventName, function (e: CustomEvent) {
+  console.log('event:', e);
+  if (e.detail) {
+    setLanguage(e.detail);
+  }
+});
 
 class ChartProvider extends Component<ChartProviderProps> {
   private language: Language;

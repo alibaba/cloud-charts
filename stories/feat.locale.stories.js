@@ -141,3 +141,13 @@ stories.add('地图', () => (
     />
   </ChartProvider>
 ));
+
+stories.add('事件', () => {
+  useEffect(() => {
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+    }, 3000);
+  }, []);
+
+  return <Wline height="300" data={[]} />;
+});
