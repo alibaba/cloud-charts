@@ -106,7 +106,7 @@ const Wmulticircle: typeof MultiCircle = errorWrap(MultiCircle);
 export default Wmulticircle;
 
 function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors) {
-  const { size, minSize = 4, maxSize, columnWidthRatio } = config;
+  const { size, minSize = 4, maxSize = 24, columnWidthRatio } = config;
   let geomConfig: any = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,

@@ -4,6 +4,7 @@
 $widgets-color-background: #FFFFFF !default;
 $widgets-color-layout-background: #F7F7F7 !default;
 $widgets-color-container-background: #F7F7F7 !default;
+$widgets-color-decoration-background: #FFFFFF !default;
 
 // 主色和状态色
 $widgets-color-blue: #297acc !default;
@@ -125,11 +126,11 @@ $widgets-map-area-border: $widgets-color-background !default;
 $widgets-map-label: #333333 !default;
 
 // 圆环
-$widgets-circle-stroke-background: rgba(0, 0, 0, 0.04) !default;
+$widgets-circle-stroke-background: rgba(229, 229, 229, 0.5) !default;
 $widgets-circle-number: currentColor !default;
 $widgets-circle-stroke-width: 6px !default;
 $widgets-circle-outer-background: 'l(90) 0:#F7F7F7 1:#F7F7F700' !default;
-$widgets-circle-inner-shadow: 0 2px 9px 0 rgba(201, 207, 224, 0.5) !default;
+$widgets-circle-inner-shadow: 0 4px 20px 0 rgba(204, 204, 204, 0.5) !default;
 
 // 桑基图
 $widgets-sankey-edge: #e5e5e5 !default;
