@@ -75,9 +75,6 @@ export function track(enable: boolean): void {
  * @param {bool} enable 是否开启打点
  * */
 export function test(enable: boolean): void {
-  // 新版本中 G2 不再打点，所以关闭该指令
-  // G2.track(enable);
-  // F2.track(enable);
   testable = enable;
 }
 
