@@ -165,7 +165,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               {trendChart}
             </div>
           </div>
-          <div className={`${prefix}-item-label-container`} style={{ marginTop: props.value ? 8 : 0 }}>
+          <div className={`${prefix}-item-label-container`} style={{ marginTop: props.value !== undefined ? 8 : 0 }}>
             <div className={`${prefix}-item-label`} style={props.labelStyle || {}}>
               {props.label || ''}
             </div>
