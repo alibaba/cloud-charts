@@ -22,8 +22,8 @@ import './index.scss';
 // 3.x代码
 export interface WtreemapConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -51,11 +51,11 @@ export class Treemap extends Base<WtreemapConfig> {
       yAxis: {
         labelFormatter: null, // 可以强制覆盖，手动设置label
         max: null,
-        min: null
+        min: null,
       },
       legend: {
-        align: "left",
-        nameFormatter: null // 可以强制覆盖，手动设置label
+        align: 'left',
+        nameFormatter: null, // 可以强制覆盖，手动设置label
       },
       tooltip: {
         titleFormatter: null,
@@ -74,12 +74,20 @@ export class Treemap extends Base<WtreemapConfig> {
   }
   init(chart: Chart, config: WtreemapConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        nice: true,
-      }, config.xAxis),
-      y: propertyAssign(propertyMap.axis, {
-        nice: true,
-      }, config.yAxis)
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+        },
+        config.xAxis,
+      ),
+      y: propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+        },
+        config.yAxis,
+      ),
     };
 
     const dataView = processDataView(data);
@@ -90,7 +98,7 @@ export class Treemap extends Base<WtreemapConfig> {
     chart.data(nodes);
 
     // 设置图例
-    rectLegend(this, chart, config, null, false, "type");
+    rectLegend(this, chart, config, null, false, 'type');
 
     // tooltip
     rectTooltip(
@@ -158,7 +166,7 @@ function parseDataView(dv: any) {
       y: node.y,
       value: getNodeValue(node),
       depth: node.depth,
-      brand: node.data.brand
+      brand: node.data.brand,
     };
 
     if (!node.data.brand && node.parent) {
@@ -190,20 +198,26 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
     y: { nice: true },
   });
 
-  // label 自定义配置项待传入，TODO
   const geom = chart
     .polygon()
     .position('x*y')
     .color(field, colors)
-    .tooltip('name*value', (name, count) => ({ name, value: count, title: name }))
-    .label(
-      'name', {
-        offset: 0,
-        style: {
-          textBaseline: 'middle',
-        },
-      }
-    );
+    .tooltip('name*value', (name, count) => ({ name, value: count, title: name }));
+
+  if (config?.label === true || (typeof config?.label === 'object' && config?.label?.visible !== false)) {
+    geom.label('name', {
+      offset: typeof config?.label === 'object' ? config?.label?.offset || 0 : 0,
+      style: {
+        textBaseline: 'middle',
+      },
+      content: (data, mappingData, index) => {
+        if (typeof config?.label === 'object' && typeof config?.label?.labelFormatter === 'function') {
+          return config?.label?.labelFormatter(data.name, mappingData, index);
+        }
+        return data.name;
+      },
+    });
+  }
 
   geomStyle(geom, config.geomStyle);
 
@@ -239,27 +253,26 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
       value,
       title: brand,
     }))
-    .label(
-      'depth*brand*name*value*x*y',
-      (depth, brand, value) => {
-        if (depth === 1 && value) {
-          // 只有第一级显示文本，数值太小时不显示文本
-          return {
-            content: brand,
-          };
+    .label('depth*brand*name*value*x*y', {
+      content: (data, mappingData, index) => {
+        if (typeof config?.label === 'object' && typeof config?.label?.labelFormatter === 'function') {
+          return config?.label?.labelFormatter(data.name, mappingData, index);
+        } else {
+          if (data.depth === 1 && data.value) {
+            // 只有第一级显示文本，数值太小时不显示文本
+            return data.brand;
+          }
+          return null;
         }
-        return { content: null };
       },
-      {
-        offset: 0,
-        style: {
-          textBaseline: 'middle',
-          fill: '#000',
-          shadowBlur: 10,
-          shadowColor: '#fff',
-        },
-      }
-    );
+      offset: typeof config?.label === 'object' ? config?.label?.offset || 0 : 0,
+      style: {
+        textBaseline: 'middle',
+        fill: '#000',
+        shadowBlur: 10,
+        shadowColor: '#fff',
+      },
+    });
 
   geomStyle(geom, config.geomStyle);
 }
