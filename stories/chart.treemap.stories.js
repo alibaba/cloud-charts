@@ -27,6 +27,17 @@ const data = {
     { name: '分类 18', value: 30 },
     { name: '分类 19', value: 28 },
     { name: '分类 20', value: 16 },
+    { name: '分类 21', value: 45 },
+    { name: '分类 22', value: 40 },
+    { name: '分类 23', value: 40 },
+    { name: '分类 24', value: 35 },
+    { name: '分类 25', value: 40 },
+    { name: '分类 26', value: 40 },
+    { name: '分类 27', value: 40 },
+    { name: '分类 28', value: 30 },
+    { name: '分类 29', value: 28 },
+    { name: '分类 30', value: 16 },
+    // { name: '分类 31', value: 16 },
   ],
 };
 
@@ -34,7 +45,7 @@ const stories = storiesOf('Wtreemap', module);
 
 stories.add('矩形树图', () => (
   <Wcontainer className="demos">
-    <Wtreemap height="600" data={data} />
+    <Wtreemap height="500" data={data} />
   </Wcontainer>
 ));
 

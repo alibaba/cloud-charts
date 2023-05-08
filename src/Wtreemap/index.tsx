@@ -77,14 +77,14 @@ export class Treemap extends Base<WtreemapConfig> {
       x: propertyAssign(
         propertyMap.axis,
         {
-          //nice: true,
+          nice: false
         },
         config.xAxis,
       ),
       y: propertyAssign(
         propertyMap.axis,
         {
-          //nice: true,
+          nice: false
         },
         config.yAxis,
       ),
@@ -193,11 +193,6 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
     chart.coordinate();
   }
 
-  // chart.scale({
-  //   x: { nice: true },
-  //   y: { nice: true },
-  // });
-
   const geom = chart
     .polygon()
     .position('x*y')
@@ -238,11 +233,6 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
     // 习惯性最小的在最下面
     chart.coordinate().scale(1, -1);
   }
-
-  // chart.scale({
-  //   x: { nice: false },
-  //   y: { nice: false },
-  // });
 
   const geom = chart
     .polygon()
