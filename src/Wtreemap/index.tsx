@@ -77,14 +77,14 @@ export class Treemap extends Base<WtreemapConfig> {
       x: propertyAssign(
         propertyMap.axis,
         {
-          nice: false
+          nice: false,
         },
         config.xAxis,
       ),
       y: propertyAssign(
         propertyMap.axis,
         {
-          nice: false
+          nice: false,
         },
         config.yAxis,
       ),
@@ -161,6 +161,7 @@ function parseDataView(dv: any) {
     }
 
     const eachNode = {
+      ...node,
       name: node.data.name,
       x: node.x,
       y: node.y,
@@ -269,8 +270,8 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
 
 // 此方法对原始数据进行处理，返回新的副本
 function resetParentValue(data: any) {
-  const { brand, name, value, children } = data;
-  const result = { name, value, brand, children };
+  const { brand, children } = data;
+  const result = { ...data };
   if (brand) {
     result.brand = brand;
   }
