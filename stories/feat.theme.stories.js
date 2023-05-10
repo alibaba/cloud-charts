@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select, color } from '@storybook/addon-knobs';
@@ -267,6 +267,32 @@ stories.add('颜色变量测试', () => {
           stack: true,
         }}
         data={data}
+      />
+    </div>
+  );
+});
+
+stories.add('loading测试', () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
+  return (
+    <div style={{ height: 300 }}>
+      <Wbar
+        height="300"
+        config={{
+          xAxis: {
+            type: 'timeCat',
+          },
+          stack: true,
+        }}
+        data={data}
+        loading={loading}
       />
     </div>
   );

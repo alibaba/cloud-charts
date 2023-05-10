@@ -1,0 +1,98 @@
+@import '../../themes/index';
+
+$loading-prefix: '.#{$base-prefix}-loading';
+
+$color: getVar(widgets-color-disable, $widgets-color-disable);
+$font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
+$loading-indicator-size: 28px;
+$loading-vector-seconds: 5.6s;
+$loading-vector-dot-seconds: 1.4s;
+$loading-dot-size: 8px;
+$loading-dot-fill: getVar(widgets-color-normal, $widgets-color-normal);
+$loading-background: getVar(widgets-color-container-background, $widgets-color-container-background);
+
+#{$loading-prefix} {
+  background: $loading-background;
+  color: $color;
+  font-size: $font-size;
+  line-height: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-inline {
+    pointer-events: none;
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  /* text on the right side of */
+  &-right-tip {
+    display: flex;
+    align-items: center;
+    #{$loading-prefix}-indicator {
+      display: inline-block;
+      margin-right: $font-size;
+    }
+    #{$loading-prefix}-tip-content {
+      display: inline-block;
+    }
+  }
+  /* 动效 */
+  &-fusion-reactor {
+    display: inline-block;
+    width: $loading-indicator-size;
+    height: $loading-indicator-size;
+    position: relative;
+    margin: 0;
+    animation-name: nextVectorRoute;
+    animation-duration: $loading-vector-seconds;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    #{$loading-prefix}-dot {
+      position: absolute;
+      margin: auto;
+      width: $loading-dot-size;
+      height: $loading-dot-size;
+      border-radius: 50%;
+      background: $loading-dot-fill;
+
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-duration: $loading-vector-dot-seconds;
+
+      &:nth-child(1) {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        animation-name: nextVectorDotsX;
+      }
+      &:nth-child(2) {
+        left: 0;
+        right: 0;
+        top: 0;
+        opacity: 0.8;
+        animation-name: nextVectorDotsY;
+      }
+      &:nth-child(3) {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0.6;
+        animation-name: nextVectorDotsXR;
+      }
+      &:nth-child(4) {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.2;
+        animation-name: nextVectorDotsYR;
+      }
+    }
+  }
+}

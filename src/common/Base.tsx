@@ -24,6 +24,7 @@ import {
 import getEmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
+import Loading from './loading';
 
 registerAction('list-checked', ListChecked);
 
@@ -172,6 +173,8 @@ export interface ChartProps<ChartConfig> {
               showPlaceholder?: boolean;
             };
       };
+  /** loading状态 */
+  loading?: boolean;
 }
 
 /**
@@ -394,10 +397,12 @@ class Base<
 
     this.language = this.props.language;
 
-    // 设置初始高宽
-    this.initSize();
+    if (!this.props.loading) {
+      // 设置初始高宽
+      this.initSize();
 
-    this.initChart();
+      this.initChart();
+    }
 
     eventBus.on('setTheme', this.rerender);
     eventBus.on('setLanguage', this.rerender);
@@ -460,6 +465,7 @@ class Base<
       config: newConfig,
       event: newEvent,
       interaction: newInteraction,
+      loading: newLoading,
       // changeConfig = true,
     } = this.props;
     const {
@@ -469,9 +475,16 @@ class Base<
       config: oldConfig,
       event: oldEvent,
       interaction: oldInteraction,
+      loading: oldLoading,
     } = prevProps;
 
     this.language = this.props.language;
+
+    if (oldLoading && !newLoading) {
+      this.initSize();
+
+      this.initChart();
+    }
 
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
@@ -992,8 +1005,14 @@ class Base<
       customChart,
       getChartInstance,
       enableFunctionUpdate,
+      loading,
       ...otherProps
     } = this.props;
+
+    if (loading) {
+      return <Loading text={getText('loading', this.language || this.context.language, this.context.locale)} />;
+    }
+
     return (
       <div
         ref={(dom) => (this.chartDom = dom)}
