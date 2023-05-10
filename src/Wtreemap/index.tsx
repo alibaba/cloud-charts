@@ -14,7 +14,7 @@ import { YAxisConfig } from '../common/rectYAxis';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import guide, { GuideConfig } from '../common/guide';
-import { LabelConfig } from '../common/label';
+import label, { LabelConfig } from '../common/label';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 
 import './index.scss';
@@ -200,20 +200,21 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
     .color(field, colors)
     .tooltip('name*value', (name, count) => ({ name, value: count, title: name }));
 
-  if (config?.label === true || (typeof config?.label === 'object' && config?.label?.visible !== false)) {
-    geom.label('name', {
-      offset: typeof config?.label === 'object' ? config?.label?.offset || 0 : 0,
+  label({
+    geom,
+    config: {
+      ...config,
+      label: {
+        position: 'middle',
+        ...(typeof config?.label === 'object' ? config?.label : {}),
+      },
+    },
+    defaultConfig: {
       style: {
         textBaseline: 'middle',
       },
-      content: (data, mappingData, index) => {
-        if (typeof config?.label === 'object' && typeof config?.label?.labelFormatter === 'function') {
-          return config?.label?.labelFormatter(data.name, mappingData, index);
-        }
-        return data.name;
-      },
-    });
-  }
+    },
+  });
 
   geomStyle(geom, config.geomStyle);
 
@@ -243,27 +244,31 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
       name,
       value,
       title: brand,
-    }))
-    .label('depth*brand*name*value*x*y', {
-      content: (data, mappingData, index) => {
-        if (typeof config?.label === 'object' && typeof config?.label?.labelFormatter === 'function') {
-          return config?.label?.labelFormatter(data.name, mappingData, index);
-        } else {
-          if (data.depth === 1 && data.value) {
+    }));
+
+  label({
+    geom,
+    config: {
+      ...config,
+      label: {
+        position: 'middle',
+        labelFormatter: (label, data, index) => {
+          console.log('data', data);
+          if (data._origin.depth === 1 && data._origin.value) {
             // 只有第一级显示文本，数值太小时不显示文本
-            return data.brand;
+            return data._origin.brand;
           }
           return null;
-        }
+        },
+        ...(typeof config?.label === 'object' ? config?.label : {}),
       },
-      offset: typeof config?.label === 'object' ? config?.label?.offset || 0 : 0,
+    },
+    defaultConfig: {
       style: {
         textBaseline: 'middle',
-        fill: '#000',
-        shadowBlur: 10,
-        shadowColor: '#fff',
       },
-    });
+    },
+  });
 
   geomStyle(geom, config.geomStyle);
 }
