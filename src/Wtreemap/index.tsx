@@ -62,7 +62,19 @@ export class Treemap extends Base<WtreemapConfig> {
         nameFormatter: null,
         valueFormatter: null,
       },
-      label: true,
+      label: {
+        position: 'middle',
+        labelFormatter: (label, data, index) => {
+          if (data._origin.depth === 1 && data._origin.value) {
+            // 只有第一级显示文本，数值太小时不显示文本
+            return data._origin.brand || data._origin.name;
+          }
+          return null;
+        },
+        style: {
+          textBaseline: 'middle',
+        },
+      },
       innerRadius: 0,
       polar: false,
       // 区块的 border 样式，包含 lineWidth lineDash stroke 等属性
@@ -202,18 +214,7 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
 
   label({
     geom,
-    config: {
-      ...config,
-      label: {
-        position: 'middle',
-        ...(typeof config?.label === 'object' ? config?.label : {}),
-      },
-    },
-    defaultConfig: {
-      style: {
-        textBaseline: 'middle',
-      },
-    },
+    config,
   });
 
   geomStyle(geom, config.geomStyle);
@@ -248,26 +249,7 @@ function drawNestedTreemap(chart: Chart, config: WtreemapConfig, field = 'brand'
 
   label({
     geom,
-    config: {
-      ...config,
-      label: {
-        position: 'middle',
-        labelFormatter: (label, data, index) => {
-          console.log('data', data);
-          if (data._origin.depth === 1 && data._origin.value) {
-            // 只有第一级显示文本，数值太小时不显示文本
-            return data._origin.brand;
-          }
-          return null;
-        },
-        ...(typeof config?.label === 'object' ? config?.label : {}),
-      },
-    },
-    defaultConfig: {
-      style: {
-        textBaseline: 'middle',
-      },
-    },
+    config,
   });
 
   geomStyle(geom, config.geomStyle);
