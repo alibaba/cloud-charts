@@ -5,6 +5,7 @@ import { warn } from './log';
 import isEqual from 'lodash/isEqual';
 import isEqualWith from 'lodash/isEqualWith';
 import merge from 'lodash/merge';
+import colorMap from './colorMap';
 export { isEqual, isEqualWith, merge };
 
 export const requestAnimationFrame = window && window.requestAnimationFrame;
@@ -166,26 +167,11 @@ export function getDataIndexColor(colors: Colors, rawData: any[], dataIndex: num
 /** 主题关键字 */
 /** 颜色映射, 主要针对状态色 */
 export function mapColors(colors: Colors) {
-  const colorMap: any = {
-    disabled: '$widgets-color-gray',
-    normal: 'widgets-color-normal',
-    warning: 'widgets-color-orange',
-    error: 'widgets-color-red',
-    success: 'widgets-color-green',
-    p1: 'widgets-color-p1',
-    p2: 'widgets-color-p2',
-    p3: 'widgets-color-p3',
-    p4: 'widgets-color-p4',
-    p5: 'widgets-color-p5',
-    p6: 'widgets-color-p6',
-    p7: 'widgets-color-p7',
-  };
-
   let newColors = colors;
   if (typeof colors === 'string') {
-    newColors = colors in colorMap ? (themes as any)[colorMap[colors]] : colors;
+    newColors = colors in colorMap ? (themes as any)[(colorMap as any)[colors]] : colors;
   } else if (Array.isArray(colors)) {
-    newColors = colors.map((color: string) => (color in colorMap ? (themes as any)[colorMap[color]] : color));
+    newColors = colors.map((color: string) => (color in colorMap ? (themes as any)[(colorMap as any)[color]] : color));
   }
 
   return newColors;
