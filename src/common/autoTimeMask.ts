@@ -60,14 +60,15 @@ function getAutoMask(def: Types.ScaleOption, data: any): string {
     return defaultMask;
   }
   // 假设数据是升序的，且传入为 Date 能识别的格式
+  // 只取第一、二个元素的间距
   const min = (new Date(data[0][0])).getTime();
   const minFirst = (new Date(data[1][0])).getTime();
   const max = (new Date(data[data.length - 1][0])).getTime();
   if (isNaN(min) || isNaN(max) || isNaN(minFirst)) {
     return defaultMask;
   }
-  const span = max - min;
-  const interval = def.tickInterval || (minFirst - min);
+  const span = max - min; // 间隔
+  const interval = def.tickInterval || (minFirst - min); // 跨度
 
   const spanIndex = getTimeIndex(span);
   const intervalIndex = getTimeIndex(interval);
