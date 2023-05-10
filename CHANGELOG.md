@@ -1,7 +1,7 @@
 ### 1.0.38 (2022-04-23)
 
 #### New Features
-- 增加国际化事件和全局变量 setAiscWidgetsLanguage ｜ AiscWidgetsDefaultLanguage
+- 增加国际化事件和全局变量 setCloudChartsLanguage ｜ CloudChartsDefaultLanguage
 
 #### Bug Fixes
 - 修复极端数据场景用户自定义图例被覆盖的问题
