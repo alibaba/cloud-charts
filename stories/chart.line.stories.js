@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, select } from "@storybook/addon-knobs";
+import { withKnobs, select } from '@storybook/addon-knobs';
 
 import { Wcontainer, Wline } from '@alicloud/cloud-charts';
 
@@ -95,8 +95,8 @@ stories.add('面积曲线图', () => (
               value: 7000,
               // 自定义样式，可设置为虚线
               style: {
-                lineDash: [4, 4]
-              }
+                lineDash: [4, 4],
+              },
             },
             {
               top: true,
@@ -837,3 +837,64 @@ stories.add('极端数据场景（少）', () => {
     </>
   );
 });
+
+const timeData = {
+  year_1: [
+    // 跨年，间隔大于一年
+    {
+      name: '机房A',
+      data: [
+        [1483372800000, 1592],
+        [1583372800000, 1592],
+        [1683561600000, 4092],
+      ],
+    },
+  ],
+  year_2: [
+    // 跨年，间隔小于半年，大于1个月
+    {
+      name: '机房A',
+      data: [
+        [1670515200000, 1592],
+        // [1673193600000, 2222],
+        // [1673280000000, 4092],
+      ],
+    },
+  ],
+  year_3: [
+    // 跨年，间隔为1个月
+    {
+      name: '机房A',
+      data: [
+        [1670515200000, 2222],
+        [1673193600000, 2222],
+        [1675872000000, 2222],
+        [1678291200000, 2222],
+        [1680969600000, 1592],
+        [1683561600000, 4092],
+      ],
+    },
+  ],
+};
+stories.add('测试跨度', () => (
+  <div
+    style={{
+      display: 'flex',
+    }}
+  >
+    {/* <div
+      style={{
+        flex: '0 0 calc(50% - 10px)',
+      }}
+    >
+      <Wline height="300" data={timeData.year_1} />
+    </div> */}
+    <div
+      style={{
+        flex: '0 0 calc(50% - 10px)',
+      }}
+    >
+      <Wline height="300" data={timeData.year_2} config={{}} />
+    </div>
+  </div>
+));

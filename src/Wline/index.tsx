@@ -117,7 +117,6 @@ export class Line extends Base<WlineConfig> {
     }
 
     autoTimeMask(defs, this.rawData);
-
     // rectAutoTickCount(chart, config, defs, false);
 
     chart.scale(defs);

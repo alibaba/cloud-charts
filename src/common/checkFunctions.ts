@@ -356,7 +356,24 @@ export function checkExtremeData(
       label: true,
     };
 
-    if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
+    // 只有一个点的时候，在Y轴中间
+    // 开启label和symbol
+    // TODO 每一组数据只有一个点的时候需要控制他们都在Y轴中部区域，待规则制定
+    if (dataSize === 1) {
+      return {
+        config: {
+          yAxis: {
+            ...config.yAxis,
+            min: data?.[0]?.y > 0 ? 0 : data?.[0]?.y * 2,
+            max: data?.[0]?.y > 0 ? data?.[0]?.y * 2 : 0,
+          },
+          // label判断自定义
+          label: config?.label?.labelFormatter ? config.label : true,
+          symbol: true,
+        },
+        isExtreme: true,
+      }
+    } else if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
       warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
       return {
         config: extremeConfig,
