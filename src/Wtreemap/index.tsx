@@ -151,6 +151,14 @@ export class Treemap extends Base<WtreemapConfig> {
 }
 
 // 数据分箱
+// 树图布局tile
+// 'treemapBinary' 为宽矩形选择水平分区，为高矩形选择垂直分区
+// 'treemapDice' 按照水平方向进行分割
+// 'treemapSlice' 按照垂直方向进行分割
+// 'treemapSliceDice' 如果指定节点的深度值为奇数，则执行 treemapSlice 否则执行 treemapDice
+// 'treemapSquarify' 使用指定的纵横比（ratio）来切分矩形
+// 'treemapResquarify' 保证具有较好的平均长宽比。后续即便是数据变化也只改变节点的大小，而不会改变节点的相对位置。
+
 function processDataView(data: ChartData) {
   const dv = new View().source(resetParentValue(data), { type: 'hierarchy' });
   dv.transform({
@@ -159,7 +167,6 @@ function processDataView(data: ChartData) {
     tile: 'treemapResquarify',
     as: ['x', 'y'],
   });
-
   return dv;
 }
 
@@ -172,8 +179,9 @@ function parseDataView(dv: any) {
       continue;
     }
 
+    const { parent, ...others } = node;
     const eachNode = {
-      ...node,
+      userData: others.data,
       name: node.data.name,
       x: node.x,
       y: node.y,
@@ -211,7 +219,7 @@ function drawTreemap(chart: Chart, config: WtreemapConfig, field = 'name') {
     .position('x*y')
     .color(field, colors)
     .tooltip('name*value', (name, count) => ({ name, value: count, title: name }));
-
+  
   label({
     geom,
     config,
