@@ -8,6 +8,7 @@ import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
 import { ChartContext, getText } from '../ChartProvider';
 import { warn } from '../common/log';
+import eventBus from '../common/eventBus';
 import './index.scss';
 
 const prefix = `${PrefixName}-wplaceholder`;
@@ -100,7 +101,14 @@ const loadingDom = (text: string) => {
 };
 
 // 获取显示文案
-function getLocaleText(locale: LocaleItem, language: keyof typeof Locale, loading: boolean, error: boolean, noData: boolean, empty: boolean) {
+function getLocaleText(
+  locale: LocaleItem,
+  language: keyof typeof Locale,
+  loading: boolean,
+  error: boolean,
+  noData: boolean,
+  empty: boolean,
+) {
   const value = error ? 'error' : loading ? 'loading' : noData ? 'noData' : empty ? 'empty' : null;
   if (value) {
     return getText(value, language, locale);
@@ -131,20 +139,41 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
 
     // 图表初始化时记录日志
     chartLog('Wplaceholder', 'init');
+
+    this.state = {
+      language: null,
+    };
+
+    eventBus.on('setLanguage', (params: any) => {
+      this.setState({
+        language: params.language,
+      });
+    });
   }
 
   renderText(loading: boolean, error: boolean, noData: boolean, empty: boolean) {
     const { locale, language, children } = this.props;
     // text 优先判断传入的locale，其次判断传入的language，最后取中文locale
-    const text = getLocaleText(locale||this.context.locale,language||this.context.language, loading, error, noData, empty) || '';
+    const text =
+      getLocaleText(
+        locale || this.context.locale,
+        this.state?.language || language || this.context.language,
+        loading,
+        error,
+        noData,
+        empty,
+      ) || '';
     if (children) {
       // 优先渲染children
       return <div className={prefix + '-children-text'}>{children}</div>;
     } else if (empty) {
       return (
-        <div className={prefix + '-children-text'} style={{
-          marginTop: 0
-        }}>
+        <div
+          className={prefix + '-children-text'}
+          style={{
+            marginTop: 0,
+          }}
+        >
           {emptySvg}
           <span
             style={{
@@ -165,7 +194,19 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
   }
 
   render() {
-    const { className, width, height = '100%', style, loading, error, noData, empty, locale, language, ...otherProps } = this.props;
+    const {
+      className,
+      width,
+      height = '100%',
+      style,
+      loading,
+      error,
+      noData,
+      empty,
+      locale,
+      language,
+      ...otherProps
+    } = this.props;
 
     const mainClasses = classNames(prefix, {
       [FullCrossName]: true,
@@ -181,7 +222,10 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       renderSvg = errorSvg;
     } else if (!loading && noData) {
       renderSvg = noDataSvg;
-      warn('Wplaceholder', 'noData属性已废弃，如果基础图表如Wline无数据，无需额外使用该组件，如为业务自定义组件，请使用empty属性。');
+      warn(
+        'Wplaceholder',
+        'noData属性已废弃，如果基础图表如Wline无数据，无需额外使用该组件，如为业务自定义组件，请使用empty属性。',
+      );
 
       chartLog('Wplaceholder', 'rulesInfo', {
         selector: `#${prefix}-no-data`,
@@ -189,8 +233,8 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
         errorInfo: {
           value: 'noData', // 错误的值
           errorValue: 1, // 错误的数量
-          errorRate: 1
-        }
+          errorRate: 1,
+        },
       });
     } else if (empty) {
       renderSvg = <></>;
@@ -209,7 +253,13 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
         {...otherProps}
       >
         {loading ? (
-          loadingDom(getText('loading',language||this.context.language,locale||this.context.locale))
+          loadingDom(
+            getText(
+              'loading',
+              this.state?.language || language || this.context.language,
+              locale || this.context.locale,
+            ),
+          )
         ) : (
           <div className={prefix + '-children'}>
             {renderSvg}

@@ -18,7 +18,7 @@ let currentLanguage: Language;
 // 函数
 export function setLanguage(language: Language) {
   currentLanguage = language;
-  eventBus.emit('setLanguage');
+  eventBus.emit('setLanguage', { language });
 }
 
 // 全局变量
