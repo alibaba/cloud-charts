@@ -853,10 +853,18 @@ const timeData = {
   year_2: [
     // 跨年，间隔小于半年，大于1个月
     {
-      name: '机房A',
+      name: '机房A2222222222222222222222222222222222231231231fwefq141331231231fwefq1413',
       data: [
         [1670515200000, 1592],
         // [1673193600000, 2222],
+        // [1673280000000, 4092],
+      ],
+    },
+    {
+      name: '机房A3333333333333333333331231231231fwefq1413',
+      data: [
+        // [1670515200000, 1592],
+        [1673193600000, 2222],
         // [1673280000000, 4092],
       ],
     },
@@ -894,7 +902,21 @@ stories.add('测试跨度', () => (
         flex: '0 0 calc(50% - 10px)',
       }}
     >
-      <Wline height="300" data={timeData.year_2} config={{}} />
+      <Wline
+        height="300"
+        data={timeData.year_2}
+        config={{
+          legend: {
+            // maxWidth: 100
+            // maxWidthRatio: 0.5
+            customConfig: {
+              // 支持用户自定义
+              maxItemWidth: 0.8,
+              // autoEllipsis: true
+            },
+          },
+        }}
+      />
     </div>
   </div>
 ));

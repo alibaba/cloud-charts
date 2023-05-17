@@ -648,8 +648,9 @@ export function setG2Theme(theme: Theme) {
   legendKeys.forEach((key) => {
     const style = legendStyle[key];
     merge(style, {
-      // 关闭默认主题中的最大宽度限制
-      maxItemWidth: null,
+      // 超出占图表宽度的45%则省略，分页符占了10%，期望一页至少展示2个，所以定为0.45
+      // 这里注意，测试结果中画布尺寸小于100会影响展示
+      maxItemWidth: 0.45,
       // 这里设置 itemValue 会导致一直显示 value，所以放到 legend 中配置
       itemStates: {
         active: {
