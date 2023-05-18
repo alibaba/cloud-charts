@@ -81,7 +81,7 @@ export function checkExtremeData(
   width: number,
   height: number,
   dataSize: number,
-  force: any
+  force: any,
 ): {
   isExtreme: boolean;
   data?: any;
@@ -338,28 +338,12 @@ export function checkExtremeData(
   }
   // 线图
   else if (chartName === 'G2Line') {
-    // 计算最大最小值，优化只有一个点的时候的Y轴刻度
-    let min = data?.[0]?.y;
-    let max = data?.[0]?.y;
-    const typeSet: any = [];
-    data?.forEach((el: any) => {
-      if (el?.visible || el?.type?.includes('undefined') || el?.visible === undefined) {
-        typeSet.push(el?.type);
-        min = el.y < min ? el.y : min;
-        max = el.y > max ? el.y : max;
-      }
-    });
+    // 计算线的数量
+    const lineCount = Array.from(new Set(data.map((d: any) => d.type))).length;
 
-    const extremeConfig: any = {
-      area: true,
-      symbol: true,
-      label: true,
-    };
-
-    // 只有一个点的时候，在Y轴中间
-    // 开启label和symbol
-    // TODO 每一组数据只有一个点的时候需要控制他们都在Y轴中部区域，待规则制定
+    // 只有一个点的时候，在Y轴中间，并开启label与symbol
     if (dataSize === 1) {
+      warn('Line', '当前线图数据较少，为优化展示，已自动开启标记和文本。');
       return {
         config: {
           yAxis: {
@@ -368,15 +352,33 @@ export function checkExtremeData(
             max: data?.[0]?.y > 0 ? data?.[0]?.y * 2 : 0,
           },
           // label判断自定义
-          label: config?.label?.labelFormatter ? config.label : true,
-          symbol: true,
+          label: {
+            ...(typeof config?.label === 'object' ? config?.label : {}),
+            visible: true,
+          },
+          symbol: {
+            ...(typeof config?.symbol === 'object' ? config?.symbol : {}),
+            visible: true,
+          },
         },
         isExtreme: true,
-      }
-    } else if (new Set(typeSet)?.size < 2 && dataSize < 6 && dataSize > 0) {
+      };
+    } else if (lineCount === 1 && dataSize === 2) {
+      // 一条线两个点，开启area、symbol和label
       warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
       return {
-        config: extremeConfig,
+        config: {
+          // label判断自定义
+          label: {
+            ...(typeof config?.label === 'object' ? config?.label : {}),
+            visible: true,
+          },
+          symbol: {
+            ...(typeof config?.symbol === 'object' ? config?.symbol : {}),
+            visible: true,
+          },
+          area: true,
+        },
         isExtreme: true,
       };
     }
