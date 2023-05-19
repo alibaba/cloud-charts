@@ -898,3 +898,39 @@ stories.add('测试跨度', () => (
     </div>
   </div>
 ));
+
+const onePoint = [
+  {
+    name: '浏览器占比',
+    data: [[1483459200000, 1592]],
+  },
+];
+
+const twoPoint = [
+  {
+    name: '浏览器占比',
+    data: [
+      [1670515200000, 2222],
+      [1683561600000, 4092],
+    ],
+  },
+];
+
+const twoLine = [
+  {
+    name: 'A',
+    data: [[1670515200000, 2222]],
+  },
+  {
+    name: 'B',
+    data: [[1683561600000, 4092]],
+  },
+];
+
+stories.add('极端数据测试', () => (
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Wline height="300" data={onePoint} config={{ label: { labelFormatter: () => 'test' } }} />
+    <Wline height="300" data={twoPoint} config={{}} />
+    <Wline height="300" data={twoLine} config={{}} />
+  </div>
+));

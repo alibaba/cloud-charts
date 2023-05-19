@@ -363,6 +363,22 @@ export function checkExtremeData(
         },
         isExtreme: true,
       };
+    } else if (dataSize === lineCount) {
+      // 每条线一个点时，开启label和symbol
+      warn('Line', '当前线图数据较少，为优化展示，已自动开启标记和文本。');
+      return {
+        config: {
+          label: {
+            ...(typeof config?.label === 'object' ? config?.label : {}),
+            visible: true,
+          },
+          symbol: {
+            ...(typeof config?.symbol === 'object' ? config?.symbol : {}),
+            visible: true,
+          },
+        },
+        isExtreme: true,
+      };
     } else if (lineCount === 1 && dataSize === 2) {
       // 一条线两个点，开启area、symbol和label
       warn('Line', '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
