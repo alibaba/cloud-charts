@@ -81,44 +81,45 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   );
 
   const lineChart = props?.chart?.type === 'line' && (
-    <div
-      className={`${prefix}-item-line`}
-      style={{
-        alignSelf: chartPosition === 'top' || chartPosition === 'bottom' ? 'flex-start' : 'center',
+    <Wline
+      data={props?.chart?.data || []}
+      // width={props?.chart?.width || null}
+      height={props?.chart?.height || 40}
+      config={{
+        xAxis: {
+          visible: false,
+        },
+        yAxis: {
+          visible: false,
+        },
+        legend: false,
+        tooltip: false,
+        ...props?.chart?.config,
       }}
-    >
-      <Wline
-        data={props?.chart?.data || []}
-        // width={props?.chart?.width || null}
-        height={props?.chart?.height || 40}
-        config={{
-          xAxis: {
-            visible: false,
-          },
-          yAxis: {
-            visible: false,
-          },
-          legend: false,
-          tooltip: false,
-          ...props?.chart?.config,
-        }}
-        force
-      />
-    </div>
+      force
+    />
   );
 
   const circleChart = props?.chart?.type === 'circle' && (
-    <div
-      className={`${prefix}-item-circle`}
-      style={{
-        alignSelf: chartPosition === 'top' || chartPosition === 'bottom' ? 'flex-start' : 'center',
-      }}
-    >
-      <Wcircle percent={props?.chart?.data || 0} {...{ radius: 22, ...props?.chart?.config }} />
-    </div>
+    <Wcircle percent={props?.chart?.data || 0} {...{ radius: 22, ...props?.chart?.config }} />
   );
 
   const chartElement = (React.isValidElement(props?.chart) && props.chart) || lineChart || circleChart;
+
+  const chartContainer = chartElement && (
+    <div
+      className={`${prefix}-item-chart`}
+      style={{
+        justifyContent: chartPosition === 'right' ? 'flex-end' : 'flex-start',
+        marginLeft: chartPosition === 'right' ? 8 : 0,
+        marginRight: chartPosition === 'left' ? 8 : 0,
+        marginTop: chartPosition === 'bottom' ? 8 : 0,
+        marginBottom: chartPosition === 'top' ? 8 : 0,
+      }}
+    >
+      {chartElement}
+    </div>
+  );
 
   return (
     <div
@@ -131,13 +132,14 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         props?.onClick?.(event);
       }}
     >
-      {(chartPosition === 'left' || chartPosition === 'top') && chartElement}
+      {(chartPosition === 'left' || chartPosition === 'top') && chartContainer}
       <div
         className={`${prefix}-item-content`}
         style={{
           flexDirection: iconPosition === 'left' || iconPosition === 'right' ? 'row' : 'column',
           justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
           alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
+          alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
         }}
       >
         {(iconPosition === 'left' || iconPosition === 'top') && iconElement}
@@ -173,7 +175,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         </div>
         {(iconPosition === 'right' || iconPosition === 'bottom') && iconElement}
       </div>
-      {(chartPosition === 'right' || chartPosition === 'bottom') && chartElement}
+      {(chartPosition === 'right' || chartPosition === 'bottom') && chartContainer}
     </div>
   );
 };
