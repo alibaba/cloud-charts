@@ -10,8 +10,8 @@
     vertical-align: baseline;
 
     border: $warrow-height solid transparent;
-    border-right-width: $warrow-width / 2;
-    border-left-width: $warrow-width / 2;
+    border-right-width: $warrow-width * 0.5;
+    border-left-width: $warrow-width * 0.5;
   }
 
   &#{$warrow-prefix}-up:before {

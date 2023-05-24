@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@use "sass:math";
 
 @mixin box-sizing {
   box-sizing: border-box;
@@ -118,19 +119,19 @@
 
 // 响应式布局的行在不同断点下的左右两侧留白
 @mixin breakpoint-row-space() {
-  @include breakpoint(xxs) { padding: 0 $grid-space-xxs - ($grid-gutter / 2); }
-  @include breakpoint(xs) { padding: 0 $grid-space-xs - ($grid-gutter / 2); }
-  @include breakpoint(s) { padding: 0 $grid-space-s - ($grid-gutter / 2); }
-  @include breakpoint(m) { padding: 0 $grid-space-m - ($grid-gutter / 2); }
-  @include breakpoint(l) { padding: 0 $grid-space-l - ($grid-gutter / 2); }
-  @include breakpoint(xl) { padding: 0 $grid-space-xl - ($grid-gutter / 2); }
+  @include breakpoint(xxs) { padding: 0 $grid-space-xxs - ($grid-gutter * 0.5); }
+  @include breakpoint(xs) { padding: 0 $grid-space-xs - ($grid-gutter * 0.5); }
+  @include breakpoint(s) { padding: 0 $grid-space-s - ($grid-gutter * 0.5); }
+  @include breakpoint(m) { padding: 0 $grid-space-m - ($grid-gutter * 0.5); }
+  @include breakpoint(l) { padding: 0 $grid-space-l - ($grid-gutter * 0.5); }
+  @include breakpoint(xl) { padding: 0 $grid-space-xl - ($grid-gutter * 0.5); }
 }
 
 // 响应式列宽
 @mixin make-columns() {
   @for $i from 1 through $grid-columns {
     #{$wcontainer-prefix}-row #{$wcontainer-prefix}-col-#{$i} {
-      $width: percentage($i / $grid-columns);
+      $width: percentage(math.div($i, $grid-columns));
       //@include col-width-ie($width);
       max-width: $width;
       @include flex(0, 0, $width);

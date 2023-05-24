@@ -222,7 +222,7 @@
   #{$wcontainer-prefix}-col {
     @include flex(1);
     display: inline-block;
-    padding: 0 ($grid-gutter / 2);
+    padding: 0 ($grid-gutter * 0.5);
     width: auto;
 
     & > #{$wcontainer-prefix}-row {
