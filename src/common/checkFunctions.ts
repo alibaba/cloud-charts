@@ -364,14 +364,14 @@ export function checkExtremeData(
         isExtreme: true,
       };
     } else if (dataSize === lineCount) {
-      // 每条线一个点时，开启label和symbol
-      warn('Line', '当前线图数据较少，为优化展示，已自动开启标记和文本。');
+      // 多条线，每条线一个点时，开启symbol,label暂不开启
+      warn('Line', '当前线图数据较少，为优化展示，已自动开启标记。');
       return {
         config: {
-          label: {
-            ...(typeof config?.label === 'object' ? config?.label : {}),
-            visible: true,
-          },
+          // label: {
+          //   ...(typeof config?.label === 'object' ? config?.label : {}),
+          //   visible: true,
+          // },
           symbol: {
             ...(typeof config?.symbol === 'object' ? config?.symbol : {}),
             visible: true,
