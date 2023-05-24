@@ -45,7 +45,7 @@ export interface IDataItem {
   // hideTooltip?: boolean;
   // labelTooltip?: string | React.ReactNode;
   // tooltipIcon?: React.ReactNode;
-  value?: number | React.ReactNode;
+  value?: number | string | React.ReactNode;
   unit?: string;
   status?: 'working' | 'success' | 'warning' | 'error';
   itemStyle?: React.CSSProperties;
@@ -159,6 +159,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                 <span className={`${prefix}-value-number ${prefix}-number`}>
                   {beautifyNumber(props.value || 0, ',')}
                 </span>
+              ) : typeof props.value === 'string' ? (
+                <span className={`${prefix}-value-number ${prefix}-number`}>{props.value}</span>
               ) : (
                 props.value
               )}
