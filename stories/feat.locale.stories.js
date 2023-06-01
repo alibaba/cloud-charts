@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { Wbar, Wline, Wplaceholder, Wmap, ChartProvider, setLanguage } from '@alicloud/cloud-charts';
+import {
+  Wbar,
+  Wline,
+  Wplaceholder,
+  Wmap,
+  ChartProvider,
+  setLanguage,
+} from '@alicloud/cloud-charts';
 
 const stories = storiesOf('locale', module);
 
@@ -145,7 +152,7 @@ stories.add('地图', () => (
 stories.add('事件', () => {
   useEffect(() => {
     setTimeout(() => {
-      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+      document.dispatchEvent(new CustomEvent('setCloudChartsLanguage', { detail: 'en-us' }));
     }, 3000);
   }, []);
 
