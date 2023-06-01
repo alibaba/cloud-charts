@@ -78,7 +78,7 @@ interface ErrorState {
               <>图表异常</>
             }
             style={{
-              height: height ? +height : undefined,
+              height: height ? Number(height) : undefined,
             }}
           />
         );
