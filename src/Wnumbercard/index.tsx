@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle from '../Wcircle';
 import { beautifyNumber } from '../common/common';
-import { PrefixName } from '../constants';
+import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -123,7 +123,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
   return (
     <div
-      className={`${prefix}-data-item-container`}
+      className={`${FullCrossName} ${prefix}-data-item-container`}
       style={{
         ...(props?.itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',

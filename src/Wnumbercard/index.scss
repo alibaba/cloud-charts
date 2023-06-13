@@ -17,6 +17,9 @@ $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
+$font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
+$font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
+
 #{$wnumbercard-prefix}-data-item-container {
   padding: 12px 20px 12px 16px;
   background: $bg-color;
@@ -74,7 +77,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
   }
 
   #{$wnumbercard-prefix}-item-label {
-    font-size: 12px;
+    font-size: $font-size-small;
     color: $label-color;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -95,13 +98,13 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     white-space: nowrap;
 
     #{$wnumbercard-prefix}-item-unit {
-      font-size: 12px;
+      font-size: $font-size-small;
       margin-left: 2px;
     }
   }
 
   #{$wnumbercard-prefix}-value-number {
-    font-size: 28px;
+    font-size: $font-size-big;
   }
 
   #{$wnumbercard-prefix}-question-icon {
@@ -114,7 +117,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: 12px;
+    font-size: $font-size-small;
     //height: 20px;
     padding: 3px;
     border-radius: 2px;
@@ -129,7 +132,7 @@ $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-
     }
 
     #{$wnumbercard-prefix}-trend-value {
-      font-size: 12px;
+      font-size: $font-size-small;
       margin-left: 4px;
     }
   }
