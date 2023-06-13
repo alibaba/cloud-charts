@@ -786,7 +786,7 @@ class Base<
     // 检测间距
     checkPadding(config, this.chartName, chart);
     // 检测尺寸
-    checkSizeConfig(this.chartName, config);
+    checkSizeConfig(this.chartName, config, this.size[0], this.size[1] || 200);
 
     if (animate !== undefined) {
       warn('animate', '请使用 config.animate 设置动画开关。');

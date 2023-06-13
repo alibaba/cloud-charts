@@ -1,15 +1,23 @@
+/*
+ * @Author: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @Date: 2023-04-19 16:13:46
+ * @LastEditors: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @LastEditTime: 2023-06-13 17:29:21
+ * @FilePath: /aisc-widgets/src/common/circleAnnoation.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 'use strict';
 
-import { Chart, G2Dependents } from "./types";
+import { Chart, G2Dependents } from './types';
 import themes from '../themes';
 import { numberDecimal } from '../common/common';
 import { FullCrossName } from '../constants';
-import { warn } from "./log";
+import { warn } from './log';
 
 interface decorationItem {
   innerRadius?: number;
   outerRadius?: number;
-  intnerStyle?: any;
+  innerStyle?: any;
   outerStyle?: G2Dependents.ShapeAttrs;
 }
 
@@ -21,7 +29,7 @@ export interface DecorationConfig {
   outerRadius?: number;
 }
 
-export default function(chart: Chart, config: DecorationConfig, size: any, chartName: string) {
+export default function (chart: Chart, config: DecorationConfig, size: any, chartName: string) {
   if (!config.showDecoration) {
     return;
   }
@@ -36,7 +44,13 @@ export default function(chart: Chart, config: DecorationConfig, size: any, chart
     const viewWidth = chart.coordinateBBox.width ?? size?.[0] ?? 0;
     const viewHeight = chart.coordinateBBox.height ?? size?.[1] ?? 0;
     // 视图最小宽高 * 半径 * 内圈半径 - 图例间距 - 留白间距 - 柱子宽度
-    const innerR = config.showDecoration?.innerRadius ?? numberDecimal(Math.min(viewWidth, viewHeight) * (config.radius || config.outerRadius || 1) * (config.innerRadius || 0.5), 0) - 14 * 3;
+    const innerR =
+      config.showDecoration?.innerRadius ??
+      numberDecimal(
+        Math.min(viewWidth, viewHeight) * (config.radius || config.outerRadius || 1) * (config.innerRadius || 0.5),
+        0,
+      ) -
+        14 * 3;
     // 视图最小宽高减去图例间距
     const outerR = config.showDecoration?.outerRadius ?? numberDecimal(Math.min(viewWidth, viewHeight) / 2 - 14);
 
@@ -49,19 +63,19 @@ export default function(chart: Chart, config: DecorationConfig, size: any, chart
           position: ['50%', '50%'],
         });
       }
-  
+
       chart.annotation().dataMarker({
         top: false,
         text: {
-          content: ''
+          content: '',
         },
         point: {
           style: {
             fill: themes['widgets-circle-outer-background'],
             stroke: 'rgba(0,0,0,0)',
             r: outerR,
-            ...config.showDecoration?.outerStyle
-          }
+            ...config.showDecoration?.outerStyle,
+          },
         },
         position: ['50%', '50%'],
       });
