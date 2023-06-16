@@ -4,7 +4,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useRef } from 'react';
 import Wline, { WlineConfig } from '../Wline';
-import Wcircle from '../Wcircle';
+import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
@@ -24,43 +24,102 @@ export interface CircleProps {
   type: 'circle';
   data: number;
   position?: 'left' | 'right' | 'top' | 'bottom';
-  config?: {
-    title?: string;
-    unit?: string;
-    status?: 'normal' | 'warning' | 'error';
-    color?: string;
-    trend?: 'raise' | 'drop';
-    radius?: number;
-    bottomTitle?: string;
-    bottomUnit?: string;
-    bottomNumber?: number;
-    bottomTrend?: 'raise' | 'drop';
-    lineCap?: 'round' | 'butt';
-    strokeWidth?: number;
-  };
+  config?: WcircleProps;
+}
+
+// export interface IDataItem {
+//   label: string | React.ReactNode;
+//   // hideTooltip?: boolean;
+//   // labelTooltip?: string | React.ReactNode;
+//   // tooltipIcon?: React.ReactNode;
+//   value?: number | string | React.ReactNode;
+//   unit?: string;
+//   status?: 'working' | 'success' | 'warning' | 'error';
+//   icon?: React.ReactNode;
+
+//   iconPosition?: 'left' | 'right' | 'top' | 'bottom';
+
+//   itemStyle?: React.CSSProperties;
+//   labelStyle?: React.CSSProperties;
+//   valueStyle?: React.CSSProperties;
+//   statusStyle?: React.CSSProperties;
+
+//   trend?: number;
+//   chart?: LineProps | CircleProps | React.ReactNode;
+//   onClick?: React.MouseEventHandler;
+// }
+
+// todo: 提出去
+type Status =
+  | 'normal'
+  | 'warning'
+  | 'error'
+  | 'success'
+  | 'mention'
+  | 'help'
+  | 'disabled'
+  | 'p1'
+  | 'p2'
+  | 'p3'
+  | 'p4'
+  | 'p5'
+  | 'p6'
+  | 'p7';
+
+interface TagProps {
+  /** tag上的文字 */
+  text: string;
+
+  /** 上三角与下三角 */
+  trend?: 'up' | 'down';
+
+  /** tag的状态，默认为normal */
+  status?: Status;
 }
 
 export interface IDataItem {
+  /** 标签，超出长度自动省略并显示tooltip */
   label: string | React.ReactNode;
-  // hideTooltip?: boolean;
-  // labelTooltip?: string | React.ReactNode;
-  // tooltipIcon?: React.ReactNode;
+
+  /** 数值 */
   value?: number | string | React.ReactNode;
-  unit?: string;
-  status?: 'working' | 'success' | 'warning' | 'error';
+
+  /** 单位 */
+  unit?: string; // 是否居中？
+
+  /** 业务状态 */
+  status?: Status;
+
+  /** icon */
+  icon?: React.ReactNode;
+
+  /** 背景类型，默认fill */
+  backgroundType?: 'fill' | 'none' | 'image';
+
+  /** 背景图,image时必传 */
+  backgroundImage?: string;
+
+  /** icon位置，默认右边 */
+  iconPosition?: 'left' | 'right';
+
+  /** tags */
+  tags?: TagProps[];
+
+  /** tag最多展示几个，默认全部 */
+  tagMaxNumber?: number;
+
+  /** 图表，支持线图、圆环图与RN */
+  chart?: LineProps | CircleProps | React.ReactNode;
+
+  /** 各种自定义样式，隐藏 */
   itemStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
   valueStyle?: React.CSSProperties;
   statusStyle?: React.CSSProperties;
-  icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right' | 'top' | 'bottom';
-  trend?: number;
-  chart?: LineProps | CircleProps | React.ReactNode;
-  onClick?: React.MouseEventHandler;
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
-  const iconPosition = props?.iconPosition || 'left';
+  const iconPosition = props?.iconPosition || 'right';
   const chartPosition = props?.chart?.position || 'right';
 
   const iconElement = props?.icon && React.isValidElement(props.icon) ? props.icon : false;
@@ -184,9 +243,13 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
 export interface IDataOverviewCard {
   data: IDataItem[];
+
+  /** 列数，columns=1表示竖着排 */
   columns?: number;
   margin?: number | [number, number];
-  direction?: 'row' | 'column';
+
+  /** 是否显示竖线,默认不显示，columns=1时不显示 */
+  showDivider?: boolean;
 }
 
 export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {

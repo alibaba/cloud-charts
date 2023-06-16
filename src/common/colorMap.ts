@@ -1,3 +1,11 @@
+/*
+ * @Author: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @Date: 2023-05-10 15:06:28
+ * @LastEditors: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @LastEditTime: 2023-06-16 14:20:12
+ * @FilePath: /aisc-widgets/src/common/colorMap.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 export default {
   // 状态色
   disabled: '$widgets-color-gray',
@@ -5,6 +13,8 @@ export default {
   warning: 'widgets-color-orange',
   error: 'widgets-color-red',
   success: 'widgets-color-green',
+  mention: 'widgets-color-purple',
+  help: 'widgets-color-yellow',
   p1: 'widgets-color-p1',
   p2: 'widgets-color-p2',
   p3: 'widgets-color-p3',
