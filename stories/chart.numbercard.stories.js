@@ -9,7 +9,7 @@ const stories = storiesOf('Wnumbercard', module);
 stories.add('指标卡片基础用法', () => (
   <div>
     <Wnumbercard
-      label="默认灰色卡片"
+      label="默认透明卡片"
       value={100}
       unit="%"
       //status="success"
@@ -19,9 +19,9 @@ stories.add('指标卡片基础用法', () => (
       // icon={<TwoToneIcon type="cloud" size="xl" color="#5a5a5a" />}
     />
     <Wnumbercard
-      label="透明卡片"
+      label="灰色卡片"
       value={100}
-      backgroundType="none"
+      backgroundType="fill"
       //labelTooltip="测试数据tooltip"
       unit="%"
       //status="success"

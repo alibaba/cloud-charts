@@ -23,6 +23,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   justify-content: space-between;
   align-items: center;
   border-radius: 4px;
+  cursor: pointer;
 
   &:hover {
     background: var(--hover-color);
@@ -52,14 +53,6 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   #{$wnumbercard-prefix}-label-value-container {
     display: flex;
     align-items: center;
-
-    #{$wnumbercard-prefix}-item-status {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      margin-right: 8px;
-      flex: 0 0 6px;
-    }
   }
 
   #{$wnumbercard-prefix}-item-label-container {
@@ -76,7 +69,6 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
     white-space: nowrap;
     line-height: 1;
     max-width: 100%;
-    cursor: default;
   }
 
   #{$wnumbercard-prefix}-tooltip {
@@ -130,6 +122,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
 
   #{$wnumbercard-prefix}-value-number {
     font-size: $font-size-big;
+    color: var(--value-color);
   }
 
   #{$wnumbercard-prefix}-question-icon {
@@ -178,12 +171,14 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
   }
 
   #{$wnumbercard-prefix}-divider {
     display: inline-block;
     width: 1px;
     background: $tooltip-border-color;
+    height: 60px;
   }
 }
 

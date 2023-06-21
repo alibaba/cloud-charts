@@ -104,7 +104,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     unit,
     status,
     icon,
-    backgroundType = 'fill',
     backgroundImage,
     iconPosition = 'left',
     tags = [],
@@ -116,10 +115,21 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     statusStyle,
     ...otherProps
   } = props || {};
+  let { backgroundType } = props || {};
+
+  // 设置背景类型默认值
+  if (!backgroundType) {
+    // 有minichart的卡片默认灰色
+    if (chart) {
+      backgroundType = 'fill';
+    } else {
+      backgroundType = 'none';
+    }
+  }
+
   const chartPosition = chart?.position || 'right';
 
   const labelRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
 
   // label是否超过宽度，需要使用tooltip
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
@@ -307,6 +317,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         ? themes['widgets-color-container-background']
         : 'none',
     '--click-color': backgroundType !== 'image' ? themes['widgets-numbercard-color-click'] : 'none',
+    '--value-color':
+      !status || status === 'default' ? themes['widgets-numbercard-color-text'] : transformColor(status).color,
   };
 
   // 判断label是否超过宽度
@@ -365,15 +377,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}
         >
           <div className={`${prefix}-label-value-container`}>
-            {status && (
-              <div
-                className={`${prefix}-item-status`}
-                style={{
-                  background: transformColor(status).color,
-                  ...(statusStyle || {}),
-                }}
-              />
-            )}
             <div className={`${prefix}-item-value`} style={valueStyle || {}}>
               {typeof value === 'number' ? (
                 <span className={`${prefix}-value-number ${prefix}-number`}>{beautifyNumber(value || 0, ',')}</span>
@@ -387,7 +390,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               {tagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{tagElements}</div>}
             </div>
           </div>
-          <div className={`${prefix}-item-label-container`} style={{ marginTop: value || value === 0 ? 8 : 0 }}>
+          <div className={`${prefix}-item-label-container`} style={{ marginTop: value || value === 0 ? 4 : 0 }}>
             <div className={`${prefix}-item-label`} style={labelStyle || {}} ref={labelRef}>
               {label || ''}
             </div>
@@ -415,10 +418,12 @@ export interface IDataOverviewCard {
 }
 
 export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
-  const marginRight = props?.margin === 0 || props?.margin?.[1] === 0 ? 0 : props?.margin?.[1] || props?.margin || 8;
-  const marginBottom = props?.margin === 0 || props?.margin?.[0] === 0 ? 0 : props?.margin?.[0] || props?.margin || 8;
+  const { data = [], columns: userColumns, margin = 8, showDivider = false } = props || {};
 
-  const maxWidth = Math.max(...props.data.map(calcCardMinWidth));
+  const marginRight = typeof margin === 'number' ? margin : margin[1];
+  const marginBottom = typeof margin === 'number' ? margin : margin[0];
+
+  const maxWidth = Math.max(...data.map(calcCardMinWidth));
 
   const container = useRef(null);
   const [columns, setColumns] = useState(1);
@@ -430,8 +435,8 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props.columns) {
-      setColumns(props.columns);
+    if (userColumns) {
+      setColumns(userColumns);
     } else {
       calcColumns();
     }
@@ -441,10 +446,10 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     return () => {
       window.removeEventListener('resize', calcColumns);
     };
-  }, [props, containerWidth]);
+  }, [userColumns, containerWidth]);
 
   const calcColumns = () => {
-    if (props.columns) {
+    if (userColumns) {
       return;
     }
 
@@ -452,11 +457,26 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     setColumns(itemsPerRow);
   };
 
-  const itemWidth = (containerWidth - (marginRight + (props?.showDivider ? 1 : 0)) * (columns - 1)) / columns;
+  const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
   const dataByRow = [];
-  for (let index = 0; index < props.data?.length; index += columns) {
-    dataByRow.push(props.data.slice(index, index + columns));
+  for (let index = 0; index < data?.length; index += columns) {
+    dataByRow.push(data.slice(index, index + columns));
+  }
+
+  // 计算默认卡片样式
+  let backgroundType: any;
+  if (data.some((item: IDataItem) => item.backgroundType)) {
+    // 任意卡片指定了backgroundType则不做处理
+    backgroundType = undefined;
+  } else if (data.some((item: IDataItem) => item.chart)) {
+    // 任意卡片有minichart 则默认用灰色卡片
+    backgroundType = 'fill';
+  } else if (columns < data.length) {
+    // 多行默认用灰色
+    backgroundType = 'fill';
+  } else {
+    backgroundType = 'none';
   }
 
   return (
@@ -475,11 +495,11 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
         >
           {row.map((item: IDataItem, colIndex: number) => {
             const itemProps = {
+              backgroundType,
               ...item,
               itemStyle: {
                 height: 68,
                 width: itemWidth,
-                // minWidth: props.columns ? 0 : maxWidth,
                 marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
                 marginLeft: colIndex === 0 ? 0 : marginRight / 2,
                 ...(item?.itemStyle ?? {}),
@@ -488,7 +508,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
             return (
               <Fragment key={rowIndex * columns + colIndex}>
                 <Wnumbercard {...itemProps} />
-                {colIndex !== row.length - 1 && props?.showDivider && <div className={`${prefix}-divider`} />}
+                {colIndex !== row.length - 1 && showDivider && <div className={`${prefix}-divider`} />}
               </Fragment>
             );
           })}
