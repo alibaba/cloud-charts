@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/brace-style */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment, useMemo } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
 import { FullCrossName, PrefixName } from '../constants';
+import themes from '../themes/index';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -27,37 +28,15 @@ export interface CircleProps {
   config?: WcircleProps;
 }
 
-// export interface IDataItem {
-//   label: string | React.ReactNode;
-//   // hideTooltip?: boolean;
-//   // labelTooltip?: string | React.ReactNode;
-//   // tooltipIcon?: React.ReactNode;
-//   value?: number | string | React.ReactNode;
-//   unit?: string;
-//   status?: 'working' | 'success' | 'warning' | 'error';
-//   icon?: React.ReactNode;
-
-//   iconPosition?: 'left' | 'right' | 'top' | 'bottom';
-
-//   itemStyle?: React.CSSProperties;
-//   labelStyle?: React.CSSProperties;
-//   valueStyle?: React.CSSProperties;
-//   statusStyle?: React.CSSProperties;
-
-//   trend?: number;
-//   chart?: LineProps | CircleProps | React.ReactNode;
-//   onClick?: React.MouseEventHandler;
-// }
-
 // todo: 提出去
 type Status =
+  | 'default'
   | 'normal'
   | 'warning'
   | 'error'
   | 'success'
   | 'mention'
   | 'help'
-  | 'disabled'
   | 'p1'
   | 'p2'
   | 'p3'
@@ -73,7 +52,7 @@ interface TagProps {
   /** 上三角与下三角 */
   trend?: 'up' | 'down';
 
-  /** tag的状态，默认为normal */
+  /** tag的状态，默认default */
   status?: Status;
 }
 
@@ -87,7 +66,7 @@ export interface IDataItem {
   /** 单位 */
   unit?: string; // 是否居中？
 
-  /** 业务状态 */
+  /** 业务状态，默认default */
   status?: Status;
 
   /** icon */
@@ -119,31 +98,143 @@ export interface IDataItem {
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
-  const iconPosition = props?.iconPosition || 'right';
-  const chartPosition = props?.chart?.position || 'right';
+  const {
+    label,
+    value,
+    unit,
+    status,
+    icon,
+    backgroundType = 'fill',
+    backgroundImage,
+    iconPosition = 'left',
+    tags = [],
+    tagMaxNumber,
+    chart,
+    itemStyle,
+    labelStyle,
+    valueStyle,
+    statusStyle,
+    ...otherProps
+  } = props || {};
+  const chartPosition = chart?.position || 'right';
 
-  const iconElement = props?.icon && React.isValidElement(props.icon) ? props.icon : false;
+  const labelRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const trendChart = props?.trend !== undefined && typeof props?.trend === 'number' && (
-    <div className={`${prefix}-item-trend ${props?.trend < 0 ? prefix + '-trend-down' : prefix + '-trend-up'}`}>
-      {props?.trend < 0 ? (
-        <svg width={10} height={12}>
-          <polygon points="0,2 10,2 5,10" className={`${prefix}-trend-down`} />
-        </svg>
-      ) : (
-        <svg width={10} height={12}>
-          <polygon points="0,10 10,10 5,2" className={`${prefix}-trend-up`} />
-        </svg>
-      )}
-      <span className={`${prefix}-trend-value ${prefix}-number`}>{Math.abs(props?.trend || 0)}%</span>
-    </div>
-  );
+  // label是否超过宽度，需要使用tooltip
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
-  const lineChart = props?.chart?.type === 'line' && (
+  // 是否显示tooltip
+  const [visible, setVisible] = useState<boolean>(false);
+
+  // 颜色转换
+  const transformColor = (status: Status) => {
+    if (status === 'normal') {
+      return {
+        color: themes['widgets-color-normal'],
+        bgColor: themes['widgets-color-bg-normal'],
+      };
+    } else if (status === 'warning') {
+      return {
+        color: themes['widgets-color-orange'],
+        bgColor: themes['widgets-color-bg-orange'],
+      };
+    } else if (status === 'error') {
+      return {
+        color: themes['widgets-color-red'],
+        bgColor: themes['widgets-color-bg-red'],
+      };
+    } else if (status === 'success') {
+      return {
+        color: themes['widgets-color-green'],
+        bgColor: themes['widgets-color-bg-green'],
+      };
+    } else if (status === 'help') {
+      return {
+        color: themes['widgets-color-yellow'],
+        bgColor: themes['widgets-color-bg-yellow'],
+      };
+    } else if (status === 'mention') {
+      return {
+        color: themes['widgets-color-purple'],
+        bgColor: themes['widgets-color-bg-purple'],
+      };
+    } else if (status === 'p1') {
+      return {
+        color: themes['widgets-color-p1'],
+        bgColor: themes['widgets-color-bg-p1'],
+      };
+    } else if (status === 'p2') {
+      return {
+        color: themes['widgets-color-p2'],
+        bgColor: themes['widgets-color-bg-p2'],
+      };
+    } else if (status === 'p3') {
+      return {
+        color: themes['widgets-color-p3'],
+        bgColor: themes['widgets-color-bg-p3'],
+      };
+    } else if (status === 'p4') {
+      return {
+        color: themes['widgets-color-p4'],
+        bgColor: themes['widgets-color-bg-p4'],
+      };
+    } else if (status === 'p5') {
+      return {
+        color: themes['widgets-color-p5'],
+        bgColor: themes['widgets-color-bg-p5'],
+      };
+    } else if (status === 'p6') {
+      return {
+        color: themes['widgets-color-p6'],
+        bgColor: themes['widgets-color-bg-p6'],
+      };
+    } else if (status === 'p7') {
+      return {
+        color: themes['widgets-color-p7'],
+        bgColor: themes['widgets-color-bg-p7'],
+      };
+    }
+    {
+      return {
+        color: themes['widgets-color-text-2'],
+        bgColor: themes['widgets-numbercard-color-hover'],
+      };
+    }
+  };
+
+  // icon
+  const iconElement = icon && React.isValidElement(icon) ? icon : false;
+
+  // tags
+  const tagsNum = !tagMaxNumber && tagMaxNumber !== 0 ? tags.length : tagMaxNumber;
+  const tagElements = tags.slice(0, tagsNum).map((tag: TagProps, index: number) => {
+    const { color, bgColor } = transformColor(tag?.status);
+    return (
+      <div key={index} className={`${prefix}-item-tag`} style={{ background: bgColor }}>
+        {tag?.trend === 'down' && (
+          <svg fill={color} className={`${prefix}-tag-trend`}>
+            <polygon points="0,2 10,2 5,10" />
+          </svg>
+        )}
+        {tag?.trend === 'up' && (
+          <svg fill={color} className={`${prefix}-tag-trend`}>
+            <polygon points="0,10 10,10 5,2" />
+          </svg>
+        )}
+        <span className={`${prefix}-tag-value ${prefix}-number`} style={{ color }}>
+          {tag?.text}
+        </span>
+      </div>
+    );
+  });
+
+  // 线图
+  const lineChart = chart?.type === 'line' && (
     <Wline
-      data={props?.chart?.data || []}
-      // width={props?.chart?.width || null}
-      height={props?.chart?.height || 40}
+      data={chart?.data || []}
+      width={chart?.width || null}
+      height={chart?.height || 40}
       config={{
         xAxis: {
           visible: false,
@@ -153,17 +244,18 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         },
         legend: false,
         tooltip: false,
-        ...props?.chart?.config,
+        ...chart?.config,
       }}
       force
     />
   );
 
-  const circleChart = props?.chart?.type === 'circle' && (
-    <Wcircle percent={props?.chart?.data || 0} {...{ radius: 22, ...props?.chart?.config }} />
+  // 圆环图
+  const circleChart = chart?.type === 'circle' && (
+    <Wcircle percent={chart?.data || 0} {...{ radius: 22, ...chart?.config }} />
   );
 
-  const chartElement = (React.isValidElement(props?.chart) && props.chart) || lineChart || circleChart;
+  const chartElement = (React.isValidElement(chart) && chart) || lineChart || circleChart;
 
   const chartContainer = chartElement && (
     <div
@@ -180,61 +272,129 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     </div>
   );
 
+  // tooltip
+  const labelTooltip = visible && (
+    <div
+      className={`${prefix}-tooltip`}
+      style={{
+        position: 'absolute',
+        top: labelRef?.current?.offsetTop + 20,
+        left: Math.max(
+          0,
+          labelRef?.current?.offsetLeft + (labelRef?.current?.offsetWidth - labelRef?.current?.scrollWidth) / 2,
+        ),
+      }}
+    >
+      <div className={`${prefix}-tooltip-arrow`} style={{ position: 'absolute' }}>
+        <div className={`${prefix}-arrow-content`} style={{ position: 'absolute' }} />
+      </div>
+      <div className={`${prefix}-tooltip-content`}>{label || ''}</div>
+    </div>
+  );
+
+  // css变量
+  const cssVariables = {
+    '--background-color':
+      backgroundType === 'fill'
+        ? themes['widgets-color-container-background']
+        : backgroundType === 'none'
+        ? 'transparent'
+        : 'none',
+    '--hover-color':
+      backgroundType === 'fill'
+        ? themes['widgets-numbercard-color-hover']
+        : backgroundType === 'none'
+        ? themes['widgets-color-container-background']
+        : 'none',
+    '--click-color': backgroundType !== 'image' ? themes['widgets-numbercard-color-click'] : 'none',
+  };
+
+  // 判断label是否超过宽度
+  useEffect(() => {
+    setShowTooltip(labelRef?.current?.offsetWidth !== labelRef?.current?.scrollWidth);
+  }, [labelRef?.current?.offsetWidth, labelRef?.current?.scrollWidth]);
+
+  // 显示tooltip事件
+  useEffect(() => {
+    if (!labelRef?.current) {
+      return;
+    }
+
+    const handleMouseEnter = () => {
+      if (showTooltip) {
+        setVisible(true);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      setVisible(false);
+    };
+
+    labelRef?.current?.addEventListener('mouseenter', handleMouseEnter);
+    labelRef?.current?.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      labelRef?.current?.removeEventListener('mouseenter', handleMouseEnter);
+      labelRef?.current?.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [labelRef?.current]);
+
   return (
     <div
       className={`${FullCrossName} ${prefix}-data-item-container`}
       style={{
-        ...(props?.itemStyle || {}),
+        ...cssVariables,
+        backgroundImage: backgroundType === 'image' ? backgroundImage : 'none',
+        ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
       }}
-      onClick={(event: any) => {
-        props?.onClick?.(event);
-      }}
+      {...otherProps}
     >
       {(chartPosition === 'left' || chartPosition === 'top') && chartContainer}
       <div
         className={`${prefix}-item-content`}
         style={{
-          flexDirection: iconPosition === 'left' || iconPosition === 'right' ? 'row' : 'column',
           justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
           alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
           alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
         }}
       >
-        {(iconPosition === 'left' || iconPosition === 'top') && iconElement}
+        {iconPosition === 'left' && iconElement}
         <div
           className={`${prefix}-main-content`}
           style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}
         >
           <div className={`${prefix}-label-value-container`}>
-            {props.status && (
+            {status && (
               <div
-                className={`${prefix}-item-status ${prefix + '-' + props.status || prefix + '-success'}`}
-                style={props.statusStyle || {}}
+                className={`${prefix}-item-status`}
+                style={{
+                  background: transformColor(status).color,
+                  ...(statusStyle || {}),
+                }}
               />
             )}
-            <div className={`${prefix}-item-value`} style={props.valueStyle || {}}>
-              {typeof props.value === 'number' ? (
-                <span className={`${prefix}-value-number ${prefix}-number`}>
-                  {beautifyNumber(props.value || 0, ',')}
-                </span>
-              ) : typeof props.value === 'string' ? (
-                <span className={`${prefix}-value-number ${prefix}-number`}>{props.value}</span>
+            <div className={`${prefix}-item-value`} style={valueStyle || {}}>
+              {typeof value === 'number' ? (
+                <span className={`${prefix}-value-number ${prefix}-number`}>{beautifyNumber(value || 0, ',')}</span>
+              ) : typeof value === 'string' ? (
+                <span className={`${prefix}-value-number ${prefix}-number`}>{value}</span>
               ) : (
-                props.value
+                value
               )}
 
-              {props.unit && <div className={`${prefix}-item-unit`}>{props.unit}</div>}
-              {trendChart}
+              {unit && <div className={`${prefix}-item-unit`}>{unit}</div>}
+              {tagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{tagElements}</div>}
             </div>
           </div>
-          <div className={`${prefix}-item-label-container`} style={{ marginTop: props.value !== undefined ? 8 : 0 }}>
-            <div className={`${prefix}-item-label`} style={props.labelStyle || {}}>
-              {props.label || ''}
+          <div className={`${prefix}-item-label-container`} style={{ marginTop: value || value === 0 ? 8 : 0 }}>
+            <div className={`${prefix}-item-label`} style={labelStyle || {}} ref={labelRef}>
+              {label || ''}
             </div>
+            {labelTooltip}
           </div>
         </div>
-        {(iconPosition === 'right' || iconPosition === 'bottom') && iconElement}
+        {iconPosition === 'right' && iconElement}
       </div>
       {(chartPosition === 'right' || chartPosition === 'bottom') && chartContainer}
     </div>
@@ -244,8 +404,10 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 export interface IDataOverviewCard {
   data: IDataItem[];
 
-  /** 列数，columns=1表示竖着排 */
+  /** 列数，columns=1表示竖着排，不指定则自适应 */
   columns?: number;
+
+  /** 间距，默认8 */
   margin?: number | [number, number];
 
   /** 是否显示竖线,默认不显示，columns=1时不显示 */
@@ -261,10 +423,14 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   const container = useRef(null);
   const [columns, setColumns] = useState(1);
 
+  const [containerWidth, setContainerWidth] = useState<number>(0);
+
   useEffect(() => {
-    if (props.direction === 'column') {
-      setColumns(1);
-    } else if (props.columns) {
+    setContainerWidth(container?.current?.offsetWidth || 0);
+  }, []);
+
+  useEffect(() => {
+    if (props.columns) {
       setColumns(props.columns);
     } else {
       calcColumns();
@@ -275,19 +441,18 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     return () => {
       window.removeEventListener('resize', calcColumns);
     };
-  }, [props]);
+  }, [props, containerWidth]);
 
   const calcColumns = () => {
-    if (props.direction === 'column' || props.columns) {
+    if (props.columns) {
       return;
     }
-    const width = container.current.parentNode.offsetWidth;
-    const itemsPerRow = Math.max(Math.floor(width / maxWidth), 1);
+
+    const itemsPerRow = Math.max(Math.floor(containerWidth / maxWidth), 1);
     setColumns(itemsPerRow);
   };
 
-  const itemWidth =
-    props?.direction === 'column' ? '100%' : `calc((100% - ${marginRight * (columns - 1)}px) / ${columns})`;
+  const itemWidth = (containerWidth - (marginRight + (props?.showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
   const dataByRow = [];
   for (let index = 0; index < props.data?.length; index += columns) {
@@ -299,7 +464,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
       className={`${prefix}-data-overview-container`}
       ref={container}
       style={{
-        flexDirection: props?.direction || 'row',
+        flexDirection: 'row',
       }}
     >
       {dataByRow.map((row: IDataItem[], rowIndex: number) => (
@@ -314,12 +479,18 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
               itemStyle: {
                 height: 68,
                 width: itemWidth,
-                minWidth: props.columns ? 0 : maxWidth,
-                marginRight: colIndex === columns - 1 ? 0 : marginRight,
+                // minWidth: props.columns ? 0 : maxWidth,
+                marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
+                marginLeft: colIndex === 0 ? 0 : marginRight / 2,
                 ...(item?.itemStyle ?? {}),
               },
             };
-            return <Wnumbercard {...itemProps} key={rowIndex * columns + colIndex} />;
+            return (
+              <Fragment key={rowIndex * columns + colIndex}>
+                <Wnumbercard {...itemProps} />
+                {colIndex !== row.length - 1 && props?.showDivider && <div className={`${prefix}-divider`} />}
+              </Fragment>
+            );
           })}
         </div>
       ))}

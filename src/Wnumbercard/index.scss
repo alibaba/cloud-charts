@@ -2,35 +2,43 @@
 
 $wnumbercard-prefix: '.#{$base-prefix}-wnumbercard';
 
-$bg-color: getVar(widgets-color-container-background, $widgets-color-container-background);
-
-$blue: getVar(widgets-color-blue, $widgets-color-blue);
-$green: getVar(widgets-color-green, $widgets-color-green);
-$orange: getVar(widgets-color-orange, $widgets-color-orange);
-$red: getVar(widgets-color-red, $widgets-color-red);
-
-$red-bg: getVar(widgets-numbercard-color-red-bg, $widgets-numbercard-color-red-bg);
-$blue-bg: getVar(widgets-numbercard-color-blue-bg, $widgets-numbercard-color-blue-bg);
-
 $text-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
 $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
 $font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
-$font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
+$font-size-big: getVar(widgets-font-size-5, $widgets-font-size-5);
+
+$tooltip-border-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
+$tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
 
 #{$wnumbercard-prefix}-data-item-container {
   padding: 12px 20px 12px 16px;
-  background: $bg-color;
+  background: var(--background-color);
+  background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--hover-color);
+    opacity: var(--hover-opacity);
+    background-size: cover;
+  }
+
+  &:active {
+    background: var(--click-color);
+    background-size: cover;
+  }
 
   #{$wnumbercard-prefix}-item-content {
     display: flex;
     height: 100%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -50,23 +58,7 @@ $font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
       height: 6px;
       border-radius: 50%;
       margin-right: 8px;
-      background: $green;
-
-      &#{$wnumbercard-prefix}-working {
-        background: $blue;
-      }
-
-      &#{$wnumbercard-prefix}-success {
-        background: $green;
-      }
-
-      &#{$wnumbercard-prefix}-warning {
-        background: $orange;
-      }
-
-      &#{$wnumbercard-prefix}-error {
-        background: $red;
-      }
+      flex: 0 0 6px;
     }
   }
 
@@ -85,6 +77,39 @@ $font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
     line-height: 1;
     max-width: 100%;
     cursor: default;
+  }
+
+  #{$wnumbercard-prefix}-tooltip {
+    padding: 6px 12px;
+    border-radius: 2px;
+    border: 1px solid $tooltip-border-color;
+    z-index: 1001;
+    background-color: $tooltip-bg-color;
+
+    #{$wnumbercard-prefix}-tooltip-arrow {
+      display: block;
+      left: calc(50% - 8px);
+      top: -16px;
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+
+    #{$wnumbercard-prefix}-arrow-content {
+      margin: 4px;
+      content: '';
+      width: 8px;
+      height: 8px;
+      transform: translateY(8px) rotate(45deg);
+      border: 1px solid $tooltip-border-color;
+      background-color: $tooltip-bg-color;
+    }
+
+    #{$wnumbercard-prefix}-tooltip-content {
+      word-break: break-all;
+      color: $label-color;
+      font-size: $font-size-small;
+    }
   }
 
   #{$wnumbercard-prefix}-item-value {
@@ -113,38 +138,29 @@ $font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
     margin-left: 2px;
   }
 
-  #{$wnumbercard-prefix}-item-trend {
+  #{$wnumbercard-prefix}-tag-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #{$wnumbercard-prefix}-item-tag {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: $font-size-small;
-    //height: 20px;
-    padding: 3px;
+    height: 20px;
     border-radius: 2px;
     margin-left: 8px;
+    padding: 0 8px;
 
-    #{$wnumbercard-prefix}-trend-down {
-      fill: $red;
+    #{$wnumbercard-prefix}-tag-trend {
+      width: 10px;
+      height: 12px;
+      margin-right: 4px;
     }
 
-    #{$wnumbercard-prefix}-trend-up {
-      fill: $blue;
-    }
-
-    #{$wnumbercard-prefix}-trend-value {
+    #{$wnumbercard-prefix}-tag-value {
       font-size: $font-size-small;
-      margin-left: 4px;
     }
-  }
-
-  #{$wnumbercard-prefix}-trend-down {
-    background-color: $red-bg;
-    color: $red;
-  }
-
-  #{$wnumbercard-prefix}-trend-up {
-    background-color: $blue-bg;
-    color: $blue;
   }
 
   #{$wnumbercard-prefix}-item-chart {
@@ -162,6 +178,12 @@ $font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+  }
+
+  #{$wnumbercard-prefix}-divider {
+    display: inline-block;
+    width: 1px;
+    background: $tooltip-border-color;
   }
 }
 

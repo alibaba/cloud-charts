@@ -1,22 +1,30 @@
 @import './base.scss';
 
 // 背景颜色
-$widgets-color-background: #FFFFFF !default;
-$widgets-color-layout-background: #F7F7F7 !default;
-$widgets-color-container-background: #F7F7F7 !default;
-$widgets-color-decoration-background: #FFFFFF !default;
+$widgets-color-background: #ffffff !default;
+$widgets-color-layout-background: #f7f7f7 !default;
+$widgets-color-container-background: #f7f7f7 !default;
+$widgets-color-decoration-background: #ffffff !default;
 
 // 主色和状态色
 $widgets-color-blue: #297acc !default;
-$widgets-color-normal: #0064C8 !default;
+$widgets-color-normal: #0064c8 !default;
 $widgets-color-orange: #f98e1a !default;
 $widgets-color-red: #e84738 !default;
 $widgets-color-green: #23b066 !default;
 $widgets-color-gray: #aaaaaa !default;
-$widgets-color-purple: #6B67E0 !default;
-$widgets-color-yellow: #FAC31E !default;
+$widgets-color-purple: #6b67e0 !default;
+$widgets-color-yellow: #fac31e !default;
 
-// 图形元素色阶  
+// 各状态色对应的背景色
+$widgets-color-bg-normal: rgba(202, 227, 253, 0.5) !default;
+$widgets-color-bg-orange: rgba(255, 224, 191, 0.5) !default;
+$widgets-color-bg-red: rgba(252, 206, 202, 0.5) !default;
+$widgets-color-bg-green: rgba(209, 244, 225, 0.5) !default;
+$widgets-color-bg-purple: rgba(215, 215, 252, 0.5) !default;
+$widgets-color-bg-yellow: rgba(255, 242, 204, 0.5) !default;
+
+// 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue !default;
 $widgets-color-category-2: #43bf7e !default;
 $widgets-color-category-3: #8a87f5 !default;
@@ -50,13 +58,22 @@ $widgets-color-linear-9: #cee1f5 !default;
 $widgets-color-linear-10: #e6f0fa !default;
 
 // 告警等级色
-$widgets-color-p1: #BF0030 !default;
-$widgets-color-p2: #E84738 !default;
-$widgets-color-p3: #F98E1A !default;
-$widgets-color-p4: #FAC31E !default;
-$widgets-color-p5: #D1BB4F !default;
-$widgets-color-p6: #00BACF !default;
-$widgets-color-p7: #1289B8 !default;
+$widgets-color-p1: #bf0030 !default;
+$widgets-color-p2: #e84738 !default;
+$widgets-color-p3: #f98e1a !default;
+$widgets-color-p4: #fac31e !default;
+$widgets-color-p5: #d1bb4f !default;
+$widgets-color-p6: #00bacf !default;
+$widgets-color-p7: #1289b8 !default;
+
+// 各告警色对应的背景色
+$widgets-color-bg-p1: rgba(242, 194, 206, 0.5) !default;
+$widgets-color-bg-p2: rgba(252, 206, 202, 0.5) !default;
+$widgets-color-bg-p3: rgba(255, 224, 191, 0.5) !default;
+$widgets-color-bg-p4: rgba(255, 242, 204, 0.5) !default;
+$widgets-color-bg-p5: rgba(255, 245, 196, 0.5) !default;
+$widgets-color-bg-p6: rgba(174, 226, 235, 0.5) !default;
+$widgets-color-bg-p7: rgba(175, 222, 240, 0.5) !default;
 
 // 文字颜色
 $widgets-color-text-1: #333333 !default;
@@ -147,10 +164,12 @@ $widgets-line-width: 2;
 $widgets-numbercard-color-text: #1a1a1a !default;
 $widgets-numbercard-color-red-bg: #fcceca !default;
 $widgets-numbercard-color-blue-bg: #cae3fd !default;
+$widgets-numbercard-color-hover: rgba(229, 229, 229, 0.5) !default;
+$widgets-numbercard-color-click: #f0f7ff !default;
 
 // 水位
-$widgets-capacity-color-grey: #818A9C !default;
-$widgets-capacity-background-default: #F0F7FF !default;
-$widgets-capacity-background-success: #EBFFF6 !default;
-$widgets-capacity-background-warning: #FFF5EB !default;
-$widgets-capacity-background-error: #FFECEB !default;
+$widgets-capacity-color-grey: #818a9c !default;
+$widgets-capacity-background-default: #f0f7ff !default;
+$widgets-capacity-background-success: #ebfff6 !default;
+$widgets-capacity-background-warning: #fff5eb !default;
+$widgets-capacity-background-error: #ffeceb !default;

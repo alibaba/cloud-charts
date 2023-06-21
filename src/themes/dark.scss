@@ -8,13 +8,21 @@ $widgets-color-decoration-background: #1c1c1c !default;
 
 // 主色和状态色
 $widgets-color-blue: #307ac9;
-$widgets-color-normal: #2789F2;
+$widgets-color-normal: #2789f2;
 $widgets-color-orange: #ff8d16;
 $widgets-color-red: #f2493a;
-$widgets-color-green: #1b9657;
+$widgets-color-green: #12b862;
 $widgets-color-gray: #666666;
-$widgets-color-purple: #6154D6;
-$widgets-color-yellow: #FFC619;
+$widgets-color-purple: #6154d6;
+$widgets-color-yellow: #ffc619;
+
+// 各状态色对应的背景色
+$widgets-color-bg-normal: rgba(38, 60, 84, 0.5) !default;
+$widgets-color-bg-orange: rgba(84, 61, 36, 0.5) !default;
+$widgets-color-bg-red: rgba(82, 40, 37, 0.5) !default;
+$widgets-color-bg-green: rgba(28, 66, 46, 0.5) !default;
+$widgets-color-bg-purple: rgba(45, 40, 84, 0.5) !default;
+$widgets-color-bg-yellow: rgba(82, 68, 28, 0.5) !default;
 
 // 图形元素色阶
 $widgets-color-category-1: $widgets-color-blue;
@@ -50,13 +58,22 @@ $widgets-color-linear-9: #1a2838;
 $widgets-color-linear-10: #171e26;
 
 // 告警等级色
-$widgets-color-p1: #B81838;
-$widgets-color-p2: #F2493A;
-$widgets-color-p3: #FF8D16;
-$widgets-color-p4: #FAC31E;
-$widgets-color-p5: #D1BB4F;
-$widgets-color-p6: #00BACF;
-$widgets-color-p7: #1289B8;
+$widgets-color-p1: #b81838;
+$widgets-color-p2: #f2493a;
+$widgets-color-p3: #ff8d16;
+$widgets-color-p4: #fac31e;
+$widgets-color-p5: #d1bb4f;
+$widgets-color-p6: #00bacf;
+$widgets-color-p7: #1289b8;
+
+// 各告警色对应的背景色
+$widgets-color-bg-p1: rgba(77, 34, 43, 0.5) !default;
+$widgets-color-bg-p2: rgba(82, 40, 37, 0.5) !default;
+$widgets-color-bg-p3: rgba(84, 61, 36, 0.5) !default;
+$widgets-color-bg-p4: rgba(82, 68, 28, 0.5) !default;
+$widgets-color-bg-p5: rgba(71, 65, 34, 0.5) !default;
+$widgets-color-bg-p6: rgba(31, 73, 79, 0.5) !default;
+$widgets-color-bg-p7: rgba(30, 60, 71, 0.5) !default;
 
 // 文字颜色
 $widgets-color-text-1: #cccccc;
@@ -146,10 +163,12 @@ $widgets-line-width: 2;
 $widgets-numbercard-color-text: #e6e6e6 !default;
 $widgets-numbercard-color-red-bg: #522825 !default;
 $widgets-numbercard-color-blue-bg: #263c54 !default;
+$widgets-numbercard-color-hover: rgba(51, 51, 51, 0.5) !default;
+$widgets-numbercard-color-click: #333333 !default;
 
 // 水位
-$widgets-capacity-color-grey: #595F6B;
-$widgets-capacity-background-default: #18232E !default;
-$widgets-capacity-background-success: #0F1F16 !default;
-$widgets-capacity-background-warning: #241B12 !default;
+$widgets-capacity-color-grey: #595f6b;
+$widgets-capacity-background-default: #18232e !default;
+$widgets-capacity-background-success: #0f1f16 !default;
+$widgets-capacity-background-warning: #241b12 !default;
 $widgets-capacity-background-error: #291614 !default;
