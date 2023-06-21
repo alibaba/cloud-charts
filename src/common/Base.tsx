@@ -638,6 +638,7 @@ class Base<
   initChart() {
     // 合并默认配置项
     this.defaultConfig = this.getDefaultConfig();
+    console.log(1111, this.chartName, this.context)
 
     let currentProps: Props = {
       ...this.props,

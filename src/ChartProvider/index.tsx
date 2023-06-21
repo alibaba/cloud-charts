@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 import LanguageMap, { LocaleItem } from '../locales';
-import { Language } from '../common/types';
+import { BaseChartConfig, Language } from '../common/types';
+import { Theme } from '../themes/themeTools';
 import eventBus from '../common/eventBus';
 import { FullLanguageName, FullLanguageEventName } from '../constants';
 
 export interface ChartProviderProps {
   language?: Language;
   locale?: LocaleItem;
+  defaultConfig?: BaseChartConfig;
+  theme?: string | Theme;
+  rule?:
+    | boolean
+    | {
+        /** 极端数据场景开关,true表示关闭对应处理 */
+        extreme?:
+          | boolean
+          | {
+              // 柱图是否左对齐
+              alignLeft?: boolean;
+              // 是否显示占位
+              showPlaceholder?: boolean;
+            };
+      };
 }
 
 export const ChartContext = React.createContext<ChartProviderProps>({
@@ -38,10 +54,13 @@ class ChartProvider extends Component<ChartProviderProps> {
 
   private locale: LocaleItem;
 
+  private config: BaseChartConfig;
+
   constructor(props: ChartProviderProps) {
     super(props);
     this.language = props.language || 'zh-cn';
     this.locale = props.locale;
+    this.config = props.config;
   }
 
   render() {
@@ -50,6 +69,7 @@ class ChartProvider extends Component<ChartProviderProps> {
         value={{
           language: this.language,
           locale: this.locale,
+          config: this.config,
         }}
       >
         {this.props.children}
