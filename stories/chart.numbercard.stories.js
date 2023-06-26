@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
@@ -359,6 +359,14 @@ const testData_1 = [
     label: 'GDB',
     value: 12,
   },
+  {
+    label: 'HBASE',
+    value: 2,
+  },
+  {
+    label: 'NAS',
+    value: 234,
+  },
 ];
 
 const testData_2 = [
@@ -407,24 +415,6 @@ const testData_2 = [
     backgroundType: 'image',
     backgroundImage:
       'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
-  },
-];
-
-const testData_3 = [
-  {
-    label: 'ECS',
-    value: 23,
-    icon: svgIcon,
-  },
-  {
-    label: 'EIP',
-    value: 45,
-    icon: svgIcon,
-  },
-  {
-    label: 'GDB',
-    value: 12,
-    icon: svgIcon,
   },
 ];
 
@@ -488,9 +478,9 @@ const testData_6 = [
   {
     label: 'ECS',
     value: 23,
-    itemStyle: {
-      width: 200,
-    },
+    // itemStyle: {
+    //   width: 200,
+    // },
     chart: {
       type: 'line',
       data: [
@@ -513,40 +503,68 @@ const testData_6 = [
   {
     label: 'EIP',
     value: 45,
-    itemStyle: {
-      width: 200,
-    },
+    // itemStyle: {
+    //   width: 200,
+    // },
     chart: {
       type: 'circle',
       data: 0.45,
       position: 'right',
-      config: {
-        // status: 'normal'
-      },
+    },
+  },
+  {
+    label: 'GDB',
+    value: 2,
+    // itemStyle: {
+    //   width: 200,
+    // },
+    chart: {
+      type: 'circle',
+      data: 0.45,
+      position: 'right',
     },
   },
 ];
 
-stories.add('数据卡片 - 业务场景', () => (
-  <>
-    <Wcontainer className="demos" title="标题+数字">
-      {/* 白底为默认值的话showDivider也默认开启 */}
-      <Wnumberoverview data={testData_1} showDivider />
-    </Wcontainer>
-    <Wcontainer className="demos" title="标题+数字+单位+ICON">
-      <Wnumberoverview data={testData_3} showDivider />
-    </Wcontainer>
-    <Wcontainer className="demos" title="标题+数字+单位+背景">
-      <Wnumberoverview data={testData_2} />
-    </Wcontainer>
-    <Wcontainer className="demos" title="标题+数字+状态">
-      <Wnumberoverview data={testData_4} showDivider />
-    </Wcontainer>
-    <Wcontainer className="demos" title="标题+数字+Tag">
-      <Wnumberoverview data={testData_5} showDivider />
-    </Wcontainer>
-    <Wcontainer className="demos" title="标题+数字+miniChart">
-      <Wnumberoverview data={testData_6} />
-    </Wcontainer>
-  </>
-));
+stories.add('数据卡片 - 业务场景', () => {
+  const [d_2, setD_2] = useState(testData_1);
+
+  useEffect(() => {
+    setD_2(
+      testData_1.map((el) => {
+        return {
+          ...el,
+          icon: svgIcon,
+          unit: '个',
+        };
+      }),
+    );
+  }, []);
+
+  return (
+    <>
+      <Wcontainer className="demos" title="标题+数字">
+        {/* 白底为默认值的话showDivider也默认开启 */}
+        <Wnumberoverview data={testData_1} showDivider />
+      </Wcontainer>
+      <Wcontainer className="demos" title="标题+数字+单位+ICON">
+        <Wnumberoverview data={d_2} showDivider />
+      </Wcontainer>
+      <Wcontainer className="demos" title="标题+数字+单位+背景">
+        <Wnumberoverview data={testData_2} />
+      </Wcontainer>
+      <Wcontainer className="demos" title="标题+数字+状态">
+        <Wnumberoverview data={testData_4} showDivider />
+      </Wcontainer>
+      <Wcontainer className="demos" title="标题+数字+Tag">
+        <Wnumberoverview data={testData_5} showDivider />
+      </Wcontainer>
+      <Wcontainer className="demos" title="标题+数字+miniChart">
+        <Wnumberoverview data={testData_6} />
+      </Wcontainer>
+      <Wcontainer className="demos" title="多行组件">
+        <Wnumberoverview data={d_2} columns={4} />
+      </Wcontainer>
+    </>
+  );
+});
