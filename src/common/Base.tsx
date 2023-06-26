@@ -3,7 +3,7 @@
 import { Chart, View, registerAction } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
-import { BaseChartConfig, ChartData, Size, Language, Types } from './types';
+import { BaseChartConfig, ChartData, Size, Language, Types, Rule } from './types';
 import { getParentSize, requestAnimationFrame, isEqualWith, merge, mapColors } from './common';
 import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
@@ -160,19 +160,7 @@ export interface ChartProps<ChartConfig> {
   /** @deprecated 自定义图表请使用类继承 */
   customChart?: any;
   /** 是否使用业务配置覆盖规则，默认为否。true表示关闭所有处理 */
-  force?:
-    | boolean
-    | {
-        /** 极端数据场景开关,true表示关闭对应处理 */
-        extreme?:
-          | boolean
-          | {
-              // 柱图是否左对齐
-              alignLeft?: boolean;
-              // 是否显示占位
-              showPlaceholder?: boolean;
-            };
-      };
+  force?: Rule;
   /** loading状态 */
   loading?: boolean;
 }
@@ -638,12 +626,19 @@ class Base<
   initChart() {
     // 合并默认配置项
     this.defaultConfig = this.getDefaultConfig();
-    console.log(1111, this.chartName, this.context)
 
+    // 通过上下文传递的通用配置项
+    const globalConfig_base = this.context?.defaultConfig?.baseConfig;
+    // 通过上下文传递的图表配置项
+    const globalConfig_coms = this.context?.defaultConfig?.[this.chartName.replace('G2', '')];
+
+    // 用户自定义 > 图表 > 通用 > 默认 
     let currentProps: Props = {
       ...this.props,
-      config: merge({}, this.defaultConfig, this.props.config),
+      config: merge({}, this.defaultConfig, globalConfig_base, globalConfig_coms, this.props.config),
+      force: merge({}, this.context?.rule, this.props.force)
     };
+    console.log(this.context, currentProps);
 
     // 开始初始化图表
     if (this.beforeInit) {

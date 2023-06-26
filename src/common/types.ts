@@ -40,3 +40,17 @@ export type Language = 'zh-cn' | 'en-us' | 'zh-CN' | 'en-US';
 export type Trend = 'raise' | 'drop';
 
 export type Colors = string | string[] | ColorAttrCallback;
+
+export type Rule =
+  | boolean
+  | {
+      /** 极端数据场景开关,true表示关闭对应处理 */
+      extreme?:
+        | boolean
+        | {
+            // 柱图是否左对齐
+            alignLeft?: boolean;
+            // 是否显示占位
+            showPlaceholder?: boolean;
+          };
+    };

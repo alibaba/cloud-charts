@@ -97,9 +97,9 @@ stories.add('全局配置', () => {
   return (
     <ChartProvider
       // 基础配置
-      // rule={{
-      //   extreme: true
-      // }}
+      rule={{
+        extreme: true
+      }}
       theme={'dark'}
       defaultConfig={{
         Line: {
@@ -107,7 +107,11 @@ stories.add('全局配置', () => {
             columns: false,
           },
         },
-        Bar: {},
+        Bar: {
+          tooltip: {
+            position: 'top',
+          },
+        },
         baseConfig: {
           xAxis: {
             autoEllipsis: true,
