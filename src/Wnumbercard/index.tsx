@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/brace-style */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect, useRef, Fragment, useMemo } from 'react';
+import React, { useState, useEffect, useRef, Fragment, useMemo, useCallback } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
@@ -15,7 +15,9 @@ const prefix = `${PrefixName}-wnumbercard`;
 export interface LineProps {
   type: 'line';
   data: any[];
+  // 宽度，默认100
   width?: number | string;
+  // 高度，默认40
   height?: number | string;
   position?: 'left' | 'right' | 'top' | 'bottom';
   config?: WlineConfig;
@@ -243,7 +245,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   const lineChart = chart?.type === 'line' && (
     <Wline
       data={chart?.data || []}
-      width={chart?.width || null}
+      width={chart?.width || 100}
       height={chart?.height || 40}
       config={{
         xAxis: {
@@ -430,32 +432,28 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
 
   const [containerWidth, setContainerWidth] = useState<number>(0);
 
-  useEffect(() => {
-    setContainerWidth(container?.current?.offsetWidth || 0);
-  }, []);
+  const calcColumns = useCallback(() => {
+    const width = container?.current?.offsetWidth || 0;
+    setContainerWidth(width);
 
-  useEffect(() => {
     if (userColumns) {
       setColumns(userColumns);
-    } else {
-      calcColumns();
+      return;
     }
+
+    const itemsPerRow = Math.max(Math.floor(width / maxWidth), 1);
+    setColumns(itemsPerRow);
+  }, [userColumns]);
+
+  useEffect(() => {
+    calcColumns();
 
     window.addEventListener('resize', calcColumns);
 
     return () => {
       window.removeEventListener('resize', calcColumns);
     };
-  }, [userColumns, containerWidth]);
-
-  const calcColumns = () => {
-    if (userColumns) {
-      return;
-    }
-
-    const itemsPerRow = Math.max(Math.floor(containerWidth / maxWidth), 1);
-    setColumns(itemsPerRow);
-  };
+  }, [calcColumns]);
 
   const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
@@ -465,19 +463,25 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   }
 
   // 计算默认卡片样式
-  let backgroundType: any;
-  if (data.some((item: IDataItem) => item.backgroundType)) {
-    // 任意卡片指定了backgroundType则不做处理
-    backgroundType = undefined;
-  } else if (data.some((item: IDataItem) => item.chart)) {
-    // 任意卡片有minichart 则默认用灰色卡片
-    backgroundType = 'fill';
-  } else if (columns < data.length) {
-    // 多行默认用灰色
-    backgroundType = 'fill';
-  } else {
-    backgroundType = 'none';
-  }
+  const [backgroundType, setBackgroundType] = useState<any>(undefined);
+
+  // 初始化时计算默认的backgroundType
+  useEffect(() => {
+    const width = container?.current?.offsetWidth || 0;
+    const initColumns = userColumns || Math.max(Math.floor(width / maxWidth), 1);
+    if (data.some((item: IDataItem) => item.backgroundType)) {
+      // 任意卡片指定了backgroundType则不做处理
+      setBackgroundType(undefined);
+    } else if (data.some((item: IDataItem) => item.chart)) {
+      // 任意卡片有minichart 则默认用灰色卡片
+      setBackgroundType('fill');
+    } else if (initColumns < data.length) {
+      // 多行默认用灰色
+      setBackgroundType('fill');
+    } else {
+      setBackgroundType('none');
+    }
+  }, []);
 
   return (
     <div
