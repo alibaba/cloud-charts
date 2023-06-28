@@ -934,3 +934,16 @@ stories.add('极端数据测试', () => (
     <Wline height="300" data={twoLine} config={{}} />
   </div>
 ));
+
+stories.add('带标签折线图', () => (
+  <Wcontainer className="demos">
+    <Wline
+      height="300"
+      config={{
+        symbol: true,
+        label: true,
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));

@@ -405,6 +405,46 @@ export function checkExtremeData(
   };
 }
 
+// 特殊情况检测
+// 目前根据线图、线点图与散点图的symbol或label配置项设置x轴的range
+export function checkSpecialConfig(chartName: string, config: any, force: any) {
+  console.log('chart name:', chartName);
+  let range = null;
+  if (chartName === 'G2Line') {
+    if (config?.label && config?.label?.visible !== false) {
+      range = [0.02, 0.98];
+    } else if (config?.symbol) {
+      range = [0.01, 0.99];
+    }
+  } else if (chartName === 'G2LineScatter') {
+    if (
+      (config?.lineLabel && config?.lineLabel?.visible !== false) ||
+      (config?.scatterLabel && config?.scatterLabel?.visible !== false)
+    ) {
+      range = [0.02, 0.98];
+    } else {
+      range = [0.01, 0.99];
+    }
+  } else if (chartName === 'G2Scatter' && !config.jitter) {
+    if (config?.label && config?.label?.visible !== false) {
+      range = [0.02, 0.98];
+    } else {
+      range = [0.01, 0.99];
+    }
+  }
+
+  if (range && force !== true) {
+    return {
+      xAxis: {
+        range,
+        ...(config?.xAxis || {}),
+      },
+    };
+  }
+
+  return {};
+}
+
 // 颜色检测
 // 目标是检测config里面所有的颜色配置，这里暂时判断color/areaColors
 export function checkColor(config: any, chartType: string, chart: any) {

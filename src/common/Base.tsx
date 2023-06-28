@@ -20,6 +20,7 @@ import {
   checkSize,
   checkSizeConfig,
   checkExtremeData,
+  checkSpecialConfig,
 } from './checkFunctions';
 import getEmptyDataType from './emptyDataType';
 import themes from '../themes/index';
@@ -761,6 +762,11 @@ class Base<
         }
       });
     }
+
+    // 特殊配置项检测
+    // 目前仅对线图、线点图与散点图微调x轴range
+    const extraConfig = checkSpecialConfig(this.chartName, config, force);
+    config = merge({}, config, extraConfig);
 
     // 生成图表实例
     const chart = new Chart({
