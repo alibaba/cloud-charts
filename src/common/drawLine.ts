@@ -1,5 +1,5 @@
 'use strict';
-import { Chart, Colors } from "./types";
+import { BaseChartConfig, Chart, Colors } from "./types";
 import label, { LabelConfig } from './label';
 import geomSize, { GeomSizeConfig } from './geomSize';
 import geomStyle, { GeomStyleConfig } from './geomStyle';
@@ -45,7 +45,7 @@ export interface DrawLineConfig {
  * @param {Object} config 配置项
  * @param {string} yAxisKey 数据映射字段
  * */
-export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey = 'y') {
+export default function drawLine(chart: Chart, config: DrawLineConfig & BaseChartConfig, yAxisKey = 'y') {
   let areaColors = config.areaColors || config.colors;
   if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.colors, config.areaColors);
@@ -94,6 +94,11 @@ export default function drawLine(chart: Chart, config: DrawLineConfig, yAxisKey 
       .position(['x', yAxisKey])
       .color('type', config.colors)
       .shape(lineShape)
+  }
+
+  if (typeof config.animate === 'object') {
+    lineGeom.animate(config.animate);
+    areaGeom && areaGeom.animate(config.animate);
   }
 
   if (areaGeom && typeof config.area === 'object') {

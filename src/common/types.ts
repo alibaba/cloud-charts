@@ -1,4 +1,4 @@
-import { ColorAttrCallback, ViewPadding, ViewAppendPadding } from '@antv/g2/esm/interface';
+import { ColorAttrCallback, ViewPadding, ViewAppendPadding, AnimateOption } from '@antv/g2/esm/interface';
 
 export * from '@antv/g2/esm/core';
 
@@ -24,7 +24,7 @@ export interface BaseChartConfig {
   appendPadding?: ViewAppendPadding;
   dataType?: string;
   /** 是否开启动画，默认开启。 */
-  animate?: boolean;
+  animate?: AnimateOption | boolean;
 }
 
 export type ChartData = any;

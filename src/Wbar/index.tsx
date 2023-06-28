@@ -405,6 +405,10 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
     ]);
   }
 
+  if (typeof config.animate === 'object') {
+    geom.animate(config.animate);
+  }
+
   geomSize(geom, size, null, 'y', 'x*y*type*facet*extra');
 
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
