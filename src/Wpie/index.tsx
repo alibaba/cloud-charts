@@ -343,6 +343,10 @@ export class Pie extends Base<WpieConfig> {
       this.geom = this.geom.color('x', config.colors);
     }
 
+    if (typeof config.animate === 'object') {
+      this.geom.animate(config.animate);
+    }
+
     if (config.select) {
       chart.interaction('element-single-selected', {
         start: [

@@ -23,7 +23,7 @@ export interface BaseChartConfig {
    */
   appendPadding?: ViewAppendPadding;
   dataType?: string;
-  /** 是否开启动画，默认开启。 */
+  /** 是否开启动画，默认开启。目前仅 线、柱、饼图支持 AnimateOption 选项 */
   animate?: AnimateOption | boolean;
 }
 
