@@ -77,7 +77,7 @@ export interface GuideLineConfig {
   style?: G2Dependents.ShapeAttrs;
   text?: string | GuideLineTextConfig;
 }
-export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, config: any) {
+export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, config?: any) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
   const rawText = text || ''
   const {
@@ -265,7 +265,7 @@ export interface GuideFilterConfig {
   apply?: string[];
   style?: G2Dependents.ShapeAttrs;
 }
-export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig, config: any) {
+export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig, config?: any) {
   const { top = true, status, axis, value, start, end, apply, style } = guideFilter;
   const color = getStatusColor(status);
 
@@ -278,7 +278,7 @@ export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterCon
   } else {
     guideColor = `l(180) 0:${color} 1:${color}00`;
   }
-  
+
   const guideConfig = {
     top,
     color: guideColor,
