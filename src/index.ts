@@ -1,3 +1,11 @@
+/*
+ * @Author: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @Date: 2023-03-01 16:41:14
+ * @LastEditors: luhuihua luhuihua.lhh@alibaba-inc.com
+ * @LastEditTime: 2023-06-29 11:16:19
+ * @FilePath: /aisc-widgets/src/index.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import './global';
 import { VERSION } from './constants';
 import themes, { Themes } from './themes/index';
@@ -60,4 +68,4 @@ export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
 export { default as Wcapacity } from './Wcapacity/index';
 
 // 国际化
-export { default as ChartProvider, setLanguage } from './ChartProvider/index';
+export { default as ChartProvider, setLanguage, getLanguage } from './ChartProvider/index';

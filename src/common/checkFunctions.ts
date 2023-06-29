@@ -408,7 +408,6 @@ export function checkExtremeData(
 // 特殊情况检测
 // 目前根据线图、线点图与散点图的symbol或label配置项设置x轴的range
 export function checkSpecialConfig(chartName: string, config: any, force: any) {
-  console.log('chart name:', chartName);
   let range = null;
   if (chartName === 'G2Line') {
     if (config?.label && config?.label?.visible !== false) {
