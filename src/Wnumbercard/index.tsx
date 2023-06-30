@@ -306,19 +306,17 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
   // css变量
   const cssVariables = {
-    '--background-color':
-      backgroundType === 'fill'
-        ? themes['widgets-color-container-background']
-        : backgroundType === 'none'
-        ? 'transparent'
-        : 'none',
+    '--background-color': backgroundType === 'none' ? 'transparent' : themes['widgets-color-container-background'],
     '--hover-color':
       backgroundType === 'fill'
         ? themes['widgets-numbercard-color-hover']
         : backgroundType === 'none'
         ? themes['widgets-color-container-background']
-        : 'none',
-    '--click-color': backgroundType !== 'image' ? themes['widgets-numbercard-color-click'] : 'none',
+        : themes['widgets-color-container-background'],
+    '--click-color':
+      backgroundType !== 'image'
+        ? themes['widgets-numbercard-color-click']
+        : themes['widgets-color-container-background'],
     '--value-color':
       !status || status === 'default' ? themes['widgets-numbercard-color-text'] : transformColor(status).color,
   };
@@ -378,6 +376,12 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           className={`${prefix}-main-content`}
           style={{ marginLeft: iconElement && iconPosition === 'left' ? 16 : 0 }}
         >
+          <div className={`${prefix}-item-label-container`} style={{ marginBottom: value || value === 0 ? 4 : 0 }}>
+            <div className={`${prefix}-item-label`} style={labelStyle || {}} ref={labelRef}>
+              {label || ''}
+            </div>
+            {labelTooltip}
+          </div>
           <div className={`${prefix}-label-value-container`}>
             <div className={`${prefix}-item-value`} style={valueStyle || {}}>
               {typeof value === 'number' ? (
@@ -391,12 +395,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               {unit && <div className={`${prefix}-item-unit`}>{unit}</div>}
               {tagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{tagElements}</div>}
             </div>
-          </div>
-          <div className={`${prefix}-item-label-container`} style={{ marginTop: value || value === 0 ? 4 : 0 }}>
-            <div className={`${prefix}-item-label`} style={labelStyle || {}} ref={labelRef}>
-              {label || ''}
-            </div>
-            {labelTooltip}
           </div>
         </div>
         {iconPosition === 'right' && iconElement}
@@ -415,12 +413,21 @@ export interface IDataOverviewCard {
   /** 间距，默认8 */
   margin?: number | [number, number];
 
-  /** 是否显示竖线,默认不显示，columns=1时不显示 */
+  /** 是否显示竖线,不指定则根据backgroundType自动判断 */
   showDivider?: boolean;
+
+  // 整体的卡片类型，不指定则根据卡片内容、行数自动判断
+  backgroundType?: 'fill' | 'none' | 'image';
 }
 
 export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
-  const { data = [], columns: userColumns, margin = 8, showDivider = false } = props || {};
+  const {
+    data = [],
+    columns: userColumns,
+    margin = 8,
+    showDivider: userShowDivider,
+    backgroundType: userBackgroundType,
+  } = props || {};
 
   const marginRight = typeof margin === 'number' ? margin : margin[1];
   const marginBottom = typeof margin === 'number' ? margin : margin[0];
@@ -436,12 +443,14 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     const width = container?.current?.offsetWidth || 0;
     setContainerWidth(width);
 
+    // 用户设置了列数则直接用
     if (userColumns) {
       setColumns(userColumns);
       return;
     }
 
-    const itemsPerRow = Math.max(Math.floor(width / maxWidth), 1);
+    // 每行几个卡片，最少2个，最多6个
+    const itemsPerRow = Math.min(Math.max(Math.floor(width / maxWidth), 2), 6);
     setColumns(itemsPerRow);
   }, [userColumns]);
 
@@ -455,18 +464,17 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     };
   }, [calcColumns]);
 
-  const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
-
-  const dataByRow = [];
-  for (let index = 0; index < data?.length; index += columns) {
-    dataByRow.push(data.slice(index, index + columns));
-  }
-
-  // 计算默认卡片样式
+  // 卡片背景样式
   const [backgroundType, setBackgroundType] = useState<any>(undefined);
 
   // 初始化时计算默认的backgroundType
   useEffect(() => {
+    // 用户指定了backgroundType就直接用
+    if (userBackgroundType) {
+      setBackgroundType(userBackgroundType);
+      return;
+    }
+
     const width = container?.current?.offsetWidth || 0;
     const initColumns = userColumns || Math.max(Math.floor(width / maxWidth), 1);
     if (data.some((item: IDataItem) => item.backgroundType)) {
@@ -482,6 +490,16 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
       setBackgroundType('none');
     }
   }, []);
+
+  // 是否加间隔线
+  const showDivider = userShowDivider !== undefined ? userShowDivider : backgroundType === 'none';
+
+  const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
+
+  const dataByRow = [];
+  for (let index = 0; index < data?.length; index += columns) {
+    dataByRow.push(data.slice(index, index + columns));
+  }
 
   return (
     <div
@@ -502,7 +520,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
               backgroundType,
               ...item,
               itemStyle: {
-                height: 68,
+                height: 64,
                 width: itemWidth,
                 marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
                 marginLeft: colIndex === 0 ? 0 : marginRight / 2,
@@ -524,18 +542,20 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
 
 // 计算卡片宽度
 function calcCardMinWidth(cardProps: IDataItem) {
-  // 既有icon又有图表，默认最大尺寸
-  if (cardProps.chart && cardProps.icon) {
-    return 608;
-  }
-  // 只有图表没有icon
-  else if (cardProps.chart) {
-    return 401;
-  }
-  // 只有icon
-  else if (cardProps.icon) {
-    return 296;
-  } else {
-    return 192;
-  }
+  // // 既有icon又有图表，默认最大尺寸
+  // if (cardProps.chart && cardProps.icon) {
+  //   return 608;
+  // }
+  // // 只有图表没有icon
+  // else if (cardProps.chart) {
+  //   return 401;
+  // }
+  // // 只有icon
+  // else if (cardProps.icon) {
+  //   return 296;
+  // } else {
+  //   return 172;
+  // }
+
+  return 172;
 }

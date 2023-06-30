@@ -16,8 +16,9 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
 #{$wnumbercard-prefix}-data-item-container {
   padding: 12px 20px 12px 16px;
   background: var(--background-color);
-  background-size: cover;
+  background-size: auto 100%;
   background-repeat: no-repeat;
+  background-position: right;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -28,12 +29,16 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   &:hover {
     background: var(--hover-color);
     opacity: var(--hover-opacity);
-    background-size: cover;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: right;
   }
 
   &:active {
     background: var(--click-color);
-    background-size: cover;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: right;
   }
 
   #{$wnumbercard-prefix}-item-content {
