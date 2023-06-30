@@ -467,7 +467,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   // 卡片背景样式
   const [backgroundType, setBackgroundType] = useState<any>(undefined);
 
-  // 初始化时计算默认的backgroundType
+  // 计算默认的backgroundType
   useEffect(() => {
     // 用户指定了backgroundType就直接用
     if (userBackgroundType) {
@@ -475,21 +475,16 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
       return;
     }
 
-    const width = container?.current?.offsetWidth || 0;
-    const initColumns = userColumns || Math.max(Math.floor(width / maxWidth), 1);
     if (data.some((item: IDataItem) => item.backgroundType)) {
       // 任意卡片指定了backgroundType则不做处理
       setBackgroundType(undefined);
-    } else if (data.some((item: IDataItem) => item.chart)) {
-      // 任意卡片有minichart 则默认用灰色卡片
-      setBackgroundType('fill');
-    } else if (initColumns < data.length) {
-      // 多行默认用灰色
-      setBackgroundType('fill');
-    } else {
+    } else if (data.some((item: IDataItem) => item.icon)) {
+      // 任意卡片有icon 则默认用白色卡片
       setBackgroundType('none');
+    } else {
+      setBackgroundType('fill');
     }
-  }, []);
+  }, [data, userBackgroundType]);
 
   // 是否加间隔线
   const showDivider = userShowDivider !== undefined ? userShowDivider : backgroundType === 'none';

@@ -545,19 +545,19 @@ stories.add('数据卡片 - 业务场景', () => {
     <>
       <Wcontainer className="demos" title="标题+数字">
         {/* 白底为默认值的话showDivider也默认开启 */}
-        <Wnumberoverview data={testData_1} showDivider />
+        <Wnumberoverview data={testData_1} />
       </Wcontainer>
       <Wcontainer className="demos" title="标题+数字+单位+ICON">
-        <Wnumberoverview data={d_2} showDivider />
+        <Wnumberoverview data={d_2} />
       </Wcontainer>
       <Wcontainer className="demos" title="标题+数字+单位+背景">
         <Wnumberoverview data={testData_2} />
       </Wcontainer>
       <Wcontainer className="demos" title="标题+数字+状态">
-        <Wnumberoverview data={testData_4} showDivider />
+        <Wnumberoverview data={testData_4} />
       </Wcontainer>
       <Wcontainer className="demos" title="标题+数字+Tag">
-        <Wnumberoverview data={testData_5} showDivider />
+        <Wnumberoverview data={testData_5} />
       </Wcontainer>
       <Wcontainer className="demos" title="标题+数字+miniChart">
         <Wnumberoverview data={testData_6} />
