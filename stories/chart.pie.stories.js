@@ -365,9 +365,21 @@ stories.add('饼图-蜘蛛标签', () => (
     <Wpie
       width={300}
       height="300"
-      data={zeroData}
+      data={[
+        {
+          name: '浏览器占比',
+          data: [
+            ['Firefox', 45.0],
+            ['IE', 26.8],
+            ['Chrome', 32.8],
+            ['Safari', 28.5],
+            ['Opera', 18.5],
+          ],
+        },
+      ]}
       config={{
-        outerRadius: 0.5, // 动态调整
+        cycle: true,
+        outerRadius: 0.4, // 动态调整
         legend: false,
         label: {
           layout: [

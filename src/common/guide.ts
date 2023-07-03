@@ -112,7 +112,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
     style: {
       stroke: color,
       // 默认为虚线
-      lineDash: [4, 4],
+      // lineDash: [4, 4],
       ...style,
     },
     text: {
@@ -134,7 +134,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
     // @ts-ignore
     end: undefined,
   };
-
+  
   // 判断value时需要注意数字0是假值，但是是一个合理的guide value
   if (axis && (value || value === 0)) {
     if (axis === 'x') {
@@ -270,13 +270,12 @@ export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterCon
   const color = getStatusColor(status);
 
   let guideColor = color;
+
   // 如果镜面或横向不处理
   if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
     guideColor = color;
   } else if (axis === 'y') {
     guideColor = `l(90) 0:${color} 1:${color}00`;
-  } else {
-    guideColor = `l(180) 0:${color} 1:${color}00`;
   }
 
   const guideConfig = {

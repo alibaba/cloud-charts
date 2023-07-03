@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select } from '@storybook/addon-knobs';
 
-import { themes, Wcontainer, Wline, Wbar, Wheatmap, ChartProvider } from '@alife/aisc-widgets';
+import { themes, Wcontainer, Wline, Wbar, Wheatmap, ChartProvider, Util } from '@alife/aisc-widgets';
 
 const stories = storiesOf('monitor', module);
 stories.addDecorator(withKnobs);
@@ -88,6 +88,15 @@ stories.add('热力图-代码提交', () => {
 
 stories.add('全局配置', () => {
   const [d, setD] = useState([]);
+  let chart1 = null;
+  let chart2 = null;
+  let chart3 = null;
+  let connection;
+
+  useEffect(() => {
+    connection = new Util.Connect([chart1, chart2, chart3]);
+  });
+
   useEffect(() => {
     fetch('https://mocks.alibaba-inc.com/mock/lf7wkn3y//monitorCPU.json')
       .then((response) => response.json())
@@ -96,25 +105,26 @@ stories.add('全局配置', () => {
 
   return (
     <ChartProvider
-      // 基础配置
+      language="en-US"
       rule={{
-        extreme: true
+        extreme: true,
       }}
       theme={'dark'}
       defaultConfig={{
+        // 单类型图表配置
         Line: {
           tooltip: {
             columns: false,
           },
         },
-        Bar: {
-          tooltip: {
-            position: 'top',
-          },
-        },
+        Bar: {},
+        // 通用配置
         baseConfig: {
           xAxis: {
             autoEllipsis: true,
+          },
+          tooltip: {
+            position: 'left',
           },
           legend: {
             customConfig: {
@@ -124,7 +134,7 @@ stories.add('全局配置', () => {
         },
       }}
     >
-      <Wline height="300" width={300} data={d} />
+      <Wline height="300" width={300} data={d} getChartInstance={(c) => (chart1 = c)} />
       <Wline
         height="300"
         width={300}
@@ -135,12 +145,13 @@ stories.add('全局配置', () => {
           },
           legend: {
             customConfig: {
-              maxItemWidth: 0.7,
+              maxItemWidth: 0.3,
             },
           },
         }}
+        getChartInstance={(c) => (chart2 = c)}
       />
-      <Wbar height="300" data={d} />
+      {/* <Wbar height="300" data={d} getChartInstance={(c) => (chart3 = c)} /> */}
     </ChartProvider>
   );
 });

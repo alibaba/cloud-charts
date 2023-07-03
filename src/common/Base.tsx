@@ -639,7 +639,6 @@ class Base<
       config: merge({}, this.defaultConfig, globalConfig_base, globalConfig_coms, this.props.config),
       force: merge({}, this.context?.rule, this.props.force)
     };
-    console.log(this.context, currentProps);
 
     // 开始初始化图表
     if (this.beforeInit) {
