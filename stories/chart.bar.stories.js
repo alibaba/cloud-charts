@@ -730,3 +730,19 @@ stories.add('极端数据+堆叠', () => {
     </Wcontainer>
   );
 });
+
+stories.add('label测试', () => (
+  <Wcontainer className="demos">
+    <Wbar
+      height="300"
+      config={{
+        legend: {
+          //position: 'left-top',
+          visible: true,
+        },
+        label: true,
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));

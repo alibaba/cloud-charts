@@ -21,6 +21,7 @@ import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import { activeRegionWithTheme } from '../common/interaction';
 import { getText } from '../ChartProvider';
+import defaultLayout from '@antv/g2/esm/chart/layout';
 import './index.scss';
 
 interface FacetConfig {
@@ -322,6 +323,23 @@ export class Bar extends Base<WbarConfig> {
 
     // 滚动条
     rectScrollbar(chart, config);
+
+    // 判断是否要加padding
+    // 当开启label，legend不在上方，且存在某根柱子数值与y轴最大值一样时需要加padding
+    chart.on('beforepaint', () => {
+      const yScale = chart?.geometries?.[0]?.scales?.y;
+      const valueEqualMax = (yScale?.values || []).some((value: number) => value >= yScale.max);
+      const showTopLabel =
+        config?.label &&
+        config?.label?.visible !== false &&
+        (config?.legend === false ||
+          config?.legend?.visible === false ||
+          (config?.legend?.position && config?.legend?.position !== 'top'));
+
+      if (valueEqualMax && showTopLabel) {
+        chart.appendPadding = [20, 0, 0, 0];
+      }
+    });
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
     // 分面需要对数据进行筛选处理
