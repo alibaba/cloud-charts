@@ -336,10 +336,11 @@ export class Bar extends Base<WbarConfig> {
           config?.legend?.visible === false ||
           (config?.legend?.position && config?.legend?.position !== 'top'));
 
-      if (valueEqualMax && showTopLabel) {
+      if (valueEqualMax && showTopLabel && !chart.appendPadding) {
         chart.appendPadding = [20, 0, 0, 0];
       }
     });
+    console.log('chart', chart);
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
     // 分面需要对数据进行筛选处理

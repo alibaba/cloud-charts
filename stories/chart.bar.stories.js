@@ -737,10 +737,11 @@ stories.add('label测试', () => (
       height="300"
       config={{
         legend: {
-          //position: 'left-top',
+          position: 'bottom',
           visible: true,
         },
         label: true,
+        appendPadding: [30, 0, 0, 0],
       }}
       data={data}
     />
