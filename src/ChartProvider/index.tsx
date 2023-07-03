@@ -1,11 +1,3 @@
-/*
- * @Author: luhuihua luhuihua.lhh@alibaba-inc.com
- * @Date: 2023-03-22 15:25:55
- * @LastEditors: luhuihua luhuihua.lhh@alibaba-inc.com
- * @LastEditTime: 2023-06-29 14:14:56
- * @FilePath: /aisc-widgets/src/ChartProvider/index.tsx
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import React, { Component } from 'react';
 import LanguageMap, { LocaleItem } from '../locales';
 import { BaseChartConfig, Language, Rule } from '../common/types';
@@ -89,7 +81,11 @@ class ChartProvider extends Component<ChartProviderProps> {
 export default ChartProvider;
 
 // 优先级: setLanguage设置的语言 > 图表中的自定义locale > provider的locale > 图表中的language > provider的language
-export const getText = (value: keyof LocaleItem, language: keyof typeof LanguageMap, locale: LocaleItem = null) => {
+export const getText = (
+  value: keyof LocaleItem,
+  language: keyof typeof LanguageMap,
+  locale: LocaleItem = null,
+) => {
   return currentLanguage && currentLanguage in LanguageMap
     ? LanguageMap?.[currentLanguage]?.[value]
     : locale?.[value] || LanguageMap?.[language in LanguageMap ? language : 'zh-cn']?.[value];

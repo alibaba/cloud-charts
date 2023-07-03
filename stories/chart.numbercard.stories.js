@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { Wnumbercard, Wnumberoverview, Wcontainer } from '@alife/aisc-widgets';
+import { Wnumbercard, Wnumberoverview, Wcontainer } from '@alicloud/cloud-charts';
 
 const stories = storiesOf('Wnumbercard', module);
 

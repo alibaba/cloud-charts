@@ -4,7 +4,15 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select } from '@storybook/addon-knobs';
 
-import { themes, Wcontainer, Wline, Wbar, Wheatmap, ChartProvider, Util } from '@alife/aisc-widgets';
+import {
+  themes,
+  Wcontainer,
+  Wline,
+  Wbar,
+  Wheatmap,
+  ChartProvider,
+  Util,
+} from '@alicloud/cloud-charts';
 
 const stories = storiesOf('monitor', module);
 stories.addDecorator(withKnobs);

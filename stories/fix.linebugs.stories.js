@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select } from '@storybook/addon-knobs';
 
-import { Wcontainer, Wline, Wbar } from '@alife/aisc-widgets';
+import { Wcontainer, Wline, Wbar } from '@alicloud/cloud-charts';
 
 const stories = storiesOf('linebugs', module);
 stories.addDecorator(withKnobs);

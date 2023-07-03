@@ -1,11 +1,3 @@
-/*
- * @Author: luhuihua luhuihua.lhh@alibaba-inc.com
- * @Date: 2023-04-19 16:13:46
- * @LastEditors: luhuihua luhuihua.lhh@alibaba-inc.com
- * @LastEditTime: 2023-06-13 17:29:21
- * @FilePath: /aisc-widgets/src/common/circleAnnoation.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 'use strict';
 
 import { Chart, G2Dependents } from './types';
@@ -47,12 +39,15 @@ export default function (chart: Chart, config: DecorationConfig, size: any, char
     const innerR =
       config.showDecoration?.innerRadius ??
       numberDecimal(
-        Math.min(viewWidth, viewHeight) * (config.radius || config.outerRadius || 1) * (config.innerRadius || 0.5),
+        Math.min(viewWidth, viewHeight) *
+          (config.radius || config.outerRadius || 1) *
+          (config.innerRadius || 0.5),
         0,
       ) -
         14 * 3;
     // 视图最小宽高减去图例间距
-    const outerR = config.showDecoration?.outerRadius ?? numberDecimal(Math.min(viewWidth, viewHeight) / 2 - 14);
+    const outerR =
+      config.showDecoration?.outerRadius ?? numberDecimal(Math.min(viewWidth, viewHeight) / 2 - 14);
 
     if (Math.min(viewWidth, viewHeight) > 60) {
       if (config.cycle || chartName === 'G2MultiCircle') {
