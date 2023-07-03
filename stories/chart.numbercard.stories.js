@@ -168,7 +168,7 @@ stories.add('带线图的指标卡片', () => (
       width: 250,
     }}
     chart={{
-      type: 'line',
+      type: 'Wline',
       data: [
         {
           name: '测试数据',
@@ -196,7 +196,7 @@ stories.add('带复杂线图的指标卡片', () => (
       width: 300,
     }}
     chart={{
-      type: 'line',
+      type: 'Wline',
       height: 200,
       position: 'bottom',
       data: [
@@ -237,7 +237,7 @@ stories.add('带圆环的指标卡片', () => (
       width: 250,
     }}
     chart={{
-      type: 'circle',
+      type: 'Wcircle',
       data: 0.45,
       position: 'right',
       config: {
@@ -482,7 +482,7 @@ const testData_6 = [
     //   width: 200,
     // },
     chart: {
-      type: 'line',
+      type: 'Wline',
       data: [
         {
           name: '测试数据',
@@ -507,7 +507,7 @@ const testData_6 = [
     //   width: 200,
     // },
     chart: {
-      type: 'circle',
+      type: 'Wcircle',
       data: 0.45,
       position: 'right',
     },
@@ -519,7 +519,7 @@ const testData_6 = [
     //   width: 200,
     // },
     chart: {
-      type: 'circle',
+      type: 'Wcircle',
       data: 0.45,
       position: 'right',
     },

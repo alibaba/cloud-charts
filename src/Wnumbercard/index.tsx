@@ -13,7 +13,7 @@ import './index.scss';
 const prefix = `${PrefixName}-wnumbercard`;
 
 export interface LineProps {
-  type: 'line';
+  type: 'Wline';
   data: any[];
   // 宽度，默认100
   width?: number | string;
@@ -24,7 +24,7 @@ export interface LineProps {
 }
 
 export interface CircleProps {
-  type: 'circle';
+  type: 'Wcircle';
   data: number;
   position?: 'left' | 'right' | 'top' | 'bottom';
   config?: WcircleProps;
@@ -206,8 +206,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         color: themes['widgets-color-p7'],
         bgColor: themes['widgets-color-bg-p7'],
       };
-    }
-    {
+    } else {
       return {
         color: themes['widgets-color-text-2'],
         bgColor: themes['widgets-numbercard-color-hover'],
@@ -242,7 +241,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   });
 
   // 线图
-  const lineChart = chart?.type === 'line' && (
+  const lineChart = chart?.type === 'Wline' && (
     <Wline
       data={chart?.data || []}
       width={chart?.width || 100}
@@ -263,7 +262,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   );
 
   // 圆环图
-  const circleChart = chart?.type === 'circle' && (
+  const circleChart = chart?.type === 'Wcircle' && (
     <Wcircle percent={chart?.data || 0} {...{ radius: 22, ...chart?.config }} />
   );
 
