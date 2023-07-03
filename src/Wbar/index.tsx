@@ -326,21 +326,35 @@ export class Bar extends Base<WbarConfig> {
 
     // 判断是否要加padding
     // 当开启label，legend不在上方，且存在某根柱子数值与y轴最大值一样时需要加padding
-    chart.on('beforepaint', () => {
-      const yScale = chart?.geometries?.[0]?.scales?.y;
-      const valueEqualMax = (yScale?.values || []).some((value: number) => value >= yScale.max);
-      const showTopLabel =
-        config?.label &&
-        config?.label?.visible !== false &&
-        (config?.legend === false ||
-          config?.legend?.visible === false ||
-          (config?.legend?.position && config?.legend?.position !== 'top'));
+    // chart.on('beforepaint', () => {
+    //   const maxY = chart?.geometries?.[0]?.scales?.y?.max;
 
-      if (valueEqualMax && showTopLabel && !chart.appendPadding) {
-        chart.appendPadding = [20, 0, 0, 0];
-      }
-    });
-    console.log('chart', chart);
+    //   // 是否显示label
+    //   const showLabel = config?.label && config?.label?.visible !== false;
+    //   // 是否隐藏legend，或legend不在top
+    //   const hideLegend =
+    //     config?.legend === false ||
+    //     config?.legend?.visible === false ||
+    //     (config?.legend?.position && config?.legend?.position !== 'top');
+
+    //   let addPadding = false;
+
+    //   // 横向柱图
+    //   if (config?.column && showLabel && hideLegend) {
+    //     addPadding = true;
+    //   }
+
+    //   // 堆叠
+
+    //   // 分组堆叠
+
+    //   // 分面
+    //   console.log('chart:', chart);
+
+    //   if (addPadding && !chart.appendPadding) {
+    //     chart.appendPadding = [20, 0, 0, 0];
+    //   }
+    // });
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
     // 分面需要对数据进行筛选处理
