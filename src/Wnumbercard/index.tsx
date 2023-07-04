@@ -449,9 +449,9 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     }
 
     // 每行几个卡片，最少2个，最多6个
-    const itemsPerRow = Math.min(Math.max(Math.floor(width / maxWidth), 2), 6);
+    const itemsPerRow = Math.min(Math.max(Math.min(Math.floor(width / maxWidth), data?.length || 0), 2), 6);
     setColumns(itemsPerRow);
-  }, [userColumns]);
+  }, [userColumns, data]);
 
   useEffect(() => {
     calcColumns();
