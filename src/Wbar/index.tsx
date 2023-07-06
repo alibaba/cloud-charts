@@ -325,36 +325,65 @@ export class Bar extends Base<WbarConfig> {
     rectScrollbar(chart, config);
 
     // 判断是否要加padding
-    // 当开启label，legend不在上方，且存在某根柱子数值与y轴最大值一样时需要加padding
-    // chart.on('beforepaint', () => {
-    //   const maxY = chart?.geometries?.[0]?.scales?.y?.max;
+    // 当开启label、label在柱子上方、legend不在上方，且存在某根柱子数值与y轴最大值接近时需要加padding
+    // 极坐标柱状图不考虑，分面自己加padding，此处不处理
+    chart.on('beforepaint', () => {
+      // y轴刻度最大值
+      const axisMax = chart?.geometries?.[0]?.scales?.y?.max;
+      // y轴高度
+      const height = chart?.coordinateBBox?.height;
 
-    //   // 是否显示label
-    //   const showLabel = config?.label && config?.label?.visible !== false;
-    //   // 是否隐藏legend，或legend不在top
-    //   const hideLegend =
-    //     config?.legend === false ||
-    //     config?.legend?.visible === false ||
-    //     (config?.legend?.position && config?.legend?.position !== 'top');
+      // 是否显示label，且label在top
+      const showLabel =
+        config?.label === true ||
+        (typeof config?.label === 'object' &&
+          config?.label?.visible !== false &&
+          (config?.label?.position === undefined || config?.label?.position === 'top'));
+      // 是否隐藏legend，或legend不在top
+      const hideLegend =
+        config?.legend === false ||
+        (typeof config?.legend === 'object' &&
+          (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
 
-    //   let addPadding = false;
+      if (showLabel && hideLegend && !config?.polar && !config?.facet) {
+        let addPadding = false;
 
-    //   // 横向柱图
-    //   if (config?.column && showLabel && hideLegend) {
-    //     addPadding = true;
-    //   }
+        // 横向柱图默认加padding
+        if (config?.column === false || typeof config?.column === 'object') {
+          addPadding = true;
+        } else if ((config?.dodgeStack || config?.stack) && config?.percentage) {
+          // 百分比堆叠默认加padding
+          addPadding = true;
+        } else {
+          const valueMap: any = {};
+          (data || []).forEach((d: any) => {
+            const xValue = `${d.x}-${config?.stack ? '' : d.dodge || ''}`;
+            if (!(xValue in valueMap)) {
+              valueMap[xValue] = 0;
+            }
+            // 区间柱状图
+            if (Array.isArray(d.y)) {
+              valueMap[xValue] += d.y?.[1] || 0;
+            } else {
+              // 堆叠、分组堆叠、普通柱图
+              valueMap[xValue] += d.y;
+            }
+          });
 
-    //   // 堆叠
+          const maxY = Math.max(...Object.values(valueMap));
 
-    //   // 分组堆叠
+          // 判断最高的柱子距离顶部的间距是否过小
+          const dis = (1 - maxY / axisMax) * height;
+          if (dis < 20) {
+            addPadding = true;
+          }
+        }
 
-    //   // 分面
-    //   console.log('chart:', chart);
-
-    //   if (addPadding && !chart.appendPadding) {
-    //     chart.appendPadding = [20, 0, 0, 0];
-    //   }
-    // });
+        if (addPadding && !chart.appendPadding) {
+          chart.appendPadding = [20, 0, 0, 0];
+        }
+      }
+    });
   }
   changeData(chart: Chart, config: WbarConfig, data: any) {
     // 分面需要对数据进行筛选处理
