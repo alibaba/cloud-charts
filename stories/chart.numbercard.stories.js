@@ -42,7 +42,7 @@ stories.add('指标卡片基础用法', () => (
       value={100}
       unit="%"
       backgroundType="image"
-      backgroundImage="url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)"
+      backgroundImage="https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png"
       itemStyle={{
         width: 320,
       }}
@@ -59,6 +59,16 @@ stories.add('label超过宽度显示tooltip', () => (
     itemStyle={{
       width: 250,
     }}
+    labelTags={[
+      {
+        text: '政',
+        status: 'warning',
+      },
+      {
+        text: '企',
+        status: 'p1',
+      },
+    ]}
   />
 ));
 
@@ -69,7 +79,7 @@ stories.add('带tag的指标卡片', () => (
       value={673242}
       unit="个"
       status="success"
-      tags={[
+      valueTags={[
         {
           text: 'tag1',
           status: 'success',
@@ -81,7 +91,7 @@ stories.add('带tag的指标卡片', () => (
       value={673242}
       unit="个"
       status="success"
-      tags={[
+      valueTags={[
         {
           text: 'aaabbb',
           status: 'warning',
@@ -96,22 +106,18 @@ stories.add('带tag的指标卡片', () => (
       ]}
     />
     <Wnumbercard
-      label="限制tag个数"
+      label="label tag"
       value={673242}
       unit="个"
       status="success"
-      tagMaxNumber={2}
-      tags={[
+      labelTags={[
         {
-          text: 'aaabbb',
+          text: '政',
           status: 'warning',
         },
         {
-          text: 'testtest',
+          text: '企',
           status: 'p1',
-        },
-        {
-          text: 'default',
         },
       ]}
     />
@@ -120,7 +126,7 @@ stories.add('带tag的指标卡片', () => (
       value={673242}
       unit="个"
       status="success"
-      tags={[
+      valueTags={[
         {
           text: '45.6%',
           status: 'success',
@@ -141,7 +147,7 @@ stories.add('带tag的指标卡片', () => (
       itemStyle={{
         width: 200,
       }}
-      tags={[
+      valueTags={[
         {
           text: 'aaabbb',
           status: 'warning',
@@ -374,7 +380,7 @@ const testData_2 = [
     label: 'ECS',
     value: 23,
     unit: '个',
-    tags: [
+    valueTags: [
       {
         text: '正常',
         status: 'success',
@@ -382,7 +388,7 @@ const testData_2 = [
     ],
     backgroundType: 'image',
     backgroundImage:
-      'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
+      'https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png',
   },
   {
     label: 'EIP',
@@ -390,7 +396,7 @@ const testData_2 = [
     unit: '个',
     backgroundType: 'image',
     backgroundImage:
-      'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
+      'https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png',
   },
   {
     label: 'GDB',
@@ -398,7 +404,7 @@ const testData_2 = [
     unit: '个',
     backgroundType: 'image',
     backgroundImage:
-      'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
+      'https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png',
   },
   {
     label: 'HBASE',
@@ -406,7 +412,7 @@ const testData_2 = [
     unit: '个',
     backgroundType: 'image',
     backgroundImage:
-      'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
+      'https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png',
   },
   {
     label: 'NAS',
@@ -414,7 +420,7 @@ const testData_2 = [
     unit: '个',
     backgroundType: 'image',
     backgroundImage:
-      'url(https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png)',
+      'https://ascdn.console.inter.env180.shuguang.com/ais-fed/as-lib/0.0.2/csp/yygl_zz_light_qinglian.png',
   },
 ];
 
@@ -445,7 +451,7 @@ const testData_5 = [
     value: 23,
     // unit:"个",
     // status:"success",
-    tags: [
+    valueTags: [
       {
         text: '正常',
         status: 'success',
@@ -455,7 +461,7 @@ const testData_5 = [
   {
     label: 'EIP',
     value: 45,
-    tags: [
+    valueTags: [
       {
         text: '告警',
         status: 'warning',
@@ -465,7 +471,7 @@ const testData_5 = [
   {
     label: 'GDB',
     value: 12,
-    tags: [
+    valueTags: [
       {
         text: '错误',
         status: 'error',

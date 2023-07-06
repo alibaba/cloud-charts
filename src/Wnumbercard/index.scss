@@ -8,13 +8,13 @@ $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
 $font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
-$font-size-big: getVar(widgets-font-size-5, $widgets-font-size-5);
 
 $tooltip-border-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
 $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
 
+$divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
+
 #{$wnumbercard-prefix}-data-item-container {
-  padding: 12px 20px 12px 16px;
   background: var(--background-color);
   background-size: auto 100%;
   background-repeat: no-repeat;
@@ -25,6 +25,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   align-items: center;
   border-radius: 4px;
   cursor: pointer;
+  font-family: $font-family;
 
   &:hover {
     background: var(--hover-color);
@@ -69,7 +70,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   #{$wnumbercard-prefix}-item-label {
     font-size: $font-size-small;
     color: $label-color;
-    overflow: hidden;
+    overflow-y: visible;
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1;
@@ -126,7 +127,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   }
 
   #{$wnumbercard-prefix}-value-number {
-    font-size: $font-size-big;
+    font-size: var(--value-fontsize);
     color: var(--value-color);
   }
 
@@ -141,7 +142,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
     flex-direction: row;
   }
 
-  #{$wnumbercard-prefix}-item-tag {
+  #{$wnumbercard-prefix}-value-tag {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -155,6 +156,18 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
       height: 12px;
       margin-right: 4px;
     }
+
+    #{$wnumbercard-prefix}-tag-value {
+      font-size: $font-size-small;
+    }
+  }
+
+  #{$wnumbercard-prefix}-label-tag {
+    height: 12px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    margin-left: 8px;
 
     #{$wnumbercard-prefix}-tag-value {
       font-size: $font-size-small;
@@ -182,11 +195,7 @@ $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
   #{$wnumbercard-prefix}-divider {
     display: inline-block;
     width: 1px;
-    background: $tooltip-border-color;
-    height: 60px;
+    background: $divider-color;
+    height: 40px;
   }
-}
-
-#{$wnumbercard-prefix}-number {
-  font-family: $font-family;
 }
