@@ -16,7 +16,7 @@ export const ChartContext = React.createContext<ChartProviderProps>({
   language: 'zh-cn',
 });
 
-let currentLanguage: Language = 'zh-cn';
+let currentLanguage: Language;
 
 // 函数
 export function setLanguage(language: Language) {
