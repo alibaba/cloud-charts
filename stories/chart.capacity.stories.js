@@ -31,7 +31,12 @@ stories.add('单水位', () => (
   <>
     <Wcapacity
       data={emptyData}
-      config={{}}
+      config={{
+        guide: {
+          threshold: '80%',
+          // status: 'error',
+        },
+      }}
       height={200} // 柱高度
       style={{
         marginBottom: 20,

@@ -10,7 +10,7 @@ const Wcapacity: React.FC<IProps> = ({ data, config, height, style }) => {
     <div
       className={prefix}
       style={{
-        height: height || 100,
+        height: height || '100%',
         ...style
       }}
     >

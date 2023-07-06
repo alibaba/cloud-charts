@@ -54,75 +54,102 @@ function PercentBar(props: IProps) {
     error: themes['widgets-color-red'],
   };
 
+  const translateStartColor = (data: any, config: any) => {
+    if (data.percent.displayNumber === 0) {
+      return {
+        status: 'empty',
+        color: themes['widgets-tooltip-cross-line'],
+      };
+    } else if (config?.guide) {
+      const threshold = Number((config?.guide?.threshold ?? '80%')?.replace('%', ''));
+      if (data.percent.displayNumber >= threshold) {
+        return {
+          status: config?.guide?.status ?? 'error',
+          color: statusColors[config?.guide?.status ?? 'error'],
+        };
+      } else {
+        return {
+          status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'default',
+          color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-category-1'],
+        };
+      }
+    } else {
+      return {
+        status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'default',
+        color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-category-1'],
+      };
+    }
+  };
+
   return (
     <div
       className={`${prefix}-percent-container`}
       style={{
-        width: config.barSize || 200,
-        ...config.percentConfig
+        width: config?.barSize || '100%',
+        ...config?.percentConfig,
       }}
       ref={ref}
     >
-      <div className={`${prefix}-bar-container ${data.percent.displayNumber === 0 ? 'empty' : config.startColor || 'default'}`} style={config.barConfig}>
+      <div className={`${prefix}-bar-container ${translateStartColor(data, config)?.status}`} style={config?.barConfig}>
         {config?.guide && (
           <div
-            className={`${prefix}-bar-guide-line ${config.guide?.status ?? 'normal'}`}
+            className={`${prefix}-bar-guide-line ${config?.guide?.status ?? 'error'}`}
             style={{
-              height: config.guide?.threshold ?? '80%',
-              borderTopColor: statusColors[config.guide?.status ?? 'normal'],
+              height: config?.guide?.threshold ?? '80%',
+              borderTopColor: statusColors[config?.guide?.status ?? 'error'],
             }}
           >
             <Wnumber
-              className={`${prefix}-bar-guide-text ${config.guide?.status ?? 'normal'}`}
+              className={`${prefix}-bar-guide-text ${config?.guide?.status ?? 'error'}`}
               style={{
-                color: statusColors[config.guide?.status ?? 'normal'],
+                color: statusColors[config?.guide?.status ?? 'error'],
               }}
             >
-              {config.guide?.threshold ?? '-'}
+              {config?.guide?.threshold ?? '-'}
             </Wnumber>
           </div>
         )}
         <div
           className={`${prefix}-process-bar`}
           style={{
-            width: config.barSize || config?.percentConfig?.width || 200,
-            height: data.percent.displayNumber === 0 || data.percent.displayNumber === '-' ? '15px' : `calc(${data.percent.displayNumber}% + 15px)`,
-            ...config.processBarConfig,
+            width: config?.barSize || config?.percentConfig?.width || '100%',
+            height:
+              data.percent.displayNumber === 0 || data.percent.displayNumber === '-'
+                ? '15px'
+                : `calc(${data.percent.displayNumber}% + 15px)`,
+            ...config?.processBarConfig,
           }}
         >
           <div
             className={`${prefix}-process-back`}
             style={{
-              background: `linear-gradient(180deg, transparent 19px, ${data.percent.displayNumber === 0 ? themes['widgets-tooltip-cross-line'] : statusColors[config.startColor] || config.startColor || themes['widgets-color-category-1']} 0%, ${
-                config.endColor || 'rgba(0,0,0,0)'
+              background: `linear-gradient(180deg, transparent 19px, ${translateStartColor(data, config).color} 0%, ${
+                config?.endColor || 'rgba(0,0,0,0)'
               } 100%)`,
-              ...config.processBarBackConfig,
+              ...config?.processBarBackConfig,
             }}
           >
             <svg className="process-svg" width="100%" height={20} version="1.1" xmlns="http://www.w3.org/2000/svg">
               <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                 <path
                   d={getClipPath(width * 2, 20)}
-                  fill={data.percent.displayNumber === 0 ? themes['widgets-tooltip-cross-line'] : statusColors[config.startColor] || config.startColor || themes['widgets-color-category-1']}
+                  fill={translateStartColor(data, config).color}
                   opacity="0.5"
                   transform={`translate(${-0.5 * width},0)`}
                 />
-                <path d={getClipPath(width * 2, 20)} fill={data.percent.displayNumber === 0 ? themes['widgets-tooltip-cross-line'] : statusColors[config.startColor] || config.startColor || themes['widgets-color-category-1']} />
+                <path d={getClipPath(width * 2, 20)} fill={translateStartColor(data, config).color} />
               </g>
             </svg>
           </div>
         </div>
         <Wnumber
-          className={`${prefix}-percent-bar-label-content ${config.size || 'medium'}`}
-          style={config.labelConfig}
+          className={`${prefix}-percent-bar-label-content ${config?.size || 'medium'}`}
+          style={config?.labelConfig}
         >
           {data.percent.displayNumber}
           <span className={`${prefix}-percent-bar-label-unit`}>{config?.labelConfig?.unit || '%'}</span>
         </Wnumber>
-        <div
-          className={`${prefix}-percent-bar-label-title`}
-          style={config.titleConfig}
-        >
+        <div className={`${prefix}-percent-bar-label-title`} style={config?.titleConfig}>
           {data.percent.name}
         </div>
       </div>
