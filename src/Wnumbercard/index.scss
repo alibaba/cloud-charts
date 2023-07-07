@@ -70,10 +70,10 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
   #{$wnumbercard-prefix}-item-label {
     font-size: $font-size-small;
     color: $label-color;
-    overflow-y: visible;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    line-height: 1;
+    line-height: 1.5;
     max-width: 100%;
   }
 
