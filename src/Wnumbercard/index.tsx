@@ -114,6 +114,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     status,
     icon,
     size = 'medium',
+    backgroundType: userBackgroundType,
     backgroundImage,
     iconPosition = 'left',
     labelTags = [],
@@ -124,17 +125,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     valueStyle,
     ...otherProps
   } = props || {};
-  let { backgroundType } = props || {};
 
-  // 设置背景类型默认值
-  if (!backgroundType) {
-    // 有minichart的卡片默认灰色
-    if (chart) {
-      backgroundType = 'fill';
-    } else {
-      backgroundType = 'none';
-    }
-  }
+  // 有minichart的卡片默认灰色
+  const backgroundType = userBackgroundType ? userBackgroundType : chart ? 'fill' : 'none';
 
   const chartPosition = chart?.position || 'right';
 
