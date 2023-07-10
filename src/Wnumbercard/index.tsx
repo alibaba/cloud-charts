@@ -101,6 +101,9 @@ export interface IDataItem {
   itemStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
   valueStyle?: React.CSSProperties;
+
+  /* 其他附加数据项，如onClick事件 */
+  [key: string]: any;
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
@@ -381,6 +384,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
         padding: chartPosition === 'bottom' ? '16px 20px 20px 16px' : '12px 16px',
+        cursor: props?.onClick ? 'pointer' : 'default',
       }}
       {...otherProps}
     >

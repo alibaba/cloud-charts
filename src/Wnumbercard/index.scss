@@ -24,7 +24,6 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
   justify-content: space-between;
   align-items: center;
   border-radius: 4px;
-  cursor: pointer;
   font-family: $font-family;
 
   &:hover {
