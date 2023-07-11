@@ -452,7 +452,7 @@ export class Linebar extends Base<WlinebarConfig> {
           (typeof config?.legend === 'object' &&
             (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
 
-        if (showLabel && hideLegend) {
+        if (!config?.appendPadding && showLabel && hideLegend) {
           const valueMap: any = {};
           (view?.filteredData || []).forEach((d: any) => {
             if (chartType === 'bar') {
@@ -478,6 +478,8 @@ export class Linebar extends Base<WlinebarConfig> {
           const dis = (1 - maxY / axisMax) * height;
           if (dis < 20) {
             chart.appendPadding = [20, 0, 0, 0];
+          } else {
+            chart.appendPadding = undefined;
           }
         }
       });

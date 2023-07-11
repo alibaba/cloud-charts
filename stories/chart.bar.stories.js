@@ -934,3 +934,60 @@ stories.add('label padding测试', () => (
     </Wcontainer>
   </>
 ));
+
+const changedData = [
+  {
+    name: '柱1',
+    data: [
+      ['一', 59],
+      ['二', 23],
+      ['三', 19],
+      ['四', 27],
+      ['五', 77],
+      ['六', 80],
+      ['七', 70],
+      ['八', 61],
+      ['九', 15],
+    ],
+  },
+  {
+    name: '柱2',
+    data: [
+      ['一', 87],
+      ['二', 15],
+      ['三', 4],
+      ['四', 49],
+      ['五', 64],
+      ['六', 76],
+      ['七', 21],
+      ['八', 79],
+      ['九', 71],
+    ],
+  },
+];
+
+stories.add('数据更新label测试', () => {
+  const [d, setD] = useState(data);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setD(changedData);
+    }, 3000);
+  }, []);
+
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          legend: {
+            position: 'bottom',
+            visible: true,
+          },
+          label: true,
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});

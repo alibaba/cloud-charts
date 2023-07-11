@@ -345,7 +345,7 @@ export class Bar extends Base<WbarConfig> {
         (typeof config?.legend === 'object' &&
           (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
 
-      if (showLabel && hideLegend && !config?.polar && !config?.facet) {
+      if (!chart.appendPadding && showLabel && hideLegend && !config?.polar && !config?.facet) {
         let addPadding = false;
 
         // 横向柱图默认加padding
@@ -357,7 +357,7 @@ export class Bar extends Base<WbarConfig> {
         } else {
           const valueMap: any = {};
           (data || []).forEach((d: any) => {
-            const xValue = `${d.x}-${config?.stack ? '' : d.dodge || ''}`;
+            const xValue = `${d.x}-${config?.stack ? '' : d.dodge || d.type}`;
             if (!(xValue in valueMap)) {
               valueMap[xValue] = 0;
             }
@@ -379,8 +379,10 @@ export class Bar extends Base<WbarConfig> {
           }
         }
 
-        if (addPadding && !chart.appendPadding) {
+        if (addPadding) {
           chart.appendPadding = [20, 0, 0, 0];
+        } else {
+          chart.appendPadding = undefined;
         }
       }
     });
