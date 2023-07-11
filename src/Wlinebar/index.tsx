@@ -1,14 +1,22 @@
 'use strict';
 
 import { Chart, View, Geometry, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
-import Base, { ChartProps } from "../common/Base";
-import { MarkerSymbols } from "@antv/g2/esm/util/marker";
-import { getShapeFactory } from "@antv/g2/esm/core";
+import Base, { ChartProps } from '../common/Base';
+import { MarkerSymbols } from '@antv/g2/esm/util/marker';
+import { getShapeFactory } from '@antv/g2/esm/core';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
 import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
-import { drawGuideArea, drawGuideLine, drawGuideFilter, GuideConfig, GuideLineConfig, GuideAreaConfig, GuideFilterConfig } from '../common/guide';
+import {
+  drawGuideArea,
+  drawGuideLine,
+  drawGuideFilter,
+  GuideConfig,
+  GuideLineConfig,
+  GuideAreaConfig,
+  GuideFilterConfig,
+} from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeMask from '../common/autoTimeMask';
@@ -23,8 +31,8 @@ import { warn } from '../common/log';
 import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
-  xAxis?: Types.ScaleOption & XAxisConfig | false;
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -36,7 +44,7 @@ function getLegendItems(
   barData: DataAdapterData[],
   lineGeom: Geometry,
   barGeom: Geometry,
-  config: WlinebarConfig
+  config: WlinebarConfig,
 ) {
   const result: any[] = [];
   const reMap: { [key: string]: boolean } = {};
@@ -59,7 +67,7 @@ function getLegendItems(
       const shapeFactory = getShapeFactory(geom.shapeType);
       if (shapeFactory) {
         marker = shapeFactory.getMarker(shapeType, {
-          color: typeof colors === 'string' ? colors : (Array.isArray(colors) ? colors[i % colors.length] : colors(name)),
+          color: typeof colors === 'string' ? colors : Array.isArray(colors) ? colors[i % colors.length] : colors(name),
           isInPolar: false,
         });
 
@@ -213,14 +221,14 @@ export class Linebar extends Base<WlinebarConfig> {
       //   // valueKey: ['value1', 'value2'],
       //   typeKey: 'type'
       // }
-    }
+    };
   }
 
   beforeInit(props: ChartProps<WlinebarConfig>): ChartProps<WlinebarConfig> {
     return {
       syncViewPadding: true,
       ...props,
-    }
+    };
   }
 
   rawLineData: DataAdapterData[] = [];
@@ -250,11 +258,15 @@ export class Linebar extends Base<WlinebarConfig> {
     });
 
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        type: 'cat',
-        // fix 更新数据时x轴无法清除数据
-        // sync: 'x',
-      }, config.xAxis),
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          type: 'cat',
+          // fix 更新数据时x轴无法清除数据
+          // sync: 'x',
+        },
+        config.xAxis,
+      ),
       type: {
         type: 'cat',
       },
@@ -262,20 +274,28 @@ export class Linebar extends Base<WlinebarConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        defs[`y${yIndex}`] = propertyAssign(propertyMap.axis, {
-          type: 'linear',
-          tickCount: 5,
-          nice: true,
-        }, axis);
+        defs[`y${yIndex}`] = propertyAssign(
+          propertyMap.axis,
+          {
+            type: 'linear',
+            tickCount: 5,
+            nice: true,
+          },
+          axis,
+        );
       });
     } else {
-      defs.y = propertyAssign(propertyMap.axis, {
-        type: 'linear',
-        tickCount: 5,
-        // 单轴时，必须同步度量，否则会两个度量叠加在一起
-        sync: true,
-        nice: true,
-      }, config.yAxis);
+      defs.y = propertyAssign(
+        propertyMap.axis,
+        {
+          type: 'linear',
+          tickCount: 5,
+          // 单轴时，必须同步度量，否则会两个度量叠加在一起
+          sync: true,
+          nice: true,
+        },
+        config.yAxis,
+      );
     }
 
     autoTimeMask(defs, this.rawData);
@@ -287,12 +307,15 @@ export class Linebar extends Base<WlinebarConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.barColors, rawBarData, yIndex) || themes['widgets-axis-line'];
+        const axisColor =
+          getDataIndexColor(config.lineColors, rawLineData, yIndex) ||
+          getDataIndexColor(config.barColors, rawBarData, yIndex) ||
+          themes['widgets-axis-line'];
         const yAxisConfig: Types.AxisCfg = {
           line: {
             style: {
               stroke: axisColor,
-            }
+            },
           },
         };
         if (yIndex !== 0) {
@@ -346,11 +369,10 @@ export class Linebar extends Base<WlinebarConfig> {
     //   }
     // }
 
-
     // tooltip
     rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
-      showMarkers: false
+      showMarkers: false,
     });
 
     // 正式开始绘图，创建两个不同的view
@@ -394,9 +416,72 @@ export class Linebar extends Base<WlinebarConfig> {
     legendFilter(this, barView, 'rawBarData');
     legendFilter(this, lineView, 'rawLineData');
 
-    rectLegend(this, chart, config, {
-      items: getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config),
-    }, false);
+    rectLegend(
+      this,
+      chart,
+      config,
+      {
+        items: getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config),
+      },
+      false,
+    );
+
+    // 判断是否要加padding
+    chart.on('beforepaint', () => {
+      chart.views.forEach((view: any) => {
+        // 柱图还是线图
+        const chartType = view?.geometries?.[0]?.shapeType === 'interval' ? 'bar' : 'line';
+        // y轴刻度最大值
+        const yAxisKey =
+          'y' in view?.geometries?.[0]?.scales ? 'y' : 'y0' in view?.geometries?.[0]?.scales ? 'y0' : 'y1';
+        const axisMax = view?.geometries?.[0]?.scales?.[yAxisKey]?.max;
+        // y轴高度
+        const height = view?.coordinateBBox?.height;
+
+        // 是否显示label，且label在top
+        const showLabel =
+          config?.[`${chartType}Label`] === true ||
+          (typeof config?.[`${chartType}Label`] === 'object' &&
+            config?.[`${chartType}Label`]?.visible !== false &&
+            (config?.[`${chartType}Label`]?.position === undefined ||
+              config?.[`${chartType}Label`]?.position === 'top'));
+
+        // 是否隐藏legend，或legend不在top
+        const hideLegend =
+          config?.legend === false ||
+          (typeof config?.legend === 'object' &&
+            (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
+
+        if (showLabel && hideLegend) {
+          const valueMap: any = {};
+          (view?.filteredData || []).forEach((d: any) => {
+            if (chartType === 'bar') {
+              const xValue = `${d.x}-${config?.stack ? '' : d.dodge || ''}`;
+              if (!(xValue in valueMap)) {
+                valueMap[xValue] = 0;
+              }
+              // 区间柱状图
+              if (Array.isArray(d?.[yAxisKey])) {
+                valueMap[xValue] += d?.[yAxisKey] || 0;
+              } else {
+                // 堆叠、分组堆叠、普通柱图
+                valueMap[xValue] += d?.[yAxisKey] || 0;
+              }
+            } else {
+              valueMap[d.x] = d?.[yAxisKey] || 0;
+            }
+          });
+
+          const maxY = Math.max(...Object.values(valueMap));
+
+          // 判断最高的柱子距离顶部的间距是否过小
+          const dis = (1 - maxY / axisMax) * height;
+          if (dis < 20) {
+            chart.appendPadding = [20, 0, 0, 0];
+          }
+        }
+      });
+    });
 
     // chart.on('afterrender', () => {
     //   // chart.getLegendAttributes()
@@ -453,7 +538,7 @@ export class Linebar extends Base<WlinebarConfig> {
           rawBarData,
           this.lineView.geometries[0],
           this.barView.geometries[0],
-          config
+          config,
         );
         // chart.legend({
         //   items: newItems
@@ -487,7 +572,17 @@ interface BarConfig {
   dodgePadding?: number;
 }
 function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { stack, stackReverse, marginRatio, dodgeStack, barSize, barMinSize, barMaxSize = 24, columnWidthRatio, dodgePadding } = config;
+  const {
+    stack,
+    stackReverse,
+    marginRatio,
+    dodgeStack,
+    barSize,
+    barMinSize,
+    barMaxSize = 24,
+    columnWidthRatio,
+    dodgePadding,
+  } = config;
   const geomConfig = {
     minColumnWidth: barMinSize || null,
     maxColumnWidth: barMaxSize || null,
@@ -497,7 +592,8 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
 
   let intervalGeom = null;
   if (dodgeStack) {
-    intervalGeom = chart.interval(geomConfig)
+    intervalGeom = chart
+      .interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
       .adjust([
@@ -512,21 +608,27 @@ function drawBar(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey 
         },
       ]);
   } else if (stack) {
-    intervalGeom = chart.interval(geomConfig)
+    intervalGeom = chart
+      .interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
-      .adjust([{
-        type: 'stack',
-        reverseOrder: !stackReverse, // 层叠顺序倒序
-      }]);
+      .adjust([
+        {
+          type: 'stack',
+          reverseOrder: !stackReverse, // 层叠顺序倒序
+        },
+      ]);
   } else {
-    intervalGeom = chart.interval(geomConfig)
+    intervalGeom = chart
+      .interval(geomConfig)
       .position(['x', yAxisKey])
       .color(legendKey, config.barColors)
-      .adjust([{
-        type: 'dodge',
-        marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-      }]);
+      .adjust([
+        {
+          type: 'dodge',
+          marginRatio: marginRatio || 0, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+        },
+      ]);
   }
 
   geomSize(intervalGeom, barSize, null, yAxisKey, `x*${yAxisKey}*${legendKey}*extra`);
@@ -542,16 +644,20 @@ interface LineConfig {
   // colors?: string[];
   areaColors?: string[];
   lineColors?: Colors;
-  area?: boolean | {
-    geomStyle?: GeomStyleConfig;
-  };
+  area?:
+    | boolean
+    | {
+        geomStyle?: GeomStyleConfig;
+      };
   stack?: boolean; // 仅Area有效
   spline?: boolean;
   step?: string | boolean;
-  symbol?: {
-    size?: GeomSizeConfig;
-    geomStyle?: GeomStyleConfig;
-  } | boolean;
+  symbol?:
+    | {
+        size?: GeomSizeConfig;
+        geomStyle?: GeomStyleConfig;
+      }
+    | boolean;
   lineLabel?: LabelConfig | boolean;
   lineWidth?: number;
   lineGeomStyle?: GeomStyleConfig;
@@ -573,32 +679,24 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   const stack = config.stack || config.dodgeStack;
 
   if (config.area && stack) {
-    areaGeom = chart.area()
+    areaGeom = chart
+      .area()
       .position(['x', yAxisKey])
       .color(legendKey, areaColors)
       .tooltip(false)
       .shape(areaShape)
       .adjust('stack');
-    lineGeom = chart.line()
+    lineGeom = chart
+      .line()
       .position(['x', yAxisKey])
       .color(legendKey, config.lineColors)
       .shape(lineShape)
       .adjust('stack');
   } else if (config.area && !stack) {
-    areaGeom = chart.area()
-      .position(['x', yAxisKey])
-      .color(legendKey, areaColors)
-      .tooltip(false)
-      .shape(areaShape)
-    lineGeom = chart.line()
-      .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
-      .shape(lineShape);
+    areaGeom = chart.area().position(['x', yAxisKey]).color(legendKey, areaColors).tooltip(false).shape(areaShape);
+    lineGeom = chart.line().position(['x', yAxisKey]).color(legendKey, config.lineColors).shape(lineShape);
   } else {
-    lineGeom = chart.line()
-      .position(['x', yAxisKey])
-      .color(legendKey, config.lineColors)
-      .shape(lineShape);
+    lineGeom = chart.line().position(['x', yAxisKey]).color(legendKey, config.lineColors).shape(lineShape);
   }
 
   if (areaGeom && typeof config.area === 'object') {
@@ -607,10 +705,15 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
     }
   }
 
-  geomStyle(lineGeom, config.lineGeomStyle, {
-    lineWidth: lineWidth || themes['widgets-line-width'],
-    lineJoin: 'round',
-  }, `x*${yAxisKey}*${legendKey}*extra`);
+  geomStyle(
+    lineGeom,
+    config.lineGeomStyle,
+    {
+      lineWidth: lineWidth || themes['widgets-line-width'],
+      lineJoin: 'round',
+    },
+    `x*${yAxisKey}*${legendKey}*extra`,
+  );
 
   label({ geom: lineGeom, config: config, field: yAxisKey, extraConfigKey: 'lineLabel' });
 
@@ -619,18 +722,15 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
     let pointGeom = null;
 
     if (config.area && stack) {
-      pointGeom = chart.point()
+      pointGeom = chart
+        .point()
         .adjust('stack')
         .position(['x', yAxisKey])
         .color(legendKey, config.lineColors)
         .shape('circle')
-        .size(3)
+        .size(3);
     } else {
-      pointGeom = chart.point()
-        .position(['x', yAxisKey])
-        .color(legendKey, config.lineColors)
-        .shape('circle')
-        .size(3)
+      pointGeom = chart.point().position(['x', yAxisKey]).color(legendKey, config.lineColors).shape('circle').size(3);
     }
 
     if (typeof config.symbol === 'object') {
@@ -645,7 +745,13 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   return lineGeom;
 }
 
-function viewGuide(config: WlinebarConfig, lineView: View, rawLineData: DataAdapterData[], barView: View, rawBarData: DataAdapterData[]) {
+function viewGuide(
+  config: WlinebarConfig,
+  lineView: View,
+  rawLineData: DataAdapterData[],
+  barView: View,
+  rawBarData: DataAdapterData[],
+) {
   const { guide } = config;
   if (!guide) {
     return;
@@ -688,8 +794,15 @@ function viewGuide(config: WlinebarConfig, lineView: View, rawLineData: DataAdap
   }
 }
 
-type SimpleGuideConfig = { target?: string; } & ( GuideLineConfig | GuideAreaConfig | GuideFilterConfig );
-function getGuideView(config: WlinebarConfig, guide: SimpleGuideConfig, lineView: View, rawLineData: DataAdapterData[], barView: View, rawBarData: DataAdapterData[]) {
+type SimpleGuideConfig = { target?: string } & (GuideLineConfig | GuideAreaConfig | GuideFilterConfig);
+function getGuideView(
+  config: WlinebarConfig,
+  guide: SimpleGuideConfig,
+  lineView: View,
+  rawLineData: DataAdapterData[],
+  barView: View,
+  rawBarData: DataAdapterData[],
+) {
   const { target, axis, value } = guide;
 
   // 如果用户指定了绘制目标，直接使用
