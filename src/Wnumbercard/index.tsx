@@ -2,12 +2,12 @@
 /* eslint-disable @typescript-eslint/brace-style */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable react/no-array-index-key */
-import React, { useState, useEffect, useRef, Fragment, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, Fragment, useCallback } from 'react';
 import Wline, { WlineConfig } from '../Wline';
 import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
 import { FullCrossName, PrefixName } from '../constants';
-import themes from '../themes/index';
+import classNames from 'classnames';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -139,114 +139,33 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   // 是否显示tooltip
   const [visible, setVisible] = useState<boolean>(false);
 
-  // 颜色转换
-  const transformColor = (status: Status) => {
-    if (status === 'normal') {
-      return {
-        color: themes['widgets-color-normal'],
-        bgColor: themes['widgets-color-bg-normal'],
-      };
-    } else if (status === 'warning') {
-      return {
-        color: themes['widgets-color-orange'],
-        bgColor: themes['widgets-color-bg-orange'],
-      };
-    } else if (status === 'error') {
-      return {
-        color: themes['widgets-color-red'],
-        bgColor: themes['widgets-color-bg-red'],
-      };
-    } else if (status === 'success') {
-      return {
-        color: themes['widgets-color-green'],
-        bgColor: themes['widgets-color-bg-green'],
-      };
-    } else if (status === 'help') {
-      return {
-        color: themes['widgets-color-yellow'],
-        bgColor: themes['widgets-color-bg-yellow'],
-      };
-    } else if (status === 'mention') {
-      return {
-        color: themes['widgets-color-purple'],
-        bgColor: themes['widgets-color-bg-purple'],
-      };
-    } else if (status === 'p1') {
-      return {
-        color: themes['widgets-color-p1'],
-        bgColor: themes['widgets-color-bg-p1'],
-      };
-    } else if (status === 'p2') {
-      return {
-        color: themes['widgets-color-p2'],
-        bgColor: themes['widgets-color-bg-p2'],
-      };
-    } else if (status === 'p3') {
-      return {
-        color: themes['widgets-color-p3'],
-        bgColor: themes['widgets-color-bg-p3'],
-      };
-    } else if (status === 'p4') {
-      return {
-        color: themes['widgets-color-p4'],
-        bgColor: themes['widgets-color-bg-p4'],
-      };
-    } else if (status === 'p5') {
-      return {
-        color: themes['widgets-color-p5'],
-        bgColor: themes['widgets-color-bg-p5'],
-      };
-    } else if (status === 'p6') {
-      return {
-        color: themes['widgets-color-p6'],
-        bgColor: themes['widgets-color-bg-p6'],
-      };
-    } else if (status === 'p7') {
-      return {
-        color: themes['widgets-color-p7'],
-        bgColor: themes['widgets-color-bg-p7'],
-      };
-    } else {
-      return {
-        color: themes['widgets-color-text-2'],
-        bgColor: themes['widgets-numbercard-color-hover'],
-      };
-    }
-  };
-
   // icon
   const iconElement = icon && React.isValidElement(icon) ? icon : false;
 
   // label tags
   const labelTagElements = labelTags.map((tag: LabelTagProps, index: number) => {
-    const { color, bgColor } = transformColor(tag?.status);
     return (
-      <div key={index} className={`${prefix}-label-tag`} style={{ background: bgColor }}>
-        <span className={`${prefix}-tag-value`} style={{ color }}>
-          {tag?.text}
-        </span>
+      <div key={index} className={`${prefix}-label-tag ${prefix}-tag-item ${tag.status || 'default'}`}>
+        <span className={`${prefix}-tag-value`}>{tag?.text}</span>
       </div>
     );
   });
 
   // value tags
   const valueTagElements = valueTags.map((tag: ValueTagProps, index: number) => {
-    const { color, bgColor } = transformColor(tag?.status);
     return (
-      <div key={index} className={`${prefix}-value-tag`} style={{ background: bgColor }}>
+      <div key={index} className={`${prefix}-value-tag ${prefix}-tag-item ${tag.status || 'default'}`}>
         {tag?.trend === 'down' && (
-          <svg fill={color} className={`${prefix}-tag-trend`}>
+          <svg className={`${prefix}-tag-trend`}>
             <polygon points="0,2 10,2 5,10" />
           </svg>
         )}
         {tag?.trend === 'up' && (
-          <svg fill={color} className={`${prefix}-tag-trend`}>
+          <svg className={`${prefix}-tag-trend`}>
             <polygon points="0,10 10,10 5,2" />
           </svg>
         )}
-        <span className={`${prefix}-tag-value`} style={{ color }}>
-          {tag?.text}
-        </span>
+        <span className={`${prefix}-tag-value`}>{tag?.text}</span>
       </div>
     );
   });
@@ -314,30 +233,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     </div>
   );
 
-  // css变量
-  const cssVariables = {
-    '--background-color': backgroundType === 'none' ? 'transparent' : themes['widgets-color-container-background'],
-    '--hover-color': props?.onClick
-      ? backgroundType === 'fill'
-        ? themes['widgets-numbercard-color-hover']
-        : backgroundType === 'none'
-        ? themes['widgets-color-container-background']
-        : themes['widgets-color-container-background']
-      : backgroundType === 'none'
-      ? 'transparent'
-      : themes['widgets-color-container-background'],
-    '--click-color': props?.onClick
-      ? backgroundType !== 'image'
-        ? themes['widgets-numbercard-color-click']
-        : themes['widgets-color-container-background']
-      : backgroundType === 'none'
-      ? 'transparent'
-      : themes['widgets-color-container-background'],
-    '--value-color':
-      !status || status === 'default' ? themes['widgets-numbercard-color-text'] : transformColor(status).color,
-    '--value-fontsize': size === 'medium' ? themes['widgets-font-size-5'] : themes['widgets-font-size-3'],
-  };
-
   // 判断label是否超过宽度
   useEffect(() => {
     setShowTooltip(labelRef?.current?.offsetWidth !== labelRef?.current?.scrollWidth);
@@ -368,16 +263,23 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     };
   }, [labelRef?.current]);
 
+  const mainClasses = classNames(prefix, {
+    [FullCrossName]: true,
+    [prefix + '-data-item-container']: true,
+    [prefix + '-none-card']: backgroundType === 'none',
+    [prefix + '-fill-card']: backgroundType === 'fill',
+    [prefix + '-image-card']: backgroundType === 'image',
+    [prefix + '-clickable']: !!props?.onClick,
+  });
+
   return (
     <div
-      className={`${FullCrossName} ${prefix}-data-item-container`}
+      className={mainClasses}
       style={{
-        ...cssVariables,
         backgroundImage: backgroundType === 'image' ? `url(${backgroundImage})` : 'none',
         ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
         padding: chartPosition === 'bottom' ? '16px 20px 20px 16px' : '12px 16px',
-        cursor: props?.onClick ? 'pointer' : 'default',
       }}
       {...otherProps}
     >
@@ -411,9 +313,11 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <div className={`${prefix}-label-value-container`} style={valueStyle || {}}>
             <div className={`${prefix}-item-value`}>
               {typeof value === 'number' ? (
-                <span className={`${prefix}-value-number`}>{beautifyNumber(value || 0, ',')}</span>
+                <span className={`${prefix}-value-number ${status || 'default'} ${size || 'medium'}`}>
+                  {beautifyNumber(value || 0, ',')}
+                </span>
               ) : typeof value === 'string' ? (
-                <span className={`${prefix}-value-number`}>{value}</span>
+                <span className={`${prefix}-value-number ${status || 'default'} ${size || 'medium'}`}>{value}</span>
               ) : (
                 value
               )}

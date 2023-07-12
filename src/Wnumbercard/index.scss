@@ -2,23 +2,67 @@
 
 $wnumbercard-prefix: '.#{$base-prefix}-wnumbercard';
 
+$bg-color: getVar(widgets-color-container-background, $widgets-color-container-background);
+$hover-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-color-hover);
+$click-color: getVar(widgets-numbercard-color-click, $widgets-numbercard-color-click);
+
 $text-color: getVar(widgets-numbercard-color-text, $widgets-numbercard-color-text);
 $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 
 $font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
+$font-size-medium: getVar(widgets-font-size-3, $widgets-font-size-3);
+$font-size-big: getVar(widgets-font-size-5, $widgets-font-size-5);
 
 $tooltip-border-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
 $tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
 
 $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
 
+$normal-color: getVar(widgets-color-normal, $widgets-color-normal);
+$normal-bg-color: getVar(widgets-color-bg-normal, $widgets-color-bg-normal);
+
+$warning-color: getVar(widgets-color-orange, $widgets-color-orange);
+$warning-bg-color: getVar(widgets-color-bg-orange, $widgets-color-bg-orange);
+
+$error-color: getVar(widgets-color-red, $widgets-color-red);
+$error-bg-color: getVar(widgets-color-bg-red, $widgets-color-bg-red);
+
+$success-color: getVar(widgets-color-green, $widgets-color-green);
+$success-bg-color: getVar(widgets-color-bg-green, $widgets-color-bg-green);
+
+$help-color: getVar(widgets-color-yellow, $widgets-color-yellow);
+$help-bg-color: getVar(widgets-color-bg-yellow, $widgets-color-bg-yellow);
+
+$mention-color: getVar(widgets-color-purple, $widgets-color-purple);
+$mention-bg-color: getVar(widgets-color-bg-purple, $widgets-color-bg-purple);
+
+$p1-color: getVar(widgets-color-p1, $widgets-color-p1);
+$p1-bg-color: getVar(widgets-color-bg-p1, $widgets-color-bg-p1);
+
+$p2-color: getVar(widgets-color-p2, $widgets-color-p2);
+$p2-bg-color: getVar(widgets-color-bg-p2, $widgets-color-bg-p2);
+
+$p3-color: getVar(widgets-color-p3, $widgets-color-p3);
+$p3-bg-color: getVar(widgets-color-bg-p3, $widgets-color-bg-p3);
+
+$p4-color: getVar(widgets-color-p4, $widgets-color-p4);
+$p4-bg-color: getVar(widgets-color-bg-p4, $widgets-color-bg-p4);
+
+$p5-color: getVar(widgets-color-p5, $widgets-color-p5);
+$p5-bg-color: getVar(widgets-color-bg-p5, $widgets-color-bg-p5);
+
+$p6-color: getVar(widgets-color-p6, $widgets-color-p6);
+$p6-bg-color: getVar(widgets-color-bg-p6, $widgets-color-bg-p6);
+
+$p7-color: getVar(widgets-color-p7, $widgets-color-p7);
+$p7-bg-color: getVar(widgets-color-bg-p7, $widgets-color-bg-p7);
+
+$default-color: getVar(widgets-color-text-2, $widgets-color-text-2);
+$default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-color-hover);
+
 #{$wnumbercard-prefix}-data-item-container {
-  background: var(--background-color);
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-  background-position: right;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -26,19 +70,47 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
   border-radius: 4px;
   font-family: $font-family;
 
-  &:hover {
-    background: var(--hover-color);
-    opacity: var(--hover-opacity);
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    background-position: right;
+  &#{$wnumbercard-prefix}-none-card {
+    background: transparent;
+
+    &#{$wnumbercard-prefix}-clickable {
+      cursor: pointer;
+
+      &:hover {
+        background: $bg-color;
+      }
+
+      &:active {
+        background: $click-color;
+      }
+    }
   }
 
-  &:active {
-    background: var(--click-color);
+  &#{$wnumbercard-prefix}-fill-card {
+    background: $bg-color;
+
+    &#{$wnumbercard-prefix}-clickable {
+      cursor: pointer;
+
+      &:hover {
+        background: $hover-color;
+      }
+
+      &:active {
+        background: $click-color;
+      }
+    }
+  }
+
+  &#{$wnumbercard-prefix}-image-card {
+    background: $bg-color;
     background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: right;
+
+    &#{$wnumbercard-prefix}-clickable {
+      cursor: pointer;
+    }
   }
 
   #{$wnumbercard-prefix}-item-content {
@@ -126,8 +198,69 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
   }
 
   #{$wnumbercard-prefix}-value-number {
-    font-size: var(--value-fontsize);
-    color: var(--value-color);
+    &.small {
+      font-size: $font-size-medium;
+    }
+
+    &.medium {
+      font-size: $font-size-big;
+    }
+
+    &.normal {
+      color: $normal-color;
+    }
+
+    &.success {
+      color: $success-color;
+    }
+
+    &.warning {
+      color: $warning-color;
+    }
+
+    &.error {
+      color: $error-color;
+    }
+
+    &.help {
+      color: $help-color;
+    }
+
+    &.mention {
+      color: $mention-color;
+    }
+
+    &.p1 {
+      color: $p1-color;
+    }
+
+    &.p2 {
+      color: $p2-color;
+    }
+
+    &.p3 {
+      color: $p3-color;
+    }
+
+    &.p4 {
+      color: $p4-color;
+    }
+
+    &.p5 {
+      color: $p5-color;
+    }
+
+    &.p6 {
+      color: $p6-color;
+    }
+
+    &.p7 {
+      color: $p7-color;
+    }
+
+    &.default {
+      color: $text-color;
+    }
   }
 
   #{$wnumbercard-prefix}-question-icon {
@@ -170,6 +303,176 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
 
     #{$wnumbercard-prefix}-tag-value {
       font-size: $font-size-small;
+    }
+  }
+
+  #{$wnumbercard-prefix}-tag-item {
+    &.normal {
+      background: $normal-bg-color;
+
+      span {
+        color: $normal-color;
+      }
+
+      svg {
+        fill: $normal-color;
+      }
+    }
+
+    &.success {
+      background: $success-bg-color;
+
+      span {
+        color: $success-color;
+      }
+
+      svg {
+        fill: $success-color;
+      }
+    }
+
+    &.warning {
+      background: $warning-bg-color;
+
+      span {
+        color: $warning-color;
+      }
+
+      svg {
+        fill: $warning-color;
+      }
+    }
+
+    &.error {
+      background: $error-bg-color;
+
+      span {
+        color: $error-color;
+      }
+
+      svg {
+        fill: $error-color;
+      }
+    }
+
+    &.help {
+      background: $help-bg-color;
+
+      span {
+        color: $help-color;
+      }
+
+      svg {
+        fill: $help-color;
+      }
+    }
+
+    &.mention {
+      background: $mention-bg-color;
+
+      span {
+        color: $mention-color;
+      }
+
+      svg {
+        fill: $mention-color;
+      }
+    }
+
+    &.p1 {
+      background: $p1-bg-color;
+
+      span {
+        color: $p1-color;
+      }
+
+      svg {
+        fill: $p1-color;
+      }
+    }
+
+    &.p2 {
+      background: $p2-bg-color;
+
+      span {
+        color: $p2-color;
+      }
+
+      svg {
+        fill: $p2-color;
+      }
+    }
+
+    &.p3 {
+      background: $p3-bg-color;
+
+      span {
+        color: $p3-color;
+      }
+
+      svg {
+        fill: $p3-color;
+      }
+    }
+
+    &.p4 {
+      background: $p4-bg-color;
+
+      span {
+        color: $p4-color;
+      }
+
+      svg {
+        fill: $p4-color;
+      }
+    }
+
+    &.p5 {
+      background: $p5-bg-color;
+
+      span {
+        color: $p5-color;
+      }
+
+      svg {
+        fill: $p5-color;
+      }
+    }
+
+    &.p6 {
+      background: $p6-bg-color;
+
+      span {
+        color: $p6-color;
+      }
+
+      svg {
+        fill: $p6-color;
+      }
+    }
+
+    &.p7 {
+      background: $p7-bg-color;
+
+      span {
+        color: $p7-color;
+      }
+
+      svg {
+        fill: $p7-color;
+      }
+    }
+
+    &.default {
+      background: $default-bg-color;
+
+      span {
+        color: $default-color;
+      }
+
+      svg {
+        fill: $default-color;
+      }
     }
   }
 
