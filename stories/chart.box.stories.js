@@ -25,7 +25,9 @@ const data = [
   },
 ];
 
-const options = {};
+const options = {
+  size: 40
+};
 
 const stories = storiesOf('Wbox', module);
 stories.add('箱型图', () => (
