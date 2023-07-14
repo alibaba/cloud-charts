@@ -633,12 +633,14 @@ class Base<
     // 通过上下文传递的图表配置项
     const globalConfig_coms = this.context?.defaultConfig?.[this.chartName.replace('G2', '')];
 
-    // 用户自定义 > 图表 > 通用 > 默认 
+    // 用户自定义 > 图表 > 通用 > 默认
     let currentProps: Props = {
       ...this.props,
       config: merge({}, this.defaultConfig, globalConfig_base, globalConfig_coms, this.props.config),
-      force: merge({}, this.context?.rule, this.props.force)
+      force: typeof this.props.force === 'boolean' ? this.props.force : merge({}, this.context?.rule, this.props.force),
     };
+
+    console.log(currentProps.force);
 
     // 开始初始化图表
     if (this.beforeInit) {
@@ -745,6 +747,7 @@ class Base<
 
     // 大数据情况下执行配置项的约束
     const configChecked = force === true ? false : isExceed;
+    console.log(configChecked);
     if (configChecked && config) {
       const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
       // 暂时这么写，做配置项的合并

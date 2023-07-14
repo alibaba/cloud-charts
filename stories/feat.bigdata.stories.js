@@ -11,7 +11,11 @@ function generateData(number) {
 
   const res = [
     {
-      name: '某日监控数据（秒级）',
+      name: '平均值',
+      data: [],
+    },
+    {
+      name: '范围',
       data: [],
     },
   ];
@@ -21,6 +25,7 @@ function generateData(number) {
     const t = now - (3000 - i) * 1000;
     const value = +random(t);
     res[0].data.push([t, value]);
+    res[1].data.push([t, value - 0.4, value + 0.4]);
   }
 
   return res;
@@ -41,14 +46,34 @@ stories.add('线图', () => (
         },
         // symbol: true,
         // spline: true,
-        area: true,
-        slider: true,
+        area: {
+          geomStyle(x, y, type, extra) {
+            if (type === '平均值') {
+              return {
+                opacity: 0,
+                fill: 'transparent',
+              };
+            }
+            return {};
+          },
+        },
+        geomStyle(x, y, type, extra) {
+          if (type === '范围') {
+            return {
+              opacity: 0,
+              fill: 'transparent',
+              stroke: 'transparent',
+            };
+          }
+          return {};
+        },
+        // slider: true,
         animate: {
           update: false,
         },
       }}
       data={lineData}
-      force
+      force={true}
     />
   </Wcontainer>
 ));

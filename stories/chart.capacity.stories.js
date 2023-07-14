@@ -16,7 +16,7 @@ const dafaultData = {
 const emptyData = {
   percent: {
     name: '利用率',
-    displayNumber: 0,
+    displayNumber: 80,
   },
 };
 
@@ -32,6 +32,7 @@ stories.add('单水位', () => (
     <Wcapacity
       data={emptyData}
       config={{
+        barSize: 200,
         guide: {
           threshold: '80%',
           // status: 'error',
