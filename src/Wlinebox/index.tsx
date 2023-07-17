@@ -79,7 +79,7 @@ function getLegendItems(
       });
     });
   }
-  getItems(boxData, boxGeom, 'point', boxColors);
+  getItems(boxData, boxGeom, 'box', boxColors);
   const { area, spline } = config;
   let lineShapeType = 'line';
   const lineStyle: Types.LooseObject = {};
@@ -108,7 +108,7 @@ export class Linebox extends Base<WlineboxConfig> {
       padding: 'auto',
       xAxis: {
         type: 'timeCat', // 默认为线性
-        mask: 'auto', // 上述type为time时，此字段生效
+        mask: 'auto',
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
         // autoRotate: false,
@@ -289,15 +289,15 @@ export class Linebox extends Base<WlineboxConfig> {
     legendFilter(this, boxView, 'rawBoxData');
     legendFilter(this, lineView, 'rawLineData');
 
-    // rectLegend(
-    //   this,
-    //   chart,
-    //   config,
-    //   {
-    //     items: getLegendItems(rawLineData, rawBoxData, lineView.geometries[0], boxView.geometries[0], config),
-    //   },
-    //   false,
-    // );
+    rectLegend(
+      this,
+      chart,
+      config,
+      {
+        items: getLegendItems(rawLineData, rawBoxData, lineView.geometries[0], boxView.geometries[0], config),
+      },
+      false,
+    );
   }
 
   changeData(chart: Chart, config: WlineboxConfig, data: ChartData) {
@@ -359,7 +359,7 @@ interface BoxConfig {
 }
 
 function drawBox(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey = 'type') {
-  const { marginRatio, dodge, boxSize = 20, boxColors, boxMinSize = 20, boxMaxSize } = config;
+  const { marginRatio, dodge, boxSize, boxColors, boxMinSize = 20, boxMaxSize = 24 } = config;
   const geomConfig = {
     minColumnWidth: boxMinSize || null,
     maxColumnWidth: boxMaxSize || null,
@@ -375,7 +375,6 @@ function drawBox(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey 
       },
     ]);
   }
-  console.log(intervalGeom)
   geomSize(intervalGeom, boxSize, null, yAxisKey, `x*${yAxisKey}*${legendKey}*extra`);
 
   geomStyle(
@@ -426,7 +425,7 @@ function drawLine(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey
   const lineShape = config.spline ? 'smooth' : 'line';
   const areaShape = config.spline ? 'smooth' : 'area';
 
-  const stack = config.stack || config.dodgeStack;
+  const stack = config.stack;
 
   if (config.area && stack) {
     areaGeom = chart
