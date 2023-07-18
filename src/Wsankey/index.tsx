@@ -40,6 +40,10 @@ function transformData(dv: any) {
     edges,
   };
 }
+
+interface edgeConfig {
+  color?: string;
+}
 interface WsankeyConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | false;
@@ -47,6 +51,7 @@ interface WsankeyConfig extends BaseChartConfig {
   // TODO 完善label逻辑
   labels?: LabelConfig | boolean;
   primaryKey?: string;
+  edgeStyle?: edgeConfig;
 }
 
 export class Sankey extends Base<WsankeyConfig> {
@@ -133,8 +138,7 @@ export class Sankey extends Base<WsankeyConfig> {
       .edge()
       .position('x*y')
       .shape('arc')
-      .color('name', config.colors)
-      // .color(themes['widgets-sankey-edge'])
+      .color('name', config?.edgeStyle?.color === 'source' ? config.colors : themes['widgets-sankey-edge'])
       .tooltip('target*source*value', (target, source, value) => {
         if (typeof config.tooltip === 'boolean') {
           return null;
@@ -150,7 +154,7 @@ export class Sankey extends Base<WsankeyConfig> {
       .style('source*target', () => {
         return {
           lineWidth: 0,
-          opacity: 0.1,
+          opacity: config?.edgeStyle?.color === 'source' ? 0.1 : 0.8,
         };
       });
 

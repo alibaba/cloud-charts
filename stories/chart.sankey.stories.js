@@ -11,7 +11,10 @@ stories.add('基础桑基图', () => (
     <Wsankey
       height="500"
       config={{
-        primaryKey: 'name'
+        primaryKey: 'name',
+        edgeStyle: {
+          // color: 'source' // source | gradient
+        }
       }}
       data={{
         nodes: [
