@@ -151,7 +151,7 @@ $widgets-circle-inner-shadow: 0 4px 20px 0 rgba(204, 204, 204, 0.5) !default;
 
 // 桑基图
 $widgets-sankey-edge: #e5e5e5 !default;
-$widgets-sankey-node-text: #808080 !default;
+$widgets-sankey-node-text: $widgets-color-text-1 !default;
 
 // 滚动条颜色
 $widgets-scrollbar-bg: #ebecf0 !default;
