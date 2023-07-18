@@ -16,12 +16,37 @@ function getEdges(d: { links: any }) {
   return d.links;
 }
 
+// 为了颜色映射
+function transformData(dv: any) {
+  const nodes = dv.nodes.map((node: any) => {
+    return {
+      x: node.x,
+      y: node.y,
+      name: node.name,
+    };
+  });
+  const edges = dv.edges.map((edge: any) => {
+    return {
+      source: edge.source.name,
+      target: edge.target.name,
+      name: edge.source.name,
+      x: edge.x,
+      y: edge.y,
+      value: edge.value,
+    };
+  });
+  return {
+    nodes,
+    edges,
+  };
+}
 interface WsankeyConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | false;
   tooltip?: TooltipConfig | false;
   // TODO 完善label逻辑
   labels?: LabelConfig | boolean;
+  primaryKey?: string;
 }
 
 export class Sankey extends Base<WsankeyConfig> {
@@ -55,8 +80,21 @@ export class Sankey extends Base<WsankeyConfig> {
     });
     dv.transform({
       type: 'diagram.sankey',
-      nodeWidth: 0.008,
-      nodePadding: 0.03,
+      // nodeWidth: 0.008, // 节点宽，范围：(0, 1)
+      nodePadding: 0.03, // 节点上下间距，范围：(0, 1)
+      nodeId: (node) => {
+        // console.log(node)
+        // if (node?.sourceLinks?.length !== 0 || node?.targetLinks?.length !== 0) {
+          if (config?.primaryKey) {
+            return node?.[config?.primaryKey] ?? null;
+          } else {
+            return node?.index
+          }
+        // }
+      },
+      value: node => node.value,    // 权重
+      source: edge => edge.source,  // 边起点id
+      target: edge => edge.target,  // 边终点id
       sort: (a, b) => {
         if (a.value > b.value) {
           return 0;
@@ -85,24 +123,7 @@ export class Sankey extends Base<WsankeyConfig> {
     });
 
     // 为了颜色映射
-    const edges = dv.edges.map((edge) => {
-      return {
-        source: edge.source.name,
-        target: edge.target.name,
-        name: edge.source.name,
-        x: edge.x,
-        y: edge.y,
-        value: edge.value,
-      };
-    });
-
-    const nodes = dv.nodes.map((node) => {
-      return {
-        x: node.x,
-        y: node.y,
-        name: node.name,
-      };
-    });
+    const { edges, nodes } = transformData(dv);
 
     // edge view
     const edgeView = chart.createView();
@@ -149,7 +170,7 @@ export class Sankey extends Base<WsankeyConfig> {
 
     if (config.labels) {
       nodeGeom.label('x*name', (x, name) => {
-        console.log(x, name);
+
         const isLast = x[1] === 1;
         return {
           style: {
@@ -184,12 +205,15 @@ export class Sankey extends Base<WsankeyConfig> {
 
   changeData(chart: Chart, newConfig: WsankeyConfig, data: any) {
     if (this.sankeyDataView && this.nodeView && this.edgeView) {
-      this.sankeyDataView.source(data, {
+      const dv = this.sankeyDataView.source(data, {
         type: 'graph',
         edges: getEdges,
       });
-      this.edgeView.data(this.sankeyDataView.edges);
-      this.nodeView.data(this.sankeyDataView.nodes);
+
+      const { edges, nodes } = transformData(dv);
+
+      this.edgeView.data(edges);
+      this.nodeView.data(nodes);
       chart.render();
     }
   }
