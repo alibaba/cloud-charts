@@ -434,7 +434,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
 
   return (
     <div
-      className={`${FullCrossName} ${prefix}-data-overview-container`}
+      className={`${FullCrossName} ${prefix}-data-overview-container ${backgroundType}`}
       ref={container}
       style={{
         flexDirection: 'row',
