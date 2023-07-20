@@ -44,6 +44,12 @@ function transformData(dv: any) {
 interface edgeConfig {
   color?: string;
 }
+
+interface nodeConfig {
+  nodeWidth?: number; // 节点宽，范围：(0, 1)
+  nodePadding?: number; // 节点上下间距，范围：(0, 1)
+}
+
 interface WsankeyConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | false;
@@ -52,6 +58,7 @@ interface WsankeyConfig extends BaseChartConfig {
   labels?: LabelConfig | boolean;
   primaryKey?: string;
   edgeStyle?: edgeConfig;
+  nodeStyle?: nodeConfig;
 }
 
 export class Sankey extends Base<WsankeyConfig> {
@@ -85,21 +92,19 @@ export class Sankey extends Base<WsankeyConfig> {
     });
     dv.transform({
       type: 'diagram.sankey',
-      // nodeWidth: 0.008, // 节点宽，范围：(0, 1)
-      nodePadding: 0.03, // 节点上下间距，范围：(0, 1)
       nodeId: (node) => {
         // console.log(node)
         // if (node?.sourceLinks?.length !== 0 || node?.targetLinks?.length !== 0) {
-          if (config?.primaryKey) {
-            return node?.[config?.primaryKey] ?? null;
-          } else {
-            return node?.index
-          }
+        if (config?.primaryKey) {
+          return node?.[config?.primaryKey] ?? null;
+        } else {
+          return node?.index;
+        }
         // }
       },
-      value: node => node.value,    // 权重
-      source: edge => edge.source,  // 边起点id
-      target: edge => edge.target,  // 边终点id
+      value: (node) => node.value, // 权重
+      source: (edge) => edge.source, // 边起点id
+      target: (edge) => edge.target, // 边终点id
       sort: (a, b) => {
         if (a.value > b.value) {
           return 0;
@@ -108,6 +113,7 @@ export class Sankey extends Base<WsankeyConfig> {
         }
         return 0;
       },
+      ...config.nodeStyle,
     });
 
     this.sankeyDataView = dv;
@@ -138,14 +144,14 @@ export class Sankey extends Base<WsankeyConfig> {
       .edge()
       .position('x*y')
       .shape('arc')
-      .color('name', config?.edgeStyle?.color === 'source' ? config.colors : themes['widgets-sankey-edge'])
-      .tooltip('target*source*value', (target, source, value) => {
+      .color('name', config.colors)
+      .tooltip('target*source*value', (target: string, source: string, value: number) => {
         if (typeof config.tooltip === 'boolean') {
           return null;
         } else {
           return (
             config.tooltip?.nameFormatter?.(target, source, value) || {
-              name: source + ' to ' + target + '</span>',
+              name: source + ' to ' + target,
               value,
             }
           );
@@ -154,7 +160,7 @@ export class Sankey extends Base<WsankeyConfig> {
       .style('source*target', () => {
         return {
           lineWidth: 0,
-          opacity: config?.edgeStyle?.color === 'source' ? 0.1 : 0.8,
+          opacity: 0.1,
         };
       });
 
@@ -174,14 +180,13 @@ export class Sankey extends Base<WsankeyConfig> {
 
     if (config.labels) {
       nodeGeom.label('x*name', (x, name) => {
-
         const isLast = x[1] === 1;
         return {
           style: {
             fill: themes['widgets-sankey-node-text'],
             textAlign: isLast ? 'end' : 'start',
           },
-          offsetX: isLast ? -12 : 12,
+          offsetX: isLast ? -themes['widgets-font-size-1'] : themes['widgets-font-size-1'],
           content: name,
         };
       });
@@ -193,12 +198,14 @@ export class Sankey extends Base<WsankeyConfig> {
       {
         ...config,
         legend: {
-          ...config.legend,
           marker: {
             style: {
               stroke: 'rgba(0,0,0,0)',
+              r: 4,
+              lineWidth: 0,
             },
           },
+          ...config.legend,
         },
       },
       {},

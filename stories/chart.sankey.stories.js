@@ -13,7 +13,7 @@ stories.add('基础桑基图', () => (
       config={{
         primaryKey: 'name',
         edgeStyle: {
-          // color: 'source' // source | gradient
+          color: 'source' // source | gradient
         }
       }}
       data={{
