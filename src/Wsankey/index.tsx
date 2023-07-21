@@ -10,6 +10,7 @@ import rectLegend, { LegendConfig } from '../common/rectLegend';
 import { LabelConfig } from '../common/label';
 import themes from '../themes/index';
 import errorWrap from '../common/errorWrap';
+import { pxToNumber } from '../common/common';
 import './index.scss';
 
 function getEdges(d: { links: any }) {
@@ -186,7 +187,7 @@ export class Sankey extends Base<WsankeyConfig> {
             fill: themes['widgets-sankey-node-text'],
             textAlign: isLast ? 'end' : 'start',
           },
-          offsetX: isLast ? -themes['widgets-font-size-1'] : themes['widgets-font-size-1'],
+          offsetX: isLast ? -pxToNumber(themes['widgets-font-size-1']) : pxToNumber(themes['widgets-font-size-1']),
           content: name,
         };
       });
@@ -214,7 +215,7 @@ export class Sankey extends Base<WsankeyConfig> {
     // chart.interaction('element-active');
   }
 
-  changeData(chart: Chart, newConfig: WsankeyConfig, data: any) {
+  changeData(chart: Chart, config: WsankeyConfig, data: any) {
     if (this.sankeyDataView && this.nodeView && this.edgeView) {
       const dv = this.sankeyDataView.source(data, {
         type: 'graph',
