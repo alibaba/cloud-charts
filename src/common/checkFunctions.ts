@@ -340,6 +340,14 @@ export function checkExtremeData(
   else if (chartName === 'G2Line') {
     // 计算线的数量
     const lineCount = Array.from(new Set(data.map((d: any) => d.type))).length;
+    let isEqual = false;
+    if (lineCount === 1) {
+      let temp = data?.[0]?.y;
+      const filterArr = data?.filter((el: any) => el?.y !== temp);
+      if (!filterArr?.[length]) {
+        isEqual = true;
+      }
+    }
 
     // 只有一个点的时候，在Y轴中间，并开启label与symbol
     if (dataSize === 1) {
@@ -394,6 +402,18 @@ export function checkExtremeData(
             visible: true,
           },
           area: true,
+        },
+        isExtreme: true,
+      };
+    } else if (lineCount === 1 && isEqual) {
+      return {
+        config: {
+          yAxis: {
+            ...config.yAxis,
+            min: data?.[0]?.y > 0 ? 0 : data?.[0]?.y * 2,
+            max: data?.[0]?.y > 0 ? data?.[0]?.y * 2 : 0,
+            tickCount: 3
+          },
         },
         isExtreme: true,
       };
