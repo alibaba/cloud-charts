@@ -131,7 +131,6 @@ function drawBox(chart: Chart, config: WboxConfig, colors: Colors, field = 'type
   }
 
   geomSize(geom, size, null, 'y', 'x*y*type*extra');
-  console.log(geom)
 
   geomStyle(geom, config.geomStyle, {
     lineWidth: 2
