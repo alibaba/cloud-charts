@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, select } from '@storybook/addon-knobs';
 
-import { Wlinebox, Wcontainer } from '@alife/aisc-widgets';
+import { Wlinebox, Wcontainer } from '@alicloud/cloud-charts';
 
 const data = [
   {
