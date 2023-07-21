@@ -453,7 +453,7 @@ export class Linebar extends Base<WlinebarConfig> {
             (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
 
         if (!config?.appendPadding && showLabel && hideLegend) {
-          const valueMap: any = {};
+          const valueMap: Record<string, number> = {};
           (view?.filteredData || []).forEach((d: any) => {
             if (chartType === 'bar') {
               const xValue = `${d.x}-${config?.stack ? '' : d.dodge || ''}`;
