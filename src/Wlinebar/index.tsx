@@ -429,6 +429,9 @@ export class Linebar extends Base<WlinebarConfig> {
     // 判断是否要加padding
     chart.on('beforepaint', () => {
       chart.views.forEach((view: any) => {
+        if (view?.geometries?.length === 0) {
+          return;
+        }
         // 柱图还是线图
         const chartType = view?.geometries?.[0]?.shapeType === 'interval' ? 'bar' : 'line';
         // y轴刻度最大值
