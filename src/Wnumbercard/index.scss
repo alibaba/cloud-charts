@@ -205,62 +205,62 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     &.medium {
       font-size: $font-size-big;
     }
+  }
 
-    &.normal {
-      color: $normal-color;
-    }
+  #{$wnumbercard-prefix}-normal {
+    color: $normal-color;
+  }
 
-    &.success {
-      color: $success-color;
-    }
+  #{$wnumbercard-prefix}-success {
+    color: $success-color;
+  }
 
-    &.warning {
-      color: $warning-color;
-    }
+  #{$wnumbercard-prefix}-warning {
+    color: $warning-color;
+  }
 
-    &.error {
-      color: $error-color;
-    }
+  #{$wnumbercard-prefix}-error {
+    color: $error-color;
+  }
 
-    &.help {
-      color: $help-color;
-    }
+  #{$wnumbercard-prefix}-help {
+    color: $help-color;
+  }
 
-    &.mention {
-      color: $mention-color;
-    }
+  #{$wnumbercard-prefix}-mention {
+    color: $mention-color;
+  }
 
-    &.p1 {
-      color: $p1-color;
-    }
+  #{$wnumbercard-prefix}-p1 {
+    color: $p1-color;
+  }
 
-    &.p2 {
-      color: $p2-color;
-    }
+  #{$wnumbercard-prefix}-p2 {
+    color: $p2-color;
+  }
 
-    &.p3 {
-      color: $p3-color;
-    }
+  #{$wnumbercard-prefix}-p3 {
+    color: $p3-color;
+  }
 
-    &.p4 {
-      color: $p4-color;
-    }
+  #{$wnumbercard-prefix}-p4 {
+    color: $p4-color;
+  }
 
-    &.p5 {
-      color: $p5-color;
-    }
+  #{$wnumbercard-prefix}-p5 {
+    color: $p5-color;
+  }
 
-    &.p6 {
-      color: $p6-color;
-    }
+  #{$wnumbercard-prefix}-p6 {
+    color: $p6-color;
+  }
 
-    &.p7 {
-      color: $p7-color;
-    }
+  #{$wnumbercard-prefix}-p7 {
+    color: $p7-color;
+  }
 
-    &.default {
-      color: $text-color;
-    }
+  #{$wnumbercard-prefix}-default {
+    color: $text-color;
   }
 
   #{$wnumbercard-prefix}-question-icon {
