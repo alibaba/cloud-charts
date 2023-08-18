@@ -1,5 +1,6 @@
 import zhCN from './zh-cn';
 import enUS from './en-us';
+import zhTW from './zh-tw';
 
 export interface LocaleItem {
   loading: string;
@@ -14,4 +15,6 @@ export default {
   'en-us': enUS,
   'zh-CN': zhCN,
   'en-US': enUS,
+  'zh-tw': zhTW,
+  'zh-TW': zhTW,
 };
