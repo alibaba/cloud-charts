@@ -1011,7 +1011,7 @@ class Base<
     } = this.props;
 
     if (loading) {
-      return <Wplaceholder loading />;
+      return <Wplaceholder loading height={height} width={width} />;
     }
 
     return (

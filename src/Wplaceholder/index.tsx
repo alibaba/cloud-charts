@@ -246,8 +246,8 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       <div
         className={mainClasses}
         style={{
-          width,
-          height,
+          width: !width || typeof width === 'number' || !/^[\d]+$/.test(width) ? width : Number(width),
+          height: !height || typeof height === 'number' || !/^[\d]+$/.test(height) ? height : Number(height),
           ...style,
         }}
         {...otherProps}
