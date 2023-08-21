@@ -22,6 +22,8 @@ export default function(chart: Chart, config: ScrollbarConfig) {
   const scrollbarConfig: Types.ScrollbarCfg = {
     // categorySize 目前只能在这里传入参数设置
     categorySize: pxToNumber(themes['widgets-font-size-1']) * 4,
+    // 横向柱状图的滚动条需要默认为垂直形态
+    type: config?.column === false ? config?.scrollbar?.type ?? 'vertical' : config?.scrollbar?.type ?? 'horizontal'
   };
 
   if (typeof config.scrollbar === 'object') {
