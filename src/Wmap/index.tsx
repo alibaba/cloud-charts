@@ -30,7 +30,7 @@ import Wshoot, { ShootProps } from '../Wshoot';
 import { FullCrossName } from '../constants';
 import { warn } from '../common/log';
 import { filterKey, merge } from '../common/common';
-import { getText } from '../ChartProvider';
+import { getText, getLanguage } from '../ChartProvider';
 
 // 这几个地点太小，需要特殊处理边框颜色
 const minArea = ['钓鱼岛', '赤尾屿', '香港', '澳门'];
@@ -258,6 +258,7 @@ export class Map extends Base<WmapConfig, MapProps> {
       const { southChinaSeaKey } = this.state;
       const { fill } = config.background || {};
       const mapColor = fill || themes['widgets-map-area-bg'];
+      const currentLanguage = getLanguage() || this.context.language;
 
       return (
         <SouthChinaSea
@@ -269,7 +270,7 @@ export class Map extends Base<WmapConfig, MapProps> {
           boxColor={mapColor}
           islandColor={mapColor}
           southSeaText={getText('southsea', this.context.language, this.context.locale)}
-          southSeaFontSize={this.context.language === 'zh-cn' || this.context.language === 'ZH-CN' ? 8 : 4}
+          southSeaFontSize={currentLanguage === 'zh-cn' || currentLanguage === 'ZH-CN' ? 8 : 4}
         />
       );
     } else {
