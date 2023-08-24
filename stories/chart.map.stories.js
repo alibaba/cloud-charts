@@ -9,171 +9,171 @@ import adcodeMap from './data/adcode.json';
 
 const areaData = [
   {
-    "name": "一",
-    "data": [
+    name: '一',
+    data: [
       {
-        "name": "北京",
-        "value": 10
+        name: '北京',
+        value: 10,
       },
       {
-        "name": "天津",
-        "value": 18
+        name: '天津',
+        value: 18,
       },
       {
-        "name": "上海",
-        "value": 22
+        name: '上海',
+        value: 22,
       },
       {
-        "name": "重庆",
-        "value": 39
+        name: '重庆',
+        value: 39,
       },
       {
-        "name": "内蒙古",
-        "value": 22
+        name: '内蒙古',
+        value: 22,
       },
       {
-        "name": "广西",
-        "value": 43
-      }
-    ]
+        name: '广西',
+        value: 43,
+      },
+    ],
   },
   {
-    "name": "二",
-    "data": [
+    name: '二',
+    data: [
       {
-        "name": "西藏",
-        "value": 56
+        name: '西藏',
+        value: 56,
       },
       {
-        "name": "宁夏",
-        "value": 65
+        name: '宁夏',
+        value: 65,
       },
       {
-        "name": "新疆",
-        "value": 69
+        name: '新疆',
+        value: 69,
       },
       {
-        "name": "香港",
-        "value": 22
+        name: '香港',
+        value: 22,
       },
       {
-        "name": "澳门",
-        "value": 36
+        name: '澳门',
+        value: 36,
       },
       {
-        "name": "江西",
-        "value": 95
-      }
-    ]
+        name: '江西',
+        value: 95,
+      },
+    ],
   },
   {
-    "name": "三",
-    "data": [
+    name: '三',
+    data: [
       {
-        "name": "河南",
-        "value": 23
+        name: '河南',
+        value: 23,
       },
       {
-        "name": "四川",
-        "value": 105
+        name: '四川',
+        value: 105,
       },
       {
-        "name": "贵州",
-        "value": 141
+        name: '贵州',
+        value: 141,
       },
       {
-        "name": "辽宁",
-        "value": 33
+        name: '辽宁',
+        value: 33,
       },
       {
-        "name": "山东",
-        "value": 135
+        name: '山东',
+        value: 135,
       },
       {
-        "name": "山西",
-        "value": 115
-      }
-    ]
+        name: '山西',
+        value: 115,
+      },
+    ],
   },
   {
-    "name": "四",
-    "data": [
+    name: '四',
+    data: [
       {
-        "name": "浙江",
-        "value": 160
+        name: '浙江',
+        value: 160,
       },
       {
-        "name": "海南",
-        "value": 49
+        name: '海南',
+        value: 49,
       },
       {
-        "name": "陕西",
-        "value": 140
+        name: '陕西',
+        value: 140,
       },
       {
-        "name": "福建",
-        "value": 134
+        name: '福建',
+        value: 134,
       },
       {
-        "name": "青海",
-        "value": 197
+        name: '青海',
+        value: 197,
       },
       {
-        "name": "湖北",
-        "value": 202
-      }
-    ]
+        name: '湖北',
+        value: 202,
+      },
+    ],
   },
   {
-    "name": "五",
-    "data": [
+    name: '五',
+    data: [
       {
-        "name": "甘肃",
-        "value": 31
+        name: '甘肃',
+        value: 31,
       },
       {
-        "name": "安徽",
-        "value": 224
+        name: '安徽',
+        value: 224,
       },
       {
-        "name": "台湾",
-        "value": 126
+        name: '台湾',
+        value: 126,
       },
       {
-        "name": "云南",
-        "value": 235
+        name: '云南',
+        value: 235,
       },
       {
-        "name": "黑龙江",
-        "value": 72
+        name: '黑龙江',
+        value: 72,
       },
       {
-        "name": "广东",
-        "value": 91
-      }
-    ]
+        name: '广东',
+        value: 91,
+      },
+    ],
   },
   {
-    "name": "六",
-    "data": [
+    name: '六',
+    data: [
       {
-        "name": "湖南",
-        "value": 212
+        name: '湖南',
+        value: 212,
       },
       {
-        "name": "河北",
-        "value": 27
+        name: '河北',
+        value: 27,
       },
       {
-        "name": "吉林",
-        "value": 22
+        name: '吉林',
+        value: 22,
       },
       {
-        "name": "江苏",
-        "value": 295
-      }
-    ]
-  }
+        name: '江苏',
+        value: 295,
+      },
+    ],
+  },
 ];
 
 const pointData = [
@@ -182,14 +182,14 @@ const pointData = [
     data: [
       { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
       { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
-    ]
+    ],
   },
   {
     name: '异常',
     data: [
       { name: '上海', lng: 121.4648, lat: 31.2891, value: 40 },
       { name: '广州', lng: 113.5107, lat: 23.2196, value: 30 },
-    ]
+    ],
   },
 ];
 
@@ -212,24 +212,28 @@ stories.add('基础地图', () => (
 ));
 stories.add('带标签基础地图', () => (
   <Wcontainer className="demos" height={400}>
-    <Wmap config={{
-      label: true,
-      background: {
-        fill: 'rgba(200,200,200,0.2)'
-      }
-    }} />
+    <Wmap
+      config={{
+        label: true,
+        background: {
+          fill: 'rgba(200,200,200,0.2)',
+        },
+      }}
+    />
   </Wcontainer>
 ));
 stories.add('区块地图', () => (
   <Wcontainer className="demos" height={400}>
-    <Wmap config={{
-      tooltip: {
-        nameFormatter(n, ...args) {
-          console.log(args);
-          return n;
-        }
-      }
-    }}>
+    <Wmap
+      config={{
+        tooltip: {
+          nameFormatter(n, ...args) {
+            console.log(args);
+            return n;
+          },
+        },
+      }}
+    >
       <Wmap.Area data={areaData} />
     </Wmap>
   </Wcontainer>
@@ -237,40 +241,40 @@ stories.add('区块地图', () => (
 
 const baseAreaData = [
   {
-    "name": "一",
-    "data": [
+    name: '一',
+    data: [
       {
-        "name": "浙江",
-        "value": 43
+        name: '浙江',
+        value: 43,
       },
       {
-        "name": "陕西",
-        "value": 43
+        name: '陕西',
+        value: 43,
       },
       {
-        "name": "青海",
-        "value": 43
+        name: '青海',
+        value: 43,
       },
-    ]
+    ],
   },
 ];
 const outAreaData = [
   {
-    "name": "二",
-    "data": [
+    name: '二',
+    data: [
       {
-        "name": "浙江",
-        "value": 43
+        name: '浙江',
+        value: 43,
       },
       {
-        "name": "陕西",
-        "value": 43
+        name: '陕西',
+        value: 43,
       },
       {
-        "name": "青海",
-        "value": 43
+        name: '青海',
+        value: 43,
       },
-    ]
+    ],
   },
 ];
 
@@ -303,7 +307,8 @@ stories.add('区块凸起地图', () => {
               return 'l(90) 0:#45ffff 1:#109eff';
             },
           }}
-          data={outAreaData} />
+          data={outAreaData}
+        />
       </Wmap>
     </Wcontainer>
   );
@@ -318,37 +323,67 @@ stories.add('散点地图', () => (
 ));
 
 function Resize() {
-  const [ width, useWidth ] = useState(800);
+  const [width, useWidth] = useState(800);
   return (
-    <Wcontainer className="demos" width={width} height={600} title="动态改变大小" operation={
-      <button onClick={() => {
-        const w = width > 700 ? 600 : 800;
-        useWidth(w);
-        action('resize')(w);
-        window.dispatchEvent(new Event('resize'));
-      }}>resize</button>
-    }>
-      <Wmap config={{
-        // labels: true,
-      }}>
+    <Wcontainer
+      className="demos"
+      width={width}
+      height={600}
+      title="动态改变大小"
+      operation={
+        <button
+          onClick={() => {
+            const w = width > 700 ? 600 : 800;
+            useWidth(w);
+            action('resize')(w);
+            window.dispatchEvent(new Event('resize'));
+          }}
+        >
+          resize
+        </button>
+      }
+    >
+      <Wmap
+        config={
+          {
+            // labels: true,
+          }
+        }
+      >
         <Wmap.Area data={areaData} />
         <Wmap.Point data={pointData} />
-        <Wmap.Custom data={customPointData} render={(point, index) => <span>{index} : {point.name}</span>} />
+        <Wmap.Custom
+          data={customPointData}
+          render={(point, index) => (
+            <span>
+              {index} : {point.name}
+            </span>
+          )}
+        />
       </Wmap>
     </Wcontainer>
   );
 }
-stories.add('动态改变大小', () => (
-  <Resize />
-));
+stories.add('动态改变大小', () => <Resize />);
 stories.add('混合使用', () => (
   <Wcontainer className="demos" height={600}>
-    <Wmap config={{
-      // labels: true,
-    }}>
+    <Wmap
+      config={
+        {
+          // labels: true,
+        }
+      }
+    >
       <Wmap.Area data={areaData} />
       <Wmap.Point data={pointData} />
-      <Wmap.Custom data={customPointData} render={(point, index) => <span>{index} : {point.name}</span>} />
+      <Wmap.Custom
+        data={customPointData}
+        render={(point, index) => (
+          <span>
+            {index} : {point.name}
+          </span>
+        )}
+      />
     </Wmap>
   </Wcontainer>
 ));
@@ -367,7 +402,7 @@ class Dynamic extends React.Component {
             { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
             { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
             { name: '上海', lng: 121.4648, lat: 31.2891, value: 40 },
-          ]
+          ],
         },
       ]);
       this.setState({
@@ -378,7 +413,7 @@ class Dynamic extends React.Component {
               { name: '北京', lng: 116.4551, lat: 40.2539, value: 20 },
               { name: '杭州', lng: 119.5313, lat: 29.8773, value: 10 },
               { name: '上海', lng: 121.4648, lat: 31.2891, value: 40 },
-            ]
+            ],
           },
           // {
           //   name: '异常',
@@ -402,9 +437,7 @@ class Dynamic extends React.Component {
     );
   }
 }
-stories.add('动态数据', () => (
-  <Dynamic />
-));
+stories.add('动态数据', () => <Dynamic />);
 
 const shootData = [
   { name: '北京', lng: 116.4551, lat: 40.2539 },
@@ -423,7 +456,7 @@ const shootData = [
 ];
 function ShootDemo() {
   const log = action('setData');
-  const [ width, useWidth ] = useState(800);
+  const [width, useWidth] = useState(800);
   const [data, setData] = useState([]);
   useEffect(() => {
     const dataLen = shootData.length;
@@ -454,24 +487,39 @@ function ShootDemo() {
     return () => clearInterval(timer);
   }, []);
   return (
-    <Wcontainer className="demos" width={width} height={600} title="点击右侧测试改变大小" operation={
-      <button onClick={() => {
-        const w = width > 700 ? 600 : 800;
-        useWidth(w);
-        action('resize')(w);
-        window.dispatchEvent(new Event('resize'));
-      }}>resize</button>
-    }>
+    <Wcontainer
+      className="demos"
+      width={width}
+      height={600}
+      title="点击右侧测试改变大小"
+      operation={
+        <button
+          onClick={() => {
+            const w = width > 700 ? 600 : 800;
+            useWidth(w);
+            action('resize')(w);
+            window.dispatchEvent(new Event('resize'));
+          }}
+        >
+          resize
+        </button>
+      }
+    >
       <Wmap>
         <Wmap.Shoot data={data} />
-        <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />
+        <Wmap.Custom
+          data={shootData}
+          render={(point, index) => (
+            <span>
+              {index} : {point.name}
+            </span>
+          )}
+        />
       </Wmap>
     </Wcontainer>
   );
 }
-stories.add('飞线地图', () => (
-  <ShootDemo />
-));
+stories.add('飞线地图', () => <ShootDemo />);
 
 function DoubleShootDemo() {
   const log = action('setData');
@@ -524,14 +572,73 @@ function DoubleShootDemo() {
       <Wmap>
         <Wmap.Shoot data={data} config={shootConfig} debug={1} />
         <Wmap.Shoot data={doubleData} config={shootConfig} debug={2} />
-        <Wmap.Custom data={shootData} render={(point, index) => <span>{index} : {point.name}</span>} />
+        <Wmap.Custom
+          data={shootData}
+          render={(point, index) => (
+            <span>
+              {index} : {point.name}
+            </span>
+          )}
+        />
       </Wmap>
     </Wcontainer>
   );
 }
-stories.add('双层飞线地图', () => (
-  <DoubleShootDemo />
-));
+stories.add('双层飞线地图', () => <DoubleShootDemo />);
+
+// let maxDepth = 0;
+// function getTreeDepth(data, depth) {
+//   if (depth > maxDepth) {
+//     maxDepth = depth;
+//   }
+//   data.forEach((d) => {
+//     if (Array.isArray(d)) {
+//       getTreeDepth(d, depth + 1);
+//     }
+//   });
+// }
+// getTreeDepth(taiwanData60.features[0].geometry.coordinates, 0);
+// taiwanData60.features[0].geometry.coordinates.forEach((polygon) => {
+//   polygon[0].reverse();
+// });
+// console.log(maxDepth);
+stories.add('自定义地图数据', () => {
+  const [loading, setLoading] = React.useState(false);
+  const [geoData, setGeoData] = React.useState(undefined);
+
+  React.useEffect(() => {
+    setLoading(true);
+    // 示例中使用 DataV.GeoAtlas 工具作为数据源：https://datav.aliyun.com/tools/atlas/
+    // 实际使用请使用静态化数据保证稳定性。
+    fetch('https://geo.datav.aliyun.com/areas_v2/bound/330000_full.json')
+      .then((res) => res.json())
+      .then((res) => {
+        setGeoData(res);
+        setLoading(false);
+      })
+      .catch((e) => {
+        setGeoData(undefined);
+        setLoading(false);
+      });
+  }, []);
+
+  return (
+    <Wcontainer>
+      {loading ? (
+        <Wplaceholder loading />
+      ) : (
+        <Wmap
+          height={500}
+          geoData={geoData}
+          config={{
+            label: true,
+            showSouthChinaSea: false,
+          }}
+        />
+      )}
+    </Wcontainer>
+  );
+});
 
 stories.add('地图数据选择器', () => {
   const [code, setCode] = React.useState('');
@@ -545,12 +652,12 @@ stories.add('地图数据选择器', () => {
       // 示例中使用 DataV.GeoAtlas 工具作为数据源：https://datav.aliyun.com/tools/atlas/
       // 实际使用请使用静态化数据保证稳定性。
       fetch(`https://geo.datav.aliyun.com/areas_v2/bound/${code}_full.json`)
-        .then(res => res.json())
+        .then((res) => res.json())
         .then((res) => {
           setGeoData(res);
           setLoading(false);
         })
-        .catch(e => {
+        .catch((e) => {
           setCode('');
           setGeoData(undefined);
           setLoading(false);
@@ -568,7 +675,7 @@ stories.add('地图数据选择器', () => {
     if (chart) {
       chart.interaction('element-highlight');
       chart.on('polygon:click', function (e) {
-        const name = e && e.data && e.data.data && e.data.data.name
+        const name = e && e.data && e.data.data && e.data.data.name;
         if (name && adcodeMap[name]) {
           historyRef.current.push({
             name,
@@ -582,33 +689,42 @@ stories.add('地图数据选择器', () => {
 
   return (
     <Wcontainer>
-      {
-        loading ? <Wplaceholder loading /> : (
-          <Wmap height={500} geoData={geoData} config={{
+      {loading ? (
+        <Wplaceholder loading />
+      ) : (
+        <Wmap
+          height={500}
+          geoData={geoData}
+          config={{
             label: true,
             showSouthChinaSea: false,
             background: {
-              cursor: 'pointer'
-            }
-          }} getChartInstance={handleGetChart} />
-        )
-      }
-      {
-        code && (
-          <div>
-            当前区域：{historyRef.current[historyRef.current.length - 1].name}
-            <button onClick={() => {
+              cursor: 'pointer',
+            },
+          }}
+          getChartInstance={handleGetChart}
+        />
+      )}
+      {code && (
+        <div>
+          当前区域：{historyRef.current[historyRef.current.length - 1].name}
+          <button
+            onClick={() => {
               historyRef.current.pop();
               if (historyRef.current.length === 0) {
                 setCode('');
               } else {
                 setCode(historyRef.current[historyRef.current.length - 1].adcode);
               }
-            }}>返回上一级</button>
-            <a href={`https://geo.datav.aliyun.com/areas_v2/bound/${code}_full.json`} target="_blank">下载数据</a>
-          </div>
-        )
-      }
+            }}
+          >
+            返回上一级
+          </button>
+          <a href={`https://geo.datav.aliyun.com/areas_v2/bound/${code}_full.json`} target="_blank">
+            下载数据
+          </a>
+        </div>
+      )}
     </Wcontainer>
   );
 });
