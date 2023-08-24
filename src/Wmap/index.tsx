@@ -257,7 +257,10 @@ export class Map extends Base<WmapConfig, MapProps> {
     if (config.showSouthChinaSea === undefined || config.showSouthChinaSea) {
       const { southChinaSeaKey } = this.state;
       const { fill } = config.background || {};
-      const mapColor = fill && !fill?.startsWith('p(a)data:image') ? fill : themes['widgets-map-area-bg'];
+      const mapColor =
+        fill && !fill?.startsWith('p(') && !fill.startsWith('l(') && !fill.startsWith('r(')
+          ? fill
+          : themes['widgets-map-area-bg'];
       const currentLanguage = getLanguage() || this.context.language;
 
       return (
