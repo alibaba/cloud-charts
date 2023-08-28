@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, View, registerAction } from '@antv/g2/esm';
+import { Chart, View } from '@antv/g2/esm';
 import { registerTickMethod } from '@antv/scale/esm';
 import * as React from 'react';
 import { BaseChartConfig, ChartData, Size, Language, Types, Rule } from './types';
@@ -9,7 +9,6 @@ import highchartsDataToG2Data from './dataAdapter';
 import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
-import { ListChecked } from './interaction';
 import { integer } from './tickMethod';
 import BigDataType, { CalculationType } from './bigDataType';
 import {
@@ -26,8 +25,6 @@ import getEmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
 import Wplaceholder from '../Wplaceholder';
-
-registerAction('list-checked', ListChecked);
 
 registerTickMethod('integer', integer);
 
