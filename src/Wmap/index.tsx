@@ -261,13 +261,14 @@ export class Map extends Base<WmapConfig, MapProps> {
         fill && !fill?.startsWith('p(') && !fill.startsWith('l(') && !fill.startsWith('r(')
           ? fill
           : themes['widgets-map-area-bg'];
+      const labelColor = themes['widgets-color-text-3'];
       const currentLanguage = getLanguage() || this.context.language;
 
       return (
         <SouthChinaSea
           key={southChinaSeaKey}
           className={`${FullCrossName}-map-south-china-sea`}
-          fontColor={mapColor}
+          fontColor={labelColor}
           landColor={mapColor}
           lineColor={mapColor}
           boxColor={mapColor}
@@ -898,7 +899,7 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
         warn('Wmap.config.label', 'textStyle 属性已废弃，请使用 style 属性');
       }
       const labelStyle = {
-        fill: themes['widgets-map-label'],
+        fill: themes['widgets-color-text-3'],
         // 需要去掉 px 的字符串
         fontSize: fontSize,
         textBaseline: 'middle',
