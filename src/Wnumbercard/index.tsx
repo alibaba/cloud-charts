@@ -261,7 +261,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       labelRef?.current?.removeEventListener('mouseenter', handleMouseEnter);
       labelRef?.current?.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [labelRef?.current]);
+  }, [labelRef?.current, showTooltip]);
 
   const mainClasses = classNames(prefix, {
     [FullCrossName]: true,
