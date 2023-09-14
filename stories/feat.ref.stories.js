@@ -869,7 +869,7 @@ stories.add('getLegendItems', () => {
   );
 });
 
-stories.add('filterDataByLegend', () => {
+stories.add('filterLegend', () => {
   const barRef = useRef({});
   const lineRef = useRef({});
   const pieRef = useRef({});
@@ -890,23 +890,23 @@ stories.add('filterDataByLegend', () => {
 
   useEffect(() => {
     setTimeout(() => {
-      barRef.current.filterDataByLegend((value) => value !== '柱1');
-      lineRef.current.filterDataByLegend((value) => value !== '异常点');
-      pieRef.current.filterDataByLegend((value) => value !== 'IE');
-      boxRef.current.filterDataByLegend((value) => value !== '柱1');
-      candleRef.current.filterDataByLegend((value) => value !== 'up');
-      funnelRef.current.filterDataByLegend((value) => value !== '放入购物车');
-      heatmapRef.current.filterDataByLegend((value) => value !== '类型一');
-      histogramRef.current.filterDataByLegend((value) => value !== 'Good');
-      linebarRef.current.filterDataByLegend((value) => value !== '机房3');
-      lineboxRef.current.filterDataByLegend((value) => value !== '机房3');
-      linescatterRef.current.filterDataByLegend((value) => value !== '范围');
-      multicircleRef.current.filterDataByLegend((value) => value !== '一');
-      multipieRef.current.filterDataByLegend((value) => value !== 'root-0');
-      nightRef.current.filterDataByLegend((value) => value !== '2012');
-      radarRef.current.filterDataByLegend((value) => value !== '平均水准');
-      sankeyRef.current.filterDataByLegend((value) => value !== 'a');
-      scatterRef.current.filterDataByLegend((value) => value !== '机房1');
+      barRef.current.filterLegend((value) => value !== '柱1');
+      lineRef.current.filterLegend((value) => value !== '异常点');
+      pieRef.current.filterLegend((value) => value !== 'IE');
+      boxRef.current.filterLegend((value) => value !== '柱1');
+      candleRef.current.filterLegend((value) => value !== 'up');
+      funnelRef.current.filterLegend((value) => value !== '放入购物车');
+      heatmapRef.current.filterLegend((value) => value !== '类型一');
+      histogramRef.current.filterLegend((value) => value !== 'Good');
+      linebarRef.current.filterLegend((value) => value !== '机房3');
+      lineboxRef.current.filterLegend((value) => value !== '机房3');
+      linescatterRef.current.filterLegend((value) => value !== '范围');
+      multicircleRef.current.filterLegend((value) => value !== '一');
+      multipieRef.current.filterLegend((value) => value !== 'root-0');
+      nightRef.current.filterLegend((value) => value !== '2012');
+      radarRef.current.filterLegend((value) => value !== '平均水准');
+      sankeyRef.current.filterLegend((value) => value !== 'a');
+      scatterRef.current.filterLegend((value) => value !== '机房1');
     }, 3000);
   }, []);
 
@@ -964,23 +964,23 @@ stories.add('highlight', () => {
 
   useEffect(() => {
     setTimeout(() => {
-      barRef.current.highlightElement((value) => value?.type === '柱1');
-      lineRef.current.highlightElement((value) => value?.[0]?.type === '异常点');
-      pieRef.current.highlightElement((value) => value?.x === 'IE');
-      boxRef.current.highlightElement((value) => value?.type === '柱1');
-      candleRef.current.highlightElement((value) => value?.trend === 'up');
-      funnelRef.current.highlightElement((value) => value?.x === '放入购物车');
-      heatmapRef.current.highlightElement((value) => value?.type === '类型一');
-      histogramRef.current.highlightElement((value) => value?.type === 'Good');
-      linebarRef.current.highlightElement((value) => value?.[0]?.type === '机房3');
-      lineboxRef.current.highlightElement((value) => value?.[0]?.type === '机房3');
-      linescatterRef.current.highlightElement((value) => value?.[0]?.type === '平均值');
-      multicircleRef.current.highlightElement((value) => value?.x === '一');
-      multipieRef.current.highlightElement((value) => value?.name === 'root-0');
-      nightRef.current.highlightElement((value) => value?.x === '2012');
-      radarRef.current.highlightElement((value) => value?.[0]?.type === '平均水准');
-      sankeyRef.current.highlightElement((value) => value?.name === 'a');
-      scatterRef.current.highlightElement((value) => value?.type === '机房1');
+      barRef.current.highlightLegend((value) => value === '柱1');
+      lineRef.current.highlightLegend((value) => value === '异常点');
+      pieRef.current.highlightLegend((value) => value === 'IE');
+      boxRef.current.highlightLegend((value) => value === '柱1');
+      candleRef.current.highlightLegend((value) => value === 'up');
+      funnelRef.current.highlightLegend((value) => value === '放入购物车');
+      heatmapRef.current.highlightLegend((value) => value === '类型一');
+      histogramRef.current.highlightLegend((value) => value === 'Good');
+      linebarRef.current.highlightLegend((value) => value === '机房3');
+      lineboxRef.current.highlightLegend((value) => value === '机房3');
+      linescatterRef.current.highlightLegend((value) => value === '平均值');
+      multicircleRef.current.highlightLegend((value) => value === '一');
+      multipieRef.current.highlightLegend((value) => value === 'root-0');
+      nightRef.current.highlightLegend((value) => value === '2012');
+      radarRef.current.highlightLegend((value) => value === '平均水准');
+      sankeyRef.current.highlightLegend((value) => value === 'a');
+      scatterRef.current.highlightLegend((value) => value === '机房1');
     }, 3000);
 
     setTimeout(() => {
@@ -1047,7 +1047,7 @@ const CustomLegend = (props) => {
 
   useEffect(() => {
     clearActive();
-    chartRef?.current?.filterDataByLegend((value: any) => {
+    chartRef?.current?.filterLegend((value: any) => {
       return !filteredItems.includes(value);
     });
   }, [filteredItems]);
@@ -1056,7 +1056,7 @@ const CustomLegend = (props) => {
     if (filteredItems.includes(itemName)) {
       return;
     }
-    chartRef?.current?.highlightElement((value: any) => value?.[0]?.type === itemName);
+    chartRef?.current?.highlightLegend((value: any) => value?.[0]?.type === itemName);
   };
 
   const clearActive = () => {
@@ -1176,7 +1176,7 @@ const CustomLegend2 = (props) => {
   const legendItems = useMemo(() => chartRef?.current?.getLegendItems(), []);
 
   const activeItem = (itemName: string) => {
-    chartRef?.current?.highlightElement((value: any) => value?.type === itemName);
+    chartRef?.current?.highlightLegend((value: any) => value?.type === itemName);
   };
   const clearActive = () => {
     chartRef?.current?.clearHighlight();
@@ -1259,7 +1259,7 @@ stories.add('数据改变', () => {
   useEffect(() => {
     setTimeout(() => {
       console.log(ref?.current?.getLegendItems());
-      ref.current?.filterDataByLegend((value) => value !== '异常点');
+      ref.current?.filterLegend((value) => value !== '异常点');
     }, 1000);
 
     setTimeout(() => {

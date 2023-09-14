@@ -26,10 +26,24 @@ const getFunctions = (base: any, config: any) => ({
   },
 
   /** 过滤数据 */
-  filterDataByLegend: (condition: (value: any) => boolean) => {
+  filterLegend: (condition: (value: any) => boolean) => {
     const { legendField = 'type' } = base;
     const views = [...base?.chart?.views, base.chart];
     views.forEach((view: any) => {
+      view?.getComponents()?.forEach((co: any) => {
+        if (co.type === 'legend') {
+          const items = co.component.getItems();
+          items.forEach((item: any) => {
+            if (condition(item.name)) {
+              co.component.setItemState(item, 'checked', true);
+              co.component.setItemState(item, 'unchecked', false);
+            } else {
+              co.component.setItemState(item, 'checked', false);
+              co.component.setItemState(item, 'unchecked', true);
+            }
+          });
+        }
+      });
       view.filter(legendField, condition);
     });
 
@@ -37,12 +51,28 @@ const getFunctions = (base: any, config: any) => ({
   },
 
   /** 高亮元素 */
-  highlightElement: (condition: (value: any) => boolean) => {
+  highlightLegend: (condition: (value: any) => boolean) => {
+    const { legendField = 'type' } = base;
     const views = [...base?.chart?.views, base.chart];
     views.forEach((view: any) => {
+      view?.getComponents()?.forEach((co: any) => {
+        if (co.type === 'legend') {
+          const items = co.component.getItems();
+          items.forEach((item: any) => {
+            if (condition(item.name)) {
+              co.component.setItemState(item, 'active', true);
+              co.component.setItemState(item, 'inactive', false);
+            } else {
+              co.component.setItemState(item, 'active', false);
+              co.component.setItemState(item, 'inactive', true);
+            }
+          });
+        }
+      });
       view.getElements().forEach((element: any) => {
         const data = element.getData();
-        if (condition(data)) {
+        const name = data?.[legendField] ?? data?.[0]?.[legendField];
+        if (condition(name)) {
           element.setState('active', true);
         } else {
           element.setState('inactive', true);
@@ -55,6 +85,15 @@ const getFunctions = (base: any, config: any) => ({
   clearHighlight: () => {
     const views = [...base?.chart?.views, base.chart];
     views.forEach((view: any) => {
+      view?.getComponents()?.forEach((co: any) => {
+        if (co.type === 'legend') {
+          const items = co.component.getItems();
+          items.forEach((item: any) => {
+            co.component.setItemState(item, 'active', false);
+            co.component.setItemState(item, 'inactive', false);
+          });
+        }
+      });
       view.getElements().forEach((element: any) => {
         element.clearStates();
       });
