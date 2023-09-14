@@ -3,9 +3,9 @@
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
-import '@antv/data-set/lib/transform/hierarchy/partition'
+import '@antv/data-set/lib/transform/hierarchy/partition';
 import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import themes from '../themes/index';
 import { numberDecimal } from '../common/common';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -105,6 +105,8 @@ function computeData(ctx: MultiPie, data: ChartData) {
 export class MultiPie extends Base<WmultipieConfig> {
   chartName = 'G2MultiPie';
 
+  legendField = 'name';
+
   convertData = false;
 
   getDefaultConfig(): WmultipieConfig {
@@ -141,10 +143,10 @@ export class MultiPie extends Base<WmultipieConfig> {
       radius: Math.max(Math.min(config.outerRadius, 1), 0.01),
     };
     if (config.startAngle !== undefined) {
-      thetaConfig.startAngle = config.startAngle
+      thetaConfig.startAngle = config.startAngle;
     }
     if (config.endAngle !== undefined) {
-      thetaConfig.endAngle = config.endAngle
+      thetaConfig.endAngle = config.endAngle;
     }
     if (config.cycle) {
       thetaConfig.innerRadius = Math.max(Math.min(config.innerRadius, 1), 0);
@@ -179,16 +181,26 @@ export class MultiPie extends Base<WmultipieConfig> {
           const percent = numberDecimal(item.value / rootNode.value, 4);
 
           if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(item.value, {
-              percent,
-              ...pointData,
-            }, index, items);
+            item.value = config.tooltip.valueFormatter(
+              item.value,
+              {
+                percent,
+                ...pointData,
+              },
+              index,
+              items,
+            );
           }
           if (config.tooltip.nameFormatter) {
-            item.name = config.tooltip.nameFormatter(item.name, {
-              percent,
-              ...pointData,
-            }, index, items);
+            item.name = config.tooltip.nameFormatter(
+              item.name,
+              {
+                percent,
+                ...pointData,
+              },
+              index,
+              items,
+            );
           }
         });
       },
@@ -197,10 +209,11 @@ export class MultiPie extends Base<WmultipieConfig> {
         showMarkers: false,
         showCrosshairs: false,
         shared: false,
-      }
+      },
     );
 
-    const geom = chart.polygon()
+    const geom = chart
+      .polygon()
       .position('x*y')
       .color('name', config.colors)
       .tooltip('name*value*rawValue*depth', (name, value) => {

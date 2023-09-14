@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import legendFilter from '../common/legendFilter';
@@ -13,7 +13,7 @@ import circleAnnotation, { DecorationConfig } from '../common/circleAnnoation';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import './index.scss';
 
-interface WmulticircleConfig extends BaseChartConfig, DecorationConfig{
+interface WmulticircleConfig extends BaseChartConfig, DecorationConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -31,6 +31,8 @@ interface WmulticircleConfig extends BaseChartConfig, DecorationConfig{
 
 export class MultiCircle extends Base<WmulticircleConfig> {
   chartName = 'G2MultiCircle';
+
+  legendField = 'x';
 
   getDefaultConfig(): WmulticircleConfig {
     return {
@@ -55,7 +57,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
       type: {
-        type: 'cat'
+        type: 'cat',
       },
       y: {
         nice: false,
@@ -80,7 +82,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     // tooltip
     rectTooltip(this, chart, config, {}, null, {
       showCrosshairs: false,
-      showMarkers: false
+      showMarkers: false,
     });
 
     circleAnnotation(chart, config, this.size, 'G2MultiCircle');
@@ -118,8 +120,8 @@ function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors) {
     background: {
       style: {
         fill: themes['widgets-circle-stroke-background'],
-        fillOpacity: 1
-      }
+        fillOpacity: 1,
+      },
     },
     ...geomConfig,
   };
@@ -127,7 +129,7 @@ function drawBar(chart: Chart, config: WmulticircleConfig, colors: Colors) {
   let geom = chart.interval(geomConfig).position(['x', 'y']);
 
   geom = geom.color('x', colors).style({
-    lineCap: 'round'
+    lineCap: 'round',
   });
 
   geomSize(geom, size, null, 'y', 'x*y*type*extra');

@@ -25,6 +25,7 @@ import getEmptyDataType from './emptyDataType';
 import themes from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
 import Wplaceholder from '../Wplaceholder';
+import chartRefs from './chartRefs';
 
 registerTickMethod('integer', integer);
 
@@ -161,6 +162,8 @@ export interface ChartProps<ChartConfig> {
   force?: Rule;
   /** loading状态 */
   loading?: boolean;
+  /** chartRef */
+  chartRef?: React.MutableRefObject<any>;
 }
 
 /**
@@ -178,6 +181,8 @@ class Base<
   static isG2Chart = true;
 
   public chartName = 'Base';
+
+  public legendField = 'type';
 
   public chart: Chart;
 
@@ -873,6 +878,11 @@ class Base<
     chart.render();
 
     // this.handleAfterRender(config);
+
+    // 绑定ref
+    if (this.props.chartRef) {
+      Object.assign(this.props.chartRef.current, chartRefs(this, config));
+    }
   }
 
   private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
@@ -1004,6 +1014,7 @@ class Base<
       getChartInstance,
       enableFunctionUpdate,
       loading,
+      chartRef,
       ...otherProps
     } = this.props;
 

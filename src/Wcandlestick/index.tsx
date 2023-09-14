@@ -1,7 +1,7 @@
 'use strict';
 
 import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
@@ -9,10 +9,10 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import guide, { GuideConfig } from '../common/guide';
-import { LabelConfig } from "../common/label";
+import { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import errorWrap from "../common/errorWrap";
+import errorWrap from '../common/errorWrap';
 import { activeRegionWithTheme } from '../common/interaction';
 
 function computeDataType(data: any) {
@@ -22,7 +22,7 @@ function computeDataType(data: any) {
         const [start, end] = d.y;
         d.trend = start <= end ? 'up' : 'down';
       }
-    })
+    });
   }
   return data;
 }
@@ -36,10 +36,10 @@ interface labelAlias {
 
 interface WcandlestickConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | false;
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
-  tooltip?: TooltipConfig & { labelAlias?: labelAlias } | false;
+  tooltip?: (TooltipConfig & { labelAlias?: labelAlias }) | false;
   guide?: GuideConfig;
   label?: LabelConfig | boolean;
   grid?: boolean;
@@ -50,6 +50,7 @@ interface WcandlestickConfig extends BaseChartConfig {
 export class Candlestick extends Base<WcandlestickConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Wcandlestick';
+  legendField = 'trend';
   // convertData: false,
   getDefaultConfig(): WcandlestickConfig {
     return {
@@ -84,7 +85,6 @@ export class Candlestick extends Base<WcandlestickConfig> {
     };
   }
   init(chart: Chart, config: WcandlestickConfig, data: any) {
-
     // 设置数据度量
     const defs: Record<string, Types.ScaleOption> = {
       x: propertyAssign(
@@ -92,7 +92,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
         {
           type: 'time',
         },
-        config.xAxis
+        config.xAxis,
       ),
       y: propertyAssign(
         propertyMap.axis,
@@ -101,16 +101,15 @@ export class Candlestick extends Base<WcandlestickConfig> {
           tickCount: 5,
           nice: true,
         },
-        config.yAxis
+        config.yAxis,
       ),
       type: {
         type: 'cat',
       },
       trend: {
         type: 'cat',
-      }
+      },
     };
-
 
     chart.scale(defs);
     chart.data(computeDataType(data));
@@ -124,47 +123,46 @@ export class Candlestick extends Base<WcandlestickConfig> {
     chart.legend('x', false);
     chart.legend('y', false);
     // 设置图例
-    rectLegend(this, chart, config, {
-      // useHtml: false,
-    }, true, 'trend');
-
-    // tooltip
-    const { showTitle, showColon } = config.tooltip || {};
-    rectTooltip(
+    rectLegend(
       this,
       chart,
       config,
-      {},
-      null,
       {
-        showTitle: true,
-        showCrosshairs: false,
-        showMarkers: false,
-        itemTpl: `<div>
-            ${
-          showTitle
-            ? '<div style="margin:10px 0;"><span style="background-color:{color};width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{group}</div>'
-            : ''
-        }
-            <div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelStart}</span>${
-          showColon ? ':' : ''
-        }<span class="g2-tooltip-item-value">{start}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelEnd}</span>${
-          showColon ? ':' : ''
-        }<span class="g2-tooltip-item-value">{end}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelMax}</span>${
-          showColon ? ':' : ''
-        }<span class="g2-tooltip-item-value">{max}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelMin}</span>${
-          showColon ? ':' : ''
-        }<span class="g2-tooltip-item-value">{min}</span></div>
-          </div>`
-      }
+        // useHtml: false,
+      },
+      true,
+      'trend',
     );
+
+    // tooltip
+    const { showTitle, showColon } = config.tooltip || {};
+    rectTooltip(this, chart, config, {}, null, {
+      showTitle: true,
+      showCrosshairs: false,
+      showMarkers: false,
+      itemTpl: `<div>
+            ${
+              showTitle
+                ? '<div style="margin:10px 0;"><span style="background-color:{color};width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:8px;"></span>{group}</div>'
+                : ''
+            }
+            <div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelStart}</span>${
+              showColon ? ':' : ''
+            }<span class="g2-tooltip-item-value">{start}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelEnd}</span>${
+        showColon ? ':' : ''
+      }<span class="g2-tooltip-item-value">{end}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelMax}</span>${
+        showColon ? ':' : ''
+      }<span class="g2-tooltip-item-value">{max}</span></div><div style="margin:8px 0;"><span class="g2-tooltip-item-name">{labelMin}</span>${
+        showColon ? ':' : ''
+      }<span class="g2-tooltip-item-value">{min}</span></div>
+          </div>`,
+    });
     activeRegionWithTheme(chart);
 
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
     drawCandle(chart, config, config.colors);
-
   }
   changeData(chart: Chart, config: WcandlestickConfig, data: ChartData) {
     chart.changeData(computeDataType(data));
@@ -181,7 +179,7 @@ function drawCandle(chart: Chart, config: WcandlestickConfig, colors: Colors) {
     .schema()
     .position(['x', 'y'])
     .shape('candle')
-    .color('trend', trend => {
+    .color('trend', (trend) => {
       if (Array.isArray(colors)) {
         const [colorUp, colorDown] = colors;
         return trend === 'up' ? colorUp : colorDown;
@@ -194,12 +192,7 @@ function drawCandle(chart: Chart, config: WcandlestickConfig, colors: Colors) {
     // .tooltip('type*start*end*max*min', (group, start, end, max, min) => {
     .tooltip('y*type', (y, group) => {
       const { labelAlias = {} } = config.tooltip || {};
-      const {
-        start: labelStart,
-        end: labelEnd,
-        max: labelMax,
-        min: labelMin,
-      } = labelAlias;
+      const { start: labelStart, end: labelEnd, max: labelMax, min: labelMin } = labelAlias;
 
       const [start, end, max, min] = y;
 

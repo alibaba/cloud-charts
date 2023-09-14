@@ -29,6 +29,8 @@ export interface WfunnelConfig extends BaseChartConfig {
 export class Funnel extends Base<WfunnelConfig> {
   chartName = 'G2Funnel';
 
+  legendField = 'x';
+
   getDefaultConfig(): WfunnelConfig {
     return {
       colors: themes.order_10,
@@ -97,18 +99,18 @@ export class Funnel extends Base<WfunnelConfig> {
       case 'vertical-left':
       case 'vertical-start':
         chart.coordinate('rect').transpose().scale(1, -1);
-        geom = chart.interval()
-          .position('x*y')
-          .shape(funnelShape)
-          .color('x', config.colors);
+        geom = chart.interval().position('x*y').shape(funnelShape).color('x', config.colors);
         percentOffsetX = 3 * fontSize1;
         break;
       case 'vertical-center':
         chart.coordinate('rect').transpose().scale(1, -1);
-        geom = chart.interval()
-          .adjust([{
-            type: 'symmetric',
-          }])
+        geom = chart
+          .interval()
+          .adjust([
+            {
+              type: 'symmetric',
+            },
+          ])
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors);
@@ -116,38 +118,32 @@ export class Funnel extends Base<WfunnelConfig> {
       case 'vertical-right':
       case 'vertical-end':
         chart.coordinate('rect').transpose().scale(-1, -1);
-        geom = chart.interval()
-          .position('x*y')
-          .shape(funnelShape)
-          .color('x', config.colors);
+        geom = chart.interval().position('x*y').shape(funnelShape).color('x', config.colors);
         percentOffsetX = -3 * fontSize1;
         break;
       case 'horizontal-top':
       case 'horizontal-start':
         chart.coordinate('rect').reflect('y');
-        geom = chart.interval()
-          .position('x*y')
-          .shape(funnelShape)
-          .color('x', config.colors);
+        geom = chart.interval().position('x*y').shape(funnelShape).color('x', config.colors);
         percentOffsetY = 3 * fontSize1;
         break;
       case 'horizontal-center':
-        geom = chart.interval()
+        geom = chart
+          .interval()
           .position('x*y')
           .shape(funnelShape)
           .color('x', config.colors)
-          .adjust([{
-            type: 'symmetric',
-          }]);
+          .adjust([
+            {
+              type: 'symmetric',
+            },
+          ]);
         break;
       // case 'horizontal-bottom':
       // case 'horizontal-end':
       // 和 default 时相同
       default:
-        geom = chart.interval()
-          .position('x*y')
-          .shape(funnelShape)
-          .color('x', config.colors);
+        geom = chart.interval().position('x*y').shape(funnelShape).color('x', config.colors);
         percentOffsetY = -3 * fontSize1;
     }
 
@@ -174,7 +170,7 @@ export class Funnel extends Base<WfunnelConfig> {
             }
             return v['y'];
           },
-        }
+        },
       });
     }
 
@@ -183,7 +179,13 @@ export class Funnel extends Base<WfunnelConfig> {
   }
 }
 
-function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, percentOffsetX: number, percentOffsetY: number) {
+function renderGuide(
+  chart: Chart,
+  config: WfunnelConfig,
+  data: ChartData,
+  percentOffsetX: number,
+  percentOffsetY: number,
+) {
   // 中间标签文本
   chart.annotation().clear(true);
   let configPercent = config.percent;
@@ -196,26 +198,17 @@ function renderGuide(chart: Chart, config: WfunnelConfig, data: ChartData, perce
     configPercent = {};
   }
 
-  const {
-    labelFormatter,
-    offsetX = 0,
-    offsetY = 0,
-    top = true,
-    style = {}
-  } = configPercent;
+  const { labelFormatter, offsetX = 0, offsetY = 0, top = true, style = {} } = configPercent;
   const positionY = config.align === 'center' ? 'center' : 'start';
 
-  data.forEach((d: { y: any; x: any; }, i: any) => {
-    let content = `${numberDecimal(100 * d.y / data[0].y)}%`;
+  data.forEach((d: { y: any; x: any }, i: any) => {
+    let content = `${numberDecimal((100 * d.y) / data[0].y)}%`;
     if (labelFormatter) {
       content = labelFormatter(d.y / data[0].y, d, i);
     }
     chart.annotation().text({
       top,
-      position: [
-        d.x,
-        positionY,
-      ],
+      position: [d.x, positionY],
       offsetX: percentOffsetX + offsetX,
       offsetY: percentOffsetY + offsetY,
       content: content, // 显示的文本内容

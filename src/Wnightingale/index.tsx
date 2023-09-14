@@ -19,9 +19,9 @@ import { warn } from '../common/log';
 // 3.x代码
 export interface WnightingaleConfig extends BaseChartConfig {
   /** X轴配置项 */
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   /** Y轴配置项 */
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   /** @deprecated axis 属性已废弃，请使用 xAxis 属性 */
   axis?: boolean;
   colors?: Colors;
@@ -37,6 +37,7 @@ export interface WnightingaleConfig extends BaseChartConfig {
 
 export class Nightingale extends Base<WnightingaleConfig> {
   chartName = 'G2Nightingale';
+  legendField = 'x';
 
   getDefaultConfig(): WnightingaleConfig {
     return {
@@ -48,7 +49,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
       innerRadius: 0.5, // 内环半径大小，仅cycle为true时可用
       outerRadius: 1,
       label: {
-        offset: -15
+        offset: -15,
       },
       legend: {
         position: 'bottom',
@@ -104,10 +105,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
 
     rectYAxis(this, chart, config);
 
-    const geom = chart
-      .interval()
-      .position('x*y')
-      .color('x', config.colors);
+    const geom = chart.interval().position('x*y').color('x', config.colors);
 
     geomStyle(geom, config.geomStyle, {
       lineWidth: 1,

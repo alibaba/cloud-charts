@@ -66,6 +66,8 @@ export class Sankey extends Base<WsankeyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Sankey';
 
+  legendField = 'name';
+
   convertData = false;
   private sankeyDataView: DataView;
   private edgeView: View;
@@ -86,6 +88,7 @@ export class Sankey extends Base<WsankeyConfig> {
     };
   }
   init(chart: Chart, config: WsankeyConfig, data: any) {
+    this.legendField = config?.primaryKey;
     const ds = new DataSet();
     const dv = ds.createView().source(data, {
       type: 'graph',
