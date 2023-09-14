@@ -857,10 +857,9 @@ function drawMapLabel(ctx: Map, chart: Chart, config: WmapConfig) {
 
   // 将背景数据集中的中心点坐标(cX, cY)映射为新数据中的x, y。保证scale可以同步这个view的度量。
   const labelData = ctx.bgMapDataView.rows.map((row) => {
+    const localeName = row.properties.locale || row.properties.name || row.name;
     const label = {
-      name: row.properties.locale
-        ? getText(row.properties.locale, ctx.context.language, ctx.context.locale)
-        : row.properties.name || row.name,
+      name: getText(localeName, ctx.context.language, ctx.context.locale) || row.properties.name || row.name,
       x: row.cX,
       y: row.cY,
     };

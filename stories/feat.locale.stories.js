@@ -158,3 +158,55 @@ stories.add('事件', () => {
 
   return <Wline height="300" data={[]} />;
 });
+
+stories.add('自定义locale', () => {
+  useEffect(() => {
+    document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'zh-cn' }));
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+    }, 3000);
+  }, []);
+
+  return (
+    <ChartProvider
+      locale={{
+        'zh-cn': {
+          empty: '测试测试',
+        },
+        'en-us': {
+          empty: 'test test',
+        },
+      }}
+    >
+      <Wbar height="300" data={[]} config={{ zoom: true }} language="zh-cn" />
+    </ChartProvider>
+  );
+});
+
+stories.add('地图自定义', () => {
+  useEffect(() => {
+    document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'zh-cn' }));
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+    }, 3000);
+  }, []);
+
+  return (
+    <ChartProvider
+      locale={{
+        'zh-cn': {
+          beijing: '测试',
+        },
+        'en-us': {
+          beijing: 'test',
+        },
+      }}
+    >
+      <Wmap
+        config={{
+          label: true,
+        }}
+      />
+    </ChartProvider>
+  );
+});

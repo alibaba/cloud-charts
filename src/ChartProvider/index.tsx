@@ -6,7 +6,7 @@ import eventBus from '../common/eventBus';
 import { FullLanguageName, FullLanguageEventName } from '../constants';
 export interface ChartProviderProps {
   language?: Language;
-  locale?: LocaleItem;
+  locale?: LocaleItem | Record<string, LocaleItem>;
   defaultConfig?: BaseChartConfig;
   theme?: string | Theme;
   rule?: Rule;
@@ -44,7 +44,7 @@ document.addEventListener(FullLanguageEventName, function (e: CustomEvent) {
 class ChartProvider extends Component<ChartProviderProps> {
   private language: Language;
 
-  private locale: LocaleItem;
+  private locale: LocaleItem | Record<string, LocaleItem>;
 
   private defaultConfig: BaseChartConfig;
 
@@ -84,8 +84,13 @@ export default ChartProvider;
 export const getText = (
   value: keyof LocaleItem,
   language: keyof typeof LanguageMap,
-  locale: LocaleItem = null,
+  locale: LocaleItem | Record<string, LocaleItem> = null,
 ) => {
+  // 如果用户自定义locale为Record<string, LocaleItem>
+  if (locale && currentLanguage && currentLanguage in locale) {
+    return locale?.[currentLanguage]?.[value];
+  }
+
   return currentLanguage && currentLanguage in LanguageMap
     ? LanguageMap?.[currentLanguage]?.[value]
     : locale?.[value] || LanguageMap?.[language in LanguageMap ? language : 'zh-cn']?.[value];

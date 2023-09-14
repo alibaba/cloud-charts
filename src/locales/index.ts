@@ -8,6 +8,7 @@ export interface LocaleItem {
   noData: string;
   empty: string;
   reset: string;
+  [key: string]: string;
 }
 
 export default {
