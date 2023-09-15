@@ -1,5 +1,8 @@
 /** 通过chartRef对外暴露的函数 */
 const getFunctions = (base: any, config: any) => ({
+  /** 获取chart实例 */
+  getChart: () => base.chart,
+
   /** 获取legend信息 */
   getLegendItems: () => {
     // 对线柱图、线点图等配置了items的情况，直接读取items
