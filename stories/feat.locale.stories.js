@@ -161,9 +161,9 @@ stories.add('事件', () => {
 
 stories.add('自定义locale', () => {
   useEffect(() => {
-    document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'zh-cn' }));
+    document.dispatchEvent(new CustomEvent('setCloudChartsLanguage', { detail: 'zh-cn' }));
     setTimeout(() => {
-      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+      document.dispatchEvent(new CustomEvent('setCloudChartsLanguage', { detail: 'en-us' }));
     }, 3000);
   }, []);
 
@@ -185,9 +185,9 @@ stories.add('自定义locale', () => {
 
 stories.add('地图自定义', () => {
   useEffect(() => {
-    document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'zh-cn' }));
+    document.dispatchEvent(new CustomEvent('setCloudChartsLanguage', { detail: 'zh-cn' }));
     setTimeout(() => {
-      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+      document.dispatchEvent(new CustomEvent('setCloudChartsLanguage', { detail: 'en-us' }));
     }, 3000);
   }, []);
 
