@@ -1056,7 +1056,7 @@ const CustomLegend = (props) => {
     if (filteredItems.includes(itemName)) {
       return;
     }
-    chartRef?.current?.highlightLegend((value: any) => value?.[0]?.type === itemName);
+    chartRef?.current?.highlightLegend((value: any) => value === itemName);
   };
 
   const clearActive = () => {
@@ -1176,7 +1176,7 @@ const CustomLegend2 = (props) => {
   const legendItems = useMemo(() => chartRef?.current?.getLegendItems(), []);
 
   const activeItem = (itemName: string) => {
-    chartRef?.current?.highlightLegend((value: any) => value?.type === itemName);
+    chartRef?.current?.highlightLegend((value: any) => value === itemName);
   };
   const clearActive = () => {
     chartRef?.current?.clearHighlight();
