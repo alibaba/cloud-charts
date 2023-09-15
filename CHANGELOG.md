@@ -1,3 +1,18 @@
+### 1.0.45 (2023-09-15)
+
+#### New Features
+
+- 增加 chartRef，提供获取 chart 实例、获取 legend 信息、过滤 legend、高亮与取消高亮 legend 的方法
+- 自定义国际化 locale 支持传多语言映射
+- Wmap 自定义国际化增加 name 字段支持
+- 增加多图表 filter 联动
+- 增加 legend 正向选择与反向选择的配置项
+
+#### Bug Fixes
+
+- 修复数据指标卡片中 label tooltip 出现时机和位置错误的问题
+- 调整 Wmap 中的标签颜色
+
 ### 1.0.44 (2023-08-24)
 
 #### New Features
