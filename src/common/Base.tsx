@@ -471,6 +471,10 @@ class Base<
 
     this.language = this.props.language;
 
+    if (newLoading) {
+      return;
+    }
+
     if (oldLoading && !newLoading) {
       this.initSize();
 
