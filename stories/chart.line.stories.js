@@ -566,6 +566,22 @@ stories.add('带虚线图', () => (
             }
             return null;
           },
+          lineWidth(x, y, type) {
+            // console.log('width', x, y, type);
+            if (type === '异常点') {
+              return 0;
+            }
+            return 2;
+          },
+        },
+        symbol: {
+          size: (type) => {
+            if (type === '异常点') {
+              return 4;
+            } else {
+              return 0;
+            }
+          },
         },
         // geomStyle(x, y, type) {
         //   if (type === '机房B') {
@@ -882,13 +898,23 @@ stories.add('测试跨度', () => (
       display: 'flex',
     }}
   >
-    {/* <div
+    <div
       style={{
         flex: '0 0 calc(50% - 10px)',
       }}
     >
-      <Wline height="300" data={timeData.year_1} />
-    </div> */}
+      <Wline
+        height="300"
+        data={timeData.year_1}
+        config={
+          {
+            // xAxis: {
+            //   nice: false
+            // }
+          }
+        }
+      />
+    </div>
     <div
       style={{
         flex: '0 0 calc(50% - 10px)',
@@ -946,4 +972,8 @@ stories.add('带标签折线图', () => (
       data={data}
     />
   </Wcontainer>
+));
+
+stories.add('legend单选', () => (
+  <Wline height="300" data={data} config={{ legend: { useReverseChecked: false } }} />
 ));

@@ -52,24 +52,28 @@ export class ListChecked extends ListUnchecked {
     const hasControl = originEvent.ctrlKey || originEvent.metaKey;
     // 当前选中状态 false-选中，true-未选
     const currentEnable = this.hasState(list, item);
+    const listItems = list.getItems();
+    // 是否点击唯一选中的一个
+    let checkedNums = 0;
+    let isSameItem = false;
+    listItems.forEach((listItem: G2Dependents.ListItem) => {
+      if (!this.hasState(list, listItem)) {
+        checkedNums += 1;
+        isSameItem = listItem === item;
+      }
+    });
+    const isOneChecked = checkedNums === 1 && isSameItem;
     if (!hasControl) {
-      // Control进入单选默认
-      const listItems = list.getItems();
-      const isOneChecked =
-        listItems.reduce((pre: number, cur: G2Dependents.ListItem) => {
-          return pre + (this.hasState(list, cur) ? 0 : 1);
-        }, 0) === 1;
+      // 非Control时采用默认单选模式
       listItems.forEach((listItem: G2Dependents.ListItem) => {
-        const enable = this.hasState(list, listItem);
-        const otherEnable = !currentEnable && isOneChecked ? !enable : true;
         if (listItem !== item) {
-          this.setItemState(list, listItem, otherEnable);
+          this.setItemState(list, listItem, !isOneChecked);
         } else {
           this.setItemState(list, listItem, false);
         }
       });
     } else {
-      // 非Control时保持默认反选
+      // Control时反选
       this.setItemState(list, item, !currentEnable);
     }
   }
@@ -112,6 +116,39 @@ registerInteraction('legend-custom-filter-last', {
       trigger: 'legend-item:click',
       action: ['list-checked:toggle', 'data-filter:filter', 'element-highlight:clear'],
       isEnable: notLastLegend,
+    },
+  ],
+});
+
+function notLastCheckedLegend(context: Types.IInteractionContext) {
+  // @ts-ignore
+  const { item, list } = context.getAction('list-checked').getTriggerListInfo() || {};
+  if (!item) {
+    return true;
+  }
+  const items = list.getItems();
+  const stateItems = list.getItemsByState('unchecked');
+  // 当前选中项状态
+  const currentEnable = list.hasState(item, 'unchecked');
+  // 获取原始事件
+  const originEvent = context.event.event;
+  // 是否按Control
+  const hasControl = originEvent.ctrlKey || originEvent.metaKey;
+  // 单选情况下，非Control时一直可用，control时不能消除最后一个legend
+  return !hasControl || !(!currentEnable && stateItems.length === items.length - 1);
+}
+
+// 正选时的交互
+registerInteraction('legend-singlechecked-filter-last', {
+  showEnable: [
+    { trigger: 'legend-item:mouseenter', action: 'cursor:pointer', isEnable: notLastCheckedLegend },
+    { trigger: 'legend-item:mouseleave', action: 'cursor:default' },
+  ],
+  start: [
+    {
+      trigger: 'legend-item:click',
+      action: ['list-checked:toggle', 'data-filter:filter', 'element-highlight:clear'],
+      isEnable: notLastCheckedLegend,
     },
   ],
 });

@@ -265,24 +265,33 @@ export default function <T>(
       chart.on('legend-item:mouseenter', onHover);
     }
 
-    // legend click 行为
+    // legend click 事件
+    // 去除默认图例行为
+    chart.removeInteraction('legend-filter');
+
     if (useReverseChecked) {
       // 默认反选模式
       registerAction('list-checked', ListReverseChecked);
+
+      if (clickable) {
+        if (allowAllCanceled) {
+          chart.interaction('legend-custom-filter');
+        } else {
+          chart.interaction('legend-custom-filter-last');
+        }
+      }
     } else {
       registerAction('list-checked', ListChecked);
-    }
 
-    // legend click 相关事件
-    // 去除默认图例行为
-    chart.removeInteraction('legend-filter');
-    if (clickable) {
-      if (allowAllCanceled) {
-        chart.interaction('legend-custom-filter');
-      } else {
-        chart.interaction('legend-custom-filter-last');
+      if (clickable) {
+        if (allowAllCanceled) {
+          chart.interaction('legend-custom-filter');
+        } else {
+          chart.interaction('legend-singlechecked-filter-last');
+        }
       }
     }
+
     if (onClick) {
       warn(
         'config.legend',
