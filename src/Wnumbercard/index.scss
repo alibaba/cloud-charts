@@ -195,11 +195,11 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     #{$wnumbercard-prefix}-item-unit {
       font-size: $font-size-small;
       margin-left: 2px;
-      margin-bottom: 3px;
     }
   }
 
   #{$wnumbercard-prefix}-value-number {
+    margin-bottom: -3px;
     &.small {
       font-size: $font-size-medium;
     }
