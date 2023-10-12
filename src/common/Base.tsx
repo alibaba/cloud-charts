@@ -885,7 +885,7 @@ class Base<
 
     // 绑定ref
     if (this.props.chartRef) {
-      Object.assign(this.props.chartRef.current, chartRefs(this, config));
+      this.props.chartRef.current = chartRefs(this, config);
     }
   }
 

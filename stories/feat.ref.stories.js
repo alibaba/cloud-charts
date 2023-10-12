@@ -1286,7 +1286,7 @@ const lineData2 = [
 ];
 
 stories.add('数据改变', () => {
-  const ref = useRef({});
+  const ref = useRef(null);
   const [data, setData] = useState(lineData);
 
   useEffect(() => {
