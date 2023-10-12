@@ -1,3 +1,13 @@
+### 1.0.46 (2023-10-12)
+
+#### Bug Fixes
+
+- 修复 loading 时更新数据图表出错的问题
+- 修复 legend 正选时不能取消单选的问题
+- 修复数据指标卡 name 与 value 不对齐的问题
+- 多重圆环不支持自定义 legend 和 tooltip 的问题
+- chartRef 加初始值兜底
+
 ### 1.0.45 (2023-09-15)
 
 #### New Features
