@@ -38,8 +38,10 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     return {
       colors: themes.category_12,
       legend: {
-        align: 'left',
+        position: 'bottom',
+        align: 'center',
         nameFormatter: null, // 可以强制覆盖，手动设置label
+        valueFormatter: null,
       },
       tooltip: {
         titleFormatter: null,
@@ -48,8 +50,9 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       },
       marginRatio: 0,
       size: null,
-      innerRadius: 0,
-      radius: 1,
+      // 与饼图保持一致
+      innerRadius: 0.8,
+      radius: 0.8,
     };
   }
 
@@ -73,14 +76,15 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     chart.scale(defs);
 
     chart.data(data);
-
+  
     // 设置图例
-    rectLegend(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, {}, false, null, false);
 
     legendFilter(this, chart);
 
     // tooltip
     rectTooltip(this, chart, config, {}, null, {
+      showTitle: false,
       showCrosshairs: false,
       showMarkers: false,
     });
@@ -89,7 +93,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
 
     // 设置坐标系
     chart.coordinate('theta', {
-      innerRadius: config.innerRadius || 0.5,
+      innerRadius: config.innerRadius || 0.8,
       radius: config.radius || 1,
     });
 
