@@ -1,3 +1,10 @@
+### 1.0.47 (2023-10-13)
+
+#### Bug Fixes
+
+- 多重圆环 legend valueFormatter 返回的问题
+- 多重圆环图例 value 计算错误问题
+
 ### 1.0.46 (2023-10-12)
 
 #### Bug Fixes
