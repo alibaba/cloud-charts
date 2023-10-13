@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors, G2Dependents } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -51,7 +51,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
       marginRatio: 0,
       size: null,
       // 与饼图保持一致
-      innerRadius: 0.8,
+      innerRadius: 0.6,
       radius: 0.8,
     };
   }
@@ -78,7 +78,14 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     chart.data(data);
   
     // 设置图例
-    rectLegend(this, chart, config, {}, true, null, false);
+    rectLegend(this, chart, config, {}, true, null, false, (item: G2Dependents.ListItem, index: number) => {
+      const raw = (this.rawData && this.rawData[0]) || {};
+
+      return {
+        ...raw,
+        ...item,
+      };
+    },);
 
     legendFilter(this, chart);
 
