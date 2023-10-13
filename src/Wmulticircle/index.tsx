@@ -78,7 +78,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     chart.data(data);
   
     // 设置图例
-    rectLegend(this, chart, config, {}, false, null, false);
+    rectLegend(this, chart, config, {}, true, null, false);
 
     legendFilter(this, chart);
 
