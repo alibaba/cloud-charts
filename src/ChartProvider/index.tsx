@@ -86,7 +86,6 @@ export const getText = (
   language: keyof typeof LanguageMap,
   locale: LocaleItem | Record<string, LocaleItem> = null,
 ) => {
-  console.log(locale, currentLanguage, language, value);
   // 如果用户自定义locale为Record<string, LocaleItem>
   if (locale && (currentLanguage in locale || language in locale || 'zh-cn' in locale)) {
     return currentLanguage && currentLanguage in locale
