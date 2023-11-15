@@ -61,7 +61,14 @@ export function calcChartScore(logMap: any) {
   // 计算总得分
   return {
     rate: numberDecimal(score - avgErrorScore),
-    errorInfo: errorInfoArray
+    errorInfo: errorInfoArray,
+    chartInfo: {
+      // 图表数量（去除废弃组件）
+      chartRealSum: chartNumber - (logMap.Wcontainer?.init?? 0),
+      // 图表数量（包含废弃组件）
+      chartSum: chartNumber,
+      logMap
+    }
   };
 }
 
