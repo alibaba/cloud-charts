@@ -4,6 +4,10 @@
 // import ResetButton from '@antv/g2/esm/interaction/action/view/button';
 import { Chart, Types } from './types';
 import themes from '../themes';
+import { registerAction } from '@antv/g2/esm';
+import { NoCaptureDimRect } from './interaction';
+
+registerAction('rect-mask-nocapture', NoCaptureDimRect, { dim: 'x' });
 
 export interface ZoomConfig {
   zoom?: boolean;
@@ -64,9 +68,8 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
       {
         trigger: 'mousedown',
         isEnable: isPointInViewNotInResetButton,
-        action: ['brush-x:start', 'x-rect-mask:start', 'x-rect-mask:show'],
+        action: ['brush-x:start', 'rect-mask-nocapture:start', 'rect-mask-nocapture:show'],
         callback(context: Types.IInteractionContext) {
-          // console.log('start', context, );
           chart.emit(
             'zoom:start',
             {
@@ -77,13 +80,29 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
         },
       },
     ],
+    processing: [
+      {
+        trigger: 'mousemove',
+        isEnable: isPointInViewNotInResetButton,
+        action: ['rect-mask-nocapture:resize'],
+      },
+    ],
     end: [
       {
         trigger: 'mouseup',
-        isEnable(context: Types.IInteractionContext) {
-          const enable = isPointInViewNotInResetButton(context);
-          // 自定义设置重置按钮的文案
-          if (enable) {
+        isEnable: isPointInViewNotInResetButton,
+        action: ['brush-x:filter', 'brush-x:end', 'rect-mask-nocapture:end', 'rect-mask-nocapture:hide'],
+        callback(context: Types.IInteractionContext) {
+          const rangeFilterAction = context.getAction('brush-x');
+          const startPoint = rangeFilterAction.startPoint;
+          const endPoint = context.getCurrentPoint();
+
+          // 间距过小时不进行filter
+          if (endPoint.x - startPoint.x < 2) {
+            // const cursorAction = context.getAction('cursor');
+            // cursorAction.crosshair();
+            return;
+          } else {
             const resetAction = context.getAction('reset-button');
             // @ts-ignore
             if (resetAction.cfg) {
@@ -105,24 +124,20 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
                 },
               });
             }
-          }
-          return enable;
-        },
-        action: ['brush-x:filter', 'brush-x:end', 'x-rect-mask:end', 'x-rect-mask:hide', 'reset-button:show'],
-        callback(context: Types.IInteractionContext) {
-          const rangeFilterAction = context.getAction('brush-x');
+            resetAction.show();
 
-          chart.emit(
-            'zoom:end',
-            {
-              // @ts-ignore
-              startPoint: rangeFilterAction.startPoint,
-              endPoint: context.getCurrentPoint(),
-              // @ts-ignore
-              data: context.view.filteredData,
-            },
-            context,
-          );
+            chart.emit(
+              'zoom:end',
+              {
+                // @ts-ignore
+                startPoint: rangeFilterAction.startPoint,
+                endPoint: context.getCurrentPoint(),
+                // @ts-ignore
+                data: context.view.filteredData,
+              },
+              context,
+            );
+          }
         },
       },
     ],

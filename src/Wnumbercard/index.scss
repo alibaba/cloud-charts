@@ -200,12 +200,10 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
 
   #{$wnumbercard-prefix}-value-number {
     &.small {
-      margin-bottom: -2px;
       font-size: $font-size-medium;
     }
 
     &.medium {
-      margin-bottom: -3px;
       font-size: $font-size-big;
     }
   }

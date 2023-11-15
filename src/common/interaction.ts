@@ -1,6 +1,7 @@
 import { registerInteraction, View } from '@antv/g2/esm/core';
 import { G2Dependents, Types } from './types';
 import ListUnchecked from '@antv/g2/esm/interaction/action/component/list-unchecked';
+import DimRect from '@antv/g2/esm/interaction/action/mask/dim-rect';
 import themes from '../themes';
 
 // 图例反选 Action 默认行为
@@ -182,4 +183,22 @@ export function activeRegionWithTheme(view: View) {
       },
     ],
   });
+}
+
+// 拖拽缩放时的mask显示
+export class NoCaptureDimRect extends DimRect {
+  // 添加图形
+  protected getMaskAttrs() {
+    const { start, end } = this.getRegion();
+    const x = Math.min(start.x, end.x);
+    const y = Math.min(start.y, end.y);
+    const width = Math.abs(end.x - start.x);
+    const height = Math.abs(end.y - start.y);
+    return {
+      x,
+      y,
+      width: width - 2,
+      height,
+    };
+  }
 }
