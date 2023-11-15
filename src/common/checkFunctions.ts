@@ -165,9 +165,11 @@ export function checkExtremeData(
           .map((item: any) => item.y || 0)
           .reduce((pre: number, cur: number) => pre + cur);
       } else if (config.dodge && lastDodge) {
-        lastY = data.findLast((item: any) => item.x === lastX && item.dodge === lastDodge).y;
+        const filteredData = data.filter((item: any) => item.x === lastX && item.dodge === lastDodge);
+        lastY = filteredData[filteredData.length - 1].y;
       } else {
-        lastY = data.findLast((item: any) => item.x === lastX).y;
+        const filteredData = data.filter((item: any) => item.x === lastX);
+        lastY = filteredData[filteredData.length - 1].y;
       }
 
       // 分类数据
