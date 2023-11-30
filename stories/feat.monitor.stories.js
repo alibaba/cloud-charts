@@ -26,18 +26,28 @@ stories.add('线图-秒级CPU', () => {
       .then((data) => setD(data.data));
   }, []);
   return (
-    <Wcontainer className="demos">
+    <div>
       <Wline
         height="300"
         config={{
           tooltip: {
             columns: false,
+            position: 'top',
+            // shared: true
+            customConfig: {
+              // inPlot: false,
+              domStyles: {
+                'g2-tooltip': {
+                  maxWidth: '500px',
+                },
+              },
+            },
           },
           legend: {},
         }}
         data={d}
       />
-    </Wcontainer>
+    </div>
   );
 });
 
@@ -108,58 +118,70 @@ stories.add('全局配置', () => {
   useEffect(() => {
     fetch('https://mocks.alibaba-inc.com/mock/lf7wkn3y//monitorCPU.json')
       .then((response) => response.json())
-      .then((data) => setD(data.data));
+      .then((data) => setD(data.data?.slice(0, 3)));
   }, []);
 
   return (
-    <ChartProvider
-      language="en-US"
-      rule={{
-        extreme: true,
-      }}
-      theme={'dark'}
-      defaultConfig={{
-        // 单类型图表配置
-        Line: {
-          tooltip: {
-            columns: false,
-          },
-        },
-        Bar: {},
-        // 通用配置
-        baseConfig: {
-          xAxis: {
-            autoEllipsis: true,
-          },
-          tooltip: {
-            position: 'left',
-          },
-          legend: {
-            customConfig: {
-              maxItemWidth: 0.7,
+    <>
+      <ChartProvider
+        language="en-US"
+        rule={{
+          extreme: true,
+        }}
+        theme={'dark'}
+        defaultConfig={{
+          // 单类型图表配置
+          Line: {
+            tooltip: {
+              columns: false,
             },
           },
-        },
-      }}
-    >
-      <Wline height="300" width={300} data={d} getChartInstance={(c) => (chart1 = c)} />
-      <Wline
-        height="300"
-        width={300}
-        data={d}
-        config={{
-          tooltip: {
-            columns: true,
-          },
-          legend: {
-            customConfig: {
-              maxItemWidth: 0.3,
+          Bar: {},
+          // 通用配置
+          baseConfig: {
+            xAxis: {
+              autoEllipsis: true,
+            },
+            tooltip: {
+              position: 'left',
+            },
+            legend: {
+              customConfig: {
+                maxItemWidth: 0.7,
+              },
             },
           },
         }}
-        getChartInstance={(c) => (chart2 = c)}
-      />
-      {/* <Wbar height="300" data={d} getChartInstance={(c) => (chart3 = c)} /> */}
-    </ChartProvider>
+      >
+        <Wcontainer className="demos">
+          <Wline
+            height="300" //width={300}
+            data={d}
+            getChartInstance={(c) => (chart1 = c)}
+          />
+        </Wcontainer>
+        <Wcontainer className="demos">
+          <Wline
+            height="300"
+            // width={300}
+            data={d}
+            config={{
+              tooltip: {
+                columns: true,
+              },
+              legend: {
+                customConfig: {
+                  maxItemWidth: 0.3,
+                },
+              },
+            }}
+            getChartInstance={(c) => (chart2 = c)}
+          />
+        </Wcontainer>
+
+        {/* <Wbar height="300" data={d} getChartInstance={(c) => (chart3 = c)} /> */}
+      </ChartProvider>
+      {/* <Wline data={[]} height="300" width={300} /> */}
+    </>
   );
 });
