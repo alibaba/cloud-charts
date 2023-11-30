@@ -313,28 +313,27 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <div className={`${prefix}-label-value-container`} style={valueStyle || {}}>
             <div className={`${prefix}-item-value`}>
               {typeof value === 'number' ? (
-                <span
-                  className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}
-                  style={{
-                    marginBottom: size === 'small' ? -1 : -2,
-                  }}
-                >
+                <span className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}>
                   {beautifyNumber(value || 0, ',')}
                 </span>
               ) : typeof value === 'string' ? (
-                <span
-                  className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}
-                  style={{
-                    marginBottom: isNaN(Number(value)) ? 0 : size === 'small' ? -1 : -2,
-                  }}
-                >
+                <span className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}>
                   {value}
                 </span>
               ) : (
                 value
               )}
 
-              {unit && <div className={`${prefix}-item-unit ${prefix}-${status || 'default'}`}>{unit}</div>}
+              {unit && (
+                <div
+                  className={`${prefix}-item-unit ${prefix}-${status || 'default'}`}
+                  style={{
+                    marginBottom: React.isValidElement(value) || isNaN(Number(value)) ? 0 : size === 'small' ? 1 : 2,
+                  }}
+                >
+                  {unit}
+                </div>
+              )}
               {valueTagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{valueTagElements}</div>}
             </div>
           </div>
