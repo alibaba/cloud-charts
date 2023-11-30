@@ -1,4 +1,4 @@
-import { registerTheme } from "@antv/g2/esm/core";
+import { registerTheme } from '@antv/g2/esm/core';
 import { isContrastColorWhite } from '@antv/g2/esm/util/color';
 import { createThemeByStyleSheet } from '@antv/g2/esm/theme/util/create-by-style-sheet';
 import { Types } from '../common/types';
@@ -9,7 +9,7 @@ import normalStyle from './normal.style';
 import merge from 'lodash/merge';
 
 function pxToNumber(px: string) {
-  return Number(px.replace('px', ''));
+  return px && Number(px.toString().replace('px', ''));
 }
 
 export interface Theme extends Partial<typeof normalStyle> {
@@ -496,6 +496,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** 点图 active 状态下描边颜色 */
     pointActiveBorderColor: BLACK_COLORS[100],
+    pointActiveBorder: 0,
 
     /** 点图 selected 状态下描边粗细 */
     pointSelectedBorder: 2,
@@ -542,7 +543,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     lineBorderOpacity: 1,
 
     /** 线图 Active 状态下粗细 */
-    lineActiveBorder: 3,
+    lineActiveBorder: theme['widgets-line-width'],
 
     /** 线图 selected 状态下粗细 */
     lineSelectedBorder: 3,
@@ -590,7 +591,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     intervalFillOpacity: theme['widgets-shape-interval-opacity'],
 
     /** interval active 状态下边框粗细 */
-    intervalActiveBorder: 1,
+    intervalActiveBorder: 0,
     /** interval active 状态下边框颜色 */
     intervalActiveBorderColor: BLACK_COLORS[100],
     intervalActiveBorderOpacity: 1,
@@ -634,7 +635,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
 const legendKeys = ['common', 'top', 'right', 'bottom', 'left'];
 
-export function setG2Theme(theme: Theme) {
+export function getG2theme(theme: Theme) {
   const g2StyleSheet = getG2StyleSheet(theme);
 
   const g2Theme = createThemeByStyleSheet(g2StyleSheet);
@@ -685,14 +686,17 @@ export function setG2Theme(theme: Theme) {
           },
         },
       },
-    })
+    });
   });
 
   // tooltip 样式
   const tooltipStyle = g2Theme.components.tooltip.domStyles;
 
   Object.assign(tooltipStyle['g2-tooltip'], {
-    padding: `0 ${theme['widgets-tooltip-padding']} ${Math.max(0, pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum)}px ${theme['widgets-tooltip-padding']}`,
+    padding: `0 ${theme['widgets-tooltip-padding']} ${Math.max(
+      0,
+      pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum,
+    )}px ${theme['widgets-tooltip-padding']}`,
   });
   Object.assign(tooltipStyle['g2-tooltip-title'], {
     marginBottom: baseFontSize,
@@ -709,12 +713,12 @@ export function setG2Theme(theme: Theme) {
     marginRight: `${baseFontSizeNum / 3}px`,
   });
   Object.assign(tooltipStyle['g2-tooltip-value'], {
-    marginLeft: `${2 * baseFontSizeNum / 3}px`,
+    marginLeft: `${(2 * baseFontSizeNum) / 3}px`,
   });
 
   // slider 样式
   const sliderStyle = g2Theme.components.slider.common;
-  const p = baseFontSizeNum * 2 / 3;
+  const p = (baseFontSizeNum * 2) / 3;
   sliderStyle.padding = [baseFontSizeNum, p, 0, 0];
   sliderStyle.height = 3 * baseFontSizeNum;
   sliderStyle.textStyle = {
@@ -738,5 +742,10 @@ export function setG2Theme(theme: Theme) {
     },
   });
 
+  return g2Theme;
+}
+
+export function setG2Theme(theme: Theme) {
+  const g2Theme = getG2theme(theme);
   registerTheme('default', g2Theme);
 }

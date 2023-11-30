@@ -22,10 +22,11 @@ import {
   checkSpecialConfig,
 } from './checkFunctions';
 import getEmptyDataType from './emptyDataType';
-import themes from '../themes/index';
+import themes, { convertThemeKey } from '../themes/index';
 import { ChartContext, getText } from '../ChartProvider';
 import Wplaceholder from '../Wplaceholder';
 import chartRefs from './chartRefs';
+import { getG2theme } from '../themes/themeTools';
 
 registerTickMethod('integer', integer);
 
@@ -191,6 +192,9 @@ class Base<
   readonly chartId: string;
 
   public defaultConfig: ChartConfig;
+
+  // 通过context传递的合并后的config
+  public mergeConfig: ChartConfig;
 
   protected language: Language;
 
@@ -386,7 +390,7 @@ class Base<
     // 图表初始化时记录日志
     chartLog(this.chartName, 'init');
 
-    this.language = this.props.language;
+    this.language = this.props.language || this.context.language;
 
     if (!this.props.loading) {
       // 设置初始高宽
@@ -481,14 +485,33 @@ class Base<
       this.initChart();
     }
 
+    // 通过上下文传递的通用配置项
+    const globalBaseConfig = this.context?.defaultConfig?.baseConfig;
+    // 通过上下文传递的图表配置项
+    const globalComsConfig = this.context?.defaultConfig?.[this.chartName.replace('G2', '')] ?? {};
+    // 用户自定义 > 图表 > 通用 > 默认
+    const newAllConfig =  merge({}, this.defaultConfig, globalBaseConfig, globalComsConfig, newConfig);
+
+    // 处理padding
+    newAllConfig.padding = fixPadding(prevProps.padding || newAllConfig.padding);
+    newAllConfig.appendPadding = prevProps.appendPadding || newAllConfig.appendPadding;
+
+    // 颜色映射
+    newAllConfig.colors = mapColors(newAllConfig.colors);
+
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
-    if (this.checkConfigChange(newConfig, oldConfig)) {
+      if (this.checkConfigChange(newAllConfig, this.mergeConfig)) {
       this.rerender();
 
       return;
     }
     // }
+
+    // 判断context内的theme是否有变化
+    if (this.context.theme) {
+      this.chart.theme(getG2theme(convertThemeKey(this.context.theme)));
+    }
 
     // 更新事件
     if (newEvent !== oldEvent) {
@@ -526,9 +549,8 @@ class Base<
 
     // 数据有变化
     else if (dataChanged) {
-      let mergeConfig = merge({}, this.defaultConfig, newConfig);
       const data =
-        this.convertData && mergeConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, mergeConfig) : newData;
+        this.convertData && newAllConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newAllConfig) : newData;
       this.rawData = newData;
 
       // 重新计算数据量
@@ -536,7 +558,7 @@ class Base<
 
       // 检查数据
       // 数据变化时，若替换配置项，必须重绘图表才能生效，暂时只处理极端数据场景
-      const { isExtreme } = this.checkDataBeforeRender(data, mergeConfig);
+      const { isExtreme } = this.checkDataBeforeRender(data, newAllConfig);
 
       // 线图：极端数据与非极端数据之间切换，则进行重绘
       // 柱图：除了正常数据之间转换都需要重绘
@@ -549,11 +571,11 @@ class Base<
         return;
       }
 
-      this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', mergeConfig, data);
+      this.emitWidgetsEvent(newEvent, 'beforeWidgetsChangeData', newAllConfig, data);
 
-      this.changeData(this.chart, mergeConfig, data);
+      this.changeData(this.chart, newAllConfig, data);
 
-      this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', mergeConfig, data);
+      this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', newAllConfig, data);
 
       // if (this.chartProcess.changeData) {
       //   this.chart &&
@@ -572,7 +594,7 @@ class Base<
 
     // 传入的长宽有变化
     else if (sizeChanged) {
-      this.handleChangeSize(newConfig, newWidth, newHeight);
+      this.handleChangeSize(newAllConfig, newWidth, newHeight);
 
       // needAfterRender = true;
     }
@@ -634,16 +656,27 @@ class Base<
     // 合并默认配置项
     this.defaultConfig = this.getDefaultConfig();
 
-    // 通过上下文传递的通用配置项
-    const globalConfig_base = this.context?.defaultConfig?.baseConfig;
-    // 通过上下文传递的图表配置项
-    const globalConfig_coms = this.context?.defaultConfig?.[this.chartName.replace('G2', '')];
+    // 通过上下文传递的通用配置项 - 全局通用配置项
+    const globalBaseConfig = this.context?.defaultConfig?.baseConfig;
+    // 通过上下文传递的图表配置项 - 全局图表配置项
+    const globalComsConfig = this.context?.defaultConfig?.[this.chartName.replace('G2', '')] ?? {};
+    // 是否执行全局规则使用 - 默认为否（待规则完善后再默认开启）
+    let globalRule = false;
 
-    // 用户自定义 > 图表 > 通用 > 默认
+    // 默认不传该配置项
+    if (typeof this.props.force === undefined) {
+      globalRule = !!this.context?.rule;
+    } else if (typeof this.props.force === 'boolean') {
+      // 属性优先级 > 上下文
+      globalRule = this.props.force;
+    } else if (typeof this.context?.rule === 'object' && typeof this.props.force === 'object') {
+      globalRule = merge({}, this.context?.rule, this.props.force);
+    }
+
     let currentProps: Props = {
       ...this.props,
-      config: merge({}, this.defaultConfig, globalConfig_base, globalConfig_coms, this.props.config),
-      force: typeof this.props.force === 'boolean' ? this.props.force : merge({}, this.context?.rule, this.props.force),
+      config: merge({}, this.defaultConfig, globalBaseConfig, globalComsConfig, this.props.config),
+      force: globalRule,
     };
 
     // 开始初始化图表
@@ -657,6 +690,9 @@ class Base<
 
     // 颜色映射
     currentProps.config.colors = mapColors(currentProps.config.colors);
+
+    // 用户自定义 > 图表 > 通用 > 默认
+    this.mergeConfig = currentProps.config;
 
     const {
       width,
@@ -787,6 +823,11 @@ class Base<
     });
 
     this.chart = chart;
+
+    // 上下文的主题配置, 优先级高于全局变量 ｜ 全局事件
+    if (this.context?.theme) {
+      this.chart.theme(getG2theme(convertThemeKey(this.context.theme)));
+    }
 
     // 检测颜色规则
     checkColor(config, this.chartName, chart);

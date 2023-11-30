@@ -65,35 +65,51 @@ export function getTheme(name?: string) {
   return undefined;
 }
 
+export function convertThemeKey(theme: string | Theme = defaultTheme) {
+  let newTheme: Theme = {};
+  if (typeof theme === 'string' && themeMap[theme]) {
+    newTheme = themeMap[theme].js;
+    setThemeStyle(themeMap[theme].css);
+
+  } else if (typeof theme === 'object') {
+    newTheme = convertKey(theme);
+
+    const newCSS = Object.assign({}, currentRawCss, theme);
+    setThemeStyle(convertCSS(newCSS));
+  }
+
+  return Object.assign(themes, newTheme);
+}
+
 export function setTheme(theme: string | Theme = defaultTheme, refreshChart: boolean = true) {
   if (typeof theme === 'string' && themeMap[theme] && (theme === currentThemeName || (theme in normalMap && currentThemeName in normalMap))) {
     return;
   }
-  let newTheme: Theme = {};
+  let newTheme: Theme = convertThemeKey(theme);
   if (typeof theme === 'string' && themeMap[theme]) {
     // 传入字符串名字，设置对应主题包
-    newTheme = themeMap[theme].js;
+    // newTheme = convertThemeKey(theme);
     currentThemeName = theme;
-    setThemeStyle(themeMap[theme].css);
+    // setThemeStyle(themeMap[theme].css);
     currentRawCss = themeMap[theme].rawCSS;
     // 打点
     themeLog(theme);
   } else if (typeof theme === 'object') {
     // 传入对象，直接覆盖对应的key和css
-    newTheme = convertKey(theme);
+    // newTheme = convertThemeKey(theme);
 
-    // 多次传入对象，css 会在 currentRawCss 的基础上处理
-    const newCSS = Object.assign({}, currentRawCss, theme);
-    setThemeStyle(convertCSS(newCSS));
+    // // 多次传入对象，css 会在 currentRawCss 的基础上处理
+    // const newCSS = Object.assign({}, currentRawCss, theme);
+    // setThemeStyle(convertCSS(newCSS));
     // 打点
     themeLog(newTheme.name || 'customTheme');
   } else {
     return;
   }
 
-  Object.assign(themes, newTheme)
+  // Object.assign(themes, newTheme)
 
-  setG2Theme(themes as Theme);
+  setG2Theme(newTheme as Theme);
 
   if (refreshChart) {
     // TODO 优化重新渲染逻辑
