@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/cloud-charts",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
