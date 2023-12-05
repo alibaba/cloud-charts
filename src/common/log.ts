@@ -101,7 +101,7 @@ setTimeout(() => {
     // 统计 版本、主题、当前域名、图表初始化次数
     image.src = `${logUrl}?version=${VERSION}&theme=${currentTheme || THEME}&t=${Date.now()}&host=${location && location.host}&chartinit=${chartInit}&uamobile=${isMobile}`;
   }
-}, 3000);
+}, 6000);
 
 export function warn(component: string, info: string, ...other: any[]) {
   console.warn(`[${FullCamelName}] ${component}:`, info, ...other);
