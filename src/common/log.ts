@@ -1,6 +1,15 @@
 import { isMobile } from './platform';
-import { VERSION, THEME, FullTrackName, FullTestName, TrackName, FullCamelName, FullCrossName, FullQualityName } from '../constants';
-import { calcChartScore, postMessage  } from './postMessage';
+import {
+  VERSION,
+  THEME,
+  FullTrackName,
+  FullTestName,
+  TrackName,
+  FullCamelName,
+  FullCrossName,
+  FullQualityName,
+} from '../constants';
+import { calcChartScore, postMessage } from './postMessage';
 
 /**
  * 日志记录
@@ -25,7 +34,7 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
   if (!logMap[name]) {
     logMap[name] = {
       init: 0,
-      rulesInfo: []
+      rulesInfo: [],
     };
   }
 
@@ -40,7 +49,7 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
         selector: logInfo.selector,
       },
       checkItem: logInfo.checkItem,
-      errorInfo: logInfo.errorInfo
+      errorInfo: logInfo.errorInfo,
     });
   }
 }
@@ -85,21 +94,26 @@ setTimeout(() => {
   if (testable) {
     const chartRulesResult = calcChartScore(logMap);
     // 方便图表获取质量分数
+    // 增加一个当前统计的图表数量
     window[FullQualityName] = chartRulesResult;
     postMessage(chartRulesResult);
   }
 
   // 打点部分
   if (trackable && process.env.NODE_ENV === 'production') {
-    const chartInit = Object.keys(logMap).map((name) => {
-      const chartLog = logMap[name];
+    const chartInit = Object.keys(logMap)
+      .map((name) => {
+        const chartLog = logMap[name];
 
-      return `${name}:${chartLog.init}`;
-    }).join(',');
+        return `${name}:${chartLog.init}`;
+      })
+      .join(',');
 
     const image = new Image();
     // 统计 版本、主题、当前域名、图表初始化次数
-    image.src = `${logUrl}?version=${VERSION}&theme=${currentTheme || THEME}&t=${Date.now()}&host=${location && location.host}&chartinit=${chartInit}&uamobile=${isMobile}`;
+    image.src = `${logUrl}?version=${VERSION}&theme=${currentTheme || THEME}&t=${Date.now()}&host=${
+      location && location.host
+    }&chartinit=${chartInit}&uamobile=${isMobile}`;
   }
 }, 6000);
 
