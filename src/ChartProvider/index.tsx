@@ -42,34 +42,15 @@ document.addEventListener(FullLanguageEventName, function (e: CustomEvent) {
 });
 
 class ChartProvider extends Component<ChartProviderProps> {
-  private language: Language;
-
-  private locale: LocaleItem | Record<string, LocaleItem>;
-
-  private defaultConfig: BaseChartConfig;
-
-  private theme: string | Theme;
-
-  private rule: Rule;
-
-  constructor(props: ChartProviderProps) {
-    super(props);
-    this.language = props.language || 'zh-cn';
-    this.locale = props.locale;
-    this.defaultConfig = props.defaultConfig;
-    this.theme = props.theme;
-    this.rule = props.rule;
-  }
-
   render() {
     return (
       <ChartContext.Provider
         value={{
-          language: this.language,
-          locale: this.locale,
-          defaultConfig: this.defaultConfig,
-          theme: this.theme,
-          rule: this.rule,
+          language: this.props.language || 'zh-cn',
+          locale: this.props.locale,
+          defaultConfig: this.props.defaultConfig,
+          theme: this.props.theme,
+          rule: this.props.rule,
         }}
       >
         {this.props.children}
