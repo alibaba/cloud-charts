@@ -10,7 +10,8 @@ export class ListReverseChecked extends ListUnchecked {
     // 获取原始事件
     const originEvent = this.context.event.event;
     const { item, list } = this.getTriggerListInfo() || {};
-    if (!item) {
+    // 用于显示分组的items不触发交互
+    if (!item || !!item.dodge) {
       return;
     }
     // 是否按Control
@@ -46,7 +47,7 @@ export class ListChecked extends ListUnchecked {
     // 获取原始事件
     const originEvent = this.context.event.event;
     const { item, list } = this.getTriggerListInfo() || {};
-    if (!item) {
+    if (!item || !!item.dodge) {
       return;
     }
     // 是否按Control
