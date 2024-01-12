@@ -1,6 +1,14 @@
 'use strict';
 
-import { Chart, Geometry, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
+import {
+  Chart,
+  Geometry,
+  Types,
+  BaseChartConfig,
+  ChartData,
+  G2Dependents,
+  Colors,
+} from '../common/types';
 import Base from '../common/Base';
 import themes from '../themes/index';
 import { /*pxToNumber,*/ numberDecimal /*isInvalidNumber*/ } from '../common/common';
@@ -13,6 +21,10 @@ import circleAnnotation, { DecorationConfig } from '../common/circleAnnoation';
 import polarLegendLayout from '../common/polarLegendLayout';
 import errorWrap from '../common/errorWrap';
 import updateChildrenPosition from '../common/updateChildrenPosition';
+import ReactDOM from 'react-dom';
+import { FullCrossName } from '../constants';
+import Wnumber from '../Wnumber';
+import React from 'react';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -84,6 +96,18 @@ interface WpieConfig extends BaseChartConfig, DecorationConfig {
   label?: LabelConfig | boolean;
   selectData?: string;
   geomStyle?: GeomStyleConfig;
+
+  /** 环形图中心的内容，仅当cycle=true时生效 */
+  innerContent?: {
+    /** 标题，不指定则取数据中name */
+    title?: string;
+
+    /** 数值，不指定则为数据总和 */
+    value?: number;
+
+    /** 单位 */
+    unit?: string;
+  };
 }
 
 export class Pie extends Base<WpieConfig> {
@@ -133,16 +157,32 @@ export class Pie extends Base<WpieConfig> {
     if (config.autoSort) {
       data.sort((a: Types.LooseObject, b: Types.LooseObject) => b.y - a.y);
     }
-    // 更新挂载的转换数据
-    // this.data = data;
 
-    const { isExeed, result: newData, newRawData } = formatBigData(data, this.rawData, totalData, config);
+    chart.changeData(data);
 
-    if (isExeed && config.autoFormat) {
-      this.rawData = newRawData;
-      chart.changeData(newData);
-    } else {
-      chart.changeData(data);
+    // 环图中心内容
+    if (
+      config.cycle &&
+      config.innerContent &&
+      !this.props.children &&
+      !this.props.loading &&
+      !this.props.errorInfo
+    ) {
+      let container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+      if (!container) {
+        container = document.createElement('div');
+        container.className = `${FullCrossName}-children`;
+        this.chartDom.appendChild(container);
+      }
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? this.rawData?.[0]?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? this.totalData}
+        </Wnumber>
+      );
+      ReactDOM.render(content, container);
     }
   }
 
@@ -168,8 +208,6 @@ export class Pie extends Base<WpieConfig> {
     if (config.autoSort) {
       data.sort((a, b) => b.y - a.y);
     }
-    // 挂载转换后的数据
-    // this.data = data;
 
     // 计算得总数据
     let totalData = 0;
@@ -181,18 +219,9 @@ export class Pie extends Base<WpieConfig> {
     // 处理后的原始数据
     this.sourceData = data;
 
-    // 大数据重构，需要用到原始数据，必须开启排序
-    const { isExeed, result: newData, newRawData } = formatBigData(data, this.rawData, totalData, config);
-
-    // console.log(this.sourceData, newData);
     chart.scale(defs);
 
-    if (isExeed && config.autoFormat) {
-      this.rawData = newRawData;
-      chart.data(newData);
-    } else {
-      chart.data(this.sourceData);
-    }
+    chart.data(this.sourceData);
 
     // 重要：绘制饼图时，必须声明 theta 坐标系
     const thetaConfig: Types.CoordinateCfg = {
@@ -357,11 +386,7 @@ export class Pie extends Base<WpieConfig> {
 
     this.geom = chart.interval().position('y').adjust('stack');
 
-    if (isExeed && config.autoFormat) {
-      this.geom = this.geom.color('x', themes.category_12.slice(0, 5).concat(themes['widgets-axis-line']));
-    } else {
-      this.geom = this.geom.color('x', config.colors);
-    }
+    this.geom = this.geom.color('x', config.colors);
 
     if (typeof config.animate === 'object') {
       this.geom.animate(config.animate);
@@ -425,6 +450,35 @@ export class Pie extends Base<WpieConfig> {
     });
 
     circleAnnotation(chart, config, this.size, 'G2Pie');
+
+    // 环图中心内容
+    if (
+      config.cycle &&
+      config.innerContent &&
+      !this.props.children &&
+      !this.isEmpty &&
+      !this.props.loading &&
+      !this.props.errorInfo
+    ) {
+      const container = document.createElement('div');
+      container.className = `${FullCrossName}-children`;
+      this.chartDom.appendChild(container);
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? this.rawData?.[0]?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? this.totalData}
+        </Wnumber>
+      );
+      ReactDOM.render(content, container);
+    } else if (!this.props.children) {
+      // 删去中心内容
+      const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+      if (container) {
+        this.chartDom.removeChild(container);
+      }
+    }
 
     chart.on('afterpaint', () => {
       // 默认选中效果
@@ -493,59 +547,3 @@ export class Pie extends Base<WpieConfig> {
 const Wpie: typeof Pie = errorWrap(Pie);
 
 export default Wpie;
-
-function formatBigData(data: ChartData, rawData: ChartData, totalData: number, config: WpieConfig) {
-  // if (!config.autoSort) return { isExeed: false, result: data };
-  let isExeed = false;
-  // 处理后的结果
-  let result: ChartData = [];
-  // 处理后的原始数据
-  let newRawData: any = [];
-  // 超过5个数据后，剩余数据的占比
-  let remainData = 0;
-  data?.forEach((item: any, index: number) => {
-    if (index > 4) {
-      remainData += item?.y;
-    }
-  });
-
-  const raw = (rawData && rawData[0]) || {};
-  remainData = Number(remainData.toFixed(1));
-  // 展示类别大于5，且剩余内容小于长度/周长的后10%，剩余内容改为其他
-  if (Array.isArray(data) && data?.length > 5 && numberDecimal(remainData / totalData, 2) <= 0.1) {
-    isExeed = true;
-    result = data.slice(0, 5);
-
-    // 饼图的其他配置暂时不加上
-    result.push({
-      x: '其他',
-      y: remainData,
-    });
-    result.map((item: any) => {
-      const newData = raw?.data?.slice(0, 5).concat([['其他', remainData]]);
-      if (item?.groupExtra) {
-        item.groupExtra.data = newData;
-      } else {
-        item.groupExtra = {
-          data: newData,
-        };
-        item.type = raw?.name;
-      }
-      newRawData = [
-        {
-          name: raw?.name,
-          data: newData,
-        },
-      ];
-    });
-  } else {
-    isExeed = false;
-    result = data;
-  }
-
-  return {
-    isExeed,
-    result,
-    newRawData,
-  };
-}

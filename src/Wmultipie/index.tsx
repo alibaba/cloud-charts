@@ -14,6 +14,9 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import errorWrap from '../common/errorWrap';
+import ReactDOM from 'react-dom';
+import { FullCrossName } from '../constants';
+import Wnumber from '../Wnumber';
 import './index.scss';
 
 interface WmultipieConfig extends BaseChartConfig {
@@ -33,6 +36,17 @@ interface WmultipieConfig extends BaseChartConfig {
    */
   endAngle?: number;
   geomStyle?: GeomStyleConfig;
+  /** 环形图中心的内容，仅当cycle=true时生效 */
+  innerContent?: {
+    /** 标题，不指定则取数据中name */
+    title?: string;
+
+    /** 数值，不指定则为数据总和 */
+    value?: number;
+
+    /** 单位 */
+    unit?: string;
+  };
 }
 
 function getParentList(
@@ -298,6 +312,35 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     polarLegendLayout(chart);
 
+    // 环图中心内容
+    if (
+      config.cycle &&
+      config.innerContent &&
+      !this.props.children &&
+      !this.isEmpty &&
+      !this.props.loading &&
+      !this.props.errorInfo
+    ) {
+      const container = document.createElement('div');
+      container.className = `${FullCrossName}-children`;
+      this.chartDom.appendChild(container);
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? this.totalData}
+        </Wnumber>
+      );
+      ReactDOM.render(content, container);
+    } else if (!this.props.children) {
+      // 删去中心内容
+      const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+      if (container) {
+        this.chartDom.removeChild(container);
+      }
+    }
+
     chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
@@ -308,6 +351,31 @@ export class MultiPie extends Base<WmultipieConfig> {
     this.totalData = total;
 
     chart.changeData(source);
+
+    // 环图中心内容
+    if (
+      config.cycle &&
+      config.innerContent &&
+      !this.props.children &&
+      !this.props.loading &&
+      !this.props.errorInfo
+    ) {
+      let container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+      if (!container) {
+        container = document.createElement('div');
+        container.className = `${FullCrossName}-children`;
+        this.chartDom.appendChild(container);
+      }
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? this.totalData}
+        </Wnumber>
+      );
+      ReactDOM.render(content, container);
+    }
   }
 }
 
