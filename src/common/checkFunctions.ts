@@ -10,7 +10,8 @@ export function checkEmptyData(data: any, chartType: string) {
     return (
       !data ||
       (Array.isArray(data) && data?.length === 0) ||
-      (Array.isArray(data) && data?.every((item: any) => !item?.data || item?.data?.length === 0)) ||
+      (Array.isArray(data) &&
+        data?.every((item: any) => !item?.data || item?.data?.length === 0)) ||
       Object.keys(data)?.length === 0
     );
   }
@@ -21,7 +22,13 @@ export function checkEmptyData(data: any, chartType: string) {
     return !data || data?.length === 0;
   }
   if (type === EmptyJudgeType.GRAPH) {
-    return !data || !data?.nodes || data?.nodes?.length === 0 || !data?.links || data?.links?.length === 0;
+    return (
+      !data ||
+      !data?.nodes ||
+      data?.nodes?.length === 0 ||
+      !data?.links ||
+      data?.links?.length === 0
+    );
   }
 
   return false;
@@ -129,8 +136,14 @@ export function checkExtremeData(
       let colors = config?.colors ?? themes.category_20;
       if (Array.isArray(colors) && colors.length < dataTypes.length) {
         if (
-          !(colors.length === 12 && themes.category_12.every((val, index) => val === colors?.[index])) &&
-          !(colors.length === 20 && themes.category_20.every((val, index) => val === colors?.[index]))
+          !(
+            colors.length === 12 &&
+            themes.category_12.every((val, index) => val === colors?.[index])
+          ) &&
+          !(
+            colors.length === 20 &&
+            themes.category_20.every((val, index) => val === colors?.[index])
+          )
         ) {
           colors = [...colors, ...themes.category_20.slice(colors.length, dataTypes.length)];
         }
@@ -165,7 +178,9 @@ export function checkExtremeData(
           .map((item: any) => item.y || 0)
           .reduce((pre: number, cur: number) => pre + cur);
       } else if (config.dodge && lastDodge) {
-        const filteredData = data.filter((item: any) => item.x === lastX && item.dodge === lastDodge);
+        const filteredData = data.filter(
+          (item: any) => item.x === lastX && item.dodge === lastDodge,
+        );
         lastY = filteredData[filteredData.length - 1].y;
       } else {
         const filteredData = data.filter((item: any) => item.x === lastX);
@@ -190,7 +205,8 @@ export function checkExtremeData(
 
         // 是否显示占位
         // 优先级：用户配置>默认配置
-        showPlaceholder = force === false || extreme === false || extreme?.showPlaceholder === false;
+        showPlaceholder =
+          force === false || extreme === false || extreme?.showPlaceholder === false;
 
         // 左对齐，无占位
         if (alignLeft && !showPlaceholder) {
@@ -199,7 +215,10 @@ export function checkExtremeData(
             values.push(`widgets-pad-${i}`);
           }
           xAxis = { values };
-          warn('Bar', '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08');
+          warn(
+            'Bar',
+            '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08',
+          );
         }
         // 左对齐且显示占位
         else if (alignLeft && showPlaceholder) {
@@ -211,7 +230,10 @@ export function checkExtremeData(
             });
           }
           needColor = true;
-          warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
+          warn(
+            'Bar',
+            '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08',
+          );
         }
         // 无特殊处理
         else {
@@ -255,7 +277,10 @@ export function checkExtremeData(
             newValues.push(maxX + step * (i + 1));
           }
           xAxis = { values: newValues, ticks: values };
-          warn('Bar', '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08');
+          warn(
+            'Bar',
+            '当前数据量较少，已默认开启左对齐，推荐通过extreme配置项开启占位补全。问题码#08',
+          );
         }
         // 左对齐且显示占位
         else if (alignLeft && showPlaceholder) {
@@ -270,7 +295,10 @@ export function checkExtremeData(
             ticks: values,
           };
           needColor = true;
-          warn('Bar', '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08');
+          warn(
+            'Bar',
+            '当前数据量较少，已默认开启左对齐与占位补全，可通过extreme配置项进行关闭。问题码#08',
+          );
         }
         // 无特殊处理
         else {
@@ -281,9 +309,15 @@ export function checkExtremeData(
       if (needColor) {
         // 颜色处理
         if (Array.isArray(colors)) {
-          newColors = [...colors.slice(0, dataTypes.length), themes['widgets-color-container-background']];
+          newColors = [
+            ...colors.slice(0, dataTypes.length),
+            themes['widgets-color-container-background'],
+          ];
         } else if (typeof colors === 'string') {
-          newColors = [...dataTypes.map(() => colors), themes['widgets-color-container-background']];
+          newColors = [
+            ...dataTypes.map(() => colors),
+            themes['widgets-color-container-background'],
+          ];
         } else if (typeof colors === 'function') {
           newColors = (type: string) => {
             if (type === 'widgets-pad-type') {
@@ -346,13 +380,13 @@ export function checkExtremeData(
     if (lineCount === 1) {
       let temp = data?.[0]?.y;
       const filterArr = data?.filter((el: any) => el?.y !== temp);
-      if (!filterArr?.[length]) {
+      if (!filterArr?.[length] && temp !== null && temp !== undefined) {
         isEqual = true;
       }
     }
 
     // 只有一个点的时候，在Y轴中间，并开启label与symbol
-    if (dataSize === 1) {
+    if (lineCount === 1 && dataSize === 1) {
       warn('Line', '当前线图数据较少，为优化展示，已自动开启标记和文本。');
       return {
         config: {
@@ -414,7 +448,7 @@ export function checkExtremeData(
             ...config.yAxis,
             min: data?.[0]?.y > 0 ? 0 : data?.[0]?.y * 2,
             max: data?.[0]?.y > 0 ? data?.[0]?.y * 2 : 0,
-            tickCount: 3
+            tickCount: 3,
           },
         },
         isExtreme: true,
@@ -528,7 +562,12 @@ export function checkPadding(config: any, chartName: string, chart: any) {
 // 图形尺寸检测
 // 检测config中自定义的图形尺寸
 // 目前仅检测散点图的size与圆环图的环宽
-export function checkSizeConfig(chartType: string, config: any, width: number | null, height: number | null) {
+export function checkSizeConfig(
+  chartType: string,
+  config: any,
+  width: number | null,
+  height: number | null,
+) {
   if (chartType === 'G2Scatter') {
     const { size = [4, 20] } = config;
     if ((Array.isArray(size) && size[0] < 4) || (typeof size === 'number' && size < 4)) {
@@ -544,7 +583,11 @@ export function checkSizeConfig(chartType: string, config: any, width: number | 
     let pieWidth = width;
     if (pieWidth) {
       pieWidth -= padding[1] + padding[3];
-      if (legend && legend?.visible !== false && (legend.position === 'left' || legend.position === 'right')) {
+      if (
+        legend &&
+        legend?.visible !== false &&
+        (legend.position === 'left' || legend.position === 'right')
+      ) {
         // 此处legend宽度设为1/2
         pieWidth /= 2;
       }
@@ -553,7 +596,11 @@ export function checkSizeConfig(chartType: string, config: any, width: number | 
     let pieHeight = height || 200;
     if (pieHeight) {
       pieHeight -= padding[0] + padding[2];
-      if (legend && legend?.visible !== false && (legend.position === 'top' || legend.position === 'bottom')) {
+      if (
+        legend &&
+        legend?.visible !== false &&
+        (legend.position === 'top' || legend.position === 'bottom')
+      ) {
         // 此处legend高度设为30
         pieWidth -= 30;
       }
@@ -581,7 +628,9 @@ export function checkSize(chartType: string, chart: any) {
     const isHorizontal = chart?.coordinateInstance?.isTransposed || false;
 
     // 检查柱宽
-    const length = isHorizontal ? chart?.coordinateInstance?.height : chart?.coordinateInstance?.width;
+    const length = isHorizontal
+      ? chart?.coordinateInstance?.height
+      : chart?.coordinateInstance?.width;
     const rectWidth = Math.round(chart?.geometries?.[0]?.defaultSize * length);
     if (rectWidth > 24) {
       warn('Bar', '检测出柱图的柱宽过大，建议减小柱宽，不宜超过24');
@@ -596,7 +645,10 @@ export function checkSize(chartType: string, chart: any) {
       (isHorizontal ? chart?.coordinateInstance?.height : chart?.coordinateInstance?.width) * delta,
     );
     if (rectMargin < 4) {
-      warn('Bar', '检测出柱图中柱子之间的间距过小，建议通过减少数量量或设置配置项来加大间距，不宜小于4');
+      warn(
+        'Bar',
+        '检测出柱图中柱子之间的间距过小，建议通过减少数量量或设置配置项来加大间距，不宜小于4',
+      );
     }
   }
 }

@@ -52,7 +52,11 @@ const keyType: Types.LooseObject = {
  *
  * @return {Object} 目标对象
  * */
-export function propertyAssign(keys: string[], target: Types.LooseObject, source: Types.LooseObject | false) {
+export function propertyAssign(
+  keys: string[],
+  target: Types.LooseObject,
+  source: Types.LooseObject | false,
+) {
   if (!source) {
     return target;
   }
@@ -97,11 +101,15 @@ export function propertyAssign(keys: string[], target: Types.LooseObject, source
  *
  * @return {number[]} 宽和高的数组
  * */
-export function getParentSize(element: HTMLElement, width: number | string, height: number | string) {
+export function getParentSize(
+  element: HTMLElement,
+  width: number | string,
+  height: number | string,
+) {
   let w = width || '';
   let h = height || '';
 
-  const parent = element && element.parentElement;
+  const parent = element && element.parentElement.parentElement;
 
   if (parent) {
     const parentStyle = window.getComputedStyle(parent);
@@ -138,7 +146,11 @@ export function pxToNumber(px: string) {
  * @param {array} rawData Highcharts 格式的数据
  * @param {number} dataIndex y轴对应的index
  * */
-export function getDataIndexColor(colors: Colors, rawData: any[], dataIndex: number): string | void {
+export function getDataIndexColor(
+  colors: Colors,
+  rawData: any[],
+  dataIndex: number,
+): string | void {
   if (typeof colors === 'string') {
     return colors;
   }
@@ -171,7 +183,9 @@ export function mapColors(colors: Colors) {
   if (typeof colors === 'string') {
     newColors = colors in colorMap ? (themes as any)[(colorMap as any)[colors]] : colors;
   } else if (Array.isArray(colors)) {
-    newColors = colors.map((color: string) => (color in colorMap ? (themes as any)[(colorMap as any)[color]] : color));
+    newColors = colors.map((color: string) =>
+      color in colorMap ? (themes as any)[(colorMap as any)[color]] : color,
+    );
   }
 
   return newColors;

@@ -10,23 +10,19 @@ import chartLog, { warn } from './log';
 import eventBus from './eventBus';
 import { FullCrossName } from '../constants';
 import { integer } from './tickMethod';
-import BigDataType, { CalculationType } from './bigDataType';
 import {
-  checkEmptyData,
-  checkBigData,
   checkColor,
   checkPadding,
   checkSize,
   checkSizeConfig,
-  checkExtremeData,
   checkSpecialConfig,
 } from './checkFunctions';
-import getEmptyDataType from './emptyDataType';
-import themes, { convertThemeKey } from '../themes/index';
-import { ChartContext, getText } from '../ChartProvider';
-import Wplaceholder from '../Wplaceholder';
+import { ChartContext } from '../ChartProvider';
 import chartRefs from './chartRefs';
+import { runInitRule, runBeforePaintRule, runAfterDataChangedRule } from '../rule/runRule';
+import { convertThemeKey } from '../themes/index';
 import { getG2theme } from '../themes/themeTools';
+import '../Wplaceholder/index.scss';
 
 registerTickMethod('integer', integer);
 
@@ -163,6 +159,8 @@ export interface ChartProps<ChartConfig> {
   force?: Rule;
   /** loading状态 */
   loading?: boolean;
+  /** 错误信息，非空时直接显示图表的异常状态 */
+  errorInfo?: string;
   /** chartRef */
   chartRef?: React.MutableRefObject<any>;
 }
@@ -202,13 +200,16 @@ class Base<
 
   protected dataSize: number;
 
-  private detectTimer: any;
+  // private isEmpty: boolean;
 
-  private bigDataConfig: any;
+  // private isBigData: boolean;
 
-  private emptyState: boolean;
+  // private isExtreme: boolean;
 
-  private extremeState: boolean;
+  // private errorInfo: string;
+
+  // chartRef
+  private ref: React.MutableRefObject<any> = React.createRef();
 
   static contextType = ChartContext;
 
@@ -242,132 +243,6 @@ class Base<
   /** 自定义判断配置项是否更改 */
   public isChangeEqual?(objValue: any, othValue: any, key: number | string): undefined | boolean;
 
-  /** 防抖 */
-  /*
-  public debounceDetect(data: any) {
-    if (this.detectTimer) {
-      clearTimeout(this.detectTimer);
-      this.detectTimer = null;
-    }
-    this.detectTimer = setTimeout(() => {
-      return this.checkDataBeforeRender(data);
-    }, 500);
-  }
-  */
-
-  /** 计算数据量 */
-  public calcDataSize(data: any) {
-    if (!data) {
-      this.dataSize = 0;
-      return;
-    }
-    const type = this.bigDataConfig?.calculation;
-
-    if (type === CalculationType.COMMON) {
-      if (Array.isArray(data) && data.length > 0) {
-        const types = Array.from(new Set(data.map((item: any) => item.type)));
-        const typeCount = types.map((type: any) => data.filter((item: any) => item.type === type).length);
-        this.dataSize = Math.max(...typeCount);
-      } else {
-        this.dataSize = 0;
-      }
-    } else if (type === CalculationType.COUNT) {
-      this.dataSize = data?.length ?? 0;
-    } else if (type === CalculationType.SPECIAL) {
-      if (Array.isArray(data) && data.length > 0) {
-        this.dataSize = Math.max(...data.map((item: any) => item?.data?.length ?? 0));
-      } else {
-        this.dataSize = 0;
-      }
-    } else if (type === CalculationType.LEVEL) {
-      this.dataSize = this.calcTreeDataSize(data);
-    }
-  }
-
-  private calcTreeDataSize(root: any) {
-    let queue = [root];
-    let res = 0;
-
-    while (queue.length) {
-      res = queue.length;
-      let newQueue: any[] = [];
-      queue.forEach((node: any) => {
-        if (node?.children?.length) {
-          newQueue = [...newQueue, ...node.children];
-        }
-      });
-      queue = newQueue;
-    }
-    return res;
-  }
-
-  // todo: 检查数据格式
-
-  /** 渲染前的数据检查 */
-  public checkDataBeforeRender(
-    data: any,
-    config: any,
-  ): {
-    isEmpty?: boolean;
-    isExtreme?: boolean;
-    isExceed?: boolean;
-    data?: any;
-    config?: any;
-    fillBackground?: boolean;
-  } {
-    // 检查空数据，若为空数据则返回覆盖的数据与配置项
-    if (checkEmptyData(data, this.chartName)) {
-      const { replacement, fillBackground } = (getEmptyDataType() as any)?.[this.chartName];
-      const { data: replacementData, config: replacementConfig } = replacement;
-      return {
-        isEmpty: true,
-        data: replacementData ?? null,
-        config: replacementConfig ?? null,
-        fillBackground,
-      };
-    }
-
-    // 检查极端数据
-    const {
-      isExtreme,
-      data: replacementData,
-      config: replacementConfig,
-    } = checkExtremeData(
-      data,
-      this.chartName,
-      config,
-      this.chartDom.offsetWidth,
-      this.chartDom.offsetHeight,
-      this.dataSize,
-      this.props?.force,
-    );
-    if (isExtreme) {
-      return {
-        isExtreme,
-        data: replacementData ?? null,
-        config: replacementConfig ?? null,
-      };
-    }
-
-    // 检查大数据
-    const isExceed = checkBigData(
-      this.chartName,
-      config,
-      this.bigDataConfig?.exceedJudge,
-      this.dataSize,
-      this.chartDom.offsetWidth,
-      this.chartDom.offsetHeight,
-    );
-
-    return {
-      isExceed: isExceed,
-      isEmpty: false,
-      data: null,
-      config: null,
-      fillBackground: false,
-    };
-  }
-
   /** 更新数据 */
   public changeData(chart: Chart, config: ChartConfig, data: ChartData): void {
     chart && chart.changeData(data);
@@ -392,12 +267,10 @@ class Base<
 
     this.language = this.props.language || this.context.language;
 
-    if (!this.props.loading) {
-      // 设置初始高宽
-      this.initSize();
+    // 设置初始高宽
+    this.initSize();
 
-      this.initChart();
-    }
+    this.initChart();
 
     eventBus.on('setTheme', this.rerender);
     eventBus.on('setLanguage', this.rerender);
@@ -473,9 +346,11 @@ class Base<
       loading: oldLoading,
     } = prevProps;
 
-    this.language = this.props.language;
+    this.language = this.props.language || this.context.language;
 
-    if (newLoading) {
+    // loading状态改变，直接重绘
+    if (newLoading !== oldLoading) {
+      this.rerender();
       return;
     }
 
@@ -490,7 +365,13 @@ class Base<
     // 通过上下文传递的图表配置项
     const globalComsConfig = this.context?.defaultConfig?.[this.chartName.replace('G2', '')] ?? {};
     // 用户自定义 > 图表 > 通用 > 默认
-    const newAllConfig =  merge({}, this.defaultConfig, globalBaseConfig, globalComsConfig, newConfig);
+    const newAllConfig = merge(
+      {},
+      this.defaultConfig,
+      globalBaseConfig,
+      globalComsConfig,
+      newConfig,
+    );
 
     // 处理padding
     newAllConfig.padding = fixPadding(prevProps.padding || newAllConfig.padding);
@@ -501,7 +382,7 @@ class Base<
 
     // 配置项有变化，重新生成图表
     // if (changeConfig !== false) {
-      if (this.checkConfigChange(newAllConfig, this.mergeConfig)) {
+    if (this.checkConfigChange(newAllConfig, this.mergeConfig)) {
       this.rerender();
 
       return;
@@ -539,34 +420,31 @@ class Base<
     // let needAfterRender = false;
 
     const dataChanged =
-      newData !== oldData || (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
+      newData !== oldData ||
+      (Array.isArray(newData) && Array.isArray(oldData) && newData.length !== oldData.length);
     const sizeChanged = newWidth !== oldWidth || newHeight !== oldHeight;
 
-    // 数据与尺寸同时改变,或从空状态变成有数据状态
-    if ((dataChanged && sizeChanged) || (dataChanged && this.emptyState)) {
+    // 数据与尺寸同时改变,直接重绘
+    if (dataChanged && sizeChanged) {
       this.rerender();
+      return;
     }
 
     // 数据有变化
     else if (dataChanged) {
       const data =
-        this.convertData && newAllConfig.dataType !== 'g2' ? highchartsDataToG2Data(newData, newAllConfig) : newData;
+        this.convertData && newAllConfig.dataType !== 'g2'
+          ? highchartsDataToG2Data(newData, newAllConfig)
+          : newData;
       this.rawData = newData;
 
-      // 重新计算数据量
-      this.calcDataSize(data);
+      // 运行规则
+      // 目前仅检测极端数据
+      // 数据变化时，若替换配置项，必须重绘图表才能生效
+      const needRerender = runAfterDataChangedRule(this, newAllConfig, data);
 
-      // 检查数据
-      // 数据变化时，若替换配置项，必须重绘图表才能生效，暂时只处理极端数据场景
-      const { isExtreme } = this.checkDataBeforeRender(data, newAllConfig);
-
-      // 线图：极端数据与非极端数据之间切换，则进行重绘
-      // 柱图：除了正常数据之间转换都需要重绘
-      if (
-        (this.chartName === 'G2Line' && isExtreme !== this.extremeState) ||
-        (this.chartName === 'G2Bar' && isExtreme) ||
-        this.extremeState
-      ) {
+      // 必须重绘的场景：空数据变成有数据、极端与非极端切换、异常与非异常切换
+      if (needRerender) {
         this.rerender();
         return;
       }
@@ -653,9 +531,6 @@ class Base<
   }
 
   initChart() {
-    // 合并默认配置项
-    this.defaultConfig = this.getDefaultConfig();
-
     // 通过上下文传递的通用配置项 - 全局通用配置项
     const globalBaseConfig = this.context?.defaultConfig?.baseConfig;
     // 通过上下文传递的图表配置项 - 全局图表配置项
@@ -685,8 +560,10 @@ class Base<
     }
 
     // 处理padding
+    // todo: 加入规则体系中
     currentProps.config.padding = fixPadding(currentProps.padding || currentProps.config.padding);
-    currentProps.config.appendPadding = currentProps.appendPadding || currentProps.config.appendPadding;
+    currentProps.config.appendPadding =
+      currentProps.appendPadding || currentProps.config.appendPadding;
 
     // 颜色映射
     currentProps.config.colors = mapColors(currentProps.config.colors);
@@ -709,103 +586,20 @@ class Base<
     let { config } = currentProps;
 
     // 预处理数据
-    const data = this.convertData && config.dataType !== 'g2' ? highchartsDataToG2Data(initData, config) : initData;
+    let data =
+      this.convertData && config.dataType !== 'g2'
+        ? highchartsDataToG2Data(initData, config)
+        : initData;
     this.rawData = initData;
 
-    // 获取大数据判断参数
-    this.bigDataConfig = (BigDataType as any)?.[this.chartName];
-
-    // 判断是否特殊情况
-    const specialCases = this.bigDataConfig?.specialCases ?? [];
-    for (const sp of specialCases) {
-      let isSame = true;
-      Object.keys(sp?.config ?? {}).forEach((key: string) => {
-        if ((this.props.config as any)?.[key] !== sp?.config?.[key]) {
-          isSame = false;
-        }
-      });
-      if (isSame) {
-        this.bigDataConfig = sp;
-        break;
-      }
-    }
-
-    // 计算数据量
-    this.calcDataSize(data);
-
-    // 数据检查
-    const {
-      isEmpty,
-      isExceed,
-      isExtreme,
-      data: specialData,
-      config: specialConfig,
-      fillBackground,
-    } = this.checkDataBeforeRender(data, config);
-
-    // 根据规则判断对图表配置项做一步处理
-    // 合并特殊配置项
-    if (isEmpty) {
-      config = merge({}, config, specialConfig);
-
-      // 空数据时双y轴取消
-      if (Array.isArray(config?.yAxis) && !Array.isArray(specialConfig?.yAxis)) {
-        config.yAxis = specialConfig.yAxis;
-      }
-    }
-
-    // 这一部分可以写到空数据规则里面
-    // 数据中name未指定时，legend与tooltip也不显示名称
-    if (config?.legend && config?.legend?.nameFormatter) {
-      config.legend.nameFormatter = (name: string, data: any, index: number) => {
-        if (name.startsWith('undefined-name-')) {
-          return '';
-        }
-        if (this.props.config?.legend?.nameFormatter) {
-          return this.props.config?.legend?.nameFormatter(name, data, index);
-        }
-        return name;
-      };
-    }
-
-    if (config?.tooltip && config?.tooltip?.nameFormatter) {
-      config.tooltip.nameFormatter = (name: string, data: any, index: number, rawData: any) => {
-        if (name.startsWith('undefined-name-')) {
-          return '';
-        }
-        if (this.props.config?.tooltip?.nameFormatter) {
-          return this.props.config?.tooltip?.nameFormatter(name, data, index, rawData);
-        }
-        return name;
-      };
-    }
-
-    // 极端数据处理
-    if (isExtreme && !(force === true || force?.extreme === true)) {
-      config = merge({}, config, specialConfig);
-    }
-
-    // 大数据情况下执行配置项的约束
-    const configChecked = force === true ? false : isExceed;
-    if (configChecked && config) {
-      const filterConfig = BigDataType?.[this.chartName]?.filterConfig ?? {};
-      // 暂时这么写，做配置项的合并
-      Object.keys(filterConfig)?.forEach((key: string) => {
-        if (key === 'slider' && filterConfig?.[key]?.open) {
-          // 缩略轴自适应
-          config[key] = {
-            start: 1 - Math.max(Number(((filterConfig?.[key]?.coef ?? 100) / this.dataSize).toFixed(2)), 0.01),
-            end: 1,
-            ...(typeof config[key] === 'object' ? config[key] : {}),
-          };
-        } else {
-          config[key] = filterConfig?.[key];
-        }
-      });
-    }
+    // 初始化规则
+    const { data: specialData, config: specialConfig } = runInitRule(this, config, data);
+    data = specialData ?? data;
+    config = specialConfig ?? config;
 
     // 特殊配置项检测
     // 目前仅对线图、线点图与散点图微调x轴range
+    // todo: 加入规则体系
     const extraConfig = checkSpecialConfig(this.chartName, config, force);
     config = merge({}, config, extraConfig);
 
@@ -829,6 +623,7 @@ class Base<
       this.chart.theme(getG2theme(convertThemeKey(this.context.theme)));
     }
 
+    // todo: 加入规则体系
     // 检测颜色规则
     checkColor(config, this.chartName, chart);
     // 检测间距
@@ -847,7 +642,7 @@ class Base<
     this.emitWidgetsEvent(event, 'beforeWidgetsInit', config, data);
 
     // 绘制逻辑
-    chart && this.init(chart, config, specialData ?? data);
+    chart && this.init(chart, config, data);
 
     this.emitWidgetsEvent(event, 'afterWidgetsInit', config, data);
 
@@ -874,47 +669,12 @@ class Base<
       currentProps.getChartInstance(chart);
     }
 
-    // 空数据处理
-    if (isEmpty && !this.props.children) {
-      // 设置背景色
-      if (fillBackground) {
-        this.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
-      }
-
-      // 加暂无数据提示
-      chart.annotation().html({
-        html: `
-          <div style="display: flex; align-items: center;">
-            <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
-            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${getText(
-              'empty',
-              this.language || this.context.language,
-              this.context.locale,
-            )}<span>
-          </div>
-        `,
-        alignX: 'middle',
-        alignY: 'middle',
-        position: ['50%', '50%'],
-      });
-    } else {
-      // 当不是无数据状态时需要删除对应背景色
-      this.chartDom.style.removeProperty('background-color');
-    }
-
-    // 记录是否是空状态，用于无数据状态变成有数据状态的切换
-    this.emptyState = isEmpty;
-
-    // 记录是否是极端数据状态，用于数据变化时的判断
-    this.extremeState = isExtreme;
-
-    // 极端数据关闭部分交互
-    if (isExtreme && !(force === true || force?.extreme === true)) {
-      this.chart.removeInteraction('active-region');
-    }
+    // 渲染前规则
+    runBeforePaintRule(this, config, data);
 
     // 后置检测
     chart.on('afterpaint', () => {
+      // todo: 加入规则体系
       // 检测图形尺寸与间距，目前仅检测柱状图的柱宽与间距
       checkSize(this.chartName, this.chart);
     });
@@ -925,12 +685,17 @@ class Base<
     // this.handleAfterRender(config);
 
     // 绑定ref
+    this.ref.current = chartRefs(this, config);
     if (this.props.chartRef) {
-      this.props.chartRef.current = chartRefs(this, config);
+      this.props.chartRef.current = this.ref.current;
     }
   }
 
-  private emitWidgetsEvent(event: Record<string, Function> | undefined, name: string, ...args: any[]) {
+  private emitWidgetsEvent(
+    event: Record<string, Function> | undefined,
+    name: string,
+    ...args: any[]
+  ) {
     if (this.chart && event && event[name]) {
       event[name].apply(this.chart, args);
     }
@@ -952,7 +717,8 @@ class Base<
   handleChangeSize(config: ChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
     this.setSize([w, h]);
 
-    const notSetAnimate = this.props.animate === undefined && (!config || config.animate === undefined);
+    const notSetAnimate =
+      this.props.animate === undefined && (!config || config.animate === undefined);
     if (notSetAnimate) {
       this.chart.animate(false);
     }
@@ -992,7 +758,11 @@ class Base<
 
       const parentSize = getParentSize(element, props.width, props.height);
       // 读取的高宽需要是有效值，0 也不可以
-      if (!(parentSize[0] === size[0] && parentSize[1] === size[1]) && parentSize[0] && parentSize[1]) {
+      if (
+        !(parentSize[0] === size[0] && parentSize[1] === size[1]) &&
+        parentSize[0] &&
+        parentSize[1]
+      ) {
         this.handleChangeSize(props.config, parentSize[0], parentSize[1]);
 
         // this.handleAfterRender();
@@ -1059,24 +829,37 @@ class Base<
       getChartInstance,
       enableFunctionUpdate,
       loading,
+      errorInfo,
       chartRef,
       ...otherProps
     } = this.props;
 
-    if (loading) {
-      return <Wplaceholder loading height={height} width={width} />;
-    }
+    const position = (
+      config?.legend?.position ??
+      this.defaultConfig?.legend?.position ??
+      'bottom'
+    ).split('-')[0];
 
     return (
       <div
-        ref={(dom) => (this.chartDom = dom)}
-        id={this.chartId}
-        key={this.chartId}
-        className={`${rootClassName + this.chartName} ${className}`}
-        style={style}
-        {...otherProps}
+        style={{
+          position: 'relative',
+          width: width ? `${width}px` : '100%',
+          height: height ? `${height}px` : undefined,
+          display: 'flex',
+          flexDirection: config?.legend?.table && position === 'right' ? 'row' : 'column',
+        }}
       >
-        {children ? <div className={rootChildClassName}>{children}</div> : null}
+        <div
+          ref={(dom) => (this.chartDom = dom)}
+          id={this.chartId}
+          key={this.chartId}
+          className={`${rootClassName + this.chartName} ${className}`}
+          style={style}
+          {...otherProps}
+        >
+          {children ? <div className={rootChildClassName}>{children}</div> : null}
+        </div>
       </div>
     );
   }

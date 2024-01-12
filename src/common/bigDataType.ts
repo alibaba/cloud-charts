@@ -30,7 +30,7 @@
  * 桑基图
  * 树图
  */
- export const CalculationType = {
+export const CalculationType = {
   COMMON: 'COMMON',
   COUNT: 'COUNT',
   SPECIAL: 'SPECIAL',
@@ -230,7 +230,7 @@ const BigDataType: any = {
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 20,
-        message: '该饼图分块过多，会影响可读性，推荐开启autoFormat进行数据收敛，问题码#05-3',
+        message: '该多重饼图分块过多，会影响可读性，建议减少数据量或改用其他图表',
       },
     ],
   },
@@ -266,8 +266,7 @@ const BigDataType: any = {
       {
         type: ExceedJudgeType.NUMBER,
         threshold: 10,
-        message:
-          '该饼图分块过多，会影响可读性，默认开启数据收敛，在提示信息中可以查看详情，设置配置项force为true强制关闭该处理',
+        message: '该饼图分块过多，会影响可读性，推荐开启autoFormat进行数据收敛，问题码#05-3',
       },
     ],
   },

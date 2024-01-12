@@ -2,7 +2,8 @@ import * as React from 'react';
 import { BaseChartConfig, Chart } from './types';
 import { BaseClass, ChartProps } from './Base';
 // import { FullCrossName } from '../constants';
-import Wplaceholder from '../Wplaceholder';
+// import Wplaceholder from '../Wplaceholder';
+import { getText } from '../ChartProvider';
 
 interface ErrorProps {
   forwardedRef?: React.Ref<any>;
@@ -65,21 +66,28 @@ interface ErrorState {
 
     render() {
       if (this.state.errorStack) {
-        const { className = '', style, height } = this.props;
+        // const { className = '', style, height } = this.props;
+        // @ts-ignore
+        const { language, locale } = Component.contextType._currentValue;
         // You can render any custom fallback UI
         // return <pre className={`${FullCrossName} widgets-error-info ${className}`} style={style}>{this.state.errorStack}</pre>;
+        // return (
+        //   <Wplaceholder
+        //     error
+        //     // locale={{
+        //     //   // todo: 国际化
+        //     //   error: '图表异常',
+        //     // }}
+        //     style={{
+        //       height: height ? Number(height) : undefined,
+        //     }}
+        //   />
+        // );
+        // @ts-ignore
         return (
-          <Wplaceholder
-            error
-            children={
-              // <div className={`${FullCrossName} widgets-error-info ${className}`} style={style}>
-              //   {this.state.errorStack}
-              // </div>
-              <>图表异常</>
-            }
-            style={{
-              height: height ? Number(height) : undefined,
-            }}
+          <Component
+            {...this.props}
+            errorInfo={getText('error', this.props?.language || language, locale)}
           />
         );
       }

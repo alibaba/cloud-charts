@@ -83,8 +83,13 @@ const getEmptyDataType = () => ({
   G2Funnel: {
     emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
+      data: [],
       config: {
         padding: 0,
+        xAxis: false,
+        yAxis: false,
+        tooltip: false,
+        legend: false,
       },
     },
     fillBackground: true,
@@ -93,8 +98,13 @@ const getEmptyDataType = () => ({
   G2Heatmap: {
     emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
+      data: [],
       config: {
         padding: 0,
+        xAxis: false,
+        yAxis: false,
+        tooltip: false,
+        legend: false,
       },
     },
     fillBackground: true,
@@ -108,7 +118,11 @@ const getEmptyDataType = () => ({
         children: [],
       },
       config: {
+        padding: 0,
+        xAxis: false,
+        yAxis: false,
         tooltip: false,
+        legend: false,
         colors: themes['widgets-color-layout-background'],
       },
     },
@@ -170,12 +184,7 @@ const getEmptyDataType = () => ({
         yAxis: {
           min: 0,
           max: 100,
-          label: {
-            style: {
-              opacity: 0,
-            },
-            offset: -30,
-          },
+          label: false,
         },
         padding: 0,
       },
@@ -196,12 +205,7 @@ const getEmptyDataType = () => ({
         yAxis: {
           min: 0,
           max: 100,
-          label: {
-            style: {
-              opacity: 0,
-            },
-            offset: -30,
-          },
+          label: false,
         },
         padding: 0,
       },
@@ -227,7 +231,9 @@ const getEmptyDataType = () => ({
       },
       config: {
         legend: false,
+        tooltip: false,
         colors: themes['widgets-color-layout-background'],
+        label: false,
       },
     },
     fillBackground: false,
@@ -255,7 +261,12 @@ const getEmptyDataType = () => ({
   G2Pie: {
     emptyJudge: EmptyJudgeType.ARRAY,
     replacement: {
-      data: [{ x: 'a', y: 100 }],
+      data: [
+        {
+          x: 'a',
+          y: 100,
+        },
+      ],
       config: {
         legend: false,
         tooltip: false,
@@ -299,6 +310,7 @@ const getEmptyDataType = () => ({
     replacement: {
       data: [{ x: 0, y: 0 }],
       config: {
+        padding: 0,
         xAxis: false,
         yAxis: false,
         tooltip: false,
@@ -314,6 +326,13 @@ const getEmptyDataType = () => ({
       data: {
         nodes: [],
         links: [],
+      },
+      config: {
+        padding: 0,
+        xAxis: false,
+        yAxis: false,
+        tooltip: false,
+        legend: false,
       },
     },
     fillBackground: true,
@@ -348,7 +367,11 @@ const getEmptyDataType = () => ({
         children: [],
       },
       config: {
+        padding: 0,
+        xAxis: false,
+        yAxis: false,
         tooltip: false,
+        legend: false,
         colors: themes['widgets-color-layout-background'],
       },
     },
