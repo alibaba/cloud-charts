@@ -1,24 +1,26 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import PercentBar from './percentBar';
 import { IProps } from './interface';
 import { FullCrossName, PrefixName } from '../constants';
+import chartLog from '../common/log';
 
 const prefix = `${FullCrossName} ${PrefixName}-wcapacity`;
 
 const Wcapacity: React.FC<IProps> = ({ data, config, height, style }) => {
+  useEffect(() => {
+    // 图表初始化时记录日志
+    chartLog('Wnumbercard', 'init');
+  }, []);
+
   return (
     <div
       className={prefix}
       style={{
         height: height || '100%',
-        ...style
+        ...style,
       }}
     >
-      <PercentBar
-        config={config}
-        data={data}
-        prefix={prefix}
-      />
+      <PercentBar config={config} data={data} prefix={prefix} />
     </div>
   );
 };

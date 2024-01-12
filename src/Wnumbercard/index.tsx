@@ -8,6 +8,7 @@ import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
 import { FullCrossName, PrefixName } from '../constants';
 import classNames from 'classnames';
+import chartLog from '../common/log';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -142,10 +143,18 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   // icon
   const iconElement = icon && React.isValidElement(icon) ? icon : false;
 
+  useEffect(() => {
+    // 图表初始化时记录日志
+    chartLog('Wnumbercard', 'init');
+  }, []);
+
   // label tags
   const labelTagElements = labelTags.map((tag: LabelTagProps, index: number) => {
     return (
-      <div key={index} className={`${prefix}-label-tag ${prefix}-tag-item ${tag.status || 'default'}`}>
+      <div
+        key={index}
+        className={`${prefix}-label-tag ${prefix}-tag-item ${tag.status || 'default'}`}
+      >
         <span className={`${prefix}-tag-value`}>{tag?.text}</span>
       </div>
     );
@@ -154,7 +163,10 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   // value tags
   const valueTagElements = valueTags.map((tag: ValueTagProps, index: number) => {
     return (
-      <div key={index} className={`${prefix}-value-tag ${prefix}-tag-item ${tag.status || 'default'}`}>
+      <div
+        key={index}
+        className={`${prefix}-value-tag ${prefix}-tag-item ${tag.status || 'default'}`}
+      >
         {tag?.trend === 'down' && (
           <svg className={`${prefix}-tag-trend`}>
             <polygon points="0,2 10,2 5,10" />
@@ -222,7 +234,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         top: labelRef?.current?.offsetTop + 20,
         left: Math.max(
           0,
-          labelRef?.current?.offsetLeft + (labelRef?.current?.offsetWidth - labelRef?.current?.scrollWidth) / 2,
+          labelRef?.current?.offsetLeft +
+            (labelRef?.current?.offsetWidth - labelRef?.current?.scrollWidth) / 2,
         ),
       }}
     >
@@ -308,16 +321,26 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               {label || ''}
             </div>
             {labelTooltip}
-            {labelTagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{labelTagElements}</div>}
+            {labelTagElements?.length > 0 && (
+              <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
+            )}
           </div>
           <div className={`${prefix}-label-value-container`} style={valueStyle || {}}>
             <div className={`${prefix}-item-value`}>
               {typeof value === 'number' ? (
-                <span className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}>
+                <span
+                  className={`${prefix}-value-number ${prefix}-${status || 'default'} ${
+                    size || 'medium'
+                  }`}
+                >
                   {beautifyNumber(value || 0, ',')}
                 </span>
               ) : typeof value === 'string' ? (
-                <span className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}>
+                <span
+                  className={`${prefix}-value-number ${prefix}-${status || 'default'} ${
+                    size || 'medium'
+                  }`}
+                >
                   {value}
                 </span>
               ) : (
@@ -328,13 +351,20 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                 <div
                   className={`${prefix}-item-unit ${prefix}-${status || 'default'}`}
                   style={{
-                    marginBottom: React.isValidElement(value) || isNaN(Number(value)) ? 0 : size === 'small' ? 1 : 2,
+                    marginBottom:
+                      React.isValidElement(value) || isNaN(Number(value))
+                        ? 0
+                        : size === 'small'
+                        ? 1
+                        : 2,
                   }}
                 >
                   {unit}
                 </div>
               )}
-              {valueTagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{valueTagElements}</div>}
+              {valueTagElements?.length > 0 && (
+                <div className={`${prefix}-tag-container`}>{valueTagElements}</div>
+              )}
             </div>
           </div>
         </div>
@@ -395,7 +425,10 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
     }
 
     // 每行几个卡片，最少2个，最多6个
-    const itemsPerRow = Math.min(Math.max(Math.min(Math.floor(width / maxWidth), data?.length || 0), 2), 6);
+    const itemsPerRow = Math.min(
+      Math.max(Math.min(Math.floor(width / maxWidth), data?.length || 0), 2),
+      6,
+    );
     setColumns(itemsPerRow);
   }, [userColumns, data]);
 
@@ -434,7 +467,8 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   // 是否加间隔线
   const showDivider = userShowDivider !== undefined ? userShowDivider : backgroundType === 'none';
 
-  const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
+  const itemWidth =
+    (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
   const chartWidth = Math.max(62, itemWidth / 3);
 
@@ -481,7 +515,9 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
             return (
               <Fragment key={rowIndex * columns + colIndex}>
                 <Wnumbercard {...itemProps} />
-                {colIndex !== row.length - 1 && showDivider && <div className={`${prefix}-divider`} />}
+                {colIndex !== row.length - 1 && showDivider && (
+                  <div className={`${prefix}-divider`} />
+                )}
               </Fragment>
             );
           })}
