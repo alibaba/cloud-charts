@@ -7,6 +7,7 @@ import Wline, { WlineConfig } from '../Wline';
 import Wcircle, { WcircleProps } from '../Wcircle';
 import { beautifyNumber } from '../common/common';
 import { FullCrossName, PrefixName } from '../constants';
+import WidgetsTooltip from '../common/Tooltip';
 import classNames from 'classnames';
 import chartLog from '../common/log';
 import './index.scss';
@@ -134,12 +135,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 
   const labelRef = useRef<HTMLDivElement>(null);
 
-  // label是否超过宽度，需要使用tooltip
-  const [showTooltip, setShowTooltip] = useState<boolean>(false);
-
-  // 是否显示tooltip
-  const [visible, setVisible] = useState<boolean>(false);
-
   // icon
   const iconElement = icon && React.isValidElement(icon) ? icon : false;
 
@@ -225,57 +220,6 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     </div>
   );
 
-  // tooltip
-  const labelTooltip = visible && (
-    <div
-      className={`${prefix}-tooltip`}
-      style={{
-        position: 'absolute',
-        top: labelRef?.current?.offsetTop + 20,
-        left: Math.max(
-          0,
-          labelRef?.current?.offsetLeft +
-            (labelRef?.current?.offsetWidth - labelRef?.current?.scrollWidth) / 2,
-        ),
-      }}
-    >
-      <div className={`${prefix}-tooltip-arrow`} style={{ position: 'absolute' }}>
-        <div className={`${prefix}-arrow-content`} style={{ position: 'absolute' }} />
-      </div>
-      <div className={`${prefix}-tooltip-content`}>{label || ''}</div>
-    </div>
-  );
-
-  // 判断label是否超过宽度
-  useEffect(() => {
-    setShowTooltip(labelRef?.current?.offsetWidth !== labelRef?.current?.scrollWidth);
-  }, [labelRef?.current?.offsetWidth, labelRef?.current?.scrollWidth]);
-
-  // 显示tooltip事件
-  useEffect(() => {
-    if (!labelRef?.current) {
-      return;
-    }
-
-    const handleMouseEnter = () => {
-      if (showTooltip) {
-        setVisible(true);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setVisible(false);
-    };
-
-    labelRef?.current?.addEventListener('mouseenter', handleMouseEnter);
-    labelRef?.current?.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      labelRef?.current?.removeEventListener('mouseenter', handleMouseEnter);
-      labelRef?.current?.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [labelRef?.current, showTooltip]);
-
   const mainClasses = classNames(prefix, {
     [FullCrossName]: true,
     [prefix + '-data-item-container']: true,
@@ -314,24 +258,24 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
             className={`${prefix}-item-label-container`}
             style={{
               marginBottom: value || value === 0 ? (chartPosition === 'bottom' ? 20 : 8) : 0,
-              ...(labelStyle || {}),
             }}
           >
-            <div className={`${prefix}-item-label`} ref={labelRef}>
+            <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
               {label || ''}
             </div>
-            {labelTooltip}
+            <WidgetsTooltip ref={labelRef} content={label || ''} />
             {labelTagElements?.length > 0 && (
               <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
             )}
           </div>
-          <div className={`${prefix}-label-value-container`} style={valueStyle || {}}>
+          <div className={`${prefix}-label-value-container`}>
             <div className={`${prefix}-item-value`}>
               {typeof value === 'number' ? (
                 <span
                   className={`${prefix}-value-number ${prefix}-${status || 'default'} ${
                     size || 'medium'
                   }`}
+                  style={valueStyle || {}}
                 >
                   {beautifyNumber(value || 0, ',')}
                 </span>
@@ -340,6 +284,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                   className={`${prefix}-value-number ${prefix}-${status || 'default'} ${
                     size || 'medium'
                   }`}
+                  style={valueStyle || {}}
                 >
                   {value}
                 </span>
@@ -413,6 +358,11 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   const [columns, setColumns] = useState(1);
 
   const [containerWidth, setContainerWidth] = useState<number>(0);
+
+  useEffect(() => {
+    // 图表初始化时记录日志
+    chartLog('Wnumberoverview', 'init');
+  }, []);
 
   const calcColumns = useCallback(() => {
     const width = container?.current?.offsetWidth || 0;

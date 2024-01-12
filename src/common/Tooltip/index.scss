@@ -1,0 +1,45 @@
+@import '../../themes/index';
+
+$prefix: '.#{$base-prefix}-tooltip';
+
+$font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
+$tooltip-border-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
+$tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
+$label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
+
+#{$prefix}-container {
+  padding: 6px 12px;
+  border-radius: 2px;
+  border: 1px solid $tooltip-border-color;
+  z-index: 1001;
+  background-color: $tooltip-bg-color;
+  max-width: 500px;
+  transform: translate(-50%, 20px);
+
+  #{$prefix}-arrow {
+    display: block;
+    left: calc(50% - 8px);
+    top: -16px;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  #{$prefix}-arrow-content {
+    margin: 4px;
+    content: '';
+    width: 8px;
+    height: 8px;
+    transform: translateY(8px) rotate(45deg);
+    border: 1px solid $tooltip-border-color;
+    background-color: $tooltip-bg-color;
+    pointer-events: none;
+  }
+
+  #{$prefix}-content {
+    word-break: break-all;
+    color: $label-color;
+    font-size: $font-size-small;
+  }
+}

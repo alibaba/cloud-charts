@@ -15,9 +15,6 @@ $font-size-small: getVar(widgets-font-size-1, $widgets-font-size-1);
 $font-size-medium: getVar(widgets-font-size-3, $widgets-font-size-3);
 $font-size-big: getVar(widgets-font-size-5, $widgets-font-size-5);
 
-$tooltip-border-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
-$tooltip-bg-color: getVar(widgets-color-background, $widgets-color-background);
-
 $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
 
 $normal-color: getVar(widgets-color-normal, $widgets-color-normal);
@@ -147,39 +144,6 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     white-space: nowrap;
     line-height: 1.5;
     max-width: 100%;
-  }
-
-  #{$wnumbercard-prefix}-tooltip {
-    padding: 6px 12px;
-    border-radius: 2px;
-    border: 1px solid $tooltip-border-color;
-    z-index: 1001;
-    background-color: $tooltip-bg-color;
-
-    #{$wnumbercard-prefix}-tooltip-arrow {
-      display: block;
-      left: calc(50% - 8px);
-      top: -16px;
-      width: 16px;
-      height: 16px;
-      overflow: hidden;
-    }
-
-    #{$wnumbercard-prefix}-arrow-content {
-      margin: 4px;
-      content: '';
-      width: 8px;
-      height: 8px;
-      transform: translateY(8px) rotate(45deg);
-      border: 1px solid $tooltip-border-color;
-      background-color: $tooltip-bg-color;
-    }
-
-    #{$wnumbercard-prefix}-tooltip-content {
-      word-break: break-all;
-      color: $label-color;
-      font-size: $font-size-small;
-    }
   }
 
   #{$wnumbercard-prefix}-item-value {
