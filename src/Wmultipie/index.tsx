@@ -4,7 +4,7 @@ import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/partition';
-import { Chart, Types, BaseChartConfig, ChartData, Colors } from '../common/types';
+import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
 import themes from '../themes/index';
 import { numberDecimal } from '../common/common';
@@ -35,7 +35,10 @@ interface WmultipieConfig extends BaseChartConfig {
   geomStyle?: GeomStyleConfig;
 }
 
-function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []): Types.LooseObject[] {
+function getParentList(
+  node: Types.LooseObject,
+  target: Types.LooseObject[] = [],
+): Types.LooseObject[] {
   const parentNode = node.parent;
   // 需要存储根节点，所以一直到 parentNode===null（此时在根节点上）
   if (!parentNode) {
@@ -99,9 +102,11 @@ function computeData(ctx: MultiPie, data: ChartData) {
   // 挂载转换后的数据
   ctx.data = source;
 
-  return source;
+  return {
+    source,
+    total: dv?.root?.value ?? 0,
+  };
 }
-
 export class MultiPie extends Base<WmultipieConfig> {
   chartName = 'G2MultiPie';
 
@@ -130,12 +135,15 @@ export class MultiPie extends Base<WmultipieConfig> {
     };
   }
 
+  totalData = 0;
   dataView: DataView = null;
 
   data: Types.Data = [];
 
   init(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const source = computeData(this, data);
+    const { source, total } = computeData(this, data);
+
+    this.totalData = total;
 
     chart.data(source);
 
@@ -156,7 +164,70 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     chart.axis(false);
 
-    rectLegend(this, chart, config, {}, true, null, true);
+    // 需要保证原始数据传入的时候按分组顺序传入
+    // 这个是分组的顺序
+    let dodgeGroups: string[] = [];
+    // 如果开启图例分组，先判定数据中有分组信息
+    let newItems: G2Dependents.ListItem[] = undefined;
+    if (config?.legend?.dodge && !config?.legend?.foldable && !config?.legend?.table) {
+      newItems = [];
+      // 目前不遍历，和设计师沟通只做前两层
+      if (this.rawData?.children) {
+        this.rawData?.children?.forEach((subData: ChartData) => {
+          if (
+            subData?.dodge &&
+            newItems?.filter((el) => el.dodge === subData?.dodge)?.length == 0
+          ) {
+            dodgeGroups.push(subData?.dodge || subData?.facet);
+          }
+        });
+        this.rawData?.children
+          ?.sort((a: any, b: any) => dodgeGroups.indexOf(a?.dodge) - dodgeGroups.indexOf(b?.dodge))
+          .forEach((subData: ChartData, index: number) => {
+            let rawColor;
+            // 函数暂时不做处理，和默认数组处理方式保持一致
+            if (typeof config?.colors === 'string') {
+              rawColor = config?.colors;
+            } else if (typeof config?.colors === 'object') {
+              rawColor = config?.colors?.[index];
+            } else if (typeof config?.colors === 'function') {
+              rawColor = themes.category_12[index];
+            }
+
+            newItems.push({
+              id: subData?.name,
+              name: subData?.name,
+              value: subData?.name,
+              marker: {
+                symbol: 'circle',
+                spacing: 4,
+                style: {
+                  r: 3,
+                  fill: rawColor,
+                  lineAppendWidth: 0,
+                  fillOpacity: 1,
+                },
+              },
+              unchecked: false,
+            });
+          });
+      }
+    } else if (config?.legend?.items) {
+      // 自定义优先级高于内置配置
+      newItems = config.legend.items;
+    }
+
+    rectLegend(
+      this,
+      chart,
+      config,
+      {
+        items: newItems,
+      },
+      true,
+      null,
+      true,
+    );
 
     // tooltip
     rectTooltip(
@@ -233,7 +304,8 @@ export class MultiPie extends Base<WmultipieConfig> {
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const source = computeData(this, data);
+    const { source, total } = computeData(this, data);
+    this.totalData = total;
 
     chart.changeData(source);
   }
