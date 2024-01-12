@@ -41,7 +41,7 @@ export class Line extends Base<WlineConfig> {
       colors: themes.category_12,
       areaColors: [],
       xAxis: {
-        type: 'time', // 默认为线性
+        type: 'time', // 默认为时间连续
         mask: 'auto', // 上述type为time时，此字段生效
       },
       yAxis: {
@@ -50,6 +50,7 @@ export class Line extends Base<WlineConfig> {
         min: null,
       },
       legend: {
+        visible: true,
         align: 'left',
         nameFormatter: null, // 可以强制覆盖，手动设置label
       },
@@ -57,6 +58,7 @@ export class Line extends Base<WlineConfig> {
         titleFormatter: null,
         nameFormatter: null,
         valueFormatter: null,
+        lockable: false,
       },
       area: false,
       stack: false, // 仅Area有效
@@ -117,11 +119,15 @@ export class Line extends Base<WlineConfig> {
     }
 
     autoTimeMask(defs, this.rawData);
+    // console.log(defs, config)
     // rectAutoTickCount(chart, config, defs, false);
 
     chart.scale(defs);
 
     chart.data(data);
+
+    // 如果开启标签或者标记点则需要留出右边的空余,尺寸需要通过计算获得
+    // 配置的scale和生成的会有不符合的地方
 
     // 设置X轴
     rectXAxis(this, chart, config);
@@ -131,7 +137,9 @@ export class Line extends Base<WlineConfig> {
         const yAxisConfig: Types.AxisCfg = {
           line: {
             style: {
-              stroke: getDataIndexColor(config.colors, this.rawData, yIndex) || themes['widgets-axis-line'],
+              stroke:
+                getDataIndexColor(config.colors, this.rawData, yIndex) ||
+                themes['widgets-axis-line'],
             },
           },
         };
@@ -190,7 +198,11 @@ export class Line extends Base<WlineConfig> {
     }
 
     // 拖拽缩放
-    rectZoom(chart, config, getText('reset', this.language || this.context.language, this.context.locale));
+    rectZoom(
+      chart,
+      config,
+      getText('reset', this.language || this.context.language, this.context.locale),
+    );
 
     // 缩略轴
     rectSlider(chart, config);
