@@ -1,0 +1,114 @@
+@import '../../../themes/index.scss';
+
+$prefix: '.#{$base-prefix}-foldable-legend-';
+
+$text-size: getVar(widgets-font-size-1, $widgets-font-size-1);
+$font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+$gray-border: getVar(widgets-color-disable, $widgets-color-disable);
+
+$scrollbar-thumb-color: getVar(widgets-axis-line, $widgets-axis-line);
+$scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
+
+$button-bg-color: getVar(widgets-legend-button-color, $widgets-legend-button-color);
+$button-border-color: getVar(widgets-legend-button-border-color, $widgets-legend-button-border-color);
+$button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shadow);
+
+#{$prefix}container {
+  position: relative;
+  width: 100%;
+}
+
+#{$prefix}content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+  // overflow-y: auto;
+}
+
+/*滚动条整体样式*/
+#{$prefix}content::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/*滚动条里面小方块*/
+#{$prefix}content::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: $scrollbar-thumb-color;
+}
+
+/*滚动条里面轨道*/
+#{$prefix}content::-webkit-scrollbar-track {
+  background: $scrollbar-bg-color;
+}
+
+#{$prefix}item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  height: 20px;
+
+  &:not(:last-child) {
+    margin-right: 16px;
+  }
+}
+
+#{$prefix}marker {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+#{$prefix}name {
+  font-size: $text-size;
+  font-family: $font-family;
+  height: 14px;
+  line-height: $text-size;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#{$prefix}more {
+  box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  background: $button-bg-color;
+  border-radius: 1px;
+  border: 1px solid $button-border-color;
+  backdrop-filter: blur(2px);
+  box-shadow: $button-shadow;
+  cursor: pointer;
+  height: 12px;
+  padding: 3px;
+
+  svg {
+    margin-left: 6px;
+    margin-right: 3px;
+  }
+}
+
+#{$prefix}fold {
+  box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  background: $button-bg-color;
+  border-radius: 1px;
+  border: 1px solid $button-border-color;
+  backdrop-filter: blur(2px);
+  box-shadow: $button-shadow;
+  cursor: pointer;
+  height: 14px;
+  padding: 2px 4px;
+}

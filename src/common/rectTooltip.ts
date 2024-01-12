@@ -57,6 +57,8 @@ export interface TooltipConfig extends customFormatterConfig {
   lockable?: boolean;
   // 是否开启分组
   dodge?: boolean;
+  // 完全自定义tooltip
+  customTooltip?: (title: string, data: any[]) => ReactElement;
 }
 
 /**
@@ -99,6 +101,7 @@ export default function <T>(
       columns,
       lockable,
       dodge,
+      customTooltip,
     } = (config.tooltip === true ? {} : config.tooltip || {}) as TooltipConfig;
 
     const tooltipConfig: Types.TooltipCfg = {
@@ -134,6 +137,8 @@ export default function <T>(
       //   `;
       // },
       customContent,
+      // @ts-ignore
+      customTooltip,
     };
 
     if (titleFormatter) {

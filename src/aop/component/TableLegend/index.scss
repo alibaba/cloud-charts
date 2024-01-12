@@ -1,0 +1,105 @@
+@import '../../../themes/index.scss';
+
+$prefix: '.#{$base-prefix}-table-legend-';
+
+$text-size: getVar(widgets-font-size-1, $widgets-font-size-1);
+$font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+$title-text-color: getVar(widgets-legend-text-normal, $widgets-legend-text-normal);
+
+$scrollbar-thumb-color: getVar(widgets-axis-line, $widgets-axis-line);
+$scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
+
+#{$prefix}container {
+  // width: 100%;
+  // display: block;
+  flex: 1 1 auto;
+}
+
+#{$prefix}thead {
+  display: block;
+  // width: 100%;
+  height: 20px;
+  // align-items: center;
+}
+
+#{$prefix}tbody {
+  display: block;
+  // width: 100%;
+  overflow-y: auto;
+}
+
+/*滚动条整体样式*/
+#{$prefix}tbody::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/*滚动条里面小方块*/
+#{$prefix}tbody::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: $scrollbar-thumb-color;
+}
+
+/*滚动条里面轨道*/
+#{$prefix}tbody::-webkit-scrollbar-track {
+  background: $scrollbar-bg-color;
+}
+
+#{$prefix}marker {
+  display: flex;
+  align-items: center;
+
+  div {
+    width: 8px;
+    height: 2px;
+  }
+}
+
+#{$prefix}tr {
+  display: grid;
+  height: 20px;
+  align-items: center;
+
+  th,
+  td {
+    text-align: center;
+    padding: 0;
+  }
+}
+
+#{$prefix}legend-item {
+  cursor: pointer;
+
+  // &:hover {
+  //   background-color: var(--color-brand1-1);
+  // }
+
+  td {
+    font-size: $text-size;
+    font-family: $font-family;
+    line-height: $text-size;
+  }
+}
+
+#{$prefix}legend-title {
+  th {
+    color: $title-text-color;
+    font-size: $text-size;
+    font-family: $font-family;
+    line-height: $text-size;
+    font-weight: normal;
+  }
+}
+
+#{$prefix}name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 14px;
+  text-align: start;
+  padding-left: 8px;
+}
+
+#{$prefix}statistics {
+  font-weight: 600;
+}

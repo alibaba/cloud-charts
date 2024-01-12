@@ -44,4 +44,10 @@ export default {
   southsea: 'NANHAI ZHUDAO',
   diaoyudao: 'Diaoyu Dao',
   chiweiyu: 'Chiwei Yu',
+
+  // 统计值
+  current: 'Current',
+  min: 'Min',
+  max: 'Max',
+  avg: 'Avg',
 };

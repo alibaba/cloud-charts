@@ -20,11 +20,14 @@ import {
 import { ChartContext } from '../ChartProvider';
 import chartRefs from './chartRefs';
 import { runInitRule, runBeforePaintRule, runAfterDataChangedRule } from '../rule/runRule';
+import registerAopController from '../aop/controller/index';
 import { convertThemeKey } from '../themes/index';
 import { getG2theme } from '../themes/themeTools';
 import '../Wplaceholder/index.scss';
 
 registerTickMethod('integer', integer);
+
+registerAopController();
 
 // 图表唯一id
 let uniqueId = 0;
@@ -218,7 +221,7 @@ class Base<
     this.chart = null;
     this.chartDom = null;
     this.chartId = generateUniqueId();
-    this.defaultConfig = {} as ChartConfig;
+    this.defaultConfig = this.getDefaultConfig();
 
     this.autoResize = this.autoResize.bind(this);
     this.rerender = this.rerender.bind(this);
@@ -381,6 +384,7 @@ class Base<
     newAllConfig.colors = mapColors(newAllConfig.colors);
 
     // 配置项有变化，重新生成图表
+    // 还需要判断上下文传的config有没有发生变化
     // if (changeConfig !== false) {
     if (this.checkConfigChange(newAllConfig, this.mergeConfig)) {
       this.rerender();
@@ -388,6 +392,7 @@ class Base<
       return;
     }
     // }
+    // console.log('componentDidUpdate', getG2theme(convertThemeKey(this.context.theme)))
 
     // 判断context内的theme是否有变化
     if (this.context.theme) {
@@ -454,7 +459,6 @@ class Base<
       this.changeData(this.chart, newAllConfig, data);
 
       this.emitWidgetsEvent(newEvent, 'afterWidgetsChangeData', newAllConfig, data);
-
       // if (this.chartProcess.changeData) {
       //   this.chart &&
       //     this.chartProcess.changeData.call(
@@ -484,6 +488,7 @@ class Base<
 
   // 渲染控制，仅 class、style、children 变化会触发渲染
   // shouldComponentUpdate(nextProps) {
+  //   console.log('shouldComponentUpdate', nextProps);
   //   const { className: newClass, style: newStyle, children: newChild } = nextProps;
   //   const { className: oldClass, style: oldStyle, children: oldChild } = this.props;
   //   return newClass !== oldClass || newStyle !== oldStyle || newChild !== oldChild;
@@ -831,6 +836,7 @@ class Base<
       loading,
       errorInfo,
       chartRef,
+      force,
       ...otherProps
     } = this.props;
 

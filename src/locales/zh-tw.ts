@@ -44,4 +44,10 @@ export default {
   southsea: '南海諸島',
   diaoyudao: '釣魚島',
   chiweiyu: '赤尾嶼',
+
+  // 统计值
+  current: '目前值',
+  min: '最小值',
+  max: '最大值',
+  avg: '平均值',
 };

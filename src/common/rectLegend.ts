@@ -1,6 +1,7 @@
 'use strict';
 
-import { Chart, ChartData, Types, G2Dependents } from './types';
+import { Chart, ChartData, Types, G2Dependents, Language } from './types';
+import { LocaleItem } from '../locales';
 import { customFormatter, customFormatterConfig, merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
@@ -102,15 +103,44 @@ export interface LegendConfig extends customFormatterConfig {
    * @description 默认true，false时采用单选模式
    */
   useReverseChecked?: boolean;
+
+  /**
+   * 默认false,true表示采用表格型legend并显示所有统计值
+   * 目前仅支持线图
+   */
+  table?:
+    | boolean
+    | {
+        /** 显示哪些指标 */
+        statistics?: Array<'min' | 'max' | 'avg' | 'current'>;
+
+        /** 显示几位小数，默认3位 */
+        decimal?: number;
+
+        /** 语言，用于国际化 */
+        language?: Language;
+
+        /** 自定义国际化 */
+        locale?: LocaleItem | Record<string, LocaleItem>;
+
+        /** 自定义表格列 */
+        // custom?: TableLegendColumnProps[];
+      };
+
+  /** legend数量多时是否折叠，默认false，优先级高于分页 */
+  foldable?: boolean;
+  // 图例是否开启分组
+  dodge?: boolean;
 }
 
 function getPosition(position?: string, align?: string): Position {
   const [p, a] = position.split('-');
-  if (!a && align) {
-    if (align === 'center') {
+  if (!a) {
+    if (!align || align === 'center') {
       return p as Position;
+    } else {
+      return `${p}-${align}` as Position;
     }
-    return `${p}-${align}` as Position;
   }
   return position as Position;
 }
@@ -175,7 +205,7 @@ export default function <T>(
       autoCollapse = true,
       collapseRow,
       // 图例位置
-      position = 'top',
+      position = 'bottom',
       align = 'left',
       padding,
       // 格式化函数
@@ -198,6 +228,8 @@ export default function <T>(
       maxWidthRatio,
       maxHeightRatio,
       useReverseChecked = true,
+      table,
+      foldable = false,
     } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -213,6 +245,9 @@ export default function <T>(
           // if (text === 'widgets-pad-type') {
           //   return '';
           // }
+          if (text.startsWith('undefined-name-')) {
+            return '';
+          }
           if (nameFormatter) {
             return nameFormatter(text, itemFormatter ? itemFormatter(item, index) : item, index);
           }
@@ -237,6 +272,16 @@ export default function <T>(
       maxHeight,
       maxWidthRatio: maxWidthRatio || 0.45,
       maxHeightRatio: maxHeightRatio || 0.45,
+      table: table
+        ? {
+            language: (ctx as any)?.language || (ctx as any)?.context?.language,
+            locale: (ctx as any)?.context?.locale,
+            ...(typeof table === 'object' ? table : {}),
+          }
+        : false,
+      // @ts-ignore
+      legendField: ctx?.legendField,
+      foldable,
     };
 
     // legend hover 相关事件
@@ -245,6 +290,21 @@ export default function <T>(
     if (hoverable) {
       // 复写高亮交互, 点击图例后高亮重置
       chart.interaction('legend-highlight', {
+        start: [
+          {
+            trigger: 'legend-item:mouseenter',
+            action: ['list-highlight:highlight', 'element-highlight:highlight'],
+            isEnable: (ctx: Types.IInteractionContext) => {
+              // @ts-ignore
+              const { item, list } = ctx.getAction('list-highlight').getTriggerListInfo() || {};
+              // 分组的item不触发任何交互
+              if (!item || !!item.dodge) {
+                return false;
+              }
+              return true;
+            },
+          },
+        ],
         end: [
           {
             trigger: 'legend-item:mouseleave',
@@ -319,6 +379,7 @@ export default function <T>(
           fontFamily: themes['widgets-font-family-txd-m-number'],
         },
         formatter: (text, item, index) => {
+          // console.log(222, text, item, index)
           // @ts-ignore
           const value = getLastValue(item.name, ctx.rawData, isOneDataGroup);
           if (valueFormatter) {
