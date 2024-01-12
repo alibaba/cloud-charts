@@ -4,13 +4,13 @@ import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/partition';
 import '@antv/data-set/lib/connector/hierarchy.js';
 import { Chart, Types, BaseChartConfig, Colors } from '../common/types';
-import Base from "../common/Base";
+import Base from '../common/Base';
 import { XAxisConfig } from '../common/rectXAxis';
 import { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import { LegendConfig } from '../common/rectLegend';
 import { GuideConfig } from '../common/guide';
-import { LabelConfig } from "../common/label";
+import { LabelConfig } from '../common/label';
 
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
@@ -18,23 +18,22 @@ import './index.scss';
 
 interface WhierarchyConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | boolean,
-  yAxis?: Types.ScaleOption & YAxisConfig | boolean,
-  legend?: LegendConfig | boolean,
-  tooltip?: TooltipConfig | boolean,
-  guide?: GuideConfig,
-  label?: LabelConfig | boolean,
-  polar: boolean,
+  xAxis?: (Types.ScaleOption & XAxisConfig) | boolean;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | boolean;
+  legend?: LegendConfig | boolean;
+  tooltip?: TooltipConfig | boolean;
+  guide?: GuideConfig;
+  label?: LabelConfig | boolean;
+  polar: boolean;
   innerRadius?: number;
   borderStyle: any;
   labelRender: any;
 }
 
-
 export class Hierarchy extends Base<WhierarchyConfig> {
   // 原 g2Factory 的第一个参数，改为类的属性。
   chartName = 'G2Hierarchy';
-  convertData= false;
+  convertData = false;
 
   getDefaultConfig(): WhierarchyConfig {
     return {
@@ -67,7 +66,6 @@ export class Hierarchy extends Base<WhierarchyConfig> {
     };
   }
   init(chart: Chart, config: WhierarchyConfig, data: any) {
-
     const dataView = processDataView(data);
     const nodes = parseDataView(dataView);
     chart.data(nodes);
@@ -94,7 +92,6 @@ export class Hierarchy extends Base<WhierarchyConfig> {
 const Whierarchy: typeof Hierarchy = errorWrap(Hierarchy);
 
 export default Whierarchy;
-
 
 // 将 DataSet 处理后的结果转换为 G2 接受的数据
 function parseDataView(dv: any) {
@@ -155,7 +152,7 @@ function drawHierarchy(chart: Chart, config: WhierarchyConfig, colors: Colors, f
 }
 
 // 数据分箱
-function processDataView( data: any) {
+function processDataView(data: any) {
   return new View().source(data, { type: 'hierarchy' }).transform({
     type: 'hierarchy.partition',
     as: ['x', 'y'],
