@@ -190,7 +190,9 @@ export class Sankey extends Base<WsankeyConfig> {
             fill: themes['widgets-sankey-node-text'],
             textAlign: isLast ? 'end' : 'start',
           },
-          offsetX: isLast ? -pxToNumber(themes['widgets-font-size-1']) : pxToNumber(themes['widgets-font-size-1']),
+          offsetX: isLast
+            ? -pxToNumber(themes['widgets-font-size-1'])
+            : pxToNumber(themes['widgets-font-size-1']),
           content: name,
         };
       });
@@ -201,16 +203,19 @@ export class Sankey extends Base<WsankeyConfig> {
       chart,
       {
         ...config,
-        legend: {
-          marker: {
-            style: {
-              stroke: 'rgba(0,0,0,0)',
-              r: 4,
-              lineWidth: 0,
-            },
-          },
-          ...config.legend,
-        },
+        legend:
+          config?.legend !== false
+            ? {
+                marker: {
+                  style: {
+                    stroke: 'rgba(0,0,0,0)',
+                    r: 4,
+                    lineWidth: 0,
+                  },
+                },
+                ...config.legend,
+              }
+            : false,
       },
       {},
       false,
