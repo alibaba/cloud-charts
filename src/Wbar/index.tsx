@@ -1,6 +1,6 @@
 'use strict';
 
-import { Chart, Types, BaseChartConfig, Colors, G2Dependents } from '../common/types';
+import { Chart, Types, BaseChartConfig, Colors, G2Dependents, ChartData } from '../common/types';
 import Base from '../common/Base';
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
@@ -21,7 +21,6 @@ import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
 import { activeRegionWithTheme } from '../common/interaction';
 import { getText } from '../ChartProvider';
-import defaultLayout from '@antv/g2/esm/chart/layout';
 import './index.scss';
 
 interface FacetConfig {
@@ -188,13 +187,90 @@ export class Bar extends Base<WbarConfig> {
     // 设置X轴
     rectXAxis(this, chart, config);
 
+    // 需要保证原始数据传入的时候按分组顺序传入
+    // 这个是分组的顺序
+    let dodgeGroups: string[] = [];
+    // 如果开启图例分组，先判定数据中有分组信息
+    let newItems: G2Dependents.ListItem[] = undefined;
+    // 如果开启图例折叠，列表型则分组图例不适配
+    if (config?.legend?.dodge && !config?.legend?.foldable && !config?.legend?.table) {
+      // 处理默认数据，按照分组顺序排列
+      newItems = [];
+      this.rawData?.forEach((subData: ChartData) => {
+        if (
+          (subData?.dodge || subData?.facet) &&
+          newItems?.filter((el) => (el.dodge || el.facet) === (subData?.dodge || subData?.facet))
+            ?.length == 0
+        ) {
+          dodgeGroups.push(subData?.dodge || subData?.facet);
+        }
+      });
+
+      this.rawData
+        ?.sort(
+          (a: any, b: any) =>
+            dodgeGroups.indexOf(a?.dodge || a?.facet) - dodgeGroups.indexOf(b?.dodge || b?.facet),
+        )
+        .forEach((subData: ChartData, index: number) => {
+          // 当Items里没有分组名称的时候，添加一个name为分组名称的item
+          if (
+            (subData?.dodge || subData?.facet) &&
+            newItems?.filter((el) => (el.dodge || el.facet) === (subData?.dodge || subData?.facet))
+              ?.length == 0
+          ) {
+            newItems.push({
+              id: subData?.dodge || subData?.facet,
+              name: `${subData?.dodge || subData?.facet}: `,
+              dodge: subData?.dodge || subData?.facet,
+              value: subData?.dodge || subData?.facet,
+              marker: {
+                spacing: index !== 0 ? 24 : 0,
+                style: {
+                  r: 0,
+                },
+              },
+            });
+          }
+
+          let rawColor;
+          // 函数暂时不做处理，和默认数组处理方式保持一致
+          if (typeof config?.colors === 'string') {
+            rawColor = config?.colors;
+          } else if (typeof config?.colors === 'object') {
+            rawColor = config?.colors?.[index];
+          } else if (typeof config?.colors === 'function') {
+            rawColor = themes.category_12[index];
+          }
+
+          newItems.push({
+            id: subData?.name,
+            name: subData?.name,
+            value: subData?.name,
+            marker: {
+              symbol: 'square',
+              spacing: 4,
+              style: {
+                r: 3,
+                fill: rawColor,
+                lineAppendWidth: 0,
+                fillOpacity: 1,
+              },
+            },
+            unchecked: false,
+          });
+        });
+    } else if (config?.legend?.items) {
+      // 自定义优先级高于内置配置
+      newItems = config.legend.items;
+    }
+
     // 设置图例
     rectLegend(
       this,
       chart,
       config,
       {
-        items: config?.legend?.items,
+        items: newItems,
       },
       false,
       'type',
@@ -310,13 +386,18 @@ export class Bar extends Base<WbarConfig> {
         },
       });
     } else {
-      // Tooltip 背景区域
-      activeRegionWithTheme(chart);
-
+      if (!config.polar) {
+        // Tooltip 背景区域
+        activeRegionWithTheme(chart);
+      }
       drawBar(chart, config, config.colors);
     }
 
-    rectZoom(chart, config, getText('reset', this.language || this.context.language, this.context.locale));
+    rectZoom(
+      chart,
+      config,
+      getText('reset', this.language || this.context.language, this.context.locale),
+    );
 
     // 缩略轴
     rectSlider(chart, config);
@@ -343,7 +424,8 @@ export class Bar extends Base<WbarConfig> {
       const hideLegend =
         config?.legend === false ||
         (typeof config?.legend === 'object' &&
-          (config?.legend?.visible === false || (config?.legend?.position && config?.legend?.position !== 'top')));
+          (config?.legend?.visible === false ||
+            (config?.legend?.position && config?.legend?.position !== 'top')));
 
       if (!config?.appendPadding && showLabel && hideLegend && !config?.polar && !config?.facet) {
         let addPadding = false;
@@ -487,6 +569,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
 function computerData(config: WbarConfig, data: any) {
   const { dodgeStack } = config;
   const dv = new DataView().source(data);
+
   if (dodgeStack) {
     dv.transform({
       type: 'percent',
