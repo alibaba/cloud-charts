@@ -3,6 +3,8 @@
 import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
 import { merge, customFormatter, customFormatterConfig } from './common';
+import ellipsisLabel from './ellipsisLabel';
+import { IElement, IGroup } from '@antv/g-base';
 
 export interface XAxisConfig extends customFormatterConfig {
   visible?: boolean;
@@ -10,7 +12,7 @@ export interface XAxisConfig extends customFormatterConfig {
   autoRotate?: boolean;
   rotate?: number;
   autoHide?: boolean;
-  autoEllipsis?: boolean;
+  autoEllipsis?: boolean | 'head' | 'middle' | 'tail';
   label?: any;
   labelFormatter?: Types.AxisCfg['label']['formatter'];
   tickLine?: boolean | G2Dependents.AxisTickLineCfg;
@@ -61,7 +63,7 @@ export default function <T>(
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis,
+              autoEllipsis: transformEllipsis(autoEllipsis),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
             }
           : label,
@@ -113,4 +115,31 @@ export default function <T>(
 
     chart.axis('x', xAxisConfig);
   }
+}
+
+/** 自动省略函数，支持head/middle/tail */
+function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail') {
+  if (!autoEllipsis) {
+    return false;
+  }
+  const type = autoEllipsis === true ? 'tail' : autoEllipsis;
+
+  return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
+    const children = labelGroup.getChildren();
+    children.forEach((label: IElement) => {
+      const text = label.attr('text') ?? '';
+      const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = label.attr() ?? {};
+      const font = {
+        fontSize,
+        fontFamily,
+        fontWeight,
+        fontStyle,
+        fontVariant,
+      };
+      const ellipsisText = ellipsisLabel(text, limitLength, font, '...', type);
+      label.attr('text', ellipsisText);
+      label.set('tip', text);
+    });
+    return true;
+  };
 }
