@@ -82,10 +82,10 @@ $widgets-color-text-3: #808080 !default;
 $widgets-color-disable: #aaaaaa !default;
 
 // 字体
-$widgets-font-family-txd-m-number: TXDDINMediumNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
-  Arial, sans-serif !default;
-$widgets-font-family-txd-r-number: TXDDINRegularNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
-  Arial, sans-serif !default;
+$widgets-font-family-txd-m-number: SFProMedium, TXDDINMediumNumber, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Microsoft YaHei', Arial, sans-serif !default;
+$widgets-font-family-txd-r-number: SFProRegular, TXDDINMediumNumber, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Microsoft YaHei', Arial, sans-serif !default;
 
 // 字号
 $widgets-font-size-1: 12px !default;
@@ -99,6 +99,16 @@ $widgets-font-size-7: 32px !default;
 // 图例 Legend
 $widgets-legend-uncheck: #aaaaaa !default;
 $widgets-legend-text: #333333 !default;
+// legend展开折叠按钮的背景色
+$widgets-legend-button-color: rgba(255, 255, 255, 0.91) !default;
+// legend展开折叠按钮的边框色
+$widgets-legend-button-border-color: #e5e5e5 !default;
+// legend展开折叠按钮的阴影
+$widgets-legend-button-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1) !default;
+// 自定义legend的文字颜色
+$widgets-legend-text-normal: #69757f !default;
+// 自定义legend的文字颜色（高亮态）
+$widgets-legend-text-highlight: #393f47 !default;
 
 // label
 $widgets-label-text: #333333 !default;
@@ -116,6 +126,7 @@ $widgets-tooltip-text: #333333 !default;
 $widgets-tooltip-marker-fill: $widgets-color-background !default;
 
 // 轴 Axis
+$widgets-axis-label-offset: 8 !default;
 $widgets-axis-label: #808080 !default;
 $widgets-axis-line: #cccccc !default;
 $widgets-axis-grid: rgba(229, 229, 229, 0.5) !default;
@@ -158,7 +169,7 @@ $widgets-scrollbar-bg: #ebecf0 !default;
 $widgets-scrollbar-thumb: #c4c6cf !default;
 
 // 线图粗细
-$widgets-line-width: 2;
+$widgets-line-width: 1.5;
 
 // 数据指标卡
 $widgets-numbercard-color-text: #1a1a1a !default;
@@ -173,3 +184,6 @@ $widgets-capacity-background-default: #f0f7ff !default;
 $widgets-capacity-background-success: #ebfff6 !default;
 $widgets-capacity-background-warning: #fff5eb !default;
 $widgets-capacity-background-error: #ffeceb !default;
+
+// 错误状态色
+$widgets-error-svg-color: #f2887e !default;

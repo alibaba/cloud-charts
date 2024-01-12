@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "../../themes/index";
+@import '../../themes/index';
 $wplaceholder-prefix: '.#{$base-prefix}-wplaceholder';
 $loading-prefix: '.#{$base-prefix}-wplaceholder-loading';
 
@@ -21,4 +21,9 @@ $loading-vector-seconds: 5.6s;
 $loading-vector-dot-seconds: 1.4s;
 $loading-dot-size: 8px;
 $loading-dot-fill: getVar(widgets-color-normal, $widgets-color-normal);
-$loading-background: getVar(widgets-color-container-background, $widgets-color-container-background);
+$loading-background: getVar(
+  widgets-color-container-background,
+  $widgets-color-container-background
+);
+
+$error-background: getVar(widgets-capacity-background-error, $widgets-capacity-background-error);

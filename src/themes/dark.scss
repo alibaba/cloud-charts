@@ -82,10 +82,10 @@ $widgets-color-text-3: #666666;
 $widgets-color-disable: #4d4d4d;
 
 // 字体
-$widgets-font-family-txd-m-number: TXDDINMediumNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
-  Arial, sans-serif !default;
-$widgets-font-family-txd-r-number: TXDDINRegularNumber, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei',
-  Arial, sans-serif !default;
+$widgets-font-family-txd-m-number: SFProMedium, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', Arial,
+  sans-serif !default;
+$widgets-font-family-txd-r-number: SFProRegular, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', Arial,
+  sans-serif !default;
 
 // 字号
 $widgets-font-size-1: 12px !default;
@@ -99,6 +99,18 @@ $widgets-font-size-7: 32px !default;
 // 图例 Legend
 $widgets-legend-uncheck: #4d4d4d;
 $widgets-legend-text: #cccccc;
+// legend展开折叠按钮的背景色
+$widgets-legend-button-color: rgba(28, 28, 28, 0.91) !default;
+// legend展开折叠按钮的边框色
+$widgets-legend-button-border-color: #333333 !default;
+// legend展开折叠按钮的阴影
+$widgets-legend-button-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1) !default;
+
+// todo: 暗色待色彩规范定下后修改，目前随便写了两个颜色
+// 自定义legend的文字颜色
+$widgets-legend-text-normal: #cccccc !default;
+// 自定义legend的文字颜色（高亮态）
+$widgets-legend-text-highlight: #d9d9d9 !default;
 
 // label
 $widgets-label-text: #cccccc;
@@ -116,6 +128,7 @@ $widgets-tooltip-text: #cccccc;
 $widgets-tooltip-marker-fill: $widgets-color-background;
 
 // 轴 Axis
+$widgets-axis-label-offset: 8;
 $widgets-axis-label: #8a8a8a;
 $widgets-axis-line: #4d4d4d;
 $widgets-axis-grid: rgba(51, 51, 51, 0.5);
@@ -157,7 +170,7 @@ $widgets-scrollbar-bg: #4d4d4d;
 $widgets-scrollbar-thumb: #333333;
 
 // 线图粗细
-$widgets-line-width: 2;
+$widgets-line-width: 1.5;
 
 // 数据指标卡
 $widgets-numbercard-color-text: #e6e6e6 !default;
@@ -172,3 +185,6 @@ $widgets-capacity-background-default: #18232e !default;
 $widgets-capacity-background-success: #0f1f16 !default;
 $widgets-capacity-background-warning: #241b12 !default;
 $widgets-capacity-background-error: #291614 !default;
+
+// 错误状态色
+$widgets-error-svg-color: #a34239 !default;

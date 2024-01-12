@@ -272,7 +272,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 坐标轴刻度文本字体粗细 */
     axisLabelFontWeight: 'normal',
     /** 坐标轴刻度文本距离坐标轴线的间距 */
-    axisLabelOffset: fontSize1,
+    axisLabelOffset: theme['widgets-axis-label-offset'],
 
     /** 坐标轴网格线颜色 */
     axisGridBorderColor: theme['widgets-axis-grid'],
@@ -486,9 +486,9 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 点图填充颜色透明度 */
     pointFillOpacity: 0.95,
     /** 点图大小 */
-    pointSize: 4,
+    pointSize: 3,
     /** 点图描边粗细 */
-    pointBorder: 1,
+    pointBorder: 0,
     /** 点图描边颜色 */
     pointBorderColor: WHITE_COLORS[100],
     /** 点图描边透明度 */
@@ -499,7 +499,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     pointActiveBorder: 0,
 
     /** 点图 selected 状态下描边粗细 */
-    pointSelectedBorder: 2,
+    pointSelectedBorder: 1.5,
     /** 点图 selected 状态下描边颜色 */
     pointSelectedBorderColor: BLACK_COLORS[100],
 
@@ -509,24 +509,24 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     pointInactiveBorderOpacity: 0.3,
 
     /** 空心点图大小 */
-    hollowPointSize: 4,
+    hollowPointSize: 3,
     /** 空心点图描边粗细 */
-    hollowPointBorder: 1,
+    hollowPointBorder: 1.5,
     /** 空心点图描边颜色 */
     hollowPointBorderColor: QUALITATIVE_10[0],
     /** 空心点图描边透明度 */
-    hollowPointBorderOpacity: 0.95,
+    hollowPointBorderOpacity: 1,
     hollowPointFillColor: WHITE_COLORS[100],
 
     /** 空心点图 active 状态下描边粗细 */
-    hollowPointActiveBorder: 1,
+    hollowPointActiveBorder: 1.5,
     /** 空心点图 active 状态下描边颜色 */
     hollowPointActiveBorderColor: BLACK_COLORS[100],
     /** 空心点图 active 状态下描边透明度 */
     hollowPointActiveBorderOpacity: 1,
 
     /** 空心点图 selected 状态下描边粗细 */
-    hollowPointSelectedBorder: 2,
+    hollowPointSelectedBorder: 1.5,
     /** 空心点图 selected 状态下描边颜色 */
     hollowPointSelectedBorderColor: BLACK_COLORS[100],
     /** 空心点图 selected 状态下描边透明度 */

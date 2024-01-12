@@ -1,4 +1,4 @@
-@import "./scss/variable.scss";
+@import './scss/variable.scss';
 
 #{$wplaceholder-prefix} {
   position: relative;
@@ -12,10 +12,22 @@
   justify-content: center;
   text-align: center;
 
-  .placeholder-box {}
+  .placeholder-box {
+  }
 
   &#{$wplaceholder-prefix}-empty {
     background: $container-bg;
+
+    #{$wplaceholder-prefix}-children-text {
+      color: $children-text;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &#{$wplaceholder-prefix}-error {
+    background: $error-background;
 
     #{$wplaceholder-prefix}-children-text {
       color: $children-text;
@@ -126,96 +138,96 @@
   &-right-tip {
     display: flex;
     align-items: center;
-      #{$loading-prefix}-indicator {
-          display: inline-block;
-          margin-right: $font-size;
-      }
-      #{$loading-prefix}-tip-content {
-          display: inline-block;
-      }
+    #{$loading-prefix}-indicator {
+      display: inline-block;
+      margin-right: $font-size;
+    }
+    #{$loading-prefix}-tip-content {
+      display: inline-block;
+    }
   }
   /* 动效 */
   &-fusion-reactor {
-      display: inline-block;
-      width: $loading-indicator-size;
-      height: $loading-indicator-size;
-      position: relative;
-      margin: 0;
-      animation-name: nextVectorRoute;
-      animation-duration: $loading-vector-seconds;
-      animation-timing-function: linear;
+    display: inline-block;
+    width: $loading-indicator-size;
+    height: $loading-indicator-size;
+    position: relative;
+    margin: 0;
+    animation-name: nextVectorRoute;
+    animation-duration: $loading-vector-seconds;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    #{$loading-prefix}-dot {
+      position: absolute;
+      margin: auto;
+      width: $loading-dot-size;
+      height: $loading-dot-size;
+      border-radius: 50%;
+      background: $loading-dot-fill;
+
+      animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
+      animation-duration: $loading-vector-dot-seconds;
 
-      #{$loading-prefix}-dot {
-          position: absolute;
-          margin: auto;
-          width: $loading-dot-size;
-          height: $loading-dot-size;
-          border-radius: 50%;
-          background: $loading-dot-fill;
-
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-          animation-duration: $loading-vector-dot-seconds;
-
-          &:nth-child(1) {
-              top: 0;
-              bottom: 0;
-              left: 0;
-              animation-name: nextVectorDotsX;
-          }
-          &:nth-child(2) {
-              left: 0;
-              right: 0;
-              top: 0;
-              opacity: .8;
-              animation-name: nextVectorDotsY;
-          }
-          &:nth-child(3) {
-              top: 0;
-              bottom: 0;
-              right: 0;
-              opacity: .6;
-              animation-name: nextVectorDotsXR;
-          }
-          &:nth-child(4) {
-              left: 0;
-              right: 0;
-              bottom: 0;
-              opacity: .2;
-              animation-name: nextVectorDotsYR;
-          }
+      &:nth-child(1) {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        animation-name: nextVectorDotsX;
       }
+      &:nth-child(2) {
+        left: 0;
+        right: 0;
+        top: 0;
+        opacity: 0.8;
+        animation-name: nextVectorDotsY;
+      }
+      &:nth-child(3) {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0.6;
+        animation-name: nextVectorDotsXR;
+      }
+      &:nth-child(4) {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.2;
+        animation-name: nextVectorDotsYR;
+      }
+    }
   }
 }
 
 @keyframes nextVectorRoute {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   5% {
-      transform: rotate(90deg);
+    transform: rotate(90deg);
   }
   25% {
-     transform: rotate(90deg);
+    transform: rotate(90deg);
   }
   30% {
-     transform: rotate(180deg);
+    transform: rotate(180deg);
   }
   50% {
-      transform: rotate(180deg);
+    transform: rotate(180deg);
   }
   55% {
-      transform: rotate(270deg);
+    transform: rotate(270deg);
   }
   75% {
-      transform: rotate(270deg);
+    transform: rotate(270deg);
   }
   80% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 

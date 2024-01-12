@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import merge from 'lodash/merge';
 import chartLog from '../common/log';
 import Locale, { LocaleItem } from '../locales';
 import { FullCrossName, PrefixName } from '../constants';
@@ -10,6 +9,7 @@ import { ChartContext, getText } from '../ChartProvider';
 import { warn } from '../common/log';
 import eventBus from '../common/eventBus';
 import './index.scss';
+import themes from '../themes';
 
 const prefix = `${PrefixName}-wplaceholder`;
 
@@ -21,31 +21,40 @@ const svgWidth = 36,
   itemHeight3 = 32;
 const svg = (
   <svg width={svgWidth} height={svgHeight} className="placeholder-box">
-    <rect className="placeholder-item item-1" width="8" height={itemHeight1} x="0" y={svgHeight - itemHeight1} />
-    <rect className="placeholder-item item-2" width="8" height={itemHeight3} x="14" y={svgHeight - itemHeight3} />
-    <rect className="placeholder-item item-3" width="8" height={itemHeight2} x="28" y={svgHeight - itemHeight2} />
+    <rect
+      className="placeholder-item item-1"
+      width="8"
+      height={itemHeight1}
+      x="0"
+      y={svgHeight - itemHeight1}
+    />
+    <rect
+      className="placeholder-item item-2"
+      width="8"
+      height={itemHeight3}
+      x="14"
+      y={svgHeight - itemHeight3}
+    />
+    <rect
+      className="placeholder-item item-3"
+      width="8"
+      height={itemHeight2}
+      x="28"
+      y={svgHeight - itemHeight2}
+    />
   </svg>
 );
 
 // 异常状态显示的图标
 const errorSvg = (
-  <svg width="43px" height="36px" viewBox="0 0 43 36">
-    <rect className="placeholder-item" x="0" y="12" width="8" height="20" />
-    <path
-      className="placeholder-item"
-      d="M21,16.0139985 C19.1238002,18.3325877 18,21.285055 18,24.5 C18,27.27522 18.8374075,29.8548529 20.2733236,32 L13,32 L13,0 L21,0 L21,16.0139985 Z"
-    />
-    <path
-      className="placeholder-item"
-      d="M34,11.2310283 C33.1898394,11.0793314 32.3541841,11 31.5,11 C29.5412332,11 27.6799005,11.4171646 26,12.1674956 L26,5 L34,5 L34,11.2310283 Z"
-    />
-    <path
-      className="placeholder-item"
-      d="M31.5,36 C25.1487254,36 20,30.8512746 20,24.5 C20,18.1487254 25.1487254,13 31.5,13 C37.8512746,13 43,18.1487254 43,24.5 C43,30.8512746 37.8512746,36 31.5,36 Z M31.5,34 C36.7467051,34 41,29.7467051 41,24.5 C41,19.2532949 36.7467051,15 31.5,15 C26.2532949,15 22,19.2532949 22,24.5 C22,29.7467051 26.2532949,34 31.5,34 Z"
-      fillRule="nonzero"
-    />
-    <rect className="placeholder-item" x="30" y="17" width="3" height="9" />
-    <rect className="placeholder-item" x="30" y="28" width="3" height="3" />
+  <svg width="13.990234375" height="13.990234375" viewBox="0 0 13.990234375 13.990234375">
+    <g>
+      <path
+        d="M13.2992,4.0833C12.1972,1.5882,9.71352,0.00200162,6.99922,0C5.33879,-0.00111527,3.72987,0.576434,2.44922,1.6333L12.3659,11.55C14.1045,9.4635,14.497,6.5439,13.2992,4.0833ZM11.55,12.3667L1.6333,2.44995C0.576382,3.73057,-0.00117366,5.33951,0,6.99995C0.00200179,9.71425,1.5883,12.198,4.0833,13.3C6.544,14.4978,9.4635,14.1053,11.55,12.3667Z"
+        fillRule="evenodd"
+        fill={themes['widgets-error-svg-color']}
+      />
+    </g>
   </svg>
 );
 
@@ -186,6 +195,24 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       );
     } else if (loading) {
       return loadingDom(text);
+    } else if (error) {
+      return (
+        <div
+          className={prefix + '-children-text'}
+          style={{
+            marginTop: 0,
+          }}
+        >
+          {errorSvg}
+          <span
+            style={{
+              marginLeft: 4,
+            }}
+          >
+            {text}
+          </span>
+        </div>
+      );
     } else if (text) {
       return <div className={prefix + '-children-text'}>{text}</div>;
     } else {
@@ -219,7 +246,7 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
 
     let renderSvg = svg;
     if (error) {
-      renderSvg = errorSvg;
+      renderSvg = <></>;
     } else if (!loading && noData) {
       renderSvg = noDataSvg;
       warn(
@@ -246,8 +273,12 @@ export default class Wplaceholder extends React.Component<WplaceholderProps> {
       <div
         className={mainClasses}
         style={{
-          width: !width || typeof width === 'number' || !/^[\d]+$/.test(width) ? width : Number(width),
-          height: !height || typeof height === 'number' || !/^[\d]+$/.test(height) ? height : Number(height),
+          width:
+            !width || typeof width === 'number' || !/^[\d]+$/.test(width) ? width : Number(width),
+          height:
+            !height || typeof height === 'number' || !/^[\d]+$/.test(height)
+              ? height
+              : Number(height),
           ...style,
         }}
         {...otherProps}
