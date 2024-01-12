@@ -1,27 +1,59 @@
-@import "themes/index";
+@import 'themes/index';
 
 $font-path-m: '../font/txddinmedium' !default;
 $font-path-r: '../font/txddinregular' !default;
+$font-path-m-new: '../font/SF-Pro-Medium' !default;
+$font-path-r-new: '../font/SF-Pro-Regular' !default;
 
 /* Widgets 专用字体，仅包含20个字符 */
 @font-face {
-  font-family: "TXDDINMediumNumber";
-  src: url("#{$font-path-m}/txddinmedium.eot"); /* IE9 */
-  src: url("#{$font-path-m}/txddinmedium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("#{$font-path-m}/txddinmedium.woff") format("woff"), /* chrome、firefox */
-  url("#{$font-path-m}/txddinmedium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-  url("#{$font-path-m}/txddinmedium.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  font-family: 'TXDDINMediumNumber';
+  src: url('#{$font-path-m}/txddinmedium.eot'); /* IE9 */
+  src: url('#{$font-path-m}/txddinmedium.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$font-path-m}/txddinmedium.woff') format('woff'),
+    /* chrome、firefox */ url('#{$font-path-m}/txddinmedium.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+      url('#{$font-path-m}/txddinmedium.svg#fonteditor') format('svg'); /* iOS 4.1- */
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "TXDDINRegularNumber";
-  src: url("#{$font-path-r}/txddinregular.eot"); /* IE9 */
-  src: url("#{$font-path-r}/txddinregular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-  url("#{$font-path-r}/txddinregular.woff") format("woff"), /* chrome、firefox */
-  url("#{$font-path-r}/txddinregular.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-  url("#{$font-path-r}/txddinregular.svg#fonteditor") format("svg"); /* iOS 4.1- */
+  font-family: 'TXDDINRegularNumber';
+  src: url('#{$font-path-r}/txddinregular.eot'); /* IE9 */
+  src: url('#{$font-path-r}/txddinregular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$font-path-r}/txddinregular.woff') format('woff'),
+    /* chrome、firefox */ url('#{$font-path-r}/txddinregular.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+      url('#{$font-path-r}/txddinregular.svg#fonteditor') format('svg'); /* iOS 4.1- */
+  font-style: normal;
+  font-weight: normal;
+}
+
+/*
+Widgets 专用字体 2023，仅包含94个字符
+1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM`~!@#$%^&*()-=_+[]{}\|;:'",.<>/?
+*/
+@font-face {
+  font-family: 'SFProMedium';
+  src: url('#{$font-path-m-new}/SF-Pro-Medium.eot'); /* IE9 */
+  src: url('#{$font-path-m-new}/SF-Pro-Medium.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$font-path-m-new}/SF-Pro-Medium.woff') format('woff'),
+    /* chrome、firefox */ url('#{$font-path-m-new}/SF-Pro-Medium.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+      url('#{$font-path-m-new}/SF-Pro-Medium.svg#fonteditor') format('svg'); /* iOS 4.1- */
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'SFProRegular';
+  src: url('#{$font-path-r-new}/SF-Pro-Regular.eot'); /* IE9 */
+  src: url('#{$font-path-r-new}/SF-Pro-Regular.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('#{$font-path-r-new}/SF-Pro-Regular.woff') format('woff'),
+    /* chrome、firefox */ url('#{$font-path-r-new}/SF-Pro-Regular.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+      url('#{$font-path-r-new}/SF-Pro-Regular.svg#fonteditor') format('svg'); /* iOS 4.1- */
   font-style: normal;
   font-weight: normal;
 }

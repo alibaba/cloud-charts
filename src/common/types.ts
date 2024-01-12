@@ -1,4 +1,9 @@
-import { ColorAttrCallback, ViewPadding, ViewAppendPadding, AnimateOption } from '@antv/g2/esm/interface';
+import {
+  ColorAttrCallback,
+  ViewPadding,
+  ViewAppendPadding,
+  AnimateOption,
+} from '@antv/g2/esm/interface';
 
 export * from '@antv/g2/esm/core';
 
@@ -35,7 +40,7 @@ export type Status = 'error' | 'warning' | 'normal' | 'success' | 'none';
 
 export type StatusColor = 'red' | 'orange' | 'blue' | 'green' | 'gray';
 
-export type Language = 'zh-cn' | 'en-us' | 'zh-CN' | 'en-US';
+export type Language = 'zh-cn' | 'en-us' | 'zh-CN' | 'en-US' | 'zh-tw' | 'zh-TW';
 
 export type Trend = 'raise' | 'drop';
 
