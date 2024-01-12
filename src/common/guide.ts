@@ -1,8 +1,8 @@
 'use strict';
 
-import { Chart, View, Types, G2Dependents, Status } from "./types";
+import { Chart, View, Types, G2Dependents, Status } from './types';
 import { getStatusColor, pxToNumber } from './common';
-import themes from "../themes";
+import themes from '../themes';
 import { warn } from './log';
 
 export interface GuideConfig {
@@ -63,8 +63,8 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
 }
 
 interface GuideLineTextConfig extends Omit<G2Dependents.LineAnnotationTextCfg, 'content'> {
-  title: string | number,
-  align?: 'start' | 'center' | 'end' | 'left' | 'right',
+  title: string | number;
+  align?: 'start' | 'center' | 'end' | 'left' | 'right';
 }
 
 export interface GuideLineConfig {
@@ -79,9 +79,15 @@ export interface GuideLineConfig {
 }
 export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, config?: any) {
   const { top = true, text, status, axis, value, start, end, style = {} } = guideLine;
-  const rawText = text || ''
+  const rawText = text || '';
   const {
-    title, position: titlePosition, align: titleAlign, style: textStyle = {}, offsetY, offsetX, ...textConfig
+    title,
+    position: titlePosition,
+    align: titleAlign,
+    style: textStyle = {},
+    offsetY,
+    offsetX,
+    ...textConfig
   } = (typeof rawText === 'string' ? { title: rawText } : rawText) as GuideLineTextConfig;
   const color = getStatusColor(status);
 
@@ -89,21 +95,24 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
   let defaultOffsetY = pxToNumber(themes['widgets-font-size-1']);
   let defaultOffsetX = 0;
 
-  warn('config.guide', '辅助线暂时不支持柱图镜面和横向的时候开启渐变')
+  warn('config.guide', '辅助线暂时不支持柱图镜面和横向的时候开启渐变');
   if (offsetY !== undefined) {
     defaultOffsetY = offsetY;
-  // 不是镜面和横向的时候
-  } else if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
+    // 不是镜面和横向的时候
+  } else if (!config?.facet || config?.column !== false) {
     if (axis === 'y') {
-      defaultOffsetY = -(pxToNumber(themes['widgets-font-size-1']) / 2)
+      defaultOffsetY = -(pxToNumber(themes['widgets-font-size-1']) / 2);
     }
   }
 
   if (offsetX !== undefined) {
     defaultOffsetX = offsetX;
-  } else if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
+  } else if (!config?.facet || config?.column !== false) {
     if (axis === 'y') {
-      defaultOffsetX = (pxToNumber(themes['widgets-font-size-1']) * (typeof rawText === 'string' ? rawText?.length : 3)) + 8;
+      defaultOffsetX =
+        pxToNumber(themes['widgets-font-size-1']) *
+          (typeof rawText === 'string' ? rawText?.length : 3) +
+        8;
     }
   }
 
@@ -134,7 +143,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
     // @ts-ignore
     end: undefined,
   };
-  
+
   // 判断value时需要注意数字0是假值，但是是一个合理的guide value
   if (axis && (value || value === 0)) {
     if (axis === 'x') {
@@ -148,15 +157,22 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.start = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
-        if (!Array.isArray(xScales) && ( xScales.isCategory || (xScales.x && xScales.x.isCategory))) {
+      guideConfig.start = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
+        if (
+          !Array.isArray(xScales) &&
+          (xScales.isCategory || (xScales.x && xScales.x.isCategory))
+        ) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value };
         }
         return { x: 'min', [axis]: value };
       };
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.end = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
+      guideConfig.end = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
         if (!Array.isArray(xScales)) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           if (xScales.x && xScales.x.isCategory) {
@@ -218,15 +234,22 @@ export function drawGuideArea(chart: Chart | View, guideArea: GuideAreaConfig) {
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.start = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
-        if (!Array.isArray(xScales) && ( xScales.isCategory || (xScales.x && xScales.x.isCategory))) {
+      guideConfig.start = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
+        if (
+          !Array.isArray(xScales) &&
+          (xScales.isCategory || (xScales.x && xScales.x.isCategory))
+        ) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value[0] };
         }
         return { x: 'min', [axis]: value[0] };
       };
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.end = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
+      guideConfig.end = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
         if (!Array.isArray(xScales)) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           if (xScales.x && xScales.x.isCategory) {
@@ -264,17 +287,29 @@ export interface GuideFilterConfig {
   end?: Types.AnnotationPosition;
   apply?: string[];
   style?: G2Dependents.ShapeAttrs;
+  useGradient?: boolean;
 }
 export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterConfig, config?: any) {
-  const { top = true, status, axis, value, start, end, apply, style } = guideFilter;
+  const {
+    top = true,
+    status,
+    axis,
+    value,
+    start,
+    end,
+    apply,
+    style,
+    useGradient = false,
+  } = guideFilter;
   const color = getStatusColor(status);
 
   let guideColor = color;
 
   // 如果镜面或横向不处理
-  if (!!config?.facet || (config?.hasOwnProperty('column') && !(config?.column === true))) {
+  if (!!config?.facet || config?.column === false) {
     guideColor = color;
-  } else if (axis === 'y') {
+  } else if (axis === 'y' && useGradient) {
+    // TODO 考虑方向
     guideColor = `l(90) 0:${color} 1:${color}00`;
   }
 
@@ -297,15 +332,22 @@ export function drawGuideFilter(chart: Chart | View, guideFilter: GuideFilterCon
     } else if (axis === 'y' || /y\d/.test(axis)) {
       // 形似 y0, y1 ...的axis，说明是多Y轴，多轴的情况下，start/end 必须返回原始数据格式才能正确匹配y轴度量
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.start = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
-        if (!Array.isArray(xScales) && ( xScales.isCategory || (xScales.x && xScales.x.isCategory))) {
+      guideConfig.start = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
+        if (
+          !Array.isArray(xScales) &&
+          (xScales.isCategory || (xScales.x && xScales.x.isCategory))
+        ) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           return { x: -0.5, [axis]: value[0] };
         }
         return { x: 'min', [axis]: value[0] };
       };
       // 函数接受两个参数 xScales 和 yScales
-      guideConfig.end = function (xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>) {
+      guideConfig.end = function (
+        xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+      ) {
         if (!Array.isArray(xScales)) {
           // 如果x轴是分类型数据，使用[-0.5, length - 0.5]的索引值来让辅助线铺满绘图区域
           if (xScales.x && xScales.x.isCategory) {
