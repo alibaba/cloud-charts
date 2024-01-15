@@ -251,7 +251,9 @@ export function processBarExtremeData(chartObj: any, config: any, data: any) {
 
 /** 线图极端数据处理 */
 export function processLineExtremeData(chartObj: any, config: any, data: any) {
-  const { dataSize } = chartObj;
+  // 此处需要所有数据点的个数，不能直接用dataSize
+  // const { dataSize } = chartObj;
+  const dataSize = data?.length || 0;
   const chartName = chartObj?.chartRule?.name;
 
   // 计算线的数量
@@ -334,14 +336,14 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
       isExtreme: true,
     };
   } else if (lineCount > 3 && !config.stack) {
-    // 当补开启堆叠面积图的时候，且分组数量大于3组 
+    // 当补开启堆叠面积图的时候，且分组数量大于3组
     warn(chartName, '当前线图组数超过3组，不适合开启面积图，已自动关闭面积图配置');
     return {
       config: {
         area: false,
       },
       isExtreme: true,
-    }
+    };
   }
 
   return {
