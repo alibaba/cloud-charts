@@ -97,6 +97,7 @@ stories.add('堆叠柱状图', () => (
       height="300"
       config={{
         stack: true,
+        label: true
       }}
       data={data}
     />
@@ -370,6 +371,7 @@ for (let i = 0; i < 10; i++) {
 }
 let options2 = {
   dodgeStack: true,
+  label: true
 };
 
 let data4 = [
