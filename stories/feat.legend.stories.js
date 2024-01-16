@@ -187,9 +187,9 @@ const radioOptions = {
   右下: 'right-bottom',
 };
 stories.add('图例位置测试-line', () => (
-  <Wcontainer className="demos">
+  <div style={{ width: 800, height: 500 }}>
     <Wbar
-      height="300"
+      // height="300"
       config={{
         legend: {
           // position: select('上下位置', positionOptions, 'top'),
@@ -201,7 +201,7 @@ stories.add('图例位置测试-line', () => (
       data={data}
       // force={false}
     />
-  </Wcontainer>
+  </div>
 ));
 
 stories.add('图例位置测试-linebar', () => (
@@ -355,3 +355,521 @@ stories.add('超长图例截取', () => (
     />
   </Wcontainer>
 ));
+
+let data3 = [
+  {
+    name: '柱1',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱5',
+    dodge: '分组1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱3',
+    dodge: '分组2',
+    data: [],
+  },
+  {
+    name: '柱4',
+    dodge: '分组2',
+    data: [],
+  },
+];
+for (let i = 0; i < 10; i++) {
+  const name = i + '-' + i;
+  data3[0].data.push([name, Math.random() * 100 + 100]);
+  data3[1].data.push([name, Math.random() * 100 + 100]);
+  data3[2].data.push([name, Math.random() * 100 + 100]);
+  data3[3].data.push([name, Math.random() * 100 + 100]);
+  data3[4].data.push([name, Math.random() * 100 + 100]);
+}
+let options2 = {
+  dodgeStack: true,
+  // percentage: true,
+  legend: {
+    dodge: true,
+    showData: true,
+    // foldable: true,
+  },
+  tooltip: {
+    dodge: true,
+  },
+};
+
+stories.add('分组 - 柱图', () => (
+  <Wcontainer className="demos">
+    <Wbar height="300" config={options2} data={data3} />
+  </Wcontainer>
+));
+
+let data4 = [
+  {
+    name: '柱1',
+    facet: '分面1',
+    data: [],
+  },
+  {
+    name: '柱2',
+    facet: '分面2',
+    data: [],
+  },
+  {
+    name: '柱3',
+    facet: '分面1',
+    data: [],
+  },
+  {
+    name: '柱4',
+    facet: '分面2',
+    data: [],
+  },
+];
+
+for (let i = 0; i < 10; i++) {
+  const name = i + '-' + i;
+  data4[0].data.push([name, Math.random() * 100 + 100]);
+  data4[1].data.push([name, Math.random() * 100 + 100]);
+  data4[2].data.push([name, Math.random() * 100 + 100]);
+  data4[3].data.push([name, Math.random() * 100 + 100]);
+}
+
+stories.add('镜面柱图 - 分组图例', () => {
+  return (
+    <Wcontainer className="demos">
+      <Wbar
+        height="300"
+        config={{
+          marginRatio: 0.05,
+          facet: true,
+          padding: [20, 20],
+          legend: {
+            dodge: true,
+          },
+          tooltip: {
+            dodge: true,
+          },
+        }}
+        data={data4}
+      />
+    </Wcontainer>
+  );
+});
+
+const pieData2 = {
+  name: 'root',
+  value: 0,
+  children: [
+    {
+      name: '计算',
+      dodge: '计算',
+      children: [
+        {
+          name: 'root-0-0',
+          value: 17,
+        },
+        {
+          name: 'root-0-1',
+          value: 97,
+        },
+      ],
+    },
+    {
+      name: '存储',
+      dodge: '存储',
+      children: [
+        {
+          name: 'root-1-0',
+          value: 16,
+        },
+        {
+          name: 'root-1-1',
+          value: 130,
+        },
+      ],
+    },
+    {
+      name: '网络',
+      dodge: '网络',
+      children: [
+        {
+          name: 'root-2-0',
+          value: 2,
+        },
+        {
+          name: 'root-2-1',
+          value: 17,
+        },
+        {
+          name: 'root-2-2',
+          value: 26,
+        },
+        {
+          name: 'root-2-3',
+          value: 100,
+        },
+      ],
+    },
+  ],
+};
+
+stories.add('分组 - 饼图', () => (
+  <Wcontainer className="demos">
+    <WmultiPie
+      height="300"
+      config={{
+        cycle: true,
+        // innerRadius: 0.6,
+        colors: [
+          '#297acc',
+          '#43bf7e',
+          '#8a87f5',
+          '#4d91d6',
+          '#75aae0',
+          '#62cc94',
+          '#84d9ac',
+          '#a19ef7',
+          '#b8b6fa',
+          '#cecdfa',
+          '#e6e6fc',
+        ],
+        legend: {
+          showData: true,
+          dodge: true,
+          // table: true
+        },
+        innerContent: true,
+      }}
+      data={pieData2}
+    />
+  </Wcontainer>
+));
+
+const lineData = [
+  {
+    name: '机房A',
+    data: [
+      [1483372800000, 4092],
+      [1483459200000, 1592],
+      [1483545600000, 3714],
+      [1483632000000, 4854],
+      [1483718400000, 6514],
+      [1483804800000, 9022],
+      [1483891200000, 6023],
+      [1483977600000, 4018],
+    ],
+  },
+  {
+    name: '机房B',
+    yAxis: 1,
+    // visible: false,
+    data: [
+      [1483372800000, 6051],
+      [1483459200000, 3278],
+      [1483545600000, 5175],
+      [1483632000000, 6548],
+      [1483718400000, 9048],
+      [1483804800000, 11394],
+      [1483891200000, 8597],
+      [1483977600000, 6588],
+    ],
+  },
+  {
+    name: '异常点',
+    data: [
+      [1483372800000, 2051],
+      [1483459200000, 3278],
+      [1483545600000, 4175],
+      [1483632000000, 2548],
+      [1483718400000, 1048],
+      [1483804800000, 1394],
+      [1483891200000, 5597],
+      [1483977600000, 3588],
+    ],
+  },
+];
+
+const multipleData = [];
+
+for (let i = 0; i < 21; i++) {
+  const group = {
+    name: `曲线fasgkghfdjgaskhgkdjsgbkajdbga,mdsngdsamn,gbds,mbmfadsfdsafdsaadsdsgadfsxgvafdxgsgahgfkjk ${
+      i + 1
+    }`,
+    data: [],
+  };
+  for (let j = 0; j < 24; j++) {
+    const time = `2020-01-01 ${j}:00:00`;
+    group.data.push([time, Math.round(Math.random() * 10) + 100 + i * 10]);
+  }
+  multipleData.push(group);
+}
+
+stories.add('列表型legend', () => {
+  const [d, setD] = useState(lineData);
+  useEffect(() => {
+    setTimeout(() => {
+      setD(multipleData);
+    }, 3000);
+  }, []);
+  return (
+    <div style={{ width: 800, height: 300 }}>
+      <Wline
+        // height="300"
+        data={d}
+        config={{
+          legend: {
+            // position: 'right',
+            table: {
+              statistics: ['min', 'max', 'avg', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend（国际化）', () => {
+  return (
+    <div>
+      <ChartProvider language="en-us" locale={{ min: 'test' }}>
+        <Wline
+          height="300"
+          // language="zh-cn"
+          data={lineData}
+          config={{
+            legend: {
+              // position: 'right',
+              table: {
+                statistics: ['min', 'max', 'avg'],
+              },
+            },
+          }}
+        />
+      </ChartProvider>
+    </div>
+  );
+});
+
+stories.add('列表型legend（多条线）', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            // position: 'right',
+            table: {
+              statistics: ['min'],
+              decimal: 1,
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend（右侧）', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            position: 'right',
+            table: {
+              statistics: ['min', 'max', 'avg', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend（小尺寸）', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        width="200"
+        data={multipleData}
+        config={{
+          legend: {
+            table: {
+              statistics: ['min', 'max', 'avg', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend（柱图）', () => {
+  return (
+    <div>
+      <Wbar
+        height="300"
+        data={lineData}
+        config={{
+          legend: {
+            // position: 'right',
+            table: {
+              statistics: ['min', 'max', 'avg', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend（饼图）', () => {
+  return (
+    <div>
+      <Wpie
+        height="300"
+        data={pieData}
+        config={{
+          legend: {
+            // position: 'right-top',
+            table: {
+              statistics: ['min', 'max', 'avg', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(数据少时）', () => {
+  const [d, setD] = useState(lineData);
+  useEffect(() => {
+    setTimeout(() => {
+      setD(multipleData);
+    }, 3000);
+  }, []);
+  return (
+    <div style={{ width: 600 }}>
+      <Wline
+        // height="300"
+        data={d}
+        config={{
+          legend: {
+            // position: 'bottom-right',
+            foldable: true,
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(多条线）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wline
+        // height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            foldable: true,
+            showData: true,
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(柱图）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wbar
+        height="300"
+        data={data4}
+        config={{
+          legend: {
+            foldable: true,
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+const pieData3 = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+      ['Chrome', 12.8],
+      ['Safari', 8.5],
+      ['Opera', 6.2],
+      ['Others', 0.7],
+      ['Firefox111Firefox111', 45.0],
+      ['IE111IE111', 26.8],
+      ['Chrome111Chrome111', 12.8],
+      ['Safari111Safari111', 8.5],
+      ['Opera111Opera111', 6.2],
+      ['Others111Others222', 0.7],
+      ['Firefox111Firefox222', 45.0],
+      ['IE111IE222', 26.8],
+      ['Chrome111Chrome222', 12.8],
+      ['Safari111Safari222', 8.5],
+      ['Opera111Opera222', 6.2],
+      ['Others111Others222', 0.7],
+      ['Chrome111Chrome333', 12.8],
+      ['Safari111Safari333', 8.5],
+      ['Opera111Opera333', 6.2],
+      ['Others111Others333', 0.7],
+    ],
+  },
+];
+
+stories.add('legend折叠(饼图）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wpie
+        height="300"
+        data={pieData}
+        config={{
+          legend: {
+            // position: 'bottom-left',
+            foldable: true,
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(线柱图）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wlinebar
+        height="300"
+        data={lineBarData}
+        config={{
+          legend: {
+            foldable: true,
+          },
+        }}
+      />
+    </div>
+  );
+});

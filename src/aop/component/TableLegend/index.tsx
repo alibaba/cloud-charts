@@ -20,31 +20,33 @@ export interface TableLegendProps {
 
   /** legend items */
   legendItems: ListItem[];
-
-  /** 容器 */
-  container?: HTMLElement;
 }
 
-export default function TableLegend({ config, chart, legendItems = [], container }: TableLegendProps) {
+export default function TableLegend({ config, chart, legendItems = [] }: TableLegendProps) {
+  // @ts-ignore
+  const { widgetsCtx } = chart;
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
-  const legendField = config?.legendField || 'type';
+  const legendField = widgetsCtx?.legendField || 'type';
 
   const position = config.position.split('-')[0];
-  const containerWidth = container.offsetWidth;
-  const containerHeight = container.offsetHeight;
+  const containerWidth = widgetsCtx?.size[0];
+  const containerHeight = widgetsCtx?.size[1] || 200;
 
   const statistics = useMemo(() => {
-    return config?.table?.statistics || ['current', 'min', 'max', 'avg'];
+    return config?.table?.statistics || [];
   }, [config?.table]);
 
   const statisticsRes = useMemo(() => getStatistics(chart, statistics, legendField), [chart, statistics, config]);
 
   // 计算legend宽高
   const height = useMemo(() => {
-    return Math.min(containerHeight * (position === 'right' ? 1 : 0.3), 20 * legendItems.length + 20);
-  }, [containerHeight, position, legendItems]);
+    return Math.min(
+      containerHeight * (position === 'right' ? 1 : 0.3),
+      20 * legendItems.length + (statistics?.length > 0 ? 20 : 0),
+    );
+  }, [containerHeight, position, legendItems, statistics]);
 
   const width = useMemo(() => containerWidth * (position === 'right' ? 0.5 : 1), [containerWidth, position]);
 
@@ -52,7 +54,7 @@ export default function TableLegend({ config, chart, legendItems = [], container
   useEffect(() => {
     const chartHeight = position === 'right' ? containerHeight : containerHeight - height;
     const chartWidth = position === 'right' ? containerWidth - width : containerWidth;
-    const chartDom = container.children[0];
+    const chartDom = widgetsCtx?.chartDom;
     // @ts-ignore
     chartDom.style.width = `${chartWidth}px`;
     // @ts-ignore
@@ -99,21 +101,23 @@ export default function TableLegend({ config, chart, legendItems = [], container
         marginLeft: position === 'right' ? 10 : 0,
       }}
     >
-      <thead className={`${prefix}-thead`}>
-        <tr
-          className={`${prefix}-tr ${prefix}-legend-title`}
-          style={{
-            gridTemplateColumns: `8px minmax(80px, 100%) repeat(${statistics?.length || 0}, 100px)`,
-          }}
-        >
-          <th />
-          <th />
-          {statistics?.map((statistic: string) => {
-            return <th key={statistic}>{getText(statistic, config?.table?.language, config?.table?.locale)}</th>;
-          })}
-        </tr>
-      </thead>
-      <tbody className={`${prefix}-tbody`} style={{ maxHeight: height - 20 }}>
+      {statistics?.length > 0 && (
+        <thead className={`${prefix}-thead`}>
+          <tr
+            className={`${prefix}-tr ${prefix}-legend-title`}
+            style={{
+              gridTemplateColumns: `8px minmax(80px, 100%) repeat(${statistics?.length}, 100px)`,
+            }}
+          >
+            <th />
+            <th />
+            {statistics?.map((statistic: string) => {
+              return <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>;
+            })}
+          </tr>
+        </thead>
+      )}
+      <tbody className={`${prefix}-tbody`} style={{ maxHeight: height - (statistics?.length > 0 ? 20 : 0) }}>
         {legendItems.map((legendItem: ListItem) => {
           const { name, marker } = legendItem;
           const id = legendItem.id ?? name;
@@ -122,7 +126,10 @@ export default function TableLegend({ config, chart, legendItems = [], container
               key={id}
               className={`${prefix}-tr ${prefix}-legend-item`}
               style={{
-                gridTemplateColumns: `8px minmax(80px, 100%) repeat(${statistics?.length || 0}, 100px)`,
+                gridTemplateColumns:
+                  statistics?.length > 0
+                    ? `8px minmax(80px, 100%) repeat(${statistics?.length}, 100px)`
+                    : '8px minmax(80px, 100%)',
                 color: !filteredItems.includes(id)
                   ? activedItem === id
                     ? themes['widgets-legend-text-highlight']

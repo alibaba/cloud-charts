@@ -43,9 +43,9 @@ class ReactLegend extends CategoryLegend {
     // const startY = currentPoint.y;
 
     const legend = this.legendConfig?.table ? (
-      <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} container={this.parentDom} />
+      <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
     ) : (
-      <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} container={this.parentDom} />
+      <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
     );
 
     ReactDOM.render(legend, container);

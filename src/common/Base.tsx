@@ -623,6 +623,10 @@ class Base<
 
     this.chart = chart;
 
+    // 绑定上下文
+    // @ts-ignore
+    this.chart.widgetsCtx = this;
+
     // 上下文的主题配置, 优先级高于全局变量 ｜ 全局事件
     if (this.context?.theme) {
       this.chart.theme(getG2theme(convertThemeKey(this.context.theme)));

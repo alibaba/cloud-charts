@@ -19,12 +19,12 @@ export interface FoldableLegendProps {
 
   /** legend items */
   legendItems: ListItem[];
-
-  /** 容器 */
-  container?: HTMLElement;
 }
 
-export default function FolableLegend({ config, chart, legendItems = [], container }: FoldableLegendProps) {
+export default function FolableLegend({ config, chart, legendItems = [] }: FoldableLegendProps) {
+  // @ts-ignore
+  const { widgetsCtx } = chart;
+
   // 是否需要折叠
   const [foldable, setFoldable] = useState<boolean>(false);
 
@@ -39,13 +39,13 @@ export default function FolableLegend({ config, chart, legendItems = [], contain
   // legendItems的缓存，用于比较是否变化
   const itemsCache = useRef<any[]>([]);
 
-  const containerWidth = container.offsetWidth;
-  const containerHeight = container.offsetHeight;
+  const containerWidth = widgetsCtx?.size[0];
+  const containerHeight = widgetsCtx?.size[1] || 200;
 
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
-  const legendField = config?.legendField || 'type';
+  const legendField = widgetsCtx?.legendField || 'type';
 
   // legend items变化时，重新计算legend
   useEffect(() => {
@@ -153,7 +153,7 @@ export default function FolableLegend({ config, chart, legendItems = [], contain
   // 展开所有items
   const handleUnfold = () => {
     // 图表高度缩小
-    const chartDom = container.children[0];
+    const chartDom = widgetsCtx?.chartDom;
     const height = containerHeight - Math.min(contentRef?.current?.scrollHeight, containerHeight * 0.3);
     // @ts-ignore
     chartDom.style.height = `${height}px`;
@@ -165,7 +165,7 @@ export default function FolableLegend({ config, chart, legendItems = [], contain
   // 折叠当前items
   const handleFold = () => {
     // 图表高度恢复
-    const chartDom = container.children[0];
+    const chartDom = widgetsCtx?.chartDom;
     const height = containerHeight - 20;
     // @ts-ignore
     chartDom.style.height = `${height}px`;

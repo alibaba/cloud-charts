@@ -117,12 +117,6 @@ export interface LegendConfig extends customFormatterConfig {
         /** 显示几位小数，默认3位 */
         decimal?: number;
 
-        /** 语言，用于国际化 */
-        language?: Language;
-
-        /** 自定义国际化 */
-        locale?: LocaleItem | Record<string, LocaleItem>;
-
         /** 自定义表格列 */
         // custom?: TableLegendColumnProps[];
       };
@@ -272,15 +266,7 @@ export default function <T>(
       maxHeight,
       maxWidthRatio: maxWidthRatio || 0.45,
       maxHeightRatio: maxHeightRatio || 0.45,
-      table: table
-        ? {
-            language: (ctx as any)?.language || (ctx as any)?.context?.language,
-            locale: (ctx as any)?.context?.locale,
-            ...(typeof table === 'object' ? table : {}),
-          }
-        : false,
-      // @ts-ignore
-      legendField: ctx?.legendField,
+      table,
       foldable,
     };
 
