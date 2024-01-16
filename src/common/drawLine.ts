@@ -4,6 +4,7 @@ import label, { LabelConfig } from './label';
 import geomSize, { GeomSizeConfig } from './geomSize';
 import geomStyle, { GeomStyleConfig } from './geomStyle';
 import themes from '../themes/index';
+import { warn } from './log';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -68,6 +69,10 @@ export default function drawLine(
   // 区域、堆叠、平滑曲线
   let lineShape = config.spline ? 'smooth' : 'line';
   const areaShape = config.spline ? 'smooth' : 'area';
+
+  if (config.spline) {
+    warn('config.spline', '涉及监控、运维、运营等业务场景不推荐开启曲线，建议关闭');
+  }
 
   // 阶梯折线，目前区域图不支持阶梯，需特殊说明
   if (config.step && !config.area) {
