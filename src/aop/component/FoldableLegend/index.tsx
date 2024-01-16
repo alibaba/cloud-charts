@@ -63,7 +63,7 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
   // 图表尺寸变化时，修改legend尺寸，重新变成折叠状
   useEffect(() => {
     handleFold();
-  }, [containerHeight, containerWidth]);
+  }, [containerHeight, containerWidth, config]);
 
   useEffect(() => {
     setFilteredItems([]);

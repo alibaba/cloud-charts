@@ -637,6 +637,40 @@ stories.add('列表型legend', () => {
   );
 });
 
+stories.add('列表型legend(config变化)', () => {
+  const [config, setConfig] = useState({
+    legend: {
+      // position: 'right',
+      table: {
+        statistics: ['min', 'max', 'avg', 'current'],
+      },
+    },
+  });
+  useEffect(() => {
+    setTimeout(() => {
+      setConfig({
+        area: true,
+        legend: {
+          // position: 'right',
+          table: {
+            statistics: ['min', 'max', 'avg', 'current'],
+          },
+        },
+      });
+    }, 3000);
+  }, []);
+
+  return (
+    <div style={{ width: 800, height: 300 }}>
+      <Wline
+        // height="300"
+        data={lineData}
+        config={config}
+      />
+    </div>
+  );
+});
+
 stories.add('列表型legend（国际化）', () => {
   return (
     <div>

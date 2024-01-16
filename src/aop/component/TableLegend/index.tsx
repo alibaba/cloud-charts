@@ -60,7 +60,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     // @ts-ignore
     chartDom.style.height = `${chartHeight}px`;
     chart.changeSize(chartWidth, chartHeight);
-  }, [containerHeight, containerWidth, position, height, width]);
+  }, [containerHeight, containerWidth, position, height, width, config]);
 
   useEffect(() => {
     setFilteredItems([]);
