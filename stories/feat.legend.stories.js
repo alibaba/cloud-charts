@@ -640,6 +640,7 @@ stories.add('列表型legend', () => {
 stories.add('列表型legend(config变化)', () => {
   const [config, setConfig] = useState({
     legend: {
+      visible: false,
       // position: 'right',
       table: {
         statistics: ['min', 'max', 'avg', 'current'],
@@ -651,6 +652,7 @@ stories.add('列表型legend(config变化)', () => {
       setConfig({
         area: true,
         legend: {
+          visible: true,
           // position: 'right',
           table: {
             statistics: ['min', 'max', 'avg', 'current'],
@@ -681,6 +683,7 @@ stories.add('列表型legend（国际化）', () => {
           data={lineData}
           config={{
             legend: {
+              visible: false,
               // position: 'right',
               table: {
                 statistics: ['min', 'max', 'avg'],
