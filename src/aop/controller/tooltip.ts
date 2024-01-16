@@ -35,8 +35,12 @@ class WidgetsTooltipController extends RawTooltipController {
 
       // 绘制
       const items = this.getTooltipItems(point);
-      // @ts-ignore
-      const title = this.getTitle(items);
+
+      let title = '';
+      try {
+        // @ts-ignore
+        title = this.getTitle(items);
+      } catch (e) {}
       const element = cfg.customTooltip(title, items);
       ReactDOM.render(element, this.tooltipContainer);
 
