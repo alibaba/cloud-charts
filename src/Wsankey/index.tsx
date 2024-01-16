@@ -78,7 +78,7 @@ export class Sankey extends Base<WsankeyConfig> {
       colors: themes.category_20,
       legend: {
         align: 'left',
-        position: 'top-left',
+        position: 'bottom-left',
         nameFormatter: null, // 可以强制覆盖，手动设置label
       },
       tooltip: {
@@ -209,7 +209,7 @@ export class Sankey extends Base<WsankeyConfig> {
                 marker: {
                   style: {
                     stroke: 'rgba(0,0,0,0)',
-                    r: 4,
+                    r: 3,
                     lineWidth: 0,
                   },
                 },
