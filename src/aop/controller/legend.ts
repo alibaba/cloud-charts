@@ -38,10 +38,19 @@ class WidgetsLegendController extends RawLegendController {
       if (!this.widgetsContainer) {
         this.widgetsContainer = document.createElement('div');
         this.widgetsContainer.className = `${FullCrossName} widgets-legend`;
+        const position = legendOption?.position?.split('-')?.[0];
         const align = legendOption?.position?.split('-')?.[1] ?? 'center';
-        const direction =
+        const directionX = ['top', 'bottom'].includes(position)
+          ? align === 'center'
+            ? 'center'
+            : align === 'left' || align === 'top'
+            ? 'flex-start'
+            : 'flex-end'
+          : 'flex-start';
+
+        const directionY =
           align === 'center' ? 'center' : align === 'left' || align === 'top' ? 'flex-start' : 'flex-end';
-        this.widgetsContainer.style.cssText = `width: 100%; display: flex; justify-content: ${direction}; align-items: ${direction}; overflow-x: auto;overflow-y: hidden;`;
+        this.widgetsContainer.style.cssText = `width: 100%; display: flex; justify-content: ${directionX}; align-items: ${directionY}; overflow-x: auto;overflow-y: hidden;`;
         this.parentDom.appendChild(this.widgetsContainer);
       }
 

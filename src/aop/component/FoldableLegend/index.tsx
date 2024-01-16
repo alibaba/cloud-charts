@@ -166,12 +166,14 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
   const handleFold = () => {
     // 图表高度恢复
     const chartDom = widgetsCtx?.chartDom;
-    const height = containerHeight - 20;
-    // @ts-ignore
-    chartDom.style.height = `${height}px`;
-    chart.changeSize(containerWidth, height);
+    if (chartDom) {
+      const height = containerHeight - 20;
+      // @ts-ignore
+      chartDom.style.height = `${height}px`;
+      chart.changeSize(containerWidth, height);
 
-    setFolded(true);
+      setFolded(true);
+    }
   };
 
   return (

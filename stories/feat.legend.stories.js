@@ -638,19 +638,10 @@ stories.add('列表型legend', () => {
 });
 
 stories.add('列表型legend(config变化)', () => {
-  const [config, setConfig] = useState({
-    legend: {
-      visible: false,
-      // position: 'right',
-      table: {
-        statistics: ['min', 'max', 'avg', 'current'],
-      },
-    },
-  });
+  const [config, setConfig] = useState({});
   useEffect(() => {
     setTimeout(() => {
       setConfig({
-        area: true,
         legend: {
           visible: true,
           // position: 'right',
@@ -664,9 +655,9 @@ stories.add('列表型legend(config变化)', () => {
 
   return (
     <div style={{ width: 800, height: 300 }}>
-      <Wline
+      <Wpie
         // height="300"
-        data={lineData}
+        data={pieData}
         config={config}
       />
     </div>
@@ -775,13 +766,13 @@ stories.add('列表型legend（柱图）', () => {
 
 stories.add('列表型legend（饼图）', () => {
   return (
-    <div>
+    <div style={{ width: 800, height: 400 }}>
       <Wpie
-        height="300"
+        // height="300"
         data={pieData}
         config={{
           legend: {
-            // position: 'right-top',
+            position: 'right-top',
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
             },
@@ -794,11 +785,11 @@ stories.add('列表型legend（饼图）', () => {
 
 stories.add('legend折叠(数据少时）', () => {
   const [d, setD] = useState(lineData);
-  useEffect(() => {
-    setTimeout(() => {
-      setD(multipleData);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setD(multipleData);
+  //   }, 3000);
+  // }, []);
   return (
     <div style={{ width: 600 }}>
       <Wline
@@ -806,7 +797,7 @@ stories.add('legend折叠(数据少时）', () => {
         data={d}
         config={{
           legend: {
-            // position: 'bottom-right',
+            position: 'bottom-right',
             foldable: true,
           },
         }}
@@ -880,9 +871,9 @@ const pieData3 = [
 
 stories.add('legend折叠(饼图）', () => {
   return (
-    <div style={{ width: 600 }}>
+    <div style={{ width: 600, height: 300 }}>
       <Wpie
-        height="300"
+        // height="300"
         data={pieData}
         config={{
           legend: {

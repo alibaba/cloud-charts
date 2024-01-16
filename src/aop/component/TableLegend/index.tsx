@@ -180,7 +180,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               {statistics?.map((statistic: string) => {
                 const value = statisticsRes[id]?.[statistic];
                 return (
-                  <td className={`${prefix}-statistics`}>
+                  <td className={`${prefix}-statistics`} key={statistic}>
                     {value || value === 0 ? formatValue(value, config?.table?.decimal) : '-'}
                   </td>
                 );
