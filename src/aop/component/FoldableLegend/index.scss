@@ -75,7 +75,7 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
 }
 
 #{$prefix}more {
-  box-sizing: content-box;
+  box-sizing: content-box !important;
   position: absolute;
   top: 0;
   right: 0;
@@ -97,7 +97,7 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
 }
 
 #{$prefix}fold {
-  box-sizing: content-box;
+  box-sizing: content-box !important;
   position: absolute;
   top: 0;
   right: 4px;
