@@ -59,6 +59,14 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
     curElement = curElement.offsetParent as HTMLDivElement;
   }
 
+  // 减去scroll的宽高
+  curElement = ref.current;
+  while (curElement && curElement !== document.body) {
+    pos.x -= curElement.scrollLeft;
+    pos.y -= curElement.scrollTop;
+    curElement = curElement.parentElement as HTMLDivElement;
+  }
+
   return ReactDOM.createPortal(
     visible ? (
       <div

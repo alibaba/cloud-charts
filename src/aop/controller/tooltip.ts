@@ -56,6 +56,15 @@ class WidgetsTooltipController extends RawTooltipController {
         position.y += curElement.offsetTop;
         curElement = curElement.offsetParent as HTMLDivElement;
       }
+
+      // 减去scroll的宽高
+      curElement = this.parentDom;
+      while (curElement && curElement !== document.body) {
+        position.x -= curElement.scrollLeft;
+        position.y -= curElement.scrollTop;
+        curElement = curElement.parentElement as HTMLDivElement;
+      }
+
       const tooltipRect = this.tooltipContainer.getBoundingClientRect();
       const bodyWidth = document.body.clientWidth;
       if (position.x + tooltipRect.width > bodyWidth) {
