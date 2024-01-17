@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { Wbar, Wcontainer } from '@alicloud/cloud-charts';
+import { cloneDeep } from 'lodash';
 
 const data = [
   {
@@ -97,7 +98,7 @@ stories.add('堆叠柱状图', () => (
       height="300"
       config={{
         stack: true,
-        label: true
+        label: {},
       }}
       data={data}
     />
@@ -118,7 +119,7 @@ stories.add('极坐标堆叠柱状图', () => (
   </Wcontainer>
 ));
 
-const yuData = data.slice(0, 1);
+const yuData = cloneDeep(data).slice(0, 1);
 yuData[0].data = yuData[0].data.slice(0, 5).sort((a, b) => {
   return a[1] - b[1];
 });
@@ -371,7 +372,7 @@ for (let i = 0; i < 10; i++) {
 }
 let options2 = {
   dodgeStack: true,
-  label: true
+  label: true,
 };
 
 let data4 = [
