@@ -608,6 +608,11 @@ class Base<
     const extraConfig = checkSpecialConfig(this.chartName, config, force);
     config = merge({}, config, extraConfig);
 
+    // 检测饼图、多重饼图、多重圆环是否有chilren
+    if (['G2Pie', 'G2MultiPie', 'G2MultiCircle'].includes(this.chartName) && this.props.children) {
+      warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
+    }
+
     // 生成图表实例
     const chart = new Chart({
       container: this.chartDom,
