@@ -100,6 +100,9 @@ stories.add('堆叠柱状图', () => (
         stack: true,
         // label: true,
         showStackSum: true,
+        yAxis: {
+          max: 500,
+        },
       }}
       data={data}
     />

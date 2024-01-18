@@ -5,7 +5,6 @@ import Base from '../common/Base';
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
 import '@antv/data-set/lib/transform/aggregate';
-import '@antv/data-set/lib/transform/default';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, pxToNumber, merge } from '../common/common';
@@ -148,6 +147,7 @@ export class Bar extends Base<WbarConfig> {
           nice: true,
           type: 'linear',
           tickCount: 5,
+          sync: 'y'
         },
         config.yAxis,
       ),
@@ -158,15 +158,10 @@ export class Bar extends Base<WbarConfig> {
       facet: {
         sync: true,
       },
-      sum: propertyAssign(
-        propertyMap.axis,
-        {
-          nice: true,
-          type: 'linear',
-          tickCount: 5
-        },
-        config.yAxis,
-      ),
+      sum: {
+        nice: true,
+        sync: 'y'
+      },
       percent: propertyAssign(
         propertyMap.axis,
         {
@@ -592,7 +587,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
 
   // TOPO 图表类型的规则执行，以及API制定
   // 【API执行】堆叠/分组堆叠/百分比堆叠的时候，开启label内置增加优化显示，已配置的业务关闭
-  if (config.showStackSum) {
+  if (config.showStackSum && config.stack) {
     const labelGeom = chart
       .interval({})
       .position(['x', 'sum'])
@@ -648,10 +643,6 @@ function computerData(config: WbarConfig, data: any) {
       operations: ['sum'],
       as: ['sum'],
       groupBy: ['x'],
-    });
-  } else {
-    dv.transform({
-      type: 'default'
     });
   }
 
