@@ -75,7 +75,7 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
 }
 
 #{$prefix}more {
-  box-sizing: content-box !important;
+  box-sizing: border-box;
   position: absolute;
   top: 0;
   right: 0;
@@ -87,7 +87,7 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
   backdrop-filter: blur(2px);
   box-shadow: $button-shadow;
   cursor: pointer;
-  height: 12px;
+  height: 18px;
   padding: 3px;
 
   svg {
@@ -97,7 +97,7 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
 }
 
 #{$prefix}fold {
-  box-sizing: content-box !important;
+  box-sizing: border-box;
   position: absolute;
   top: 0;
   right: 4px;
@@ -109,6 +109,6 @@ $button-shadow: getVar(widgets-legend-button-shadow, $widgets-legend-button-shad
   backdrop-filter: blur(2px);
   box-shadow: $button-shadow;
   cursor: pointer;
-  height: 14px;
+  height: 18px;
   padding: 2px 4px;
 }
