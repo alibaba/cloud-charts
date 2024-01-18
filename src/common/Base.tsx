@@ -610,7 +610,12 @@ class Base<
 
     // 检测饼图、多重饼图、多重圆环是否有chilren
     if (['G2Pie', 'G2MultiPie', 'G2MultiCircle'].includes(this.chartName) && this.props.children) {
-      warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
+      // @ts-ignore
+      if (this.props.config?.innerContent) {
+        warn(`W${this.chartName.slice(2)}`, '图表的中心内容innerContent配置项会被chilren覆盖，建议删除chilren');
+      } else {
+        warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
+      }
     }
 
     // 生成图表实例
