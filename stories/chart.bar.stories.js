@@ -98,7 +98,8 @@ stories.add('堆叠柱状图', () => (
       height="300"
       config={{
         stack: true,
-        label: {},
+        // label: true,
+        showStackSum: true,
       }}
       data={data}
     />
@@ -113,6 +114,7 @@ stories.add('极坐标堆叠柱状图', () => (
         // size: 2 * 360 / 9,
         polar: true,
         innerRadius: 0.2,
+        showStackSum: true,
       }}
       data={data}
     />

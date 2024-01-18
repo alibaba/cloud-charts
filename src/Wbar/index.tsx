@@ -4,6 +4,8 @@ import { Chart, Types, BaseChartConfig, Colors, G2Dependents, ChartData } from '
 import Base from '../common/Base';
 import { View as DataView } from '@antv/data-set/lib/view';
 import '@antv/data-set/lib/transform/percent';
+import '@antv/data-set/lib/transform/aggregate';
+import '@antv/data-set/lib/transform/default';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, pxToNumber, merge } from '../common/common';
@@ -81,6 +83,8 @@ interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig, Slide
   dodgePadding?: number;
   /** 百分比堆叠柱状图 */
   percentage?: boolean;
+  // 是否展示堆叠总数
+  showStackSum?: boolean;
 }
 
 export class Bar extends Base<WbarConfig> {
@@ -154,6 +158,15 @@ export class Bar extends Base<WbarConfig> {
       facet: {
         sync: true,
       },
+      sum: propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+          type: 'linear',
+          tickCount: 5
+        },
+        config.yAxis,
+      ),
       percent: propertyAssign(
         propertyMap.axis,
         {
@@ -166,15 +179,25 @@ export class Bar extends Base<WbarConfig> {
     };
 
     chart.scale(defs);
+  
+    const dataView = computerData(config, data);
+    this.barDataView = dataView;
 
     if (config.percentage) {
-      const dataView = computerData(config, data);
-      this.barDataView = dataView;
       chart.data(dataView.rows);
     } else {
+      if (config.showStackSum) {
+        data.map((el: any) => {
+          const filterData = dataView.rows.filter((row: any) => el.x === row.x && el.type === row.type);
+          if (filterData.length > 0) {
+            el.sum = filterData[0].sum;
+          }
+        })
+      }
       chart.data(data);
     }
 
+    chart.axis('sum', false);
     // 设置单个Y轴
     if (!config.facet) {
       if (config.percentage) {
@@ -486,6 +509,14 @@ export class Bar extends Base<WbarConfig> {
       this.barDataView.source(data);
       chart.changeData(this.barDataView.rows);
     } else {
+      if (config.showStackSum) {
+        data.map((el: any) => {
+          const filterData = this.barDataView.rows.filter((row: any) => el.x === row.x && el.type === row.type);
+          if (filterData.length > 0) {
+            el.sum = filterData[0].sum;
+          }
+        })
+      }
       chart.changeData(data);
     }
   }
@@ -559,18 +590,40 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
 
   geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
 
-  label({
-    geom: geom,
-    config: config,
-    extraCallbackParams: facet ? [facet] : undefined,
-  });
+  // TOPO 图表类型的规则执行，以及API制定
+  // 【API执行】堆叠/分组堆叠/百分比堆叠的时候，开启label内置增加优化显示，已配置的业务关闭
+  if (config.showStackSum) {
+    const labelGeom = chart
+      .interval({})
+      .position(['x', 'sum'])
+      .adjust([
+        {
+          type: 'stack',
+          reverseOrder: !stackReverse,
+        },
+      ])
+      .tooltip(false)
+      .size(0)
+      .style({
+        opacity: 0,
+        r: 0,
+      });
+    labelGeom.label('sum');
+    
+  } else {
+    label({
+      geom: geom,
+      config: config,
+      extraCallbackParams: facet ? [facet] : undefined,
+    });
+  }
 }
 
 function computerData(config: WbarConfig, data: any) {
-  const { dodgeStack } = config;
+  const { stack, dodgeStack, percentage } = config;
   const dv = new DataView().source(data);
 
-  if (dodgeStack) {
+  if (percentage && dodgeStack) {
     dv.transform({
       type: 'percent',
       field: 'y',
@@ -578,13 +631,27 @@ function computerData(config: WbarConfig, data: any) {
       groupBy: ['x', 'dodge'],
       as: 'percent',
     });
-  } else {
+  } else if (percentage) {
     dv.transform({
       type: 'percent',
       field: 'y',
       dimension: 'type',
       groupBy: ['x'],
       as: 'percent',
+    });
+  } else if (stack){
+    // 只算第一组的数据总量
+    // 按X轴计算Y的总量，映射到sum字段上
+    dv.transform({
+      type: 'aggregate',
+      fields: ['y'],
+      operations: ['sum'],
+      as: ['sum'],
+      groupBy: ['x'],
+    });
+  } else {
+    dv.transform({
+      type: 'default'
     });
   }
 

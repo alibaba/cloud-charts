@@ -53,7 +53,6 @@ type Position =
   | 'bottom'
   | 'bottom-left'
   | 'bottom-right';
-
 export interface LegendConfig extends customFormatterConfig {
   visible?: boolean;
   /** 是否支持分页 */
@@ -180,7 +179,7 @@ function getPadding(position: string, base: number, userPadding?: number[], isPo
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig | boolean },
+  config: { legend?: LegendConfig | boolean, showStackSum?: boolean },
   defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
   field?: string,
@@ -315,25 +314,28 @@ export default function <T>(
     // 去除默认图例行为
     chart.removeInteraction('legend-filter');
 
-    if (useReverseChecked) {
-      // 默认反选模式
-      registerAction('list-checked', ListReverseChecked);
-
-      if (clickable) {
-        if (allowAllCanceled) {
-          chart.interaction('legend-custom-filter');
-        } else {
-          chart.interaction('legend-custom-filter-last');
+    // 如果用内置堆叠图显示label，则不会触发图例点击效果
+    if (!config.showStackSum) {
+      if (useReverseChecked) {
+        // 默认反选模式
+        registerAction('list-checked', ListReverseChecked);
+  
+        if (clickable) {
+          if (allowAllCanceled) {
+            chart.interaction('legend-custom-filter');
+          } else {
+            chart.interaction('legend-custom-filter-last');
+          }
         }
-      }
-    } else {
-      registerAction('list-checked', ListChecked);
-
-      if (clickable) {
-        if (allowAllCanceled) {
-          chart.interaction('legend-custom-filter');
-        } else {
-          chart.interaction('legend-singlechecked-filter-last');
+      } else {
+        registerAction('list-checked', ListChecked);
+  
+        if (clickable) {
+          if (allowAllCanceled) {
+            chart.interaction('legend-custom-filter');
+          } else {
+            chart.interaction('legend-singlechecked-filter-last');
+          }
         }
       }
     }
