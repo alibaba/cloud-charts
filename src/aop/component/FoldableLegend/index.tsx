@@ -272,11 +272,7 @@ function LegendName({ name = '', style = {} }: { name: string; style: any }) {
       <div className={`${prefix}-name`} style={style} ref={ref}>
         {name}
       </div>
-      <WidgetsTooltip
-        ref={ref}
-        content={name}
-        offset={{ y: -ref.current?.parentElement?.parentElement?.parentElement?.scrollTop }}
-      />
+      <WidgetsTooltip ref={ref} content={name} />
     </>
   );
 }
