@@ -33,6 +33,53 @@ class WidgetsLegendController extends RawLegendController {
 
     this.widgetsContainer = this.parentDom.getElementsByClassName('widgets-legend')?.[0] as HTMLElement;
 
+    // const {
+    //   autoCollapse,
+    //   collapseRow,
+    //   showData,
+    //   marker,
+    //   allowAllCanceled,
+    //   hoverable,
+    //   onHover,
+    //   clickable,
+    //   onClick,
+    //   customConfig,
+    //   maxWidth,
+    //   maxHeight,
+    //   maxWidthRatio,
+    //   maxHeightRatio,
+    //   useReverseChecked,
+    //   table,
+    //   foldable,
+    //   dodge,
+    // } = this.view?.widgetsCtx?.props?.config?.legend || {};
+
+    // // 当以下配置项生效时，使用g2 原生legend
+    // if (
+    //   !table &&
+    //   !foldable &&
+    //   (autoCollapse ||
+    //     collapseRow ||
+    //     showData ||
+    //     marker ||
+    //     allowAllCanceled ||
+    //     hoverable === false ||
+    //     onHover ||
+    //     clickable === false ||
+    //     onClick ||
+    //     customConfig ||
+    //     maxWidth ||
+    //     maxHeight ||
+    //     maxWidthRatio ||
+    //     maxHeightRatio ||
+    //     useReverseChecked === false ||
+    //     dodge)
+    // ) {
+    //   console.log('normal', this.view?.widgetsCtx?.props?.config?.legend);
+    //   // 普通legend
+    //   return new CategoryLegend(cfg);
+    // }
+
     // 列表型legend及折叠型legend
     if (legendOption?.table || legendOption?.foldable) {
       if (!this.widgetsContainer) {
