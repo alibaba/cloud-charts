@@ -1,9 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 
-import { Wcontainer, Wline, Wlinebar, Wpie, Wbar } from '@alicloud/cloud-charts';
+import {
+  Wcontainer,
+  Wline,
+  Wlinebar,
+  Wpie,
+  Wbar,
+  WmultiPie,
+  ChartProvider,
+} from '@alicloud/cloud-charts';
 
 const data = [
   {
@@ -674,7 +682,7 @@ stories.add('列表型legend（国际化）', () => {
           data={lineData}
           config={{
             legend: {
-              visible: false,
+              // visible: false,
               // position: 'right',
               table: {
                 statistics: ['min', 'max', 'avg'],
