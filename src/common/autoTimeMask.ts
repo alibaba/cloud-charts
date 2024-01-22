@@ -1,6 +1,7 @@
 'use strict';
 
-import { Types, ChartData } from "./types";
+import { Types, ChartData } from './types';
+import autoTimeTicksMethod from './autoTimeTicksMethod';
 
 const defaultMask = 'HH:mm:ss\nYYYY-MM-DD';
 const MINUTE_MS = 60 * 1000;
@@ -51,6 +52,12 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
     Array.isArray(data[0].data)
   ) {
     def.mask = getAutoMask(def, data[0].data);
+    // 时间分类用默认的
+    if (!def.tickMethod && def.type === 'time') {
+      def.tickMethod = (cfg: Types.ScaleOption) => {
+        return autoTimeTicksMethod(cfg);
+      };
+    }
   }
 }
 
@@ -61,14 +68,14 @@ function getAutoMask(def: Types.ScaleOption, data: any): string {
   }
   // 假设数据是升序的，且传入为 Date 能识别的格式
   // 只取第一、二个元素的间距
-  const min = (new Date(data[0][0])).getTime();
-  const minFirst = (new Date(data[1][0])).getTime();
-  const max = (new Date(data[data.length - 1][0])).getTime();
+  const min = new Date(data[0][0]).getTime();
+  const minFirst = new Date(data[1][0]).getTime();
+  const max = new Date(data[data.length - 1][0]).getTime();
   if (isNaN(min) || isNaN(max) || isNaN(minFirst)) {
     return defaultMask;
   }
   const span = max - min; // 间隔
-  const interval = def.tickInterval || (minFirst - min); // 跨度
+  const interval = def.tickInterval || minFirst - min; // 跨度
 
   const spanIndex = getTimeIndex(span);
   const intervalIndex = getTimeIndex(interval);

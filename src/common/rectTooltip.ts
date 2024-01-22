@@ -88,7 +88,7 @@ export default function <T>(
     const {
       sort,
       showTitle = true,
-      showColon = true,
+      showColon = false,
       position,
       offset,
       // inPlot = true,
