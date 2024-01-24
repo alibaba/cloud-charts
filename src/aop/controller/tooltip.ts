@@ -91,6 +91,16 @@ class WidgetsTooltipController extends RawTooltipController {
       if (this.tooltipContainer) {
         this.tooltipContainer.style.visibility = 'hidden';
       }
+
+      // hide crosshairs
+      // @ts-ignore
+      const { xCrosshair, yCrosshair } = this;
+      if (xCrosshair) {
+        xCrosshair.hide();
+      }
+      if (yCrosshair) {
+        yCrosshair.hide();
+      }
     } else {
       super.hideTooltip();
     }
@@ -102,6 +112,16 @@ class WidgetsTooltipController extends RawTooltipController {
       if (this.tooltipContainer) {
         document.body.removeChild(this.tooltipContainer);
         this.tooltipContainer = null;
+      }
+
+      // clear crosshairs
+      // @ts-ignore
+      const { xCrosshair, yCrosshair } = this;
+      if (xCrosshair) {
+        xCrosshair.clear();
+      }
+      if (yCrosshair) {
+        yCrosshair.clear();
       }
     } else {
       super.destroy();
