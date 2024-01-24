@@ -77,6 +77,9 @@ class WidgetsTooltipController extends RawTooltipController {
       this.tooltipContainer.style.top = `${position.y}px`;
       // @ts-ignore
       this.tooltipContainer.style.left = `${position.x}px`;
+
+      // 显示辅助线
+      super.renderCrosshairs(point, cfg);
     } else {
       super.showTooltip(point);
     }
