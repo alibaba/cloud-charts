@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
-const sass = require('node-sass');
+const sass = require('sass');
 const sassExtract = require('sass-extract');
 const createSassExtractJsPlugin = require('./sass-extract-js/plugin');
 const sassExtractJsPlugin = createSassExtractJsPlugin({ camelCase: false, hex: true });
@@ -17,7 +17,9 @@ module.exports = ({ context, log, modifyUserConfig, onHook }) => {
       const rendered = sassExtract.renderSync({
         file: themePath + '/' + theme,
       }, {
-        plugins: [sassExtractJsPlugin]
+        // sass-extract 3.0 新增，支持 dart-sass
+        implementation: sass,
+        plugins: [sassExtractJsPlugin],
       });
 
       fs.writeFileSync(themePath + '/' + theme.replace(/\.scss$/, '.style.ts'), `export default ${JSON.stringify(rendered.vars)};`);
