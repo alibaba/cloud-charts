@@ -166,6 +166,7 @@ const WHITE_COLORS_MAP = {
 
 function getG2StyleSheet(theme: Theme): Types.StyleSheet {
   const fontSize1 = pxToNumber(theme['widgets-font-size-1']);
+  const fontSize2 = pxToNumber(theme['widgets-font-size-3']);
   const isDark = isContrastColorWhite(theme['widgets-color-background']);
 
   let BLACK_COLORS = BLACK_COLORS_MAP;
@@ -294,7 +295,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 图例 marker 颜色 */
     legendMarkerColor: QUALITATIVE_10[0],
     /** 图例 marker 距离图例文本的间距 */
-    legendMarkerSpacing: fontSize1 / 3,
+    legendMarkerSpacing: fontSize2 / 2,
     /** 图例 marker 默认半径大小 */
     legendMarkerSize: fontSize1 / 3,
     /** 图例 'circle' marker 半径 */
@@ -313,9 +314,9 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 图例项粗细 */
     legendItemNameFontWeight: 'normal',
     /** 图例项之间的水平间距 */
-    legendItemSpacing: fontSize1,
+    legendItemSpacing: fontSize2,
     /** 图例项垂直方向的间隔 */
-    legendItemMarginBottom: fontSize1,
+    legendItemMarginBottom: fontSize2,
     /** 图例与图表绘图区域的偏移距离  */
     legendPadding: [8, 8, 8, 8],
     /** 水平布局的图例与绘图区域偏移距离 */

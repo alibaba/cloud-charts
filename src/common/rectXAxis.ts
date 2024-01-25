@@ -46,7 +46,7 @@ export default function <T>(
       autoEllipsis,
       label,
       labelFormatter,
-      tickLine,
+      tickLine = true,
       customConfig,
     } = config.xAxis || {};
     let myTickLine = null;
