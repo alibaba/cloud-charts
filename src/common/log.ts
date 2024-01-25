@@ -98,7 +98,6 @@ setTimeout(() => {
   // 规则计算部分
   if (testable) {
     const chartRulesResult = calcChartScore(logMap);
-    console.log(chartRulesResult);
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
     window[FullQualityName] = chartRulesResult;

@@ -51,16 +51,24 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
     Array.isArray(data[0].data)
   ) {
     def.mask = getAutoMask(def, data[0].data);
+
+    // 默认的tickCount为7，导致时间永远无法获取全量数据
+    // 这里通过修改tickCount的值为当前X轴的数量，使保底能得到全量数据
     if (!def.tickMethod && def.type === 'time') {
       def.tickMethod = (cfg: Types.ScaleOption) => {
-        return timePretty(cfg);
+        const { values } = cfg;
+        return timePretty({
+          ...cfg,
+          tickCount: values?.length,
+          ...def,
+        });
       };
     } else if (!def.tickMethod && def.type === 'timeCat') {
       def.tickMethod = (cfg: Types.ScaleOption) => {
-        // 默认的tickCount为7，导致时间分类永远无法获取全量数据
-        // 这里通过改图表默认去掉tickCount数，使时间分类得到全量数据
+        const { values } = cfg;
         return timeCat({
           ...cfg,
+          tickCount: values?.length,
           ...def,
         });
       };
