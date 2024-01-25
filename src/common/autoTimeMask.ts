@@ -1,7 +1,6 @@
 'use strict';
-
 import { Types, ChartData } from './types';
-import autoTimeTicksMethod from './autoTimeTicksMethod';
+import { timePretty, timeCat } from './autoTimeTicksMethod';
 
 const defaultMask = 'HH:mm:ss\nYYYY-MM-DD';
 const MINUTE_MS = 60 * 1000;
@@ -52,10 +51,18 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
     Array.isArray(data[0].data)
   ) {
     def.mask = getAutoMask(def, data[0].data);
-    // 时间分类用默认的
     if (!def.tickMethod && def.type === 'time') {
       def.tickMethod = (cfg: Types.ScaleOption) => {
-        return autoTimeTicksMethod(cfg);
+        return timePretty(cfg);
+      };
+    } else if (!def.tickMethod && def.type === 'timeCat') {
+      def.tickMethod = (cfg: Types.ScaleOption) => {
+        // 默认的tickCount为7，导致时间分类永远无法获取全量数据
+        // 这里通过改图表默认去掉tickCount数，使时间分类得到全量数据
+        return timeCat({
+          ...cfg,
+          ...def,
+        });
       };
     }
   }
