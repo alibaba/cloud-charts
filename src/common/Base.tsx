@@ -553,6 +553,12 @@ class Base<
       globalRule = merge({}, this.context?.rule, this.props.force);
     }
 
+    // 图表初始化时记录用户自定义配置项
+    chartLog(this.chartName, 'configInfo', {
+      chartId: this.chartId,
+      config: this.props.config || {},
+      chartName: this.chartName
+    });
     let currentProps: Props = {
       ...this.props,
       config: merge({}, this.defaultConfig, globalBaseConfig, globalComsConfig, this.props.config),

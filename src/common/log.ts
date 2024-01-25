@@ -21,6 +21,8 @@ const logMap: {
     init: number;
     // 规则执行的错误统计
     rulesInfo: any;
+    // 用户自定义的配置项
+    configInfo: any;
   };
 } = {};
 
@@ -35,6 +37,7 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
     logMap[name] = {
       init: 0,
       rulesInfo: [],
+      configInfo: [],
     };
   }
 
@@ -51,6 +54,8 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
       checkItem: logInfo.checkItem,
       errorInfo: logInfo.errorInfo,
     });
+  } else if (logType === 'configInfo') {
+    logMap[name][logType].push(logInfo);
   }
 }
 
@@ -93,6 +98,7 @@ setTimeout(() => {
   // 规则计算部分
   if (testable) {
     const chartRulesResult = calcChartScore(logMap);
+    console.log(chartRulesResult);
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
     window[FullQualityName] = chartRulesResult;

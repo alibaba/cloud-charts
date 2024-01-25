@@ -37,12 +37,15 @@ export function calcChartScore(logMap: any) {
   let chartNumber = 0;
   // test后期会用
   const errorInfoArray: any = [];
+  // 统计config使用
+  const configInfoArray: any = [];
 
   Object.keys(logMap).forEach((chartName: string) => {
     // console.log(logMap);
     chartNumber += logMap[chartName].init ?? 0;
     // 错误信息汇总
-    errorInfoArray.push(logMap[chartName]?.rulesInfo ?? {});
+    logMap[chartName]?.rulesInfo?.length !== 0 && errorInfoArray.push(logMap[chartName]?.rulesInfo);
+    logMap[chartName]?.configInfo?.length !== 0 && configInfoArray.push(logMap[chartName]?.configInfo);
 
     logMap[chartName]?.rulesInfo.forEach((subInfo: any) => {
       const ruleInfo = chartQuality[subInfo.checkItem] ?? {};
@@ -62,6 +65,7 @@ export function calcChartScore(logMap: any) {
   return {
     rate: numberDecimal(score - avgErrorScore),
     errorInfo: errorInfoArray,
+    configIngo: configInfoArray,
     chartInfo: {
       // 图表数量（去除废弃组件）
       chartRealSum: chartNumber - (logMap.Wcontainer?.init?? 0),
