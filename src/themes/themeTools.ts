@@ -522,14 +522,14 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** 空心点图 active 状态下描边粗细 */
     hollowPointActiveBorder: 1.5,
     /** 空心点图 active 状态下描边颜色 */
-    hollowPointActiveBorderColor: BLACK_COLORS[100],
+    hollowPointActiveBorderColor: QUALITATIVE_10[0],
     /** 空心点图 active 状态下描边透明度 */
     hollowPointActiveBorderOpacity: 1,
 
     /** 空心点图 selected 状态下描边粗细 */
     hollowPointSelectedBorder: 1.5,
     /** 空心点图 selected 状态下描边颜色 */
-    hollowPointSelectedBorderColor: BLACK_COLORS[100],
+    hollowPointSelectedBorderColor: QUALITATIVE_10[0],
     /** 空心点图 selected 状态下描边透明度 */
     hollowPointSelectedBorderOpacity: 1,
 
@@ -594,13 +594,13 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
     /** interval active 状态下边框粗细 */
     intervalActiveBorder: 0,
     /** interval active 状态下边框颜色 */
-    intervalActiveBorderColor: BLACK_COLORS[100],
+    intervalActiveBorderColor: 'rgba(0,0,0,0)',
     intervalActiveBorderOpacity: 1,
 
     /** interval selected 状态下边框粗细 */
     intervalSelectedBorder: 2,
     /** interval selected 状态下边框颜色 */
-    intervalSelectedBorderColor: BLACK_COLORS[100],
+    intervalSelectedBorderColor: 'rgba(0,0,0,0)',
     /** interval selected 状态下边框透明度 */
     intervalSelectedBorderOpacity: 1,
 

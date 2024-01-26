@@ -207,6 +207,22 @@ function drawCandle(chart: Chart, config: WcandlestickConfig, colors: Colors) {
         labelMax: labelMax || 'max',
         labelMin: labelMin || 'min',
       };
+    })
+    .state({
+      active: {
+        style: (ele: any) => {
+          return {
+            stroke: ele?.model?.color,
+          };
+        },
+      },
+      selected: {
+        style: (ele: any) => {
+          return {
+            stroke: ele?.model?.color,
+          };
+        },
+      },
     });
 
   geomSize(geom, config.size, null, 'y', 'x*y*trend*extra');

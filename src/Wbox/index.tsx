@@ -121,20 +121,47 @@ export default Wbox;
 function drawBox(chart: Chart, config: WboxConfig, colors: Colors, field = 'type') {
   const { dodge, marginRatio, size } = config;
 
-  const geom = chart.schema().position(['x', 'y']).shape('box').color(field, colors);
+  const geom = chart
+    .schema()
+    .position(['x', 'y'])
+    .shape('box')
+    .color(field, colors)
+    .state({
+      active: {
+        style: (ele: any) => {
+          return {
+            stroke: ele?.model?.color,
+          };
+        },
+      },
+      selected: {
+        style: (ele: any) => {
+          return {
+            stroke: ele?.model?.color,
+          };
+        },
+      },
+    });
 
   if (dodge !== false) {
-    geom.adjust([{
-      type: 'dodge',
-      marginRatio: marginRatio || 0.5, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
-    }]);
+    geom.adjust([
+      {
+        type: 'dodge',
+        marginRatio: marginRatio || 0.5, // 数值范围为 0 至 1，用于调整分组中各个柱子的间距
+      },
+    ]);
   }
 
   geomSize(geom, size, null, 'y', 'x*y*type*extra');
 
-  geomStyle(geom, config.geomStyle, {
-    lineWidth: 2
-  }, 'x*y*type*extra');
+  geomStyle(
+    geom,
+    config.geomStyle,
+    {
+      lineWidth: 2,
+    },
+    'x*y*type*extra',
+  );
 
   // label(geom, config);
 }

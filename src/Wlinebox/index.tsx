@@ -365,7 +365,22 @@ function drawBox(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey 
     maxColumnWidth: boxMaxSize || null,
   };
 
-  const intervalGeom = chart.schema(geomConfig).position(['x', 'y']).shape('box').color(legendKey, boxColors);
+  const intervalGeom = chart.schema(geomConfig).position(['x', 'y']).shape('box').color(legendKey, boxColors).state({
+    active: {
+      style: (ele: any) => {
+        return {
+          stroke: ele?.model?.color,
+        };
+      },
+    },
+    selected: {
+      style: (ele: any) => {
+        return {
+          stroke: ele?.model?.color,
+        };
+      },
+    },
+  });;
 
   if (dodge !== false) {
     intervalGeom.adjust([

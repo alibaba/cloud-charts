@@ -146,20 +146,30 @@ export default function drawLine(
   // 曲线上圆点
   if (config.symbol) {
     let pointGeom = null;
+    pointGeom = chart
+      .point(geomConfig)
+      .position(['x', yAxisKey])
+      .color('type', config.colors)
+      // 改为空心shape
+      .shape('hollowCircle')
+      .state({
+        active: {
+          style: (ele: any) => {
+            return {
+              stroke: ele?.model?.color,
+            };
+          },
+        },
+        selected: {
+          style: (ele: any) => {
+            return {
+              stroke: ele?.model?.color,
+            };
+          },
+        },
+      });
     if (config.area && config.stack) {
-      pointGeom = chart
-        .point(geomConfig)
-        .adjust('stack')
-        .position(['x', yAxisKey])
-        .color('type', config.colors)
-        // 改为空心shape
-        .shape('hollowCircle');
-    } else {
-      pointGeom = chart
-        .point(geomConfig)
-        .position(['x', yAxisKey])
-        .color('type', config.colors)
-        .shape('hollowCircle');
+      pointGeom = pointGeom.adjust('stack');
     }
 
     if (typeof config.symbol === 'object') {
