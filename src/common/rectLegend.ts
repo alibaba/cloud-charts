@@ -116,6 +116,9 @@ export interface LegendConfig extends customFormatterConfig {
         /** 显示几位小数，默认3位 */
         decimal?: number;
 
+        /** 数值格式化，使用格式化时decimal失效 */
+        valueFormatter?: (value: number) => any;
+
         /** 自定义表格列 */
         // custom?: TableLegendColumnProps[];
       };
@@ -179,7 +182,7 @@ function getPadding(position: string, base: number, userPadding?: number[], isPo
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig | boolean, showStackSum?: boolean },
+  config: { legend?: LegendConfig | boolean; showStackSum?: boolean },
   defaultConfig: Types.LegendCfg,
   isOneDataGroup: boolean,
   field?: string,
@@ -319,7 +322,7 @@ export default function <T>(
       if (useReverseChecked) {
         // 默认反选模式
         registerAction('list-checked', ListReverseChecked);
-  
+
         if (clickable) {
           if (allowAllCanceled) {
             chart.interaction('legend-custom-filter');
@@ -329,7 +332,7 @@ export default function <T>(
         }
       } else {
         registerAction('list-checked', ListChecked);
-  
+
         if (clickable) {
           if (allowAllCanceled) {
             chart.interaction('legend-custom-filter');

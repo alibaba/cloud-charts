@@ -622,21 +622,29 @@ for (let i = 0; i < 21; i++) {
 
 stories.add('列表型legend', () => {
   const [d, setD] = useState(lineData);
-  useEffect(() => {
-    setTimeout(() => {
-      setD(multipleData);
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setD(multipleData);
+  //   }, 3000);
+  // }, []);
   return (
     <div style={{ width: 800, height: 300 }}>
       <Wline
         // height="300"
         data={d}
         config={{
+          yAxis: {
+            labelFormatter: (value) => {
+              return `${value / 1000}K`;
+            },
+          },
           legend: {
             // position: 'right',
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
+              valueFormatter: (value) => {
+                return `${(value / 1000).toFixed(3)}K`;
+              },
             },
           },
         }}

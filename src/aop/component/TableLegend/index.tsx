@@ -178,10 +178,19 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 <LegendName name={name} />
               </td>
               {statistics?.map((statistic: string) => {
-                const value = statisticsRes[id]?.[statistic];
+                let value = statisticsRes[id]?.[statistic];
+                if (value || value === 0) {
+                  if (config?.table?.valueFormatter && typeof config?.table?.valueFormatter === 'function') {
+                    value = config?.table?.valueFormatter(value);
+                  } else {
+                    value = formatValue(value, config?.table?.decimal);
+                  }
+                } else {
+                  value = '-';
+                }
                 return (
                   <td className={`${prefix}-statistics`} key={statistic}>
-                    {value || value === 0 ? formatValue(value, config?.table?.decimal) : '-'}
+                    {value}
                   </td>
                 );
               })}
