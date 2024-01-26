@@ -39,6 +39,8 @@ export function calcChartScore(logMap: any) {
   const errorInfoArray: any = [];
   // 统计config使用
   const configInfoArray: any = [];
+  // 统计图表性能（渲染时间）
+  const renderTimeArray: any = [];
 
   Object.keys(logMap).forEach((chartName: string) => {
     // console.log(logMap);
@@ -46,6 +48,7 @@ export function calcChartScore(logMap: any) {
     // 错误信息汇总
     logMap[chartName]?.rulesInfo?.length !== 0 && errorInfoArray.push(logMap[chartName]?.rulesInfo);
     logMap[chartName]?.configInfo?.length !== 0 && configInfoArray.push(logMap[chartName]?.configInfo);
+    logMap[chartName]?.renderTimeArray?.length !== 0 && renderTimeArray.push(logMap[chartName]?.renderTimeArray);
 
     logMap[chartName]?.rulesInfo.forEach((subInfo: any) => {
       const ruleInfo = chartQuality[subInfo.checkItem] ?? {};
@@ -66,6 +69,7 @@ export function calcChartScore(logMap: any) {
     rate: numberDecimal(score - avgErrorScore),
     errorInfo: errorInfoArray,
     configIngo: configInfoArray,
+    renderInfo: renderTimeArray,
     chartInfo: {
       // 图表数量（去除废弃组件）
       chartRealSum: chartNumber - (logMap.Wcontainer?.init?? 0),

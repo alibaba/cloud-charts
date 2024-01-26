@@ -23,6 +23,7 @@ const logMap: {
     rulesInfo: any;
     // 用户自定义的配置项
     configInfo: any;
+    renderTimeArray: any;
   };
 } = {};
 
@@ -38,6 +39,7 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
       init: 0,
       rulesInfo: [],
       configInfo: [],
+      renderTimeArray: [],
     };
   }
 
@@ -56,6 +58,8 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
     });
   } else if (logType === 'configInfo') {
     logMap[name][logType].push(logInfo);
+  } else if (logType === 'renderTime') {
+    logMap[name]['renderTimeArray'].push(logInfo);
   }
 }
 
@@ -98,6 +102,7 @@ setTimeout(() => {
   // 规则计算部分
   if (testable) {
     const chartRulesResult = calcChartScore(logMap);
+    console.log(chartRulesResult);
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
     window[FullQualityName] = chartRulesResult;

@@ -704,8 +704,17 @@ class Base<
       checkSize(this.chartName, this.chart);
     });
 
+    const startTime = new Date().getTime();
+
     // 开始渲染
     chart.render();
+
+    const endTime = new Date().getTime();
+    chartLog(this.chartName, 'renderTime', {
+      chartId: this.chartId,
+      chartName: this.chartName,
+      renderTime: endTime - startTime
+    });
 
     // this.handleAfterRender(config);
 
