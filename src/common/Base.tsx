@@ -847,7 +847,7 @@ class Base<
       interaction,
       animate,
       language,
-      localRefresh,
+      localRefresh = false,
       renderer,
       syncViewPadding,
       customChart,
