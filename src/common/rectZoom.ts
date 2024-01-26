@@ -98,7 +98,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
           const endPoint = context.getCurrentPoint();
 
           // 间距过小时不进行filter
-          if (endPoint.x - startPoint.x < 2) {
+          if (Math.abs(endPoint.x - startPoint.x) < 2) {
             // const cursorAction = context.getAction('cursor');
             // cursorAction.crosshair();
             return;
