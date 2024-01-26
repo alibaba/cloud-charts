@@ -180,8 +180,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               {statistics?.map((statistic: string) => {
                 let value = statisticsRes[id]?.[statistic];
                 if (value || value === 0) {
-                  if (config?.table?.valueFormatter && typeof config?.table?.valueFormatter === 'function') {
-                    value = config?.table?.valueFormatter(value);
+                  if (config?.valueFormatter && typeof config?.valueFormatter === 'function') {
+                    value = config?.valueFormatter(value);
                   } else {
                     value = formatValue(value, config?.table?.decimal);
                   }

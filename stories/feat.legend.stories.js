@@ -642,9 +642,9 @@ stories.add('列表型legend', () => {
             // position: 'right',
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
-              valueFormatter: (value) => {
-                return `${(value / 1000).toFixed(3)}K`;
-              },
+            },
+            valueFormatter: (value) => {
+              return `${(value / 1000).toFixed(3)}K`;
             },
           },
         }}

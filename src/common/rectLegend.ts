@@ -113,11 +113,8 @@ export interface LegendConfig extends customFormatterConfig {
         /** 显示哪些指标 */
         statistics?: Array<'min' | 'max' | 'avg' | 'current'>;
 
-        /** 显示几位小数，默认3位 */
+        /** 显示几位小数，默认3位，当有valueFormmater时失效 */
         decimal?: number;
-
-        /** 数值格式化，使用格式化时decimal失效 */
-        valueFormatter?: (value: number) => any;
 
         /** 自定义表格列 */
         // custom?: TableLegendColumnProps[];
@@ -270,6 +267,7 @@ export default function <T>(
       maxHeightRatio: maxHeightRatio || 0.45,
       table,
       foldable,
+      valueFormatter,
     };
 
     // legend hover 相关事件
