@@ -172,6 +172,11 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
       chartDom.style.height = `${height}px`;
       chart.changeSize(containerWidth, height);
 
+      // 滚动到最上方
+      if (contentRef.current) {
+        contentRef.current.scrollTop = 0;
+      }
+
       setFolded(true);
     }
   };
