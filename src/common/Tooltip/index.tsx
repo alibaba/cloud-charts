@@ -72,7 +72,7 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
       <div
         className={`${FullCrossName} ${prefix}-container`}
         style={{
-          position: 'absolute',
+          position: 'fixed',
           top: pos.y + (offset?.y || 0),
           left: pos.x + ref.current?.offsetWidth / 2 + (offset?.x || 0),
         }}
