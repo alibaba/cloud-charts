@@ -73,7 +73,7 @@ export function themeLog(name: string) {
 }
 
 let trackable = window[FullTrackName] !== false;
-let testable = window[FullTestName] !== false;
+let testable = window[FullTestName] === true;
 
 /**
  * 打点控制函数
@@ -100,11 +100,11 @@ export function test(enable: boolean): void {
 const logUrl = `//gm.mmstat.com/${TrackName}`;
 setTimeout(() => {
   // 规则计算部分
+  const chartRulesResult = calcChartScore(logMap);
+  window[FullQualityName] = chartRulesResult;
   if (testable) {
-    const chartRulesResult = calcChartScore(logMap);
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
-    window[FullQualityName] = chartRulesResult;
     postMessage(chartRulesResult);
   }
 
