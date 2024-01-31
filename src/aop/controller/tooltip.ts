@@ -17,6 +17,7 @@ class WidgetsTooltipController extends RawTooltipController {
 
   public showTooltip(point: Point) {
     const cfg = this.getTooltipCfg();
+    // console.log('config', cfg);
 
     // 自定义tooltip
     if (cfg?.customTooltip) {
@@ -79,7 +80,10 @@ class WidgetsTooltipController extends RawTooltipController {
       this.tooltipContainer.style.left = `${position.x}px`;
 
       // 显示辅助线
-      super.renderCrosshairs(point, cfg);
+      if (cfg?.showCrosshairs) {
+        // @ts-ignore
+        super.renderCrosshairs(point, cfg);
+      }
     } else {
       super.showTooltip(point);
     }
