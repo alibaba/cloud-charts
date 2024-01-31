@@ -15,7 +15,7 @@ window.postMessage({
 },"*");
 
 export function postMessage(resultData: any) {
-  window.postMessage({
+  window?.postMessage({
     source: 'teamix-test-devtools',
     moduleType: 'ApsaraStack',
     url: window.location.href,
