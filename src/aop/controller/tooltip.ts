@@ -25,7 +25,7 @@ class WidgetsTooltipController extends RawTooltipController {
       if (!this.tooltipContainer) {
         const container = document.createElement('div');
         container.className = `${FullCrossName} widgets-tooltip`;
-        container.style.cssText = `position: fixed;z-index: 1001; pointer-events: none; transition: left 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;`;
+        container.style.cssText = `position: absolute;z-index: 1001; pointer-events: none; transition: left 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;`;
 
         document.body.append(container);
 
