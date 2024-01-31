@@ -335,7 +335,7 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
       },
       isExtreme: true,
     };
-  } else if (lineCount > 3 && !config.stack) {
+  } else if (lineCount > 3 && !config.stack && config.area) {
     // 当补开启堆叠面积图的时候，且分组数量大于3组
     warn(chartName, '当前线图组数超过3组，不适合开启面积图，已自动关闭面积图配置');
     return {
