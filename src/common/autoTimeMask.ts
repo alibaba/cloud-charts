@@ -59,7 +59,7 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
         const { values } = cfg;
         return timePretty({
           ...cfg,
-          tickCount: values?.length,
+          tickCount: values?.length || 7,
           ...def,
         });
       };
@@ -68,7 +68,7 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
         const { values } = cfg;
         return timeCat({
           ...cfg,
-          tickCount: values?.length,
+          tickCount: values?.length || 7,
           ...def,
         });
       };
