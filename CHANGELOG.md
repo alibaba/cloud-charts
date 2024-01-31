@@ -1,3 +1,13 @@
+### 1.1.3 (2024-01-31)
+
+#### Bug Fixes
+
+- postmessage 问题修复
+- 减少自定义legend中tooltip创建的空div
+- 自定义tooltip改为fixed定位:
+- 修改自定义tooltip的辅助线显示条件
+- 修复时间刻度算法空数据报错的问题
+
 ### 1.1.2 (2024-01-26)
 
 #### New Features
