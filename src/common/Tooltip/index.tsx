@@ -68,7 +68,7 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
   }
 
   return ReactDOM.createPortal(
-    visible ? (
+    visible && (
       <div
         className={`${FullCrossName} ${prefix}-container`}
         style={{
@@ -82,8 +82,6 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
         </div>
         <div className={`${prefix}-content`}>{content || ''}</div>
       </div>
-    ) : (
-      <div />
     ),
     document.body,
   );
