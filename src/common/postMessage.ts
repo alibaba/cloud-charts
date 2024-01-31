@@ -15,7 +15,11 @@ window.postMessage({
 },"*");
 
 export function postMessage(resultData: any) {
-  window?.postMessage({
+  // message会被结构化克隆算法序列化
+  // 只能传递普通对象，对于error和function等无法传递，所以会导致克隆出错
+  // 这里由于统计了配置项，而配置项会包含函数function所以导致报错
+  // 问题链接：https://stackoverflow.com/questions/52122011/failed-to-execute-postmessage-on-window-googletagmanager/52223341#52223341
+  const message = {
     source: 'teamix-test-devtools',
     moduleType: 'ApsaraStack',
     url: window.location.href,
@@ -23,7 +27,9 @@ export function postMessage(resultData: any) {
     moduleName: "@alicloud/cloud-charts",
     moduleVersion: VERSION,
     resultData
-  });
+  };
+
+  window.postMessage(JSON.parse(JSON.stringify(message)));
 }
 
 // 初始图表质量分数统计
