@@ -25,7 +25,7 @@ class WidgetsTooltipController extends RawTooltipController {
       if (!this.tooltipContainer) {
         const container = document.createElement('div');
         container.className = `${FullCrossName} widgets-tooltip`;
-        container.style.cssText = `position: absolute;z-index: 1001; pointer-events: none; transition: left 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;`;
+        container.style.cssText = `position: fixed;z-index: 1001; pointer-events: none; transition: left 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;`;
 
         document.body.append(container);
 
@@ -51,20 +51,9 @@ class WidgetsTooltipController extends RawTooltipController {
         x: point.x + padding,
         y: point.y,
       };
-      let curElement = this.parentDom;
-      while (curElement && curElement !== document.body) {
-        position.x += curElement.offsetLeft;
-        position.y += curElement.offsetTop;
-        curElement = curElement.offsetParent as HTMLDivElement;
-      }
-
-      // 减去scroll的宽高
-      curElement = this.parentDom;
-      while (curElement && curElement !== document.body) {
-        position.x -= curElement.scrollLeft;
-        position.y -= curElement.scrollTop;
-        curElement = curElement.parentElement as HTMLDivElement;
-      }
+      const parentRect = this.parentDom.getBoundingClientRect();
+      position.x += parentRect.left;
+      position.y += parentRect.top;
 
       const tooltipRect = this.tooltipContainer.getBoundingClientRect();
       const bodyWidth = document.body.clientWidth;
