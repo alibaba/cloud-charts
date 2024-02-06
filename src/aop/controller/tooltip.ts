@@ -79,10 +79,20 @@ class WidgetsTooltipController extends RawTooltipController {
       // @ts-ignore
       this.tooltipContainer.style.left = `${position.x}px`;
 
+      if (cfg?.showMarkers) {
+        // @ts-ignore
+        this.renderTooltipMarkers(items, cfg.marker);
+      }
+
       // 显示辅助线
       if (cfg?.showCrosshairs) {
+        const dataPoint = {
+          x: items[0].x,
+          y: items[0].y,
+        }; // 数据点位置
+        const isCrosshairsFollowCursor = cfg?.crosshairs?.follow || false;
         // @ts-ignore
-        super.renderCrosshairs(point, cfg);
+        super.renderCrosshairs(isCrosshairsFollowCursor ? point : dataPoint, cfg);
       }
     } else {
       super.showTooltip(point);
@@ -94,6 +104,12 @@ class WidgetsTooltipController extends RawTooltipController {
     if (cfg?.customTooltip) {
       if (this.tooltipContainer) {
         this.tooltipContainer.style.visibility = 'hidden';
+      }
+
+      // @ts-ignore hide the tooltipMarkers
+      const tooltipMarkersGroup = this.tooltipMarkersGroup;
+      if (tooltipMarkersGroup) {
+        tooltipMarkersGroup.hide();
       }
 
       // hide crosshairs
