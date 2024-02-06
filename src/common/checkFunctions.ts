@@ -397,6 +397,10 @@ export function checkExtremeData(
           },
           // label判断自定义
           label: {
+            layout: {
+              // 数据少的时候默认可以开启label 防遮挡，后期可以自行维护防遮挡算法
+              type: 'fixed-overlap'
+            },
             ...(typeof config?.label === 'object' ? config?.label : {}),
             visible: true,
           },
@@ -430,6 +434,10 @@ export function checkExtremeData(
         config: {
           // label判断自定义
           label: {
+            layout: {
+              // 数据少的时候默认可以开启label 防遮挡，后期可以自行维护防遮挡算法
+              type: 'fixed-overlap'
+            },
             ...(typeof config?.label === 'object' ? config?.label : {}),
             visible: true,
           },
