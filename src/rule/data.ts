@@ -56,6 +56,7 @@ export function calcDataSize(type: DataStructure, data: any) {
     return data?.length > 0 ? Math.max(...data?.map((item: any) => item?.data?.length ?? 0)) : 0;
   } else {
     // nodes数组长度
-    return data?.nodes?.length;
+    // 图数据可能只是一个空对象，不一定有nodes字段，不加兜底会返回undefined导致数据异常和图形一起显示
+    return data?.nodes?.length ?? 0;
   }
 }
