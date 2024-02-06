@@ -1,7 +1,7 @@
 import { IBigData, BigDataJudgement, processBarBigData, processLineBigData, processPieBigData } from './bigData';
 import { DataStructure } from './data';
 import { EmptyDataProcess } from './emptyData';
-import { processBarExtremeData, processLineExtremeData } from './extremeData';
+import { processBarExtremeData, processLineExtremeData, processLPieExtremeData } from './extremeData';
 
 /** 坐标系 */
 export enum Coordinate {
@@ -417,6 +417,7 @@ const pieChart: IChartRule = {
     ],
     process: processPieBigData,
   },
+  extremeData: processLPieExtremeData,
   children: {
     donut_chart: {
       id: 'donut_chart',

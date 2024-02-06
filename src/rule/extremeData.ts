@@ -1,5 +1,6 @@
 import { warn } from '../common/log';
 import themes from '../themes';
+import { processPieBigData } from './bigData';
 
 /** 柱图极端数据处理 */
 export function processBarExtremeData(chartObj: any, config: any, data: any) {
@@ -349,4 +350,20 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
   return {
     isExtreme: false,
   };
+}
+
+/** 饼图极端数据处理 */
+export function processLPieExtremeData(chartObj: any, config: any, data: any) {
+  const resultObj = processPieBigData(chartObj,  data);
+
+  if (Object.keys(resultObj)?.length === 0) {
+    return {
+      isExtreme: false,
+    }
+  }  else {
+    return {
+      ...resultObj,
+      isExtreme: true,
+    }
+  }
 }
