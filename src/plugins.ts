@@ -1,13 +1,13 @@
-import { ReactElement } from 'react';
+import { ComponentType } from 'react';
 import { warn } from './common/log';
 
 interface PluginsMap {
-  [name: string]: ReactElement
+  [name: string]: ComponentType
 }
 
 const plugins: PluginsMap = {};
 const pluginManager = {
-  register(name: string, p: ReactElement) {
+  register(name: string, p: ComponentType) {
     if (plugins[name]) {
       warn('plugin', `${name} has already registered.`);
       return;
