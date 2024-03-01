@@ -58,7 +58,8 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
     });
   } else if (logType === 'configInfo') {
     logMap[name][logType].push(logInfo);
-  } else if (logType === 'renderTime') {
+  } else if (logType === 'renderTime' && logMap[name]['renderTimeArray'].filter((el: any) => el.chartId === logInfo.chartId)?.length === 0) {
+    // 需要增加不重复的逻辑，只统计初次渲染的时间
     logMap[name]['renderTimeArray'].push(logInfo);
   }
 }
@@ -101,6 +102,7 @@ const logUrl = `//gm.mmstat.com/${TrackName}`;
 setTimeout(() => {
   // 规则计算部分
   const chartRulesResult = calcChartScore(logMap);
+  console.log("chartRulesResult", logMap, chartRulesResult);
   window[FullQualityName] = chartRulesResult;
   if (testable) {
     // 方便图表获取质量分数
