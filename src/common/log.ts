@@ -102,7 +102,6 @@ const logUrl = `//gm.mmstat.com/${TrackName}`;
 setTimeout(() => {
   // 规则计算部分
   const chartRulesResult = calcChartScore(logMap);
-  console.log("chartRulesResult", logMap, chartRulesResult);
   window[FullQualityName] = chartRulesResult;
   if (testable) {
     // 方便图表获取质量分数
