@@ -50,4 +50,14 @@ export default {
   min: '最小值',
   max: '最大值',
   avg: '平均值',
+
+  defaultMask: 'HH:mm:ss\nYYYY-MM-DD',
+  timeMask: [
+    ['YYYY'],
+    ['YYYY-MM', 'YYYY-MM'],
+    ['YYYY-MM-DD', 'MM-DD', 'MM-DD'],
+    ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm'],
+    ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm', 'HH:mm'],
+    ['HH:mm:ss\nYYYY-MM-DD', 'MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'HH:mm:ss', 'mm:ss', 'mm:ss'],
+  ]
 };

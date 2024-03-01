@@ -85,7 +85,7 @@ export class Scatter extends Base<WscatterConfig> {
       config.yAxis
     );
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
 
     // rectAutoTickCount(chart, config, defs, false);
 

@@ -118,7 +118,7 @@ export class Line extends Base<WlineConfig> {
       );
     }
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
     // console.log(defs, config)
     // rectAutoTickCount(chart, config, defs, false);
 

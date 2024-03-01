@@ -176,7 +176,7 @@ export class Bar extends Base<WbarConfig> {
       ),
     };
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
     chart.scale(defs);
   
     const dataView = computerData(config, data);

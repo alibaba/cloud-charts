@@ -203,7 +203,7 @@ export class Linescatter extends Base<WlinescatterConfig> {
       }, config.yAxis);
     }
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
 

@@ -299,7 +299,7 @@ export class Linebar extends Base<WlinebarConfig> {
       );
     }
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
 

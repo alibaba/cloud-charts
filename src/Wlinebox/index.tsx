@@ -210,7 +210,7 @@ export class Linebox extends Base<WlineboxConfig> {
       );
     }
 
-    autoTimeMask(defs, this.rawData);
+    autoTimeMask(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
 
