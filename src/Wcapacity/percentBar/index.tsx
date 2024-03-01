@@ -39,7 +39,7 @@ function PercentBar(props: IProps) {
 
     handleResize();
 
-    const parent = ref.current && ref.current.parentElement.parentElement;
+    const parent = ref.current && ref.current.parentElement;
     if (parent) {
       GlobalResizeObserver.observe(parent, handleResize);
     }
@@ -47,7 +47,7 @@ function PercentBar(props: IProps) {
     return () => {
       clearTimeout(timer);
 
-      const parent = ref.current && ref.current.parentElement.parentElement;
+      const parent = ref.current && ref.current.parentElement;
       if (parent) {
         GlobalResizeObserver.unobserve(parent);
       }
