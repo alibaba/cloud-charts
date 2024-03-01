@@ -139,7 +139,8 @@ export class Bar extends Base<WbarConfig> {
         propertyMap.axis,
         {
           // type: 'cat',
-          mask: 'auto'
+          mask: 'auto',
+          tickCount: null
         },
         config.xAxis,
       ),

@@ -91,6 +91,8 @@ const data = [
   },
 ];
 
+const bugData = [{ "name": "费用", "type": "bar", "data": [[1695715530543, 0], [1698307530543, 0], [1700985930543, 0], [1703577930543, 0], [1706256330543, 0], [1708934730543, 5.67], [1711440330543, null], [1714118730543, null], [1716710730543, null]] }, { "name": "增长率", "type": "line", "yAxis": 1, "data": [[1695715530543, 0], [1698307530543, 0], [1700985930543, 0], [1703577930543, 0], [1706256330543, 0], [1708934730543, null], [1711440330543, null], [1714118730543, null], [1716710730543, null]] }, { "name": "预计费用", "type": "bar", "data": [[1695715530543, null], [1698307530543, null], [1700985930543, null], [1703577930543, null], [1706256330543, null], [1708934730543, null], [1711440330543, 0], [1714118730543, 0], [1716710730543, 0]] }];
+
 const stories = storiesOf('Wlinebar', module);
 stories.addDecorator(withKnobs);
 stories.add('线柱图', () => (
@@ -98,6 +100,11 @@ stories.add('线柱图', () => (
     <Wlinebar
       height="300"
       config={{
+        xAxis: {
+          type: 'timeCat',
+          mask: "YYYY-MM-DD",
+          // tickCount: null
+        },
         barGeomStyle: {
           cursor: 'pointer',
         },
@@ -107,8 +114,9 @@ stories.add('线柱图', () => (
         tooltip: {
           columns: 2,
         },
+        stack: true
       }}
-      data={data}
+      data={bugData}
     />
   </Wcontainer>
 ));

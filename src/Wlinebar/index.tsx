@@ -264,6 +264,7 @@ export class Linebar extends Base<WlinebarConfig> {
           type: 'cat',
           // fix 更新数据时x轴无法清除数据
           // sync: 'x',
+          tickCount: null
         },
         config.xAxis,
       ),
