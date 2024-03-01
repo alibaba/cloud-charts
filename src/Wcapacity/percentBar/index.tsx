@@ -39,25 +39,17 @@ function PercentBar(props: IProps) {
 
     handleResize();
 
-    if (window.ResizeObserver) {
-      const parent = ref.current && ref.current.parentElement.parentElement;
-      if (parent) {
-        GlobalResizeObserver.observe(parent, handleResize);
-      }
-    } else {
-      window.removeEventListener('resize', handleResize, false);
+    const parent = ref.current && ref.current.parentElement.parentElement;
+    if (parent) {
+      GlobalResizeObserver.observe(parent, handleResize);
     }
 
     return () => {
       clearTimeout(timer);
 
-      if (window.ResizeObserver) {
-        const parent = ref.current && ref.current.parentElement.parentElement;
-        if (parent) {
-          GlobalResizeObserver.unobserve(parent);
-        }
-      } else {
-        window.removeEventListener('resize', handleResize, false);
+      const parent = ref.current && ref.current.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.unobserve(parent);
       }
     };
   }, [ref]);

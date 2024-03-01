@@ -6,8 +6,8 @@ export const GlobalResizeObserver = (function () {
   // 定义一个属性名称，用于在DOM元素上存储关联的回调函数标识符
   const ATTR_NAME = 'global-charts-resizeobserver-key';
 
-  // 创建一个对象，用于存储根据属性值映射到的回调函数
-  const attrValueToCallback: any = {};
+  // 创建一个WeakMap，用于存储根据属性值映射到的回调函数，键是DOM元素，值是回调函数
+  const callbackMap = new WeakMap();
 
   // 创建一个resizeObserver实例, 监听尺寸变化事件
   const resizeObserver = new ResizeObserver((entries) => {
@@ -17,9 +17,9 @@ export const GlobalResizeObserver = (function () {
       const resizedElement = entry.target;
       // 为每一个目标元素增加观测的属性，用于构建对象保存每个被监听元素对应的callback
       const attrValue = resizedElement.getAttribute(ATTR_NAME);
-      if (attrValue) {
+      if (attrValue && callbackMap.has(resizedElement)) {
         // 根据属性值从映射对象中获取相应的回调函数
-        const callback = attrValueToCallback[attrValue];
+        const callback = callbackMap.get(resizedElement);
         if (typeof callback === 'function') {
           callback(entry);
         }
@@ -45,8 +45,7 @@ export const GlobalResizeObserver = (function () {
         element.setAttribute(ATTR_NAME, attrValue);
       }
 
-      // 将回调函数与属性值关联，并存入映射对象中
-      attrValueToCallback[attrValue] = callback;
+      callbackMap.set(element, callback);
 
       // 使用ResizeObserver实例开始观察指定的DOM元素
       resizeObserver.observe(element);
@@ -64,13 +63,12 @@ export const GlobalResizeObserver = (function () {
 
       // 如果找到了属性值，则从映射对象中移除关联的回调函数
       const attrValue = element.getAttribute(ATTR_NAME);
-      if (!attrValue) {
-        return;
-      }
-      delete attrValueToCallback[attrValue];
 
-      // 使用ResizeObserver实例停止观察指定的DOM元素
-      resizeObserver.unobserve(element);
+      if (attrValue && callbackMap.has(element)) {
+        callbackMap.delete(element);
+        // 使用ResizeObserver实例停止观察指定的DOM元素
+        resizeObserver.unobserve(element);
+      }
     },
   });
 })();

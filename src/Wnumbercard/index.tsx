@@ -386,23 +386,15 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   useEffect(() => {
     calcColumns();
 
-    if (window.ResizeObserver) {
-      const parent = container.current && container.current.parentElement.parentElement;
-      if (parent) {
-        GlobalResizeObserver.observe(parent, calcColumns);
-      }
-    } else {
-      window.addEventListener('resize', calcColumns);
+    const parent = container.current && container.current.parentElement.parentElement;
+    if (parent) {
+      GlobalResizeObserver.observe(parent, calcColumns);
     }
 
     return () => {
-      if (window.ResizeObserver) {
-        const parent = container.current && container.current.parentElement.parentElement;
-        if (parent) {
-          GlobalResizeObserver.unobserve(parent);
-        }
-      } else {
-        window.removeEventListener('resize', calcColumns);
+      const parent = container.current && container.current.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.unobserve(parent);
       }
     };
   }, [calcColumns]);

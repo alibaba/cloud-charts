@@ -507,16 +507,12 @@ class Base<
     this.resizeRunning = false;
     window.cancelAnimationFrame(this.resizeTimer);
 
-    if (window.ResizeObserver) {
-      // 在卸载的阶段调用
-      const { chartDom: element } = this;
-      // 获取父元素
-      const parent = element && element.parentElement.parentElement;
-      if (parent) {
-        GlobalResizeObserver.unobserve(parent);
-      }
-    } else {
-      window.removeEventListener('resize', this.autoResize);
+    // 在卸载的阶段调用
+    const { chartDom: element } = this;
+    // 获取父元素
+    const parent = element && element.parentElement.parentElement;
+    if (parent) {
+      GlobalResizeObserver.unobserve(parent);
     }
 
     // 清除配置变化重新生成图表的定时器
@@ -758,15 +754,11 @@ class Base<
 
     this.setSize(parentSize);
 
-    if (window.ResizeObserver) {
-      const { chartDom: element } = this;
-      // 获取父元素
-      const parent = element && element.parentElement.parentElement;
-      if (parent) {
-        GlobalResizeObserver.observe(parent, this.autoResize);
-      }
-    } else {
-      window.removeEventListener('resize', this.autoResize);
+    const { chartDom: element } = this;
+    // 获取父元素
+    const parent = element && element.parentElement.parentElement;
+    if (parent) {
+      GlobalResizeObserver.observe(parent, this.autoResize);
     }
   }
 
