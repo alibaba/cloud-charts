@@ -74,10 +74,10 @@ class WidgetsTooltipController extends RawTooltipController {
       }
 
       // 显示辅助线
-      if (cfg?.showCrosshairs) {
+      if (cfg?.showCrosshairs && items?.length) {
         const dataPoint = {
-          x: items[0].x,
-          y: items[0].y,
+          x: items[0]?.x,
+          y: items[0]?.y,
         }; // 数据点位置
         const isCrosshairsFollowCursor = cfg?.crosshairs?.follow || false;
         // @ts-ignore
