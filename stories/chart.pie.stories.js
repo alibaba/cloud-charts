@@ -21,17 +21,17 @@ const data = [
 
 const extermeData = [
   {
-    "name": "浏览器占比",
-    "data": [
+    name: '浏览器占比',
+    data: [
       ['计算', 90860.0],
       ['存储', 6067.8],
       ['网络', 459.8],
-      ['数据库', 102.5],
+      ['数据库22222222', 102.5],
       ['云产品1', 0],
       ['云产品2', 0],
-      ['云产品3', 0]
-    ]
-  }
+      ['云产品3', 0],
+    ],
+  },
 ];
 
 const temp = [
@@ -409,3 +409,92 @@ stories.add('饼图-蜘蛛标签', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('自动填充中心内容', () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        width={300}
+        height="300"
+        data={data}
+        loading={loading}
+        config={{
+          cycle: true,
+          innerContent: true,
+        }}
+      />
+    </Wcontainer>
+  );
+});
+
+stories.add('大数据判断', () => (
+  <Wcontainer className="demos">
+    <Wpie
+      width={300}
+      height="300"
+      data={extermeData}
+      config={{
+        cycle: true,
+        // 增加间隔后推荐增加点击效果
+        // 保证占比小的数据的显示
+        select: true,
+        // geomStyle(x, y, type) {
+        //   return {
+        //     stroke: themes['widgets-color-background'],
+        //     lineWidth: 2,
+        //     cursor: 'pointer',
+        //   };
+        // },
+        autoFormat: {
+          // percent: 0.05
+        },
+        // legend: {
+        //   position: 'bottom',
+        //   align: 'center',
+        //   collapseRow: Math.ceil(extermeData[0].data.length / 2),
+        //   customConfig: {
+        //     // pageNavigator: false
+        //   }
+        // }
+      }}
+    />
+  </Wcontainer>
+));
+
+const testData = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 0],
+      ['IE', 0],
+      ['Chrome', 0],
+    ],
+  },
+];
+
+stories.add('环图bug', () => {
+  useEffect(() => {
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent('setAiscWidgetsLanguage', { detail: 'en-us' }));
+    }, 3000);
+  }, []);
+
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        height="300"
+        data={testData}
+        config={{
+          cycle: true,
+        }}
+      />
+    </Wcontainer>
+  );
+});
