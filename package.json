@@ -44,13 +44,14 @@
     "react-dom": "15.6 || 16 || 17"
   },
   "dependencies": {
-    "@antv/data-set": "^0.11.5",
     "@antv/component": "0.8.28",
+    "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.2.9",
     "@antv/scale": "0.3.18",
     "@antv/util": "2.0.17",
     "classnames": "^2.2.5",
-    "lodash": "^4.17.0"
+    "lodash": "^4.17.0",
+    "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",

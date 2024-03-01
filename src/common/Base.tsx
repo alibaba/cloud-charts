@@ -23,6 +23,7 @@ import { runInitRule, runBeforePaintRule, runAfterDataChangedRule } from '../rul
 import registerAopController from '../aop/controller/index';
 import { convertThemeKey } from '../themes/index';
 import { getG2theme } from '../themes/themeTools';
+import { GlobalResizeObserver } from './globalResizeObserver';
 import '../Wplaceholder/index.scss';
 
 registerTickMethod('integer', integer);
@@ -276,7 +277,7 @@ class Base<
     chartLog(this.chartName, 'configInfo', {
       chartId: this.chartId,
       config: this.props.config || {},
-      chartName: this.chartName
+      chartName: this.chartName,
     });
 
     eventBus.on('setTheme', this.rerender);
@@ -505,7 +506,19 @@ class Base<
     // 清空缩放相关变量和事件
     this.resizeRunning = false;
     window.cancelAnimationFrame(this.resizeTimer);
-    window.removeEventListener('resize', this.autoResize);
+
+    if (window.ResizeObserver) {
+      // 在卸载的阶段调用
+      const { chartDom: element } = this;
+      // 获取父元素
+      const parent = element && element.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.unobserve(parent);
+      }
+    } else {
+      window.removeEventListener('resize', this.autoResize);
+    }
+
     // 清除配置变化重新生成图表的定时器
     // window.cancelAnimationFrame(this.reRenderTimer);
     // 清除afterRender的定时器
@@ -713,7 +726,7 @@ class Base<
     chartLog(this.chartName, 'renderTime', {
       chartId: this.chartId,
       chartName: this.chartName,
-      renderTime: endTime - startTime
+      renderTime: endTime - startTime,
     });
 
     // this.handleAfterRender(config);
@@ -745,7 +758,16 @@ class Base<
 
     this.setSize(parentSize);
 
-    window.addEventListener('resize', this.autoResize);
+    if (window.ResizeObserver) {
+      const { chartDom: element } = this;
+      // 获取父元素
+      const parent = element && element.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.observe(parent, this.autoResize);
+      }
+    } else {
+      window.removeEventListener('resize', this.autoResize);
+    }
   }
 
   handleChangeSize(config: ChartConfig, w: Size = this.size[0], h: Size = this.size[1]) {
