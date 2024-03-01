@@ -23,7 +23,7 @@ const emptyData = {
 const lessData = {
   percent: {
     name: '利用率',
-    displayNumber: 1.2,
+    displayNumber: 50,
   },
 };
 

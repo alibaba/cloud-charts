@@ -454,7 +454,7 @@ const testData_5 = [
     valueTags: [
       {
         text: '正常',
-        status: 'success',
+        status: 'normal',
       },
     ],
   },

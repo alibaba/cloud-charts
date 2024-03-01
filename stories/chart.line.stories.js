@@ -40,7 +40,11 @@ const data = [
 const stories = storiesOf('Wline', module);
 stories.addDecorator(withKnobs);
 
-stories.add('折线图', () => <Wline height="300" data={data} />);
+stories.add('折线图', () => <Wline height="300" data={data} config={{
+  yAxis: {
+    grouping: true
+  }
+}}/>);
 stories.add('平滑曲线图', () => (
   <Wcontainer className="demos">
     <Wline
