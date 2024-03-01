@@ -380,7 +380,7 @@ export function checkExtremeData(
     if (lineCount === 1) {
       let temp = data?.[0]?.y;
       const filterArr = data?.filter((el: any) => el?.y !== temp);
-      if (!filterArr?.[length] && temp !== null && temp !== undefined) {
+      if (!filterArr?.length && temp !== null && temp !== undefined) {
         isEqual = true;
       }
     }
