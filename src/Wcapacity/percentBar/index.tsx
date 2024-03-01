@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { IProps } from '../interface';
 import themes from '../../themes/index';
 import Wnumber from '../../Wnumber';
+import { GlobalResizeObserver } from '../../common/globalResizeObserver';
 import './index.scss';
 
 function getClipPath(width: number, height: number) {
@@ -38,11 +39,26 @@ function PercentBar(props: IProps) {
 
     handleResize();
 
-    window.addEventListener('resize', handleResize, false);
+    if (window.ResizeObserver) {
+      const parent = ref.current && ref.current.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.observe(parent, handleResize);
+      }
+    } else {
+      window.removeEventListener('resize', handleResize, false);
+    }
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('resize', handleResize, false);
+
+      if (window.ResizeObserver) {
+        const parent = ref.current && ref.current.parentElement.parentElement;
+        if (parent) {
+          GlobalResizeObserver.unobserve(parent);
+        }
+      } else {
+        window.removeEventListener('resize', handleResize, false);
+      }
     };
   }, [ref]);
 

@@ -10,6 +10,7 @@ import { FullCrossName, PrefixName } from '../constants';
 import WidgetsTooltip from '../common/Tooltip';
 import classNames from 'classnames';
 import chartLog from '../common/log';
+import { GlobalResizeObserver } from '../common/globalResizeObserver';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -385,10 +386,24 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   useEffect(() => {
     calcColumns();
 
-    window.addEventListener('resize', calcColumns);
+    if (window.ResizeObserver) {
+      const parent = container.current && container.current.parentElement.parentElement;
+      if (parent) {
+        GlobalResizeObserver.observe(parent, calcColumns);
+      }
+    } else {
+      window.addEventListener('resize', calcColumns);
+    }
 
     return () => {
-      window.removeEventListener('resize', calcColumns);
+      if (window.ResizeObserver) {
+        const parent = container.current && container.current.parentElement.parentElement;
+        if (parent) {
+          GlobalResizeObserver.unobserve(parent);
+        }
+      } else {
+        window.removeEventListener('resize', calcColumns);
+      }
     };
   }, [calcColumns]);
 
