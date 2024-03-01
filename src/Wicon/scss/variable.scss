@@ -2,7 +2,7 @@
 $wicon-prefix: '.#{$base-prefix}-wicon';
 
 $white: getVar(widgets-color-background, $widgets-color-background);
-$blue: getVar(widgets-color-blue, $widgets-color-blue);
+$blue: getVar(widgets-color-primary, $widgets-color-primary);
 $orange: getVar(widgets-color-orange, $widgets-color-orange);
 $red: getVar(widgets-color-red, $widgets-color-red);
 $green: getVar(widgets-color-green, $widgets-color-green);

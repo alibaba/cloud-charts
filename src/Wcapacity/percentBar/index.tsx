@@ -69,14 +69,14 @@ function PercentBar(props: IProps) {
         };
       } else {
         return {
-          status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'default',
-          color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-category-1'],
+          status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'normal',
+          color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-normal'],
         };
       }
     } else {
       return {
-        status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'default',
-        color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-category-1'],
+        status: Object.keys(statusColors)?.includes(config?.startColor) ? config?.startColor : 'normal',
+        color: statusColors[config?.startColor] || config?.startColor || themes['widgets-color-normal'],
       };
     }
   };

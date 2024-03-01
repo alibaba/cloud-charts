@@ -7,6 +7,7 @@ $widgets-color-container-background: #1c1c1c !default;
 $widgets-color-decoration-background: #1c1c1c !default;
 
 // 主色和状态色
+$widgets-color-primary: #5e51fb;
 $widgets-color-blue: #307ac9;
 $widgets-color-normal: #2789f2;
 $widgets-color-orange: #ff8d16;
@@ -17,7 +18,9 @@ $widgets-color-purple: #6154d6;
 $widgets-color-yellow: #ffc619;
 
 // 各状态色对应的背景色
+$widgets-color-bg-primary: rgba(94, 81, 1251, 0.5) !default;
 $widgets-color-bg-normal: rgba(38, 60, 84, 0.5) !default;
+$widgets-color-bg-blue: rgba(38, 60, 84, 0.5) !default;
 $widgets-color-bg-orange: rgba(84, 61, 36, 0.5) !default;
 $widgets-color-bg-red: rgba(82, 40, 37, 0.5) !default;
 $widgets-color-bg-green: rgba(28, 66, 46, 0.5) !default;
@@ -25,37 +28,37 @@ $widgets-color-bg-purple: rgba(45, 40, 84, 0.5) !default;
 $widgets-color-bg-yellow: rgba(82, 68, 28, 0.5) !default;
 
 // 图形元素色阶
-$widgets-color-category-1: $widgets-color-blue;
-$widgets-color-category-2: #1b9657;
-$widgets-color-category-3: #5b50ba;
-$widgets-color-category-4: #d47815;
-$widgets-color-category-5: #b0a046;
-$widgets-color-category-6: #781ad6;
-$widgets-color-category-7: #527d0e;
-$widgets-color-category-8: #0e9dad;
-$widgets-color-category-9: #19779c;
-$widgets-color-category-10: #d95777;
-$widgets-color-category-11: #ffdc73;
-$widgets-color-category-12: #727a8a;
-$widgets-color-category-13: #40571c;
-$widgets-color-category-14: #398cd4;
-$widgets-color-category-15: #e66000;
-$widgets-color-category-16: #38a3c9;
-$widgets-color-category-17: #e04f6c;
-$widgets-color-category-18: #42b3a4;
-$widgets-color-category-19: #7236ad;
-$widgets-color-category-20: #9b94ff;
+$widgets-color-category-1: $widgets-color-primary;
+$widgets-color-category-2: #38c7bd;
+$widgets-color-category-3: #dd3be3;
+$widgets-color-category-4: #84b3fd;
+$widgets-color-category-5: #b27208;
+$widgets-color-category-6: #fe8bab;
+$widgets-color-category-7: #18918b;
+$widgets-color-category-8: #c3a0ff;
+$widgets-color-category-9: #619004;
+$widgets-color-category-10: #eaa31f;
+$widgets-color-category-11: #938bff;
+$widgets-color-category-12: #73d9d0;
+$widgets-color-category-13: #ed5bf2;
+$widgets-color-category-14: #abcbff;
+$widgets-color-category-15: #cf8800;
+$widgets-color-category-16: #feb5ca;
+$widgets-color-category-17: #2aaca4;
+$widgets-color-category-18: #d6beff;
+$widgets-color-category-19: #72aa03;
+$widgets-color-category-20: #fcbf54;
 
-$widgets-color-linear-1: $widgets-color-blue;
-$widgets-color-linear-2: #2d70b7;
-$widgets-color-linear-3: #2a66a5;
-$widgets-color-linear-4: #285b93;
-$widgets-color-linear-5: #255181;
-$widgets-color-linear-6: #22476f;
-$widgets-color-linear-7: #1f3d5c;
-$widgets-color-linear-8: #1c334a;
-$widgets-color-linear-9: #1a2838;
-$widgets-color-linear-10: #171e26;
+$widgets-color-linear-1: $widgets-color-primary;
+$widgets-color-linear-2: #6f66e8;
+$widgets-color-linear-3: #655dd0;
+$widgets-color-linear-4: #5b54b9;
+$widgets-color-linear-5: #514ba1;
+$widgets-color-linear-6: #47428a;
+$widgets-color-linear-7: #3c3872;
+$widgets-color-linear-8: #322f5b;
+$widgets-color-linear-9: #282643;
+$widgets-color-linear-10: #1e1d2c;
 
 // 告警等级色
 $widgets-color-p1: #b81838;
@@ -95,6 +98,7 @@ $widgets-font-size-4: 18px !default;
 $widgets-font-size-5: 24px !default;
 $widgets-font-size-6: 28px !default;
 $widgets-font-size-7: 32px !default;
+$widgets-font-size-8: 36px !default;
 
 // 图例 Legend
 $widgets-legend-uncheck: #4d4d4d;

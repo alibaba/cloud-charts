@@ -110,7 +110,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
               Object.assign(resetAction.cfg, {
                 text,
                 textStyle: {
-                  fill: themes['widgets-color-blue'],
+                  fill: themes['widgets-color-primary'],
                 },
                 style: {
                   fill: themes['widgets-color-background'],
@@ -120,7 +120,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
                 },
                 activeStyle: {
                   fill: themes['widgets-color-background'],
-                  stroke: themes['widgets-color-blue'],
+                  stroke: themes['widgets-color-primary'],
                 },
               });
             }
