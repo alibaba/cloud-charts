@@ -255,6 +255,10 @@ export default function <T>(
     if (onTooltipChange) {
       chart.on('tooltip:change', onTooltipChange);
     } else {
+       // 当开启Y轴千分位的时候，且tooltip没有设置的时候，tooltip沿用Y轴的配置
+       if (config?.yAxis?.grouping && !config.tooltip?.grouping) {
+        config.tooltip.grouping = config?.yAxis?.grouping;
+      }
       const customValueFormatter = customFormatter(
         config.tooltip === true ? {} : config.tooltip || {},
       );
