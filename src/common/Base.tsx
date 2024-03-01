@@ -256,9 +256,6 @@ class Base<
     chart && chart.changeSize(width, height);
   }
 
-  /** @deprecated 图表渲染后回调 */
-  // public afterRender?(config: ChartConfig): void;
-
   /** 销毁图表 */
   public destroy?(): void;
 
@@ -819,30 +816,6 @@ class Base<
       element.style.height = `${h}px`;
     }
   }
-
-  // protected afterRenderCallbacks: ((chart: Chart, config: ChartConfig) => void)[] = [];
-
-  // protected afterRenderTimer: any = null;
-
-  // handleAfterRender(config?: ChartConfig) {
-  //   if (this.afterRender || this.afterRenderCallbacks.length > 0) {
-  //     this.afterRenderTimer = setTimeout(() => {
-  //       if (this.chart && this.afterRender) {
-  //         this.afterRender(config || this.props.config);
-  //       }
-  //       if (this.afterRenderCallbacks.length > 0) {
-  //         this.afterRenderCallbacks.forEach((cb) => {
-  //           cb && cb.call(this, this.chart, config || this.props.config);
-  //         });
-  //       }
-  //     }, 50);
-  //   }
-
-  //   // 大数据检测
-  //   setTimeout(() => {
-  //     this.throttleDetect();
-  //   }, 500);
-  // }
 
   render() {
     const {
