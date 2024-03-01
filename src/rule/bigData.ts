@@ -111,6 +111,8 @@ export function isBigDataBeforePaint(
 /** 柱图大数据处理方式：开启slider */
 export function processBarBigData(chartObj: any, data: any) {
   const { dataSize } = chartObj;
+  const { force } = chartObj.props;
+  const chartName = chartObj?.chartRule?.name;
   return {
     config: {
       // 暂时不显示slider
@@ -125,6 +127,11 @@ export function processBarBigData(chartObj: any, data: any) {
 /** 线图大数据处理方式： */
 export function processLineBigData(chartObj: any, data: any) {
   const { dataSize } = chartObj;
+  const { force } = chartObj.props;
+  const chartName = chartObj?.chartRule?.name;
+  if (force === true) {
+    return {};
+  }
   return {
     config: {
       symbol: false,
@@ -142,6 +149,11 @@ export function processLineBigData(chartObj: any, data: any) {
 /** 饼图大数据处理方式：合并数据 */
 export function processPieBigData(chartObj: any, data: any) {
   const { dataSize, props } = chartObj;
+  // const { force } = chartObj.props;
+  // const chartName = chartObj?.chartRule?.name;
+  // if (force === true) {
+  //   return {};
+  // }
 
   if (props?.config?.autoFormat && dataSize > 5) {
     // 数据排序

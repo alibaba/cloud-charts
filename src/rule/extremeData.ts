@@ -256,6 +256,7 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
   // const { dataSize } = chartObj;
   const dataSize = data?.length || 0;
   const chartName = chartObj?.chartRule?.name;
+  const { force } = chartObj.props;
 
   // 计算线的数量
   const lineCount = Array.from(new Set(data.map((d: any) => d.type))).length;
@@ -270,7 +271,10 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
 
   // 只有一个点的时候，在Y轴中间，并开启label与symbol
   if (lineCount === 1 && dataSize === 1) {
-    warn(chartName, '当前线图数据较少，为优化展示，已自动开启标记和文本。');
+    warn(chartName, '当前线图数据较少，为优化展示，已自动开启标记和文本。若要关闭可加force配置项。');
+    if (force === true) {
+      return { isExtreme: true };
+    }
     return {
       config: {
         yAxis: {
@@ -292,7 +296,10 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
     };
   } else if (dataSize === lineCount) {
     // 多条线，每条线一个点时，开启symbol,label暂不开启
-    warn(chartName, '当前线图数据较少，为优化展示，已自动开启标记。');
+    warn(chartName, '当前线图数据较少，为优化展示，已自动开启标记。若要关闭可加force配置项。');
+    if (force === true) {
+      return { isExtreme: true };
+    }
     return {
       config: {
         // label: {
@@ -308,7 +315,10 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
     };
   } else if (lineCount === 1 && dataSize === 2) {
     // 一条线两个点，开启area、symbol和label
-    warn(chartName, '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。');
+    warn(chartName, '当前线图数据较少，为优化展示，已自动开启面积、标记、文本。若要关闭可加force配置项。');
+    if (force === true) {
+      return { isExtreme: true };
+    }
     return {
       config: {
         // label判断自定义
@@ -325,6 +335,10 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
       isExtreme: true,
     };
   } else if (lineCount === 1 && isEqual) {
+    warn(chartName, '当前线图数据相同，为优化展示，已自动将线居中显示。若要关闭可加force配置项。');
+    if (force === true) {
+      return { isExtreme: true };
+    }
     return {
       config: {
         yAxis: {
@@ -338,7 +352,10 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
     };
   } else if (lineCount > 3 && !config.stack && config.area) {
     // 当补开启堆叠面积图的时候，且分组数量大于3组
-    warn(chartName, '当前线图组数超过3组，不适合开启面积图，已自动关闭面积图配置');
+    warn(chartName, '当前线图组数超过3组，不适合开启面积图，已自动关闭面积图配置。若要关闭可加force配置项。');
+    if (force === true) {
+      return { isExtreme: true };
+    }
     return {
       config: {
         area: false,
@@ -354,16 +371,16 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
 
 /** 饼图极端数据处理 */
 export function processLPieExtremeData(chartObj: any, config: any, data: any) {
-  const resultObj = processPieBigData(chartObj,  data);
+  const resultObj = processPieBigData(chartObj, data);
 
   if (Object.keys(resultObj)?.length === 0) {
     return {
       isExtreme: false,
-    }
-  }  else {
+    };
+  } else {
     return {
       ...resultObj,
       isExtreme: true,
-    }
+    };
   }
 }
