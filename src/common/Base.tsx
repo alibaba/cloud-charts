@@ -536,6 +536,8 @@ class Base<
   }
 
   initChart() {
+    // 合并默认配置项
+    this.defaultConfig = this.getDefaultConfig();
     // 通过上下文传递的通用配置项 - 全局通用配置项
     const globalBaseConfig = this.context?.defaultConfig?.baseConfig;
     // 通过上下文传递的图表配置项 - 全局图表配置项
