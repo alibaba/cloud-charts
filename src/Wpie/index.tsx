@@ -542,6 +542,10 @@ export class Pie extends Base<WpieConfig> {
       }
     });
   }
+
+  destroy() {
+    this.noDataShape = null;
+  }
 }
 
 const Wpie: typeof Pie = errorWrap(Pie);
