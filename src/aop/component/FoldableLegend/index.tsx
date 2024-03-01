@@ -170,9 +170,7 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
       const height = containerHeight - 20;
       // @ts-ignore
       chartDom.style.height = `${height}px`;
-      try {
-        chart.changeSize(containerWidth, height);
-      } catch (e) {}
+      chart.changeSize(containerWidth, height);
 
       // 滚动到最上方
       if (contentRef.current) {
