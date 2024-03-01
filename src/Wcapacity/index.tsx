@@ -9,7 +9,7 @@ const prefix = `${FullCrossName} ${PrefixName}-wcapacity`;
 const Wcapacity: React.FC<IProps> = ({ data, config, height, style }) => {
   useEffect(() => {
     // 图表初始化时记录日志
-    chartLog('Wnumbercard', 'init');
+    chartLog('Wcapacity', 'init');
   }, []);
 
   return (
