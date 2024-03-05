@@ -91,5 +91,10 @@
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.0"
   },
+  "overrides": {
+    "@antv/component": "0.8.28",
+    "@antv/util": "2.0.17",
+    "typescript": "4.6.4"
+  },
   "author": "maplor@163.com"
 }
