@@ -42,7 +42,9 @@ export default function <T>(
       alias,
       autoRotate = false,
       rotate,
-      autoHide,
+      // 如果是时间轴，则默认开启轴标签的自动采样
+      // 如果是分类，则默认关闭
+      autoHide = config.xAxis?.type?.includes('time') ? config.xAxis?.type?.includes('time') : config.xAxis.autoHide || false,
       autoEllipsis,
       label,
       labelFormatter,
@@ -53,6 +55,7 @@ export default function <T>(
     if (typeof tickLine === 'boolean' && tickLine) {
       myTickLine = {};
     }
+
     const xAxisConfig: Types.AxisCfg = {
       ...defaultConfig,
       title: null, // 默认不展示坐标轴的标题
