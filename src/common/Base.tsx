@@ -21,7 +21,7 @@ import { ChartContext } from '../ChartProvider';
 import chartRefs from './chartRefs';
 import { runInitRule, runBeforePaintRule, runAfterDataChangedRule } from '../rule/runRule';
 import registerAopController from '../aop/controller/index';
-import { convertThemeKey } from '../themes/index';
+import { convertThemeKey } from '../themes';
 import { getG2theme } from '../themes/themeTools';
 import { GlobalResizeObserver } from './globalResizeObserver';
 import '../Wplaceholder/index.scss';
@@ -202,7 +202,7 @@ class Base<
 
   protected rawData: ChartData;
 
-  protected dataSize: number;
+  // protected dataSize: number;
 
   // private isEmpty: boolean;
 
@@ -348,7 +348,7 @@ class Base<
       data: oldData,
       width: oldWidth,
       height: oldHeight,
-      config: oldConfig,
+      // config: oldConfig,
       event: oldEvent,
       interaction: oldInteraction,
       loading: oldLoading,
