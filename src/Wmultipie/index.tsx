@@ -39,13 +39,13 @@ interface WmultipieConfig extends BaseChartConfig {
   /** 环形图中心的内容，仅当cycle=true时生效 */
   innerContent?: {
     /** 标题，不指定则取数据中name */
-    title?: string;
+    title?: string | React.ReactNode;
 
     /** 数值，不指定则为数据总和 */
-    value?: number;
+    value?: number | React.ReactNode;
 
     /** 单位 */
-    unit?: string;
+    unit?: string | React.ReactNode;
   };
 }
 
