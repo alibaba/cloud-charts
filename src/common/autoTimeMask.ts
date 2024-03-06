@@ -31,6 +31,19 @@ function getTimeIndex(t: number): number {
   return timeList.length;
 }
 
+function findIndexOfSubStringIn2DArray(needle: string, haystack: string[][]) {
+  for (let i = 0; i < haystack.length; i++) {
+      for (let j = 0; j < haystack[i].length; j++) {
+          if (haystack[i][j] === needle) {
+              return [i, j];
+          }
+      }
+  }
+
+  // 如果未找到，则返回null或其他合适的默认值
+  return null;
+}
+
 /**
  * 自动计算时间格式。
  * @param defs {object} 数据列定义
@@ -72,6 +85,24 @@ export default function (
         });
       };
     }
+  } else {
+    // 默认显示最后一个
+    if(def.type === 'cat' || def.type==='timeCat') {
+      def.showLast = true;
+    }
+
+    // 业务自定义国际化处理
+    // 初始化的mask
+    const sourceMaskMap = getText('timeMask', 'zh-cn', null);
+    // 当前语言下的mask
+    const currentMaskMap = getText('timeMask', language, null);
+    // 用户自定义mask
+    const customMask = def.mask;
+    // 获取自定义mask在初始化mask Map下的索引地址
+    const customMaskIndex = findIndexOfSubStringIn2DArray(customMask, sourceMaskMap);
+    // 得到当前语言下的mask
+    const currentMask = customMaskIndex ? currentMaskMap[customMaskIndex[0]][customMaskIndex[1]] || customMask : customMask;
+    def.mask = currentMask;
   }
 }
 
