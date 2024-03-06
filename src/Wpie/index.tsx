@@ -103,7 +103,7 @@ interface WpieConfig extends BaseChartConfig, DecorationConfig {
     title?: string;
 
     /** 数值，不指定则为数据总和 */
-    value?: number;
+    value?: number | React.ReactNode;
 
     /** 单位 */
     unit?: string;
@@ -172,7 +172,8 @@ export class Pie extends Base<WpieConfig> {
       if (!container) {
         container = document.createElement('div');
         container.className = `${FullCrossName}-children`;
-        this.chartDom.appendChild(container);
+        const firstChild = this.chartDom.firstChild;
+        this.chartDom.insertBefore(container, firstChild);
       }
       const content = (
         <Wnumber
@@ -462,7 +463,9 @@ export class Pie extends Base<WpieConfig> {
     ) {
       const container = document.createElement('div');
       container.className = `${FullCrossName}-children`;
-      this.chartDom.appendChild(container);
+      
+      const firstChild = this.chartDom.firstChild;
+      this.chartDom.insertBefore(container, firstChild);
       const content = (
         <Wnumber
           bottomTitle={config?.innerContent?.title ?? this.rawData?.[0]?.name}

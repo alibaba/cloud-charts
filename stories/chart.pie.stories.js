@@ -452,6 +452,9 @@ stories.add('大数据判断', () => (
         //     cursor: 'pointer',
         //   };
         // },
+        innerContent: {
+          value: 40000
+        },
         autoFormat: {
           // percent: 0.05
         },

@@ -323,7 +323,8 @@ export class MultiPie extends Base<WmultipieConfig> {
     ) {
       const container = document.createElement('div');
       container.className = `${FullCrossName}-children`;
-      this.chartDom.appendChild(container);
+      const firstChild = this.chartDom.firstChild;
+      this.chartDom.insertBefore(container, firstChild);
       const content = (
         <Wnumber
           bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
@@ -364,7 +365,8 @@ export class MultiPie extends Base<WmultipieConfig> {
       if (!container) {
         container = document.createElement('div');
         container.className = `${FullCrossName}-children`;
-        this.chartDom.appendChild(container);
+        const firstChild = this.chartDom.firstChild;
+        this.chartDom.insertBefore(container, firstChild);
       }
       const content = (
         <Wnumber
