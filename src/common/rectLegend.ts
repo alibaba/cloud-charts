@@ -368,7 +368,6 @@ export default function <T>(
           fontFamily: themes['widgets-font-family-txd-m-number'],
         },
         formatter: (text, item, index) => {
-          // console.log(222, text, item, index)
           // @ts-ignore
           const value = getLastValue(item.name, ctx.rawData, isOneDataGroup);
           if (valueFormatter) {

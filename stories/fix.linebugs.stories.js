@@ -355,6 +355,7 @@ stories.add('柱图-时间轴刻度问题', () => (
       xAxis: {
         type: "timeCat",
         mask: "MM-DD HH:mm:ss",
+        // 内置设置
         // autoHide: true,
       }
     }}
