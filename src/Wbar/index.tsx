@@ -99,7 +99,6 @@ export class Bar extends Base<WbarConfig> {
         labelFormatter: null, // 可以强制覆盖，手动设置label
         categories: null,
         autoRotate: false,
-        autoHide: false, // 分类轴默认不开启抽样显示
         autoEllipsis: true,
       },
       yAxis: {
