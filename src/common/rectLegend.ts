@@ -1,7 +1,7 @@
 'use strict';
 
-import { Chart, ChartData, Types, G2Dependents, Language } from './types';
-import { LocaleItem } from '../locales';
+import { Chart, ChartData, Types, G2Dependents } from './types';
+// import { LocaleItem } from '../locales';
 import { customFormatter, customFormatterConfig, merge } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';

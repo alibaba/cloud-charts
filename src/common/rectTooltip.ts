@@ -74,7 +74,7 @@ export interface TooltipConfig extends customFormatterConfig {
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { tooltip?: TooltipConfig | boolean },
+  config: { tooltip?: TooltipConfig | boolean; yAxis?: customFormatterConfig },
   defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function,
   componentConfig?: Types.TooltipCfg,

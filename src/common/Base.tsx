@@ -204,7 +204,7 @@ class Base<
 
   // protected dataSize: number;
 
-  // private isEmpty: boolean;
+  protected isEmpty: boolean;
 
   // private isBigData: boolean;
 

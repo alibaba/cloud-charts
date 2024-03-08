@@ -17,7 +17,7 @@ export function isEmptyData(dataSize: number) {
 }
 
 /** 根据空数据处理类型、数据结构类型进行空数据处理，个别图表需要特殊处理 */
-export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStructure, chartName: string) {
+export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStructure, chartName: string): { data: any; config: any | null } {
   if (emptyType === EmptyDataProcess.Axis) {
     return {
       data: [],

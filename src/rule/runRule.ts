@@ -1,8 +1,8 @@
-import { checkData, calcDataSize } from './data';
+import { calcDataSize } from './data';
 import { EmptyDataProcess, isEmptyData, processEmptyData } from './emptyData';
 import { merge } from '../common/common';
 import themes from '../themes/index';
-import { getText } from '../ChartProvider/index';
+import { getText } from '../ChartProvider';
 import { isBigDataInit } from './bigData';
 import { classifyChart } from './classification';
 import { PrefixName } from '../constants';
