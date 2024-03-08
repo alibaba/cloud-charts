@@ -189,7 +189,7 @@ export class Pie extends Base<WpieConfig> {
 
   protected geom: Geometry = null;
 
-  protected noDataShape: G2Dependents.IShape = null;
+  protected noDataShape?: G2Dependents.IShape = null;
 
   isChangeEqual(objValue: any, othValue: any, key: string) {
     if (key === 'selectData' && objValue !== othValue) {
@@ -463,7 +463,7 @@ export class Pie extends Base<WpieConfig> {
     ) {
       const container = document.createElement('div');
       container.className = `${FullCrossName}-children`;
-      
+
       const firstChild = this.chartDom.firstChild;
       this.chartDom.insertBefore(container, firstChild);
       const content = (
@@ -489,7 +489,7 @@ export class Pie extends Base<WpieConfig> {
 
       updateChildrenPosition(chart, this.chartDom);
 
-      if (this.totalData === 0 && !this.noDataShape) {
+      if (this.totalData === 0) {
         const bgGroup = chart.getLayer('bg' as any);
         const coordinate = chart.getCoordinate();
         const { radius, innerRadius } = coordinate;
@@ -512,15 +512,20 @@ export class Pie extends Base<WpieConfig> {
             // ['Z'],
           );
         }
-        this.noDataShape = bgGroup.addShape({
-          id: 'no-data-path',
-          name: 'no-data-path',
-          type: 'path',
-          attrs: {
-            path,
-            fill: themes['widgets-circle-stroke-background'],
-          },
-        });
+
+        if (!this.noDataShape) {
+          this.noDataShape = bgGroup.addShape({
+            id: 'no-data-path',
+            name: 'no-data-path',
+            type: 'path',
+            attrs: {
+              path,
+              fill: themes['widgets-circle-stroke-background'],
+            },
+          });
+        } else {
+          this.noDataShape.attr('path', path);
+        }
 
         // shape.set('tip', 'sdfhsjkdhk');
         //
