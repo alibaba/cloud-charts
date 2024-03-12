@@ -177,7 +177,7 @@ export class Bar extends Base<WbarConfig> {
 
     autoTimeMask(defs, this.rawData, this.language || this.context.language);
     chart.scale(defs);
-  
+
     const dataView = computerData(config, data);
     this.barDataView = dataView;
 
@@ -305,9 +305,6 @@ export class Bar extends Base<WbarConfig> {
       showMarkers: false,
     });
 
-    // 绘制辅助线，辅助背景区域
-    guide(chart, config);
-
     // 设置坐标系：极坐标/直角坐标
     const chartCoord = config.polar
       ? chart.coordinate('polar', {
@@ -400,6 +397,9 @@ export class Bar extends Base<WbarConfig> {
 
           rectYAxis(self, view, config, 'y', yAxisCustomConfig);
 
+          // 绘制辅助线，辅助背景区域
+          guide(view, config);
+
           // Tooltip 背景区域
           activeRegionWithTheme(view);
 
@@ -407,6 +407,9 @@ export class Bar extends Base<WbarConfig> {
         },
       });
     } else {
+      // 绘制辅助线，辅助背景区域
+      guide(chart, config);
+
       if (!config.polar) {
         // Tooltip 背景区域
         activeRegionWithTheme(chart);
@@ -607,7 +610,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
         r: 0,
       });
     labelGeom.label('sum');
-    
+
   } else {
     label({
       geom: geom,
