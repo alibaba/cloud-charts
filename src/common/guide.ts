@@ -115,13 +115,6 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
 
   if (offsetX !== undefined) {
     defaultOffsetX = offsetX;
-  } else if (!config?.facet || config?.column !== false) {
-    if (axis === 'y') {
-      defaultOffsetX =
-        pxToNumber(themes['widgets-font-size-1']) *
-          (typeof rawText === 'string' ? rawText?.length : 3) +
-        8;
-    }
   }
 
   const guideConfig = {
@@ -137,7 +130,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
       position: titlePosition || 'start',
       style: {
         fill: color,
-        textAlign: titleAlign || ((titlePosition || 'start') !== 'start' ? 'start' : 'end'),
+        textAlign: titleAlign || ((titlePosition || 'start') === 'start' ? 'start' : 'end'),
         ...textStyle,
       },
       // X 轴时关闭自动旋转
@@ -197,6 +190,19 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
   }
   if (end) {
     guideConfig.end = end;
+  }
+
+  // 横向柱图，修改默认值
+  if (config?.column == false) {
+    if (axis === 'x') {
+      guideConfig.text.offsetY = offsetY || -(pxToNumber(themes['widgets-font-size-1']) / 2);
+      guideConfig.text.style.textAlign = titleAlign || 'end';
+    } else {
+      guideConfig.text.autoRotate = false;
+      guideConfig.text.position = titlePosition || 'end';
+      guideConfig.text.offsetY = offsetY || -(pxToNumber(themes['widgets-font-size-1']) / 2);
+      guideConfig.text.style.textAlign = titleAlign || 'center';
+    }
   }
 
   if (guideConfig.start && guideConfig.end) {
