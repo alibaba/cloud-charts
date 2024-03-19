@@ -32,7 +32,7 @@ import './index.scss';
 
 interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
-  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -329,7 +329,7 @@ export class Linebar extends Base<WlinebarConfig> {
       });
     } else {
       // 设置单个Y轴
-      rectYAxis(this, chart, config);
+      rectYAxis(this, chart, config as { yAxis: (Types.ScaleOption & YAxisConfig) | false });
     }
 
     // 设置图例

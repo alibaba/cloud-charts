@@ -21,7 +21,7 @@ import { activeRegionWithTheme } from '../common/interaction';
 
 interface WlineboxConfig extends BaseChartConfig, BoxConfig, LineConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
-  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -240,7 +240,7 @@ export class Linebox extends Base<WlineboxConfig> {
       });
     } else {
       // 设置单个Y轴
-      rectYAxis(this, chart, config);
+      rectYAxis(this, chart, config as { yAxis: (Types.ScaleOption & YAxisConfig) | false });
     }
 
     rectTooltip(this, chart, config, {}, null, {

@@ -23,7 +23,7 @@ import './index.scss';
 
 interface WlinescatterConfig extends BaseChartConfig, ScatterConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false;
-  yAxis?: Types.ScaleOption & YAxisConfig | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -230,7 +230,7 @@ export class Linescatter extends Base<WlinescatterConfig> {
       });
     } else {
       // 设置单个Y轴
-      rectYAxis(this, chart, config);
+      rectYAxis(this, chart, config as { yAxis: (Types.ScaleOption & YAxisConfig) | false });
     }
 
     // tooltip

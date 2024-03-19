@@ -6,6 +6,7 @@ import { ReactElement } from 'react';
 import { render } from 'react-dom';
 import themes from '../themes';
 import { debounce } from '@antv/util';
+import { YAxisConfig } from './rectYAxis';
 
 // import TooltipController from '@antv/g2/esm/chart/controller/tooltip';
 // import { registerComponentController } from '@antv/g2/esm/chart/controller';
@@ -74,7 +75,7 @@ export interface TooltipConfig extends customFormatterConfig {
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { tooltip?: TooltipConfig | boolean; yAxis?: customFormatterConfig },
+  config: { tooltip?: TooltipConfig | boolean; yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false; },
   defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function,
   componentConfig?: Types.TooltipCfg,

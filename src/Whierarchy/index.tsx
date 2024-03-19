@@ -18,8 +18,8 @@ import './index.scss';
 
 interface WhierarchyConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: (Types.ScaleOption & XAxisConfig) | boolean;
-  yAxis?: (Types.ScaleOption & YAxisConfig) | boolean;
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;

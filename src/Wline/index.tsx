@@ -22,7 +22,7 @@ export interface WlineConfig extends BaseChartConfig, DrawLineConfig, ZoomConfig
   /** X轴配置项 */
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   /** Y轴配置项 */
-  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   /** 图例配置项 */
   legend?: LegendConfig | boolean;
   /** 提示信息配置项 */
@@ -151,7 +151,7 @@ export class Line extends Base<WlineConfig> {
       });
     } else {
       // 设置单个Y轴
-      rectYAxis(this, chart, config);
+      rectYAxis(this, chart, config as { yAxis: (Types.ScaleOption & YAxisConfig) | false });
     }
 
     // 设置图例
