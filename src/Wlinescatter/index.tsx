@@ -21,7 +21,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import { warn } from '../common/log';
 import './index.scss';
 
-interface WlinescatterConfig extends BaseChartConfig, ScatterConfig, LineConfig {
+export interface WlinescatterConfig extends BaseChartConfig, ScatterConfig, LineConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;

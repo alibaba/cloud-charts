@@ -19,7 +19,7 @@ import { FullCrossName } from '../constants';
 import Wnumber from '../Wnumber';
 import './index.scss';
 
-interface WmultipieConfig extends BaseChartConfig {
+export interface WmultipieConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;

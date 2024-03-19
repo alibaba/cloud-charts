@@ -75,7 +75,7 @@ function selectGeom(geom: Geometry, selectKey?: string) {
 //   }
 // }
 
-interface WpieConfig extends BaseChartConfig, DecorationConfig {
+export interface WpieConfig extends BaseChartConfig, DecorationConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;

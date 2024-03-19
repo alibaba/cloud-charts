@@ -50,7 +50,7 @@ function clipValue(start: number, end: number, clipNum: number, slipScale: numbe
   return result;
 }
 
-interface WcountProps {
+export interface WcountProps {
   className?: string;
   style?: React.CSSProperties;
   // 切片配置

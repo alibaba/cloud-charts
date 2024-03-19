@@ -5,7 +5,7 @@ import Base from '../common/Base';
 import { DataSet } from '@antv/data-set/lib/data-set';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
-import { propertyAssign, propertyMap, pxToNumber, merge } from '../common/common';
+import { propertyAssign, propertyMap } from '../common/common';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
@@ -16,7 +16,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import '@antv/data-set/lib/api/statistics';
 import '@antv/data-set/lib/transform/bin/hexagon';
 
-interface WhexagonalConfig extends BaseChartConfig {
+export interface WhexagonalConfig extends BaseChartConfig {
   colors?: Colors;
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | false;

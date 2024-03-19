@@ -125,7 +125,7 @@ function getLocaleText(
   return null;
 }
 
-interface WplaceholderProps {
+export interface WplaceholderProps {
   className?: string;
   style?: React.CSSProperties;
   width?: string | number;

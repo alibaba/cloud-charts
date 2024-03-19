@@ -21,7 +21,7 @@ function getTrendIcon(trend: Trend) {
   }
 }
 
-interface WnumberProps {
+export interface WnumberProps {
   className?: string;
   style?: React.CSSProperties;
   status?: Status | string;

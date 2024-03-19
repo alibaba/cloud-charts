@@ -16,7 +16,7 @@ import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import './index.scss';
 
-interface WhierarchyConfig extends BaseChartConfig {
+export interface WhierarchyConfig extends BaseChartConfig {
   colors?: Colors;
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | false;

@@ -13,7 +13,7 @@ import circleAnnotation, { DecorationConfig } from '../common/circleAnnoation';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import './index.scss';
 
-interface WmulticircleConfig extends BaseChartConfig, DecorationConfig {
+export interface WmulticircleConfig extends BaseChartConfig, DecorationConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -76,7 +76,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     chart.scale(defs);
 
     chart.data(data);
-  
+
     // 设置图例
     rectLegend(this, chart, config, {}, true, null, false, (item: G2Dependents.ListItem, index: number) => {
       const raw = (this.rawData && this.rawData[0]) || {};

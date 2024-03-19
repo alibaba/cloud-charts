@@ -51,7 +51,7 @@ interface nodeConfig {
   nodePadding?: number; // 节点上下间距，范围：(0, 1)
 }
 
-interface WsankeyConfig extends BaseChartConfig {
+export interface WsankeyConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | false;
   tooltip?: TooltipConfig | false;

@@ -48,7 +48,7 @@ const fixLngLatMap = {
   上海: [122.2818331, 31.0480268],
 };
 
-interface WmapConfig extends BaseChartConfig {
+export interface WmapConfig extends BaseChartConfig {
   background?: {
     fill?: string;
     stroke?: string;

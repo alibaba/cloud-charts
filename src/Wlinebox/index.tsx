@@ -19,7 +19,7 @@ import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import { activeRegionWithTheme } from '../common/interaction';
 
-interface WlineboxConfig extends BaseChartConfig, BoxConfig, LineConfig {
+export interface WlineboxConfig extends BaseChartConfig, BoxConfig, LineConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;

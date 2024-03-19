@@ -30,7 +30,7 @@ import { activeRegionWithTheme } from '../common/interaction';
 import { warn } from '../common/log';
 import './index.scss';
 
-interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
+export interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;

@@ -55,7 +55,7 @@ interface ColumnConfig {
 }
 
 // TODO 目前G2默认缩略轴为线图，分类型数据不推荐使用，这里暂时开放为一个趋势关系，后期研究缩略轴怎么显示
-interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig, SliderConfig {
+export interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig, SliderConfig {
   colors?: Colors;
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | false;

@@ -10,7 +10,7 @@ import './index.scss';
 
 const prefix = `${PrefixName}-wcontainer`;
 
-interface WcontainerProps extends MobileProps {
+export interface WcontainerProps extends MobileProps {
   className?: string;
   style?: React.CSSProperties;
   width?: string | number;

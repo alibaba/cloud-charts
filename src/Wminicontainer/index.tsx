@@ -11,7 +11,7 @@ import './index.scss';
 
 const prefix = `${PrefixName}-wminicontainer`;
 
-interface WminicontainerProps extends MobileProps {
+export interface WminicontainerProps extends MobileProps {
   className?: string;
   style?: React.CSSProperties;
   width?: string | number;

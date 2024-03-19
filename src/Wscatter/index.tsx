@@ -21,7 +21,7 @@ interface jitterConfig {
   adjustNames?: string[];
 }
 
-interface WscatterConfig extends BaseChartConfig {
+export interface WscatterConfig extends BaseChartConfig {
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
   legend?: LegendConfig | boolean;

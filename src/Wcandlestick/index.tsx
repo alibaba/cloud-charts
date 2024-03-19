@@ -34,7 +34,7 @@ interface labelAlias {
   max?: string;
 }
 
-interface WcandlestickConfig extends BaseChartConfig {
+export interface WcandlestickConfig extends BaseChartConfig {
   colors?: Colors;
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | false;

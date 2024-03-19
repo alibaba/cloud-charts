@@ -17,7 +17,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import { activeRegionWithTheme } from '../common/interaction';
 import './index.scss';
 
-interface WboxConfig extends BaseChartConfig {
+export interface WboxConfig extends BaseChartConfig {
   colors?: Colors;
   xAxis?: Types.ScaleOption & XAxisConfig | false;
   yAxis?: Types.ScaleOption & YAxisConfig | false;
