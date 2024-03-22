@@ -2,13 +2,9 @@
 
 import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
-import { merge, customFormatter, customFormatterConfig } from './common';
+import { merge, customFormatter, customFormatterConfig, pxToNumber } from './common';
 import ellipsisLabel from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
-
-function pxToNumber(px: string) {
-  return px && Number(px.toString().replace('px', ''));
-}
 
 declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 export interface XAxisConfig extends customFormatterConfig {
@@ -91,7 +87,7 @@ export default function <T>(
               autoEllipsis: transformEllipsis(autoEllipsis),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
-                const width = pxToNumber(themes['widgets-font-size-1']) * item.length
+                const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.8;
 
                 // 需要额外判断刻度之间的距离
                 // 目前至少会有2个刻度点, 但怕用户自定义
@@ -112,9 +108,8 @@ export default function <T>(
                       textAlign: dis < 80 ? 'center' : 'end'
                     }
                   }
-                } else {
-                  return {};
                 }
+                return {};
               }
             }
           : label,
