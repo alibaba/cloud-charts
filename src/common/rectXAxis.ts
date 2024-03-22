@@ -87,7 +87,8 @@ export default function <T>(
               autoEllipsis: transformEllipsis(autoEllipsis),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
-                const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.8;
+                const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
+                const canvasWidth = chart.coordinateBBox.x + chart.coordinateBBox.width;
 
                 // 需要额外判断刻度之间的距离
                 // 目前至少会有2个刻度点, 但怕用户自定义
@@ -98,14 +99,15 @@ export default function <T>(
                     const nextX = items[index + 1].point.x;
                     const dis = nextX - (currentX + width);
                     return {
-                      textAlign: dis < 80 ? 'center' : 'start'
+                      textAlign: dis < 80 || currentX > width / 2 ? 'center' : 'start'
                     }
                   } else if (index === items.length - 1) {
                     const currentX = items[index].point.x;
                     const preX = items[index - 1].point.x;
                     const dis = currentX - (preX + width);
+                    const disCanvas = canvasWidth - currentX;
                     return {
-                      textAlign: dis < 80 ? 'center' : 'end'
+                      textAlign: dis < 80 || disCanvas > width / 2 ? 'center' : 'end'
                     }
                   }
                 }
