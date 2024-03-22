@@ -45,18 +45,18 @@ function diffMinus(min: number, max: number) {
 // 2. 用户自定义高于一切
 // 3. 如果计算出来的的刻度数量小于默认刻度个数，则使用计算出来的刻度
 function avgTicks(min: number, max: number, tickCount: number, sourceTicks: any) {
-  console.log(min, max, tickCount, sourceTicks);
-  const tickLength = sourceTicks?.length < tickCount ? sourceTicks?.length : tickCount;
+  // console.log(min, max, tickCount, sourceTicks);
+  // const tickLength = sourceTicks?.length < tickCount ? sourceTicks?.length : tickCount;
+  const tickLength = tickCount;
   const avg = (max - min) / (tickLength - 1 <= 0 ? 1 : tickLength - 1);
 
   const ticks = [];
   for (let i = min; i <= max; i += avg) {
     ticks.push(i);
   }
-  // console.log(tickLength, ticks, sourceTicks);
-  if (_.isEqual(ticks, sourceTicks)) {
-    // console.log(1111)
-  }
+  // if (_.isEqual(ticks, sourceTicks)) {
+  //   console.log(1111)
+  // }
   return ticks;
 }
 
@@ -146,10 +146,22 @@ export function timePretty(cfg: ScaleConfig): number[] {
     );
   }
 
-  // console.log('ticks', ticks);
-  // if (max > min) {
-  //   ticks = avgTicks(min, max, tickCount, ticks);
-  // }
+  // 自己复写filter逻辑，当刻度计算小于6个的时候，且计算出的ticks有超出最大最小值的，只展示首尾
+  // 1. 数据为1个。就只显示一个
+  // 2. 数据为2个，则只显示首尾
+  if ((ticks.length < 4 && ticks.length !== 1) && (ticks?.[0] < min || ticks?.[ticks.length - 1] > max)) {
+    ticks = [min, max]
+  }
+
+  // 如果只展示了首尾展示，但是用户自定义了tickCount，则展示平均刻度
+  if (ticks.length === 2 && tickCount > ticks.length) {
+    ticks = avgTicks(min, max, tickCount, ticks);
+  }
+
+  // 通过配置项开启
+  // 1. 数据超出3个点，至少保留三个点
+  // ticks = avgTicks(min, max, tickCount, ticks);
+
   return ticks;
 }
 
