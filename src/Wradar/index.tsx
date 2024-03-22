@@ -12,7 +12,7 @@ import { propertyAssign, propertyMap } from '../common/common';
 import legendFilter from '../common/legendFilter';
 import drawLine, { DrawLineConfig } from '../common/drawLine';
 import polarLegendLayout from '../common/polarLegendLayout';
-import autoTimeMask from '../common/autoTimeMask';
+import autoTimeScale from '../common/autoTimeScale';
 import themes from '../themes';
 import './index.scss';
 
@@ -75,7 +75,7 @@ export class Radar extends Base<WradarConfig> {
       },
     };
 
-    autoTimeMask(defs, this.rawData, this.language || this.context.language);
+    autoTimeScale(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
     chart.data(data);

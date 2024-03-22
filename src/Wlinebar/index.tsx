@@ -19,7 +19,7 @@ import {
 } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
-import autoTimeMask from '../common/autoTimeMask';
+import autoTimeScale from '../common/autoTimeScale';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
@@ -299,7 +299,7 @@ export class Linebar extends Base<WlinebarConfig> {
       );
     }
 
-    autoTimeMask(defs, this.rawData, this.language || this.context.language);
+    autoTimeScale(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
 

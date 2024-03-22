@@ -8,7 +8,7 @@ import '@antv/data-set/lib/transform/aggregate';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap, pxToNumber, merge } from '../common/common';
-import autoTimeMask from '../common/autoTimeMask';
+import autoTimeScale from '../common/autoTimeScale';
 import legendFilter from '../common/legendFilter';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
@@ -175,7 +175,7 @@ export class Bar extends Base<WbarConfig> {
       ),
     };
 
-    autoTimeMask(defs, this.rawData, this.language || this.context.language);
+    autoTimeScale(defs, this.rawData, this.language || this.context.language);
     chart.scale(defs);
 
     const dataView = computerData(config, data);

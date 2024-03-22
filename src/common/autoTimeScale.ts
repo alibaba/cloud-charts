@@ -49,21 +49,34 @@ function findIndexOfSubStringIn2DArray(needle: string, haystack: string[][]) {
  * @param defs {object} 数据列定义
  * @param data {array} G2图表实例
  * */
-export default function (
-  defs: Record<string, Types.ScaleOption>,
-  data: ChartData,
-  language?: keyof typeof LanguageMap,
-): void {
+export default function (defs: Record<string, Types.ScaleOption>, data: ChartData, language?: keyof typeof LanguageMap): void {
   const def = defs.x;
+  // 所有的时间刻度计算都走图表库自己内置的（迁移G2的算法）
   if (
     (def.type === 'time' || def.type === 'timeCat') &&
-    def.mask === 'auto' &&
     Array.isArray(data) &&
     data[0] &&
     Array.isArray(data[0].data)
   ) {
-    def.mask = getAutoMask(def, data[0].data, language);
+    // 格式化另算
+    if (def.mask === 'auto') {
+      def.mask = getAutoMask(def, data[0].data, language);
+    } else {
+      // 业务自定义国际化处理
+      // 初始化的mask
+      const sourceMaskMap = getText('timeMask', 'zh-cn', null);
+      // 当前语言下的mask
+      const currentMaskMap = getText('timeMask', language, null);
+      // 用户自定义mask
+      const customMask = def.mask;
+      // 获取自定义mask在初始化mask Map下的索引地址
+      const customMaskIndex = findIndexOfSubStringIn2DArray(customMask, sourceMaskMap);
+      // 得到当前语言下的mask
+      const currentMask = customMaskIndex ? currentMaskMap[customMaskIndex[0]][customMaskIndex[1]] || customMask : customMask;
+      def.mask = currentMask;
+    }
 
+    // 覆盖G2内置算法
     // 默认的tickCount为7，导致时间永远无法获取全量数据
     // 这里通过修改tickCount的值为当前X轴的数量，使保底能得到全量数据
     if (!def.tickMethod && def.type === 'time') {
@@ -71,38 +84,26 @@ export default function (
         const { values } = cfg;
         return timePretty({
           ...cfg,
+          // 补充优化逻辑，针对当前画布尺寸适配标签个数
           tickCount: values?.length || 7,
-          ...def,
+          ...def
         });
-      };
+      }
     } else if (!def.tickMethod && def.type === 'timeCat') {
       def.tickMethod = (cfg: Types.ScaleOption) => {
         const { values } = cfg;
         return timeCat({
           ...cfg,
           tickCount: values?.length || 7,
-          ...def,
+          ...def
         });
-      };
+      }
     }
   } else {
-    // 默认显示最后一个
+    // 分类型默认显示最后一个
     if(def.type === 'cat' || def.type==='timeCat') {
       def.showLast = true;
     }
-
-    // 业务自定义国际化处理
-    // 初始化的mask
-    const sourceMaskMap = getText('timeMask', 'zh-cn', null);
-    // 当前语言下的mask
-    const currentMaskMap = getText('timeMask', language, null);
-    // 用户自定义mask
-    const customMask = def.mask;
-    // 获取自定义mask在初始化mask Map下的索引地址
-    const customMaskIndex = findIndexOfSubStringIn2DArray(customMask, sourceMaskMap);
-    // 得到当前语言下的mask
-    const currentMask = customMaskIndex ? currentMaskMap[customMaskIndex[0]][customMaskIndex[1]] || customMask : customMask;
-    def.mask = currentMask;
   }
 }
 

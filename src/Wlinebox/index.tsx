@@ -10,7 +10,7 @@ import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../c
 import { GuideConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
-import autoTimeMask from '../common/autoTimeMask';
+import autoTimeScale from '../common/autoTimeScale';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import legendFilter from '../common/legendFilter';
@@ -210,7 +210,7 @@ export class Linebox extends Base<WlineboxConfig> {
       );
     }
 
-    autoTimeMask(defs, this.rawData, this.language || this.context.language);
+    autoTimeScale(defs, this.rawData, this.language || this.context.language);
 
     chart.scale(defs);
 

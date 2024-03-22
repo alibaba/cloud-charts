@@ -14,7 +14,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { propertyAssign, propertyMap } from '../common/common';
-import autoTimeMask from '../common/autoTimeMask';
+import autoTimeScale from '../common/autoTimeScale';
 import legendFilter from '../common/legendFilter';
 
 interface jitterConfig {
@@ -85,7 +85,7 @@ export class Scatter extends Base<WscatterConfig> {
       config.yAxis
     );
 
-    autoTimeMask(defs, this.rawData, this.language || this.context.language);
+    autoTimeScale(defs, this.rawData, this.language || this.context.language);
 
     // rectAutoTickCount(chart, config, defs, false);
 
