@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 
-import { Wline, Wlinebar, Wbar } from '@alife/aisc-widgets';
+import { Wline, Wlinebar, Wbar } from '@alicloud/cloud-charts';
 
 const lineBarData = [
   {
