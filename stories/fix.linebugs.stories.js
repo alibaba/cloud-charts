@@ -1736,7 +1736,7 @@ stories.add('折线图-轴标签问题', () => (
         },
       }}
     /> */}
-    {/* <Whine
+    {/* <Wline
       height="300"
       data={bugData_4}
       config={{
