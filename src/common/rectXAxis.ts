@@ -6,12 +6,23 @@ import { merge, customFormatter, customFormatterConfig } from './common';
 import ellipsisLabel from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
 
+declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 export interface XAxisConfig extends customFormatterConfig {
   visible?: boolean;
   alias?: boolean;
   autoRotate?: boolean;
   rotate?: number;
-  autoHide?: boolean;
+  autoHide?:
+    | boolean
+    | avoidCallback
+    | string
+    | {
+        type: string;
+        cfg?: {
+          /** 最小间距配置 */
+          minGap?: number;
+        };
+      };
   autoEllipsis?: boolean | 'head' | 'middle' | 'tail';
   label?: Types.AxisCfg['label'];
   labelFormatter?: NonNullable<Types.AxisCfg['label']>['formatter'];
@@ -42,9 +53,16 @@ export default function <T>(
       alias,
       autoRotate = false,
       rotate,
-      // 如果是时间轴，则默认开启轴标签的自动采样
+      // 如果是时间轴，则默认开启轴标签的自动采样,最小值为20
       // 如果是分类，则默认关闭
-      autoHide = config.xAxis?.type?.includes('time') ? config.xAxis?.type?.includes('time') : config.xAxis.autoHide || false,
+      autoHide = config.xAxis?.type?.includes('time')
+        ? {
+            cfg: {
+              // 自动采样最小间距为20
+              minGap: 20,
+            },
+          }
+        : config.xAxis.autoHide || false,
       autoEllipsis,
       label,
       labelFormatter,
@@ -68,6 +86,32 @@ export default function <T>(
               autoHide,
               autoEllipsis: transformEllipsis(autoEllipsis),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
+              style: (item: any, index: number, items: any[]) => {
+                const chart_ctx = chart.canvas.cfg.context;
+                const { width } = chart_ctx?.measureText(item);
+
+                // 需要额外判断刻度之间的距离
+                // 目前至少会有2个刻度点, 但怕用户自定义
+                // 且第一个刻度和最后一个刻度必须是在画布的两端 - 这个无法判断所以不能全量开放
+                if (items.length === 2 || items.length === 3) {
+                  if (index === 0) {
+                    const currentX = items[index].point.x;
+                    const nextX = items[index + 1].point.x;
+                    const dis = nextX - (currentX + width);
+                    // console.log(nextX - currentX, width, dis)
+                    return {
+                      textAlign: dis < 80 ? 'center' : 'start'
+                    }
+                  } else if (index === items.length - 1) {
+                    const currentX = items[index].point.x;
+                    const preX = items[index - 1].point.x;
+                    const dis = currentX - (preX + width);
+                    return {
+                      textAlign: dis < 80 ? 'center' : 'end'
+                    }
+                  }
+                }
+              }
             }
           : label,
     };
