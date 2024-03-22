@@ -6,6 +6,10 @@ import { merge, customFormatter, customFormatterConfig } from './common';
 import ellipsisLabel from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
 
+function pxToNumber(px: string) {
+  return px && Number(px.toString().replace('px', ''));
+}
+
 declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 export interface XAxisConfig extends customFormatterConfig {
   visible?: boolean;
@@ -62,7 +66,7 @@ export default function <T>(
               minGap: 20,
             },
           }
-        : config.xAxis.autoHide || false,
+        : false,
       autoEllipsis,
       label,
       labelFormatter,
@@ -87,8 +91,7 @@ export default function <T>(
               autoEllipsis: transformEllipsis(autoEllipsis),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
-                const chart_ctx = chart.canvas.cfg.context;
-                const { width } = chart_ctx?.measureText(item);
+                const width = pxToNumber(themes['widgets-font-size-1']) * item.length
 
                 // 需要额外判断刻度之间的距离
                 // 目前至少会有2个刻度点, 但怕用户自定义
@@ -98,7 +101,6 @@ export default function <T>(
                     const currentX = items[index].point.x;
                     const nextX = items[index + 1].point.x;
                     const dis = nextX - (currentX + width);
-                    // console.log(nextX - currentX, width, dis)
                     return {
                       textAlign: dis < 80 ? 'center' : 'start'
                     }
@@ -110,6 +112,8 @@ export default function <T>(
                       textAlign: dis < 80 ? 'center' : 'end'
                     }
                   }
+                } else {
+                  return {};
                 }
               }
             }
