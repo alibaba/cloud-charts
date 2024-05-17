@@ -79,8 +79,10 @@ export interface WbarConfig extends BaseChartConfig, ZoomConfig, ScrollbarConfig
   maxSize?: number;
   /** 默认宽度占比，interval类型和schema类型通用 */
   columnWidthRatio?: number;
-  /** 组内间距 */
+  /** 像素级组内间距 */
   dodgePadding?: number;
+  /** 像素级柱间宽度(组间距)，调整offset */
+  intervalPadding?: number;
   /** 百分比堆叠柱状图 */
   percentage?: boolean;
   // 是否展示堆叠总数
@@ -542,12 +544,14 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
     maxSize = 24,
     columnWidthRatio,
     dodgePadding,
+    intervalPadding,
   } = config;
   const geomConfig = {
     minColumnWidth: minSize || null,
     maxColumnWidth: maxSize || null,
-    columnWidthRatio: columnWidthRatio || null,
-    dodgePadding: dodgePadding || null,
+    columnWidthRatio: columnWidthRatio,
+    dodgePadding: dodgePadding,
+    intervalPadding: intervalPadding,
   };
   let geom = chart.interval(geomConfig).position(['x', 'y']).color('type', colors);
   if (percentage) {
