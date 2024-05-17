@@ -20,8 +20,8 @@ import './index.scss';
 // 3.x代码
 export interface WrectangleConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -65,15 +65,23 @@ export class Rectangle extends Base<WrectangleConfig> {
   }
   init(chart: Chart, config: WrectangleConfig, data: any) {
     const defs: Record<string, Types.ScaleOption> = {
-      x: propertyAssign(propertyMap.axis, {
-        // 折线图X轴的范围默认覆盖全部区域，保证没有空余
-        range: [0, 1],
-      }, config.xAxis),
-      y: propertyAssign(propertyMap.axis, {
-        type: 'linear',
-        tickCount: 5,
-        nice: true,
-      }, config.yAxis),
+      x: propertyAssign(
+        propertyMap.axis,
+        {
+          // 折线图X轴的范围默认覆盖全部区域，保证没有空余
+          range: [0, 1],
+        },
+        config.xAxis,
+      ),
+      y: propertyAssign(
+        propertyMap.axis,
+        {
+          type: 'linear',
+          tickCount: 5,
+          nice: true,
+        },
+        config.yAxis,
+      ),
       type: {
         type: 'cat',
       },
@@ -128,11 +136,15 @@ export class Rectangle extends Base<WrectangleConfig> {
     // 绘制辅助线，辅助背景区域
     guide(chart, config);
 
-    const geom = chart.polygon().position('x*y').color('count', config.colors).tooltip('x*y*count', (x, y, count) => ({
-      // title: x,
-      name: '数量',
-      value: count,
-    }));
+    const geom = chart
+      .polygon()
+      .position('x*y')
+      .color('count', config.colors)
+      .tooltip('x*y*count', (x, y, count) => ({
+        // title: x,
+        name: '数量',
+        value: count,
+      }));
 
     geomStyle(geom, config.geomStyle, undefined, 'x*y*count');
 
@@ -148,7 +160,6 @@ export class Rectangle extends Base<WrectangleConfig> {
     // chart.render();
   }
   changeData(chart: Chart, config: WrectangleConfig, data: any) {
-
     const ds = new DataSet();
 
     const rectangleDataView = ds
