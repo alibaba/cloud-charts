@@ -23,7 +23,6 @@ export interface WmultipieConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
-  autoSort?: boolean;
   cycle?: boolean;
   innerRadius?: number;
   outerRadius?: number;
