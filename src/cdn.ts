@@ -24,9 +24,6 @@ export { plugins, pluginManager } from './plugins';
 // 暴露工具类
 export { default as Util } from './Util';
 
-// 图表基类
-export { default as Wbase } from './common/Base';
-
 export { default as Wline, Line as RawLine } from './Wline';
 export { default as Wlinebar, Linebar as RawLinebar } from './Wlinebar';
 export { default as Wlinescatter, Linescatter as RawLinescatter } from './Wlinescatter';
