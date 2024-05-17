@@ -162,7 +162,7 @@ export class Scatter extends Base<WscatterConfig> {
     chart.legend('extra', false);
 
     // fix: 设置 rectLegend 后如果再调用 chart.legend 会生成默认图例
-    rectLegend(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, 'multiple', 'type');
   }
 }
 

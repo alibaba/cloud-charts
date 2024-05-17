@@ -78,7 +78,7 @@ export class Nightingale extends Base<WnightingaleConfig> {
     });
 
     // 设置图例
-    rectLegend(this, chart, config, null, true);
+    rectLegend(this, chart, config, null, 'single');
 
     // tooltip
     rectTooltip(

@@ -103,7 +103,7 @@ export class Heatmap extends Base<WheatmapConfig> {
     chart.legend('x', false);
     chart.legend('y', false);
     // 设置图例
-    rectLegend(this, chart, config, {}, false, 'type');
+    rectLegend(this, chart, config, {}, 'multiple', 'type');
 
     legendFilter(this, chart);
 

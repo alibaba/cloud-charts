@@ -218,7 +218,7 @@ export class Sankey extends Base<WsankeyConfig> {
             : false,
       },
       {},
-      false,
+      'graph',
     );
     // chart.interaction('element-active');
   }

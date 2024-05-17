@@ -171,7 +171,7 @@ function getPadding(position: string, base: number, userPadding?: number[], isPo
  * @param {Chart} chart 图表实例
  * @param {Object} config 配置项
  * @param {Object} defaultConfig 组件的自定义配置
- * @param {boolean} isOneDataGroup 数据是否为单组形式，类似饼图和漏斗图
+ * @param {string} dataType 数据的枚举类型，如单组(single)、多组(multiple)、树结构(tree)、图结构(graph)
  * @param {string} field 数据映射字段
  * @param {boolean} isPolar 是否极坐标系
  * @param {function} itemFormatter 组件自定义的 item 格式函数
@@ -181,7 +181,7 @@ export default function <T>(
   chart: Chart,
   config: { legend?: LegendConfig | boolean; showStackSum?: boolean },
   defaultConfig: Types.LegendCfg,
-  isOneDataGroup: boolean,
+  dataType: string,
   field?: string,
   isPolar?: boolean,
   itemFormatter?: (item: G2Dependents.ListItem, i: number) => G2Dependents.ListItem,
@@ -251,15 +251,17 @@ export default function <T>(
       //   padding: 0,
       // },
       padding: getPadding(position, baseFontSizeNum, padding, isPolar),
-      marker: marker || {
-        // symbol: 'circle',
-        style: {
-          r: baseFontSizeNum / 4,
-          // fill: styleSheet.legendMarkerColor,
-          // lineCap: 'butt',
-          lineAppendWidth: 0,
-          fillOpacity: 1,
-        },
+      marker: marker ? marker : (name, index, item) => {
+        return {
+          // symbol: 'circle',
+          style: {
+            r: baseFontSizeNum / 4,
+            // fill: styleSheet.legendMarkerColor,
+            // lineCap: 'butt',
+            lineAppendWidth: 0,
+            fillOpacity: 1,
+          },
+        }
       },
       maxWidth,
       maxHeight,
@@ -369,7 +371,7 @@ export default function <T>(
         },
         formatter: (text, item, index) => {
           // @ts-ignore
-          const value = getLastValue(item.name, ctx.rawData, isOneDataGroup);
+          const value = getLastValue(item.name, ctx.rawData, dataType, ctx.data);
           if (valueFormatter) {
             return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
           } else if (customValueFormatter) {
@@ -508,12 +510,13 @@ export default function <T>(
     // }
   }
 }
-function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean) {
-  const dataGroup = getItemData(name, rawData, isOneDataGroup);
+function getLastValue(name: string, rawData: ChartData, dataType: string, currentData?: ChartData) {
+  const dataGroup = getItemData(name, rawData, dataType, currentData);
+
   if (!dataGroup) {
     return '';
   }
-  if (isOneDataGroup) {
+  if (dataType === 'single') {
     if (Array.isArray(dataGroup)) {
       return dataGroup[1];
     }
@@ -530,50 +533,71 @@ function getLastValue(name: string, rawData: ChartData, isOneDataGroup: boolean)
     if (typeof lastItem === 'object') {
       return lastItem.y;
     }
+  } else {
+    return dataGroup;
   }
   return '';
 }
 function getItemData(
   name: string,
   rawData: ChartData,
-  isOneDataGroup: boolean,
+  dataType: string,
+  currentData?: ChartData,
 ): undefined | Types.LooseObject | (number | string)[] {
   if (!rawData) {
     return undefined;
   }
 
-  if (isOneDataGroup) {
-    const originData = rawData[0];
-    let result = undefined;
+  let result = undefined;
+  switch (dataType) {
+    case 'single': 
+      if (rawData.children) {
+        result = [name, currentData?.filter((el: any) => el.name === name)?.[0]?.value];
+      } else {
+        const originData = rawData[0];
 
-    originData &&
-      originData.data?.some((r: any) => {
-        if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
+        originData &&
+          originData.data?.some((r: any) => {
+            if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
+              result = r;
+              return true;
+            }
+            return false;
+          });
+      }
+
+      return result;
+    case 'multiple': 
+      rawData.some((r: Types.LooseObject) => {
+        if (r.data && r.name === name) {
           result = r;
           return true;
         }
         return false;
       });
-
-    // if (Array.isArray(result)) {
-    //   result = {
-    //     data: result,
-    //   };
-    // }
-
-    return result;
+    
+      return result;
+    case 'graph':
+      rawData?.nodes?.some((r: Types.LooseObject) => {
+        // console.log(2222, r, name)
+        if (r.name === name) {
+          result = r.value;
+          return true;
+        }
+        return false;
+      });
+    case 'tree':
+      return result;
   }
 
-  let originData = undefined;
-  rawData.some((r: Types.LooseObject) => {
-    if (r.data && r.name === name) {
-      originData = r;
-      return true;
-    }
-    return false;
-  });
+  //   // if (Array.isArray(result)) {
+  //   //   result = {
+  //   //     data: result,
+  //   //   };
+  //   // }
 
-  return originData;
+  //   return result;
+  // }
 }
 
 // function getRawData(config, rawData, name, isOneDataGroup) {

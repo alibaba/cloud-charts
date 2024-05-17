@@ -387,7 +387,7 @@ let data4 = [
   },
 ];
 
-stories.add('分组堆叠图', () => (
+stories.add('分组堆叠图(图例显示数字)', () => (
   <Wcontainer className="demos">
     <Wbar height="300" config={options2} data={data3} />
   </Wcontainer>

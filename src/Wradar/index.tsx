@@ -92,7 +92,7 @@ export class Radar extends Base<WradarConfig> {
     rectYAxis(this, chart, config);
 
     // 设置图例
-    rectLegend(this, chart, config, null, false, 'type', true);
+    rectLegend(this, chart, config, null, 'multiple', 'type', true);
 
     legendFilter(this, chart);
 

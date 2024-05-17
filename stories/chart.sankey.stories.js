@@ -14,6 +14,9 @@ stories.add('基础桑基图', () => (
         primaryKey: 'name',
         edgeStyle: {
           color: 'source' // source | gradient
+        },
+        legend: {
+          showData: true
         }
       }}
       data={{

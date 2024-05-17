@@ -279,7 +279,7 @@ export class Linescatter extends Base<WlinescatterConfig> {
 
     rectLegend(this, chart, config, {
       items: getLegendItems(rawLineData, rawScatterData, lineView.geometries[0], scatterView.geometries[0], config),
-    }, false);
+    }, 'multiple');
   }
 
   changeData(chart: Chart, config: WlinescatterConfig, data: ChartData) {

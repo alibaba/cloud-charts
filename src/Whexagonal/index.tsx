@@ -94,7 +94,7 @@ export class Hexagonal extends Base<WhexagonalConfig> {
     rectYAxis(this, chart, config);
 
     // 设置图例
-    rectLegend(this, chart, config, {}, false, 'count');
+    rectLegend(this, chart, config, {}, 'multiple', 'count');
 
     // tooltip
     rectTooltip(this, chart, config, {}, null, {

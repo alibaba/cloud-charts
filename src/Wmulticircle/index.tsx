@@ -78,7 +78,7 @@ export class MultiCircle extends Base<WmulticircleConfig> {
     chart.data(data);
 
     // 设置图例
-    rectLegend(this, chart, config, {}, true, null, false, (item: G2Dependents.ListItem, index: number) => {
+    rectLegend(this, chart, config, {}, 'single', null, false, (item: G2Dependents.ListItem, index: number) => {
       const raw = (this.rawData && this.rawData[0]) || {};
 
       return {

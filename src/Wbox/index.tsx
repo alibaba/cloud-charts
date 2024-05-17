@@ -96,7 +96,7 @@ export class Box extends Base<WboxConfig> {
     rectXAxis(this, chart, config);
 
     // 设置图例
-    rectLegend(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, 'multiple', 'type');
 
     legendFilter(this, chart);
 

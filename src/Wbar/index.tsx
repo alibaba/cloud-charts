@@ -295,7 +295,7 @@ export class Bar extends Base<WbarConfig> {
       {
         items: newItems,
       },
-      false,
+      'multiple',
       'type',
     );
 

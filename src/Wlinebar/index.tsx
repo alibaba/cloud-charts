@@ -424,7 +424,7 @@ export class Linebar extends Base<WlinebarConfig> {
       {
         items: getLegendItems(rawLineData, rawBarData, lineView.geometries[0], barView.geometries[0], config),
       },
-      false,
+      'multiple',
     );
 
     // 判断是否要加padding

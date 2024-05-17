@@ -305,7 +305,7 @@ export class Pie extends Base<WpieConfig> {
         //   marginRight: 0,
         // },
       },
-      true,
+      'single',
       null,
       true,
       (item: G2Dependents.ListItem, index: number) => {

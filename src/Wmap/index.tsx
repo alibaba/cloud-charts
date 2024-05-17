@@ -444,7 +444,7 @@ export class Map extends Base<WmapConfig, MapProps> {
     );
 
     // 设置图例
-    rectLegend(this, chart, config, {}, false);
+    rectLegend(this, chart, config, {}, 'multiple');
 
     const ds = new DataSet();
     this.ds = ds;

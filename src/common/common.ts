@@ -1,3 +1,4 @@
+import tinycolor from 'tinycolor2';
 import { Colors, Types } from './types';
 import themes from '../themes';
 import { warn } from './log';
@@ -250,7 +251,7 @@ export function getStatusColorName(status: string) {
  * @return {boolean} 是否有效数字
  * */
 export function isInvalidNumber(v: any) {
-  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
+  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object' || v !== '0';
 }
 
 /**
@@ -445,18 +446,66 @@ export function customFormatter(config: customFormatterConfig) {
 
     let result = v;
     let newUnit = unit || '';
+
     if (isInvalidNumber(v)) {
-      return `${v}${newUnit}`;
+      // 为0也算
+      if (!!decimal) {
+        // 小数位
+        result = numberDecimal(result, decimal);
+      }
+
+      // 千分位
+      if (grouping) {
+        result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
+      }
+
+      return `${result}${newUnit}`;
+    } else {
+      return '';
     }
-
-    // 小数位
-    result = numberDecimal(result, decimal);
-
-    // 千分位
-    if (grouping) {
-      result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
-    }
-
-    return `${result}${newUnit}`;
   };
+}
+
+/**
+ * 获取指定颜色的顺序色
+ * */
+export function calcLinearColor(primaryColor: string, backgroundColor?: string, linearCount?: number) {
+  const linear = [];
+  const front = tinycolor(primaryColor);
+  const { h, s, v } = front.toHsv();
+  const { v: backValue } = tinycolor(backgroundColor).toHsv();
+  const isLight = backValue > 0.5;
+
+  for (let i = 1; i < linearCount; i++) {
+    let colorString;
+    // 亮色模式
+    if (isLight) {
+      colorString = tinycolor({
+        h,
+        s: Math.round(i * s * 100 / linearCount),
+        // v: v * 100,
+        v: Math.round((i * (v - backValue) / linearCount + backValue) * 100),
+      }).toHexString();
+    } else {
+      // 暗色模式
+      colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+    }
+    linear.push(colorString);
+  }
+  linear.push(primaryColor);
+
+  return linear;
+}
+
+/**
+ * 递归遍历树节点
+ * */
+export function traverseTree(node: any, itemFunction?: any) {
+  if (node.children) {
+    node.children.map((el: any) => {
+      itemFunction && itemFunction(el);
+      traverseTree(el);
+    });
+  }
+  return node;
 }

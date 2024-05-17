@@ -130,7 +130,7 @@ export class Candlestick extends Base<WcandlestickConfig> {
       {
         // useHtml: false,
       },
-      true,
+      'single',
       'trend',
     );
 

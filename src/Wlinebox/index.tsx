@@ -296,7 +296,7 @@ export class Linebox extends Base<WlineboxConfig> {
       {
         items: getLegendItems(rawLineData, rawBoxData, lineView.geometries[0], boxView.geometries[0], config),
       },
-      false,
+      'multiple',
     );
   }
 

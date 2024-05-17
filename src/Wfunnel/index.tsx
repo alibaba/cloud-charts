@@ -67,7 +67,7 @@ export class Funnel extends Base<WfunnelConfig> {
     chart.data(data);
 
     // 设置图例
-    rectLegend(this, chart, config, null, true);
+    rectLegend(this, chart, config, null, 'single');
 
     // tooltip
     rectTooltip(

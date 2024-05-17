@@ -110,7 +110,7 @@ export class Treemap extends Base<WtreemapConfig> {
     chart.data(nodes);
 
     // 设置图例
-    rectLegend(this, chart, config, null, false, 'type');
+    rectLegend(this, chart, config, null, 'multiple', 'type');
 
     // tooltip
     rectTooltip(
