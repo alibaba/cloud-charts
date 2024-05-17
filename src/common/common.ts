@@ -251,7 +251,7 @@ export function getStatusColorName(status: string) {
  * @return {boolean} 是否有效数字
  * */
 export function isInvalidNumber(v: any) {
-  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object' || v !== '0';
+  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
 }
 
 /**
