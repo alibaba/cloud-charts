@@ -51,9 +51,12 @@ function avgTicks(min: number, max: number, tickCount: number, sourceTicks: any)
   const avg = (max - min) / (tickLength - 1 <= 0 ? 1 : tickLength - 1);
 
   const ticks = [];
-  for (let i = min; i <= max; i += avg) {
-    ticks.push(i);
+  if(!isNil(min) && !isNil(max)){
+    for (let i = min; i <= max; i += avg) {
+      ticks.push(i);
+    }
   }
+
   // if (_.isEqual(ticks, sourceTicks)) {
   //   console.log(1111)
   // }
