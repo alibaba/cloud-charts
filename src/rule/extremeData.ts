@@ -284,7 +284,8 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
         },
         // label判断自定义
         label: {
-          ...(typeof config?.label === 'object' ? config?.label : {}),
+          labelFormatter: config.yAxis.labelFormatter,
+          ...(typeof config?.label === 'object' ? config.label : {}),
           visible: true,
         },
         symbol: {
@@ -323,6 +324,7 @@ export function processLineExtremeData(chartObj: any, config: any, data: any) {
       config: {
         // label判断自定义
         label: {
+          labelFormatter: config.yAxis.labelFormatter,
           ...(typeof config?.label === 'object' ? config?.label : {}),
           visible: true,
         },
