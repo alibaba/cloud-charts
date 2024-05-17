@@ -7,7 +7,7 @@ import '@antv/data-set/lib/transform/hierarchy/partition';
 import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
 import themes from '../themes/index';
-import { numberDecimal } from '../common/common';
+import { numberDecimal, calcLinearColor, traverseTree } from '../common/common';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
@@ -36,7 +36,7 @@ export interface WmultipieConfig extends BaseChartConfig {
   endAngle?: number;
   geomStyle?: GeomStyleConfig;
   /** 环形图中心的内容，仅当cycle=true时生效 */
-  innerContent?: {
+  innerContent?: boolean | {
     /** 标题，不指定则取数据中name */
     title?: string | React.ReactNode;
 
@@ -63,12 +63,14 @@ function getParentList(
     value: parentNode.value,
     rawValue: parentNode.data.value,
     depth: parentNode.depth,
+    color: parentNode.color ?? undefined, // root没有颜色
+    children: parentNode.children
   });
 
   return getParentList(parentNode, target);
 }
 
-function computeData(ctx: MultiPie, data: ChartData) {
+function computeData(ctx: MultiPie, data: ChartData, config?: WmultipieConfig) {
   let dv = null;
   if (ctx.dataView) {
     dv = ctx.dataView;
@@ -81,19 +83,46 @@ function computeData(ctx: MultiPie, data: ChartData) {
 
     dv.source(data, {
       type: 'hierarchy',
+      children: (data: any) => {
+        if (config.autoSort) {
+          data.children?.sort((a: any, b: any) => b.value - a.value);
+        }
+        return data?.children ?? [];
+      }
     }).transform({
       type: 'hierarchy.partition', // 根据树形数据生成相邻层次图 Adjacency Diagram 布局
       as: ['x', 'y'],
     });
+
   }
 
   const source: Types.Data = [];
 
   dv.getAllNodes().forEach((node) => {
+    let color = node?.data?.color;
+    const parentNodeList = getParentList(node)
+    // 因为父节点是向上找的，所以当前节点的直接父节点是数组的最后一个
+    const parentNode = parentNodeList[parentNodeList.length - 1];
+
     if (node.depth === 0) {
       // 父节点不展示
       return;
     }
+
+    if (!color) {
+      const subNodeIdx = parentNode?.children?.findIndex((subNode: any) => subNode.data.name === node.data.name);
+
+      if (node.depth === 1) {
+        node.color = themes.category_20[subNodeIdx];
+        color = themes.category_20[subNodeIdx];
+      } else {
+        const colorList = calcLinearColor(parentNode.color, themes['widgets-color-background'], parentNode.children.length);
+        node.color = colorList[subNodeIdx];
+        color = colorList[subNodeIdx];
+      }
+    }
+
+
     // var obj = {};
     // obj.name = node.data.name;
     // obj.rawValue = node.data.value;
@@ -105,9 +134,10 @@ function computeData(ctx: MultiPie, data: ChartData) {
       value: node.value,
       rawValue: node.data.value,
       depth: node.depth,
-      parent: getParentList(node),
+      parent: parentNodeList,
       x: node.x,
       y: node.y,
+      color,
     });
     return node;
   });
@@ -136,6 +166,8 @@ export class MultiPie extends Base<WmultipieConfig> {
         align: '',
         nameFormatter: null, // 可以强制覆盖，手动设置label
         valueFormatter: null,
+        dodge: true,
+        showData: true
       },
       tooltip: {
         nameFormatter: null,
@@ -144,6 +176,8 @@ export class MultiPie extends Base<WmultipieConfig> {
       cycle: false,
       innerRadius: 0.6, // 内环半径大小，仅cycle为true时可用
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
+      innerContent: true,
+      autoSort: true,
       // drawPadding: [10, 10, 10, 10],
     };
   }
@@ -154,10 +188,11 @@ export class MultiPie extends Base<WmultipieConfig> {
   data: Types.Data = [];
 
   init(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const { source, total } = computeData(this, data);
+    const { source, total } = computeData(this, data, config);
 
     this.totalData = total;
 
+    console.log(source)
     chart.data(source);
 
     const thetaConfig: Types.CoordinateCfg = {
@@ -237,7 +272,7 @@ export class MultiPie extends Base<WmultipieConfig> {
       {
         items: newItems,
       },
-      true,
+      'single',
       null,
       true,
     );
@@ -299,7 +334,10 @@ export class MultiPie extends Base<WmultipieConfig> {
     const geom = chart
       .polygon()
       .position('x*y')
-      .color('name', config.colors)
+      // 暂不支持自定义颜色
+      .color('name*color', (xVal, yVal) => {
+        return yVal;
+      })
       .tooltip('name*value*rawValue*depth', (name, value) => {
         return {
           name,
@@ -307,7 +345,16 @@ export class MultiPie extends Base<WmultipieConfig> {
         };
       });
 
-    geomStyle(geom, config.geomStyle, undefined, 'name*value*rawValue*depth');
+    geomStyle(
+      geom,
+      config.geomStyle,
+      {
+        // 增加圆环装饰
+        stroke: themes['widgets-color-background'],
+        lineWidth: 1
+      },
+      'name*value*rawValue*depth',
+    );
 
     polarLegendLayout(chart);
 
@@ -347,7 +394,7 @@ export class MultiPie extends Base<WmultipieConfig> {
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
-    const { source, total } = computeData(this, data);
+    const { source, total } = computeData(this, data, config);
     this.totalData = total;
 
     chart.changeData(source);
