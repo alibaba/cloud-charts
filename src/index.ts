@@ -78,6 +78,7 @@ export type { WnightingaleConfig } from './Wnightingale';
 export type { WheatmapConfig } from './Wheatmap';
 export type { WmapConfig } from './Wmap';
 export type { WrectangleConfig } from './Wrectangle';
+export type { WminilineConfig } from './Wminiline';
 export type { WmultipieConfig } from './Wmultipie';
 export type { WmulticircleConfig } from './Wmulticircle';
 export type { WboxConfig } from './Wbox';
@@ -98,7 +99,6 @@ export type { WminicontainerProps } from './Wminicontainer/index';
 export type { ShootProps as WshootProps } from './Wshoot/index';
 export type { WplaceholderProps } from './Wplaceholder/index';
 export type { WcountProps } from './Wcount/index';
-export type { WminilineConfig } from './Wminiline';
 export type { WcapacityProps } from './Wcapacity/index';
 
 // 国际化
