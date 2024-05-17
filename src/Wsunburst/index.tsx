@@ -20,7 +20,7 @@ import Wnumber from '../Wnumber';
 import themes from '../themes/index';
 import './index.scss';
 
-export interface WmultipieConfig extends BaseChartConfig {
+export interface WsunburstConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
@@ -172,14 +172,14 @@ function dodgeItems(data: ChartData, config: WsunburstConfig) {
   return newItems;
 }
 
-export class MultiPie extends Base<WmultipieConfig> {
+export class Sunburst extends Base<WsunburstConfig> {
   chartName = 'G2MultiPie';
 
   legendField = 'name';
 
   convertData = false;
 
-  getDefaultConfig(): WmultipieConfig {
+  getDefaultConfig(): WsunburstConfig {
     return {
       colors: themes.category_12,
       // padding: [20, 20, 20, 20],
@@ -215,7 +215,7 @@ export class MultiPie extends Base<WmultipieConfig> {
 
   data: Types.Data = [];
 
-  init(chart: Chart, config: WmultipieConfig, data: ChartData) {
+  init(chart: Chart, config: WsunburstConfig, data: ChartData) {
     const { source, total } = computeData(this, data, config);
 
     this.totalData = total;
@@ -376,7 +376,7 @@ export class MultiPie extends Base<WmultipieConfig> {
     });
   }
 
-  changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
+  changeData(chart: Chart, config: WsunburstConfig, data: ChartData) {
     const { source, total } = computeData(this, data, config);
     this.totalData = total;
 
@@ -410,6 +410,7 @@ export class MultiPie extends Base<WmultipieConfig> {
   }
 }
 
-const WmultiPie: typeof MultiPie = errorWrap(MultiPie);
+const WmultiPie: typeof Sunburst = errorWrap(Sunburst);
+const Wsunburst: typeof Sunburst = errorWrap(Sunburst);
 
-export default WmultiPie;
+export { WmultiPie, Wsunburst };
