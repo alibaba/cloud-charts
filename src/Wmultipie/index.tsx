@@ -261,47 +261,29 @@ export class MultiPie extends Base<WmultipieConfig> {
     let newItems: G2Dependents.ListItem[] = undefined;
     if (config?.legend?.dodge && !config?.legend?.foldable && !config?.legend?.table) {
       newItems = [];
-      // 目前不遍历，和设计师沟通只做前两层
-      if (this.rawData?.children) {
-        this.rawData?.children?.forEach((subData: ChartData) => {
-          if (
-            subData?.dodge &&
-            newItems?.filter((el) => el.dodge === subData?.dodge)?.length == 0
-          ) {
-            dodgeGroups.push(subData?.dodge || subData?.facet);
-          }
-        });
-        this.rawData?.children
-          ?.sort((a: any, b: any) => dodgeGroups.indexOf(a?.dodge) - dodgeGroups.indexOf(b?.dodge))
-          .forEach((subData: ChartData, index: number) => {
-            let rawColor;
-            // 函数暂时不做处理，和默认数组处理方式保持一致
-            if (typeof config?.colors === 'string') {
-              rawColor = config?.colors;
-            } else if (typeof config?.colors === 'object') {
-              rawColor = config?.colors?.[index];
-            } else if (typeof config?.colors === 'function') {
-              rawColor = themes.category_12[index];
-            }
-
-            newItems.push({
-              id: subData?.name,
-              name: subData?.name,
-              value: subData?.name,
-              marker: {
-                symbol: 'circle',
-                spacing: 4,
-                style: {
-                  r: 3,
-                  fill: rawColor,
-                  lineAppendWidth: 0,
-                  fillOpacity: 1,
-                },
+      // 这里用处理后的树数据
+      // 默认只展示第一层
+      // 暂时不支持自定义颜色
+      source.forEach((subData: ChartData) => {
+        if (subData.depth === 1) {
+          newItems.push({
+            id: subData?.name,
+            name: subData?.name,
+            value: subData?.name,
+            marker: {
+              symbol: 'circle',
+              spacing: 4,
+              style: {
+                r: 3,
+                fill: subData.color,
+                lineAppendWidth: 0,
+                fillOpacity: 1,
               },
-              unchecked: false,
-            });
+            },
+            unchecked: false,
           });
-      }
+        }
+      });
     } else if (config?.legend?.items) {
       // 自定义优先级高于内置配置
       newItems = config.legend.items;

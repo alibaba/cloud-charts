@@ -32,7 +32,7 @@ export default function polarLegendLayout(chart: Chart) {
     const radius = chart.getCoordinate().radius
     const legend = legendComponents[0].component;
     const legendPadding = legend.cfg.padding;
-    const [legendPosition] = legend.cfg.position.split('-');
+    const [legendPosition] = legend.cfg?.position?.split('-') || ['right'];
     if (legendPosition === 'top' || legendPosition === 'bottom') {
       return;
     }
