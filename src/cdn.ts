@@ -27,43 +27,79 @@ export { default as Util } from './Util';
 // 图表基类
 export { default as Wbase } from './common/Base';
 
-export { default as Wline, Line as RawLine, WlineConfig } from './Wline';
-export { default as Wlinebar, Linebar as RawLinebar, WlinebarConfig } from './Wlinebar';
-export { default as Wlinescatter, Linescatter as RawLinescatter, WlinescatterConfig } from './Wlinescatter';
-export { default as Wlinebox, Linebox as RawLinebox, WlineboxConfig } from './Wlinebox';
-export { default as Wpie, Pie as RawPie, WpieConfig } from './Wpie';
-export { default as Wradar, Radar as RawRadar, WradarConfig } from './Wradar';
-export { default as Wbar, Bar as RawBar, WbarConfig } from './Wbar';
-export { default as Wfunnel, Funnel as RawFunnel, WfunnelConfig } from './Wfunnel';
-export { default as Wnightingale, Nightingale as RawNightingale, WnightingaleConfig } from './Wnightingale';
-export { default as Wheatmap, Heatmap as RawHeatmap, WheatmapConfig } from './Wheatmap';
-export { default as Wmap, Map as RawMap, WmapConfig } from './Wmap';
-export { default as Wrectangle, Rectangle as RawRectangle, WrectangleConfig } from './Wrectangle';
-export { default as Wminiline, Miniline as RawMiniline, WminilineConfig } from './Wminiline';
-export { default as WmultiPie, MultiPie as RawMultiPie, WmultipieConfig } from './Wmultipie';
-export { default as Wmulticircle, MultiCircle as RawMultiCircle, WmulticircleConfig } from './Wmulticircle';
-export { default as Wbox, Box as RawBox, WboxConfig } from './Wbox';
-export { default as Wsankey, Sankey as RawSankey, WsankeyConfig } from './Wsankey';
-export { default as Wscatter, Scatter as RawScatter, WscatterConfig } from './Wscatter';
-export { default as Whistogram, Histogram as RawHistogram, WhistogramConfig } from './Whistogram';
-export { default as Wtreemap, Treemap as RawTreemap, WtreemapConfig } from './Wtreemap';
-export { default as Wcandlestick, Candlestick as RawCandlestick, WcandlestickConfig } from './Wcandlestick';
-export { default as Whierarchy, Hierarchy as RawHierarchy, WhierarchyConfig } from './Whierarchy';
+export { default as Wline, Line as RawLine } from './Wline';
+export { default as Wlinebar, Linebar as RawLinebar } from './Wlinebar';
+export { default as Wlinescatter, Linescatter as RawLinescatter } from './Wlinescatter';
+export { default as Wlinebox, Linebox as RawLinebox } from './Wlinebox';
+export { default as Wpie, Pie as RawPie } from './Wpie';
+export { default as Wradar, Radar as RawRadar } from './Wradar';
+export { default as Wbar, Bar as RawBar } from './Wbar';
+export { default as Wfunnel, Funnel as RawFunnel } from './Wfunnel';
+export { default as Wnightingale, Nightingale as RawNightingale } from './Wnightingale';
+export { default as Wheatmap, Heatmap as RawHeatmap } from './Wheatmap';
+export { default as Wmap, Map as RawMap } from './Wmap';
+export { default as Wrectangle, Rectangle as RawRectangle } from './Wrectangle';
+export { default as Wminiline, Miniline as RawMiniline } from './Wminiline';
+export { default as WmultiPie, MultiPie as RawMultiPie } from './Wmultipie';
+export { default as Wmulticircle, MultiCircle as RawMultiCircle } from './Wmulticircle';
+export { default as Wbox, Box as RawBox } from './Wbox';
+export { default as Wsankey, Sankey as RawSankey } from './Wsankey';
+export { default as Wscatter, Scatter as RawScatter } from './Wscatter';
+export { default as Whistogram, Histogram as RawHistogram } from './Whistogram';
+export { default as Wtreemap, Treemap as RawTreemap } from './Wtreemap';
+export { default as Wcandlestick, Candlestick as RawCandlestick } from './Wcandlestick';
+export { default as Whierarchy, Hierarchy as RawHierarchy } from './Whierarchy';
 // 六边形热力图
-export { default as Whexagonal, Hexagonal as RawHexagonal, WhexagonalConfig } from './Whexagonal';
+export { default as Whexagonal, Hexagonal as RawHexagonal } from './Whexagonal';
 
 // 业务组件，没有依赖其它图表库
-export { default as Wnumber, WnumberProps } from './Wnumber/index';
-export { default as Wcontainer, WcontainerProps } from './Wcontainer/index';
-export { default as Wicon, WiconProps } from './Wicon/cdn'; // Icon 组件也改为 cdn 引入字体
-export { default as Wcircle, WcircleProps } from './Wcircle/index';
-export { default as Wminicontainer, WminicontainerProps } from './Wminicontainer/index';
-export { default as Wshoot, ShootProps as WshootProps } from './Wshoot/index';
-export { default as Wplaceholder, WplaceholderProps } from './Wplaceholder/index';
-export { default as Wcount, WcountProps } from './Wcount/index';
+export { default as Wnumber } from './Wnumber/index';
+export { default as Wcontainer } from './Wcontainer/index';
+export { default as Wicon } from './Wicon/cdn'; // Icon 组件也改为 cdn 引入字体
+export { default as Wcircle } from './Wcircle/index';
+export { default as Wminicontainer } from './Wminicontainer/index';
+export { default as Wshoot } from './Wshoot/index';
+export { default as Wplaceholder } from './Wplaceholder/index';
+export { default as Wcount } from './Wcount/index';
 // export { default as Wdashboard } from './Wdashboard/index';
-export { Wnumbercard, Wnumberoverview, IDataItem as WnumbercardProps, IDataOverviewCard as WnumberoverviewProps } from './Wnumbercard/index';
-export { default as Wcapacity, WcapacityProps } from './Wcapacity/index';
+export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
+export { default as Wcapacity } from './Wcapacity/index';
+
+// export type
+export type { WlineConfig } from './Wline';
+export type { WlinebarConfig } from './Wlinebar';
+export type { WlinescatterConfig } from './Wlinescatter';
+export type { WlineboxConfig } from './Wlinebox';
+export type { WpieConfig } from './Wpie';
+export type { WradarConfig } from './Wradar';
+export type { WbarConfig } from './Wbar';
+export type { WfunnelConfig } from './Wfunnel';
+export type { WnightingaleConfig } from './Wnightingale';
+export type { WheatmapConfig } from './Wheatmap';
+export type { WmapConfig } from './Wmap';
+export type { WrectangleConfig } from './Wrectangle';
+export type { WmultipieConfig } from './Wmultipie';
+export type { WmulticircleConfig } from './Wmulticircle';
+export type { WboxConfig } from './Wbox';
+export type { WsankeyConfig } from './Wsankey';
+export type { WscatterConfig } from './Wscatter';
+export type { WhistogramConfig } from './Whistogram';
+export type { WtreemapConfig } from './Wtreemap';
+export type { WcandlestickConfig } from './Wcandlestick';
+export type { WhierarchyConfig } from './Whierarchy';
+export type { WhexagonalConfig } from './Whexagonal';
+
+export type { IDataItem as WnumbercardProps, IDataOverviewCard as WnumberoverviewProps } from './Wnumbercard/index';
+export type { WnumberProps } from './Wnumber/index';
+export type { WcontainerProps } from './Wcontainer/index';
+export type { WiconProps } from './Wicon/cdn';
+export type { WcircleProps } from './Wcircle/index';
+export type { WminicontainerProps } from './Wminicontainer/index';
+export type { ShootProps as WshootProps } from './Wshoot/index';
+export type { WplaceholderProps } from './Wplaceholder/index';
+export type { WcountProps } from './Wcount/index';
+export type { WminilineConfig } from './Wminiline';
+export type { WcapacityProps } from './Wcapacity/index';
 
 // 国际化
 export { default as ChartProvider, setLanguage, getLanguage } from './ChartProvider/index';
