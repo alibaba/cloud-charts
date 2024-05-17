@@ -547,7 +547,7 @@ function getItemData(
     let result = undefined;
 
     originData &&
-      originData.data.some((r: any) => {
+      originData.data?.some((r: any) => {
         if ((Array.isArray(r) && r[0] === name) || (typeof r === 'object' && r.x === name)) {
           result = r;
           return true;
