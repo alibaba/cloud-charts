@@ -268,12 +268,11 @@ export function runAfterDataChangedRule(chartObj: any, config: any, data: any) {
   chartObj.dataSize = dataSize;
 
   // 空数据处理
+  // 在空数据与有数据之间切换需要重绘
   if (isEmptyData(dataSize)) {
-    // 有数据变成空数据不作处理
+    needRerender = !chartObj.isEmpty;
     chartObj.isEmpty = true;
-    return false;
   } else {
-    // 空数据变成有数据需要重绘
     needRerender = chartObj.isEmpty;
     chartObj.isEmpty = false;
   }
