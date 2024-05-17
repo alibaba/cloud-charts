@@ -93,8 +93,8 @@ export default function <T>(
                 // 需要额外判断刻度之间的距离
                 // 目前至少会有2个刻度点, 但怕用户自定义
                 // 且第一个刻度和最后一个刻度必须是在画布的两端 - 这个无法判断所以不能全量开放
-                // 纵向场景不考虑，线图一般不会有纵向时间线
-                if (config.column === false || config.facet) {
+                // 直角坐标系 且 没有转置的时候
+                if (chart.coordinateInstance.isRect && !chart.coordinateInstance.isTransposed) {
                   if (items.length === 2 || items.length === 3) {
                     if (index === 0) {
                       const currentX = items[index].point.x;
@@ -114,7 +114,7 @@ export default function <T>(
                     }
                   }
                 }
-                
+
                 return {};
               }
             }
