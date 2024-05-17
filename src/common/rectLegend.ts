@@ -8,7 +8,11 @@ import { pxToNumber } from './common';
 import { warn } from './log';
 import { registerAction } from '@antv/g2/esm';
 // 引入自定义图例选择交互
-import './interaction/legend-custom-filter';
+import {
+  customLegendFilter,
+  customLegendFilterLast,
+  singleCheckedLegendFilter,
+} from './interaction/legend-custom-filter';
 import { ListChecked } from './interaction/actions/list-checked';
 import { ListReverseChecked } from './interaction/actions/list-reverse-checked';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
@@ -254,18 +258,20 @@ export default function <T>(
       //   padding: 0,
       // },
       padding: getPadding(position, baseFontSizeNum, padding, isPolar),
-      marker: marker ? marker : (name, index, item) => {
-        return {
-          // symbol: 'circle',
-          style: {
-            r: baseFontSizeNum / 4,
-            // fill: styleSheet.legendMarkerColor,
-            // lineCap: 'butt',
-            lineAppendWidth: 0,
-            fillOpacity: 1,
+      marker: marker
+        ? marker
+        : (name, index, item) => {
+            return {
+              // symbol: 'circle',
+              style: {
+                r: baseFontSizeNum / 4,
+                // fill: styleSheet.legendMarkerColor,
+                // lineCap: 'butt',
+                lineAppendWidth: 0,
+                fillOpacity: 1,
+              },
+            };
           },
-        }
-      },
       maxWidth,
       maxHeight,
       maxWidthRatio: maxWidthRatio || 0.45,
@@ -328,9 +334,9 @@ export default function <T>(
 
         if (clickable) {
           if (allowAllCanceled) {
-            chart.interaction('legend-custom-filter');
+            customLegendFilter(chart);
           } else {
-            chart.interaction('legend-custom-filter-last');
+            customLegendFilterLast(chart);
           }
         }
       } else {
@@ -338,9 +344,9 @@ export default function <T>(
 
         if (clickable) {
           if (allowAllCanceled) {
-            chart.interaction('legend-custom-filter');
+            customLegendFilter(chart);
           } else {
-            chart.interaction('legend-singlechecked-filter-last');
+            singleCheckedLegendFilter(chart);
           }
         }
       }
@@ -553,7 +559,7 @@ function getItemData(
 
   let result = undefined;
   switch (dataType) {
-    case 'single': 
+    case 'single':
       if (rawData.children) {
         result = [name, currentData?.filter((el: any) => el.name === name)?.[0]?.value];
       } else {
@@ -570,7 +576,7 @@ function getItemData(
       }
 
       return result;
-    case 'multiple': 
+    case 'multiple':
       rawData.some((r: Types.LooseObject) => {
         if (r.data && r.name === name) {
           result = r;
@@ -578,7 +584,7 @@ function getItemData(
         }
         return false;
       });
-    
+
       return result;
     case 'graph':
       rawData?.nodes?.some((r: Types.LooseObject) => {
