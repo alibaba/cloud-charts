@@ -9,7 +9,7 @@ import {
   FullCrossName,
   FullQualityName,
 } from '../constants';
-import { calcChartScore, postMessage } from './postMessage';
+import { calcChartScore, postMessageForChartsInfo } from './postMessage';
 
 /**
  * 日志记录
@@ -106,7 +106,8 @@ setTimeout(() => {
   if (testable) {
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
-    postMessage(chartRulesResult);
+    postMessageForChartsInfo(chartRulesResult);
+    postMessageForChartsInfo(chartRulesResult.renderInfo, "getComponentInfo")
   }
 
   // 打点部分

@@ -14,7 +14,7 @@ window.postMessage({
   componentName: FullCamelName, // 图表库通用组件名，没有可不填
 },"*");
 
-export function postMessage(resultData: any) {
+export function postMessageForChartsInfo(resultData: any, event?: string, url?: string) {
   // message会被结构化克隆算法序列化
   // 只能传递普通对象，对于error和function等无法传递，所以会导致克隆出错
   // 这里由于统计了配置项，而配置项会包含函数function所以导致报错
@@ -22,8 +22,8 @@ export function postMessage(resultData: any) {
   const message = {
     source: 'teamix-test-devtools',
     moduleType: 'ApsaraStack',
-    url: window.location.href,
-    event: "getChartTestInfo",
+    url: url || window.location.href,
+    event: event || "getChartTestInfo",
     moduleName: "@alicloud/cloud-charts",
     moduleVersion: VERSION,
     resultData
