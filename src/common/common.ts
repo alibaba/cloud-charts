@@ -448,21 +448,18 @@ export function customFormatter(config: customFormatterConfig) {
     let newUnit = unit || '';
 
     if (isInvalidNumber(v)) {
-      // 为0也算
-      if (!!decimal) {
-        // 小数位
-        result = numberDecimal(result, decimal);
-      }
-
-      // 千分位
-      if (grouping) {
-        result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
-      }
-
-      return `${result}${newUnit}`;
-    } else {
-      return '';
+      return `${v}${newUnit}`;
     }
+
+    // 小数位
+    result = numberDecimal(result, decimal);
+
+    // 千分位
+    if (grouping) {
+      result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
+    }
+
+    return `${result}${newUnit}`;
   };
 }
 
