@@ -93,24 +93,28 @@ export default function <T>(
                 // 需要额外判断刻度之间的距离
                 // 目前至少会有2个刻度点, 但怕用户自定义
                 // 且第一个刻度和最后一个刻度必须是在画布的两端 - 这个无法判断所以不能全量开放
-                if (items.length === 2 || items.length === 3) {
-                  if (index === 0) {
-                    const currentX = items[index].point.x;
-                    const nextX = items[index + 1].point.x;
-                    const dis = nextX - (currentX + width);
-                    return {
-                      textAlign: dis < 80 || currentX > width / 2 ? 'center' : 'start'
-                    }
-                  } else if (index === items.length - 1) {
-                    const currentX = items[index].point.x;
-                    const preX = items[index - 1].point.x;
-                    const dis = currentX - (preX + width);
-                    const disCanvas = canvasWidth - currentX;
-                    return {
-                      textAlign: dis < 80 || disCanvas > width / 2 ? 'center' : 'end'
+                // 纵向场景不考虑，线图一般不会有纵向时间线
+                if (config.column === false || config.facet) {
+                  if (items.length === 2 || items.length === 3) {
+                    if (index === 0) {
+                      const currentX = items[index].point.x;
+                      const nextX = items[index + 1].point.x;
+                      const dis = nextX - (currentX + width);
+                      return {
+                        textAlign: dis < 80 || currentX > width / 2 ? 'center' : 'start'
+                      }
+                    } else if (index === items.length - 1) {
+                      const currentX = items[index].point.x;
+                      const preX = items[index - 1].point.x;
+                      const dis = currentX - (preX + width);
+                      const disCanvas = canvasWidth - currentX;
+                      return {
+                        textAlign: dis < 80 || disCanvas > width / 2 ? 'center' : 'end'
+                      }
                     }
                   }
                 }
+                
                 return {};
               }
             }
