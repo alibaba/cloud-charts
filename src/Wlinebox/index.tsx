@@ -17,7 +17,7 @@ import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import { activeRegionWithTheme } from '../common/interaction';
+import { activeRegionWithTheme } from '../common/interaction/index';
 
 export interface WlineboxConfig extends BaseChartConfig, BoxConfig, LineConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;

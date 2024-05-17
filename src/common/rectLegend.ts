@@ -7,7 +7,10 @@ import themes from '../themes';
 import { pxToNumber } from './common';
 import { warn } from './log';
 import { registerAction } from '@antv/g2/esm';
-import { ListChecked, ListReverseChecked } from './interaction';
+// 引入自定义图例选择交互
+import './interaction/legend-custom-filter';
+import { ListChecked } from './interaction/actions/list-checked';
+import { ListReverseChecked } from './interaction/actions/list-reverse-checked';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
@@ -579,7 +582,6 @@ function getItemData(
       return result;
     case 'graph':
       rawData?.nodes?.some((r: Types.LooseObject) => {
-        // console.log(2222, r, name)
         if (r.name === name) {
           result = r.value;
           return true;

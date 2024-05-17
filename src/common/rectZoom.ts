@@ -5,7 +5,7 @@
 import { Chart, Types } from './types';
 import themes from '../themes';
 import { registerAction } from '@antv/g2/esm';
-import { NoCaptureDimRect } from './interaction';
+import { NoCaptureDimRect } from './interaction/index';
 
 registerAction('rect-mask-nocapture', NoCaptureDimRect, { dim: 'x' });
 

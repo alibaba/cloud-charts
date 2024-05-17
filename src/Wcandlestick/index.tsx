@@ -13,7 +13,7 @@ import { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import errorWrap from '../common/errorWrap';
-import { activeRegionWithTheme } from '../common/interaction';
+import { activeRegionWithTheme } from '../common/interaction/index';
 
 function computeDataType(data: any) {
   if (Array.isArray(data)) {

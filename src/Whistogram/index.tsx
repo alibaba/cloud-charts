@@ -17,7 +17,7 @@ import guide, { GuideConfig } from '../common/guide';
 import label, { LabelConfig } from '../common/label';
 import legendFilter from '../common/legendFilter';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import { activeRegionWithTheme } from '../common/interaction';
+import { activeRegionWithTheme } from '../common/interaction/index';
 
 // 3.x代码
 export interface WhistogramConfig extends BaseChartConfig {

@@ -14,7 +14,7 @@ import guide, { GuideConfig } from '../common/guide';
 // import { LabelConfig } from "../common/label";
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
-import { activeRegionWithTheme } from '../common/interaction';
+import { activeRegionWithTheme } from '../common/interaction/index';
 import './index.scss';
 
 export interface WboxConfig extends BaseChartConfig {

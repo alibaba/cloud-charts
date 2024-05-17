@@ -19,5 +19,6 @@ export default {
   isEqualWith: common.isEqualWith,
   merge: common.merge,
   calcLinearColor: common.calcLinearColor,
-  traverseTree: common.traverseTree
+  traverseTree: common.traverseTree,
+  deepAssign: common.deepAssign,
 };

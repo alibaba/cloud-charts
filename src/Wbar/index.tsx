@@ -21,7 +21,7 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import rectScrollbar, { ScrollbarConfig } from '../common/rectScrollbar';
 import rectSlider, { SliderConfig } from '../common/rectSlider';
-import { activeRegionWithTheme } from '../common/interaction';
+import { activeRegionWithTheme } from '../common/interaction/index';
 import { getText } from '../ChartProvider';
 import './index.scss';
 
