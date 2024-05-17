@@ -466,22 +466,24 @@ export function customFormatter(config: customFormatterConfig) {
 /**
  * 获取指定颜色的顺序色
  * */
-export function calcLinearColor(primaryColor: string, backgroundColor?: string, linearCount?: number) {
+export function calcLinearColor(primaryColor: string, backgroundColor: string, linearCount: number) {
   const linear = [];
   const front = tinycolor(primaryColor);
   const { h, s, v } = front.toHsv();
   const { v: backValue } = tinycolor(backgroundColor).toHsv();
   const isLight = backValue > 0.5;
 
-  for (let i = 1; i < linearCount; i++) {
+  const count = linearCount + 1;
+
+  for (let i = count - 1; i > 0; i--) {
     let colorString;
     // 亮色模式
     if (isLight) {
       colorString = tinycolor({
         h,
-        s: Math.round(i * s * 100 / linearCount),
+        s: Math.round(i * s * 100 / count),
         // v: v * 100,
-        v: Math.round((i * (v - backValue) / linearCount + backValue) * 100),
+        v: Math.round((i * (v - backValue) / count + backValue) * 100),
       }).toHexString();
     } else {
       // 暗色模式
@@ -489,7 +491,6 @@ export function calcLinearColor(primaryColor: string, backgroundColor?: string, 
     }
     linear.push(colorString);
   }
-  linear.push(primaryColor);
 
   return linear;
 }
