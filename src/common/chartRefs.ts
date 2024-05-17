@@ -7,12 +7,14 @@ export function getStatistics(
   chart: Chart,
   statistics: Array<'min' | 'max' | 'avg' | 'current'>,
   legendField: string,
+  dataType?: string
 ) {
+  // 业务偶现chart为null，导致filteredData无法获取的报错，暂不清楚原因，这里增加兜底逻辑
   // @ts-ignore
-  let data = [...chart.filteredData];
+  let data = [...(chart?.filteredData ?? [])];
   chart?.views.map((view: View) => {
     // @ts-ignore
-    data = [...data, ...view.filteredData];
+    data = [...data, ...(view?.filteredData ?? [])];
   });
 
   // 将每类数据分类
@@ -27,7 +29,12 @@ export function getStatistics(
 
   const res: Record<string, any> = {};
   Object.keys(items).forEach((name: string) => {
-    const yValues = items[name].map((item: Datum) => item.y);
+    let yValues = items[name].map((item: Datum) => item.y);
+
+    if (dataType === 'treeNode') {
+      yValues = [items[name].map((item: Datum) => item.value)];
+    }
+
     const statisticsRes: any = {};
     statistics.forEach((statistic) => {
       if (statistic === 'min') {

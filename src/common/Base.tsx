@@ -889,7 +889,8 @@ class Base<
           width: width ? `${width}px` : '100%',
           height: height ? `${height}px` : undefined,
           display: 'flex',
-          flexDirection: config?.legend?.table && position === 'right' ? 'row' : 'column',
+          // 部分图表的legend默认开启table布局
+          flexDirection: (config?.legend?.table || this.defaultConfig?.legend?.table) && position === 'right' ? 'row' : 'column',
         }}
       >
         <div

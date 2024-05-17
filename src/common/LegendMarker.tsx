@@ -13,14 +13,15 @@ export interface LegendMarkerProps {
  */
 export default function LegendMarker({ marker, disable = false }: LegendMarkerProps) {
   const { symbol, style } = marker;
-  if (['line', 'smooth', 'hv'].includes(typeof symbol === 'string' ? symbol : symbol?.name)) {
+  if (['line', 'smooth', 'hv', 'circle'].includes(typeof symbol === 'string' ? symbol : symbol?.name)) {
     return (
       <div
         style={{
-          width: 8,
-          height: 2,
-          background: style.stroke,
+          width: (symbol || symbol?.name) === 'circle' ? (style?.r * 2 ?? 6) : 8,
+          height: (symbol || symbol?.name) === 'circle' ? (style?.r * 2 ?? 6) : 2,
+          background: style.stroke || style.fill,
           opacity: disable ? 0.3 : 1,
+          borderRadius: (symbol || symbol?.name) === 'circle' ? '50%' : 0
         }}
       ></div>
     );

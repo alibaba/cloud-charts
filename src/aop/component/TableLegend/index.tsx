@@ -38,7 +38,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     return config?.table?.statistics || [];
   }, [config?.table]);
 
-  const statisticsRes = useMemo(() => getStatistics(chart, statistics, legendField), [chart, statistics, config]);
+  // 目前暂时对多重圆环进行特殊处理，待规则统一梳理后，整理数据类型
+  const dataType = widgetsCtx.chartName === 'G2MultiPie' ? 'treeNode' : 'common';
+  const statisticsRes = useMemo(() => getStatistics(chart, statistics, legendField, dataType), [chart, statistics, config]);
 
   // 计算legend宽高
   const height = useMemo(() => {

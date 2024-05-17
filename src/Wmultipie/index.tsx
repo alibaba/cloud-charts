@@ -1,24 +1,23 @@
 'use strict';
-
+import ReactDOM from 'react-dom';
 import { View as DataView } from '@antv/data-set/lib/view';
 import { registerTransform } from '@antv/data-set/lib/index';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
-import '@antv/data-set/lib/transform/hierarchy/partition';
 import * as d3Hierarchy from 'd3-hierarchy';
 import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
-import themes from '../themes/index';
-import { numberDecimal, calcLinearColor, traverseTree } from '../common/common';
+import { numberDecimal } from '../common/common';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import errorWrap from '../common/errorWrap';
-import ReactDOM from 'react-dom';
+import { transformNodes } from '../common/utils/transformTreeNodeData';
 import { FullCrossName } from '../constants';
 import Wnumber from '../Wnumber';
+import themes from '../themes/index';
 import './index.scss';
 
 export interface WmultipieConfig extends BaseChartConfig {
@@ -57,28 +56,6 @@ export interface WmultipieConfig extends BaseChartConfig {
   select?: boolean;
 }
 
-function getParentList(
-  node: Types.LooseObject,
-  target: Types.LooseObject[] = [],
-): Types.LooseObject[] {
-  const parentNode = node.parent;
-  // 需要存储根节点，所以一直到 parentNode===null（此时在根节点上）
-  if (!parentNode) {
-    return target;
-  }
-
-  target.unshift({
-    name: parentNode.data.name,
-    value: parentNode.value,
-    rawValue: parentNode.data.value,
-    depth: parentNode.depth,
-    color: parentNode.color ?? undefined, // root没有颜色
-    children: parentNode.children
-  });
-
-  return getParentList(parentNode, target);
-}
-
 // G2 partition不支持排序，自定义层次布局
 registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
   const { autoSort, reverse, size } = options;
@@ -93,9 +70,8 @@ registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) =
     });
   }
 
-  partitionLayout
-    .size(size)
-    // .padding(0.1)
+  partitionLayout.size(size);
+  // .padding(0.1)
   partitionLayout(newRoot);
 
   newRoot.each((node: any) => {
@@ -109,79 +85,28 @@ registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) =
   });
 });
 
-function computeData(ctx: MultiPie, data: ChartData, config?: WmultipieConfig) {
+function computeData(ctx: Sunburst, data: ChartData, config?: WsunburstConfig) {
   let dv = null;
   if (ctx.dataView) {
     dv = ctx.dataView;
     dv.source(data, {
       type: 'hierarchy',
-      children: (data: any) => {
-        if (config.autoSort && data.children) {
-          data.children?.sort((a: any, b: any) => b.value - a.value);
-        }
-        return data?.children ?? [];
-      }
     });
   } else {
     dv = new DataView();
     ctx.dataView = dv;
 
-    // 排序需要在x,y之前定义
     dv.source(data, {
-      type: 'hierarchy'
+      type: 'hierarchy',
     }).transform({
       type: 'd3-hierarchy.partition',
       autoSort: config.autoSort,
       reverse: !!config.reverse,
-      size: [1, 10]
+      size: [1, 1],
     });
   }
 
-  const source: Types.Data = [];
-
-  dv.getAllNodes().forEach((node) => {
-    let color = node?.data?.color;
-    const parentNodeList = getParentList(node)
-    // 因为父节点是向上找的，所以当前节点的直接父节点是数组的最后一个
-    const parentNode = parentNodeList[parentNodeList.length - 1];
-
-    if (node.depth === 0) {
-      // 父节点不展示
-      return;
-    }
-
-    if (!color) {
-      const subNodeIdx = parentNode?.children?.findIndex((subNode: any) => subNode.data.name === node.data.name);
-
-      if (node.depth === 1) {
-        node.color = themes.category_20[subNodeIdx % 20];
-        color = themes.category_20[subNodeIdx % 20];
-      } else {
-        const colorList = calcLinearColor(parentNode.color, themes['widgets-color-background'], parentNode.children.length);
-        node.color = colorList[subNodeIdx];
-        color = colorList[subNodeIdx];
-      }
-    }
-
-
-    // var obj = {};
-    // obj.name = node.data.name;
-    // obj.rawValue = node.data.value;
-    // obj.value = node.value;
-    // obj.x = node.x;
-    // obj.y = node.y;
-    source.push({
-      name: node.data.name,
-      value: node.value,
-      rawValue: node.data.value,
-      depth: node.depth,
-      parent: parentNodeList,
-      x: node.x,
-      y: node.y,
-      color,
-    });
-    return node;
-  });
+  const source: Types.Data = transformNodes(dv);
 
   // 挂载转换后的数据
   ctx.data = source;
@@ -191,6 +116,62 @@ function computeData(ctx: MultiPie, data: ChartData, config?: WmultipieConfig) {
     total: dv?.root?.value ?? 0,
   };
 }
+
+function dodgeItems(data: ChartData, config: WsunburstConfig) {
+  let newItems: G2Dependents.ListItem[] = undefined;
+  if (config?.legend?.dodge && !config?.legend?.foldable && !config?.legend?.table) {
+    newItems = [];
+    // 这里用处理后的树数据
+    // 默认只展示第一层
+    // 暂时不支持自定义颜色
+    data.forEach((subData: ChartData) => {
+      if (subData.depth === 1) {
+        newItems.push({
+          id: subData?.name,
+          name: subData?.name,
+          value: subData?.name,
+          marker: {
+            symbol: 'circle',
+            spacing: 4,
+            style: {
+              r: 3,
+              fill: subData.color,
+              lineAppendWidth: 0,
+              fillOpacity: 1,
+            },
+          },
+          unchecked: false,
+        });
+      }
+    });
+  } else if (config?.legend?.table && !config?.legend?.foldable && !config?.legend?.dodge) {
+    newItems = [];
+    data.forEach((subData: ChartData) => {
+      newItems.push({
+        id: subData?.name,
+        name: subData?.name,
+        value: subData?.name,
+        marker: {
+          symbol: 'circle',
+          spacing: 4,
+          style: {
+            r: 3,
+            fill: subData.color,
+            lineAppendWidth: 0,
+            fillOpacity: 1,
+          },
+        },
+        unchecked: false,
+      });
+    });
+  } else if (config?.legend?.items) {
+    // 自定义优先级高于内置配置
+    newItems = config.legend.items;
+  }
+
+  return newItems;
+}
+
 export class MultiPie extends Base<WmultipieConfig> {
   chartName = 'G2MultiPie';
 
@@ -204,11 +185,14 @@ export class MultiPie extends Base<WmultipieConfig> {
       // padding: [20, 20, 20, 20],
       legend: {
         position: 'right',
-        align: '',
-        nameFormatter: null, // 可以强制覆盖，手动设置label
-        valueFormatter: null,
-        dodge: true,
-        showData: true
+        align: 'center',
+        // nameFormatter: null, // 可以强制覆盖，手动设置label
+        // valueFormatter: null,
+        // dodge: true,
+        // showData: true,
+        table: {
+          statistics: ['current']
+        }
       },
       tooltip: {
         nameFormatter: null,
@@ -221,6 +205,7 @@ export class MultiPie extends Base<WmultipieConfig> {
       autoSort: true, // 默认按大 -> 小排序
       reverse: false, // 是否逆序
       showSpacing: true, // 显示间隔
+      select: false, // 选中下钻
       // drawPadding: [10, 10, 10, 10],
     };
   }
@@ -254,40 +239,9 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     chart.axis(false);
 
-    // 需要保证原始数据传入的时候按分组顺序传入
-    // 这个是分组的顺序
-    let dodgeGroups: string[] = [];
-    // 如果开启图例分组，先判定数据中有分组信息
-    let newItems: G2Dependents.ListItem[] = undefined;
-    if (config?.legend?.dodge && !config?.legend?.foldable && !config?.legend?.table) {
-      newItems = [];
-      // 这里用处理后的树数据
-      // 默认只展示第一层
-      // 暂时不支持自定义颜色
-      source.forEach((subData: ChartData) => {
-        if (subData.depth === 1) {
-          newItems.push({
-            id: subData?.name,
-            name: subData?.name,
-            value: subData?.name,
-            marker: {
-              symbol: 'circle',
-              spacing: 4,
-              style: {
-                r: 3,
-                fill: subData.color,
-                lineAppendWidth: 0,
-                fillOpacity: 1,
-              },
-            },
-            unchecked: false,
-          });
-        }
-      });
-    } else if (config?.legend?.items) {
-      // 自定义优先级高于内置配置
-      newItems = config.legend.items;
-    }
+     // 多重圆环默认开启分组，这里通过自定义图例实现
+    // 自定义图例会有更新问题
+    const newItems: G2Dependents.ListItem[] = dodgeItems(source, config);
 
     rectLegend(
       this,
@@ -377,9 +331,10 @@ export class MultiPie extends Base<WmultipieConfig> {
       geom,
       config.geomStyle,
       {
-        // 增加圆环装饰
+        // 增加圆环边线装饰
         stroke: themes['widgets-color-background'],
         lineWidth: config.showSpacing ? 1 : 0,
+        cursor: config.select ? 'pointer' : 'default',
       },
       'name*value*rawValue*depth',
     );
@@ -419,8 +374,6 @@ export class MultiPie extends Base<WmultipieConfig> {
     chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
-
-    
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
