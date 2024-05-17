@@ -1,9 +1,11 @@
 'use strict';
 
 import { View as DataView } from '@antv/data-set/lib/view';
+import { registerTransform } from '@antv/data-set/lib/index';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
 import '@antv/data-set/lib/transform/hierarchy/partition';
+import * as d3Hierarchy from 'd3-hierarchy';
 import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
 import themes from '../themes/index';
@@ -23,6 +25,8 @@ export interface WmultipieConfig extends BaseChartConfig {
   colors?: Colors;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
+  autoSort?: boolean;
+  reverse?: boolean;
   cycle?: boolean;
   innerRadius?: number;
   outerRadius?: number;
@@ -36,16 +40,21 @@ export interface WmultipieConfig extends BaseChartConfig {
   endAngle?: number;
   geomStyle?: GeomStyleConfig;
   /** 环形图中心的内容，仅当cycle=true时生效 */
-  innerContent?: boolean | {
-    /** 标题，不指定则取数据中name */
-    title?: string | React.ReactNode;
+  innerContent?:
+    | boolean
+    | {
+        /** 标题，不指定则取数据中name */
+        title?: string | React.ReactNode;
 
-    /** 数值，不指定则为数据总和 */
-    value?: number | React.ReactNode;
+        /** 数值，不指定则为数据总和 */
+        value?: number | React.ReactNode;
 
-    /** 单位 */
-    unit?: string | React.ReactNode;
-  };
+        /** 单位 */
+        unit?: string | React.ReactNode;
+      };
+  // 显示间隔线
+  showSpacing?: boolean;
+  select?: boolean;
 }
 
 function getParentList(
@@ -70,30 +79,62 @@ function getParentList(
   return getParentList(parentNode, target);
 }
 
+// G2 partition不支持排序，自定义层次布局
+registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
+  const { autoSort, reverse, size } = options;
+  const newRoot = dataView.root;
+  const partitionLayout = d3Hierarchy.partition();
+
+  newRoot.sum((d: any) => d.value);
+  if (autoSort) {
+    newRoot.sort((a: any, b: any) => {
+      if (reverse) return a.value - b.value;
+      return b.value - a.value;
+    });
+  }
+
+  partitionLayout
+    .size(size)
+    // .padding(0.1)
+  partitionLayout(newRoot);
+
+  newRoot.each((node: any) => {
+    node['x'] = [node.x0, node.x1, node.x1, node.x0];
+    node['y'] = [node.y1, node.y1, node.y0, node.y0];
+    ['x0', 'x1', 'y0', 'y1'].forEach((prop) => {
+      if (['x', 'y'].indexOf(prop) === -1) {
+        delete node[prop];
+      }
+    });
+  });
+});
+
 function computeData(ctx: MultiPie, data: ChartData, config?: WmultipieConfig) {
   let dv = null;
   if (ctx.dataView) {
     dv = ctx.dataView;
     dv.source(data, {
       type: 'hierarchy',
+      children: (data: any) => {
+        if (config.autoSort && data.children) {
+          data.children?.sort((a: any, b: any) => b.value - a.value);
+        }
+        return data?.children ?? [];
+      }
     });
   } else {
     dv = new DataView();
     ctx.dataView = dv;
 
+    // 排序需要在x,y之前定义
     dv.source(data, {
-      type: 'hierarchy',
-      children: (data: any) => {
-        if (config.autoSort) {
-          data.children?.sort((a: any, b: any) => b.value - a.value);
-        }
-        return data?.children ?? [];
-      }
+      type: 'hierarchy'
     }).transform({
-      type: 'hierarchy.partition', // 根据树形数据生成相邻层次图 Adjacency Diagram 布局
-      as: ['x', 'y'],
+      type: 'd3-hierarchy.partition',
+      autoSort: config.autoSort,
+      reverse: !!config.reverse,
+      size: [1, 10]
     });
-
   }
 
   const source: Types.Data = [];
@@ -113,8 +154,8 @@ function computeData(ctx: MultiPie, data: ChartData, config?: WmultipieConfig) {
       const subNodeIdx = parentNode?.children?.findIndex((subNode: any) => subNode.data.name === node.data.name);
 
       if (node.depth === 1) {
-        node.color = themes.category_20[subNodeIdx];
-        color = themes.category_20[subNodeIdx];
+        node.color = themes.category_20[subNodeIdx % 20];
+        color = themes.category_20[subNodeIdx % 20];
       } else {
         const colorList = calcLinearColor(parentNode.color, themes['widgets-color-background'], parentNode.children.length);
         node.color = colorList[subNodeIdx];
@@ -177,7 +218,9 @@ export class MultiPie extends Base<WmultipieConfig> {
       innerRadius: 0.6, // 内环半径大小，仅cycle为true时可用
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
       innerContent: true,
-      autoSort: true,
+      autoSort: true, // 默认按大 -> 小排序
+      reverse: false, // 是否逆序
+      showSpacing: true, // 显示间隔
       // drawPadding: [10, 10, 10, 10],
     };
   }
@@ -192,7 +235,6 @@ export class MultiPie extends Base<WmultipieConfig> {
 
     this.totalData = total;
 
-    console.log(source)
     chart.data(source);
 
     const thetaConfig: Types.CoordinateCfg = {
@@ -332,7 +374,11 @@ export class MultiPie extends Base<WmultipieConfig> {
     );
 
     const geom = chart
-      .polygon()
+      .polygon({
+        // TODO 控制每一层的宽度占比
+        // 多层饼图配置不生效
+        // multiplePieWidthRatio: 1
+      })
       .position('x*y')
       // 暂不支持自定义颜色
       .color('name*color', (xVal, yVal) => {
@@ -351,7 +397,7 @@ export class MultiPie extends Base<WmultipieConfig> {
       {
         // 增加圆环装饰
         stroke: themes['widgets-color-background'],
-        lineWidth: 1
+        lineWidth: config.showSpacing ? 1 : 0,
       },
       'name*value*rawValue*depth',
     );
@@ -391,6 +437,8 @@ export class MultiPie extends Base<WmultipieConfig> {
     chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
+
+    
   }
 
   changeData(chart: Chart, config: WmultipieConfig, data: ChartData) {
