@@ -51,7 +51,8 @@
     "@antv/util": "2.0.17",
     "classnames": "^2.2.5",
     "lodash": "^4.17.0",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
     "@alib/build-scripts": "^0.1.3",
