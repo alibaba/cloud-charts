@@ -10,7 +10,7 @@ import { Status } from '../common/types';
 
 const prefix = `${PrefixName}-wicon`;
 
-interface WiconProps {
+export interface WiconProps {
   className?: string;
   style?: React.CSSProperties;
   type?: string;
