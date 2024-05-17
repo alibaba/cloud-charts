@@ -107,7 +107,6 @@ setTimeout(() => {
     // 方便图表获取质量分数
     // 增加一个当前统计的图表数量
     postMessageForChartsInfo(chartRulesResult);
-    postMessageForChartsInfo(chartRulesResult.renderInfo, "getComponentInfo")
   }
 
   // 打点部分
