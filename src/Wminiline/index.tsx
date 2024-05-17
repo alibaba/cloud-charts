@@ -27,7 +27,7 @@ export class Miniline extends Line {
       },
       legend: false,
       tooltip: false,
-      area: false,
+      area: true,
       spline: false,
       symbol: false,
       label: false,
