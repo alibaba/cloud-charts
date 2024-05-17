@@ -244,11 +244,11 @@ export function getStatusColorName(status: string) {
 }
 
 /**
- * 判断是否是有效数字
+ * 判断是否是无效数字
  *
  * @param v 输入值
  *
- * @return {boolean} 是否有效数字
+ * @return {boolean} 是否无效数字
  * */
 export function isInvalidNumber(v: any) {
   return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
