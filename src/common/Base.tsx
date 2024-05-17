@@ -167,6 +167,18 @@ export interface ChartProps<ChartConfig> {
   errorInfo?: string;
   /** chartRef */
   chartRef?: React.MutableRefObject<any>;
+  chartLifecycle?: {
+    // 初始化时执行的操作
+    init: () => {},
+    // 开始获取数据时执行的操作
+    fetchStart: () => {},
+    // 获取数据结束时执行的操作
+    fetchEnd: () => {},
+    // 开始渲染时执行的操作
+    renderStart: () => {},
+    // 渲染结束时执行的操作
+    renderEnd: ()=> {},
+  }
 }
 
 /**
@@ -265,6 +277,7 @@ class Base<
   componentDidMount() {
     // 图表初始化时记录日志
     chartLog(this.chartName, 'init');
+    this.props.chartLifecycle?.init?.()
 
     this.language = this.props.language || this.context.language;
 
@@ -601,6 +614,7 @@ class Base<
       interaction,
       animate,
       force,
+      chartLifecycle,
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
@@ -714,11 +728,14 @@ class Base<
     });
 
     const startTime = new Date().getTime();
+    chartLifecycle?.renderStart?.();
 
     // 开始渲染
     chart.render();
 
     const endTime = new Date().getTime();
+    chartLifecycle?.renderEnd?.();
+
     chartLog(this.chartName, 'renderTime', {
       chartId: this.chartId,
       chartName: this.chartName,
