@@ -54,7 +54,7 @@ export default {
   defaultMask: 'HH:mm:ss\nMMM DD, YYYY',
   timeMask: [
     ['YYYY'],
-    ['MMM YYYY', 'MMM YYYY'],
+    ['MMM, YYYY', 'MMM, YYYY'],
     ['MMM DD, YYYY', 'MMM DD', 'MMM DD'],
     ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm'],
     ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm', 'HH:mm'],
