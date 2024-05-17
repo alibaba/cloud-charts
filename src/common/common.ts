@@ -465,6 +465,10 @@ export function customFormatter(config: customFormatterConfig) {
 
 /**
  * 获取指定颜色的顺序色
+ *  *
+ * @param {string} primaryColor 指定颜色
+ * @param {string} backgroundColor 当前背景色
+ * @param {number} linearCount 顺序色个数
  * */
 export function calcLinearColor(primaryColor: string, backgroundColor: string, linearCount: number) {
   const linear = [];
@@ -502,8 +506,79 @@ export function traverseTree(node: any, itemFunction?: any) {
   if (node.children) {
     node.children.map((el: any) => {
       itemFunction && itemFunction(el);
-      traverseTree(el);
+      traverseTree(el, itemFunction);
     });
   }
   return node;
+}
+
+const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB'];
+const GBSpeedUnit = ['B/S', 'KB/S', 'MB/S', 'GB/S', 'TB/S'];
+const GiBUnit = ['BYTE', 'KIB', 'MIB', 'GIB', 'TIB'];
+const GiBSpeedUnit = ['BYTE/S', 'KIB/S', 'MIB/S', 'GIB/S', 'TIB/S'];
+
+export function findUnitArray(input: string): Array<string> {
+  // 定义待查找的数组列表
+  const unitArrays = [GBUnit, GBSpeedUnit, GiBUnit, GiBSpeedUnit];
+
+  // 遍历待查找的数组列表
+  for (const arr of unitArrays) {
+    if (arr.includes(input)) {
+      // 如果输入值存在于当前数组中，返回该数组
+      return arr;
+    }
+  }
+
+  // 若遍历完所有数组仍未找到匹配项，返回 []
+  return [];
+}
+
+/**
+ * 统一单位格式化
+ * */
+export function UnitConversion(
+  value: any,
+  unit: any,
+  decimals = 3,
+  unitTransformTo: any,
+) {
+  // size为数据量大小，unit为单位(例如'B'代表字节)，decimals表示小数点位数
+  let UpUnit = unit.toUpperCase();
+  const units = findUnitArray(UpUnit);
+  let finalUnit = unit;
+  const threshold =
+    UpUnit?.includes('IB') || UpUnit?.includes('BYTE') ? 1024 : 1000; // 数值大于等于1000时升级单位
+
+  let index = units.indexOf(UpUnit);
+  if (index === -1) {
+    return `${value} ${unit}`;
+  }
+  if (unitTransformTo) {
+    let UpUnitTransformTot = unitTransformTo.toUpperCase();
+    let targetUnitIndex = units.indexOf(UpUnitTransformTot);
+    if (index === targetUnitIndex) {
+      return `${value} ${unit}`;
+    }
+    const distance = Math.abs(index - targetUnitIndex);
+    if (index > targetUnitIndex) {
+      value *= Math.pow(threshold, distance);
+    } else {
+      value /= Math.pow(threshold, distance);
+    }
+    finalUnit = unitTransformTo;
+  }
+  if (!unitTransformTo) {
+    while (value >= threshold && index < units.length - 1) {
+      value /= threshold;
+      index++;
+    }
+    finalUnit = units[index];
+  }
+  // 保留指定的小数位数
+  value = Number(value);
+  value = value?.toFixed(decimals);
+
+  // 移除末尾多余的0和小数点
+  value = parseFloat(value);
+  return `${value} ${finalUnit}`;
 }
