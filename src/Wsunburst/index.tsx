@@ -1,7 +1,7 @@
 'use strict';
 import ReactDOM from 'react-dom';
 import { View as DataView } from '@antv/data-set/lib/view';
-import { registerTransform } from '@antv/data-set/lib/index';
+import { DataSet } from '@antv/data-set/lib/data-set';
 import '@antv/data-set/lib/api/hierarchy';
 import '@antv/data-set/lib/connector/hierarchy';
 import * as d3Hierarchy from 'd3-hierarchy';
@@ -57,7 +57,7 @@ export interface WsunburstConfig extends BaseChartConfig {
 }
 
 // G2 partition不支持排序，自定义层次布局
-registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
+DataSet.registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
   const { autoSort, reverse, size } = options;
   const newRoot = dataView.root;
   const partitionLayout = d3Hierarchy.partition();
