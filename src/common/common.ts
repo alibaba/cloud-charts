@@ -230,7 +230,7 @@ const statusColorMap: { [key: string]: string } = {
   success: 'green',
   none: 'gray',
   primary: 'primary',
-  blue: 'blue'
+  blue: 'blue',
 };
 /**
  * 根据状态获得颜色名称
@@ -469,31 +469,60 @@ export function customFormatter(config: customFormatterConfig) {
  * @param {string} primaryColor 指定颜色
  * @param {string} backgroundColor 当前背景色
  * @param {number} linearCount 顺序色个数
+ * @param {string} type 是否为中心取色
  * */
-export function calcLinearColor(primaryColor: string, backgroundColor: string, linearCount: number) {
+export function calcLinearColor(primaryColor: string, backgroundColor?: string, linearCount?: number, type?: string) {
   const linear = [];
   const front = tinycolor(primaryColor);
   const { h, s, v } = front.toHsv();
   const { v: backValue } = tinycolor(backgroundColor).toHsv();
   const isLight = backValue > 0.5;
+  const whiteV = tinycolor("#ffffff").toHsv().v;
 
   const count = linearCount + 1;
 
-  for (let i = count - 1; i > 0; i--) {
+  // 中心取色逻辑
+  if (type === 'center') {
     let colorString;
-    // 亮色模式
-    if (isLight) {
+    for (let i = 1; i < count + 1; i++) {
       colorString = tinycolor({
         h,
-        s: Math.round(i * s * 100 / count),
-        // v: v * 100,
-        v: Math.round((i * (v - backValue) / count + backValue) * 100),
+        s: Math.round((i * s * 100) / count),
+        v: Math.round(((i * (v - whiteV)) / count + whiteV) * 100),
       }).toHexString();
-    } else {
-      // 暗色模式
-      colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+
+      if (i % 2 === 0) {
+        linear.push(colorString);
+      } else if (colorString === primaryColor) {
+        linear.push(colorString);
+      }
     }
-    linear.push(colorString);
+
+    for (let i = count; i > Math.floor(count/ 2) + 1; i--) {
+      colorString = tinycolor.mix("#000000", primaryColor, (i - 2) * 10).toHexString();
+      linear.push(colorString);
+    }
+
+    if (linear[Math.floor(linearCount / 2)] !== primaryColor) {
+      linear[Math.floor(linearCount / 2)] = primaryColor;
+    }
+  } else {
+    for (let i = count - 1; i > 0; i--) {
+      let colorString;
+      // 亮色模式
+      if (isLight) {
+        colorString = tinycolor({
+          h,
+          s: Math.round((i * s * 100) / count),
+          // v: v * 100,
+          v: Math.round(((i * (v - backValue)) / count + backValue) * 100),
+        }).toHexString();
+      } else {
+        // 暗色模式
+        colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+      }
+      linear.push(colorString);
+    }
   }
 
   return linear;
@@ -536,18 +565,12 @@ export function findUnitArray(input: string): Array<string> {
 /**
  * 统一单位格式化
  * */
-export function UnitConversion(
-  value: any,
-  unit: any,
-  decimals = 3,
-  unitTransformTo: any,
-) {
+export function UnitConversion(value: any, unit: any, decimals = 3, unitTransformTo: any) {
   // size为数据量大小，unit为单位(例如'B'代表字节)，decimals表示小数点位数
   let UpUnit = unit.toUpperCase();
   const units = findUnitArray(UpUnit);
   let finalUnit = unit;
-  const threshold =
-    UpUnit?.includes('IB') || UpUnit?.includes('BYTE') ? 1024 : 1000; // 数值大于等于1000时升级单位
+  const threshold = UpUnit?.includes('IB') || UpUnit?.includes('BYTE') ? 1024 : 1000; // 数值大于等于1000时升级单位
 
   let index = units.indexOf(UpUnit);
   if (index === -1) {
@@ -666,4 +689,3 @@ export const deepAssign = (rst: any, ...args: any[]) => {
   }
   return rst;
 };
-
