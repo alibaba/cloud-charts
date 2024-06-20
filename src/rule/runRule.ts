@@ -126,66 +126,9 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
   if (!chartObj.chartRule) {
     return;
   }
-  // 空数据处理
-  if (chartObj.isEmpty && !chartObj.props.children) {
-    // 设置背景色
-    if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
-      chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
-    }
-
-    // 加暂无数据提示
-    chartObj.chart.annotation().html({
-      html: `
-          <div style="display: flex; align-items: center;">
-            <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
-            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${getText(
-              'empty',
-              chartObj.props?.language || chartObj.context.language,
-              chartObj.context.locale,
-            )}<span>
-          </div>
-        `,
-      alignX: 'middle',
-      alignY: 'middle',
-      position: ['50%', '50%'],
-    });
-  }
-  // loading
-  else if (chartObj?.props?.loading && !chartObj.props.children) {
-    // 设置背景色
-    if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
-      chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
-    }
-
-    // 加loading提示
-    const prefix = `${PrefixName}-wplaceholder-loading`;
-    chartObj.chart.annotation().html({
-      html: `
-      <div class="${prefix}" style="background: none;">
-        <div class="${prefix}-right-tip">
-        <div class="${prefix}-indicator">
-          <div class="${prefix}-fusion-reactor">
-            <span class="${prefix}-dot"></span>
-            <span class="${prefix}-dot"></span>
-            <span class="${prefix}-dot"></span>
-            <span class="${prefix}-dot"></span>
-          </div>
-        </div>
-        <div class="${prefix}-tip-content">${getText(
-        'loading',
-        chartObj.props?.language || chartObj.context.language,
-        chartObj.context.locale,
-      )}</div>
-      </div>
-    </div>
-        `,
-      alignX: 'middle',
-      alignY: 'middle',
-      position: ['50%', '50%'],
-    });
-  }
+  // 状态：error > loading > empty
   // error
-  else if (chartObj?.props?.errorInfo && !chartObj.props.children) {
+  if (chartObj?.props?.errorInfo && !chartObj.props.children) {
     // 设置背景色
     if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
       chartObj.chartDom.style.backgroundColor = themes['widgets-capacity-background-error'];
@@ -204,6 +147,64 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
               </g>
             </svg>
             <span style="font-size: 12px;color: #808080; margin-left: 5px;">${chartObj.props?.errorInfo}<span>
+          </div>
+        `,
+      alignX: 'middle',
+      alignY: 'middle',
+      position: ['50%', '50%'],
+    });
+  }
+  // loading
+  else if (chartObj?.props?.loading && !chartObj.props.children) {
+    // 设置背景色
+    if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
+      chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
+    }
+
+    // 加loading提示
+    const prefix = `${PrefixName}-wplaceholder-loading`;
+    chartObj.chart.annotation().html({
+      html: `
+    <div class="${prefix}" style="background: none;">
+      <div class="${prefix}-right-tip">
+      <div class="${prefix}-indicator">
+        <div class="${prefix}-fusion-reactor">
+          <span class="${prefix}-dot"></span>
+          <span class="${prefix}-dot"></span>
+          <span class="${prefix}-dot"></span>
+          <span class="${prefix}-dot"></span>
+        </div>
+      </div>
+      <div class="${prefix}-tip-content">${getText(
+        'loading',
+        chartObj.props?.language || chartObj.context.language,
+        chartObj.context.locale,
+      )}</div>
+    </div>
+  </div>
+      `,
+      alignX: 'middle',
+      alignY: 'middle',
+      position: ['50%', '50%'],
+    });
+  }
+  // 空数据处理
+  else if (chartObj.isEmpty && !chartObj.props.children) {
+    // 设置背景色
+    if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
+      chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
+    }
+
+    // 加暂无数据提示
+    chartObj.chart.annotation().html({
+      html: `
+          <div style="display: flex; align-items: center;">
+            <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
+            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${getText(
+              'empty',
+              chartObj.props?.language || chartObj.context.language,
+              chartObj.context.locale,
+            )}<span>
           </div>
         `,
       alignX: 'middle',
