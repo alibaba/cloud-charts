@@ -262,7 +262,7 @@ export function isInvalidNumber(v: any) {
  *
  * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回设定小数位的字符串。
  * */
-export function numberDecimal(num: any, decimal = 2) {
+export function numberDecimal(num: any, decimal = 1) {
   if (isInvalidNumber(num) || isInvalidNumber(decimal)) {
     return num;
   }
