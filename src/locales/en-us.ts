@@ -58,6 +58,6 @@ export default {
     ['MMM DD, YYYY', 'MMM DD', 'MMM DD'],
     ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm'],
     ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm', 'HH:mm'],
-    ['HH:mm:ss\nMMM DD, YYYY', 'MMM DD, HH:mm:ss', 'MMM DD, HH:mm:ss', 'HH:mm:ss', 'mm:ss', 'mm:ss'],
+    ['HH:mm:ss\nMMM DD, YYYY', 'MMM DD, HH:mm:ss', 'MMM DD, HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss'],
   ]
 };
