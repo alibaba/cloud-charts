@@ -3,14 +3,14 @@
 import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
 import { merge, customFormatter, customFormatterConfig, pxToNumber } from './common';
-import ellipsisLabel, { isOverlap } from './ellipsisLabel';
+import ellipsisLabel, { isOverlap, getMatrixByAngle } from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
 
 declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 export interface XAxisConfig extends customFormatterConfig {
   visible?: boolean;
   alias?: boolean;
-  autoRotate?: boolean;
+  autoRotate?: boolean | avoidCallback;
   rotate?: number;
   autoHide?:
     | boolean
@@ -27,6 +27,7 @@ export interface XAxisConfig extends customFormatterConfig {
   label?: Types.AxisCfg['label'];
   labelFormatter?: NonNullable<Types.AxisCfg['label']>['formatter'];
   tickLine?: boolean | G2Dependents.AxisTickLineCfg;
+  overlapOrder?: string[];
   customConfig?: Types.AxisCfg;
   // 数据项中使用
   categories?: number[] | string[];
@@ -51,7 +52,8 @@ export default function <T>(
   } else {
     const {
       alias,
-      autoRotate = false,
+      overlapOrder = ['autoEllipsis', 'autoRotate', 'autoHide'],
+      autoRotate = false, 
       rotate,
       // 如果是时间轴，则默认开启轴标签的自动采样,最小值为20
       // 如果是分类，则默认关闭
@@ -78,13 +80,14 @@ export default function <T>(
       ...defaultConfig,
       title: null, // 默认不展示坐标轴的标题
       tickLine: myTickLine,
+      overlapOrder,
       label:
         label === undefined
           ? {
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis: transformEllipsis(autoEllipsis, config.xAxis.type),
+              autoEllipsis: ellipsisLabels(autoEllipsis, config.xAxis.type),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
                 const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
@@ -169,11 +172,24 @@ export default function <T>(
   }
 }
 
+// function rotateLabel(autoRotate: boolean | avoidCallback, xAxisType: string) {
+//   if (!autoRotate || xAxisType.includes('time')) {
+//     return false;
+//   }
+//   return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
+//     console.log(111, isVertical, labelGroup, limitLength)
+//     return true
+//   };
+// }
+
 /** 自动省略函数，支持head/middle/tail */
-function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string) {
+function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string) {
   if (!autoEllipsis || xAxisType.includes('time')) {
     return false;
   }
+
+  // 是否自定义了省略方式
+  const hasCustom = typeof autoEllipsis === 'string';
   const type = autoEllipsis === true ? 'middle' : autoEllipsis;
   const minGap = 20;
 
@@ -211,7 +227,19 @@ function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail', x
         fontStyle,
         fontVariant,
       };
-      const ellipsisText = ellipsisLabel(text, adjustLimitLength, font, '...', type);
+      let ellipsisText = ellipsisLabel(text, adjustLimitLength, font, '...', type, hasCustom);
+      if (ellipsisText === '...') {
+        const x = label.attr('x');
+        const y = label.attr('y');
+        const matrix = getMatrixByAngle({ x, y }, Math.PI / 4);
+        let ellipsisText = ellipsisLabel(text, 30, font, '...', type, hasCustom);
+
+        label.attr('text', ellipsisText);
+        label.set('tip', text);
+        label.attr('matrix', matrix);
+
+        return false;
+      }
       label.attr('text', ellipsisText);
       label.set('tip', text);
     });
