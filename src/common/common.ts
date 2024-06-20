@@ -487,7 +487,7 @@ export function calcLinearColor(primaryColor: string, backgroundColor?: string, 
     for (let i = 1; i < count + 1; i++) {
       colorString = tinycolor({
         h,
-        s: Math.round((i * s * 100) / count),
+        s: Math.round((i * s * 100) / count) + 1,
         v: Math.round(((i * (v - whiteV)) / count + whiteV) * 100),
       }).toHexString();
 
