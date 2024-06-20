@@ -721,7 +721,7 @@ export function getG2theme(theme: Theme) {
   const sliderStyle = g2Theme.components.slider.common;
   const p = (baseFontSizeNum * 2) / 3;
   sliderStyle.padding = [baseFontSizeNum, p, 0, 0];
-  sliderStyle.height = 3 * baseFontSizeNum;
+  sliderStyle.height = pxToNumber(theme['widgets-font-size-6']);;
   sliderStyle.textStyle = {
     opacity: 0,
   };

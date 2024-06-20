@@ -1,5 +1,21 @@
 import { IElement } from '@antv/g-base';
-import { vec3 } from '@antv/matrix-util';
+import { ext, vec3 } from '@antv/matrix-util';
+import { containsChinese } from '../common/common';
+import themes from '../themes';
+
+const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+export function getMatrixByAngle(point: { x: number; y: number }, angle: number, matrix = identityMatrix): number[] {
+  if (!angle) {
+    // 角度为 0 或者 null 时返回 null
+    return null;
+  }
+  const m = ext.transform(matrix, [
+    ['t', -point.x, -point.y],
+    ['r', angle],
+    ['t', point.x, point.y],
+  ]);
+  return m;
+}
 
 /**
  * 判断两个数值 是否接近
@@ -9,13 +25,11 @@ export const near = (x: number, y: number, e = Number.EPSILON ** 0.5): boolean =
   [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < e;
 
 // 从矩阵获取旋转的角度
-export function getAngleByMatrix(matrix: [
-  number, number, number,
-  number, number, number,
-  number, number, number
-]): number {
+export function getAngleByMatrix(
+  matrix: [number, number, number, number, number, number, number, number, number],
+): number {
   const xVector: [number, number, number] = [1, 0, 0];
-  const out: [ number, number, number ] = [0, 0, 0];
+  const out: [number, number, number] = [0, 0, 0];
   vec3.transformMat3(out, xVector, matrix);
   return Math.atan2(out[1], out[0]);
 }
@@ -38,15 +52,13 @@ export function isOverlap(isVertical: boolean, first: IElement, second: IElement
   const distance = isVertical
     ? Math.abs(second.attr('y') - first.attr('y'))
     : Math.abs(second.attr('x') - first.attr('x'));
-  const prevBBox = (isVertical
-  ? second.attr('y') > first.attr('y')
-  : second.attr('x') > first.attr('x'))
+  const prevBBox = (isVertical ? second.attr('y') > first.attr('y') : second.attr('x') > first.attr('x'))
     ? first.getBBox()
     : second.getBBox();
 
   const firstBBox = first.getBBox();
   const secondBBox = second.getBBox();
-  
+
   // 最大重叠尺寸
   let overlapMaxGap = 0;
 
@@ -70,7 +82,7 @@ export function isOverlap(isVertical: boolean, first: IElement, second: IElement
 
   return {
     isOverlap: overlap,
-    maxGap: overlapMaxGap
+    maxGap: overlapMaxGap,
   };
 }
 
@@ -88,6 +100,7 @@ export default function ellipsisLabel(
   font?: any,
   ellipsisText: string = '...',
   ellipsisType: 'head' | 'middle' | 'tail' = 'middle',
+  hasCustom: boolean = false,
 ) {
   const str = typeof text !== 'string' ? text.toString() : text;
   const PLACEHOLDER_WIDTH = calcTextWidth(ellipsisText, font);
@@ -103,7 +116,19 @@ export default function ellipsisLabel(
   const leftWidth = maxWidth - PLACEHOLDER_WIDTH;
   const length = str.length;
 
-  if (ellipsisType === 'tail') {
+  let adjustEllipsisType = themes['widgets-global-axis-label-ellipsisType'];
+  // 在包含中文且用户没有自定义省略方式的情况下，默认使用尾省略
+  if(hasCustom) {
+    adjustEllipsisType = ellipsisType;
+  } else if (!hasCustom && containsChinese(text.toString())) {
+    adjustEllipsisType = 'tail';
+  }
+  // 页面统一省略方式
+  themes.setTheme({
+    'widgets-global-axis-label-ellipsisType': adjustEllipsisType,
+  }, false);
+
+  if (adjustEllipsisType === 'tail') {
     let leftStr = '';
     for (let index = 1; index <= length; index++) {
       const currentStr = str.slice(0, index);
@@ -113,7 +138,7 @@ export default function ellipsisLabel(
       leftStr = currentStr;
     }
     return `${leftStr}${ellipsisText}`;
-  } else if (ellipsisType === 'head') {
+  } else if (adjustEllipsisType === 'head') {
     let leftStr = '';
     for (let index = length - 1; index >= 0; index--) {
       const currentStr = str.slice(index, length);

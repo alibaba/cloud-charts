@@ -2,7 +2,7 @@
 
 import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
-import { merge, customFormatter, customFormatterConfig, pxToNumber } from './common';
+import { merge, customFormatter, customFormatterConfig, pxToNumber, containsChinese } from './common';
 import ellipsisLabel, { isOverlap, getMatrixByAngle } from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
 
@@ -53,7 +53,7 @@ export default function <T>(
     const {
       alias,
       overlapOrder = ['autoEllipsis', 'autoRotate', 'autoHide'],
-      autoRotate = false, 
+      autoRotate = false,
       rotate,
       // 如果是时间轴，则默认开启轴标签的自动采样,最小值为20
       // 如果是分类，则默认关闭
@@ -191,7 +191,7 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
   // 是否自定义了省略方式
   const hasCustom = typeof autoEllipsis === 'string';
   const type = autoEllipsis === true ? 'middle' : autoEllipsis;
-  const minGap = 20;
+  let minGap = 10;
 
   return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
     const children = labelGroup.getChildren();
@@ -201,6 +201,10 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
     // 重叠部分的最大尺寸
     let maxOverlopGap = 0;
     let hasOverlap = false;
+    // 中文减少偏移， 暂定一个偏移值
+    if (containsChinese(first.attr('text'))) {
+      minGap = -16;
+    }
 
     for (let i = 1; i < children.length; i++) {
       const { isOverlap: isTextOverlap, maxGap } = isOverlap(
@@ -209,6 +213,10 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
         children[i],
         minGap,
       );
+      const text = children[i].attr('text') ?? '';
+      if (containsChinese(text)) {
+        minGap = -16;
+      }
       if (isTextOverlap) {
         maxOverlopGap = Math.max(maxOverlopGap, maxGap);
         hasOverlap = isTextOverlap;

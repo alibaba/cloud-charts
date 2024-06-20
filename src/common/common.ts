@@ -689,3 +689,8 @@ export const deepAssign = (rst: any, ...args: any[]) => {
   }
   return rst;
 };
+
+// 判断一个字符串中是否包含中文字符
+export function containsChinese(str: string) {
+  return /[\u4e00-\u9fa5]/.test(str);
+}
