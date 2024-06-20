@@ -131,15 +131,22 @@ export function processBarBigData(chartObj: any, data: any) {
 export function processLineBigData(chartObj: any, data: any) {
   const { dataSize } = chartObj;
   const { force } = chartObj.props;
-  const chartName = chartObj?.chartRule?.name;
+  const chartId = chartObj?.chartRule?.id;
   if (force === true) {
     return {};
   }
+
+  let shouldArea = false;
+  // 堆叠图对面积不做关闭
+  if (chartId.includes('stack')) {
+    shouldArea = true;
+  }
+
   return {
     config: {
       symbol: false,
       spline: false,
-      area: false,
+      area: shouldArea,
       // 暂时不显示slider
       // slider: {
       //   start: 1 - Math.max(Number((100 / dataSize).toFixed(2)), 0.01),
