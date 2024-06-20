@@ -1,0 +1,104 @@
+@import '../themes/index';
+
+$wgauge-prefix: '#{$base-prefix}-wgauge';
+
+$text-color: getVar(widgets-color-text-1, $widgets-color-text-1);
+$num-color: getVar(widgets-color-text-2, $widgets-color-text-2);
+$font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+
+$font-size-xs: getVar(widgets-font-size-1, $widgets-font-size-1);
+$font-size-small: getVar(widgets-font-size-3, $widgets-font-size-3);
+$font-size-medium: getVar(widgets-font-size-5, $widgets-font-size-5);
+$font-size-big: getVar(widgets-font-size-6, $widgets-font-size-6);
+
+$normal-color: getVar(widgets-color-normal, $widgets-color-normal);
+$warning-color: getVar(widgets-color-orange, $widgets-color-orange);
+$error-color: getVar(widgets-color-red, $widgets-color-red);
+$success-color: getVar(widgets-color-green, $widgets-color-green);
+$help-color: getVar(widgets-color-yellow, $widgets-color-yellow);
+$mention-color: getVar(widgets-color-purple, $widgets-color-purple);
+
+$p1-color: getVar(widgets-color-p1, $widgets-color-p1);
+$p2-color: getVar(widgets-color-p2, $widgets-color-p2);
+$p3-color: getVar(widgets-color-p3, $widgets-color-p3);
+$p4-color: getVar(widgets-color-p4, $widgets-color-p4);
+$p5-color: getVar(widgets-color-p5, $widgets-color-p5);
+$p6-color: getVar(widgets-color-p6, $widgets-color-p6);
+$p7-color: getVar(widgets-color-p7, $widgets-color-p7);
+
+$default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
+
+:root {
+    --#{$wgauge-prefix}-text-color: #{$text-color};
+    --#{$wgauge-prefix}-font-family: #{$font-family};
+
+    --#{$wgauge-prefix}-font-size-xs: #{$font-size-xs};
+    --#{$wgauge-prefix}-font-size-small: #{$font-size-small};
+    --#{$wgauge-prefix}-font-size-medium: #{$font-size-medium};
+    --#{$wgauge-prefix}-font-size-big: #{$font-size-big};
+    --font-size-big: #{$font-size-big};
+    --font-size-medium: #{$font-size-medium};
+    --font-size-small: #{$font-size-small};
+
+    --#{$wgauge-prefix}-normal-color: #{$normal-color};
+    --#{$wgauge-prefix}-warning-color: #{$warning-color};
+    --#{$wgauge-prefix}-error-color: #{$error-color};
+    --#{$wgauge-prefix}-success-color: #{$success-color};
+    --#{$wgauge-prefix}-help-color: #{$help-color};
+    --#{$wgauge-prefix}-mention-color: #{$mention-color};
+
+    --#{$wgauge-prefix}-p1-color: #{$p1-color};
+    --#{$wgauge-prefix}-p2-color: #{$p2-color};
+    --#{$wgauge-prefix}-p3-color: #{$p3-color};
+    --#{$wgauge-prefix}-p4-color: #{$p4-color};
+    --#{$wgauge-prefix}-p5-color: #{$p5-color};
+    --#{$wgauge-prefix}-p6-color: #{$p6-color};
+    --#{$wgauge-prefix}-p7-color: #{$p7-color};
+}
+
+.#{$wgauge-prefix}-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    min-height: 100px;
+    .#{$wgauge-prefix}-text {
+        display: flex;
+        align-items: flex-end;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, calc(-50% - $font-size-big));
+        color: $text-color;
+        font-size: $font-size-big;
+        font-weight: 500;
+        .#{$wgauge-prefix}-num {
+            line-height:$font-size-big ;
+        }
+        .#{$wgauge-prefix}-unit {
+            font-size: $font-size-small;
+            font-weight: 500;
+        }
+    }
+    .#{$wgauge-prefix}-scale {
+        stroke: $num-color;
+        stroke-width: 2px,
+    }
+    .#{$wgauge-prefix}-scale-num {
+        fill: $num-color;
+        font-weight: 510;
+        font-size: $font-size-xs;
+    }
+    .#{$wgauge-prefix}-width-scale {
+        transform: translate(-50%, calc(-50% - $font-size-big - $font-size-small));
+        color: $text-color;
+    }
+    .#{$wgauge-prefix}-svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .#{$wgauge-prefix}-path{
+            stroke: $default-color
+        }
+    }
+}

@@ -57,6 +57,7 @@ export { default as Wnumber } from './Wnumber/index';
 export { default as Wcontainer } from './Wcontainer/index';
 export { default as Wicon } from './Wicon/index';
 export { default as Wcircle } from './Wcircle/index';
+export { default as Wgauge } from './Wgauge';
 export { default as Wminicontainer } from './Wminicontainer/index';
 export { default as Wshoot } from './Wshoot/index';
 export { default as Wplaceholder } from './Wplaceholder/index';
@@ -94,7 +95,8 @@ export type { IDataItem as WnumbercardProps, IDataOverviewCard as Wnumberovervie
 export type { WnumberProps } from './Wnumber/index';
 export type { WcontainerProps } from './Wcontainer/index';
 export type { WiconProps } from './Wicon/index';
-export type { WcircleProps } from './Wcircle/index';
+export type { WcircleProps } from './Wcircle/index'
+export type { IWgaugeProps as WgaugeProps } from './Wgauge/index';
 export type { WminicontainerProps } from './Wminicontainer/index';
 export type { ShootProps as WshootProps } from './Wshoot/index';
 export type { WplaceholderProps } from './Wplaceholder/index';
