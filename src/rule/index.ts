@@ -121,7 +121,7 @@ const barChart: IChartRule = {
       '10100010': 'polar_stacked_bar_chart',
     };
 
-    return (chartMap as any)?.[code] ?? '10000000';
+    return (chartMap as any)?.[code] ?? 'bar_chart';
   },
   emptyData: EmptyDataProcess.Axis,
   bigData: {
@@ -342,7 +342,7 @@ const lineChart: IChartRule = {
       '00101': 'area_line_chart',
     };
 
-    return (chartMap as any)?.[code] ?? '00000';
+    return (chartMap as any)?.[code] ?? 'line_chart';
   },
   emptyData: EmptyDataProcess.Axis,
   bigData: {
@@ -458,7 +458,7 @@ const histogram: IChartRule = {
       '110': 'polar_histogram',
     };
 
-    return (chartMap as any)?.[code] ?? '100';
+    return (chartMap as any)?.[code] ?? 'histogram';
   },
   emptyData: EmptyDataProcess.Axis,
   children: {
@@ -514,7 +514,7 @@ const lineBarChart: IChartRule = {
       '101': 'grouped_stacked_area_bar_chart',
     };
 
-    return (chartMap as any)?.[code] ?? '000';
+    return (chartMap as any)?.[code] ?? 'line_bar_chart';
   },
   emptyData: EmptyDataProcess.Axis,
   bigData: {
@@ -713,7 +713,7 @@ const funnelChart: IChartRule = {
       '01': 'horizontal_pyramid_funnel_chart',
     };
 
-    return (chartMap as any)?.[code] ?? '10';
+    return (chartMap as any)?.[code] ?? 'funnel_chart';
   },
   emptyData: EmptyDataProcess.Background,
   bigData: {
