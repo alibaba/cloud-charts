@@ -33,6 +33,9 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           label: false,
         },
         padding: 0,
+        guide: {
+          visible: false
+        }
       },
     };
   } else if (emptyType === EmptyDataProcess.Polar) {
