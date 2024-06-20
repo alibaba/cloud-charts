@@ -3,7 +3,7 @@
 import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
 import { merge, customFormatter, customFormatterConfig, pxToNumber } from './common';
-import ellipsisLabel from './ellipsisLabel';
+import ellipsisLabel, { isOverlap } from './ellipsisLabel';
 import { IElement, IGroup } from '@antv/g-base';
 
 declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
@@ -17,7 +17,7 @@ export interface XAxisConfig extends customFormatterConfig {
     | avoidCallback
     | string
     | {
-        type: string;
+        type?: string;
         cfg?: {
           /** 最小间距配置 */
           minGap?: number;
@@ -84,7 +84,7 @@ export default function <T>(
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis: transformEllipsis(autoEllipsis),
+              autoEllipsis: transformEllipsis(autoEllipsis, config.xAxis.type),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
                 const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
@@ -101,22 +101,22 @@ export default function <T>(
                       const nextX = items[index + 1].point.x;
                       const dis = nextX - (currentX + width);
                       return {
-                        textAlign: dis < 80 || currentX > width / 2 ? 'center' : 'start'
-                      }
+                        textAlign: dis < 80 || currentX > width / 2 ? 'center' : 'start',
+                      };
                     } else if (index === items.length - 1) {
                       const currentX = items[index].point.x;
                       const preX = items[index - 1].point.x;
                       const dis = currentX - (preX + width);
                       const disCanvas = canvasWidth - currentX;
                       return {
-                        textAlign: dis < 80 || disCanvas > width / 2 ? 'center' : 'end'
-                      }
+                        textAlign: dis < 80 || disCanvas > width / 2 ? 'center' : 'end',
+                      };
                     }
                   }
                 }
 
                 return {};
-              }
+              },
             }
           : label,
     };
@@ -170,14 +170,37 @@ export default function <T>(
 }
 
 /** 自动省略函数，支持head/middle/tail */
-function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail') {
-  if (!autoEllipsis) {
+function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string) {
+  if (!autoEllipsis || xAxisType.includes('time')) {
     return false;
   }
-  const type = autoEllipsis === true ? 'tail' : autoEllipsis;
+  const type = autoEllipsis === true ? 'middle' : autoEllipsis;
+  const minGap = 20;
 
   return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
     const children = labelGroup.getChildren();
+
+    // 判断是否有重叠
+    let first = children[0];
+    // 重叠部分的最大尺寸
+    let maxOverlopGap = 0;
+    let hasOverlap = false;
+
+    for (let i = 1; i < children.length; i++) {
+      const { isOverlap: isTextOverlap, maxGap } = isOverlap(
+        isVertical,
+        i > 1 ? children[i - 1] : first,
+        children[i],
+        minGap,
+      );
+      if (isTextOverlap) {
+        maxOverlopGap = Math.max(maxOverlopGap, maxGap);
+        hasOverlap = isTextOverlap;
+      }
+    }
+
+    const adjustLimitLength = hasOverlap ? limitLength - maxOverlopGap - minGap : limitLength - minGap;
+
     children.forEach((label: IElement) => {
       const text = label.attr('text') ?? '';
       const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = label.attr() ?? {};
@@ -188,7 +211,7 @@ function transformEllipsis(autoEllipsis: boolean | 'head' | 'middle' | 'tail') {
         fontStyle,
         fontVariant,
       };
-      const ellipsisText = ellipsisLabel(text, limitLength, font, '...', type);
+      const ellipsisText = ellipsisLabel(text, adjustLimitLength, font, '...', type);
       label.attr('text', ellipsisText);
       label.set('tip', text);
     });

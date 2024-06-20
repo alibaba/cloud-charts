@@ -1,3 +1,79 @@
+import { IElement } from '@antv/g-base';
+import { vec3 } from '@antv/matrix-util';
+
+/**
+ * 判断两个数值 是否接近
+ * - 解决精度问题（由于无法确定精度上限，根据具体场景可传入 精度 参数）
+ */
+export const near = (x: number, y: number, e = Number.EPSILON ** 0.5): boolean =>
+  [x, y].includes(Infinity) ? Math.abs(x) === Math.abs(y) : Math.abs(x - y) < e;
+
+// 从矩阵获取旋转的角度
+export function getAngleByMatrix(matrix: [
+  number, number, number,
+  number, number, number,
+  number, number, number
+]): number {
+  const xVector: [number, number, number] = [1, 0, 0];
+  const out: [ number, number, number ] = [0, 0, 0];
+  vec3.transformMat3(out, xVector, matrix);
+  return Math.atan2(out[1], out[0]);
+}
+
+// 文本是否旋转
+function isRotate(label: IElement) {
+  const matrix = label.attr('matrix');
+  return matrix && matrix[0] !== 1; // 仅在这个场景下判定
+}
+
+function getRotateAngle(label: IElement) {
+  const angle = isRotate(label) ? getAngleByMatrix(label.attr('matrix')) : 0;
+  return angle % 360;
+}
+
+// 是否重叠
+export function isOverlap(isVertical: boolean, first: IElement, second: IElement, minGap: number) {
+  let overlap = false;
+  const angle = getRotateAngle(first);
+  const distance = isVertical
+    ? Math.abs(second.attr('y') - first.attr('y'))
+    : Math.abs(second.attr('x') - first.attr('x'));
+  const prevBBox = (isVertical
+  ? second.attr('y') > first.attr('y')
+  : second.attr('x') > first.attr('x'))
+    ? first.getBBox()
+    : second.getBBox();
+
+  const firstBBox = first.getBBox();
+  const secondBBox = second.getBBox();
+  
+  // 最大重叠尺寸
+  let overlapMaxGap = 0;
+
+  if (isVertical) {
+    const ratio = Math.abs(Math.cos(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
+      overlap = prevBBox.width + minGap > distance;
+    } else {
+      overlap = prevBBox.height / ratio + minGap > distance;
+    }
+  } else {
+    const ratio = Math.abs(Math.sin(angle));
+    if (near(ratio, 0, Math.PI / 180)) {
+      overlapMaxGap = Math.max(firstBBox.width / 2 + secondBBox.width / 2 - distance, overlapMaxGap);
+      // console.log(firstBBox, secondBBox, distance)
+      overlap = prevBBox.width + minGap > distance;
+    } else {
+      overlap = prevBBox.height / ratio + minGap > distance;
+    }
+  }
+
+  return {
+    isOverlap: overlap,
+    maxGap: overlapMaxGap
+  };
+}
+
 /**
  * 计算省略后的文本
  * @param text 原文本
@@ -11,7 +87,7 @@ export default function ellipsisLabel(
   maxWidth: number,
   font?: any,
   ellipsisText: string = '...',
-  ellipsisType: 'head' | 'middle' | 'tail' = 'tail',
+  ellipsisType: 'head' | 'middle' | 'tail' = 'middle',
 ) {
   const str = typeof text !== 'string' ? text.toString() : text;
   const PLACEHOLDER_WIDTH = calcTextWidth(ellipsisText, font);
@@ -19,6 +95,7 @@ export default function ellipsisLabel(
   if (PLACEHOLDER_WIDTH >= maxWidth) {
     return ellipsisText;
   }
+
   if (calcTextWidth(str, font) <= maxWidth) {
     return text;
   }
