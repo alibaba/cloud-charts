@@ -12,6 +12,11 @@ export function classifyChart(chartName: string, data: any, config: any) {
     return parentRule;
   }
 
+  // 增加预处理配置项
+  if (parentRule?.processConfig) {
+    config = parentRule?.processConfig(config);
+  }
+
   // 根据父类的classify判断该图属于哪个子类（或基础父类）
   const category = parentRule?.classify(data, config);
 

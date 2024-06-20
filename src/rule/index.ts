@@ -48,6 +48,9 @@ export interface IChartRule {
 
   /** 子类 */
   children?: Record<string, IChartRule>;
+
+  /** 处理配置 */
+  processConfig?: (config: any) => any;
 }
 
 /** 柱图 */
@@ -387,6 +390,12 @@ const lineChart: IChartRule = {
       name: '区域线图',
     },
   },
+  processConfig: (config: any) => {
+    if (config.stack) {
+      config.area = true;
+    }
+    return config;
+  }
 };
 
 /** 饼图 */
