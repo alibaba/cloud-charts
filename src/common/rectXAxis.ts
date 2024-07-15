@@ -52,7 +52,7 @@ export default function <T>(
   } else {
     const {
       alias,
-      overlapOrder = ['autoEllipsis', 'autoRotate', 'autoHide'],
+      overlapOrder = ['autoEllipsis', 'autoHide', 'autoRotate'],
       autoRotate = false,
       rotate,
       // 如果是时间轴，则默认开启轴标签的自动采样,最小值为20
