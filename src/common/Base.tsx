@@ -615,6 +615,7 @@ class Base<
       animate,
       force,
       chartLifecycle,
+      localRefresh = false,
       ...otherProps
     } = currentProps;
     let { config } = currentProps;
@@ -654,6 +655,7 @@ class Base<
       height: this.size[1] || 200,
       padding: config.padding,
       appendPadding: config.appendPadding,
+      localRefresh: localRefresh,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
