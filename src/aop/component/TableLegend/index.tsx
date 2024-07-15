@@ -55,8 +55,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
 
   const width = useMemo(() => containerWidth * (position === 'right' ? 0.5 : 1), [containerWidth, position]);
 
-  console.log('container height', containerHeight);
-
   // 修改图表宽高
   useEffect(() => {
     const chartHeight = position === 'right' ? containerHeight : containerHeight - height;
@@ -69,34 +67,34 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     chart.changeSize(chartWidth, chartHeight);
   }, [containerHeight, containerWidth, position, height, width, config]);
 
-  // useEffect(() => {
-  //   setFilteredItems([]);
-  // }, [config]);
+  useEffect(() => {
+    setFilteredItems([]);
+  }, [config]);
 
-  // useEffect(() => {
-  //   filterLegend(
-  //     chart,
-  //     (value: any) => {
-  //       return !filteredItems.includes(value);
-  //     },
-  //     legendField,
-  //   );
-  // }, [filteredItems]);
+  useEffect(() => {
+    filterLegend(
+      chart,
+      (value: any) => {
+        return !filteredItems.includes(value);
+      },
+      legendField,
+    );
+  }, [filteredItems]);
 
-  // const activeItem = (itemName: string) => {
-  //   highlightLegend(chart, (value: any) => value === itemName, legendField);
-  // };
+  const activeItem = (itemName: string) => {
+    highlightLegend(chart, (value: any) => value === itemName, legendField);
+  };
 
-  // const clearActive = () => {
-  //   clearHighlight(chart);
-  // };
+  const clearActive = () => {
+    clearHighlight(chart);
+  };
 
-  // useEffect(() => {
-  //   clearActive();
-  //   if (activedItem) {
-  //     activeItem(activedItem);
-  //   }
-  // }, [activedItem]);
+  useEffect(() => {
+    clearActive();
+    if (activedItem) {
+      activeItem(activedItem);
+    }
+  }, [activedItem]);
 
   return (
     <table

@@ -48,8 +48,6 @@ export default function GradientLegend({ config, chart, legendItems = [] }: Grad
 
   const legendField = widgetsCtx?.legendField || 'type';
 
-  console.log('legend items', legendItems);
-
   const { valueRange = [0, 100], colors = DefaultColors } = config?.gradient || {};
 
   // 修改图表宽高
