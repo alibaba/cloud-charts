@@ -22,7 +22,9 @@ export interface LineProps {
   width?: number | string;
   // 高度，默认40
   height?: number | string;
-  position?: 'left' | 'right' | 'top' | 'bottom';
+
+  // 位置，center表示以线图为背景
+  position?: 'left' | 'right' | 'top' | 'bottom' | 'center';
   config?: WlineConfig;
 }
 
@@ -82,7 +84,7 @@ export interface IDataItem {
   /** 卡片中的value字号尺寸，默认medium */
   size?: 'small' | 'medium';
 
-  /** 背景类型，默认fill */
+  /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
   backgroundType?: 'fill' | 'none' | 'image';
 
   /** 背景图,image时必传 */
@@ -241,14 +243,20 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       }}
       {...otherProps}
     >
-      {(chartPosition === 'left' || chartPosition === 'top') && chartContainer}
+      {(chartPosition === 'left' || chartPosition === 'top' || chartPosition === 'center') && chartContainer}
       <div
-        className={`${prefix}-item-content`}
-        style={{
-          justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
-          alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
-          alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
-        }}
+        className={
+          chartElement && chartPosition === 'center' ? `${prefix}-item-content-center` : `${prefix}-item-content`
+        }
+        style={
+          chartElement && chartPosition === 'center'
+            ? {}
+            : {
+                justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
+                alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
+                alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
+              }
+        }
       >
         {iconPosition === 'left' && iconElement}
         <div
@@ -457,7 +465,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
                 ? {
                     chart: {
                       ...item.chart,
-                      width: chartWidth,
+                      width: item.chart?.position === 'center' ? null : chartWidth,
                     },
                   }
                 : {}),

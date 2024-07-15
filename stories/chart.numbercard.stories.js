@@ -191,6 +191,38 @@ stories.add('带线图的指标卡片', () => (
   />
 ));
 
+stories.add('以线图为背景的卡片', () => (
+  <Wnumbercard
+    label="测试数据"
+    value={10034352}
+    unit="%"
+    backgroundType="none"
+    itemStyle={{
+      width: 250,
+    }}
+    chart={{
+      type: 'Wline',
+      position: 'center',
+      data: [
+        {
+          name: '测试数据',
+          data: [
+            [10, 20],
+            [34, 67],
+            [45, 12],
+            [66, 32],
+            [90, 3],
+          ],
+        },
+      ],
+      config: {
+        area: true,
+        colors: ['success'],
+      },
+    }}
+  />
+));
+
 stories.add('带复杂线图的指标卡片', () => (
   <Wnumbercard
     label="测试数据"
@@ -349,6 +381,117 @@ stories.add('数据卡片概览', () => (
 stories.add('带分割线的数据卡片概览', () => (
   <div>
     <Wnumberoverview data={testData} showDivider />
+  </div>
+));
+
+const status_data = [
+  {
+    label: 'ECS',
+    value: 23,
+    chart: {
+      type: 'Wline',
+      position: 'center',
+      data: [
+        {
+          name: '测试数据',
+          data: [
+            [10, 20],
+            [34, 67],
+            [45, 12],
+            [66, 32],
+            [90, 3],
+          ],
+        },
+      ],
+      config: {
+        area: true,
+        colors: ['success'],
+      },
+    },
+  },
+  {
+    label: 'SLB',
+    value: 45,
+    chart: {
+      type: 'Wline',
+      position: 'center',
+      data: [
+        {
+          name: '测试数据',
+          data: [
+            [1483372800000, 4],
+            [1483459200000, 3.5],
+            [1483545600000, 5],
+            [1483632000000, 4.9],
+            [1483718400000, 6],
+            [1483804800000, 7],
+            [1483891200000, 9],
+          ],
+        },
+      ],
+      config: {
+        area: true,
+        colors: ['warning'],
+      },
+    },
+  },
+  {
+    label: 'OSS',
+    value: 1234000,
+    chart: {
+      type: 'Wline',
+      position: 'center',
+      data: [
+        {
+          name: '测试数据',
+          data: [
+            [1483372800000, 67],
+            [1483459200000, 3.5],
+            [1483545600000, 34],
+            [1483632000000, 87],
+            [1483718400000, 60],
+            [1483804800000, 17],
+            [1483891200000, 9],
+          ],
+        },
+      ],
+      config: {
+        area: true,
+        colors: ['error'],
+      },
+    },
+  },
+  {
+    label: 'K8S',
+    value: 432.54354,
+    chart: {
+      type: 'Wline',
+      position: 'center',
+      data: [
+        {
+          name: '测试数据',
+          data: [
+            [1483372800000, 6],
+            [1483459200000, 35],
+            [1483545600000, 340],
+            [1483632000000, 8],
+            [1483718400000, 36],
+            [1483804800000, 7],
+            [1483891200000, 59],
+          ],
+        },
+      ],
+      config: {
+        area: true,
+        // colors: ['normal'],
+      },
+    },
+  },
+];
+
+stories.add('大盘中的数据卡片概览', () => (
+  <div>
+    <Wnumberoverview data={status_data} backgroundType="none" showDivider={false} />
   </div>
 ));
 
@@ -570,6 +713,9 @@ stories.add('数据卡片 - 业务场景', () => {
       </Wcontainer>
       <Wcontainer className="demos" title="多行组件">
         <Wnumberoverview data={d_2} columns={4} />
+      </Wcontainer>
+      <Wcontainer className="demos" title="大盘中的数据概览">
+        <Wnumberoverview data={status_data} backgroundType="none" showDivider={false} />
       </Wcontainer>
     </>
   );
