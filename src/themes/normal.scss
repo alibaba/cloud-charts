@@ -172,6 +172,12 @@ $widgets-sankey-node-text: $widgets-color-text-1 !default;
 $widgets-scrollbar-bg: #ebecf0 !default;
 $widgets-scrollbar-thumb: #c4c6cf !default;
 
+// 缩略轴的颜色
+$widgets-slider-trend-opacity: 0.1 !default;
+$widgets-slider-trend-bg: #4C4F53 !default;
+$widgets-slider-trend-border-color: $widgets-axis-label !default;
+$widgets-slider-handler-border-color: #414448 !default;
+
 // 线图粗细
 $widgets-line-width: 1.5;
 

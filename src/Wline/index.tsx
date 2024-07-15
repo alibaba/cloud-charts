@@ -189,7 +189,7 @@ export class Line extends Base<WlineConfig> {
     guide(chart, config);
 
     if (Array.isArray(config.yAxis)) {
-      config.yAxis.forEach((asix, yIndex) => {
+      config.yAxis.forEach((axis, yIndex) => {
         drawLine(chart, config, `y${yIndex}`);
       });
     } else {

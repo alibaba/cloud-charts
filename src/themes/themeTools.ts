@@ -720,7 +720,7 @@ export function getG2theme(theme: Theme) {
   // slider 样式
   const sliderStyle = g2Theme.components.slider.common;
   const p = (baseFontSizeNum * 2) / 3;
-  sliderStyle.padding = [baseFontSizeNum, p, 0, 0];
+  sliderStyle.padding = [baseFontSizeNum, 3, 0, 0];
   sliderStyle.height = pxToNumber(theme['widgets-font-size-6']);;
   sliderStyle.textStyle = {
     opacity: 0,

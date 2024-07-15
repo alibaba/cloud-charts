@@ -170,8 +170,14 @@ $widgets-sankey-edge: #333333;
 $widgets-sankey-node-text: $widgets-color-text-1;
 
 // 滚动条颜色
-$widgets-scrollbar-bg: #4d4d4d;
+$widgets-scrollbar-bg: $widgets-color-disable;
 $widgets-scrollbar-thumb: #333333;
+
+// 缩略轴的颜色
+$widgets-slider-trend-opacity: 0.6;
+$widgets-slider-trend-bg: $widgets-axis-line;
+$widgets-slider-trend-border-color: $widgets-axis-line;
+$widgets-slider-handler-border-color:  $widgets-axis-line;
 
 // 线图粗细
 $widgets-line-width: 1.5;

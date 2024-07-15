@@ -1,6 +1,6 @@
 import { IElement } from '@antv/g-base';
 import { ext, vec3 } from '@antv/matrix-util';
-import { containsChinese } from '../common/common';
+import { containsChinese, pxToNumber } from '../common/common';
 import themes from '../themes';
 
 const identityMatrix = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -118,15 +118,18 @@ export default function ellipsisLabel(
 
   let adjustEllipsisType = themes['widgets-global-axis-label-ellipsisType'];
   // 在包含中文且用户没有自定义省略方式的情况下，默认使用尾省略
-  if(hasCustom) {
+  if (hasCustom) {
     adjustEllipsisType = ellipsisType;
   } else if (!hasCustom && containsChinese(text.toString())) {
     adjustEllipsisType = 'tail';
   }
   // 页面统一省略方式
-  themes.setTheme({
-    'widgets-global-axis-label-ellipsisType': adjustEllipsisType,
-  }, false);
+  themes.setTheme(
+    {
+      'widgets-global-axis-label-ellipsisType': adjustEllipsisType,
+    },
+    false,
+  );
 
   if (adjustEllipsisType === 'tail') {
     let leftStr = '';
@@ -167,7 +170,13 @@ export default function ellipsisLabel(
 let ctx: CanvasRenderingContext2D = null;
 
 export function calcTextWidth(text: string, font?: any) {
-  const { fontSize, fontFamily, fontWeight, fontStyle, fontVariant } = font;
+  const {
+    fontSize = pxToNumber(themes['widgets-font-size-1']),
+    fontFamily = themes['widgets-font-family-txd-m-number'],
+    fontWeight = 'normal',
+    fontStyle = 'normal',
+    fontVariant = 'normal',
+  } = font || {};
   if (!ctx) {
     ctx = document.createElement('canvas').getContext('2d');
   }

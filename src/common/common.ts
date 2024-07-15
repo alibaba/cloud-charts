@@ -694,3 +694,69 @@ export const deepAssign = (rst: any, ...args: any[]) => {
 export function containsChinese(str: string) {
   return /[\u4e00-\u9fa5]/.test(str);
 }
+
+// 均值采样函数
+export function sampleDataWithNoise(chartData: number[], sampleRate: number = 0.5): number[] {
+  /**
+   *  输入的数字数组
+   * sampleRate: 采样率，取值范围为 (0, 1]
+   * 返回值: 采样后的数组，同时尽可能保留噪声数据
+   */
+
+  if (sampleRate <= 0 || sampleRate > 1) {
+    throw new Error("Sample rate must be between 0 and 1.");
+  }
+
+  // 确保采样率不为1时执行采样逻辑，否则直接返回原数组
+  if (sampleRate < 1) {
+    // 定义一个简单的噪声检测逻辑，这里以数据点与前后点差值的绝对值超过平均差值的两倍作为噪声的简单判断
+    const avgDiff = calculateAverageDifference(chartData);
+    const noiseThreshold = avgDiff * 2;
+
+    // 筛选出噪声数据
+    const noiseIndices: number[] = chartData
+      .map((value, index, array) => ({
+        value,
+        index,
+        isNoise: index > 0 && index < array.length - 1
+          ? Math.abs(value - array[index - 1]) > noiseThreshold || Math.abs(value - array[index + 1]) > noiseThreshold
+          : false, // 边界处理
+      }))
+      .filter(item => item.isNoise)
+      .map(item => item.index);
+
+    // 采样逻辑，优先保留噪声数据，再根据采样率采样其他数据
+    const sampledData: number[] = [];
+    let includedNoise = new Set<number>();
+
+    // 先加入噪声数据
+    for (const index of noiseIndices) {
+      if (!includedNoise.has(index)) {
+        sampledData.push(chartData[index]);
+        includedNoise.add(index);
+      }
+    }
+
+    // 根据采样率采样剩余数据
+    for (let i = 0; i < chartData.length; i++) {
+      if (!includedNoise.has(i)) {
+        if (Math.random() < sampleRate) {
+          sampledData.push(chartData[i]);
+        }
+      }
+    }
+
+    // 保证数据的顺序性，如果需要的话，这里可以进行排序，但通常保留原序列的相对顺序较好
+    return sampledData;
+  } else {
+    return [...chartData];
+  }
+}
+
+function calculateAverageDifference(chartData: number[]): number {
+  let sumOfDifferences = 0;
+  for (let i = 1; i < chartData.length; i++) {
+    sumOfDifferences += Math.abs(chartData[i] - chartData[i - 1]);
+  }
+  return chartData.length > 1 ? sumOfDifferences / (chartData.length - 1) : 0;
+}

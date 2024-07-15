@@ -1,0 +1,14 @@
+@import "../themes/index";
+$bg-color: getVar(widgets-color-background, $widgets-color-background);
+
+.#{$base-name}.slider-marker-container {
+    position: relative;
+    z-index: 9999;
+    width: 3px;
+
+    &:hover {
+        cursor: pointer;
+        width: 5px;
+        border: 1px solid $bg-color;
+    }
+}
