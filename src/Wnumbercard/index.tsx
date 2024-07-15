@@ -239,7 +239,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         backgroundImage: backgroundType === 'image' ? `url(${backgroundImage})` : 'none',
         ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
-        padding: chartPosition === 'bottom' ? '16px 20px 20px 16px' : '12px 16px',
+        padding: chartPosition === 'bottom' ? '16px 12px' : '12px 16px',
       }}
       {...otherProps}
     >
