@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import tinycolor from "tinycolor2";
 import { IProps } from '../interface';
 import themes from '../../themes/index';
 import Wnumber from '../../Wnumber';
@@ -20,10 +21,30 @@ function getClipPath(width: number, height: number) {
   ].join(' ');
 }
 
+// 实现水位动画一致性
 function PercentBar(props: IProps) {
   const { data, config, prefix } = props;
   const ref = useRef(null);
   const [width, setWidth] = useState(0);
+  const [offsetX, setOffsetX] = useState(0);
+
+  const unityAnimation = (waterWidth: number) => {
+    const currentX = ref?.current?.getBoundingClientRect()?.left ?? 0;
+    const capcityList = document.getElementsByClassName(`${prefix}-percent-container`);
+    let minX = 9999999;
+    
+    for (let i = 0; i < capcityList?.length; i++) {
+      const x_position = capcityList[i].getBoundingClientRect().left;
+      minX = Math.min(minX, x_position);
+    };
+
+    // 计算距离
+    const distance = Math.ceil(currentX) === Math.ceil(minX) ? 0 : currentX - minX - waterWidth;
+
+    // 计算偏移，减去最左侧的水位
+    const offsetX = distance - Math.floor(distance / waterWidth) * waterWidth;
+    setOffsetX(offsetX);
+  };
 
   useEffect(() => {
     let timer: any;
@@ -34,9 +55,12 @@ function PercentBar(props: IProps) {
         if (!ref.current) return;
         const waterWidth = ref?.current?.clientWidth ?? 0;
         setWidth(waterWidth);
+        if (!config.closeUniAnimation) {
+          unityAnimation(waterWidth);
+        }
       }, 0);
     };
-
+ 
     handleResize();
 
     const parent = ref.current && ref.current.parentElement;
@@ -63,7 +87,7 @@ function PercentBar(props: IProps) {
   };
 
   const translateStartColor = (data: any, config: any) => {
-    if (data.percent.displayNumber === 0) {
+    if (data.percent.displayNumber === 0 || data.percent.displayNumber === '-' || !data.percent.displayNumber) {
       return {
         status: 'empty',
         color: themes['widgets-tooltip-cross-line'],
@@ -132,9 +156,10 @@ function PercentBar(props: IProps) {
             className={`${prefix}-process-back`}
             style={{
               background: `linear-gradient(180deg, transparent 19px, ${translateStartColor(data, config).color} 0%, ${
-                config?.endColor || 'rgba(0,0,0,0)'
+                config?.endColor || tinycolor(translateStartColor(data, config).color).setAlpha(0.1).toRgbString()
               } 100%)`,
               ...config?.processBarBackConfig,
+              transform: `translate3d(${-offsetX}px,0,0) scale(1, 1) perspective(1px)`,
             }}
           >
             <svg className="process-svg" width="100%" height={20} version="1.1" xmlns="http://www.w3.org/2000/svg">

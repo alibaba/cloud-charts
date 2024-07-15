@@ -23,4 +23,5 @@ export interface ConfigItem {
   processBarBackConfig?: any;
   labelConfig?: any;
   titleConfig?: any;
+  closeUniAnimation?: boolean;
 }

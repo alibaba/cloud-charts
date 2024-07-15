@@ -27,22 +27,51 @@ const lessData = {
   },
 };
 
+// 1. 获取所有水位图的实例 + 位置信息
+// 2. 针对同一行的水位图，计算每一个水位图与最左边的水位图的偏移量，动画的起始点加上偏移量的绝对值
 stories.add('单水位', () => (
   <>
-    <Wcapacity
-      data={emptyData}
-      config={{
-        barSize: 200,
-        guide: {
-          threshold: '80%',
-          // status: 'error',
-        },
-      }}
-      height={200} // 柱高度
+    <div
       style={{
-        marginBottom: 20,
+        display: 'flex',
+        justifyContent: 'space-between',
       }}
-    />
+    >
+      <Wcapacity
+        data={emptyData}
+        config={{
+          barSize: 200,
+          guide: {
+            threshold: '80%',
+            // status: 'error',
+          },
+        }}
+        height={200} // 柱高度
+        style={{
+          marginBottom: 20,
+        }}
+      />
+      <Wcapacity
+        data={{
+          percent: {
+            name: '利用率',
+            displayNumber: 30,
+          },
+        }}
+        config={{
+          barSize: 200,
+          guide: {
+            threshold: '80%',
+            // status: 'error',
+          },
+        }}
+        height={200} // 柱高度
+        style={{
+          marginBottom: 20,
+        }}
+      />
+    </div>
+
     <Wcapacity
       data={dafaultData}
       config={{
@@ -81,7 +110,7 @@ stories.add('单水位', () => (
         labelConfig: {
           color: 'var(--color-text-1, #1A1A1A)',
         },
-        size: 'large'
+        size: 'large',
       }}
       height={200} // 柱高度
     />
