@@ -32,15 +32,22 @@ class ReactLegend extends CategoryLegend {
     // const startY = currentPoint.y;
 
     // 优先级：table > gradient > foldable
-    const legend = this.legendConfig?.table ? (
-      <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
-    ) : this.legendConfig?.gradient ? (
-      <GradientLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
-    ) : (
-      <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
-    );
-
-    ReactDOM.render(legend, this.container);
+    if (this.legendConfig?.table) {
+      ReactDOM.render(
+        <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
+        this.container,
+      );
+    } else if (this.legendConfig?.gradient) {
+      ReactDOM.render(
+        <GradientLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
+        this.container,
+      );
+    } else if (this.legendConfig?.table) {
+      ReactDOM.render(
+        <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
+        this.container,
+      );
+    }
   }
 }
 
