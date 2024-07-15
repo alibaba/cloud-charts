@@ -84,9 +84,9 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
         const { values } = cfg;
         return timePretty({
           ...cfg,
+          ...def,
           // 补充优化逻辑，针对当前画布尺寸适配标签个数
-          tickCount: values?.length || 7,
-          ...def
+          tickCount: def.tickCount || values?.length || 7,
         });
       }
     } else if (!def.tickMethod && def.type === 'timeCat') {
@@ -94,8 +94,8 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
         const { values } = cfg;
         return timeCat({
           ...cfg,
-          tickCount: values?.length || 7,
-          ...def
+          ...def,
+          tickCount: def.tickCount || values?.length || 7,
         });
       }
     }
