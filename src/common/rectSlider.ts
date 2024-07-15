@@ -1,10 +1,10 @@
 'use strict';
 
-import { Chart, Types, G2Dependents } from "./types";
+import { Chart, Types, G2Dependents } from './types';
 import themes from '../themes';
 import { FullCrossName } from '../constants';
 import { merge, sampleDataWithNoise, numberDecimal, getStatusColor, deepAssign } from './common';
-import {calcTextWidth} from './ellipsisLabel';
+import { calcTextWidth } from './ellipsisLabel';
 import './index.scss';
 
 interface Slider extends Types.SliderCfg {
@@ -25,7 +25,7 @@ export interface SliderConfig {
  * @param {Chart} chart 图表实例
  * @param {SliderConfig} config 配置项
  * */
-export default function(chart: Chart, config: SliderConfig) {
+export default function (chart: Chart, config: SliderConfig) {
   if (!config.slider) {
     return;
   }
@@ -59,8 +59,7 @@ export default function(chart: Chart, config: SliderConfig) {
       radius: 0,
       // stroke: themes['widgets-slider-handler-border-color'],
       fill: themes['widgets-color-background'],
-      style: {
-      }
+      style: {},
     },
     type: 'simple',
     sampleRate: 1,
@@ -70,11 +69,15 @@ export default function(chart: Chart, config: SliderConfig) {
     // },
   };
 
-  const { showText = false, labelFormatter = undefined, ...other } = typeof config.slider === 'object' ? deepAssign({}, defaultConfig, config.slider) : deepAssign({}, defaultConfig);
+  const {
+    showText = false,
+    labelFormatter = undefined,
+    ...other
+  } = typeof config.slider === 'object' ? deepAssign({}, defaultConfig, config.slider) : deepAssign({}, defaultConfig);
   const { sampleRate, type } = other;
 
   // 获取数据
-  const { data: viewData }  = chart?.getOptions() ?? {};
+  const { data: viewData } = chart?.getOptions() ?? {};
   let _sampleRate: number = sampleRate;
 
   if (showText) {
@@ -92,18 +95,20 @@ export default function(chart: Chart, config: SliderConfig) {
   // 获取标记数据喝状态
   let markData: any = [];
   let maxValue = -Infinity;
-  const filterDataArray = viewData.filter((el: any) => firstType === el.type)?.map((el: any, index: number) => {
-    maxValue = Math.max(maxValue, Number(el.y));
-    const filterData = el.extra?.filter((subExtra: any) => subExtra.status)
-    if (el.extra && filterData?.length) {
-      markData.push({
-        ...el,
-        markerOptions: filterData[0],
-        index
-      })
-    }
-    return numberDecimal(el.y) ?? []
-  });
+  const filterDataArray = viewData
+    .filter((el: any) => firstType === el.type)
+    ?.map((el: any, index: number) => {
+      maxValue = Math.max(maxValue, Number(el.y));
+      const filterData = el.extra?.filter((subExtra: any) => subExtra.status);
+      if (el.extra && filterData?.length) {
+        markData.push({
+          ...el,
+          markerOptions: filterData[0],
+          index,
+        });
+      }
+      return numberDecimal(el.y) ?? [];
+    });
 
   // 对数据进行采样，尽量保留噪声数据
   // 宽高有误差，实际需要减去间距
@@ -112,16 +117,16 @@ export default function(chart: Chart, config: SliderConfig) {
   const maxTextLength = calcTextWidth(maxValue?.toString());
   const adjustDistance = viewWidth > maxTextLength ? maxTextLength : 0;
   const adjustWidth = viewWidth - adjustDistance;
-  
+
   // 根据密度生成采样率
   const density = adjustWidth / dataCount;
 
   if (density > 1) {
-    _sampleRate = 1
+    _sampleRate = 1;
   } else {
     _sampleRate = density;
   }
-  
+
   // 通过数据判断是否有标记点
   if (markData?.length) {
     // console.log(viewData, markData);
@@ -137,6 +142,7 @@ export default function(chart: Chart, config: SliderConfig) {
             subMark?.markerOptions?.status,
           )};" title="查看标记点"></div>`,
           position: ['0%', '100%'],
+          // 可以写死是根据规范的间距设定的
           offsetY: 60,
           offsetX: relativeWidth,
         });
@@ -151,8 +157,8 @@ export default function(chart: Chart, config: SliderConfig) {
 
   const sliderConfig = merge(defaultConfig, other, {
     trendCfg: {
-      data: sampledData
-    }
+      data: sampledData,
+    },
   });
   // console.log("slider", sliderConfig, chart?.getOptions())
 
