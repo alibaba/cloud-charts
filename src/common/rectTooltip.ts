@@ -58,8 +58,8 @@ export interface TooltipConfig extends customFormatterConfig {
   lockable?: boolean;
   // 是否开启分组
   dodge?: boolean;
-  // 完全自定义tooltip
-  customTooltip?: (title: string, data: any[]) => ReactElement;
+  // 完全自定义tooltip，传true则使用内置的FreeTooltip
+  customTooltip?: boolean | ((title: string, data: any[]) => ReactElement);
 }
 
 /**

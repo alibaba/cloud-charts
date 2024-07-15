@@ -1,0 +1,48 @@
+@import '../../../themes/index.scss';
+
+$prefix: '.#{$base-prefix}-free-tooltip-';
+
+#{$prefix}container {
+  background: getVar(widgets-tooltip-background, $widgets-tooltip-background);
+  border-radius: getVar(widgets-tooltip-corner-radius, $widgets-tooltip-corner-radius);
+  box-shadow: getVar(widgets-tooltip-shadow, $widgets-tooltip-shadow);
+  padding: getVar(widgets-tooltip-padding, $widgets-tooltip-padding);
+  font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+  font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
+  color: getVar(widgets-tooltip-text, $widgets-tooltip-text);
+
+  #{$prefix}title {
+    color: getVar(widgets-tooltip-title, $widgets-tooltip-title);
+  }
+
+  #{$prefix}items-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #{$prefix}item {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #{$prefix}name-container {
+    display: flex;
+    align-items: center;
+  }
+
+  #{$prefix}marker {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+
+  #{$prefix}name {
+    max-width: 274px;
+    word-break: break-all;
+    margin-right: 8px;
+  }
+}

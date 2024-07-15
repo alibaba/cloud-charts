@@ -2,6 +2,8 @@ import RawTooltipController from '@antv/g2/esm/chart/controller/tooltip';
 import { Point } from '@antv/g2/esm/interface';
 import ReactDOM from 'react-dom';
 import { FullCrossName } from '../../constants';
+import FreeTooltip from '../component/FreeTooltip';
+import React from 'react';
 
 // @ts-ignore
 class WidgetsTooltipController extends RawTooltipController {
@@ -42,7 +44,8 @@ class WidgetsTooltipController extends RawTooltipController {
         // @ts-ignore
         title = this.getTitle(items);
       } catch (e) {}
-      const element = cfg.customTooltip(title, items);
+      const element =
+        cfg.customTooltip === true ? <FreeTooltip title={title} data={items} /> : cfg.customTooltip(title, items);
       ReactDOM.render(element, this.tooltipContainer);
 
       // 计算位置

@@ -207,7 +207,7 @@ stories.add('拓展区域', () => (
 
 const lineData = [
   {
-    name: '机房A',
+    name: '机房Adfadfsaf',
     data: [
       [1483372800000, 4092],
       [1483459200000, 1592],
@@ -275,6 +275,20 @@ stories.add('自定义tooltip', () => (
               </div>
             );
           },
+        },
+      }}
+      data={lineData}
+    />
+  </div>
+));
+
+stories.add('自定义tooltip（默认）', () => (
+  <div style={{ width: 500, height: 300, position: 'absolute', right: 10 }}>
+    <Wline
+      height="300"
+      config={{
+        tooltip: {
+          customTooltip: true,
         },
       }}
       data={lineData}
