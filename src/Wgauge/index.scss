@@ -59,16 +59,12 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
 .#{$wgauge-prefix}-container {
     display: flex;
     justify-content: center;
-    // align-items: end;
+    align-items: flex-end;
     height: 100%;
     width: 100%;
     position: relative;
     min-height: 100px;
     .#{$wgauge-prefix}-text {
-        // display: flex;
-        // flex-direction: column;
-        // align-items: center;
-        // transform: translateY(50%);
         position: absolute;
         color: $text-color;
         font-size: $font-size-big;
@@ -76,24 +72,26 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
         .#{$wgauge-prefix}-value-wrapper {
             display: flex;
             flex-direction: row;
+            justify-content: center;
             align-items: baseline;
-            .#{$wgauge-prefix}-num {
-                // line-height:$font-size-big ;
-            }
+            // .#{$wgauge-prefix}-num {
+            //     line-height:$font-size-big ;
+            // }
             .#{$wgauge-prefix}-unit {
                 font-size: $font-size-small;
                 font-weight: 500;
             }
         }
         .#{$wgauge-prefix}-label {
-            // margin-top: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             font-family: PingFang SC;
             font-size: 14px;
             font-weight: normal;
-            // line-height: 14px;
             text-align: center;
             letter-spacing: 0px;
-            color: #555555;
+            color: $text-color;
         }
     }
     .#{$wgauge-prefix}-scale {
@@ -106,15 +104,10 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
         font-size: $font-size-xs;
     }
     .#{$wgauge-prefix}-width-scale {
-        // transform: translate(-50%, calc(-50% - $font-size-big - $font-size-small));
-        // transform: translateY(50%);
         color: $text-color;
     }
     .#{$wgauge-prefix}-svg {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative;
         .#{$wgauge-prefix}-path{
             stroke: $default-color
         }

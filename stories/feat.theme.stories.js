@@ -124,6 +124,15 @@ const lineBarData = [
 const stories = storiesOf('theme', module);
 stories.addDecorator(withKnobs);
 
+const config1 = {
+  percentage: false,
+  // unit: '个',
+  gaugeScale: {
+    scaleNum: 9,
+    // scale: false,
+  },
+}
+
 function ThemeDemo() {
   const theme = select(
     '主题',

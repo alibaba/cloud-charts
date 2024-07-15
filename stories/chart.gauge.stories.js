@@ -41,16 +41,17 @@ const config2 = {
   colors: 'p6',
   outRing: false,
   // customStyles: {
-  //   gaugeTextStyle: {
+  //   valueStyle: {
   //     fill: 'lightblue',
   //     fontSize: '36px',
+  //     fontSize: '36px'
   //   }
   // },
 }
 
-stories.add('仪表盘基础用法', () => <div style={{height: 200,  display: 'flex', alignItems: 'center'}} ><Wgauge config={config} data={{ current: 80.1111, label: 'CPU利用率' }} /></div>);
+stories.add('仪表盘基础用法', () => <div style={{height: 200,  display: 'flex', alignItems: 'center'}} ><Wgauge config={config} data={{ current: 0, label: 'CPU利用率' }} /></div>);
 
-stories.add('仪表盘1', () => <div style={{height: 300, width: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
+stories.add('仪表盘1', () => <div style={{height: 200, width: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
 
 stories.add('仪表盘2', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: ''}} config={config2} /></div>);
 
@@ -58,4 +59,4 @@ stories.add('仪表盘3', () => <div style={{height: 120}} ><Wgauge data={{curre
 
 stories.add('仪表盘4', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
 
-stories.add('仪表盘5', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: 'test'}} config={config1}  /></div>);
+stories.add('仪表盘5', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: 'testsssssssssssssssssssssssssssssssssssssss'}} config={config1}  /></div>);

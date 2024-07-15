@@ -186,10 +186,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   ].join(' ');
 
   const renderNum = () => {
+    const { lineHeight, fontSize} = valueStyle;
     if (percentage) {
       return (
-        <div className={`${prefix}-value-wrapper`} style={{height: `${lineSize}px`}}>
-          <div className={`${prefix}-num`} style={{fontSize: lineSize}} >{numberDecimal((current / total) * 100)}</div>
+        <div className={`${prefix}-value-wrapper`} >
+          <div className={`${prefix}-num`} style={{fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px`}} >{numberDecimal((current / total) * 100)}</div>
           <div style={unitStyle} className={`${prefix}-unit`}>
             %
           </div>
@@ -197,8 +198,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       );
     } else {
       return (
-        <div className={`${prefix}-value-wrapper`} style={{height: `${lineSize}px`}}>
-          <div className={`${prefix}-num`} style={{fontSize: lineSize, lineHeight: `${lineSize}px`}} >{numberDecimal(current)}</div>
+        <div className={`${prefix}-value-wrapper`} >
+          <div className={`${prefix}-num`} style={{fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px`}} >{numberDecimal(current)}</div>
           <div style={unitStyle} className={`${prefix}-unit`}>
             {unit}
           </div>
@@ -266,6 +267,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     );
   });
 
+
+  const textOffset = viewBoxHeightWithDecorations - startY + viewBoxDecoratedY;
+
   const viewBox =
     angle.end - angle.start > 180
       ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize} ${viewBoxWidthWithDecorations} ${
@@ -277,12 +281,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   return (
     <div
       ref={containerRef}
-      style={{
-        alignItems: angle.end - angle.start > 180 ? 'center' : 'end',
-      }}
+      // style={{
+      //   alignItems: angle.end - angle.start > 180 ? 'center' : 'end',
+      // }}
       className={`${FullCrossName} ${prefix}-container`}
     >
-      <svg className={`${prefix}-svg`} width={viewBoxWidthWithDecorations} height={'100%'} viewBox={viewBox}>
+      <svg className={`${prefix}-svg`} width={viewBoxWidthWithDecorations} height={viewBoxHeightWithDecorations} viewBox={viewBox}>
         <defs>
           <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
             {Array.isArray(colors) &&
@@ -310,18 +314,17 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           flag && angle.end - angle.start <= 180  ? prefix + '-width-scale' : ''
         }`}
         style={{
-          ...valueStyle,
-          transform: angle.end - angle.start > 180 ? '' :  'translateY(20%)',
-          bottom: `${(gap)/2}px`
+          transform: angle.end - angle.start > 180 ? 'translateY(-50%)' :  `translateY(-${textOffset}px)`,
         }}
       >
         {renderNum()}
         <div
           className={`${prefix}-label`}
           style={{
+            maxWidth: `${radius}px`,
             ...textStyle,
-            marginTop: label && angle.end - angle.start > 180 ? 10 : 0,
           }}
+          title={label}
         >
           {label}
         </div>
