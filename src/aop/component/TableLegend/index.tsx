@@ -67,7 +67,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       // @ts-ignore
       chartDom.style.height = `${chartHeight}px`;
       try {
-        chart.changeSize(containerWidth, height);
+        chart.changeSize(chartWidth, chartHeight);
       } catch (e) {
         // 业务不透出错误，这里用于调试开放
         // console.log('changeSize error', e);
