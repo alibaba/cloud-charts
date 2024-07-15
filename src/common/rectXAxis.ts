@@ -201,6 +201,8 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
     // 重叠部分的最大尺寸
     let maxOverlopGap = 0;
     let hasOverlap = false;
+    // 数据中最长的字长(在画布中的宽度),考虑用户自定义
+    let maxTextLength = first.getBBox().width;
     // 中文减少偏移， 暂定一个偏移值
     if (containsChinese(first.attr('text'))) {
       minGap = -16;
@@ -214,6 +216,7 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
         minGap,
       );
       const text = children[i].attr('text') ?? '';
+      maxTextLength = Math.max(maxTextLength, children[i].getBBox().width)
       if (containsChinese(text)) {
         minGap = -16;
       }
@@ -223,7 +226,8 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
       }
     }
 
-    const adjustLimitLength = hasOverlap ? limitLength - maxOverlopGap - minGap : limitLength - minGap;
+    maxTextLength = Math.min(maxTextLength, limitLength);
+    const adjustLimitLength = hasOverlap ? maxTextLength - maxOverlopGap - minGap : maxTextLength - minGap;
 
     children.forEach((label: IElement) => {
       const text = label.attr('text') ?? '';
@@ -236,6 +240,7 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
         fontVariant,
       };
       let ellipsisText = ellipsisLabel(text, adjustLimitLength, font, '...', type, hasCustom);
+
       if (ellipsisText === '...') {
         const x = label.attr('x');
         const y = label.attr('y');
