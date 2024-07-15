@@ -35,7 +35,8 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
         padding: 0,
         guide: {
           visible: false
-        }
+        },
+        zoom: false,
       },
     };
   } else if (emptyType === EmptyDataProcess.Polar) {
@@ -62,6 +63,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           legend: false,
           tooltip: false,
           colors: themes['widgets-color-layout-background'],
+          zoom: false,
         },
       };
     } else if (dataType === DataStructure.Common) {
@@ -77,6 +79,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           tooltip: false,
           colors: themes['widgets-color-layout-background'],
           label: false,
+          zoom: false,
         },
       };
     } else if (dataType === DataStructure.Tree) {
@@ -94,6 +97,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           tooltip: false,
           colors: themes['widgets-color-layout-background'],
           label: false,
+          zoom: false,
         },
       };
     }
@@ -109,6 +113,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
             yAxis: false,
             tooltip: false,
             legend: false,
+            zoom: false,
           },
         };
       }
@@ -120,6 +125,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           yAxis: false,
           tooltip: false,
           legend: false,
+          zoom: false,
         },
       };
     } else if (dataType === DataStructure.Tree) {
@@ -135,6 +141,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           tooltip: false,
           legend: false,
           colors: themes['widgets-color-layout-background'],
+          zoom: false,
         },
       };
     } else if (dataType === DataStructure.Graph) {
@@ -149,6 +156,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
           yAxis: false,
           tooltip: false,
           legend: false,
+          zoom: false,
         },
       };
     }
