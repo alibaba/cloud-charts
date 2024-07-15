@@ -273,6 +273,7 @@ export function runAfterDataChangedRule(chartObj: any, config: any, data: any) {
   if (isEmptyData(dataSize)) {
     needRerender = !chartObj.isEmpty;
     chartObj.isEmpty = true;
+    return needRerender;
   } else {
     needRerender = chartObj.isEmpty;
     chartObj.isEmpty = false;
