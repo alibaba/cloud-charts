@@ -59,12 +59,20 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   useEffect(() => {
     const chartHeight = position === 'right' ? containerHeight : containerHeight - height;
     const chartWidth = position === 'right' ? containerWidth - width : containerWidth;
-    const chartDom = widgetsCtx?.chartDom;
-    // @ts-ignore
-    chartDom.style.width = `${chartWidth}px`;
-    // @ts-ignore
-    chartDom.style.height = `${chartHeight}px`;
-    chart.changeSize(chartWidth, chartHeight);
+    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
+
+    if (chartDom) {
+      // @ts-ignore
+      chartDom.style.width = `${chartWidth}px`;
+      // @ts-ignore
+      chartDom.style.height = `${chartHeight}px`;
+      try {
+        chart.changeSize(containerWidth, height);
+      } catch (e) {
+        // 业务不透出错误，这里用于调试开放
+        // console.log('changeSize error', e);
+      }
+    }
   }, [containerHeight, containerWidth, position, height, width, config]);
 
   useEffect(() => {

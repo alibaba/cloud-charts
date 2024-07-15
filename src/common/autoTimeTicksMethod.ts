@@ -1,7 +1,7 @@
 // 复写G2时间轴标签计算方法
 import { ScaleConfig } from '@antv/scale/esm/types';
 import { filter, isNil, isNumber, last } from '@antv/util';
-import { DAY, getTickInterval, HOUR, MINUTE, MONTH, SECOND, YEAR } from '@antv/scale/esm/util/time';
+import { DAY, HOUR, MINUTE, MONTH, SECOND, YEAR } from '@antv/scale/esm/util/time';
 import _ from 'lodash';
 
 function getYear(date: number) {

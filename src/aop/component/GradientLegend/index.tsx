@@ -53,10 +53,17 @@ export default function GradientLegend({ config, chart, legendItems = [] }: Grad
   // 修改图表宽高
   useEffect(() => {
     const height = containerHeight - 50;
-    const chartDom = widgetsCtx?.chartDom;
+    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
     // @ts-ignore
-    chartDom.style.height = `${height}px`;
-    chart.changeSize(containerWidth, height);
+    if (chartDom) {
+      chartDom.style.height = `${height}px`;
+      try {
+        chart.changeSize(containerWidth, height);
+      } catch (e) {
+        // 业务不透出错误，这里用于调试开放
+        // console.log('changeSize error', e);
+      }
+    }
   }, [containerHeight, containerWidth]);
 
   // hover高亮legend

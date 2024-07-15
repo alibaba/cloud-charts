@@ -153,19 +153,25 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
   // 展开所有items
   const handleUnfold = () => {
     // 图表高度缩小
-    const chartDom = widgetsCtx?.chartDom;
+    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
     const height = containerHeight - Math.min(contentRef?.current?.scrollHeight, containerHeight * 0.3);
     // @ts-ignore
-    chartDom.style.height = `${height}px`;
-    chart.changeSize(containerWidth, height);
-
+    if (chartDom) {
+      chartDom.style.height = `${height}px`;
+      try {
+        chart.changeSize(containerWidth, height);
+      } catch (e) {
+        // 业务不透出错误，这里用于调试开放
+        // console.log('changeSize error', e);
+      }
+    }
     setFolded(false);
   };
 
   // 折叠当前items
   const handleFold = () => {
     // 图表高度恢复
-    const chartDom = widgetsCtx?.chartDom;
+    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
     if (chartDom) {
       const height = containerHeight - 20;
       // @ts-ignore
