@@ -6,6 +6,19 @@ import TableLegend from './TableLegend';
 import FoldableLegend from './FoldableLegend';
 import GradientLegend from './GradientLegend';
 
+// 优先级：table > gradient > foldable
+function switchLegendComponent(config: any, items: any, chart: Chart) {
+  if (config?.table) {
+    return <TableLegend config={config} legendItems={items} chart={chart} />;
+  } else if (config?.gradient) {
+    return <GradientLegend config={config} legendItems={items} chart={chart} />;
+  } else if (config?.foldable) {
+    return <FoldableLegend config={config} legendItems={items} chart={chart} />;
+  }
+
+  return <TableLegend config={config} legendItems={items} chart={chart} />;
+}
+
 // @ts-ignore
 class ReactLegend extends CategoryLegend {
   private container: HTMLElement;
@@ -31,23 +44,8 @@ class ReactLegend extends CategoryLegend {
     // const startX = currentPoint.x;
     // const startY = currentPoint.y;
 
-    // 优先级：table > gradient > foldable
-    if (this.legendConfig?.table) {
-      ReactDOM.render(
-        <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
-        this.container,
-      );
-    } else if (this.legendConfig?.gradient) {
-      ReactDOM.render(
-        <GradientLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
-        this.container,
-      );
-    } else if (this.legendConfig?.table) {
-      ReactDOM.render(
-        <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />,
-        this.container,
-      );
-    }
+    const LegendRender = switchLegendComponent(this.legendConfig, items, this.chart);
+    ReactDOM.render(LegendRender, this.container);
   }
 }
 
