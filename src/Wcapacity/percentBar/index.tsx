@@ -55,7 +55,7 @@ function PercentBar(props: IProps) {
         if (!ref.current) return;
         const waterWidth = ref?.current?.clientWidth ?? 0;
         setWidth(waterWidth);
-        if (!config.closeUniAnimation) {
+        if (!config.closeUniAnimation || (!themes['widgets-global-uni-animation'] && themes['widgets-global-uni-animation'] !== 'true')) {
           unityAnimation(waterWidth);
         }
       }, 0);
