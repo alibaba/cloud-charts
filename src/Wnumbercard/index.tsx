@@ -185,7 +185,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     <Wline
       data={chart?.data || []}
       width={chart?.width || null}
-      height={chart?.height || 44}
+      height={chart?.height || null}
       config={{
         xAxis: {
           visible: false,

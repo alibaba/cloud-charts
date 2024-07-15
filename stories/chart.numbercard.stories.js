@@ -199,6 +199,7 @@ stories.add('以线图为背景的卡片', () => (
     backgroundType="none"
     itemStyle={{
       width: 250,
+      height: 68,
     }}
     chart={{
       type: 'Wline',
