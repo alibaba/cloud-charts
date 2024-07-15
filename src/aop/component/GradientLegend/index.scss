@@ -1,0 +1,21 @@
+@import '../../../themes/index.scss';
+
+$prefix: '.#{$base-prefix}-gradient-legend-';
+
+#{$prefix}container {
+  margin-top: 16px;
+  height: 34px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: getVar(widgets-legend-text, $widgets-legend-text);
+  font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
+  font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
+
+  #{$prefix}items {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    margin: 0 8px;
+  }
+}

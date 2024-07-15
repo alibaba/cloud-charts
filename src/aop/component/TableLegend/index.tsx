@@ -40,7 +40,10 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
 
   // 目前暂时对多重圆环进行特殊处理，待规则统一梳理后，整理数据类型
   const dataType = widgetsCtx.chartName === 'G2MultiPie' ? 'treeNode' : 'common';
-  const statisticsRes = useMemo(() => getStatistics(chart, statistics, legendField, dataType), [chart, statistics, config]);
+  const statisticsRes = useMemo(
+    () => getStatistics(chart, statistics, legendField, dataType),
+    [chart, statistics, config],
+  );
 
   // 计算legend宽高
   const height = useMemo(() => {
@@ -51,6 +54,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   }, [containerHeight, position, legendItems, statistics]);
 
   const width = useMemo(() => containerWidth * (position === 'right' ? 0.5 : 1), [containerWidth, position]);
+
+  console.log('container height', containerHeight);
 
   // 修改图表宽高
   useEffect(() => {
@@ -64,34 +69,34 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     chart.changeSize(chartWidth, chartHeight);
   }, [containerHeight, containerWidth, position, height, width, config]);
 
-  useEffect(() => {
-    setFilteredItems([]);
-  }, [config]);
+  // useEffect(() => {
+  //   setFilteredItems([]);
+  // }, [config]);
 
-  useEffect(() => {
-    filterLegend(
-      chart,
-      (value: any) => {
-        return !filteredItems.includes(value);
-      },
-      legendField,
-    );
-  }, [filteredItems]);
+  // useEffect(() => {
+  //   filterLegend(
+  //     chart,
+  //     (value: any) => {
+  //       return !filteredItems.includes(value);
+  //     },
+  //     legendField,
+  //   );
+  // }, [filteredItems]);
 
-  const activeItem = (itemName: string) => {
-    highlightLegend(chart, (value: any) => value === itemName, legendField);
-  };
+  // const activeItem = (itemName: string) => {
+  //   highlightLegend(chart, (value: any) => value === itemName, legendField);
+  // };
 
-  const clearActive = () => {
-    clearHighlight(chart);
-  };
+  // const clearActive = () => {
+  //   clearHighlight(chart);
+  // };
 
-  useEffect(() => {
-    clearActive();
-    if (activedItem) {
-      activeItem(activedItem);
-    }
-  }, [activedItem]);
+  // useEffect(() => {
+  //   clearActive();
+  //   if (activedItem) {
+  //     activeItem(activedItem);
+  //   }
+  // }, [activedItem]);
 
   return (
     <table

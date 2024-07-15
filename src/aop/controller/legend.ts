@@ -80,8 +80,8 @@ class WidgetsLegendController extends RawLegendController {
     //   return new CategoryLegend(cfg);
     // }
 
-    // 列表型legend及折叠型legend
-    if (legendOption?.table || legendOption?.foldable) {
+    // 使用自定义的legend：列表型legend、折叠型legend或阶梯状legend
+    if (legendOption?.table || legendOption?.foldable || legendOption?.gradient) {
       if (!this.widgetsContainer) {
         this.widgetsContainer = document.createElement('div');
         this.widgetsContainer.className = `${FullCrossName} widgets-legend`;

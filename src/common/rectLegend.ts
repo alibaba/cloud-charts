@@ -131,6 +131,20 @@ export interface LegendConfig extends customFormatterConfig {
   foldable?: boolean;
   // 图例是否开启分组
   dodge?: boolean;
+  /**
+   * 是否使用阶梯型图例，目前主要用于热力图
+   * 会根据传的colors数组自动计算每个数据区段对应的颜色
+   * true表示全用默认值
+   */
+  gradient?:
+    | boolean
+    | {
+        /** 数据范围，默认[0,100] */
+        valueRange?: [number, number];
+
+        /** 类型与对应的颜色，默认[{green,绿}，{yellow,黄}，{orange,橙}，{red,红}] */
+        colors: Array<{ type: string; color: string }>;
+      };
 }
 
 function getPosition(position?: string, align?: string): Position {
@@ -230,6 +244,7 @@ export default function <T>(
       useReverseChecked = true,
       table,
       foldable = false,
+      gradient,
     } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -279,6 +294,7 @@ export default function <T>(
       table,
       foldable,
       valueFormatter,
+      gradient,
     };
 
     // legend hover 相关事件

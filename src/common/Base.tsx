@@ -169,16 +169,16 @@ export interface ChartProps<ChartConfig> {
   chartRef?: React.MutableRefObject<any>;
   chartLifecycle?: {
     // 初始化时执行的操作
-    init: () => {},
+    init: () => {};
     // 开始获取数据时执行的操作
-    fetchStart: () => {},
+    fetchStart: () => {};
     // 获取数据结束时执行的操作
-    fetchEnd: () => {},
+    fetchEnd: () => {};
     // 开始渲染时执行的操作
-    renderStart: () => {},
+    renderStart: () => {};
     // 渲染结束时执行的操作
-    renderEnd: ()=> {},
-  }
+    renderEnd: () => {};
+  };
 }
 
 /**
@@ -277,7 +277,7 @@ class Base<
   componentDidMount() {
     // 图表初始化时记录日志
     chartLog(this.chartName, 'init');
-    this.props.chartLifecycle?.init?.()
+    this.props.chartLifecycle?.init?.();
 
     this.language = this.props.language || this.context.language;
 
@@ -892,7 +892,8 @@ class Base<
           height: height ? `${height}px` : undefined,
           display: 'flex',
           // 部分图表的legend默认开启table布局
-          flexDirection: (config?.legend?.table || this.defaultConfig?.legend?.table) && position === 'right' ? 'row' : 'column',
+          flexDirection:
+            (config?.legend?.table || this.defaultConfig?.legend?.table) && position === 'right' ? 'row' : 'column',
         }}
       >
         <div

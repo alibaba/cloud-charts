@@ -4,6 +4,7 @@ import React from 'react';
 import { Chart } from '@antv/g2';
 import TableLegend from './TableLegend';
 import FoldableLegend from './FoldableLegend';
+import GradientLegend from './GradientLegend';
 
 // @ts-ignore
 class ReactLegend extends CategoryLegend {
@@ -30,8 +31,11 @@ class ReactLegend extends CategoryLegend {
     // const startX = currentPoint.x;
     // const startY = currentPoint.y;
 
+    // 优先级：table > gradient > foldable
     const legend = this.legendConfig?.table ? (
       <TableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
+    ) : this.legendConfig?.gradient ? (
+      <GradientLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
     ) : (
       <FoldableLegend config={this.legendConfig} legendItems={items} chart={this.chart} />
     );

@@ -917,3 +917,88 @@ stories.add('legend折叠(线柱图）', () => {
     </div>
   );
 });
+
+const testData = [
+  {
+    x: 'ECS 1',
+    y: 'time',
+    type: 'green',
+  },
+  {
+    x: 'ECS 2',
+    y: 'time',
+    type: 'red',
+  },
+  {
+    x: 'ECS 3',
+    y: 'time',
+    type: 'yellow',
+  },
+  {
+    x: 'ECS 4',
+    y: 'time',
+    type: 'orange',
+  },
+];
+
+stories.add('阶梯状legend(热力图）', () => {
+  return (
+    <div style={{ height: 300, width: 600 }}>
+      <Wheatmap
+        // height="300"
+        data={testData}
+        config={{
+          xAxis: false,
+          yAxis: false,
+          dataType: 'g2',
+          colors: (type) => {
+            return themes[`widgets-color-${type}`];
+          },
+          legend: {
+            gradient: {
+              valueRange: [100, 0],
+              // colors: [
+              //   {
+              //     type: 'green',
+              //     color: '#ffff00',
+              //   },
+              //   {
+              //     type: 'red',
+              //     color: '#ff0000',
+              //   },
+              // ],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('阶梯状legend(线图无意义，纯测试）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wline
+        height="300"
+        data={data}
+        config={{
+          // colors: (type) => {
+          //   if (type === 'normal') {
+          //     return '#00ff00';
+          //   } else if (type === 'p0') {
+          //     return '#ff0000';
+          //   } else if (type === 'p1') {
+          //     return '#0000ff';
+          //   } else {
+          //     return '#cccccc';
+          //   }
+          // },
+          legend: {
+            // table: true,
+            gradient: true,
+          },
+        }}
+      />
+    </div>
+  );
+});
