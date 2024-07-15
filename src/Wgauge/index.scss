@@ -65,10 +65,11 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
     position: relative;
     min-height: 100px;
     .#{$wgauge-prefix}-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transform: translateY(50%);
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        // transform: translateY(50%);
+        position: absolute;
         color: $text-color;
         font-size: $font-size-big;
         font-weight: 500;
@@ -85,7 +86,7 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
             }
         }
         .#{$wgauge-prefix}-label {
-            margin-top: 10px;
+            // margin-top: 10px;
             font-family: PingFang SC;
             font-size: 14px;
             font-weight: normal;
@@ -105,7 +106,8 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
         font-size: $font-size-xs;
     }
     .#{$wgauge-prefix}-width-scale {
-        transform: translate(-50%, calc(-50% - $font-size-big - $font-size-small));
+        // transform: translate(-50%, calc(-50% - $font-size-big - $font-size-small));
+        // transform: translateY(50%);
         color: $text-color;
     }
     .#{$wgauge-prefix}-svg {

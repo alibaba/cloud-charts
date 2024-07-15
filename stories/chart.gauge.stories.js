@@ -50,6 +50,12 @@ const config2 = {
 
 stories.add('仪表盘基础用法', () => <div style={{height: 200,  display: 'flex', alignItems: 'center'}} ><Wgauge config={config} data={{ current: 80.1111, label: 'CPU利用率' }} /></div>);
 
-stories.add('仪表盘1', () => <div style={{height: 200 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
+stories.add('仪表盘1', () => <div style={{height: 300, width: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
 
-stories.add('仪表盘2', () => <div style={{height: 200}} ><Wgauge data={{current: 90}} config={config2} /></div>);
+stories.add('仪表盘2', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: ''}} config={config2} /></div>);
+
+stories.add('仪表盘3', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: 'test11'}} config={config2} /></div>);
+
+stories.add('仪表盘4', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
+
+stories.add('仪表盘5', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: 'test'}} config={config1}  /></div>);

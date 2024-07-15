@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Status } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import { numberDecimal } from '../common/common';
+import { GlobalResizeObserver } from '../common/globalResizeObserver'
 import './index.scss';
 
 const prefix = `${PrefixName}-wgauge`;
@@ -99,41 +100,52 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const containerRef = useRef(null); // 用于引用父容器的ref
   const [radius, setRadius] = useState(100); // 默认半径为100，实际会基于父元素高度来调整
   const [lineSize, setLineSize] = useState(100 * 0.8 * 0.24)
-  // const lineSize = (radius + strokeWidth + decorationGap + decorationStrokeWidth) * 0.8 * 0.3
-  const elementRef = useRef(null);
+  const [gap, setGap] = useState(0);
+  const textRef = useRef(null);
   const [flag, setFlag] = useState(false);
-  const [gauleOffset, setGauleOffset] = useState(0);
   const strokeColor = Array.isArray(colors)
     ? `var(--${prefix}-${getColorForCurrent(current, total, colors)}-color)`
     : `var(--${prefix}-${colors}-color)`;
 
   useEffect(() => {
-    if (elementRef.current) {
-      const numOffset =
-        parseFloat(window.getComputedStyle(elementRef.current.lastElementChild).width) + decorationStrokeWidth;
-      setGauleOffset(numOffset);
-    }
-  }, []);
-
-  useEffect(() => {
     // 确定父元素的高度，并据此更新半径
-    if (containerRef.current) {
-      const height = containerRef.current.clientHeight || 200;
-      const width = containerRef.current.clientWidth.width;
-      // 当用宽度的一半做半径时设置flag用于调整文字样式
-      if (width < height * 2) {
-        setFlag(true);
-      }
-      const realradius = width < height * 2 ? width / 2 : height;
-      const scaleHeight = gaugeScale
-        ? width < height * 2
-          ? decorationStrokeWidth * 2
-          : gauleOffset + decorationStrokeWidth * 2
-        : 0;
-      // 圆的半径需要考虑strokeWidth的影响，以便圆完全显示在父元素内
-      setRadius(realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight);
-      setLineSize(realradius * 0.8 * 0.24)
+    let timer: any;
+    const handleResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (!containerRef.current) return;
+        const height = containerRef.current.clientHeight || 200;
+        const width = containerRef.current.clientWidth;
+        // 当用宽度的一半做半径时设置flag用于调整文字样式
+        if (width < height * 2) {
+          setFlag(true);
+        } else {
+          setFlag(false);
+        }
+        const realradius = width < height * 2 ? width / 2 : height;
+        const scaleHeight = gaugeScale && width < height * 2  ? decorationStrokeWidth * 2 : 0;
+        // 圆的半径需要考虑strokeWidth的影响，以便圆完全显示在父元素内
+        setGap(height - (realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight));
+        setRadius(realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight);
+        setLineSize(realradius * 0.8 * 0.24);
+      }, 0);
+    };
+
+    handleResize();
+
+    const parent = containerRef.current && containerRef.current.parentElement;
+    if (parent) {
+      GlobalResizeObserver.observe(parent, handleResize);
     }
+
+    return () => {
+      clearTimeout(timer);
+
+      const parent = containerRef.current && containerRef.current.parentElement;
+      if (parent) {
+        GlobalResizeObserver.unobserve(parent);
+      }
+    };
   }, [containerRef]);
 
   // 计算弧度的起始角和结束角
@@ -174,7 +186,6 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   ].join(' ');
 
   const renderNum = () => {
-    // const lineSize = (radius + strokeWidth + decorationGap + decorationStrokeWidth) * 0.8 * 0.235
     if (percentage) {
       return (
         <div className={`${prefix}-value-wrapper`} style={{height: `${lineSize}px`}}>
@@ -264,15 +275,14 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         } ${viewBoxHeightWithDecorations - scaleLineLength * 2}`;
 
   return (
-    <div ref={containerRef} style={{
-      alignItems: angle.end - angle.start > 180 ? 'center' : 'end'
-    }} className={`${FullCrossName} ${prefix}-container`}>
-      <svg
-        className={`${prefix}-svg`}
-        width={viewBoxWidthWithDecorations}
-        height={'100%'}
-        viewBox={viewBox}
-      >
+    <div
+      ref={containerRef}
+      style={{
+        alignItems: angle.end - angle.start > 180 ? 'center' : 'end',
+      }}
+      className={`${FullCrossName} ${prefix}-container`}
+    >
+      <svg className={`${prefix}-svg`} width={viewBoxWidthWithDecorations} height={'100%'} viewBox={viewBox}>
         <defs>
           <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
             {Array.isArray(colors) &&
@@ -295,16 +305,26 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         {gaugeScale && tickMarks}
       </svg>
       <div
+        ref={textRef}
         className={`${prefix}-text ${gaugeScale || flag ? prefix + '-scale' : ''} ${
-          flag ? prefix + '-width-scale' : ''
+          flag && angle.end - angle.start <= 180  ? prefix + '-width-scale' : ''
         }`}
         style={{
           ...valueStyle,
-          transform: angle.end - angle.start > 180 ? 'translateY(50%)' : 'translateY(-10%)'
+          transform: angle.end - angle.start > 180 ? '' :  'translateY(20%)',
+          bottom: `${(gap)/2}px`
         }}
       >
         {renderNum()}
-        <div className={`${prefix}-label`} style={textStyle}>{label}</div>
+        <div
+          className={`${prefix}-label`}
+          style={{
+            ...textStyle,
+            marginTop: label && angle.end - angle.start > 180 ? 10 : 0,
+          }}
+        >
+          {label}
+        </div>
       </div>
     </div>
   );
