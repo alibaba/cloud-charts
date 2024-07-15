@@ -1,0 +1,4 @@
+div {
+    // 由于默认值为content-box，这里增加全局样式用于解决实际业务组件容器的盒子模型都是border-box的问题
+    box-sizing: border-box;
+}
