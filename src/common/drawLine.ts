@@ -61,7 +61,7 @@ export default function drawLine(
 
     // TODO优化赋值, 考虑status MAP
     areaColors = areaColors.map((subColor: string) => {
-      subColor = `l(90) 0:${subColor}cc 0.9:${subColor}10 1:${subColor}10`;
+      subColor = `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
       return subColor;
     });
   }
