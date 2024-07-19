@@ -1,10 +1,10 @@
 'use strict';
 
+import { IElement, IGroup } from '@antv/g-base';
 import { Chart, Types, G2Dependents } from './types';
-import themes from '../themes';
 import { merge, customFormatter, customFormatterConfig, pxToNumber, containsChinese } from './common';
 import ellipsisLabel, { isOverlap, getMatrixByAngle } from './ellipsisLabel';
-import { IElement, IGroup } from '@antv/g-base';
+import themes from '../themes';
 
 declare type avoidCallback = (isVertical: boolean, labelGroup: IGroup, limitLength?: number) => boolean;
 export interface XAxisConfig extends customFormatterConfig {
@@ -191,7 +191,7 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
   // 是否自定义了省略方式
   const hasCustom = typeof autoEllipsis === 'string';
   const type = autoEllipsis === true ? 'middle' : autoEllipsis;
-  let minGap = 10;
+  let minGap = 20;
 
   return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
     const children = labelGroup.getChildren();
@@ -202,7 +202,9 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
     let maxOverlopGap = 0;
     let hasOverlap = false;
     // 数据中最长的字长(在画布中的宽度),考虑用户自定义
-    let maxTextLength = first.getBBox().width;
+    // 理论上只有一个刻度的时候最大宽度为图表尺寸，现在默认为100，后面再调整
+    let maxTextLength = children.length > 1 ? first.getBBox().width : limitLength;
+
     // 中文减少偏移， 暂定一个偏移值
     if (containsChinese(first.attr('text'))) {
       minGap = -16;
@@ -227,7 +229,10 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
     }
 
     maxTextLength = Math.min(maxTextLength, limitLength);
-    const adjustLimitLength = hasOverlap ? maxTextLength - maxOverlopGap - minGap : maxTextLength - minGap;
+    const tickDistance = children.length > 1 ? children[1].getBBox().x - first.getBBox().x : maxTextLength;
+    // 重叠时最大允许宽度为最大字长 - 最大重叠距离 - 刻度值间最小间距
+    // 不重叠时取刻度间距 - 最小间距
+    const adjustLimitLength = hasOverlap ? maxTextLength - maxOverlopGap - minGap : tickDistance - minGap;
 
     children.forEach((label: IElement) => {
       const text = label.attr('text') ?? '';
