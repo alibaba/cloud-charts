@@ -87,7 +87,7 @@ export default function <T>(
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis: ellipsisLabels(autoEllipsis, config.xAxis.type),
+              autoEllipsis: ellipsisLabels(autoEllipsis, config.xAxis.type, config),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
                 const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
@@ -183,8 +183,8 @@ export default function <T>(
 // }
 
 /** 自动省略函数，支持head/middle/tail */
-function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string) {
-  if (!autoEllipsis || xAxisType.includes('time')) {
+function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string, config?: any) {
+  if (!autoEllipsis || xAxisType.includes('time') || config?.column === false) {
     return false;
   }
 
