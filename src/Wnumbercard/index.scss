@@ -68,7 +68,6 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
   font-family: $font-family;
   position: relative;
   min-width: 92px;
-  min-height: 68px;
 
   &#{$wnumbercard-prefix}-none-card {
     background: transparent;
