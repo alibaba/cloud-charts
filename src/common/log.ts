@@ -58,7 +58,11 @@ export default function chartLog(name: string, logType: string, logInfo?: any) {
     });
   } else if (logType === 'configInfo') {
     logMap[name][logType].push(logInfo);
-  } else if (logType === 'renderTime' && logMap[name]['renderTimeArray'].filter((el: any) => el.chartId === logInfo.chartId)?.length === 0) {
+  } else if (
+    logType === 'renderTime' &&
+    logMap[name]['renderTimeArray'].filter((el: any) => el.chartId === logInfo.chartId)?.length ===
+      0
+  ) {
     // 需要增加不重复的逻辑，只统计初次渲染的时间
     logMap[name]['renderTimeArray'].push(logInfo);
   }
@@ -123,7 +127,9 @@ setTimeout(() => {
     // 统计 版本、主题、当前域名、图表初始化次数
     image.src = `${logUrl}?version=${VERSION}&theme=${currentTheme || THEME}&t=${Date.now()}&host=${
       location && location.host
-    }&chartinit=${chartInit}&uamobile=${isMobile}&totalChart=${chartRulesResult.chartInfo.chartRealSum || 0}`;
+    }&chartinit=${chartInit}&uamobile=${isMobile}&totalChart=${(
+      chartRulesResult.chartInfo.chartRealSum || 0
+    ).toString()}`;
   }
 }, 6000);
 
