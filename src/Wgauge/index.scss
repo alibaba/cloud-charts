@@ -103,6 +103,11 @@ $default-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
         font-weight: 510;
         font-size: $font-size-xs;
     }
+    // .#{$wgauge-prefix}-scale-num-big {
+    //     fill: $num-color;
+    //     font-weight: 510;
+    //     font-size: $font-size-medium;
+    // }
     .#{$wgauge-prefix}-width-scale {
         color: $text-color;
     }

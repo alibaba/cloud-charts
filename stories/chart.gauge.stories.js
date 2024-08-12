@@ -18,12 +18,12 @@ const config = {
     scaleNum: 9,
     scale: true,
   },
-  customStyles: {
-    gaugeTextStyle: {
-      scale: false,
-      fontSize: '24px',
-    },
-  },
+  // customStyles: {
+  //   gaugeTextStyle: {
+  //     scale: false,
+  //     fontSize: '24px',
+  //   },
+  // },
   // colors: [[60, 'error'],[80, 'warning'], [100, 'success']]
 }
 
@@ -49,11 +49,39 @@ const config2 = {
   // },
 }
 
-stories.add('仪表盘基础用法', () => <div style={{height: 200,  display: 'flex', alignItems: 'center'}} ><Wgauge config={config} data={{ current: 0, label: 'CPU利用率' }} /></div>);
+const newConfig = {
+  outRing: true,
+  percentage: false,
+  // x轴负向为-180，x轴正向为0，角度沿顺时针增大，起始结束角度需保持对称
+  angle: {
+    start: -180,
+    end: 0,
+  },
+  gaugeScale: {
+    scaleNum: 9,
+    scale: true,
+  },
+  colors: [
+    [60, 'error'],
+    [80, 'warning'],
+    [100, 'success'],
+  ],
+  strokeWidth: 15,
+  // customStyles: {
+  //   scaleLineLength: 6,
+  //   gaugeTextStyle: {
+  //     fontWeight: '400',
+  //     fontSize: '12px',
+  //   },
+  // },
+  // decorationGap: 8,
+};
+
+stories.add('仪表盘基础用法', () => <div ><Wgauge config={newConfig} data={{ current: 90 }} /></div>);
 
 stories.add('仪表盘1', () => <div style={{height: 200, width: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
 
-stories.add('仪表盘2', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: ''}} config={config2} /></div>);
+stories.add('仪表盘2', () => <div style={{height: 200}} ><Wgauge data={{current: 90, label: ''}} config={newConfig} /></div>);
 
 stories.add('仪表盘3', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: 'test11'}} config={config2} /></div>);
 
