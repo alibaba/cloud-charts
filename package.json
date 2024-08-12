@@ -49,7 +49,7 @@
     "@antv/g2": "^4.2.9",
     "@antv/scale": "0.3.18",
     "@antv/util": "2.0.17",
-    "@antv/matrix-util": "^3.0.4",
+    "@antv/matrix-util": "3.1.0-beta.3",
     "classnames": "^2.2.5",
     "d3-hierarchy": "^1.1.9",
     "lodash": "^4.17.0",
