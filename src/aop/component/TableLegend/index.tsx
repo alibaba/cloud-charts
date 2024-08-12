@@ -43,6 +43,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     [chart, statistics, config],
   );
 
+  // 表格列数
+  const columns = (statistics?.length || 0) + (config?.table?.custom?.length || 0);
+
   useEffect(() => {
     setFilteredItems([]);
   }, [config]);
@@ -79,12 +82,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
         marginLeft: position === 'right' ? 10 : 0,
       }}
     >
-      {statistics?.length > 0 && (
+      {columns > 0 && (
         <thead className={`${prefix}-thead`}>
           <tr
             className={`${prefix}-tr ${prefix}-legend-title`}
             style={{
-              gridTemplateColumns: `8px minmax(80px, 100%) repeat(${statistics?.length}, 100px)`,
+              gridTemplateColumns: `8px minmax(80px, 100%) repeat(${columns}, 100px)`,
             }}
           >
             <th />
@@ -92,13 +95,16 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
             {statistics?.map((statistic: string) => {
               return <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>;
             })}
+            {(config?.table?.custom || []).map((customItem: any, index: number) => {
+              return <th key={`custom${index}`}>{customItem?.title ?? ''}</th>;
+            })}
           </tr>
         </thead>
       )}
       <tbody
         className={`${prefix}-tbody`}
         style={{
-          height: `calc(100% - ${statistics?.length > 0 ? 20 : 0}px)`,
+          height: `calc(100% - ${columns > 0 ? 20 : 0}px)`,
         }}
       >
         {legendItems.map((legendItem: ListItem) => {
@@ -110,9 +116,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               className={`${prefix}-tr ${prefix}-legend-item`}
               style={{
                 gridTemplateColumns:
-                  statistics?.length > 0
-                    ? `8px minmax(80px, 100%) repeat(${statistics?.length}, 100px)`
-                    : '8px minmax(80px, 100%)',
+                  columns > 0 ? `8px minmax(80px, 100%) repeat(${columns}, 100px)` : '8px minmax(80px, 100%)',
                 color: !filteredItems.includes(id)
                   ? activedItem === id
                     ? themes['widgets-legend-text-highlight']
@@ -173,6 +177,20 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 }
                 return (
                   <td className={`${prefix}-statistics`} key={statistic}>
+                    {value}
+                  </td>
+                );
+              })}
+              {(config?.table?.custom || []).map((customItem: any, index: number) => {
+                const value =
+                  typeof customItem?.value === 'function'
+                    ? customItem.value({
+                        ...legendItem,
+                        ...statisticsRes[id],
+                      })
+                    : customItem?.value ?? '';
+                return (
+                  <td className={`${prefix}-statistics`} key={`custom${index}`}>
                     {value}
                   </td>
                 );

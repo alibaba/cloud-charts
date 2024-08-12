@@ -123,8 +123,14 @@ export interface LegendConfig extends customFormatterConfig {
         /** 显示几位小数，默认3位，当有valueFormmater时失效 */
         decimal?: number;
 
-        /** 自定义表格列 */
-        // custom?: TableLegendColumnProps[];
+        /** 自定义表格列，会拼在内置的统计值后面，decimal不生效 */
+        custom?: Array<{
+          /** 列名 */
+          title: string;
+
+          /** 数值，可以直接展示数字或字符串，也可以函数回调 */
+          value: number | string | ((legendItem: any) => number | string);
+        }>;
       };
 
   /** legend数量多时是否折叠，默认false，优先级高于分页 */
