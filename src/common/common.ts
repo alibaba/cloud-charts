@@ -243,6 +243,14 @@ export function getStatusColorName(status: string) {
   return statusColorMap[status] || status || statusColorMap.normal;
 }
 
+// 统一面积填充的渐变色逻辑
+export function getAreaColors(areaColors: string[]) {
+  return areaColors?.map((subColor: string) => {
+    subColor = `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
+    return subColor;
+  });
+}
+
 /**
  * 判断是否是无效数字
  *

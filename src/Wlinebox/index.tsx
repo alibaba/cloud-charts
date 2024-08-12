@@ -5,7 +5,7 @@ import Base, { ChartProps } from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
 import { getShapeFactory } from '@antv/g2/esm/core';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import { propertyAssign, getDataIndexColor, propertyMap, getAreaColors } from '../common/common';
 import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
 import { GuideConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
@@ -430,6 +430,10 @@ function drawLine(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey
   let areaColors = config.areaColors || config.lineColors;
   if (Array.isArray(config.lineColors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.lineColors, config.areaColors);
+  }
+
+  if (Array.isArray(areaColors)) {
+    areaColors = getAreaColors(areaColors)
   }
 
   let lineGeom = null;

@@ -6,7 +6,7 @@ import { MarkerSymbols } from '@antv/g2/esm/util/marker';
 import { getShapeFactory } from '@antv/g2/esm/core';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes/index';
-import { propertyAssign, getDataIndexColor, propertyMap } from '../common/common';
+import { propertyAssign, getDataIndexColor, propertyMap, getAreaColors } from '../common/common';
 import highchartsDataToG2Data, { DataAdapterConfig, DataAdapterData } from '../common/dataAdapter';
 import {
   drawGuideArea,
@@ -672,6 +672,10 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   let areaColors = config.areaColors || config.lineColors;
   if (Array.isArray(config.lineColors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.lineColors, config.areaColors);
+  }
+
+  if (Array.isArray(areaColors)) {
+    areaColors = getAreaColors(areaColors)
   }
 
   let lineGeom = null;
