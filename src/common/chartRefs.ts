@@ -7,7 +7,7 @@ export function getStatistics(
   chart: Chart,
   statistics: Array<'min' | 'max' | 'avg' | 'current'>,
   legendField: string,
-  dataType?: string
+  dataType?: string,
 ) {
   // 业务偶现chart为null，导致filteredData无法获取的报错，暂不清楚原因，这里增加兜底逻辑
   // @ts-ignore
@@ -29,7 +29,7 @@ export function getStatistics(
 
   const res: Record<string, any> = {};
   Object.keys(items).forEach((name: string) => {
-    let yValues = items[name].map((item: Datum) => item.y);
+    let yValues = items[name].map((item: Datum) => item.y ?? item.y0 ?? item.y1 ?? 0);
 
     if (dataType === 'treeNode') {
       yValues = [items[name].map((item: Datum) => item.value)];
@@ -42,24 +42,51 @@ export function getStatistics(
       } else if (statistic === 'max') {
         statisticsRes.max = Math.max(...yValues);
       } else if (statistic === 'avg') {
-        statisticsRes.avg =
-          yValues.reduce((pre: number, cur: number) => pre + cur, 0) / yValues.length;
+        statisticsRes.avg = yValues.reduce((pre: number, cur: number) => pre + cur, 0) / yValues.length;
       } else {
         statisticsRes.current = yValues[yValues.length - 1];
       }
     });
-    res[name] = statisticsRes;
+    res[name] = {
+      ...statisticsRes,
+      data: items[name],
+    };
   });
 
   return res;
 }
 
-/** 过滤legend */
-export function filterLegend(
+/** 获取legend信息 */
+export function getLegendItems(
   chart: Chart,
-  condition: (value: any) => boolean,
   legendField: string,
+  statistics: Array<'min' | 'max' | 'avg' | 'current'> = [],
+  config: any = {},
 ) {
+  const statisticsRes = getStatistics(chart, statistics, legendField);
+
+  // 对线柱图、线点图等配置了items的情况，直接读取items
+  if (chart?.options?.legends?.items) {
+    return chart?.options?.legends?.items.map((item: ListItem) => ({
+      name: item.id || item.name,
+      color: item?.marker?.style?.fill || item?.marker?.style?.stroke,
+      ...statisticsRes[item.id || item.name],
+    }));
+  }
+
+  return Object.keys(statisticsRes).map((name: string, index: number) => {
+    const color =
+      typeof config?.colors === 'function' ? config?.colors(name) : config?.colors[index % config.colors.length];
+    return {
+      name,
+      color,
+      ...statisticsRes[name],
+    };
+  });
+}
+
+/** 过滤legend */
+export function filterLegend(chart: Chart, condition: (value: any) => boolean, legendField: string) {
   const views = [...chart?.views, chart];
   views.forEach((view: View) => {
     view?.getComponents()?.forEach((co: any) => {
@@ -83,11 +110,7 @@ export function filterLegend(
 }
 
 /** 高亮legend */
-export function highlightLegend(
-  chart: Chart,
-  condition: (value: any) => boolean,
-  legendField: string,
-) {
+export function highlightLegend(chart: Chart, condition: (value: any) => boolean, legendField: string) {
   const views = [...chart?.views, chart];
   views.forEach((view: View) => {
     view?.getComponents()?.forEach((co: any) => {
@@ -143,28 +166,7 @@ const getFunctions = (base: any, config: any) => ({
   /** 获取legend信息，包括名称、颜色及改列数据统计信息 */
   getLegendItems: (statistics: Array<'min' | 'max' | 'avg' | 'current'> = []) => {
     const { chart, legendField = 'type' } = base;
-    const statisticsRes = getStatistics(chart, statistics, legendField);
-
-    // 对线柱图、线点图等配置了items的情况，直接读取items
-    if (base?.chart?.options?.legends?.items) {
-      return base?.chart?.options?.legends?.items.map((item: ListItem) => ({
-        name: item.id || item.name,
-        color: item?.marker?.style?.fill || item?.marker?.style?.stroke,
-        ...statisticsRes[item.id || item.name],
-      }));
-    }
-
-    return Object.keys(statisticsRes).map((name: string, index: number) => {
-      const color =
-        typeof config?.colors === 'function'
-          ? config?.colors(name)
-          : config?.colors[index % config.colors.length];
-      return {
-        name,
-        color,
-        ...statisticsRes[name],
-      };
-    });
+    return getLegendItems(chart, legendField, statistics, config);
   },
 
   /** 过滤数据 */

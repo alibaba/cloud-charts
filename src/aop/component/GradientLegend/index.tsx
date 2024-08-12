@@ -43,28 +43,9 @@ export default function GradientLegend({ config, chart, legendItems = [] }: Grad
   // @ts-ignore
   const { widgetsCtx } = chart;
 
-  const containerWidth = widgetsCtx?.size[0];
-  const containerHeight = widgetsCtx?.size[1] || 200;
-
   const legendField = widgetsCtx?.legendField || 'type';
 
   const { valueRange = [0, 100], colors = DefaultColors } = config?.gradient || {};
-
-  // 修改图表宽高
-  useEffect(() => {
-    const height = containerHeight - 50;
-    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
-    // @ts-ignore
-    if (chartDom) {
-      chartDom.style.height = `${height}px`;
-      try {
-        chart.changeSize(containerWidth, height);
-      } catch (e) {
-        // 业务不透出错误，这里用于调试开放
-        // console.log('changeSize error', e);
-      }
-    }
-  }, [containerHeight, containerWidth]);
 
   // hover高亮legend
   const activeItem = (itemName: string) => {

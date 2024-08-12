@@ -31,8 +31,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   const legendField = widgetsCtx?.legendField || 'type';
 
   const position = config.position.split('-')[0];
-  const containerWidth = widgetsCtx?.size[0];
-  const containerHeight = widgetsCtx?.size[1] || 200;
 
   const statistics = useMemo(() => {
     return config?.table?.statistics || [];
@@ -44,36 +42,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     () => getStatistics(chart, statistics, legendField, dataType),
     [chart, statistics, config],
   );
-
-  // 计算legend宽高
-  const height = useMemo(() => {
-    return Math.min(
-      containerHeight * (position === 'right' ? 1 : 0.3),
-      20 * legendItems.length + (statistics?.length > 0 ? 20 : 0),
-    );
-  }, [containerHeight, position, legendItems, statistics]);
-
-  const width = useMemo(() => containerWidth * (position === 'right' ? 0.5 : 1), [containerWidth, position]);
-
-  // 修改图表宽高
-  useEffect(() => {
-    const chartHeight = position === 'right' ? containerHeight : containerHeight - height;
-    const chartWidth = position === 'right' ? containerWidth - width : containerWidth;
-    const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
-
-    if (chartDom) {
-      // @ts-ignore
-      chartDom.style.width = `${chartWidth}px`;
-      // @ts-ignore
-      chartDom.style.height = `${chartHeight}px`;
-      try {
-        chart.changeSize(chartWidth, chartHeight);
-      } catch (e) {
-        // 业务不透出错误，这里用于调试开放
-        // console.log('changeSize error', e);
-      }
-    }
-  }, [containerHeight, containerWidth, position, height, width, config]);
 
   useEffect(() => {
     setFilteredItems([]);
@@ -108,9 +76,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     <table
       className={`${prefix}-container`}
       style={{
-        maxWidth: width,
-        maxHeight: height,
-        // marginTop: position === 'right' ? 0 : 10,
         marginLeft: position === 'right' ? 10 : 0,
       }}
     >
@@ -130,7 +95,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           </tr>
         </thead>
       )}
-      <tbody className={`${prefix}-tbody`} style={{ maxHeight: height - (statistics?.length > 0 ? 20 : 0) }}>
+      <tbody
+        className={`${prefix}-tbody`}
+        style={{
+          height: `calc(100% - ${statistics?.length > 0 ? 20 : 0}px)`,
+        }}
+      >
         {legendItems.map((legendItem: ListItem) => {
           const { name, marker } = legendItem;
           const id = legendItem.id ?? name;

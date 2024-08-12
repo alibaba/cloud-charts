@@ -631,7 +631,7 @@ stories.add('列表型legend', () => {
   //   }, 3000);
   // }, []);
   return (
-    <div style={{ width: 800, height: 300 }}>
+    <div>
       <Wline
         // height="300"
         data={d}
@@ -982,7 +982,7 @@ stories.add('阶梯状legend(线图无意义，纯测试）', () => {
   return (
     <div style={{ width: 600 }}>
       <Wline
-        height="300"
+        // height="300"
         data={data}
         config={{
           // colors: (type) => {

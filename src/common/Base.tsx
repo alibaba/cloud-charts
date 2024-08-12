@@ -840,7 +840,7 @@ class Base<
   // 设置高宽
   setSize([w, h]: Size[]) {
     const element = this.chartDom;
-    this.size = [Number(w), Number(h)];
+    this.size = [Number(w), Number(h) || 200];
 
     if (w) {
       element.style.width = `${w}px`;

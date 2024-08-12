@@ -61,9 +61,9 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
   }, [legendItems]);
 
   // 图表尺寸变化时，修改legend尺寸，重新变成折叠状
-  useEffect(() => {
-    handleFold();
-  }, [containerHeight, containerWidth, config]);
+  // useEffect(() => {
+  //   handleFold();
+  // }, [containerHeight, containerWidth, config]);
 
   useEffect(() => {
     setFilteredItems([]);
@@ -152,6 +152,7 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
 
   // 展开所有items
   const handleUnfold = () => {
+    widgetsCtx.legendFolded = false;
     // 图表高度缩小
     const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
     const height = containerHeight - Math.min(contentRef?.current?.scrollHeight, containerHeight * 0.3);
@@ -170,6 +171,7 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
 
   // 折叠当前items
   const handleFold = () => {
+    widgetsCtx.legendFolded = true;
     // 图表高度恢复
     const chartDom = chart.getCanvas().get('el')?.parentNode?.parentNode;
     if (chartDom) {
