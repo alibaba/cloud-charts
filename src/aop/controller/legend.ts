@@ -6,6 +6,7 @@ import { LegendCfg } from '@antv/g2/esm/interface';
 import ReactLegend from '../component/reactLegend';
 import { FullCrossName } from '../../constants';
 import { View } from '@antv/g2/esm';
+import { merge } from '../../common/common';
 
 // @ts-ignore
 class WidgetsLegendController extends RawLegendController {
@@ -29,16 +30,20 @@ class WidgetsLegendController extends RawLegendController {
       return;
     }
     const [w, h] = widgetsCtx?.size;
-    const legendConfig = widgetsCtx?.props?.config?.legend ?? {};
-    const defaultConfig = widgetsCtx?.defaultConfig?.legend ?? {};
+    const legendConfig: any = {};
+    const globalBaseConfig = widgetsCtx?.context?.defaultConfig?.baseConfig;
+    const globalComsConfig = widgetsCtx?.context?.defaultConfig?.[widgetsCtx.chartName.replace('G2', '')] ?? {};
+    merge(
+      legendConfig,
+      widgetsCtx?.defaultConfig?.legend ?? {},
+      globalBaseConfig?.legend ?? {},
+      globalComsConfig?.legend ?? {},
+      widgetsCtx?.props?.config?.legend ?? {},
+    );
 
-    if (
-      legendConfig?.visible !== false &&
-      defaultConfig?.visible !== false &&
-      (legendConfig?.table || legendConfig?.gradient || legendConfig?.foldable)
-    ) {
+    if (legendConfig?.visible !== false && (legendConfig?.table || legendConfig?.gradient || legendConfig?.foldable)) {
       const legendElement = this.legendContainer?.childNodes?.[0];
-      const position = (legendConfig?.position ?? defaultConfig?.position ?? 'bottom').split('-')[0];
+      const position = (legendConfig?.position ?? 'bottom').split('-')[0];
 
       // 根据legend配置项计算图表宽高
       let size = [w, h];
