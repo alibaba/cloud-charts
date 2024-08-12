@@ -22,15 +22,17 @@ import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
 import autoTimeScale from '../common/autoTimeScale';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
+import rectZoom, { ZoomConfig } from '../common/rectZoom';
 import legendFilter from '../common/legendFilter';
 import label, { LabelConfig } from '../common/label';
 import geomSize, { GeomSizeConfig } from '../common/geomSize';
 import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import { activeRegionWithTheme } from '../common/interaction/index';
 import { warn } from '../common/log';
+import { getText } from '../ChartProvider';
 import './index.scss';
 
-export interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig {
+export interface WlinebarConfig extends BaseChartConfig, BarConfig, LineConfig, ZoomConfig {
   xAxis?: (Types.ScaleOption & XAxisConfig) | false;
   yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false;
   legend?: LegendConfig | boolean;
@@ -213,7 +215,7 @@ export class Linebar extends Base<WlinebarConfig> {
       // lineLabel: undefined,
       // barLabel: undefined,
       // TODO
-      // zoom: false,
+      zoom: false,
       // mini: false,
       // dataConfig: {
       //   nameKey: 'name',
@@ -392,7 +394,20 @@ export class Linebar extends Base<WlinebarConfig> {
     lineView.data(lineData);
     this.lineView = lineView;
     // 关闭一个View的X轴，避免重叠字体变粗
-    lineView.axis('x', false);
+    // 用于解决缩放后线视图位移的问题
+    lineView.axis('x', {
+      top: false,
+      line: null,
+      subTickLine: null,
+      tickLine: null,
+      grid: null,
+      animate: false,
+      label: {
+        style: {
+          fill: "rgba(0,0,0,0)"
+        }
+      }
+    });
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((asix, yIndex) => {
@@ -426,6 +441,8 @@ export class Linebar extends Base<WlinebarConfig> {
       },
       'multiple',
     );
+
+    rectZoom(chart, config, getText('reset', this.language || this.context.language, this.context.locale));
 
     // 判断是否要加padding
     chart.on('beforepaint', () => {

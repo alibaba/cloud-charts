@@ -2,12 +2,15 @@
 
 // import { registerAction } from "@antv/g2";
 // import ResetButton from '@antv/g2/esm/interaction/action/view/button';
-import { Chart, Types } from './types';
-import themes from '../themes';
+import { Chart, Types, View } from './types';
 import { registerAction } from '@antv/g2/esm';
+import  flattenDeep from 'lodash/flattenDeep';
 import { NoCaptureDimRect } from './interaction/index';
+import { RangeCustomFilter } from './interaction/actions/brush-filter';
+import themes from '../themes';
 
 registerAction('rect-mask-nocapture', NoCaptureDimRect, { dim: 'x' });
+registerAction('range-custom-filter', RangeCustomFilter, { dims: ['x'] });
 
 export interface ZoomConfig {
   zoom?: boolean;
@@ -37,6 +40,8 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
   if (!config.zoom) {
     return;
   }
+
+  const actionName = chart.views?.length > 0 ? 'range-custom-filter' : 'brush-x';
 
   // 修改 tooltip 默认行为，进入 reset button 不展示
   chart.interaction('tooltip', {
@@ -68,7 +73,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
       {
         trigger: 'mousedown',
         isEnable: isPointInViewNotInResetButton,
-        action: ['brush-x:start', 'rect-mask-nocapture:start', 'rect-mask-nocapture:show'],
+        action: [`${actionName}:start`, 'rect-mask-nocapture:start', 'rect-mask-nocapture:show'],
         callback(context: Types.IInteractionContext) {
           chart.emit(
             'zoom:start',
@@ -91,9 +96,9 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
       {
         trigger: 'mouseup',
         isEnable: isPointInViewNotInResetButton,
-        action: ['brush-x:filter', 'brush-x:end', 'rect-mask-nocapture:end', 'rect-mask-nocapture:hide'],
+        action: [`${actionName}:filter`, `${actionName}:end`, 'rect-mask-nocapture:end', 'rect-mask-nocapture:hide'],
         callback(context: Types.IInteractionContext) {
-          const rangeFilterAction = context.getAction('brush-x');
+          const rangeFilterAction = context.getAction(actionName);
           const startPoint = rangeFilterAction.startPoint;
           const endPoint = context.getCurrentPoint();
 
@@ -133,7 +138,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
                 startPoint: rangeFilterAction.startPoint,
                 endPoint: context.getCurrentPoint(),
                 // @ts-ignore
-                data: context.view.filteredData,
+                data: chart.views?.length > 0 ? flattenDeep(context.view.views.map((subView: View) => subView?.filteredData ?? [])) : context.view.filteredData,
               },
               context,
             );
@@ -145,7 +150,7 @@ export default function (chart: Chart, config: ZoomConfig, text: string) {
       // { trigger: 'dblclick', action: ['brush-x:reset'] },
       {
         trigger: 'reset-button:click',
-        action: ['brush-x:reset', 'reset-button:hide', 'cursor:crosshair'],
+        action: [`${actionName}:reset`, 'reset-button:hide', 'cursor:crosshair'],
         callback(context: Types.IInteractionContext) {
           chart.emit('zoom:reset', context);
         },

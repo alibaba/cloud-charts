@@ -8,6 +8,7 @@ import {
 export * from '@antv/g2/esm/core';
 
 export * as G2Dependents from '@antv/g2/esm/dependents';
+export * as G2DInterfaces from '@antv/g2/esm/interface';
 
 export interface BaseChartConfig {
   /**
