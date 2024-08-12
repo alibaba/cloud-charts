@@ -25,6 +25,9 @@ class WidgetsLegendController extends RawLegendController {
 
   layout() {
     const widgetsCtx = (this.view as any)?.widgetsCtx;
+    if (!widgetsCtx?.size) {
+      return;
+    }
     const [w, h] = widgetsCtx?.size;
     const legendConfig = widgetsCtx?.props?.config?.legend ?? {};
     const defaultConfig = widgetsCtx?.defaultConfig?.legend ?? {};
