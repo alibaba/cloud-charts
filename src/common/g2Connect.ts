@@ -44,6 +44,9 @@ class G2Connect {
         // 绑定事件 新版G2底层事件系统没有去重，需要手动去重
         chart.on('plot:mousemove', this.handlePlotmove);
         chart.on('plot:mouseleave', this.handlePlotleave);
+
+        chart.on('legend-item:mouseenter', this.handleLegendItementer);
+        chart.on('legend-item:mouseleave', this.handleLegendItemleave);
       }
     });
   }
@@ -75,6 +78,10 @@ class G2Connect {
           // 绑定事件
           chart.off('plot:mousemove', this.handlePlotmove);
           chart.off('plot:mouseleave', this.handlePlotleave);
+
+
+          chart.off('legend-item:mouseenter', this.handleLegendItementer);
+          chart.off('legend-item:mouseleave', this.handleLegendItemleave);
         }
       });
     }
@@ -96,7 +103,7 @@ class G2Connect {
       // @ts-ignore 显式声明this，指向触发事件的图表实例
       const chartInstance = this;
       const record = type === 'data' ? getRecord(chartInstance, e) : null;
-      self.charts.forEach((chart) => {
+      self.charts.forEach((chart, index) => {
         // 过滤自身和已销毁的实例
         if (chart === chartInstance || chart.destroyed) {
           return;
@@ -136,6 +143,40 @@ class G2Connect {
         if (chart !== chartInstance && !chart.destroyed) {
           // 隐藏tooltip
           chart.hideTooltip();
+        }
+      });
+    }
+  })();
+
+  // 支持图例统一交互
+  handleLegendItementer = (() => {
+    const self = this;
+    return function (e: Event) {
+      const { custom } = self.config;
+      // @ts-ignore 显式声明this，指向触发事件的图表实例
+      const chartInstance = this;
+      self.charts.forEach((chart) => {
+        // 过滤自身和已销毁的实例
+        if (chart === chartInstance || chart.destroyed) {
+          return;
+        }
+
+        if (custom) {
+          custom(e, chart, chartInstance);
+          return;
+        }
+      });
+    }
+  })();
+
+  handleLegendItemleave = (() => {
+    const self = this;
+    return function () {
+      // @ts-ignore 显式声明this，指向触发事件的图表实例
+      const chartInstance = this;
+      self.charts.forEach((chart) => {
+        // 过滤自身和已销毁的实例
+        if (chart !== chartInstance && !chart.destroyed) {
         }
       });
     }
