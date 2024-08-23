@@ -1283,3 +1283,105 @@ stories.add('阶梯状legend(线图无意义，纯测试）', () => {
     </div>
   );
 });
+
+const extraData1 = [
+  {
+    name: '成本分布',
+    data: [
+      [
+        '西南1（成都）',
+        58853.49,
+        {
+          grossSum: 66441.33,
+          grossSumPercent: 0.12727967,
+          groupBy: '西南1（成都）',
+          pretaxSum: 58853.49,
+          pretaxSumPercent: 0.14980756,
+        },
+      ],
+      [
+        '西南2（重庆）',
+        53853.49,
+        {
+          grossSum: 66441.33,
+          grossSumPercent: 0.12727967,
+          groupBy: '西南2（重庆）',
+          pretaxSum: 53853.49,
+          pretaxSumPercent: 0.14980756,
+        },
+      ],
+    ],
+  },
+];
+
+const extraData2 = [
+  {
+    name: '成本分布',
+    data: [
+      [
+        '杭州',
+        1234,
+        {
+          grossSum: 66441.33,
+          grossSumPercent: 0.12727967,
+          groupBy: '杭州',
+          pretaxSum: 58853.49,
+          pretaxSumPercent: 0.14980756,
+        },
+      ],
+      [
+        '北京',
+        59,
+        {
+          grossSum: 66441.33,
+          grossSumPercent: 0.12727967,
+          groupBy: '北京',
+          pretaxSum: 53853.49,
+          pretaxSumPercent: 0.14980756,
+        },
+      ],
+    ],
+  },
+];
+
+stories.add('数据变换', () => {
+  const [d, setD] = useState(extraData1);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setD(extraData2);
+    }, 3000);
+  }, []);
+
+  return (
+    <div style={{ width: 600 }}>
+      <Wpie
+        height="300"
+        data={d}
+        config={{
+          legend: {
+            table: {
+              custom: [
+                {
+                  title: '成本',
+                  value: (item) => {
+                    console.log('item', item);
+                    const current = item.data[0].y;
+                    return current || '--';
+                  },
+                },
+                {
+                  title: '占比',
+                  value: (item) => {
+                    const pretaxSumPercent = item.data[0].extra[0].pretaxSumPercent;
+                    return pretaxSumPercent ? pretaxSumPercent.toFixed(2) : '--';
+                  },
+                },
+              ],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});

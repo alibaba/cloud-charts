@@ -40,7 +40,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   const dataType = widgetsCtx.chartName === 'G2MultiPie' ? 'treeNode' : 'common';
   const statisticsRes = useMemo(
     () => getStatistics(chart, statistics, legendField, dataType),
-    [chart, statistics, config],
+    [chart, statistics, config, legendItems],
   );
 
   // 表格列数
