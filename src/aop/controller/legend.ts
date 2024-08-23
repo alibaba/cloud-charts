@@ -7,6 +7,7 @@ import ReactLegend from '../component/reactLegend';
 import { FullCrossName } from '../../constants';
 import { View } from '@antv/g2/esm';
 import { merge } from '../../common/common';
+import { getStatistics } from '../../common/chartRefs';
 
 // @ts-ignore
 class WidgetsLegendController extends RawLegendController {
@@ -57,7 +58,11 @@ class WidgetsLegendController extends RawLegendController {
       let legendMaxSize = null;
       if (legendConfig?.table) {
         // 根据数据量计算高度
-        const num = widgetsCtx?.dataSize ?? 0;
+        // 目前暂时对多重圆环进行特殊处理，待规则统一梳理后，整理数据类型
+        const dataType = widgetsCtx.chartName === 'G2MultiPie' ? 'treeNode' : 'common';
+        const items = getStatistics(widgetsCtx.chart, [], widgetsCtx?.legendField || 'type', dataType);
+        const num = Object.keys(items).length ?? 0;
+
         if (position === 'right') {
           size = [w / 2, h];
           const height = Math.min(h, 20 * (num + 1));
