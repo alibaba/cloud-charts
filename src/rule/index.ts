@@ -2,6 +2,8 @@ import { IBigData, BigDataJudgement, processBarBigData, processLineBigData, proc
 import { DataStructure } from './data';
 import { EmptyDataProcess } from './emptyData';
 import { processBarExtremeData, processLineExtremeData, processLPieExtremeData } from './extremeData';
+import { runConfigRules } from './configRules';
+import { numberDecimal } from '../common/common';
 
 /** 坐标系 */
 export enum Coordinate {
@@ -297,6 +299,14 @@ const barChart: IChartRule = {
       extremeData: null,
     },
   },
+  processConfig: (config: any) => {
+    if (config.percentage && !config.yAxis.labelFormatter) {
+      config.yAxis.labelFormatter = (value: any) => {
+        return numberDecimal(value * 100) + '%';
+      }
+    }
+    return runConfigRules(config);
+  }
 };
 
 /** 线图 */
