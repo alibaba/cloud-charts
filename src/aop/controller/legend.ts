@@ -54,7 +54,7 @@ class WidgetsLegendController extends RawLegendController {
           legendSize = [w / 2, h];
         } else {
           // 根据数据量计算高度
-          const num = widgetsCtx?.rawData?.length ?? 0;
+          const num = widgetsCtx?.dataSize ?? 0;
           const height = Math.min(h * 0.3, 20 * (num + 1));
           size = [w, h - height];
           legendSize = [w, height];
