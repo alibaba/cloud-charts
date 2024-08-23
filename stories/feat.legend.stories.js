@@ -731,10 +731,10 @@ stories.add('列表型legend（右侧）', () => {
     <div>
       <Wline
         height="300"
-        data={multipleData}
+        data={lineData}
         config={{
           legend: {
-            position: 'right',
+            position: 'right-center',
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
             },

@@ -54,20 +54,25 @@ class WidgetsLegendController extends RawLegendController {
       // 根据legend配置项计算图表宽高
       let size = [w, h];
       let legendSize = [0, 0];
+      let legendMaxSize = null;
       if (legendConfig?.table) {
+        // 根据数据量计算高度
+        const num = widgetsCtx?.dataSize ?? 0;
         if (position === 'right') {
           size = [w / 2, h];
-          legendSize = [w / 2, h];
+          const height = Math.min(h, 20 * (num + 1));
+          legendSize = [w / 2, height];
+          legendMaxSize = [w / 2, h];
         } else {
-          // 根据数据量计算高度
-          const num = widgetsCtx?.dataSize ?? 0;
           const height = Math.min(h * 0.3, 20 * (num + 1));
           size = [w, h - height];
           legendSize = [w, height];
+          legendMaxSize = [w, height];
         }
       } else if (legendConfig?.gradient) {
         size = [w, h - 50];
         legendSize = [w, 50];
+        legendMaxSize = [w, 50];
       } else if (legendConfig?.foldable) {
         if (widgetsCtx.legendFolded || widgetsCtx.legendFolded === undefined) {
           size = [w, h - 20];
@@ -93,6 +98,9 @@ class WidgetsLegendController extends RawLegendController {
       if (legendElement) {
         legendElement.style.width = `${legendSize[0]}px`;
         legendElement.style.height = `${legendSize[1]}px`;
+        if (legendMaxSize) {
+          legendElement.style.maxHeight = `${legendMaxSize[1]}px`;
+        }
       }
     } else {
       super.layout();
@@ -183,6 +191,8 @@ class WidgetsLegendController extends RawLegendController {
       this.legendContainer.style.cssText = `width: 100%; display: flex; justify-content: ${directionX}; align-items: ${directionY}; overflow-x: auto;overflow-y: hidden;`;
 
       this.legendContainer.style.visibility = 'visible';
+
+      console.log();
 
       return new ReactLegend({
         cfg,
