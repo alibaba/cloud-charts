@@ -266,7 +266,7 @@ export function isInvalidNumber(v: any) {
  * 数字格式化小数位
  *
  * @param {number} num 输入数字
- * @param {number} decimal 小数位数，默认两位
+ * @param {number} decimal 小数位数，默认一位
  *
  * @return {string|number} 如果不是数字，返回横杠字符串。如果是数字，返回设定小数位的字符串。
  * */
@@ -441,7 +441,7 @@ export interface customFormatterConfig {
  * 自定义格式化函数，支持 单位、小数位、千分位 处理
  * */
 export function customFormatter(config: customFormatterConfig) {
-  const { unit, decimal = 6, grouping } = config;
+  const { unit, decimal = 1, grouping } = config;
 
   if (!unit && (decimal === undefined || decimal === null) && !grouping) {
     return null;
