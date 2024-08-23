@@ -41,7 +41,13 @@ class WidgetsLegendController extends RawLegendController {
       widgetsCtx?.props?.config?.legend ?? {},
     );
 
-    if (legendConfig?.visible !== false && (legendConfig?.table || legendConfig?.gradient || legendConfig?.foldable)) {
+    if (
+      !widgetsCtx?.isEmpty &&
+      !widgetsCtx?.props?.loading &&
+      !widgetsCtx?.props?.errorInfo &&
+      legendConfig?.visible !== false &&
+      (legendConfig?.table || legendConfig?.gradient || legendConfig?.foldable)
+    ) {
       const legendElement = this.legendContainer?.childNodes?.[0];
       const position = (legendConfig?.position ?? 'bottom').split('-')[0];
 
