@@ -419,7 +419,7 @@ function getG2StyleSheet(theme: Theme): Types.StyleSheet {
 
     /** tooltip 内容框背景色 */
     tooltipContainerFillColor: theme['widgets-tooltip-background'],
-    tooltipContainerFillOpacity: 1,
+    tooltipContainerFillOpacity: theme['widgets-tooltip-background-opacity'],
     /** tooltip 内容框阴影 */
     tooltipContainerShadow: theme['widgets-tooltip-shadow'],
     /** tooltip 内容框圆角 */
@@ -698,6 +698,7 @@ export function getG2theme(theme: Theme) {
       0,
       pxToNumber(theme['widgets-tooltip-padding']) - baseFontSizeNum,
     )}px ${theme['widgets-tooltip-padding']}`,
+    backdropFilter: theme['widgets-tooltip-background-blur'],
   });
   Object.assign(tooltipStyle['g2-tooltip-title'], {
     marginBottom: baseFontSize,

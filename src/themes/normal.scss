@@ -119,6 +119,8 @@ $widgets-label-text: #333333 !default;
 
 // 提示信息 tooltip
 $widgets-tooltip-background: $widgets-color-background !default;
+$widgets-tooltip-background-opacity: 0.92 !default; 
+$widgets-tooltip-background-blur: 4 !default; 
 $widgets-tooltip-padding: 12px !default;
 $widgets-tooltip-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.18) !default;
 $widgets-tooltip-corner-radius: 4px !default;
