@@ -244,10 +244,12 @@ export function getStatusColorName(status: string) {
 }
 
 // 统一面积填充的渐变色逻辑
-export function getAreaColors(areaColors: string[]) {
+export function getAreaColors(areaColors: string[], isStack?: boolean) {
   return areaColors?.map((subColor: string) => {
-     // 若包含渐变则不处理
+     // 若包含自定义渐变则不处理
      if (subColor.includes('l') || subColor.includes('r') || subColor.includes('p')) {
+      return subColor;
+    } else if(isStack) {
       return subColor;
     } else {
       return `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
@@ -435,19 +437,29 @@ export function filterKey(obj: Types.LooseObject, keys: string[]) {
 //   return [top, right, bottom, left];
 // }
 
+// 统一存储单位显示
+const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB'];
+const GBSpeedUnit = ['B/S', 'KB/S', 'MB/S', 'GB/S', 'TB/S'];
+const GiBUnit = ['BYTE', 'KIB', 'MIB', 'GIB', 'TIB'];
+const GiBSpeedUnit = ['BYTE/S', 'KIB/S', 'MIB/S', 'GIB/S', 'TIB/S'];
+
 export interface customFormatterConfig {
   unit?: string;
   decimal?: number;
   grouping?: boolean | string;
+  needUnitTransform?: boolean;
+  unitTransformTo?: string;
+  valueType?: 'disk' | 'bandwidth' | 'money' | 'percent' | 'time'
 }
 
 /**
  * 自定义格式化函数，支持 单位、小数位、千分位 处理
+ * 包含云体系下的单位处理
  * */
 export function customFormatter(config: customFormatterConfig) {
-  const { unit, decimal = 1, grouping } = config;
+  const { unit, decimal = 1, grouping, needUnitTransform, unitTransformTo, valueType } = config;
 
-  if (!unit && (decimal === undefined || decimal === null) && !grouping) {
+  if (!unit && (decimal === undefined || decimal === null) && !grouping && !needUnitTransform) {
     return null;
   }
   return function (v: any) {
@@ -469,6 +481,12 @@ export function customFormatter(config: customFormatterConfig) {
     // 千分位
     if (grouping) {
       result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
+    }
+
+    if(needUnitTransform) {
+      result = unitConversion(result, unit, decimal, unitTransformTo, valueType);
+
+      return result;
     }
 
     return `${result}${newUnit}`;
@@ -553,11 +571,6 @@ export function traverseTree(node: any, itemFunction?: any) {
   return node;
 }
 
-const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB'];
-const GBSpeedUnit = ['B/S', 'KB/S', 'MB/S', 'GB/S', 'TB/S'];
-const GiBUnit = ['BYTE', 'KIB', 'MIB', 'GIB', 'TIB'];
-const GiBSpeedUnit = ['BYTE/S', 'KIB/S', 'MIB/S', 'GIB/S', 'TIB/S'];
-
 export function findUnitArray(input: string): Array<string> {
   // 定义待查找的数组列表
   const unitArrays = [GBUnit, GBSpeedUnit, GiBUnit, GiBSpeedUnit];
@@ -575,9 +588,9 @@ export function findUnitArray(input: string): Array<string> {
 }
 
 /**
- * 统一单位格式化
+ * 统一存储单位格式化
  * */
-export function UnitConversion(value: any, unit: any, decimals = 3, unitTransformTo: any) {
+export function unitConversion(value: any, unit: any, decimals = 1, unitTransformTo: any, valueType?: string) {
   // size为数据量大小，unit为单位(例如'B'代表字节)，decimals表示小数点位数
   let UpUnit = unit.toUpperCase();
   const units = findUnitArray(UpUnit);

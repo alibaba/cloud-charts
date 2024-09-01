@@ -5,6 +5,7 @@ import geomSize, { GeomSizeConfig } from './geomSize';
 import geomStyle, { GeomStyleConfig } from './geomStyle';
 import themes from '../themes/index';
 import { warn } from './log';
+import {getAreaColors} from '../common/common';
 
 const stepNames = ['hv', 'vh', 'hvh', 'vhv'];
 
@@ -58,12 +59,10 @@ export default function drawLine(
   let areaColors: any = config.areaColors || config.colors;
   if (Array.isArray(config.colors) && Array.isArray(config.areaColors)) {
     areaColors = mergeArray([], config.colors, config.areaColors);
+  }
 
-    // TODO优化赋值, 考虑status MAP
-    areaColors = areaColors.map((subColor: string) => {
-      subColor = `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
-      return subColor;
-    });
+  if (Array.isArray(areaColors)) {
+    areaColors = getAreaColors(areaColors, config.stack);
   }
 
   // 区域、堆叠、平滑曲线
