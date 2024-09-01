@@ -247,7 +247,7 @@ export default function <T>(
       maxHeight,
       maxWidthRatio,
       maxHeightRatio,
-      useReverseChecked = true,
+      useReverseChecked = false,
       table,
       foldable = false,
       gradient,
