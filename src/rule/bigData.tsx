@@ -190,9 +190,9 @@ export function processPieBigData(chartObj: any, data: any) {
     if (remainReverseIndex !== data.length) {
       const remainIndex = data.length - (remainReverseIndex + 1);
       // 计算剩余占比
-      const remainTotal = data
+      const remainTotal = numberDecimal(data
         .slice(remainIndex, data.length)
-        .reduce((pre: number, cur: Types.LooseObject) => pre + cur.y, 0);
+        .reduce((pre: number, cur: Types.LooseObject) => pre + cur.y, 0));
 
       const newData = [
         ...data.slice(0, remainIndex),
@@ -249,7 +249,7 @@ export function processPieBigData(chartObj: any, data: any) {
                         style={{
                           height: 1,
                           width: '100%',
-                          backgroundColor: themes['widgets-axis-line'],
+                          backgroundColor: themes['widgets-color-cold-grey-14'],
                           marginBottom: 12,
                         }}
                       />
