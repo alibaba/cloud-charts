@@ -9,6 +9,7 @@ coverage
 .vs
 
 build
+buildDev/
 es
 lib
 demo/*.js

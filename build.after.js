@@ -62,6 +62,15 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
         amd: '@alicloud/cloud-charts'
       },
     });
+
+    if (commandArgs.development) {
+      config.optimization.minimize(false);
+      config.output
+        .path(path.resolve(rootDir, 'buildDev'))
+        .filename('[name].dev.js')
+        .publicPath('./buildDev/')
+        .libraryExport('default')
+    }
   }
 
   registerCliOption({
@@ -71,6 +80,16 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
 
   registerCliOption({
     name: 'analyzer',
+    commands: ['build'],
+  });
+
+  registerCliOption({
+    name: 'production',
+    commands: ['build'],
+  });
+
+  registerCliOption({
+    name: 'development',
     commands: ['build'],
   });
 
@@ -125,6 +144,17 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
     registerTask('plugins', pluginsConfig);
   }
 
+  onGetWebpackConfig(config => {
+    if (commandArgs.production) {
+      config.module
+        .rule('tsx')
+        .test(/\.tsx?$/)
+        .before('babel-loader')
+        .use('custom-loader')
+        .loader(path.resolve('./loader/teamix-debugger-loader.js'))
+        .end()
+    }
+  });
 
   // 调整 umd 包 webpack 配置
   // config 为 webpack-chain 实例

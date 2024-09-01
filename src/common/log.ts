@@ -135,7 +135,10 @@ setTimeout(() => {
 }, 6000);
 
 export function warn(component: string, info: string, ...other: any[]) {
-  if(!window[FullConsoleName]) {
+  /** -- teamix debugger start -- **/
+  console.log("teamix debugger execute", info);
+  if (!window[FullConsoleName]) {
     console.warn(`[${FullCamelName}] ${component}:`, info, ...other);
   }
+  /** -- teamix debugger end -- **/
 }

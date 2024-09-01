@@ -22,7 +22,9 @@
   "scripts": {
     "start": "npm run storybook",
     "online": "build-scripts start --skip-demo --online",
-    "build": "build-scripts build --skip-demo",
+    "build:production": "build-scripts build --skip-demo --production",
+    "build:development": "build-scripts build --skip-demo --development",
+    "build": "npm run build:development && npm run build:production",
     "analyzer": "build-scripts build --skip-demo --analyzer",
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./",
@@ -36,7 +38,8 @@
     "font",
     "lib",
     "es/",
-    "build/"
+    "build/",
+    "buildDev/"
   ],
   "peerDependencies": {
     "prop-types": "^15.5.10",
