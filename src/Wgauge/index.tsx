@@ -72,8 +72,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     },
     className = '',
     strokeWidth = 24,
-    decorationGap = 22,
-    decorationStrokeWidth = 4,
+    decorationGap = config.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 22,
+    decorationStrokeWidth = config.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
+    // decorationGap = 22,
+    // decorationStrokeWidth = 4,
     outRing = true,
     gaugeScale = false,
     percentage = true,
@@ -219,7 +221,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const viewBoxDecoratedY = -strokeWidth / 2 - decorationGap - decorationStrokeWidth / 2;
   const viewBoxWidthWithDecorations = 2 * radius + strokeWidth + 2 * (decorationGap + decorationStrokeWidth);
   const viewBoxHeightWithDecorations =
-    radius + strokeWidth / 2 + (strokeWidth / 2) * (startY <= radius ? 1 : -1) + decorationGap + decorationStrokeWidth;
+    radius + strokeWidth + decorationGap + decorationStrokeWidth;
 
   const tickArr = new Array(scaleNum).fill(0).map((item, idx: number) => {
     return numberDecimal(0 + (idx * 100) / (scaleNum - 1));
@@ -228,11 +230,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const tickMarks = tickArr.map((value: number, index: number) => {
     // 根据圆环划分段数，计算对应的角度
     let angleValue = angle.start + ((angle.end - angle.start) * value) / 100;
-    const innerPos = calculatePositionOnCircle(angleValue, radius, decorationGap + decorationStrokeWidth);
+    const textOffset = (angle.end - angle.start) > 180 ? strokeWidth : decorationGap + decorationStrokeWidth ;
+    const innerPos = calculatePositionOnCircle(angleValue, radius, textOffset);
     const outerPos = calculatePositionOnCircle(
       angleValue,
       radius,
-      decorationGap + decorationStrokeWidth + scaleLineLength,
+      textOffset + scaleLineLength,
     );
     if (value === 0 || value === 100) {
       innerPos.y -= 1;
@@ -241,14 +244,14 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     const textPos = calculatePositionOnCircle(
       angleValue,
       radius,
-      decorationGap + decorationStrokeWidth * 2 + scaleLineLength * (scale ? 2 : 1) + gaugeTextSize / 3,
+      textOffset + scaleLineLength * (scale ? 2 : 1) + gaugeTextSize / 3,
     );
 
     const renderText = (
       <text
         x={textPos.x}
         y={textPos.y}
-        className={`${prefix}-scale-num`}
+        className={angle.end - angle.start > 180 ? `${prefix}-scale-num-big` : `${prefix}-scale-num`}
         style={gaugeTextStyle}
         textAnchor="middle"
         alignmentBaseline="middle"
@@ -279,10 +282,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   const textOffset = viewBoxHeightWithDecorations - startY + viewBoxDecoratedY - gaugeTextSize / 3;
 
+  const viewBoxRadio = radius > 130 ? 1.9 : 2.1
+
   const viewBox =
     angle.end - angle.start > 180
-      ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize} ${viewBoxWidthWithDecorations} ${
-          viewBoxHeightWithDecorations * 2
+      ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2} ${viewBoxWidthWithDecorations} ${
+          viewBoxHeightWithDecorations * viewBoxRadio
         }`
       : `${viewBoxDecoratedX - scaleLineLength * 2 - gaugeTextSize} ${viewBoxDecoratedY} ${
           viewBoxWidthWithDecorations + scaleLineLength * 4 + gaugeTextSize * 2
@@ -291,9 +296,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   return (
     <div
       ref={containerRef}
-      // style={{
-      //   alignItems: angle.end - angle.start > 180 ? 'center' : 'end',
-      // }}
+      style={{
+        alignItems: angle.end - angle.start > 180 ? 'center' : 'end',
+      }}
       className={`${FullCrossName} ${prefix}-container`}
     >
       <svg
@@ -329,7 +334,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           flag && angle.end - angle.start <= 180 ? prefix + '-width-scale' : ''
         }`}
         style={{
-          transform: angle.end - angle.start > 180 ? 'translateY(-50%)' : `translateY(-${textOffset}px)`,
+          transform: angle.end - angle.start > 180 ?  `translateY(50%)` : `translateY(-${textOffset}px)`,
         }}
       >
         {renderNum()}

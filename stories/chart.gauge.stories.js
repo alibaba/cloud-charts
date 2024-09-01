@@ -30,23 +30,25 @@ const config = {
 const config1 = {
   percentage: false,
   unit: '个',
-  gaugeScale: {
-    scaleNum: 9,
-    // scale: false,
-  },
+  outRing: false,
+  // gaugeScale: {
+  //   scaleNum: 9,
+  //   // scale: false,
+  // },
 }
 
 const config2 = {
-  // gaugeScale: {},
-  colors: 'p6',
-  outRing: false,
-  // customStyles: {
-  //   valueStyle: {
-  //     fill: 'lightblue',
-  //     fontSize: '36px',
-  //     fontSize: '36px'
-  //   }
-  // },
+  outRing: true,
+  percentage: true,
+  // x轴负向为-180，x轴正向为0，角度沿顺时针增大，起始结束角度需保持对称
+  angle: {
+    start: -210,
+    end: 30,
+  },
+  gaugeScale: {
+    scaleNum: 9,
+    scale: true,
+  },
 }
 
 const newConfig = {
@@ -83,7 +85,9 @@ stories.add('仪表盘1', () => <div style={{height: 200, width: 300 }} ><Wgauge
 
 stories.add('仪表盘2', () => <div style={{height: 200}} ><Wgauge data={{current: 90, label: ''}} config={newConfig} /></div>);
 
-stories.add('仪表盘3', () => <div style={{height: 120}} ><Wgauge data={{current: 90, label: 'test11'}} config={config2} /></div>);
+stories.add('仪表盘3', () => <div style={{height: 290}} ><Wgauge data={{current: 90, label: 'test11'}} config={config2} /></div>);
+
+stories.add('仪表盘3-1', () => <div style={{height: 290}} ><Wgauge data={{ current: 90 }} config={config2} /></div>);
 
 stories.add('仪表盘4', () => <div style={{height: 300 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
 
