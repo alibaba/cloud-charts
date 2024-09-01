@@ -382,7 +382,7 @@ function drawLine(chart: View, config: WlinescatterConfig, yAxisKey = 'y', legen
   }
 
   if (Array.isArray(areaColors)) {
-    areaColors = getAreaColors(areaColors)
+    areaColors = getAreaColors(areaColors);
   }
 
   let lineGeom = null;

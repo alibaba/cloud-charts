@@ -692,7 +692,7 @@ function drawLine(chart: View, config: WlinebarConfig, yAxisKey = 'y', legendKey
   }
 
   if (Array.isArray(areaColors)) {
-    areaColors = getAreaColors(areaColors)
+    areaColors = getAreaColors(areaColors);
   }
 
   let lineGeom = null;

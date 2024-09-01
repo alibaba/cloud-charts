@@ -433,7 +433,7 @@ function drawLine(chart: View, config: WlineboxConfig, yAxisKey = 'y', legendKey
   }
 
   if (Array.isArray(areaColors)) {
-    areaColors = getAreaColors(areaColors)
+    areaColors = getAreaColors(areaColors);
   }
 
   let lineGeom = null;

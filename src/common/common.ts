@@ -246,8 +246,12 @@ export function getStatusColorName(status: string) {
 // 统一面积填充的渐变色逻辑
 export function getAreaColors(areaColors: string[]) {
   return areaColors?.map((subColor: string) => {
-    subColor = `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
-    return subColor;
+     // 若包含渐变则不处理
+     if (subColor.includes('l') || subColor.includes('r') || subColor.includes('p')) {
+      return subColor;
+    } else {
+      return `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
+    }
   });
 }
 
