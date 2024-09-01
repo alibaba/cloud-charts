@@ -12,6 +12,7 @@ export const FullCamelName = 'CloudCharts';
 export const FullCrossName = 'cloud-charts';
 export const FullTrackName = 'CloudChartsTrackEnable';
 export const FullTestName = 'CloudChartsTestEnable';
+export const FullConsoleName = 'CloudChartsConsoleDisable';
 export const FullQualityName = 'CloudChartsQualityInfo';
 export const FullThemeName = 'CloudChartsDefaultTheme';
 export const FullThemeEventName = 'setCloudChartsTheme';

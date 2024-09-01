@@ -8,6 +8,7 @@ import {
   FullCamelName,
   FullCrossName,
   FullQualityName,
+  FullConsoleName,
 } from '../constants';
 import { calcChartScore, postMessageForChartsInfo } from './postMessage';
 
@@ -134,5 +135,7 @@ setTimeout(() => {
 }, 6000);
 
 export function warn(component: string, info: string, ...other: any[]) {
-  console.warn(`[${FullCamelName}] ${component}:`, info, ...other);
+  if(!window[FullConsoleName]) {
+    console.warn(`[${FullCamelName}] ${component}:`, info, ...other);
+  }
 }

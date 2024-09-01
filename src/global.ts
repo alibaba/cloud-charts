@@ -20,5 +20,9 @@ declare global {
      * 通过全局变量获取图表质量
      * */
     CloudChartsQualityInfo?: any;
+    /**
+     * 通过全局变量关闭consolelog
+     * */
+    CloudChartsConsoleDisable?: boolean;
   }
 }
