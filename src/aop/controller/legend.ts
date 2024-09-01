@@ -127,27 +127,6 @@ class WidgetsLegendController extends RawLegendController {
 
     this.legendContainer = this.parentDom.getElementsByClassName('widgets-legend')?.[0] as HTMLElement;
 
-    // const {
-    //   autoCollapse,
-    //   collapseRow,
-    //   showData,
-    //   marker,
-    //   allowAllCanceled,
-    //   hoverable,
-    //   onHover,
-    //   clickable,
-    //   onClick,
-    //   customConfig,
-    //   maxWidth,
-    //   maxHeight,
-    //   maxWidthRatio,
-    //   maxHeightRatio,
-    //   useReverseChecked,
-    //   table,
-    //   foldable,
-    //   dodge,
-    // } = this.view?.widgetsCtx?.props?.config?.legend || {};
-
     // // 当以下配置项生效时，使用g2 原生legend
     // if (
     //   !table &&
@@ -196,8 +175,6 @@ class WidgetsLegendController extends RawLegendController {
       this.legendContainer.style.cssText = `width: 100%; display: flex; justify-content: ${directionX}; align-items: ${directionY}; overflow-x: auto;overflow-y: hidden;`;
 
       this.legendContainer.style.visibility = 'visible';
-
-      console.log();
 
       return new ReactLegend({
         cfg,

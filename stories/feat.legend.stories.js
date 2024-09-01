@@ -643,12 +643,15 @@ stories.add('列表型legend', () => {
           },
           legend: {
             // position: 'right',
+            // hoverable: false,
+            // clickable: false,
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
             },
-            valueFormatter: (value) => {
-              return `${(value / 1000).toFixed(3)}K`;
-            },
+            decimal: 5
+            // valueFormatter: (value) => {
+            //   return `${(value / 1000).toFixed(3)}K`;
+            // },
           },
         }}
       />
@@ -1009,8 +1012,13 @@ stories.add('legend折叠(数据少时）', () => {
         data={d}
         config={{
           legend: {
+            // visible: false,
+            // hoverable: false,
+            // clickable: false,
             position: 'bottom-right',
             foldable: true,
+            // showData: true,
+            // maxWidth: 10
           },
         }}
       />

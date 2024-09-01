@@ -25,6 +25,11 @@ export interface TableLegendProps {
 export default function TableLegend({ config, chart, legendItems = [] }: TableLegendProps) {
   // @ts-ignore
   const { widgetsCtx } = chart;
+  const {
+    hoverable,
+    clickable,
+  } = config;
+
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
@@ -124,37 +129,41 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                   : themes['widgets-color-disable'],
               }}
               onMouseEnter={() => {
-                if (!filteredItems.includes(id)) {
+                if (hoverable && !filteredItems.includes(id)) {
                   setActivedItem(id);
                 }
               }}
               onMouseLeave={() => {
-                if (!filteredItems.includes(id)) {
+                if (hoverable && !filteredItems.includes(id)) {
                   setActivedItem('');
                 }
               }}
               onClick={() => {
-                if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
-                  setFilteredItems([]);
-                } else {
-                  setFilteredItems(
-                    legendItems
-                      .map((item: ListItem) => item.id || item.name)
-                      .filter((legendName: string) => legendName !== id),
-                  );
+                if (clickable) {
+                  if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                    setFilteredItems([]);
+                  } else {
+                    setFilteredItems(
+                      legendItems
+                        .map((item: ListItem) => item.id || item.name)
+                        .filter((legendName: string) => legendName !== id),
+                    );
+                  }
                 }
               }}
             >
               <td
                 className={`${prefix}-marker`}
                 onClick={(event) => {
-                  if (filteredItems.includes(id)) {
-                    setFilteredItems((pre) => pre.filter((filteredItem) => filteredItem !== id));
-                  } else if (filteredItems.length !== legendItems.length - 1) {
-                    setFilteredItems((pre) => [...pre, id]);
-                    clearActive();
-                  } else {
-                    setFilteredItems([]);
+                  if (clickable) {
+                    if (filteredItems.includes(id)) {
+                      setFilteredItems((pre) => pre.filter((filteredItem) => filteredItem !== id));
+                    } else if (filteredItems.length !== legendItems.length - 1) {
+                      setFilteredItems((pre) => [...pre, id]);
+                      clearActive();
+                    } else {
+                      setFilteredItems([]);
+                    }
                   }
                   event.stopPropagation();
                 }}
@@ -170,7 +179,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                   if (config?.valueFormatter && typeof config?.valueFormatter === 'function') {
                     value = config?.valueFormatter(value);
                   } else {
-                    value = formatValue(value, config?.table?.decimal);
+                    value = formatValue(value, config?.decimal);
                   }
                 } else {
                   value = '-';

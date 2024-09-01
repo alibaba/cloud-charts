@@ -24,6 +24,10 @@ export interface FoldableLegendProps {
 export default function FolableLegend({ config, chart, legendItems = [] }: FoldableLegendProps) {
   // @ts-ignore
   const { widgetsCtx } = chart;
+  const {
+    hoverable,
+    clickable,
+  } = config;
 
   // 是否需要折叠
   const [foldable, setFoldable] = useState<boolean>(false);
@@ -215,24 +219,26 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
                   : themes['widgets-color-disable'],
               }}
               onMouseEnter={() => {
-                if (!filteredItems.includes(id)) {
+                if (hoverable && !filteredItems.includes(id)) {
                   setActivedItem(id);
                 }
               }}
               onMouseLeave={() => {
-                if (!filteredItems.includes(id)) {
+                if (hoverable && !filteredItems.includes(id)) {
                   setActivedItem('');
                 }
               }}
               onClick={() => {
-                if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
-                  setFilteredItems([]);
-                } else {
-                  setFilteredItems(
-                    legendItems
-                      .map((item: ListItem) => item.id || item.name)
-                      .filter((legendName: string) => legendName !== id),
-                  );
+                if (clickable) {
+                  if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                    setFilteredItems([]);
+                  } else {
+                    setFilteredItems(
+                      legendItems
+                        .map((item: ListItem) => item.id || item.name)
+                        .filter((legendName: string) => legendName !== id),
+                    );
+                  }
                 }
               }}
             >
