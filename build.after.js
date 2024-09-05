@@ -67,9 +67,8 @@ module.exports = ({ context, onGetWebpackConfig, registerTask, registerCliOption
       config.optimization.minimize(false);
       config.output
         .path(path.resolve(rootDir, 'buildDev'))
-        .filename('[name].dev.js')
+        .filename('[name].js')
         .publicPath('./buildDev/')
-        .libraryExport('default')
     }
   }
 
