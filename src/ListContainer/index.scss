@@ -1,0 +1,24 @@
+@import '../themes/index';
+
+$list-container-prefix: '.#{$base-prefix}-list-container';
+
+$divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
+
+#{$list-container-prefix}-container {
+  width: 100%;
+  height: 100%;
+
+  #{$list-container-prefix}-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  #{$list-container-prefix}-divider {
+    display: inline-block;
+    width: 1px;
+    background: $divider-color;
+    height: 40px;
+  }
+}
