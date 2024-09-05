@@ -65,7 +65,7 @@ export { default as Wcount } from './Wcount/index';
 // export { default as Wdashboard } from './Wdashboard/index';
 export { Wnumbercard, Wnumberoverview } from './Wnumbercard/index';
 export { default as Wcapacity } from './Wcapacity/index';
-export { default as Wlistcontainer } from './ListContainer/index';
+export { default as Wlistcontainer } from './Wlistcontainer/index';
 
 // export type
 export type { WlineConfig } from './Wline';
