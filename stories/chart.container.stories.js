@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import { WlistContainer } from '@alicloud/cloud-charts';
+import { Wlistcontainer } from '@alicloud/cloud-charts';
 
-const stories = storiesOf('WlistContainer', module);
+const stories = storiesOf('Wlistcontainer', module);
 
 const svgIcon = (
   <svg viewBox="0 0 1024 1024" width="24" height="24">
@@ -135,19 +135,19 @@ const testData_6 = [
 
 stories.add('指标卡（基本版）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={testData_1} />
+    <Wlistcontainer chart="Wnumbercard" data={testData_1} />
   </div>
 ));
 
 stories.add('指标卡（带icon）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={testData_2} />
+    <Wlistcontainer chart="Wnumbercard" data={testData_2} />
   </div>
 ));
 
 stories.add('指标卡（带chart）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={testData_6} />
+    <Wlistcontainer chart="Wnumbercard" data={testData_6} />
   </div>
 ));
 
@@ -258,7 +258,7 @@ const status_data = [
 
 stories.add('指标卡（大盘）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={status_data} backgroundType="none" showDivider={false} />
+    <Wlistcontainer chart="Wnumbercard" data={status_data} backgroundType="none" showDivider={false} />
   </div>
 ));
 
@@ -341,30 +341,30 @@ const gauge_data2 = [
 
 stories.add('仪表盘', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wgauge" data={gauge_data} config={{}} />
+    <Wlistcontainer chart="Wgauge" data={gauge_data} config={{}} />
   </div>
 ));
 
 stories.add('仪表盘（不同配置项）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wgauge" data={gauge_data2} />
+    <Wlistcontainer chart="Wgauge" data={gauge_data2} />
   </div>
 ));
 
 stories.add('指标卡（fullSize）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={testData_1} fullSize />
+    <Wlistcontainer chart="Wnumbercard" data={testData_1} fullSize />
   </div>
 ));
 
 stories.add('指标卡（大盘fullSize）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wnumbercard" data={status_data} fullSize backgroundType="none" showDivider={false} />
+    <Wlistcontainer chart="Wnumbercard" data={status_data} fullSize backgroundType="none" showDivider={false} />
   </div>
 ));
 
 stories.add('仪表盘(fullSize)', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <WlistContainer chart="Wgauge" data={gauge_data} config={{}} fullSize />
+    <Wlistcontainer chart="Wgauge" data={gauge_data} config={{}} fullSize />
   </div>
 ));
