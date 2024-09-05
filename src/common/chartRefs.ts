@@ -11,10 +11,11 @@ export function getStatistics(
 ) {
   // 业务偶现chart为null，导致filteredData无法获取的报错，暂不清楚原因，这里增加兜底逻辑
   // @ts-ignore
-  let data = [...(chart?.filteredData ?? [])];
+  let data = [...(chart?.options?.data ?? [])];
+
   chart?.views.map((view: View) => {
     // @ts-ignore
-    data = [...data, ...(view?.filteredData ?? [])];
+    data = [...data, ...(view?.options?.data ?? [])];
   });
 
   // 将每类数据分类
