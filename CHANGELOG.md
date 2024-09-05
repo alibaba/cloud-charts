@@ -1,3 +1,14 @@
+### 1.1.18 (2024-09-05)
+
+#### New Features
+- 增加WlistContainer
+- 更新单位转换的tooltip与legend的联动
+
+#### Bug Fixes
+
+- 修复表格型图例点击时数据缺失的问题
+- 仪表盘不传config报错
+
 ### 1.1.17 (2024-09-01)
 
 #### New Features
