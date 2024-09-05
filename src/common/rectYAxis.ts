@@ -54,7 +54,7 @@ export default function <T>(
               rotate,
               autoHide,
               autoEllipsis,
-              formatter: labelFormatter || customFormatter(config.yAxis || {}),
+              formatter: labelFormatter || customFormatter({ hideZeroUnit: true, ...(config.yAxis || {}) }),
             }
           : label,
     };

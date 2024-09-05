@@ -21,4 +21,5 @@ export default {
   calcLinearColor: common.calcLinearColor,
   traverseTree: common.traverseTree,
   deepAssign: common.deepAssign,
+  unitConversion: common.unitConversion,
 };

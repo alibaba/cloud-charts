@@ -437,11 +437,25 @@ export function filterKey(obj: Types.LooseObject, keys: string[]) {
 //   return [top, right, bottom, left];
 // }
 
+
 // 统一存储单位显示
-const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB'];
-const GBSpeedUnit = ['B/S', 'KB/S', 'MB/S', 'GB/S', 'TB/S'];
-const GiBUnit = ['BYTE', 'KIB', 'MIB', 'GIB', 'TIB'];
-const GiBSpeedUnit = ['BYTE/S', 'KIB/S', 'MIB/S', 'GIB/S', 'TIB/S'];
+const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB'];
+const GBSpeedUnit = ['B/S', 'KB/S', 'MB/S', 'GB/S', 'TB/S', 'PB/S', 'EB/S', 'ZB/S'];
+const GiBUnit = ['BYTE', 'KIB', 'MIB', 'GIB', 'TIB', 'PIB', 'EIB', 'ZIB'];
+const GiBSpeedUnit = ['BYTE/S', 'KIB/S', 'MIB/S', 'GIB/S', 'TIB/S', 'PIB/S', 'EIB/S', 'ZIB/S'];
+
+const unitMap: any = {
+  number: [],
+  disk_1000: GBUnit,
+  disk_1024: GiBUnit,
+  bandwidth_1000: GBSpeedUnit,
+  bandwidth_1024: GiBSpeedUnit,
+  money: ['¥'],
+  percent_1: ['%'],
+  percent_100: ['%'],
+  count: ['counts','k', 'm', 'b'],
+  time: ['ms', 's', 'm', 'h', 'days', 'weeks', 'months', 'years']
+};
 
 export interface customFormatterConfig {
   unit?: string;
@@ -449,15 +463,37 @@ export interface customFormatterConfig {
   grouping?: boolean | string;
   needUnitTransform?: boolean;
   unitTransformTo?: string;
-  valueType?: 'disk' | 'bandwidth' | 'money' | 'percent' | 'time'
+  valueType?:
+    | 'number'
+    | 'disk_1000'
+    | 'disk_1024'
+    | 'bandwidth_1000'
+    | 'bandwidth_1024'
+    | 'money'
+    | 'percent_1'
+    | 'percent_100'
+    | 'time'
+    | 'count';
+  hideZeroUnit?: boolean;
 }
 
 /**
  * 自定义格式化函数，支持 单位、小数位、千分位 处理
  * 包含云体系下的单位处理
+ * valueType 表示进位方式
+ * unit 为当前单位， 默认为当前类型的最小单位
+ * needUnitTransform 为是否需要转换
+ * unitTransformTo 为目标单位
+ * 如：
+ * disk - b、kb、mb
+ * bandwidth - b/s、kb/s、mb/s
+ * money - ¥
+ * percent - %
+ * count - count、k、m、b
+ * time - ms、s、m、h、days
  * */
 export function customFormatter(config: customFormatterConfig) {
-  const { unit, decimal = 1, grouping, needUnitTransform, unitTransformTo, valueType } = config;
+  const { unit, decimal = 1, grouping, needUnitTransform, unitTransformTo, valueType, hideZeroUnit = false } = config;
 
   if (!unit && (decimal === undefined || decimal === null) && !grouping && !needUnitTransform) {
     return null;
@@ -475,21 +511,103 @@ export function customFormatter(config: customFormatterConfig) {
       return `${v}${newUnit}`;
     }
 
+    
+    if(needUnitTransform && (unit || valueType)) {
+      if (valueType === 'percent_1') {
+        result = result * 100;
+      }
+      const { value, unit: transformUnit } = unitConversion(result, unit, decimal, unitTransformTo, valueType);
+
+      result = value;
+      newUnit = transformUnit;
+    }
+
     // 小数位
     result = numberDecimal(result, decimal);
 
     // 千分位
-    if (grouping) {
+    if (grouping || valueType === 'money' || valueType === 'count') {
       result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
     }
 
-    if(needUnitTransform) {
-      result = unitConversion(result, unit, decimal, unitTransformTo, valueType);
-
-      return result;
+    if(hideZeroUnit && Number(result) === 0) {
+      newUnit = '';
     }
+  
+    return valueType === 'money' ? `${newUnit}${result}` : `${result}${newUnit}`;
+  };
+}
 
-    return `${result}${newUnit}`;
+export function findUnitArray(input: string, valueType?: string): Array<string> {
+  if (valueType) {
+    // 定义待查找的数组列表
+    const unitArrays = unitMap[valueType];
+
+    // 遍历待查找的数组列表
+    if (unitArrays.includes(input)) {
+      // 如果输入值存在于当前数组中，返回该数组
+      return unitArrays;
+    }
+  } else {
+    let targetArray: any = []
+    Object.keys(unitMap).forEach((key: string) => {
+      if (unitMap[key].includes(input)) {
+        targetArray = unitMap[key];
+      }
+    });
+
+    return targetArray;
+  }
+
+  // 若遍历完所有数组仍未找到匹配项，返回 []
+  return [];
+}
+
+/**
+ * 统一进位单位格式化
+ * */
+export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
+  let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
+  const units = findUnitArray(currentUnit, valueType);
+  let finalUnit = unit;
+
+  const threshold = currentUnit?.includes('IB') || currentUnit?.includes('BYTE') ? 1024 : 1000;
+
+  let index = units.indexOf(currentUnit);
+  if (index === -1) {
+    return {
+      value,
+      unit,
+    };
+  }
+  if (unitTransformTo) {
+    let UpUnitTransformTot = unitTransformTo.toUpperCase();
+    let targetUnitIndex = units.indexOf(UpUnitTransformTot);
+    if (index === targetUnitIndex) {
+      return {
+        value,
+        unit,
+      };
+    }
+    const distance = Math.abs(index - targetUnitIndex);
+    if (index > targetUnitIndex) {
+      value *= Math.pow(threshold, distance);
+    } else {
+      value /= Math.pow(threshold, distance);
+    }
+    finalUnit = unitTransformTo;
+  }
+  if (!unitTransformTo) {
+    while (value >= threshold && index < units.length - 1) {
+      value /= threshold;
+      index++;
+    }
+    finalUnit = units[index];
+  }
+
+  return {
+    value: numberDecimal(value, decimal),
+    unit: finalUnit,
   };
 }
 
@@ -569,66 +687,6 @@ export function traverseTree(node: any, itemFunction?: any) {
     });
   }
   return node;
-}
-
-export function findUnitArray(input: string): Array<string> {
-  // 定义待查找的数组列表
-  const unitArrays = [GBUnit, GBSpeedUnit, GiBUnit, GiBSpeedUnit];
-
-  // 遍历待查找的数组列表
-  for (const arr of unitArrays) {
-    if (arr.includes(input)) {
-      // 如果输入值存在于当前数组中，返回该数组
-      return arr;
-    }
-  }
-
-  // 若遍历完所有数组仍未找到匹配项，返回 []
-  return [];
-}
-
-/**
- * 统一存储单位格式化
- * */
-export function unitConversion(value: any, unit: any, decimals = 1, unitTransformTo: any, valueType?: string) {
-  // size为数据量大小，unit为单位(例如'B'代表字节)，decimals表示小数点位数
-  let UpUnit = unit.toUpperCase();
-  const units = findUnitArray(UpUnit);
-  let finalUnit = unit;
-  const threshold = UpUnit?.includes('IB') || UpUnit?.includes('BYTE') ? 1024 : 1000; // 数值大于等于1000时升级单位
-
-  let index = units.indexOf(UpUnit);
-  if (index === -1) {
-    return `${value} ${unit}`;
-  }
-  if (unitTransformTo) {
-    let UpUnitTransformTot = unitTransformTo.toUpperCase();
-    let targetUnitIndex = units.indexOf(UpUnitTransformTot);
-    if (index === targetUnitIndex) {
-      return `${value} ${unit}`;
-    }
-    const distance = Math.abs(index - targetUnitIndex);
-    if (index > targetUnitIndex) {
-      value *= Math.pow(threshold, distance);
-    } else {
-      value /= Math.pow(threshold, distance);
-    }
-    finalUnit = unitTransformTo;
-  }
-  if (!unitTransformTo) {
-    while (value >= threshold && index < units.length - 1) {
-      value /= threshold;
-      index++;
-    }
-    finalUnit = units[index];
-  }
-  // 保留指定的小数位数
-  value = Number(value);
-  value = value?.toFixed(decimals);
-
-  // 移除末尾多余的0和小数点
-  value = parseFloat(value);
-  return `${value} ${finalUnit}`;
 }
 
 // util需要抽取出来
