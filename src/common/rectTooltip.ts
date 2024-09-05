@@ -75,7 +75,7 @@ export interface TooltipConfig extends customFormatterConfig {
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { tooltip?: TooltipConfig | boolean; yAxis?: (Types.ScaleOption & YAxisConfig) | (Types.ScaleOption & YAxisConfig)[] | false; },
+  config: { tooltip?: TooltipConfig | boolean; yAxis?: YAxisConfig | (YAxisConfig)[] | boolean; },
   defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function,
   componentConfig?: Types.TooltipCfg,
@@ -256,13 +256,29 @@ export default function <T>(
     if (onTooltipChange) {
       chart.on('tooltip:change', onTooltipChange);
     } else {
-       // 当开启Y轴千分位的时候，且tooltip没有设置的时候，tooltip沿用Y轴的配置
-       if (config?.yAxis?.grouping && !config.tooltip?.grouping) {
-        config.tooltip.grouping = config?.yAxis?.grouping;
+       // 默认tooltip的单位转换沿用Y轴配置
+      if (
+        typeof config.yAxis === 'object' &&
+        !Array.isArray(config.yAxis) &&
+        config?.yAxis?.needUnitTransform &&
+        typeof config.tooltip !== 'boolean' &&
+        config.tooltip?.needUnitTransform === undefined
+      ) {
+        config.tooltip.needUnitTransform = config?.yAxis?.needUnitTransform;
+        config.tooltip.unit = config.tooltip.unit ?? config?.yAxis?.unit;
+        config.tooltip.unitTransformTo = config.tooltip.unitTransformTo ?? config?.yAxis?.unitTransformTo;
+        config.tooltip.valueType = config.tooltip.valueType ?? config?.yAxis?.valueType;
       }
-      const customValueFormatter = customFormatter(
-        config.tooltip === true ? {} : config.tooltip || {},
-      );
+
+      if (typeof config.tooltip === 'object') {
+        config.tooltip.grouping = config.tooltip.grouping ?? config?.yAxis?.grouping;
+        config.tooltip.decimal = config.tooltip.decimal ?? config?.yAxis?.decimal;
+      }
+
+      // 暂时不考虑双轴
+      const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
+
+      const customValueFormatter = customFormatter(config.tooltip === true ? formatConfig : config.tooltip || {});
 
       chart.on('tooltip:change', (ev: any) => {
         // x: 当前鼠标的 x 坐标,

@@ -15,6 +15,7 @@ import {
 } from './interaction/legend-custom-filter';
 import { ListChecked } from './interaction/actions/list-checked';
 import { ListReverseChecked } from './interaction/actions/list-reverse-checked';
+import { YAxisConfig } from './rectYAxis';
 // import { legendHtmlContainer, legendHtmlList, legendHtmlListItem, legendHtmlMarker, legendTextStyle } from './g2Theme';
 
 /*
@@ -206,7 +207,7 @@ function getPadding(position: string, base: number, userPadding?: number[], isPo
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig | boolean; showStackSum?: boolean },
+  config: { legend?: LegendConfig | boolean; showStackSum?: boolean; yAxis?: YAxisConfig | (YAxisConfig)[] | boolean; },
   defaultConfig: Types.LegendCfg,
   dataType: string,
   field?: string,
@@ -399,9 +400,28 @@ export default function <T>(
     }
 
     if (showData) {
-      const customValueFormatter = customFormatter(
-        config.legend === true ? {} : config.legend || {},
-      );
+      if (
+        typeof config.yAxis === 'object' &&
+        !Array.isArray(config.yAxis) &&
+        config?.yAxis?.needUnitTransform &&
+        typeof config.legend !== 'boolean' &&
+        config.legend?.needUnitTransform === undefined
+      ) {
+        config.legend.needUnitTransform = config.legend.needUnitTransform ?? config?.yAxis?.needUnitTransform;
+        config.legend.unit = config.legend.unit ?? config?.yAxis?.unit;
+        config.legend.unitTransformTo = config.legend.unitTransformTo ?? config?.yAxis?.unitTransformTo;
+        config.legend.valueType = config.legend.valueType ?? config?.yAxis?.valueType;
+      }
+
+      if (typeof config.legend === 'object') {
+        config.legend.grouping = config.legend.grouping ?? config?.yAxis?.grouping;
+        config.legend.decimal = config.legend.decimal ?? config?.yAxis?.decimal;
+      }
+
+      // 暂时不考虑双轴
+      const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
+  
+      const customValueFormatter = customFormatter(config.legend === true ? formatConfig : config.legend || {});
 
       legendConfig.itemValue = {
         style: {
