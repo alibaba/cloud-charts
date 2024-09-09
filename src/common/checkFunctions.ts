@@ -498,10 +498,10 @@ export function checkSpecialConfig(chartName: string, config: any, force: any) {
 
   if (range && force !== true) {
     return {
-      xAxis: {
+      xAxis: config?.xAxis ? {
         range,
         ...(config?.xAxis || {}),
-      },
+      } : config?.xAxis,
     };
   }
 
