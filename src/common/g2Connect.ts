@@ -103,6 +103,7 @@ class G2Connect {
       // @ts-ignore 显式声明this，指向触发事件的图表实例
       const chartInstance = this;
       const record = type === 'data' ? getRecord(chartInstance, e) : null;
+
       self.charts.forEach((chart, index) => {
         // 过滤自身和已销毁的实例
         if (chart === chartInstance || chart.destroyed) {
@@ -115,19 +116,25 @@ class G2Connect {
         }
 
         if (type === 'data' && record) {
+          // record为当前鼠标位置的数据，而非其余联动图表的数据，所以需要根据X轴判断
           // 根据数据找到对应点，如果传入的数据不在画布空间内，point 为 null
-          const point = chart.getXY(record);
+          const targetRecord = getRecordByX(chart, record);
+          const point = chart.getXY(targetRecord ?? record);
+
           // 额外判断
           // 1、如果数据中包含null, point中的坐标会变为 NaN
           // 2、类型不一致坐标会出现负数
           if (point && !isNaN(point.x) && !isNaN(point.y) && point.x > 0 && point.y > 0) {
             // 找到对应的点，显示并return
             chart.showTooltip(getPoint(point, e, coordinate));
-            return;
           }
+
+          // 只有所选数据存在才会显示tooltip不然不显示
+          return;
         }
 
         // 根据e直接显示tooltip，x、y属性是 getter，会在tooltip内部处理时被忽略，这里另外读取出来传入
+        // 当图表宽度不一致的时候根据位置显示就会有问题
         chart.showTooltip({ x: e.x, y: e.y });
       });
     }
@@ -216,6 +223,21 @@ function getRecord(chart: Chart, e: Event) {
     record = record.data;
   }
   return record;
+}
+
+/**
+ * 根据原始数据的X轴坐标获取相应的点的数据
+ *
+ * @param {object} chart G2图表实例
+ * @param {object} record 原始数据
+ *
+ * @return {object|undefined} 获取的新数据，没有找到时为 null
+ * */
+function getRecordByX(chart: Chart, record: any): object | undefined {
+  const filterData = chart?.options?.data ?? [];
+
+  // 返回第一个能匹配上的数据即可
+  return filterData.find((ele: any) => ele.x === record.x);
 }
 
 /**
