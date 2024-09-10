@@ -85,6 +85,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       className={`${prefix}-container`}
       style={{
         marginLeft: position === 'right' ? 10 : 0,
+        ...config?.table?.style
       }}
     >
       {columns > 0 && (

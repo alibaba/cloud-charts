@@ -132,6 +132,7 @@ export interface LegendConfig extends customFormatterConfig {
           /** 数值，可以直接展示数字或字符串，也可以函数回调 */
           value: number | string | ((legendItem: any) => number | string);
         }>;
+        style?: React.CSSProperties;
       };
 
   /** legend数量多时是否折叠，默认false，优先级高于分页 */

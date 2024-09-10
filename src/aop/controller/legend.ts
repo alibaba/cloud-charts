@@ -65,11 +65,11 @@ class WidgetsLegendController extends RawLegendController {
 
         if (position === 'right') {
           size = [w / 2, h];
-          const height = Math.min(h, 20 * (num + 1));
+          const height = legendConfig?.table?.style?.height ?? Math.min(h, 20 * (num + 1));
           legendSize = [w / 2, height];
           legendMaxSize = [w / 2, h];
         } else {
-          const height = Math.min(h * 0.3, 20 * (num + 1));
+          const height = legendConfig?.table?.style?.height ?? Math.min(h * 0.3, 20 * (num + 1));
           size = [w, h - height];
           legendSize = [w, height];
           legendMaxSize = [w, height];
