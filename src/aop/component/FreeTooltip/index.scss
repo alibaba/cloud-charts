@@ -2,6 +2,9 @@
 
 $prefix: '.#{$base-prefix}-free-tooltip-';
 
+$scrollbar-thumb-color: getVar(widgets-axis-line, $widgets-axis-line);
+$scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
+
 #{$prefix}container {
   background: getVar(widgets-tooltip-background, $widgets-tooltip-background);
   border-radius: getVar(widgets-tooltip-corner-radius, $widgets-tooltip-corner-radius);
@@ -11,6 +14,8 @@ $prefix: '.#{$base-prefix}-free-tooltip-';
   font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
   color: getVar(widgets-tooltip-text, $widgets-tooltip-text);
   max-width: 25vw;
+  max-height: 50vh;
+  overflow-y: auto;
 
   #{$prefix}title {
     color: getVar(widgets-tooltip-title, $widgets-tooltip-title);
@@ -51,4 +56,21 @@ $prefix: '.#{$base-prefix}-free-tooltip-';
     text-overflow: ellipsis;
     margin-right: 8px;
   }
+}
+
+/*滚动条整体样式*/
+#{$prefix}container::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/*滚动条里面小方块*/
+#{$prefix}container::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: $scrollbar-thumb-color;
+}
+
+/*滚动条里面轨道*/
+#{$prefix}container::-webkit-scrollbar-track {
+  background: $scrollbar-bg-color;
 }
