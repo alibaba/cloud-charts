@@ -10,6 +10,7 @@ $prefix: '.#{$base-prefix}-free-tooltip-';
   font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
   font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
   color: getVar(widgets-tooltip-text, $widgets-tooltip-text);
+  max-width: 25vw;
 
   #{$prefix}title {
     color: getVar(widgets-tooltip-title, $widgets-tooltip-title);
@@ -41,8 +42,13 @@ $prefix: '.#{$base-prefix}-free-tooltip-';
   }
 
   #{$prefix}name {
-    max-width: 274px;
-    word-break: break-all;
+    max-width: calc(25vw - 86px);
+    text-wrap: pretty;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-right: 8px;
   }
 }

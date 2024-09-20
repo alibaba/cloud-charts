@@ -45,7 +45,11 @@ class WidgetsTooltipController extends RawTooltipController {
         title = this.getTitle(items);
       } catch (e) {}
       const element =
-        cfg.customTooltip === true ? <FreeTooltip title={title} data={items} /> : cfg.customTooltip(title, items);
+        cfg.customTooltip === true ? (
+          <FreeTooltip title={title} data={items} config={cfg} />
+        ) : (
+          cfg.customTooltip(title, items)
+        );
       ReactDOM.render(element, this.tooltipContainer);
 
       // 计算位置

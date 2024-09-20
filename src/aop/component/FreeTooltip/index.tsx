@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrefixName } from '../../../constants';
+import { Types } from '../../../common/types';
 import './index.scss';
 
 const Prefix = `${PrefixName}-free-tooltip-`;
@@ -19,16 +20,18 @@ interface FreeTooltipProps {
     /** 颜色 */
     color?: string;
   }>;
+
+  config?: Types.TooltipCfg;
 }
 
-export default function Tooltip({ title, data }: FreeTooltipProps) {
+export default function Tooltip({ title, data, config }: FreeTooltipProps) {
   if (!title && data?.length === 0) {
     return <div />;
   }
 
   return (
     <div className={`${Prefix}container`}>
-      {title && <div className={`${Prefix}title`}>{title}</div>}
+      {title && config?.showTitle && <div className={`${Prefix}title`}>{title}</div>}
       <div className={`${Prefix}items-container`}>
         {(data || []).map((item) => {
           return (
