@@ -86,9 +86,14 @@ class WidgetsTooltipController extends RawTooltipController {
 
       const tooltipRect = this.tooltipContainer.getBoundingClientRect();
       const bodyWidth = document.body.clientWidth;
+      const bodyHeight = document.body.clientHeight;
       if (position.x + tooltipRect.width > bodyWidth) {
         // 超过屏幕时移至左边
         position.x = position.x - tooltipRect.width - padding * 2;
+      }
+      if (position.y + tooltipRect.height > bodyHeight) {
+        // 超过屏幕时移至上方
+        position.y = position.y - tooltipRect.height - padding;
       }
 
       // 定位
