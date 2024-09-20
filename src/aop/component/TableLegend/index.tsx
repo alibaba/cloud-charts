@@ -30,8 +30,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
 
-  console.log('config', config);
-
   const legendField = widgetsCtx?.legendField || 'type';
 
   const position = config.position.split('-')[0];
