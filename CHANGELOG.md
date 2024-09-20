@@ -1,3 +1,21 @@
+### 1.1.20 (2024-09-20)
+
+#### New Features
+
+- Wlistcontainer增加空数据状态
+- 自定义tooltip加最大高度与滚动条、位置调整
+- TableLegend和FoldableLegend增加正反选及nameFormatter兼容
+- 增加秒级单位转换
+- 仪表盘新增fontColorFit，使字体颜色与圆环一致
+
+#### Bug Fixes
+
+- 仪表盘超过100或小于0时的展示
+- 覆盖文本省略内置交互，增加legend Value省略
+- 修改自定义tooltip的样式
+- 自定义tooltip兼容各种formatter
+- 修改tooltip显示位置的计算以及指标卡label过长时的样式
+
 ### 1.1.19 (2024-09-10)
 
 #### Bug Fixes
