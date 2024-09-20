@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { FullCrossName } from '../../constants';
 import FreeTooltip from '../component/FreeTooltip';
 import React from 'react';
+import { getRawData, customFormatter } from '../../common/common';
 
 // @ts-ignore
 class WidgetsTooltipController extends RawTooltipController {
@@ -40,16 +41,37 @@ class WidgetsTooltipController extends RawTooltipController {
       const items = this.getTooltipItems(point);
 
       let title = '';
-      try {
+      if (cfg?.showTitle) {
+        try {
+          // @ts-ignore
+          title = this.getTitle(items);
+        } catch (e) {}
+      }
+
+      // 配置项处理
+      const config = (this?.view as any)?.widgetsCtx?.mergeConfig ?? {};
+
+      const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
+      const customValueFormatter = customFormatter(config.tooltip === true ? formatConfig : config.tooltip || {});
+
+      items.forEach((item: any, index: number) => {
         // @ts-ignore
-        title = this.getTitle(items);
-      } catch (e) {}
+        const raw = getRawData(config, this?.view?.widgetsCtx?.rawData, item);
+
+        if (config?.tooltip?.valueFormatter) {
+          item.value = config?.tooltip?.valueFormatter(item.value, raw, index, items);
+        } else if (customValueFormatter) {
+          item.value = customValueFormatter(item.value);
+        }
+        if (item.name.startsWith('undefined-name-')) {
+          item.name = '';
+        } else if (config?.tooltip?.nameFormatter) {
+          item.name = config?.tooltip?.nameFormatter(item.name, raw, index, items);
+        }
+      });
+
       const element =
-        cfg.customTooltip === true ? (
-          <FreeTooltip title={title} data={items} config={cfg} />
-        ) : (
-          cfg.customTooltip(title, items)
-        );
+        cfg.customTooltip === true ? <FreeTooltip title={title} data={items} /> : cfg.customTooltip(title, items);
       ReactDOM.render(element, this.tooltipContainer);
 
       // 计算位置

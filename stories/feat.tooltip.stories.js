@@ -342,3 +342,23 @@ stories.add('自定义tooltip(饼图)', () => (
     />
   </div>
 ));
+
+stories.add('自定义tooltip（formatter）', () => (
+  <div style={{ width: 500, height: 300, position: 'absolute', right: 10 }}>
+    <Wline
+      height="300"
+      config={{
+        yAxis: {
+          valueType: 'count',
+          needUnitTransform: true,
+        },
+        tooltip: {
+          customTooltip: true,
+          titleFormatter: () => 'title',
+          nameFormatter: () => 'test',
+        },
+      }}
+      data={lineData}
+    />
+  </div>
+));

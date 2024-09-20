@@ -20,18 +20,16 @@ interface FreeTooltipProps {
     /** 颜色 */
     color?: string;
   }>;
-
-  config?: Types.TooltipCfg;
 }
 
-export default function Tooltip({ title, data, config }: FreeTooltipProps) {
+export default function Tooltip({ title, data }: FreeTooltipProps) {
   if (!title && data?.length === 0) {
     return <div />;
   }
 
   return (
     <div className={`${Prefix}container`}>
-      {title && config?.showTitle && <div className={`${Prefix}title`}>{title}</div>}
+      {title && <div className={`${Prefix}title`}>{title}</div>}
       <div className={`${Prefix}items-container`}>
         {(data || []).map((item) => {
           return (
