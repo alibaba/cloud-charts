@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Status } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import { numberDecimal } from '../common/common';
+import WidgetsTooltip from '../common/Tooltip';
 import { GlobalResizeObserver } from '../common/globalResizeObserver';
 import './index.scss';
 
@@ -90,6 +91,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     gaugeLineStyle = {},
     scaleLineLength = gaugeScale !== false ? 10 : 0,
   } = customStyles;
+  const labelRef = useRef<HTMLDivElement>(null);
   // 获取用户自定义刻度样式时的字体大小
   const [gaugeScaleFlag, setGaugeScaleFlag] = useState(false);
   const [realScaleLineLength, setRealScaleLineLength] = useState(scaleLineLength);
@@ -372,6 +374,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         {renderNum()}
         <div
           className={`${prefix}-label`}
+          ref={labelRef}
           style={{
             maxWidth: `${radius}px`,
             color: fontColorFit && strokeColor,
@@ -381,6 +384,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         >
           {label}
         </div>
+        <WidgetsTooltip ref={labelRef} content={label || ''} />
       </div>
     </div>
   );
