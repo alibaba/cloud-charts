@@ -4,6 +4,7 @@ import { IDataItem, Wnumbercard } from '../Wnumbercard';
 import Wgauge, { IWgaugeProps } from '../Wgauge';
 import { GlobalResizeObserver } from '../common/globalResizeObserver';
 import { FullCrossName, PrefixName } from '../constants';
+import Wplaceholder from '../Wplaceholder';
 import './index.scss';
 
 const prefix = `${PrefixName}-list-container`;
@@ -39,6 +40,10 @@ export default function ListContainer({
   fullSize = false,
   ...userOptions
 }: ListContainerProps) {
+  if (!data?.length) {
+    return <Wplaceholder empty />;
+  }
+
   const marginRight = useMemo(() => (typeof margin === 'number' ? margin : margin[1]), [margin]);
   const marginBottom = useMemo(() => (typeof margin === 'number' ? margin : margin[0]), [margin]);
 
