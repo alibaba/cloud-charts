@@ -25,13 +25,12 @@ export interface TableLegendProps {
 export default function TableLegend({ config, chart, legendItems = [] }: TableLegendProps) {
   // @ts-ignore
   const { widgetsCtx } = chart;
-  const {
-    hoverable,
-    clickable,
-  } = config;
+  const { hoverable, clickable, itemName, useReverseChecked } = config;
 
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
+
+  console.log('config', config);
 
   const legendField = widgetsCtx?.legendField || 'type';
 
@@ -85,7 +84,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       className={`${prefix}-container`}
       style={{
         marginLeft: position === 'right' ? 10 : 0,
-        ...config?.table?.style
+        ...config?.table?.style,
       }}
     >
       {columns > 0 && (
@@ -113,9 +112,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           height: `calc(100% - ${columns > 0 ? 20 : 0}px)`,
         }}
       >
-        {legendItems.map((legendItem: ListItem) => {
-          const { name, marker } = legendItem;
+        {legendItems.map((legendItem: ListItem, index: number) => {
+          let { name, marker } = legendItem;
           const id = legendItem.id ?? name;
+          if (itemName) {
+            name = itemName?.formatter?.(name, index, legendItem);
+          }
           return (
             <tr
               key={id}
@@ -139,36 +141,35 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                   setActivedItem('');
                 }
               }}
-              onClick={() => {
+              onClick={(event: any) => {
+                // 是否按Control
+                const hasControl = event.ctrlKey || event.metaKey;
                 if (clickable) {
-                  if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
-                    setFilteredItems([]);
+                  if ((!useReverseChecked && !hasControl) || (useReverseChecked && hasControl)) {
+                    // 正选
+                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                      setFilteredItems([]);
+                    } else {
+                      setFilteredItems(
+                        legendItems
+                          .map((item: ListItem) => item.id || item.name)
+                          .filter((legendName: string) => legendName !== id),
+                      );
+                    }
                   } else {
-                    setFilteredItems(
-                      legendItems
-                        .map((item: ListItem) => item.id || item.name)
-                        .filter((legendName: string) => legendName !== id),
-                    );
+                    // 反选
+                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                      setFilteredItems([]);
+                    } else if (filteredItems.includes(id)) {
+                      setFilteredItems((pre: string[]) => pre.filter((p: string) => p !== id));
+                    } else {
+                      setFilteredItems((pre: string[]) => [...pre, id]);
+                    }
                   }
                 }
               }}
             >
-              <td
-                className={`${prefix}-marker`}
-                onClick={(event) => {
-                  if (clickable) {
-                    if (filteredItems.includes(id)) {
-                      setFilteredItems((pre) => pre.filter((filteredItem) => filteredItem !== id));
-                    } else if (filteredItems.length !== legendItems.length - 1) {
-                      setFilteredItems((pre) => [...pre, id]);
-                      clearActive();
-                    } else {
-                      setFilteredItems([]);
-                    }
-                  }
-                  event.stopPropagation();
-                }}
-              >
+              <td className={`${prefix}-marker`}>
                 <LegendMarker marker={marker} disable={filteredItems.includes(id)} />
               </td>
               <td>

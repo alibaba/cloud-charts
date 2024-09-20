@@ -24,10 +24,7 @@ export interface FoldableLegendProps {
 export default function FolableLegend({ config, chart, legendItems = [] }: FoldableLegendProps) {
   // @ts-ignore
   const { widgetsCtx } = chart;
-  const {
-    hoverable,
-    clickable,
-  } = config;
+  const { hoverable, clickable, useReverseChecked } = config;
 
   // 是否需要折叠
   const [foldable, setFoldable] = useState<boolean>(false);
@@ -101,9 +98,12 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
     }
   }, [activedItem]);
 
-  const renderItem = (item: ListItem) => {
-    const { name, marker } = item;
+  const renderItem = (item: ListItem, index: number, config: any) => {
+    let { name, marker } = item;
     const id = item.id || name;
+    if (config?.itemName) {
+      name = config?.itemName?.formatter?.(name, index, item);
+    }
     return (
       <>
         <div
@@ -205,7 +205,7 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
         className={`${prefix}-content`}
         style={{ maxHeight: folded ? 20 : containerHeight * 0.3, overflowY: !folded ? 'auto' : 'hidden' }}
       >
-        {legendItems.map((item: ListItem) => {
+        {legendItems.map((item: ListItem, index: number) => {
           const id = item.id || item.name;
           return (
             <div
@@ -228,21 +228,35 @@ export default function FolableLegend({ config, chart, legendItems = [] }: Folda
                   setActivedItem('');
                 }
               }}
-              onClick={() => {
+              onClick={(event: any) => {
+                // 是否按Control
+                const hasControl = event.ctrlKey || event.metaKey;
                 if (clickable) {
-                  if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
-                    setFilteredItems([]);
+                  if ((!useReverseChecked && !hasControl) || (useReverseChecked && hasControl)) {
+                    // 正选
+                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                      setFilteredItems([]);
+                    } else {
+                      setFilteredItems(
+                        legendItems
+                          .map((item: ListItem) => item.id || item.name)
+                          .filter((legendName: string) => legendName !== id),
+                      );
+                    }
                   } else {
-                    setFilteredItems(
-                      legendItems
-                        .map((item: ListItem) => item.id || item.name)
-                        .filter((legendName: string) => legendName !== id),
-                    );
+                    // 反选
+                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                      setFilteredItems([]);
+                    } else if (filteredItems.includes(id)) {
+                      setFilteredItems((pre: string[]) => pre.filter((p: string) => p !== id));
+                    } else {
+                      setFilteredItems((pre: string[]) => [...pre, id]);
+                    }
                   }
                 }
               }}
             >
-              {renderItem(item)}
+              {renderItem(item, index, config)}
             </div>
           );
         })}

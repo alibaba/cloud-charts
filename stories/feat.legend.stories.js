@@ -648,7 +648,7 @@ stories.add('列表型legend', () => {
             table: {
               statistics: ['min', 'max', 'avg', 'current'],
             },
-            decimal: 5
+            decimal: 5,
             // valueFormatter: (value) => {
             //   return `${(value / 1000).toFixed(3)}K`;
             // },
@@ -1387,6 +1387,84 @@ stories.add('数据变换', () => {
                 },
               ],
             },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend(formatter)', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            // position: 'right',
+            nameFormatter: () => 'test',
+            valueFormatter: (value) => `${value} 个`,
+            table: {
+              statistics: ['min'],
+              decimal: 1,
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('列表型legend(正反选)', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={lineData}
+        config={{
+          legend: {
+            // position: 'right',
+            useReverseChecked: true,
+            table: {
+              statistics: ['min'],
+              decimal: 1,
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(formatter）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wline
+        // height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            foldable: true,
+            nameFormatter: () => 'test',
+            valueFormatter: (value) => `${value} 个`,
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('legend折叠(正反选）', () => {
+  return (
+    <div style={{ width: 600 }}>
+      <Wline
+        // height="300"
+        data={multipleData}
+        config={{
+          legend: {
+            foldable: true,
+            useReverseChecked: true,
           },
         }}
       />
