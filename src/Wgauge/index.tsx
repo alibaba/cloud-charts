@@ -59,7 +59,8 @@ interface WgaugeProps {
 
 const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const { data, config } = props;
-  const { current, total = 100, label } = data;
+  const { total = 100, label } = data;
+  const current = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
   const {
     colors = [
       [60, 'error'],
