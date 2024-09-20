@@ -13,6 +13,7 @@ import {
   customLegendFilterLast,
   singleCheckedLegendFilter,
 } from './interaction/legend-custom-filter';
+import { ellipsisCustomText } from './interaction/ellipsis-text';
 import { ListChecked } from './interaction/actions/list-checked';
 import { ListReverseChecked } from './interaction/actions/list-reverse-checked';
 import { YAxisConfig } from './rectYAxis';
@@ -208,7 +209,7 @@ function getPadding(position: string, base: number, userPadding?: number[], isPo
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { legend?: LegendConfig | boolean; showStackSum?: boolean; yAxis?: YAxisConfig | (YAxisConfig)[] | boolean; },
+  config: { legend?: LegendConfig | boolean; showStackSum?: boolean; yAxis?: YAxisConfig | YAxisConfig[] | boolean },
   defaultConfig: Types.LegendCfg,
   dataType: string,
   field?: string,
@@ -255,7 +256,7 @@ export default function <T>(
       gradient,
       unit,
       decimal = 1,
-      grouping
+      grouping,
     } = (config.legend === true ? {} : config.legend || {}) as LegendConfig;
 
     const baseFontSizeNum = pxToNumber(themes['widgets-font-size-1']);
@@ -312,12 +313,16 @@ export default function <T>(
       useReverseChecked,
       unit,
       decimal,
-      grouping
+      grouping,
     };
 
+    // 覆盖默认交互
+    ellipsisCustomText(chart);
     // legend hover 相关事件
     // 移除默认交互
     chart.removeInteraction('legend-active');
+    chart.removeInteraction('ellipsis-text');
+
     if (hoverable) {
       // 复写高亮交互, 点击图例后高亮重置
       chart.interaction('legend-highlight', {
@@ -421,7 +426,7 @@ export default function <T>(
 
       // 暂时不考虑双轴
       const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
-  
+
       const customValueFormatter = customFormatter(config.legend === true ? formatConfig : config.legend || {});
 
       legendConfig.itemValue = {
