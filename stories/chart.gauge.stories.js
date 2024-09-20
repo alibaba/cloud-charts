@@ -28,11 +28,13 @@ const config = {
 }
 
 const config1 = {
-  percentage: false,
+  percentage: true,
   unit: '个',
   outRing: true,
   gaugeScale: {},
   fontColorFit: true,
+  // needUnitTransform: true,
+  valueType: 'percent_1'
   // gaugeScale: {
   //   scaleNum: 9,
   //   // scale: false,
@@ -93,7 +95,7 @@ const newConfig = {
 
 stories.add('仪表盘基础用法', () => <div style={{height: 200 }} ><Wgauge config={newConfig} data={{ current: 90 }} /></div>);
 
-stories.add('仪表盘1', () => <div style={{height: 200 }} ><Wgauge data={{current: 81, label: ''}} config={config1}  /></div>);
+stories.add('仪表盘1', () => <div style={{height: 200 }} ><Wgauge data={{current: 0.81, label: ''}} config={config1}  /></div>);
 
 stories.add('仪表盘2', () => <div style={{height: 200}} ><Wgauge data={{current: 90, label: ''}} config={newConfig} /></div>);
 

@@ -83,7 +83,7 @@ stories.add('面积曲线图', () => (
     <Wline
       height="300"
       config={{
-        // area: true,
+        area: true,
         spline: true,
         guide: {
           line: [

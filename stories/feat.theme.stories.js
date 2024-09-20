@@ -171,8 +171,9 @@ function ThemeDemo() {
               height="300"
               data={data}
               config={{
+                area: true,
                 colors: ['#00FFFF'],
-                areaColors: ['l(90) 0:#00FFFF 1:#00FFFF00'], // 颜色渐变
+                areaColors: ['l(90) 0:#000000 1:#00FFFF00'], // 颜色渐变
               }}
             />
           </Wcontainer>

@@ -46,6 +46,7 @@ stories.add('柱状图', () => (
         legend: {
           position: 'top',
         },
+        yAxis: [{}]
       }}
       data={data}
     />

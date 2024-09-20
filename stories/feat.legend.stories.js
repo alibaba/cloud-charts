@@ -245,6 +245,16 @@ const pieData = [
     ],
   },
 ];
+
+const pieData4 = [
+  {
+    name: '浏览器占比',
+    data: [
+      ['Firefox', 45.0],
+      ['IE', 26.8],
+    ],
+  },
+];
 stories.add('图例位置测试-pie', () => (
   <Wcontainer className="demos">
     <Wpie
@@ -998,6 +1008,45 @@ stories.add('列表型legend（自定义）', () => {
   );
 });
 
+stories.add('列表型legend（同一行高度一致）', () => {
+  return (
+    <div style={{ display: "flex",width: 800, height: 300 }}>
+      <Wpie
+        // height="300"
+        width={400}
+        data={pieData}
+        config={{
+          legend: {
+            position: 'bottom',
+            table: {
+              statistics: ['min', 'current'],
+              style: {
+                height: 90
+              }
+            },
+          },
+        }}
+      />
+      <Wpie
+        // height="300"
+        width={400}
+        data={pieData4}
+        config={{
+          legend: {
+            position: 'bottom',
+            table: {
+              statistics: ['min',  'current'],
+              style: {
+                height: 90
+              }
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
 stories.add('legend折叠(数据少时）', () => {
   const [d, setD] = useState(lineData);
   // useEffect(() => {
@@ -1017,6 +1066,11 @@ stories.add('legend折叠(数据少时）', () => {
             // clickable: false,
             position: 'bottom-right',
             foldable: true,
+            customConfig: {
+              marker: {
+                symbol: "circle"
+              }
+            }
             // showData: true,
             // maxWidth: 10
           },

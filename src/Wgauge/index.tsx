@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Status } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
-import { numberDecimal } from '../common/common';
 import WidgetsTooltip from '../common/Tooltip';
+import { numberDecimal, unitConversion, customFormatterConfig } from '../common/common';
 import { GlobalResizeObserver } from '../common/globalResizeObserver';
 import './index.scss';
 
@@ -21,7 +21,7 @@ export interface IWgaugeProps {
   config: WgaugeProps;
 }
 
-interface WgaugeProps {
+interface WgaugeProps extends customFormatterConfig {
   colors?: string | Array<[number, Status | string]>;
   percentage?: boolean;
   className?: string;
@@ -62,7 +62,7 @@ interface WgaugeProps {
 const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const { data, config } = props;
   const { total = 100, label } = data;
-  const current = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
+
   const {
     colors = [
       [60, 'error'],
@@ -82,7 +82,25 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     percentage = true,
     unit = '',
     customStyles = {},
+    needUnitTransform,
+    valueType,
+    decimal,
+    unitTransformTo,
   } = config || {};
+
+  let sourceValue = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
+  let current = percentage ? numberDecimal((sourceValue / total) * 100) : numberDecimal(sourceValue);
+  let finalUnit = percentage ? '%' : unit;
+  if(needUnitTransform && (finalUnit || valueType)) {
+    if (valueType === 'percent_1') {
+      current = current * 100;
+    }
+    const { value, unit: transformUnit } = unitConversion(current, finalUnit, decimal, unitTransformTo, valueType);
+
+    current = value;
+    finalUnit = transformUnit;
+  }
+
   const {
     textStyle = {},
     valueStyle = {},
@@ -210,41 +228,23 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   const renderNum = () => {
     const { lineHeight, fontSize } = valueStyle;
-    if (percentage) {
-      return (
-        <div className={`${prefix}-value-wrapper`}>
-          <div
-            className={`${prefix}-num`}
-            style={{ fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px` }}
-          >
-            {numberDecimal((current / total) * 100)}
-          </div>
-          <div style={{
-            fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
-            ...unitStyle
-          }} className={`${prefix}-unit`}>
-            %
-          </div>
+
+    return (
+      <div className={`${prefix}-value-wrapper`}>
+        <div
+          className={`${prefix}-num`}
+          style={{ fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px` }}
+        >
+          {current}
         </div>
-      );
-    } else {
-      return (
-        <div className={`${prefix}-value-wrapper`}>
-          <div
-            className={`${prefix}-num`}
-            style={{ fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px` }}
-          >
-            {numberDecimal(current)}
-          </div>
-          <div style={{
-            fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
-            ...unitStyle
-          }} className={`${prefix}-unit`}>
-            {unit}
-          </div>
+        <div style={{
+          fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
+          ...unitStyle
+        }} className={`${prefix}-unit`}>
+          {finalUnit}
         </div>
-      );
-    }
+      </div>
+    );
   };
 
   // strokeWidth：24，decorationGap：22，decorationStrokeWidth：4

@@ -158,3 +158,38 @@ stories.add('特异点数据展示异常', () => (
     />
   </Wcontainer>
 ));
+
+stories.add('Y轴单位统计', () => (
+  <Wcontainer className="demos">
+    <Wline
+      height="300"
+      config={{
+        xAxis: {
+          // alias: '时间轴',
+        },
+        yAxis: {
+          valueType: 'time',
+          unit: 'ms',
+          // unitTransformTo: 'b/s',
+          // grouping: true,
+          needUnitTransform: true,
+          // decimal: 4
+          // alias: '具体数值',
+        },
+        legend: {
+          // showData: true,
+          // decimal: 4,
+          // grouping: false,
+          // needUnitTransform: false,
+        },
+        tooltip: {
+          // decimal: 4,
+          // grouping: false,
+          // needUnitTransform: true,
+          // unit: '次/s',
+        }
+      }}
+      data={data}
+    />
+  </Wcontainer>
+));

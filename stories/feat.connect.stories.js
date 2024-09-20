@@ -34,6 +34,61 @@ const lineData = [
   },
 ];
 
+const bugData2 = [
+  {
+      "name": "cluster_c59744a96652c4887a0d2ee0eefd6d6d1",
+      "data": [
+          [
+              1725948060000,
+              9.239
+          ],
+          // [
+          //     1725948120000,
+          //     9.132
+          // ],
+          [
+              1725948180000,
+              9.01
+          ],
+          [
+              1725948240000,
+              9.147
+          ],
+          [
+              1725948300000,
+              9.162
+          ]
+      ]
+  }
+];
+const bugData = [
+  {
+      "name": "cluster_c59744a96652c4887a0d2ee0eefd6d6d1",
+      "data": [
+          [
+              1725948060000,
+              55.88
+          ],
+          [
+              1725948120000,
+              56.53
+          ],
+          [
+              1725948180000,
+              56.324
+          ],
+          [
+              1725948240000,
+              56.284
+          ],
+          [
+              1725948300000,
+              56.304
+          ]
+      ]
+  }
+]
+
 const barData = [
   {
     name: '柱1',
@@ -105,20 +160,25 @@ class ConnectDataDemo extends React.Component {
       <div style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
         <Wline
           height="280"
+          width="300"
           getChartInstance={(c) => (this.chart1 = c)}
           config={{
-            padding: [40, 400, 24, 40],
+            padding: [40, 400, 'auto', 40],
           }}
-          data={lineData}
+          data={bugData2}
         />
-        <Wbar height="280" getChartInstance={(c) => (this.chart2 = c)} config={{}} data={barData} />
-        <Wscatter
+        {/* <Wbar height="280" getChartInstance={(c) => (this.chart2 = c)} config={{}} data={barData} /> */}
+        <Wline
           height="280"
+          // width="300"
           getChartInstance={(c) => (this.chart3 = c)}
           config={{
-            padding: [40, 10, 24, 400],
+            // padding: [40, 10, 24, 400],
+            xAxis: {
+              type: "time"
+            }
           }}
-          data={lineData}
+          data={bugData}
         />
       </div>
     );
