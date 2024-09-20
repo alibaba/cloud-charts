@@ -122,6 +122,8 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
   }
 
   #{$wnumbercard-prefix}-item-content-center {
+    height: 100%;
+    width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -131,6 +133,8 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
       display: flex;
       flex-direction: column;
       align-items: center;
+      height: 100%;
+      width: 100%;
     }
   }
 
@@ -145,6 +149,7 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
   }
 
   #{$wnumbercard-prefix}-item-label-container {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;

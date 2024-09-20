@@ -52,20 +52,24 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
 
   // 计算位置
   const pos = { x: 0, y: 0 };
-  let curElement = ref.current;
-  while (curElement && curElement !== document.body) {
-    pos.x += curElement.offsetLeft;
-    pos.y += curElement.offsetTop;
-    curElement = curElement.offsetParent as HTMLDivElement;
-  }
+  // let curElement = ref.current;
+  // while (curElement && curElement !== document.body) {
+  //   pos.x += curElement.offsetLeft;
+  //   pos.y += curElement.offsetTop;
+  //   curElement = curElement.offsetParent as HTMLDivElement;
+  // }
 
   // 减去scroll的宽高
-  curElement = ref.current;
-  while (curElement && curElement !== document.body) {
-    pos.x -= curElement.scrollLeft;
-    pos.y -= curElement.scrollTop;
-    curElement = curElement.parentElement as HTMLDivElement;
-  }
+  // let curElement = ref.current;
+  // while (curElement && curElement !== document.body) {
+  //   pos.x -= curElement.scrollLeft;
+  //   pos.y -= curElement.scrollTop;
+  //   curElement = curElement.parentElement as HTMLDivElement;
+  // }
+
+  const rect = ref.current?.getBoundingClientRect();
+  pos.x = (rect?.left ?? 0) + document.documentElement.scrollLeft;
+  pos.y = (rect?.top ?? 0) + document.documentElement.scrollTop;
 
   return ReactDOM.createPortal(
     visible && (
