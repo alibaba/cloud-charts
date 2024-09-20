@@ -32,6 +32,7 @@ const config1 = {
   unit: '个',
   outRing: true,
   gaugeScale: {},
+  fontColorFit: true,
   // gaugeScale: {
   //   scaleNum: 9,
   //   // scale: false,
@@ -74,11 +75,11 @@ const newConfig = {
   //   scaleNum: 9,
   //   scale: true,
   // },
-  colors: [
-    [60, 'error'],
-    [80, 'warning'],
-    [100, 'success'],
-  ],
+  // colors: [
+  //   [60, 'error'],
+  //   [80, 'warning'],
+  //   [100, 'success'],
+  // ],
   // strokeWidth: 15,
   // customStyles: {
   //   scaleLineLength: 6,

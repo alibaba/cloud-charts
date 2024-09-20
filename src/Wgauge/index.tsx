@@ -25,6 +25,7 @@ interface WgaugeProps {
   percentage?: boolean;
   className?: string;
   outRing?: boolean;
+  fontColorFit?: boolean;
   strokeWidth?: number; // 圆环宽度
   decorationGap?: number; // 装饰性弧线与原弧线之间的间隔
   decorationStrokeWidth?: number; // 装饰性弧线的宽度
@@ -67,6 +68,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       [80, 'warning'],
       [100, 'success'],
     ],
+    fontColorFit = false,
     angle = {
       start: -180, // 默认起始角度（x轴负方向）
       end: 0, // 默认结束角度（x轴方向）
@@ -364,6 +366,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         }`}
         style={{
           transform: angle.end - angle.start > 180 ?  `translateY(50%)` : `translateY(-${textOffset}px)`,
+          color: fontColorFit && strokeColor,
         }}
       >
         {renderNum()}
@@ -371,6 +374,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           className={`${prefix}-label`}
           style={{
             maxWidth: `${radius}px`,
+            color: fontColorFit && strokeColor,
             ...textStyle,
           }}
           title={label}
