@@ -132,9 +132,14 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     #{$wnumbercard-prefix}-main-content {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
       height: 100%;
       width: 100%;
+    }
+
+    #{$wnumbercard-prefix}-item-label-container {
+      justify-content: center;
     }
   }
 
