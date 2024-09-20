@@ -71,11 +71,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       end: 0, // 默认结束角度（x轴方向）
     },
     className = '',
-    strokeWidth = 24,
-    decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 22,
+    // decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 22,
     decorationStrokeWidth = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
-    // decorationGap = 22,
-    // decorationStrokeWidth = 4,
     outRing = true,
     gaugeScale = false,
     percentage = true,
@@ -91,12 +88,23 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     scaleLineLength = gaugeScale !== false ? 10 : 0,
   } = customStyles;
   // 获取用户自定义刻度样式时的字体大小
-  const gaugeTextSize = getFontSizeNumber(gaugeTextStyle) === 0 ? 12 : getFontSizeNumber(gaugeTextStyle);
+  const [gaugeScaleFlag, setGaugeScaleFlag] = useState(false);
+  const [realScaleLineLength, setRealScaleLineLength] = useState(scaleLineLength);
+  // 当半径小于50时，取消掉外圈刻度，否则取用户自定义字体大小，如果没有设置，则看用户是否启用刻度，启用的话默认12
+  const gaugeTextSize = gaugeScaleFlag
+    ? 0
+    : getFontSizeNumber(gaugeTextStyle) === 0
+    ? gaugeScale
+      ? 12
+      : 0
+    : getFontSizeNumber(gaugeTextStyle);
   const { scaleNum = 5, scale = true } =
     typeof gaugeScale === 'object' && gaugeScale !== null ? gaugeScale : { scaleNum: 0, scale: false };
 
   const containerRef = useRef(null); // 用于引用父容器的ref
   const [radius, setRadius] = useState(100); // 默认半径为100，实际会基于父元素高度来调整
+  const strokeWidth = radius * 0.12 < 12 ? 12 : radius * 0.12;
+  const decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : (outRing ? strokeWidth : 0);
   const [lineSize, setLineSize] = useState(100 * 0.8 * 0.24);
   const [gap, setGap] = useState(0);
   const textRef = useRef(null);
@@ -121,9 +129,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           setFlag(false);
         }
         const realradius = width < height * 2 ? width / 2 : height;
-        const scaleHeight = gaugeScale && width < height * 2 ? decorationStrokeWidth * 2 : 0;
+        const strokeWidth = realradius * 0.12 < 12 ? 12 : realradius * 0.12;
+        const decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : (outRing ? strokeWidth : 0);
+        const scaleHeight = gaugeScaleFlag && width < height * 2 ? decorationStrokeWidth * 2 : 0;
         // 圆的半径需要考虑strokeWidth的影响，以便圆完全显示在父元素内
-        setGap(height - (realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight));
+        // setGap(height - (realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight));
         setRadius(realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight);
         setLineSize(realradius * 0.8 * 0.24);
       }, 0);
@@ -145,6 +155,16 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       }
     };
   }, [containerRef]);
+
+  useEffect(() => {
+    if(radius < 40){
+      setGaugeScaleFlag(true)
+      setRealScaleLineLength(0);
+    }else {
+      setGaugeScaleFlag(false);
+      setRealScaleLineLength(scaleLineLength);
+    }
+  }, [radius])
 
   // 计算弧度的起始角和结束角
   const startAngle = angle.start;
@@ -194,7 +214,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           >
             {numberDecimal((current / total) * 100)}
           </div>
-          <div style={unitStyle} className={`${prefix}-unit`}>
+          <div style={{
+            fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
+            ...unitStyle
+          }} className={`${prefix}-unit`}>
             %
           </div>
         </div>
@@ -208,7 +231,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           >
             {numberDecimal(current)}
           </div>
-          <div style={unitStyle} className={`${prefix}-unit`}>
+          <div style={{
+            fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
+            ...unitStyle
+          }} className={`${prefix}-unit`}>
             {unit}
           </div>
         </div>
@@ -221,7 +247,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const viewBoxDecoratedY = -strokeWidth / 2 - decorationGap - decorationStrokeWidth / 2;
   const viewBoxWidthWithDecorations = 2 * radius + strokeWidth + 2 * (decorationGap + decorationStrokeWidth);
   const viewBoxHeightWithDecorations =
-    radius + strokeWidth + decorationGap + decorationStrokeWidth;
+    radius + strokeWidth + decorationGap + decorationStrokeWidth > 50
+      ? config?.angle && config.angle?.end - config.angle?.start > 180
+        ? radius + strokeWidth + decorationGap + decorationStrokeWidth
+        : radius + 2 * strokeWidth + decorationGap + decorationStrokeWidth
+      : 50;
 
   const tickArr = new Array(scaleNum).fill(0).map((item, idx: number) => {
     return numberDecimal(0 + (idx * 100) / (scaleNum - 1));
@@ -235,7 +265,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     const outerPos = calculatePositionOnCircle(
       angleValue,
       radius,
-      textOffset + scaleLineLength,
+      textOffset + realScaleLineLength,
     );
     if (value === 0 || value === 100) {
       innerPos.y -= 1;
@@ -244,7 +274,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     const textPos = calculatePositionOnCircle(
       angleValue,
       radius,
-      textOffset + scaleLineLength * (scale ? 2 : 1) + gaugeTextSize / 3,
+      textOffset + realScaleLineLength * (scale ? 2 : 1) + gaugeTextSize / 3,
     );
 
     const renderText = (
@@ -282,16 +312,14 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   const textOffset = viewBoxHeightWithDecorations - startY + viewBoxDecoratedY - gaugeTextSize / 3;
 
-  const viewBoxRadio = radius > 130 ? 1.9 : 2.1
-
   const viewBox =
     angle.end - angle.start > 180
-      ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2} ${viewBoxWidthWithDecorations} ${
-          viewBoxHeightWithDecorations * viewBoxRadio
+      ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2 - realScaleLineLength} ${viewBoxWidthWithDecorations} ${
+          viewBoxHeightWithDecorations + Math.cos(((angle.start - 180) * Math.PI) / 180) * (radius + gaugeTextSize + realScaleLineLength) + gaugeTextSize + realScaleLineLength * 2
         }`
-      : `${viewBoxDecoratedX - scaleLineLength * 2 - gaugeTextSize} ${viewBoxDecoratedY} ${
-          viewBoxWidthWithDecorations + scaleLineLength * 4 + gaugeTextSize * 2
-        } ${viewBoxHeightWithDecorations - scaleLineLength * 2 - gaugeTextSize}`;
+      : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${viewBoxDecoratedY - strokeWidth / 3} ${
+          viewBoxWidthWithDecorations + realScaleLineLength * 4 + gaugeTextSize * 2
+        } ${viewBoxHeightWithDecorations - realScaleLineLength * 2 - gaugeTextSize}`;
 
   return (
     <div
@@ -326,7 +354,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         )}
         <path d={pathBottomData} fill="none" className={`${prefix}-path`} strokeWidth={strokeWidth} />
         <path d={pathData} fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-        {gaugeScale && tickMarks}
+        {(!gaugeScaleFlag) ? tickMarks : <></>}
       </svg>
       <div
         ref={textRef}

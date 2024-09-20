@@ -437,6 +437,7 @@ export function filterKey(obj: Types.LooseObject, keys: string[]) {
 //   return [top, right, bottom, left];
 // }
 
+// 内置模糊匹配
 
 // 统一存储单位显示
 const GBUnit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB'];
@@ -454,7 +455,101 @@ const unitMap: any = {
   percent_1: ['%'],
   percent_100: ['%'],
   count: ['counts','k', 'm', 'b'],
-  time: ['ms', 's', 'm', 'h', 'days', 'weeks', 'months', 'years']
+  time: ['ps', 'ns', 'μs', 'ms', 's'],
+  date: ['m', 'h', 'days', 'weeks', 'months', 'years']
+};
+
+ export const unitFamily:  any =  {
+  disk_1000: {
+    defaultUnit: 'B/S',
+    units: GBSpeedUnit,
+    upgradeFactor: 1000,
+    otherUnits: {
+      'BYTE': ['bytes']
+    }
+  },
+  disk_1024: {
+    defaultUnit: 'BYTE',
+    units: GiBUnit,
+    upgradeFactor: 1024,
+    otherUnits: {
+      'BYTE': ['bytes']
+    }
+  },
+  bandwidth_1000: {
+    defaultUnit: '',
+    units: GBSpeedUnit,
+    upgradeFactor: 1000,
+    otherUnits: {
+      'BYTE': ['bytes']
+    }
+  },
+  bandwidth_1024: {
+    defaultUnit: '¥',
+    units: GiBSpeedUnit,
+    upgradeFactor: 1024,
+    otherUnits: {
+      'BYTE/S': ['bytes/s']
+    }
+  },
+  money: {
+    defaultUnit: '¥',
+    units: ['¥'],
+    upgradeFactor: 1,
+    otherUnits: null
+  },
+  percent_1: {
+    defaultUnit: '%',
+    units: ['%'],
+    upgradeFactor: 100,
+    otherUnits: null
+  },
+  percent_100: {
+    defaultUnit: '%',
+    units: ['%'],
+    upgradeFactor: 1,
+    otherUnits: null
+  },
+  countFrequency: {
+    defaultUnit: 'count/s',
+    units: ['count/s','count/m', 'count/h', 'count/d'],
+    upgradeFactor: 1000,
+    otherUnits: {
+      'count/s': ['counts/s'],
+      'count/m': ['counts/m'],
+      'count/h': ['counts/h']
+    }
+  },
+  countRate: {
+    defaultUnit: 'count/s',
+    units: ['count/s','k/s', 'm/s', 'b/s'],
+    upgradeFactor: 1000,
+    otherUnits: {
+      counts: ['', 'count']
+    }
+  },
+  count: {
+    defaultUnit: 'count',
+    units: ['count','k', 'm', 'b'],
+    upgradeFactor: 1000,
+    otherUnits: {
+      counts: ['', 'counts']
+    }
+  },
+  time: {
+    defaultUnit: 's',
+    upgradeFactor: {
+      s: 1000,
+      m: 60,
+      h: 24,
+      // days: 1,
+      // weeks: 7,
+      // months: 12,
+      // years: 12
+    },
+    units: ['ps', 'ns', 'μs', 'ms', 's', 'm', 'h'],
+    otherUnits: null
+  }
 };
 
 export interface customFormatterConfig {
@@ -475,6 +570,7 @@ export interface customFormatterConfig {
     | 'time'
     | 'count';
   hideZeroUnit?: boolean;
+  customUnitList?: string[];
 }
 
 /**
