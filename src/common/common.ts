@@ -698,16 +698,9 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
     finalUnit = unitTransformTo;
   }
   if (!unitTransformTo) {
-    if (valueType === 'time') {
-      while (value >= threshold && index > 0) {
-        value /= threshold;
-        index--;
-      }
-    } else {
-      while (value >= threshold && index < units.length - 1) {
-        value /= threshold;
-        index++;
-      }
+    while (value >= threshold && index < units.length - 1) {
+      value /= threshold;
+      index++;
     }
 
     finalUnit = units[index];
