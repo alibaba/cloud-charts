@@ -3,6 +3,7 @@ import { DataStructure } from './data';
 import { EmptyDataProcess } from './emptyData';
 import { processBarExtremeData, processLineExtremeData, processLPieExtremeData } from './extremeData';
 import { runConfigRules } from './configRules';
+import { runDataRules } from './dataRules';
 import { numberDecimal } from '../common/common';
 
 /** 坐标系 */
@@ -53,6 +54,9 @@ export interface IChartRule {
 
   /** 处理配置 */
   processConfig?: (config: any) => any;
+
+  /** 处理数据 */
+  processData?: (data: any, config: any) => any;
 }
 
 /** 柱图 */
@@ -302,10 +306,13 @@ const barChart: IChartRule = {
   processConfig: (config: any) => {
     if (config.percentage && !config.yAxis.labelFormatter) {
       config.yAxis.labelFormatter = (value: any) => {
-        return numberDecimal(value * 100) + '%';
+        return numberDecimal(value * 100, config?.decimal) + '%';
       }
     }
     return runConfigRules(config);
+  },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
   }
 };
 
@@ -405,6 +412,9 @@ const lineChart: IChartRule = {
       config.area = true;
     }
     return config;
+  },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
   }
 };
 
@@ -443,6 +453,9 @@ const pieChart: IChartRule = {
       name: '环图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 直方图 */
@@ -496,6 +509,9 @@ const histogram: IChartRule = {
       coord: Coordinate.Polar,
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 线柱图 */
@@ -567,6 +583,9 @@ const lineBarChart: IChartRule = {
       name: '分组堆叠面积线柱图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 线点图 */
@@ -599,6 +618,9 @@ const lineScatterChart: IChartRule = {
       name: '面积线点图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 散点图 */
@@ -631,6 +653,9 @@ const scatterChart: IChartRule = {
       name: '扰动点图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 玫瑰图 */
@@ -666,6 +691,9 @@ const nightingaleRoseChart: IChartRule = {
       name: '玫瑰环图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 雷达图 */
@@ -701,6 +729,9 @@ const radarChart: IChartRule = {
       name: '雷达面积图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 漏斗图 */
@@ -765,6 +796,9 @@ const funnelChart: IChartRule = {
       mainAxis: 'x',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 多重饼图 */
@@ -800,6 +834,9 @@ const multiPieChart: IChartRule = {
       name: '多重环图',
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 矩形树图 */
@@ -822,6 +859,9 @@ const treemap: IChartRule = {
       coord: Coordinate.Polar,
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 相邻层次图 */
@@ -844,6 +884,9 @@ const hierarchyChart: IChartRule = {
       coord: Coordinate.Polar,
     },
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 箱型图 */
@@ -868,6 +911,9 @@ const boxChart: IChartRule = {
       },
     ],
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 烛形图 */
@@ -892,6 +938,9 @@ const candlestickChart: IChartRule = {
       },
     ],
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 多重圆环 */
@@ -915,6 +964,9 @@ const multiCircle: IChartRule = {
       },
     ],
   },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 热力图 */
@@ -924,6 +976,9 @@ const heatmap: IChartRule = {
   coord: Coordinate.Cartesian,
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 箱型线图 */
@@ -958,6 +1013,9 @@ const rectangleChart: IChartRule = {
   mainAxis: 'x',
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 /** 桑基图 */
@@ -967,6 +1025,9 @@ const sankeyChart: IChartRule = {
   coord: Coordinate.Cartesian,
   dataStructure: DataStructure.Graph,
   emptyData: EmptyDataProcess.Background,
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  }
 };
 
 export default {
