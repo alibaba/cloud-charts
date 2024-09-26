@@ -309,6 +309,10 @@ const barChart: IChartRule = {
         return numberDecimal(value * 100, config?.decimal) + '%';
       }
     }
+
+    if (Array.isArray(config?.yAxis)) {
+      Reflect.deleteProperty(config, 'yAxis')
+    }
     return runConfigRules(config);
   },
   processData: (data: any, config: any) => {
@@ -454,7 +458,7 @@ const pieChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -510,7 +514,7 @@ const histogram: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -582,9 +586,6 @@ const lineBarChart: IChartRule = {
       id: 'grouped_stacked_area_bar_chart',
       name: '分组堆叠面积线柱图',
     },
-  },
-  processData: (data: any, config: any) => {
-    return runDataRules(data, config);
   }
 };
 
@@ -619,7 +620,7 @@ const lineScatterChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -654,7 +655,7 @@ const scatterChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -692,7 +693,7 @@ const nightingaleRoseChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -730,7 +731,7 @@ const radarChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -797,7 +798,7 @@ const funnelChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -835,7 +836,7 @@ const multiPieChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -860,7 +861,7 @@ const treemap: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -885,7 +886,7 @@ const hierarchyChart: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -912,7 +913,7 @@ const boxChart: IChartRule = {
     ],
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -939,7 +940,7 @@ const candlestickChart: IChartRule = {
     ],
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -965,7 +966,7 @@ const multiCircle: IChartRule = {
     ],
   },
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -977,7 +978,7 @@ const heatmap: IChartRule = {
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -1014,7 +1015,7 @@ const rectangleChart: IChartRule = {
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 
@@ -1026,7 +1027,7 @@ const sankeyChart: IChartRule = {
   dataStructure: DataStructure.Graph,
   emptyData: EmptyDataProcess.Background,
   processData: (data: any, config: any) => {
-    return runDataRules(data, config);
+    return { data, config };
   }
 };
 

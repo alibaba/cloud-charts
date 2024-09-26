@@ -1,5 +1,5 @@
 import rules from './index';
-import { clone, cloneDeep, merge } from 'lodash';
+import { merge } from 'lodash';
 
 /** 根据配置项与数据判断图表类型 */
 export function classifyChart(chartName: string, data: any, config: any) {

@@ -87,7 +87,7 @@ export default function <T>(
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis: ellipsisLabels(autoEllipsis, config.xAxis.type, config),
+              autoEllipsis: ellipsisLabels(autoEllipsis, config?.xAxis?.type, config),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
                 const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
