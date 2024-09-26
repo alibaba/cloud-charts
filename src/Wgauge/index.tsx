@@ -88,17 +88,23 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     unitTransformTo,
   } = config || {};
 
+
   let sourceValue = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
-  let current = percentage ? numberDecimal((sourceValue / total) * 100, decimal) : numberDecimal(sourceValue, decimal);
+  let current = percentage ? (sourceValue / total) * 100 : sourceValue;
+
   let finalUnit = percentage ? '%' : unit;
-  if(needUnitTransform && (finalUnit || valueType)) {
+
+  if(needUnitTransform && (unit || valueType)) {
     if (valueType === 'percent_1') {
       current = current * 100;
     }
+
     const { value, unit: transformUnit } = unitConversion(current, finalUnit, decimal, unitTransformTo, valueType);
 
     current = value;
     finalUnit = transformUnit;
+  } else {
+    current = numberDecimal(current, decimal);
   }
 
   const {
