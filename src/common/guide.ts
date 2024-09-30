@@ -103,6 +103,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
   let defaultOffsetY = pxToNumber(themes['widgets-font-size-1']);
   let defaultOffsetX = 0;
 
+  console.log(offsetY)
   warn('config.guide', '辅助线暂时不支持柱图镜面和横向的时候开启渐变');
   if (offsetY !== undefined) {
     defaultOffsetY = offsetY;
@@ -165,6 +166,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
           // @ts-ignore 如果x轴是分类型数据，计算 range 外的最小值以铺满绘图区域
           return { x: getMinValue(xScales.x || xScales), [axis]: value };
         }
+        console.log(1111, axis, value)
         return { x: 'min', [axis]: value };
       };
       // 函数接受两个参数 xScales 和 yScales

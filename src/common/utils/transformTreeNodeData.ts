@@ -1,6 +1,120 @@
+import { filter } from '@antv/util';
+import { View as DataView } from '@antv/data-set/lib/view';
+import { DataSet } from '@antv/data-set/lib/data-set';
+import '@antv/data-set/lib/api/hierarchy';
+import '@antv/data-set/lib/connector/hierarchy';
+import * as d3Hierarchy from 'd3-hierarchy';
 import { Types } from '../types';
 import themes from '../../themes/index';
 import { calcLinearColor } from '../common';
+
+/** export 一些字段常量 */
+/** 在同层级，同一父节点下的节点索引顺序 */
+export const NODE_INDEX_FIELD = 'nodeIndex';
+/** child 节点数量 */
+export const CHILD_NODE_COUNT = 'childNodeCount';
+/** 节点的祖先节点 */
+export const NODE_ANCESTORS_FIELD = 'nodeAncestor';
+
+// G2 partition不支持排序，自定义层次布局
+DataSet.registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
+  const { autoSort, reverse, size } = options;
+  const newRoot = dataView.root;
+  const partitionLayout = d3Hierarchy.partition();
+
+  newRoot.sum((d: any) => {
+    // 计算总数的时候只算子节点的大小
+    if (d.children) {
+      return 0;
+    }
+    return d.value;
+  });
+
+  if (autoSort) {
+    newRoot.sort((a: any, b: any) => {
+      if (reverse) return a.value - b.value;
+      return b.value - a.value;
+    });
+  }
+
+  partitionLayout.size(size);
+  // .padding(0.1)
+  partitionLayout(newRoot);
+
+  newRoot.each((node: any) => {
+    node['x'] = [node.x0, node.x1, node.x1, node.x0];
+    node['y'] = [node.y1, node.y1, node.y0, node.y0];
+    ['x0', 'x1', 'y0', 'y1'].forEach((prop) => {
+      if (['x', 'y'].indexOf(prop) === -1) {
+        delete node[prop];
+      }
+    });
+  });
+});
+
+function getAllNodes(root: any) {
+  const nodes: any[] = [];
+  if (root && root.each) {
+    // d3-hierarchy
+    root.each((node: any) => {
+      nodes.push(node);
+    });
+  } else if (root && root.eachNode) {
+    // @antv/hierarchy
+    root.eachNode((node: any) => {
+      nodes.push(node);
+    });
+  }
+  return nodes;
+}
+
+export function computeData(data: any, config?: any, ctx?: any) {
+  let dv = null;
+  if (ctx?.dataView) {
+    dv = ctx.dataView;
+    dv.source(data, {
+      type: 'hierarchy',
+    });
+  } else {
+    dv = new DataView();
+    if (ctx) {      
+      ctx.dataView = dv;
+    }
+
+    dv.source(data, {
+      type: 'hierarchy',
+    }).transform({
+      type: 'd3-hierarchy.partition',
+      autoSort: config?.autoSort ?? true,
+      reverse: !!config?.reverse,
+      size: [1, 1],
+    });
+  }
+
+  const source: Types.Data = transformNodes(getAllNodes(dv.root));
+
+  // source.forEach((node: any) => {
+  //   let path = node.name;
+  //   let ancestorNode = { ...node };
+    
+  //   // 当前节点的祖先节点为其所有父节点的最后一项
+  //   const parentNode = node.parent[node.parent.length - 1];
+  
+  //   while (ancestorNode.depth > 1) {
+  //     path = `${ancestorNode.parent.data?.name} / ${path}`;
+  //     ancestorNode = ancestorNode.parent;
+  //   }
+  // });
+  // 挂载转换后的数据
+  if (ctx) {
+    ctx.data = source;
+  }
+
+  return {
+    source,
+    total: dv?.root?.value ?? 0,
+  };
+}
 
 function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []): Types.LooseObject[] {
   const parentNode = node.parent;
@@ -21,11 +135,11 @@ function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []
   return getParentList(parentNode, target);
 }
 
-export function transformNodes(dv: any) {
+export function transformNodes(nodes: any) {
   const source: Types.Data = [];
 
-  dv.getAllNodes().forEach((node: any) => {
-    let color = node?.data?.color;
+  nodes?.forEach((node: any) => {
+    let color = node?.color ?? node?.data?.color ?? node?.data?.data?.color;
     const parentNodeList = getParentList(node);
     // 因为父节点是向上找的，所以当前节点的直接父节点是数组的最后一个
     const parentNode = parentNodeList[parentNodeList.length - 1];
@@ -52,22 +166,36 @@ export function transformNodes(dv: any) {
       }
     }
 
+    // const ancestors = filter(
+    //   (node.ancestors?.() || []).map((d: any) => source.find((n) => n.name === d.name) || d),
+    //   ({ depth }) => depth > 0 && depth < node.depth
+    // );
+
+    // const extra: any = {};
+    // extra[NODE_ANCESTORS_FIELD] = ancestors;
+    // extra[CHILD_NODE_COUNT] = node.children?.length || 0;
+    // extra[NODE_INDEX_FIELD] = index;
+
     // var obj = {};
     // obj.name = node.data.name;
     // obj.rawValue = node.data.value;
     // obj.value = node.value;
     // obj.x = node.x;
     // obj.y = node.y;
+
+    // console.log(3333, node)
     source.push({
-      name: node.data.name,
+      name: node?.data?.name ?? node?.data?.data?.name ?? node?.data?.data?.data?.name,
       value: node.value,
       rawValue: node.data.value,
       depth: node.depth,
-      parent: parentNodeList,
+      parentList: parentNodeList,
+      parent: parentNode,
       x: node.x,
       y: node.y,
       color,
       children: node.children,
+      // ...extra,
     });
   });
 

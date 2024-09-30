@@ -77,6 +77,14 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     }
   }, [activedItem]);
 
+
+  if(dataType === 'treeNode') {
+    const filterData = [...(chart?.options?.data ?? [])];
+    const filterDataNameList = filterData.map((sub: any) => sub.name);
+
+    legendItems = legendItems.filter((item: ListItem) => filterDataNameList.includes(item.id));
+  }
+
   return (
     <table
       className={`${prefix}-container`}

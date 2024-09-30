@@ -33,7 +33,7 @@ export function getStatistics(
     let yValues = items[name].map((item: Datum) => item.y ?? item.y0 ?? item.y1 ?? 0);
 
     if (dataType === 'treeNode') {
-      yValues = [items[name].map((item: Datum) => item.value)];
+      yValues = [items[name].map((item: Datum) => item.value ?? item?.rawValue)];
     }
 
     const statisticsRes: any = {};

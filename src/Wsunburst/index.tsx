@@ -1,10 +1,6 @@
 'use strict';
 import ReactDOM from 'react-dom';
 import { View as DataView } from '@antv/data-set/lib/view';
-import { DataSet } from '@antv/data-set/lib/data-set';
-import '@antv/data-set/lib/api/hierarchy';
-import '@antv/data-set/lib/connector/hierarchy';
-import * as d3Hierarchy from 'd3-hierarchy';
 import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
 import { numberDecimal } from '../common/common';
@@ -14,10 +10,11 @@ import geomStyle, { GeomStyleConfig } from '../common/geomStyle';
 import polarLegendLayout from '../common/polarLegendLayout';
 import updateChildrenPosition from '../common/updateChildrenPosition';
 import errorWrap from '../common/errorWrap';
-import { transformNodes } from '../common/utils/transformTreeNodeData';
+import { computeData } from '../common/utils/transformTreeNodeData';
 import { FullCrossName } from '../constants';
 import Wnumber from '../Wnumber';
 import themes from '../themes/index';
+import { drillDown } from '../common/interaction/drill-down';
 import './index.scss';
 
 export interface WsunburstConfig extends BaseChartConfig {
@@ -54,67 +51,6 @@ export interface WsunburstConfig extends BaseChartConfig {
   // 显示间隔线
   showSpacing?: boolean;
   select?: boolean;
-}
-
-// G2 partition不支持排序，自定义层次布局
-DataSet.registerTransform('d3-hierarchy.partition', (dataView: DataView, options: any) => {
-  const { autoSort, reverse, size } = options;
-  const newRoot = dataView.root;
-  const partitionLayout = d3Hierarchy.partition();
-
-  newRoot.sum((d: any) => d.value);
-  if (autoSort) {
-    newRoot.sort((a: any, b: any) => {
-      if (reverse) return a.value - b.value;
-      return b.value - a.value;
-    });
-  }
-
-  partitionLayout.size(size);
-  // .padding(0.1)
-  partitionLayout(newRoot);
-
-  newRoot.each((node: any) => {
-    node['x'] = [node.x0, node.x1, node.x1, node.x0];
-    node['y'] = [node.y1, node.y1, node.y0, node.y0];
-    ['x0', 'x1', 'y0', 'y1'].forEach((prop) => {
-      if (['x', 'y'].indexOf(prop) === -1) {
-        delete node[prop];
-      }
-    });
-  });
-});
-
-function computeData(ctx: Sunburst, data: ChartData, config?: WsunburstConfig) {
-  let dv = null;
-  if (ctx.dataView) {
-    dv = ctx.dataView;
-    dv.source(data, {
-      type: 'hierarchy',
-    });
-  } else {
-    dv = new DataView();
-    ctx.dataView = dv;
-
-    dv.source(data, {
-      type: 'hierarchy',
-    }).transform({
-      type: 'd3-hierarchy.partition',
-      autoSort: config.autoSort,
-      reverse: !!config.reverse,
-      size: [1, 1],
-    });
-  }
-
-  const source: Types.Data = transformNodes(dv);
-
-  // 挂载转换后的数据
-  ctx.data = source;
-
-  return {
-    source,
-    total: dv?.root?.value ?? 0,
-  };
 }
 
 function dodgeItems(data: ChartData, config: WsunburstConfig) {
@@ -216,7 +152,7 @@ export class Sunburst extends Base<WsunburstConfig> {
   data: Types.Data = [];
 
   init(chart: Chart, config: WsunburstConfig, data: ChartData) {
-    const { source, total } = computeData(this, data, config);
+    const { source, total } = computeData(data, config, this);
 
     this.totalData = total;
 
@@ -274,7 +210,7 @@ export class Sunburst extends Base<WsunburstConfig> {
           }
 
           const pointData = item.data;
-          const rootNode = pointData.parent[0];
+          const rootNode = pointData?.parentList?.[0];
           const percent = numberDecimal(item.value / rootNode.value, 4);
 
           if (config.tooltip.valueFormatter) {
@@ -374,10 +310,12 @@ export class Sunburst extends Base<WsunburstConfig> {
     chart.on('afterpaint', () => {
       updateChildrenPosition(chart, this.chartDom);
     });
+
+    drillDown(chart);
   }
 
   changeData(chart: Chart, config: WsunburstConfig, data: ChartData) {
-    const { source, total } = computeData(this, data, config);
+    const { source, total } = computeData(data, config, this);
     this.totalData = total;
 
     chart.changeData(source);
