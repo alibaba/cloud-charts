@@ -1,6 +1,7 @@
 'use strict';
 import ReactDOM from 'react-dom';
 import { View as DataView } from '@antv/data-set/lib/view';
+import { get } from '@antv/util';
 import { Chart, Types, BaseChartConfig, ChartData, G2Dependents, Colors } from '../common/types';
 import Base from '../common/Base';
 import { numberDecimal } from '../common/common';
@@ -311,7 +312,38 @@ export class Sunburst extends Base<WsunburstConfig> {
       updateChildrenPosition(chart, this.chartDom);
     });
 
-    drillDown(chart);
+    drillDown(chart, (context: any) => {
+      const { view } = context;
+      const filterData = view.filteredData ?? [];
+      const eventData = get(context, ['event', 'data', 'data']);
+
+      let sum = 0;
+      filterData.forEach((el: any) => {
+        sum += el?.value ?? 0;
+      })
+
+      const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+
+      if (container) {
+        this.chartDom.removeChild(container);
+      }
+
+      const newContainer = document.createElement('div');
+      newContainer.className = `${FullCrossName}-children`;
+      const firstChild = this.chartDom.firstChild;
+      this.chartDom.insertBefore(newContainer, firstChild);
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? eventData?.name ?? this?.rawData?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? sum}
+        </Wnumber>
+      );
+      ReactDOM.render(content, newContainer);
+
+      updateChildrenPosition(chart, this.chartDom);
+    });
   }
 
   changeData(chart: Chart, config: WsunburstConfig, data: ChartData) {

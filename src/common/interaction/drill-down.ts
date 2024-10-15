@@ -2,8 +2,30 @@ import { registerAction, registerInteraction, View } from '@antv/g2/esm/core';
 import { get, isArray } from '@antv/util';
 import { DrillDownAction } from './actions/drill-down';
 
-export function drillDown(view: View) {
-  view.interaction('drill-down');
+export function drillDown(view: View, onClick?: any) {
+  view.interaction('drill-down', {
+    start: [
+      {
+        trigger: 'element:click',
+        isEnable(context: any) {
+          return isParentNode(context);
+        },
+        action: ['drill-down-action:click'],
+      },
+      {
+        trigger: 'afterchangesize',
+        action: ['drill-down-action:resetPosition'],
+      },
+      {
+        trigger: 'click',
+        isEnable: (context: any) => {
+          onClick(context);
+          return inCenter(context);
+        },
+        action: ['drill-down-action:back'],
+      },
+    ],
+  });
 }
 
 /**
