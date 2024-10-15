@@ -66,7 +66,7 @@ export function runInitRule(chartObj: any, config: any, data: any) {
     }
     // error状态的颜色特殊处理
     if (chartObj?.props?.errorInfo && emptyReplaceConfig?.colors) {
-      newConfig.colors = themes['widgets-capacity-background-error'];
+      newConfig.colors = themes['widgets-color-layout-background'];
     }
     return {
       data: emptyReplaceData,
@@ -131,7 +131,7 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
   if (chartObj?.props?.errorInfo && !chartObj.props.children) {
     // 设置背景色
     if (chartObj.chartRule.emptyData === EmptyDataProcess.Background) {
-      chartObj.chartDom.style.backgroundColor = themes['widgets-capacity-background-error'];
+      chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
     }
     // 加错误提示
     chartObj.chart.annotation().html({

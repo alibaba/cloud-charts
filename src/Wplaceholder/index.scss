@@ -27,7 +27,7 @@
   }
 
   &#{$wplaceholder-prefix}-error {
-    background: $error-background;
+    background: $loading-background;
 
     #{$wplaceholder-prefix}-children-text {
       color: $children-text;

@@ -1,4 +1,3 @@
-import { filter } from '@antv/util';
 import { View as DataView } from '@antv/data-set/lib/view';
 import { DataSet } from '@antv/data-set/lib/data-set';
 import '@antv/data-set/lib/api/hierarchy';
@@ -6,7 +5,7 @@ import '@antv/data-set/lib/connector/hierarchy';
 import * as d3Hierarchy from 'd3-hierarchy';
 import { Types } from '../types';
 import themes from '../../themes/index';
-import { calcLinearColor } from '../common';
+import { calcLinearColor, numberDecimal } from '../common';
 
 /** export 一些字段常量 */
 /** 在同层级，同一父节点下的节点索引顺序 */
@@ -153,8 +152,13 @@ export function transformNodes(nodes: any) {
       const subNodeIdx = parentNode?.children?.findIndex((subNode: any) => subNode.data.name === node.data.name);
 
       if (node.depth === 1) {
-        node.color = themes.category_20[subNodeIdx % 20];
-        color = themes.category_20[subNodeIdx % 20];
+        if (node?.data?.empty) {
+          node.color = themes['widgets-color-layout-background'];
+          color = themes['widgets-color-layout-background']
+        } else {
+          node.color = themes.category_20[subNodeIdx % 20];
+          color = themes.category_20[subNodeIdx % 20];
+        }
       } else {
         const colorList = calcLinearColor(
           parentNode.color,
@@ -166,24 +170,6 @@ export function transformNodes(nodes: any) {
       }
     }
 
-    // const ancestors = filter(
-    //   (node.ancestors?.() || []).map((d: any) => source.find((n) => n.name === d.name) || d),
-    //   ({ depth }) => depth > 0 && depth < node.depth
-    // );
-
-    // const extra: any = {};
-    // extra[NODE_ANCESTORS_FIELD] = ancestors;
-    // extra[CHILD_NODE_COUNT] = node.children?.length || 0;
-    // extra[NODE_INDEX_FIELD] = index;
-
-    // var obj = {};
-    // obj.name = node.data.name;
-    // obj.rawValue = node.data.value;
-    // obj.value = node.value;
-    // obj.x = node.x;
-    // obj.y = node.y;
-
-    // console.log(3333, node)
     source.push({
       name: node?.data?.name ?? node?.data?.data?.name ?? node?.data?.data?.data?.name,
       value: node.value,
@@ -195,7 +181,7 @@ export function transformNodes(nodes: any) {
       y: node.y,
       color,
       children: node.children,
-      // ...extra,
+      percent: numberDecimal(node.value / nodes?.[0]?.value, 2)
     });
   });
 

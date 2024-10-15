@@ -89,6 +89,7 @@ export function processEmptyData(emptyType: EmptyDataProcess, dataType: DataStru
             {
               name: 'root',
               value: 100,
+              empty: true
             },
           ],
         },
