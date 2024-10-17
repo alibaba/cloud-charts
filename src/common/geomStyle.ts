@@ -22,6 +22,15 @@ export default function geomStyle(
   if (!styleConfig && Object.keys(defaultStyle).length > 0) {
     geom.style(defaultStyle);
     return;
+  } else if (!styleConfig && typeof defaultStyle === 'function') {
+    geom.style({
+      fields: parseFields(defaultFields),
+      callback(...args) {
+        const s = defaultStyle(...args) || {};
+        return s;
+      },
+    });
+    return;
   }
   if (!styleConfig) {
     return;

@@ -142,7 +142,7 @@ export class Sunburst extends Base<WsunburstConfig> {
       autoSort: true, // 默认按大 -> 小排序
       reverse: false, // 是否逆序
       showSpacing: true, // 显示间隔
-      select: false, // 选中下钻
+      select: true, // 选中下钻
       // drawPadding: [10, 10, 10, 10],
     };
   }
@@ -267,13 +267,18 @@ export class Sunburst extends Base<WsunburstConfig> {
     geomStyle(
       geom,
       config.geomStyle,
-      {
-        // 增加圆环边线装饰
-        stroke: themes['widgets-color-background'],
-        lineWidth: config.showSpacing ? 1 : 0,
-        cursor: config.select ? 'pointer' : 'default',
+      (...args: any) => {
+        const value = args[1] || args[2];
+        const deep = args[3];
+        const percent = args[4];
+        return {
+          // 增加圆环边线装饰
+          stroke: themes['widgets-color-background'],
+          lineWidth: config.showSpacing && value !== 0 && percent > 0.005 ? 1 : 0,
+          cursor: config.select && deep === 1 ? 'pointer' : 'default',
+        }
       },
-      'name*value*rawValue*depth',
+      'name*value*rawValue*depth*percent',
     );
 
     polarLegendLayout(chart);

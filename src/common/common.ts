@@ -712,6 +712,27 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
   };
 }
 
+function generateScaledArray(dataSize: number) {
+  const max = 0.75;
+  const min = 0.1;
+  const scaleArray = [max];
+  const distance = 0.1;
+  const mean = (0.4 - min) / (dataSize - 5);
+
+  // 前五个分差为0.1
+  for (let i = 1; i < 6; i++) {
+    scaleArray.push(max - (i) * distance);
+  }
+
+  // 后面均分
+  for (let i = 6; i < dataSize - 1; i++) {
+    scaleArray.push(0.4 - mean * (i - 5))
+  }
+
+  scaleArray.push(min);
+  return scaleArray
+}
+
 /**
  * 获取指定颜色的顺序色
  *  *
@@ -720,7 +741,7 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
  * @param {number} linearCount 顺序色个数
  * @param {string} type 是否为中心取色
  * */
-export function calcLinearColor(primaryColor: string, backgroundColor?: string, linearCount?: number, type?: string) {
+export function calcLinearColor(primaryColor: string, backgroundColor?: string, linearCount?: number, type?: string, needDistribution?: boolean) {
   const linear = [];
   const front = tinycolor(primaryColor);
   const { h, s, v } = front.toHsv();
@@ -756,21 +777,45 @@ export function calcLinearColor(primaryColor: string, backgroundColor?: string, 
       linear[Math.floor(linearCount / 2)] = primaryColor;
     }
   } else {
-    for (let i = count - 1; i > 0; i--) {
-      let colorString;
-      // 亮色模式
-      if (isLight) {
-        colorString = tinycolor({
-          h,
-          s: Math.round((i * s * 100) / count),
-          // v: v * 100,
-          v: Math.round(((i * (v - backValue)) / count + backValue) * 100),
-        }).toHexString();
-      } else {
-        // 暗色模式
-        colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+    // 如果数量超过10，则有限调整前5的颜色梯度差值，避免过于相近
+    // 同时需要防止颜色过于趋向于白/黑
+    if (needDistribution) {
+      const distributionArray = generateScaledArray(count);
+
+      // console.log(distributionArray)
+      for (let i = count - 1; i > 0; i--) {
+        let colorString;
+        // 亮色模式
+        if (isLight) {
+          colorString = tinycolor({
+            h,
+            s: distributionArray[count - i - 1] * s * 100,
+            // v: v * 100,
+            v: Math.round(((i * (v - backValue)) / count + backValue) * 100),
+          }).toHexString();
+        } else {
+          // 暗色模式
+          colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+        }
+
+        linear.push(colorString);
       }
-      linear.push(colorString);
+    } else {
+      for (let i = count - 1; i > 0; i--) {
+        let colorString;
+        // 亮色模式
+        if (isLight) {
+          colorString = tinycolor({
+            h,
+            s: Math.round((i / count) * s * 100),
+            v: Math.round(((i * (v - backValue)) / count + backValue) * 100),
+          }).toHexString();
+        } else {
+          // 暗色模式
+          colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+        }
+        linear.push(colorString);
+      }
     }
   }
 

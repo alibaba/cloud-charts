@@ -5,7 +5,7 @@ import '@antv/data-set/lib/connector/hierarchy';
 import * as d3Hierarchy from 'd3-hierarchy';
 import { Types } from '../types';
 import themes from '../../themes/index';
-import { calcLinearColor, numberDecimal } from '../common';
+import { calcLinearColor, isInvalidNumber } from '../common';
 
 /** export 一些字段常量 */
 /** 在同层级，同一父节点下的节点索引顺序 */
@@ -160,10 +160,13 @@ export function transformNodes(nodes: any) {
           color = themes.category_20[subNodeIdx % 20];
         }
       } else {
+        // 图例颜色取值
         const colorList = calcLinearColor(
           parentNode.color,
           themes['widgets-color-background'],
           parentNode.children.length,
+          '',
+          true
         );
         node.color = colorList[subNodeIdx];
         color = colorList[subNodeIdx];
@@ -181,7 +184,7 @@ export function transformNodes(nodes: any) {
       y: node.y,
       color,
       children: node.children,
-      percent: numberDecimal(node.value / nodes?.[0]?.value, 2)
+      percent: isInvalidNumber(node.value / nodes?.[0]?.value) ? 0 : node.value / nodes?.[0]?.value,
     });
   });
 
