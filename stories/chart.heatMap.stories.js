@@ -19,7 +19,7 @@ const data = [
   {
     name: '类型二',
     data: [
-      ['aws1', 'aws2', 234],
+      ['aws1', 'aws2', 0],
       ['aws1', 'aws3', 234],
       ['aws1', 'aws4', 234],
       ['aws2', 'aws1', 234],
@@ -45,12 +45,12 @@ const data = [
       ['aws3', 'aws2', 234],
       ['aws4', 'aws3', 234],
     ],
-  }
+  },
 ];
 
 stories.add('基础色块图', () => (
   <Wcontainer className="demos">
-    <Wheatmap height="600" data={data} />
+    <Wheatmap height="600" data={data} config={{ label: true }} />
   </Wcontainer>
 ));
 
@@ -117,11 +117,11 @@ const timeStatusData = [
   {
     name: '无数据',
     data: [],
-  }
+  },
 ];
 const timeStatusArrData = [];
 // 当前分钟开始时间戳
-const now = new Date().setSeconds(0,0);
+const now = new Date().setSeconds(0, 0);
 // 对齐本小时最后一分钟
 const endTime = new Date().setMinutes(59, 0, 0);
 function ten(v) {
@@ -134,7 +134,9 @@ function ten(v) {
 for (let i = 0; i < 6 * 60; i++) {
   const t = new Date(endTime - i * 60000);
 
-  const timeStr = `${t.getFullYear()}-${ten(t.getMonth() + 1)}-${ten(t.getDate())} ${ten(t.getHours())}:${ten(t.getMinutes())}:${ten(t.getSeconds())}`;
+  const timeStr = `${t.getFullYear()}-${ten(t.getMonth() + 1)}-${ten(t.getDate())} ${ten(
+    t.getHours(),
+  )}:${ten(t.getMinutes())}:${ten(t.getSeconds())}`;
 
   const d = {
     x: String(t.getMinutes()),
@@ -219,17 +221,21 @@ const timeStatusConfig = {
     valueFormatter(v) {
       // tooltip 内容需自行定义，返回 html 字符串，不支持 React 组件
       if (typeof v === 'object') {
-        const list = v.list.map((item) => {
-          return `<span style="color: ${item.status === '异常' ? errorColor : ''}">${item.time}: ${item.status}</span>`;
-        }).join('<br />');
+        const list = v.list
+          .map((item) => {
+            return `<span style="color: ${item.status === '异常' ? errorColor : ''}">${
+              item.time
+            }: ${item.status}</span>`;
+          })
+          .join('<br />');
 
         return `详情：<br />${list}`;
       }
       return v;
-    }
+    },
   },
   geomStyle: {
-    stroke(x,y,type,extra) {
+    stroke(x, y, type, extra) {
       // 高亮点
       if (extra.highlight) {
         return Util.getStatusColor('normal');

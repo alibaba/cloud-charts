@@ -17,8 +17,8 @@ import './index.scss';
 // 3.x代码
 export interface WheatmapConfig extends BaseChartConfig {
   colors?: Colors;
-  xAxis?: Types.ScaleOption & XAxisConfig | false,
-  yAxis?: Types.ScaleOption & YAxisConfig | false,
+  xAxis?: (Types.ScaleOption & XAxisConfig) | false;
+  yAxis?: (Types.ScaleOption & YAxisConfig) | false;
   legend?: LegendConfig | boolean;
   tooltip?: TooltipConfig | boolean;
   guide?: GuideConfig;
@@ -132,9 +132,10 @@ export class Heatmap extends Base<WheatmapConfig> {
       .position('x*y')
       .color('type', config.colors)
       .tooltip('x*y*extra', (x, y, extra) => {
+        const val = Array.isArray(extra) ? extra[0] : extra.value;
         return {
           name: `${x} - ${y}`,
-          value: (Array.isArray(extra) ? extra[0] : extra.value) || '-',
+          value: val || val === 0 ? val : '-',
         };
       });
 
@@ -154,13 +155,14 @@ export class Heatmap extends Base<WheatmapConfig> {
           if (!config.label) {
             return;
           }
-          let result = (Array.isArray(data.extra) ? data.extra[0] : data.extra.value) || '-';
+          const val = Array.isArray(data.extra) ? data.extra[0] : data.extra.value;
+          let result = val || val === 0 ? val : '-';
           if (typeof config.label === 'object' && config.label.labelFormatter) {
             result = config.label.labelFormatter(result, item, i);
           }
           return result;
-        }
-      }
+        },
+      },
     });
   }
 }
