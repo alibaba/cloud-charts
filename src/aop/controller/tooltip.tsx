@@ -12,6 +12,15 @@ class WidgetsTooltipController extends RawTooltipController {
 
   private tooltipContainer: HTMLElement;
 
+  // 锁定tooltip时，图表容器的位置信息
+  private startRect: any;
+
+  // 锁定tooltip时，tooltip的起始位置
+  private startPosition: { x: number; y: number };
+
+  // 计时器，用于防抖
+  private timer: any;
+
   constructor(props: any) {
     super(props);
 
@@ -168,6 +177,75 @@ class WidgetsTooltipController extends RawTooltipController {
       }
     } else {
       super.destroy();
+    }
+  }
+
+  // 锁定tooltip时监听滚动事件
+  public handleScroll = () => {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+
+    this.timer = setTimeout(() => {
+      // 图表父元素的当前位置
+      const currentRect = this.parentDom.getBoundingClientRect();
+
+      const offsetX = currentRect.x - this.startRect.x;
+      const offsetY = currentRect.y - this.startRect.y;
+
+      this.tooltipContainer.style.left = `${this.startPosition.x + offsetX}px`;
+      this.tooltipContainer.style.top = `${this.startPosition.y + offsetY}px`;
+
+      clearTimeout(this.timer);
+      this.timer = null;
+    }, 50);
+  };
+
+  public lockTooltip() {
+    super.lockTooltip();
+
+    if (this.tooltipContainer) {
+      this.tooltipContainer.style.pointerEvents = 'auto';
+
+      // 记录tooltip的起始坐标
+      const tooltipPosition = {
+        x: this.tooltipContainer.style.left,
+        y: this.tooltipContainer.style.top,
+      };
+      const tooltipX = Number(tooltipPosition.x.slice(0, tooltipPosition.x.length - 2));
+      const tooltipY = Number(tooltipPosition.y.slice(0, tooltipPosition.y.length - 2));
+      this.startPosition = {
+        x: tooltipX,
+        y: tooltipY,
+      };
+
+      // 图表父元素的起始位置
+      this.startRect = this.parentDom.getBoundingClientRect();
+
+      // 监听滚动事件
+      document.addEventListener('mousewheel', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
+      document.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.code === 'ArrowDown' || event.keyCode === 40 || event.code === 'ArrowUp' || event.keyCode === 38) {
+          this.handleScroll();
+        }
+      });
+    }
+  }
+
+  public unlockTooltip() {
+    super.unlockTooltip();
+    if (this.tooltipContainer) {
+      this.tooltipContainer.style.pointerEvents = 'none';
+
+      document.removeEventListener('mousewheel', this.handleScroll);
+      document.removeEventListener('scroll', this.handleScroll);
+      document.removeEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.code === 'ArrowDown' || event.keyCode === 40 || event.code === 'ArrowUp' || event.keyCode === 38) {
+          this.handleScroll();
+        }
+      });
     }
   }
 }

@@ -362,3 +362,76 @@ stories.add('自定义tooltip（formatter）', () => (
     />
   </div>
 ));
+
+const multipleData = [];
+
+for (let i = 0; i < 25; i++) {
+  const group = {
+    name: `AliyunEcs_cpu_total{hostname="xxx${i + 1}",instanceId="i-xxx${i + 1}"}`,
+    data: [],
+  };
+  for (let j = 0; j < 6; j++) {
+    const time = `2020-01-01 ${j}:00:00`;
+    group.data.push([time, Math.round(Math.random() * 10) + 100 + i * 10]);
+  }
+  multipleData.push(group);
+}
+
+stories.add('自定义tooltip（锁定）', () => (
+  <div style={{ width: 500, height: 300 }}>
+    <Wline
+      height="300"
+      config={{
+        tooltip: {
+          customTooltip: true,
+          lockable: true,
+        },
+      }}
+      data={multipleData}
+    />
+  </div>
+));
+
+stories.add('自定义tooltip（跟随滚动）', () => (
+  <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ width: 500, height: 300 }}>
+      <Wline
+        height="300"
+        config={{
+          tooltip: {
+            customTooltip: true,
+            lockable: true,
+            followTrigger: true,
+          },
+        }}
+        data={multipleData}
+      />
+    </div>
+    <div style={{ width: 500, height: 300 }}>
+      <Wline
+        height="300"
+        config={{
+          tooltip: {
+            customTooltip: true,
+            lockable: true,
+            followTrigger: true,
+          },
+        }}
+        data={multipleData}
+      />
+    </div>
+    <div style={{ width: 500, height: 300 }}>
+      <Wline
+        height="300"
+        config={{
+          tooltip: {
+            customTooltip: true,
+            lockable: true,
+            followTrigger: true,
+          },
+        }}
+        data={multipleData}
+      />
+    </div>
+  </div>
+));
