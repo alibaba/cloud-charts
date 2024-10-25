@@ -4,6 +4,8 @@ import { PrefixName } from '../../../constants';
 import { ListItem } from '@antv/g2/esm/dependents';
 import { Chart } from '@antv/g2';
 import { getStatistics, filterLegend, highlightLegend, clearHighlight } from '../../../common/chartRefs';
+import { getItemData } from '../../../common/rectLegend';
+import { customFormatter } from '../../../common/common';
 import WidgetsTooltip from '../../../common/Tooltip';
 import LegendMarker from '../../../common/LegendMarker';
 import { getText } from '../../../ChartProvider';
@@ -77,8 +79,28 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     }
   }, [activedItem]);
 
+  // 进位相关配置项
+  const chartConfig = widgetsCtx?.props?.config ?? {};
+  let formatConfig: any;
+  // 当legend中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
+  if (
+    typeof chartConfig?.legend === 'object' &&
+    (chartConfig?.legend?.valueType ||
+      chartConfig?.legend?.unit ||
+      chartConfig?.legend?.needUnitTransform ||
+      chartConfig?.legend?.unitTransformTo)
+  ) {
+    formatConfig = chartConfig.legend;
+  } else if (Array.isArray(chartConfig.yAxis) && chartConfig.yAxis.length >= 2) {
+    // 双轴
+    formatConfig = chartConfig.yAxis;
+  } else if (Array.isArray(chartConfig.yAxis)) {
+    formatConfig = chartConfig?.yAxis?.[0] ?? {};
+  } else {
+    formatConfig = chartConfig?.yAxis ?? {};
+  }
 
-  if(dataType === 'treeNode') {
+  if (dataType === 'treeNode') {
     const filterData = [...(chart?.options?.data ?? [])];
     const filterDataNameList = filterData.map((sub: any) => sub.name);
 
@@ -187,7 +209,26 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                   if (config?.valueFormatter && typeof config?.valueFormatter === 'function') {
                     value = config?.valueFormatter(value);
                   } else {
-                    value = formatValue(value, config?.decimal);
+                    // value = formatValue(value, config?.decimal);
+                    let customValueFormatter = null;
+                    if (Array.isArray(formatConfig)) {
+                      // 双轴
+                      // @ts-ignore
+                      const dataGroup = getItemData(name, widgetsCtx?.rawData, config?.dataType, widgetsCtx?.data);
+                      customValueFormatter =
+                        (dataGroup as any)?.yAxis === 1
+                          ? customFormatter(formatConfig[1])
+                          : customFormatter(formatConfig[0]);
+                    } else {
+                      // 单轴
+                      customValueFormatter = customFormatter(formatConfig);
+                    }
+
+                    if (customValueFormatter) {
+                      value = customValueFormatter(value);
+                    } else {
+                      value = formatValue(value, config?.decimal);
+                    }
                   }
                 } else {
                   value = '-';

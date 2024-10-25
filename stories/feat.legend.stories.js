@@ -15,7 +15,6 @@ import {
   themes,
 } from '@alicloud/cloud-charts';
 
-
 const data = [
   {
     name: '机房A',
@@ -1010,7 +1009,7 @@ stories.add('列表型legend（自定义）', () => {
 
 stories.add('列表型legend（同一行高度一致）', () => {
   return (
-    <div style={{ display: "flex",width: 800, height: 300 }}>
+    <div style={{ display: 'flex', width: 800, height: 300 }}>
       <Wpie
         // height="300"
         width={400}
@@ -1021,8 +1020,8 @@ stories.add('列表型legend（同一行高度一致）', () => {
             table: {
               statistics: ['min', 'current'],
               style: {
-                height: 90
-              }
+                height: 90,
+              },
             },
           },
         }}
@@ -1035,10 +1034,10 @@ stories.add('列表型legend（同一行高度一致）', () => {
           legend: {
             position: 'bottom',
             table: {
-              statistics: ['min',  'current'],
+              statistics: ['min', 'current'],
               style: {
-                height: 90
-              }
+                height: 90,
+              },
             },
           },
         }}
@@ -1068,9 +1067,9 @@ stories.add('legend折叠(数据少时）', () => {
             foldable: true,
             customConfig: {
               marker: {
-                symbol: "circle"
-              }
-            }
+                symbol: 'circle',
+              },
+            },
             // showData: true,
             // maxWidth: 10
           },
@@ -1525,3 +1524,123 @@ stories.add('legend折叠(正反选）', () => {
     </div>
   );
 });
+
+stories.add('单位转换（跟随y轴）', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={lineData}
+        config={{
+          yAxis: {
+            valueType: 'count',
+            needUnitTransform: true,
+          },
+          legend: {
+            showData: true,
+            table: {
+              statistics: ['min', 'max', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+stories.add('单位转换（优先级）', () => {
+  return (
+    <div>
+      <Wline
+        height="300"
+        data={lineData}
+        config={{
+          yAxis: {
+            valueType: 'count',
+            needUnitTransform: true,
+          },
+          legend: {
+            showData: true,
+            valueType: 'disk_1000',
+            unit: 'b',
+            needUnitTransform: true,
+            table: {
+              statistics: ['min', 'max', 'current'],
+            },
+          },
+        }}
+      />
+    </div>
+  );
+});
+
+const twoAxisData = [
+  {
+    name: '机房1',
+    data: [
+      [1483372800000, 1892],
+      [1483459200000, 7292],
+      [1483545600000, 5714],
+      [1483632000000, 5354],
+      [1483718400000, 2014],
+      [1483804800000, 22],
+      [1483891200000, 11023],
+      [1483977600000, 5218],
+      [1484064000000, 8759],
+      [1484150400000, 9981],
+      [1484236800000, 4533],
+      [1484323200000, 11398],
+      [1484409600000, 1064],
+      [1484496000000, 6494],
+    ],
+  },
+  {
+    name: '机房2',
+    yAxis: 1,
+    data: [
+      [1483372800000, 11751],
+      [1483459200000, 4078],
+      [1483545600000, 2175],
+      [1483632000000, 12048],
+      [1483718400000, 1748],
+      [1483804800000, 10494],
+      [1483891200000, 9597],
+      [1483977600000, 4788],
+      [1484064000000, 2085],
+      [1484150400000, 492],
+      [1484236800000, 2965],
+      [1484323200000, 4246],
+      [1484409600000, 2160],
+      [1484496000000, 11877],
+    ],
+  },
+];
+
+stories.add('单位转换（双轴）', () => (
+  <div>
+    <Wline
+      height="300"
+      config={{
+        yAxis: [
+          {
+            valueType: 'disk_1000',
+            unit: 'b',
+            needUnitTransform: true,
+          },
+          {
+            valueType: 'bandwidth_1000',
+            unit: 'B/S',
+            needUnitTransform: true,
+          },
+        ],
+        legend: {
+          showData: true,
+          // table: {
+          //   statistics: ['min', 'max', 'current'],
+          // },
+        },
+      }}
+      data={twoAxisData}
+    />
+  </div>
+));

@@ -60,8 +60,27 @@ class WidgetsTooltipController extends RawTooltipController {
       // 配置项处理
       const config = (this?.view as any)?.widgetsCtx?.mergeConfig ?? {};
 
-      const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
-      const customValueFormatter = customFormatter(config.tooltip === true ? formatConfig : config.tooltip || {});
+      // 进位相关配置项
+      let formatConfig: any;
+      // 当tooltip中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
+      if (
+        typeof config?.tooltip === 'object' &&
+        (config?.tooltip?.valueType ||
+          config?.tooltip?.unit ||
+          config?.tooltip?.needUnitTransform ||
+          config?.tooltip?.unitTransformTo)
+      ) {
+        formatConfig = config.tooltip;
+      } else if (Array.isArray(config.yAxis) && config.yAxis.length >= 2) {
+        // 双轴
+        formatConfig = config.yAxis;
+      } else if (Array.isArray(config.yAxis)) {
+        formatConfig = config?.yAxis?.[0] ?? {};
+      } else {
+        formatConfig = config?.yAxis ?? {};
+      }
+
+      // const customValueFormatter = customFormatter(formatConfig);
 
       items.forEach((item: any, index: number) => {
         // @ts-ignore
@@ -69,8 +88,20 @@ class WidgetsTooltipController extends RawTooltipController {
 
         if (config?.tooltip?.valueFormatter) {
           item.value = config?.tooltip?.valueFormatter(item.value, raw, index, items);
-        } else if (customValueFormatter) {
-          item.value = customValueFormatter(item.value);
+        } else {
+          let customValueFormatter = null;
+          if (Array.isArray(formatConfig)) {
+            // 双轴
+            customValueFormatter =
+              'y1' in item?.data ? customFormatter(formatConfig[1]) : customFormatter(formatConfig[0]);
+          } else {
+            // 单轴
+            customValueFormatter = customFormatter(formatConfig);
+          }
+
+          if (customValueFormatter) {
+            item.value = customValueFormatter(item.value);
+          }
         }
         if (item.name.startsWith('undefined-name-')) {
           item.name = '';

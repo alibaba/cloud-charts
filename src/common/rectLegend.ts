@@ -314,6 +314,7 @@ export default function <T>(
       unit,
       decimal,
       grouping,
+      dataType,
     };
 
     // 覆盖默认交互
@@ -424,10 +425,25 @@ export default function <T>(
         config.legend.decimal = config.legend.decimal ?? config?.yAxis?.decimal;
       }
 
-      // 暂时不考虑双轴
-      const formatConfig = typeof config.yAxis === 'object' && !Array.isArray(config.yAxis) ? config.yAxis : {};
-
-      const customValueFormatter = customFormatter(config.legend === true ? formatConfig : config.legend || {});
+      // 进位相关配置项
+      let formatConfig: any;
+      // 当legend中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
+      if (
+        typeof config?.legend === 'object' &&
+        (config?.legend?.valueType ||
+          config?.legend?.unit ||
+          config?.legend?.needUnitTransform ||
+          config?.legend?.unitTransformTo)
+      ) {
+        formatConfig = config.legend;
+      } else if (Array.isArray(config.yAxis) && config.yAxis.length >= 2) {
+        // 双轴
+        formatConfig = config.yAxis;
+      } else if (Array.isArray(config.yAxis)) {
+        formatConfig = config?.yAxis?.[0] ?? {};
+      } else {
+        formatConfig = config?.yAxis ?? {};
+      }
 
       legendConfig.itemValue = {
         style: {
@@ -441,8 +457,22 @@ export default function <T>(
           const value = getLastValue(item.name, ctx.rawData, dataType, ctx.data);
           if (valueFormatter) {
             return valueFormatter(value, itemFormatter ? itemFormatter(item, index) : item, index);
-          } else if (customValueFormatter) {
-            return customValueFormatter(value);
+          } else {
+            let customValueFormatter = null;
+            if (Array.isArray(formatConfig)) {
+              // 双轴
+              // @ts-ignore
+              const dataGroup = getItemData(item.name, ctx.rawData, dataType, ctx.data);
+              customValueFormatter =
+                (dataGroup as any)?.yAxis === 1 ? customFormatter(formatConfig[1]) : customFormatter(formatConfig[0]);
+            } else {
+              // 单轴
+              customValueFormatter = customFormatter(formatConfig);
+            }
+
+            if (customValueFormatter) {
+              return customValueFormatter(value);
+            }
           }
           return value;
         },
@@ -605,7 +635,7 @@ function getLastValue(name: string, rawData: ChartData, dataType: string, curren
   }
   return '';
 }
-function getItemData(
+export function getItemData(
   name: string,
   rawData: ChartData,
   dataType: string,
