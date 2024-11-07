@@ -95,9 +95,11 @@ class WidgetsLegendController extends RawLegendController {
       this.view.changeSize(size[0], size[1]);
 
       // 设置图表宽高
-      const chartContainer = this.view.getCanvas().get('el').parentNode.parentNode;
-      chartContainer.style.width = `${size[0]}px`;
-      chartContainer.style.height = `${size[1]}px`;
+      const chartContainer = this.view.getCanvas().get('el')?.parentNode?.parentNode;
+      if (chartContainer) {
+        chartContainer.style.width = `${size[0]}px`;
+        chartContainer.style.height = `${size[1]}px`;
+      }
 
       // 设置legend宽高
       if (legendElement) {
