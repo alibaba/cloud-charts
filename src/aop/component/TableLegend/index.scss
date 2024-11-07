@@ -72,8 +72,11 @@ $scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-
 }
 
 #{$prefix}legend-item {
-  cursor: pointer;
+  cursor: default;
 
+  &.pointer {
+    cursor: pointer;
+  }
   // &:hover {
   //   background-color: var(--color-brand1-1);
   // }

@@ -129,7 +129,8 @@ export class Sunburst extends Base<WsunburstConfig> {
         // showData: true,
         table: {
           statistics: ['current']
-        }
+        },
+        clickable: false
       },
       tooltip: {
         nameFormatter: null,

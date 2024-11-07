@@ -101,9 +101,16 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   }
 
   if (dataType === 'treeNode') {
-    const filterData = [...(chart?.options?.data ?? [])];
-    const filterDataNameList = filterData.map((sub: any) => sub.name);
+    let filterData = [...(chart?.options?.data ?? [])];
+    const firstDepthCount = filterData.filter((sub: any) => sub.depth === 1)?.length;
+    const secondDepthCount = filterData.filter((sub: any) => sub.depth === 2)?.length;
 
+    // 增加特殊逻辑，如果目前包含2层以上，则只展示第一层数据
+    if (firstDepthCount > 0 && secondDepthCount > 0) {
+      filterData = filterData.filter((sub: any) => sub.depth === 1);
+    }
+
+    const filterDataNameList = filterData.map((sub: any) => sub.name);
     legendItems = legendItems.filter((item: ListItem) => filterDataNameList.includes(item.id));
   }
 
@@ -149,7 +156,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           return (
             <tr
               key={id}
-              className={`${prefix}-tr ${prefix}-legend-item`}
+              className={`${prefix}-tr ${prefix}-legend-item ${clickable ? 'pointer' : ''}`}
               style={{
                 gridTemplateColumns:
                   columns > 0 ? `8px minmax(80px, 100%) repeat(${columns}, 100px)` : '8px minmax(80px, 100%)',
