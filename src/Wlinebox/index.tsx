@@ -219,10 +219,7 @@ export class Linebox extends Base<WlineboxConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor =
-          getDataIndexColor(config.lineColors, rawLineData, yIndex) ||
-          getDataIndexColor(config.boxColors, rawBoxData, yIndex) ||
-          themes['widgets-axis-line'];
+        const axisColor = themes['widgets-axis-line'];
         const yAxisConfig: Types.AxisCfg = {
           line: {
             style: {

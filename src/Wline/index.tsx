@@ -137,7 +137,6 @@ export class Line extends Base<WlineConfig> {
           line: {
             style: {
               stroke:
-                getDataIndexColor(config.colors, this.rawData, yIndex) ||
                 themes['widgets-axis-line'],
             },
           },

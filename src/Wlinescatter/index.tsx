@@ -212,7 +212,7 @@ export class Linescatter extends Base<WlinescatterConfig> {
 
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
-        const axisColor = getDataIndexColor(config.lineColors, rawLineData, yIndex) || getDataIndexColor(config.scatterColors, rawScatterData, yIndex) || themes['widgets-axis-line'];
+        const axisColor = themes['widgets-axis-line'];
         const yAxisConfig: Types.AxisCfg = {
           line: {
             style: {
