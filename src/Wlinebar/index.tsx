@@ -311,8 +311,8 @@ export class Linebar extends Base<WlinebarConfig> {
     if (Array.isArray(config.yAxis)) {
       config.yAxis.forEach((axis, yIndex) => {
         const axisColor =
-          getDataIndexColor(config.lineColors, rawLineData, yIndex) ||
-          getDataIndexColor(config.barColors, rawBarData, yIndex) ||
+          // getDataIndexColor(config.lineColors, rawLineData, yIndex) ||
+          // getDataIndexColor(config.barColors, rawBarData, yIndex) ||
           themes['widgets-axis-line'];
         const yAxisConfig: Types.AxisCfg = {
           line: {
