@@ -118,7 +118,7 @@ export class Bar extends Base<WbarConfig> {
         valueFormatter: null,
       },
       column: true,
-      dodge: false,
+      dodge: true,
       dodgeStack: false,
       stack: false,
       stackReverse: true,
