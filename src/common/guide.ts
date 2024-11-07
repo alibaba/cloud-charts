@@ -123,7 +123,7 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
     style: {
       stroke: color,
       // 默认为虚线
-      // lineDash: [4, 4],
+      lineDash: [4, 4],
       ...style,
     },
     text: {
