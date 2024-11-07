@@ -134,6 +134,7 @@ export interface LegendConfig extends customFormatterConfig {
           value: number | string | ((legendItem: any) => number | string);
         }>;
         style?: React.CSSProperties;
+        hideTitle?: boolean;
       };
 
   /** legend数量多时是否折叠，默认false，优先级高于分页 */

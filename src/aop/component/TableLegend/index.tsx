@@ -122,21 +122,31 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
         ...config?.table?.style,
       }}
     >
-      {columns > 0 && (
+      {columns > 0 && !config?.table?.hideTitle && (
         <thead className={`${prefix}-thead`}>
           <tr
             className={`${prefix}-tr ${prefix}-legend-title`}
             style={{
-              gridTemplateColumns: `8px minmax(80px, 100%) repeat(${columns}, 100px)`,
+              gridTemplateColumns: `8px minmax(80px, 1fr) repeat(${columns}, 8px minmax(30px,1fr))`,
             }}
           >
             <th />
             <th />
             {statistics?.map((statistic: string) => {
-              return <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>;
+              return (
+                <>
+                  <th />
+                  <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>
+                </>
+              );
             })}
             {(config?.table?.custom || []).map((customItem: any, index: number) => {
-              return <th key={`custom${index}`}>{customItem?.title ?? ''}</th>;
+              return (
+                <>
+                  <th />
+                  <th key={`custom${index}`}>{customItem?.title ?? ''}</th>
+                </>
+              );
             })}
           </tr>
         </thead>
@@ -144,7 +154,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       <tbody
         className={`${prefix}-tbody`}
         style={{
-          height: `calc(100% - ${columns > 0 ? 20 : 0}px)`,
+          height: `calc(100% - ${columns > 0 && !config?.table?.hideTitle ? 20 : 0}px)`,
         }}
       >
         {legendItems.map((legendItem: ListItem, index: number) => {
@@ -159,7 +169,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               className={`${prefix}-tr ${prefix}-legend-item ${clickable ? 'pointer' : ''}`}
               style={{
                 gridTemplateColumns:
-                  columns > 0 ? `8px minmax(80px, 100%) repeat(${columns}, 100px)` : '8px minmax(80px, 100%)',
+                  columns > 0 ? `8px minmax(80px, 1fr) repeat(${columns}, 8px minmax(30px,1fr))` : '8px minmax(80px, 100%)',
                 color: !filteredItems.includes(id)
                   ? activedItem === id
                     ? themes['widgets-legend-text-highlight']
@@ -241,9 +251,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                   value = '-';
                 }
                 return (
-                  <td className={`${prefix}-statistics`} key={statistic}>
-                    {value}
-                  </td>
+                  <>
+                    <td />
+                    <td className={`${prefix}-statistics`} key={statistic}>
+                      {value}
+                    </td>
+                  </>
                 );
               })}
               {(config?.table?.custom || []).map((customItem: any, index: number) => {
@@ -255,9 +268,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                       })
                     : customItem?.value ?? '';
                 return (
-                  <td className={`${prefix}-statistics`} key={`custom${index}`}>
-                    {value}
-                  </td>
+                  <>
+                    <td />
+                    <td className={`${prefix}-statistics`} key={`custom${index}`}>
+                      {value}
+                    </td>
+                  </>
                 );
               })}
             </tr>

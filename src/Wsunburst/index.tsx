@@ -128,7 +128,8 @@ export class Sunburst extends Base<WsunburstConfig> {
         // dodge: true,
         // showData: true,
         table: {
-          statistics: ['current']
+          statistics: ['current'],
+          hideTitle: true
         },
         clickable: false
       },
