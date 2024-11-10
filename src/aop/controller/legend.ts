@@ -1,6 +1,6 @@
 import RawLegendController from '@antv/g2/esm/chart/controller/legend';
 import { Geometry } from '@antv/g2';
-import { Attribute, CategoryLegend, Scale } from '@antv/g2/esm/dependents';
+import { Attribute, CategoryLegend, Scale, ListItem } from '@antv/g2/esm/dependents';
 import { LegendCfg } from '@antv/g2/esm/interface';
 // 引入自定义的图例组件
 import ReactLegend from '../component/reactLegend';
@@ -8,6 +8,7 @@ import { FullCrossName } from '../../constants';
 import { View } from '@antv/g2/esm';
 import { merge } from '../../common/common';
 import { getStatistics } from '../../common/chartRefs';
+import omit from 'lodash/omit';
 
 // @ts-ignore
 class WidgetsLegendController extends RawLegendController {
@@ -56,11 +57,27 @@ class WidgetsLegendController extends RawLegendController {
       let size = [w, h];
       let legendSize = [0, 0];
       let legendMaxSize = null;
+
       if (legendConfig?.table) {
         // 根据数据量计算高度
         // 目前暂时对多重圆环进行特殊处理，待规则统一梳理后，整理数据类型
         const dataType = widgetsCtx.chartName === 'G2MultiPie' ? 'treeNode' : 'common';
-        const items = getStatistics(widgetsCtx.chart, [], widgetsCtx?.legendField || 'type', dataType);
+        let items = getStatistics(widgetsCtx.chart, [], widgetsCtx?.legendField || 'type', dataType);
+
+        // 增加特殊逻辑，如果目前包含2层以上，则只展示第一层数据
+        if (dataType === 'treeNode') {
+
+          let filterData = [...(this?.view?.options?.data ?? [])];
+          const firstDepthCount = filterData.filter((sub: any) => sub.depth === 1)?.length;
+          const secondDepthCount = filterData.filter((sub: any) => sub.depth === 2)?.length;
+
+          if (firstDepthCount > 0 && secondDepthCount > 0) {
+            filterData = filterData.filter((sub: any) => sub.depth === 2);
+          }
+          const filterDataIdList = filterData.map((sub: any) => sub.id);
+          items = omit(items, filterDataIdList)
+        }
+
         const num = Object.keys(items).length ?? 0;
 
         if (position === 'right') {

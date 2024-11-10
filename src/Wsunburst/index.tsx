@@ -64,7 +64,7 @@ function dodgeItems(data: ChartData, config: WsunburstConfig) {
     data.forEach((subData: ChartData) => {
       if (subData.depth === 1) {
         newItems.push({
-          id: subData?.name,
+          id: subData?.id ?? subData?.name,
           name: subData?.name,
           value: subData?.name,
           marker: {
@@ -85,7 +85,7 @@ function dodgeItems(data: ChartData, config: WsunburstConfig) {
     newItems = [];
     data.forEach((subData: ChartData) => {
       newItems.push({
-        id: subData?.name,
+        id: subData?.id ?? subData?.name,
         name: subData?.name,
         value: subData?.name,
         marker: {
@@ -112,7 +112,7 @@ function dodgeItems(data: ChartData, config: WsunburstConfig) {
 export class Sunburst extends Base<WsunburstConfig> {
   chartName = 'G2MultiPie';
 
-  legendField = 'name';
+  legendField = 'id';
 
   convertData = false;
 
@@ -178,7 +178,7 @@ export class Sunburst extends Base<WsunburstConfig> {
 
     chart.axis(false);
 
-     // 多重圆环默认开启分组，这里通过自定义图例实现
+    // 多重圆环默认开启分组，这里通过自定义图例实现
     // 自定义图例会有更新问题
     const newItems: G2Dependents.ListItem[] = dodgeItems(source, config);
 
@@ -277,7 +277,7 @@ export class Sunburst extends Base<WsunburstConfig> {
           // 增加圆环边线装饰
           stroke: themes['widgets-color-background'],
           lineWidth: config.showSpacing && value !== 0 && percent > 0.005 ? 1 : 0,
-          cursor: config.select && deep === 1 ? 'pointer' : 'default',
+          cursor: config.select && deep === 1 && !this.isEmpty ? 'pointer' : 'default',
         }
       },
       'name*value*rawValue*depth*percent',
@@ -324,32 +324,34 @@ export class Sunburst extends Base<WsunburstConfig> {
       const filterData = view.filteredData ?? [];
       const eventData = get(context, ['event', 'data', 'data']);
 
-      let sum = 0;
-      filterData.forEach((el: any) => {
-        sum += el?.value ?? 0;
-      })
-
-      const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
-
-      if (container) {
-        this.chartDom.removeChild(container);
+      if (!this.isEmpty) {
+        let sum = 0;
+        filterData.forEach((el: any) => {
+          sum += el?.value ?? 0;
+        })
+  
+        const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+  
+        if (container) {
+          this.chartDom.removeChild(container);
+        }
+  
+        const newContainer = document.createElement('div');
+        newContainer.className = `${FullCrossName}-children`;
+        const firstChild = this.chartDom.firstChild;
+        this.chartDom.insertBefore(newContainer, firstChild);
+        const content = (
+          <Wnumber
+            bottomTitle={config?.innerContent?.title ?? eventData?.name ?? this?.rawData?.name}
+            unit={config?.innerContent?.unit ?? ''}
+          >
+            {config?.innerContent?.value ?? sum}
+          </Wnumber>
+        );
+        ReactDOM.render(content, newContainer);
+  
+        updateChildrenPosition(chart, this.chartDom);
       }
-
-      const newContainer = document.createElement('div');
-      newContainer.className = `${FullCrossName}-children`;
-      const firstChild = this.chartDom.firstChild;
-      this.chartDom.insertBefore(newContainer, firstChild);
-      const content = (
-        <Wnumber
-          bottomTitle={config?.innerContent?.title ?? eventData?.name ?? this?.rawData?.name}
-          unit={config?.innerContent?.unit ?? ''}
-        >
-          {config?.innerContent?.value ?? sum}
-        </Wnumber>
-      );
-      ReactDOM.render(content, newContainer);
-
-      updateChildrenPosition(chart, this.chartDom);
     });
   }
 

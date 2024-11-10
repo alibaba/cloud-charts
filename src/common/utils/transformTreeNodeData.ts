@@ -76,7 +76,7 @@ export function computeData(data: any, config?: any, ctx?: any) {
     });
   } else {
     dv = new DataView();
-    if (ctx) {      
+    if (ctx) {
       ctx.dataView = dv;
     }
 
@@ -129,6 +129,7 @@ function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []
     depth: parentNode.depth,
     color: parentNode.color ?? undefined, // root没有颜色
     children: parentNode.children,
+    id: parentNode?.id ?? parentNode?.data?.id
   });
 
   return getParentList(parentNode, target);
@@ -185,6 +186,7 @@ export function transformNodes(nodes: any) {
       color,
       children: node.children,
       percent: isInvalidNumber(node.value / nodes?.[0]?.value) ? 0 : node.value / nodes?.[0]?.value,
+      id: node?.data?.id ?? node?.data?.data?.id ?? node?.data?.data?.data?.id,
     });
   });
 

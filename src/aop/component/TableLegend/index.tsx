@@ -110,8 +110,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       filterData = filterData.filter((sub: any) => sub.depth === 1);
     }
 
-    const filterDataNameList = filterData.map((sub: any) => sub.name);
-    legendItems = legendItems.filter((item: ListItem) => filterDataNameList.includes(item.id));
+    const filterDataIdList = filterData.map((sub: any) => sub.id);
+    legendItems = legendItems.filter((item: ListItem) => filterDataIdList.includes(item.id));
   }
 
   return (
