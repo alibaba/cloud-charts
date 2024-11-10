@@ -252,7 +252,7 @@ export function getAreaColors(areaColors: string[], isStack?: boolean) {
     } else if(isStack) {
       return subColor;
     } else {
-      return `l(90) 0:${subColor}cc 0.7:${subColor}99 1:${subColor}10`;
+      return `l(90) 0:${subColor}1a 0.7:${subColor}14 1:${subColor}03`;
     }
   });
 }

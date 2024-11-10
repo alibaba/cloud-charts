@@ -4,7 +4,7 @@ import { Chart, Types, BaseChartConfig } from '../common/types';
 import Base from '../common/Base';
 import errorWrap from '../common/errorWrap';
 import themes from '../themes';
-import { getDataIndexColor, propertyAssign, propertyMap } from '../common/common';
+import { propertyAssign, propertyMap } from '../common/common';
 import guide, { GuideConfig } from '../common/guide';
 import rectXAxis, { XAxisConfig } from '../common/rectXAxis';
 import rectYAxis, { YAxisConfig } from '../common/rectYAxis';
