@@ -589,7 +589,7 @@ export interface customFormatterConfig {
  * time - ms、s
  * */
 export function customFormatter(config: customFormatterConfig) {
-  const { unit, decimal = 1, grouping, needUnitTransform, unitTransformTo, valueType, hideZeroUnit = false } = config;
+  const { unit, decimal = 1, grouping = true, needUnitTransform, unitTransformTo, valueType, hideZeroUnit = false } = config;
 
   if (!unit && (decimal === undefined || decimal === null) && !grouping && !needUnitTransform) {
     return null;
