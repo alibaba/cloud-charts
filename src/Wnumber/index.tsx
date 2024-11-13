@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { getStatusColorName } from '../common/common';
+import { getStatusColorName, beautifyNumber } from '../common/common';
 import Warrow from '../common/arrow';
 import chartLog from "../common/log";
 import { Status, Trend } from '../common/types';
@@ -87,7 +87,7 @@ export default class Wnumber extends React.Component<WnumberProps> {
           </span>
         }
         <span className={numberClasses}>
-          {children}
+          {beautifyNumber(children)}
         </span>
         {
           unit &&
