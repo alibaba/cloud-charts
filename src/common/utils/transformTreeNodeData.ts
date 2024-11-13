@@ -186,7 +186,7 @@ export function transformNodes(nodes: any) {
       color,
       children: node.children,
       percent: isInvalidNumber(node.value / nodes?.[0]?.value) ? 0 : node.value / nodes?.[0]?.value,
-      id: node?.data?.id ?? node?.data?.data?.id ?? node?.data?.data?.data?.id,
+      id: node?.data?.id ?? node?.data?.data?.id ?? node?.data?.data?.data?.id ?? node?.data?.name ?? node?.data?.data?.name ?? node?.data?.data?.data?.name,
     });
   });
 

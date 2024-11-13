@@ -73,6 +73,8 @@ class WidgetsLegendController extends RawLegendController {
 
           if (firstDepthCount > 0 && secondDepthCount > 0) {
             filterData = filterData.filter((sub: any) => sub.depth === 2);
+          } else {
+            filterData = [];
           }
           const filterDataIdList = filterData.map((sub: any) => sub.id);
           items = omit(items, filterDataIdList)

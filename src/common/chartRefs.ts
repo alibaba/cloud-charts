@@ -25,7 +25,11 @@ export function getStatistics(
     if (!(legendName in items)) {
       items[legendName] = [];
     }
-    items[legendName].push(item);
+    items[legendName].push({
+      ...item,
+      // 解决树类型数据遍历的时候value值计算出现undefined得问题
+      value: item?.value ?? item?.rawValue
+    });
   });
 
   const res: Record<string, any> = {};

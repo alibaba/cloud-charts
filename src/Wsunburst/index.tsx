@@ -319,16 +319,22 @@ export class Sunburst extends Base<WsunburstConfig> {
       updateChildrenPosition(chart, this.chartDom);
     });
 
-    drillDown(chart, (context: any) => {
+    drillDown(chart, (context: any, isCenter?: boolean) => {
       const { view } = context;
       const filterData = view.filteredData ?? [];
       const eventData = get(context, ['event', 'data', 'data']);
 
       if (!this.isEmpty) {
         let sum = 0;
-        filterData.forEach((el: any) => {
-          sum += el?.value ?? 0;
-        })
+        if (isCenter) {
+          sum = this.totalData;
+        } else {
+          filterData.forEach((el: any) => {
+            if (!el?.children) {
+              sum += el?.value ?? 0;
+            }
+          })
+        }
   
         const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
   
@@ -370,21 +376,25 @@ export class Sunburst extends Base<WsunburstConfig> {
       !this.props.errorInfo
     ) {
       let container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
-      if (!container) {
+
+      if (container) {
+        this.chartDom.removeChild(container);
+      } else {
         container = document.createElement('div');
         container.className = `${FullCrossName}-children`;
         const firstChild = this.chartDom.firstChild;
         this.chartDom.insertBefore(container, firstChild);
+
+        const content = (
+          <Wnumber
+            bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
+            unit={config?.innerContent?.unit ?? ''}
+          >
+            {config?.innerContent?.value ?? this.totalData}
+          </Wnumber>
+        );
+        ReactDOM.render(content, container);
       }
-      const content = (
-        <Wnumber
-          bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
-          unit={config?.innerContent?.unit ?? ''}
-        >
-          {config?.innerContent?.value ?? this.totalData}
-        </Wnumber>
-      );
-      ReactDOM.render(content, container);
     }
   }
 }

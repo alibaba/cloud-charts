@@ -19,7 +19,7 @@ export function drillDown(view: View, onClick?: any) {
       {
         trigger: 'click',
         isEnable: (context: any) => {
-          onClick(context);
+          onClick(context, inCenter(context));
           return inCenter(context);
         },
         action: ['drill-down-action:back'],
