@@ -177,6 +177,30 @@ export class Bar extends Base<WbarConfig> {
       ),
     };
 
+    if (Array.isArray(config.yAxis)) {
+      config.yAxis.forEach((axis, yIndex) => {
+        defs[`y${yIndex}`] = propertyAssign(
+          propertyMap.axis,
+          {
+            nice: true,
+            type: 'linear',
+            tickCount: 5,
+          },
+          axis,
+        );
+      });
+    } else {
+      defs.y = propertyAssign(
+        propertyMap.axis,
+        {
+          nice: true,
+          type: 'linear',
+          tickCount: 5,
+        },
+        config.yAxis,
+      );
+    }
+
     autoTimeScale(defs, this.rawData, this.language || this.context.language);
     chart.scale(defs);
 
@@ -198,12 +222,35 @@ export class Bar extends Base<WbarConfig> {
     }
 
     chart.axis('sum', false);
-    // 设置单个Y轴
-    if (!config.facet) {
-      if (config.percentage) {
-        rectYAxis(this, chart, config, 'percent');
-      } else {
-        rectYAxis(this, chart, config);
+
+    if (Array.isArray(config.yAxis)) {
+      config.yAxis.forEach((axis, yIndex) => {
+        const yAxisConfig: Types.AxisCfg = {
+          line: {
+            style: {
+              stroke: themes['widgets-axis-line'],
+            },
+          },
+        };
+        if (yIndex !== 0) {
+          yAxisConfig.grid = null;
+        }
+
+        if (!config.facet || !config?.percentage) {
+          console.warn('分面facet或百分比堆叠模式下，暂不支持多轴');
+          rectYAxis(this, chart, { ...config, yAxis: axis }, `y${yIndex}`, yAxisConfig);
+        } else {
+          rectYAxis(this, chart, config);
+        }
+      });
+    } else {
+      // 设置单个Y轴
+      if (!config.facet) {
+        if (config.percentage) {
+          rectYAxis(this, chart, config, 'percent');
+        } else {
+          rectYAxis(this, chart, config);
+        }
       }
     }
 
@@ -416,7 +463,14 @@ export class Bar extends Base<WbarConfig> {
         // Tooltip 背景区域
         activeRegionWithTheme(chart);
       }
-      drawBar(chart, config, config.colors);
+
+      if (Array.isArray(config.yAxis)) {
+        config.yAxis.forEach((axis, yIndex) => {
+          drawBar(chart, config, config.colors, config.facet, `y${yIndex}`);
+        });
+      } else {
+        drawBar(chart, config, config.colors);
+      }
     }
 
     rectZoom(
@@ -531,7 +585,7 @@ export default Wbar;
 
 // export default errorWrap(Wbar);
 
-function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) {
+function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any, yAxisKey = 'y') {
   const {
     stack,
     stackReverse,
@@ -553,7 +607,8 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
     dodgePadding: dodgePadding,
     intervalPadding: intervalPadding,
   };
-  let geom = chart.interval(geomConfig).position(['x', 'y']).color('type', colors);
+  let geom = chart.interval(geomConfig).position(['x', yAxisKey]).color('type', colors);
+
   if (percentage) {
     geom = geom.position(['x', 'percent']);
   }
@@ -591,13 +646,15 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any) 
     geom.animate(config.animate);
   }
 
-  geomSize(geom, size, null, 'y', 'x*y*type*facet*extra');
+  geomSize(geom, size, null, yAxisKey, `x*${yAxisKey}*type*facet*extra`);
 
-  geomStyle(geom, config.geomStyle, {}, 'x*y*type*facet*extra');
+  geomStyle(geom, config.geomStyle, {}, `x*${yAxisKey}*type*facet*extra`);
 
   // TOPO 图表类型的规则执行，以及API制定
   // 【API执行】堆叠/分组堆叠/百分比堆叠的时候，开启label内置增加优化显示，已配置的业务关闭
-  if (config.showStackSum && config.stack) {
+  if (config.showStackSum && config.stack && !Array.isArray(config.yAxis)) {
+    console.warn('showStackSum配置 暂不支持双轴');
+
     const labelGeom = chart
       .interval({})
       .position(['x', 'sum'])

@@ -310,9 +310,6 @@ const barChart: IChartRule = {
       }
     }
 
-    if (Array.isArray(config?.yAxis)) {
-      Reflect.deleteProperty(config, 'yAxis')
-    }
     return runConfigRules(config);
   },
   processData: (data: any, config: any) => {
