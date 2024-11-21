@@ -175,12 +175,15 @@ export class DrillDownAction extends Action {
       });
       node = node?.parent;
     }
-  
-    if (this.rootData?.length === 0) {
-      this.rootData = [historyCache[0]];
-    }
 
     this.historyCache = (this.historyCache || []).slice(0, -1).concat(historyCache);
+
+    if (this.rootData?.length === 0) {
+      this.rootData = [historyCache[0]];
+    } else {
+      this.rootData = [this.historyCache[0]];
+    }
+
   }
 
   /**
@@ -196,6 +199,7 @@ export class DrillDownAction extends Action {
     // const data = last(historyCache).children; // 处理后的数组
     // 目前只考虑两层的计算
     // console.log('backTo', historyCache, this.rootData)
+
     view.changeData(this.rootData[0].children);
 
     if (historyCache.length > 1) {

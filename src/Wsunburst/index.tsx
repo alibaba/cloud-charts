@@ -379,22 +379,24 @@ export class Sunburst extends Base<WsunburstConfig> {
 
       if (container) {
         this.chartDom.removeChild(container);
-      } else {
-        container = document.createElement('div');
-        container.className = `${FullCrossName}-children`;
-        const firstChild = this.chartDom.firstChild;
-        this.chartDom.insertBefore(container, firstChild);
-
-        const content = (
-          <Wnumber
-            bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
-            unit={config?.innerContent?.unit ?? ''}
-          >
-            {config?.innerContent?.value ?? this.totalData}
-          </Wnumber>
-        );
-        ReactDOM.render(content, container);
       }
+
+      container = document.createElement('div');
+      container.className = `${FullCrossName}-children`;
+      const firstChild = this.chartDom.firstChild;
+      this.chartDom.insertBefore(container, firstChild);
+
+      const content = (
+        <Wnumber
+          bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
+          unit={config?.innerContent?.unit ?? ''}
+        >
+          {config?.innerContent?.value ?? this.totalData}
+        </Wnumber>
+      );
+      ReactDOM.render(content, container);
+
+      updateChildrenPosition(chart, this.chartDom);
     }
   }
 }

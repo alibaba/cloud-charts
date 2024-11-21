@@ -97,7 +97,7 @@ export function filterLegend(chart: Chart, condition: (value: any) => boolean, l
     view?.getComponents()?.forEach((co: any) => {
       if (co.type === 'legend') {
         const items = co.component.getItems();
-        items.forEach((item: ListItem) => {
+        items?.forEach((item: ListItem) => {
           if (condition(item.id || item.name)) {
             co.component.setItemState(item, 'checked', true);
             co.component.setItemState(item, 'unchecked', false);

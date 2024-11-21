@@ -112,6 +112,17 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
 
     const filterDataIdList = filterData.map((sub: any) => sub.id);
     legendItems = legendItems.filter((item: ListItem) => filterDataIdList.includes(item.id));
+
+    legendItems.map((item: ListItem) => {
+      const idx = filterData.findIndex((sub: any) => sub.id === item.id);
+      if (typeof item.marker === 'object') {
+        item.marker.dataFill = filterData[idx].color ?? null;
+      }
+
+      item.data = filterData[idx]?.value ?? filterData[idx]?.rawValue ?? null;
+    })
+
+    legendItems.sort((a: any, b: any) => b.data - a.data);
   }
 
   return (
@@ -215,7 +226,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               }}
             >
               <td className={`${prefix}-marker`}>
-                <LegendMarker marker={marker} disable={filteredItems.includes(id)} />
+                <LegendMarker marker={marker} disable={filteredItems.includes(id)} item={legendItem} />
               </td>
               <td>
                 <LegendName name={name} />

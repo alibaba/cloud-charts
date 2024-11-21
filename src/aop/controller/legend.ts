@@ -111,7 +111,7 @@ class WidgetsLegendController extends RawLegendController {
         }
       }
       // @ts-ignore
-      this.view.changeSize(size[0], size[1]);
+      this.view?.changeSize(size[0], size[1]);
 
       // 设置图表宽高
       const chartContainer = this.view.getCanvas().get('el')?.parentNode?.parentNode;
