@@ -5,10 +5,11 @@ import LanguageMap from '../locales';
 import { getText } from '../ChartProvider';
 
 const MINUTE_MS = 60 * 1000;
-const HOUR_MS = 3600 * 1000;
-const DAY_MS = 24 * HOUR_MS;
+const HOUR_MS = 59 * 60 * 1000;
+const DAY_MS = 22 * HOUR_MS;
 const YEAR_MS = 365 * DAY_MS;
-// 跨度判定列表：大于半年、大于一个月、大于一天、大于一小时、大于一分钟、（小于分钟）
+// 跨度判定列表：大于半年、大于28天、大于22小时、大于59分钟、大于一分钟、（小于分钟）
+// todo后期改为跨度是否跨天/跨年/跨月判定
 const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS];
 
 // 移入国际化文件中
@@ -117,6 +118,8 @@ function getAutoMask(
     return getText('defaultMask', language, null);
   }
   // 假设数据是升序的，且传入为 Date 能识别的格式
+  data?.sort((a: any, b: any) => a[0] - b[0]);
+
   // 只取第一、二个元素的间距
   const min = new Date(data[0][0]).getTime();
   const minFirst = new Date(data[1][0]).getTime();
@@ -131,6 +134,7 @@ function getAutoMask(
   const intervalIndex = getTimeIndex(interval);
 
   const maskMap = getText('timeMask', language, null);
+
   // 如果记录表中没有记录，则使用默认 mask
   return maskMap[intervalIndex][spanIndex] || getText('defaultMask', language, null);
 }

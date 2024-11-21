@@ -45,8 +45,6 @@ function diffMinus(min: number, max: number) {
 // 2. 用户自定义高于一切
 // 3. 如果计算出来的的刻度数量小于默认刻度个数，则使用计算出来的刻度
 function avgTicks(min: number, max: number, tickCount: number, sourceTicks: any) {
-  // console.log(min, max, tickCount, sourceTicks);
-  // const tickLength = sourceTicks?.length < tickCount ? sourceTicks?.length : tickCount;
   const tickLength = tickCount;
   const avg = (max - min) / (tickLength - 1 <= 0 ? 1 : tickLength - 1);
 
@@ -57,9 +55,6 @@ function avgTicks(min: number, max: number, tickCount: number, sourceTicks: any)
     }
   }
 
-  // if (_.isEqual(ticks, sourceTicks)) {
-  //   console.log(1111)
-  // }
   return ticks;
 }
 
