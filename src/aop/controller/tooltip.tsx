@@ -1,7 +1,7 @@
 import RawTooltipController from '@antv/g2/esm/chart/controller/tooltip';
 import { Point } from '@antv/g2/esm/interface';
 import ReactDOM from 'react-dom';
-import { FullCrossName } from '../../constants';
+import { FullCrossName, HideTooltipEventName } from '../../constants';
 import FreeTooltip from '../component/FreeTooltip';
 import React from 'react';
 import { getRawData, customFormatter } from '../../common/common';
@@ -20,6 +20,9 @@ class WidgetsTooltipController extends RawTooltipController {
 
   // 计时器，用于防抖
   private timer: any;
+
+  // 监听器，用于监听图表是否可见
+  private observer: any;
 
   constructor(props: any) {
     super(props);
@@ -239,28 +242,21 @@ class WidgetsTooltipController extends RawTooltipController {
     if (this.tooltipContainer) {
       this.tooltipContainer.style.pointerEvents = 'auto';
 
-      // 记录tooltip的起始坐标
-      const tooltipPosition = {
-        x: this.tooltipContainer.style.left,
-        y: this.tooltipContainer.style.top,
-      };
-      const tooltipX = Number(tooltipPosition.x.slice(0, tooltipPosition.x.length - 2));
-      const tooltipY = Number(tooltipPosition.y.slice(0, tooltipPosition.y.length - 2));
-      this.startPosition = {
-        x: tooltipX,
-        y: tooltipY,
-      };
-
-      // 图表父元素的起始位置
-      this.startRect = this.parentDom.getBoundingClientRect();
-
-      // 监听滚动事件
-      document.addEventListener('mousewheel', this.handleScroll);
-      window.addEventListener('scroll', this.handleScroll);
-      document.addEventListener('keydown', (event: KeyboardEvent) => {
-        if (event.code === 'ArrowDown' || event.keyCode === 40 || event.code === 'ArrowUp' || event.keyCode === 38) {
-          this.handleScroll();
+      this.observer = new IntersectionObserver((entries: any[]) => {
+        for (const entry of entries) {
+          // 元素离开视口
+          if (!entry.isIntersecting) {
+            this.unlockTooltip();
+            this.hideTooltip();
+          }
         }
+      });
+
+      this.observer.observe(this.parentDom);
+
+      window.addEventListener(HideTooltipEventName, () => {
+        this.unlockTooltip();
+        this.hideTooltip();
       });
     }
   }
@@ -270,12 +266,11 @@ class WidgetsTooltipController extends RawTooltipController {
     if (this.tooltipContainer) {
       this.tooltipContainer.style.pointerEvents = 'none';
 
-      document.removeEventListener('mousewheel', this.handleScroll);
-      document.removeEventListener('scroll', this.handleScroll);
-      document.removeEventListener('keydown', (event: KeyboardEvent) => {
-        if (event.code === 'ArrowDown' || event.keyCode === 40 || event.code === 'ArrowUp' || event.keyCode === 38) {
-          this.handleScroll();
-        }
+      this.observer.disconnect();
+
+      window.removeEventListener(HideTooltipEventName, () => {
+        this.unlockTooltip();
+        this.hideTooltip();
       });
     }
   }

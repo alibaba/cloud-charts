@@ -20,6 +20,7 @@ export const TrackName = 'cloud-chart.use.init';
 export const PrefixName = 'cloud';
 export const FullLanguageName = 'CloudChartsDefaultLanguage';
 export const FullLanguageEventName = 'setCloudChartsLanguage';
+export const HideTooltipEventName = 'hideCloudChartsTooltip';
 
 declare global {
   interface Window {
