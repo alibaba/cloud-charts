@@ -55,6 +55,7 @@ $scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-
     overflow: hidden;
     text-overflow: ellipsis;
     margin-right: 8px;
+    word-wrap: break-word;
   }
 }
 
