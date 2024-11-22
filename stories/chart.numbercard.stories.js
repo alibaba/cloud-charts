@@ -18,10 +18,17 @@ const svgIcon = (
 stories.add('指标卡片基础用法', () => (
   <div>
     <Wnumbercard
+      data={{
+        label: 'test',
+        value: 234,
+      }}
+      config={{
+        status: 'error',
+      }}
       label="默认透明卡片"
       value={100}
       unit="%"
-      //status="success"
+      status="success"
       // itemStyle={{
       //   width: 250,
       // }}
@@ -373,9 +380,104 @@ const testData = [
   },
 ];
 
+const testData2 = [
+  {
+    data: {
+      label: 'ECS',
+      value: 23,
+    },
+    label: 'EIP',
+    value: 45,
+    config: {
+      status: 'success',
+      icon: {
+        type: 'ecs',
+      },
+    },
+    status: 'error',
+  },
+  {
+    label: 'EIP',
+    value: 45,
+    icon: {
+      type: 'eip',
+    },
+  },
+  {
+    label: 'GDB',
+    value: 12,
+    icon: {
+      type: 'gdb',
+    },
+  },
+  {
+    label: 'HBASE',
+    value: 2,
+    icon: {
+      type: 'hbase',
+    },
+  },
+  {
+    label: 'NAS',
+    value: 234,
+    icon: {
+      type: 'nas',
+    },
+  },
+  {
+    label: 'ECS',
+    value: 2,
+    icon: {
+      type: 'ecs',
+    },
+  },
+  {
+    label: 'EIP',
+    value: 459,
+    icon: {
+      type: 'eip',
+    },
+  },
+  {
+    label: 'GDB',
+    value: 122,
+    icon: {
+      type: 'gdb',
+    },
+  },
+  {
+    label: 'HBASE',
+    value: 89,
+    icon: {
+      type: 'hbase',
+    },
+  },
+  {
+    label: 'NAS',
+    value: 234,
+    icon: {
+      type: 'nas',
+    },
+  },
+  {
+    label: 'GDB',
+    value: 122,
+    icon: {
+      type: 'gdb',
+    },
+  },
+  {
+    label: 'HBASE',
+    value: 89,
+    icon: {
+      type: 'hbase',
+    },
+  },
+];
+
 stories.add('数据卡片概览', () => (
   <div>
-    <Wnumberoverview data={testData} />
+    <Wnumberoverview data={testData2} />
   </div>
 ));
 

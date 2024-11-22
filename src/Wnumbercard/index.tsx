@@ -66,56 +66,60 @@ interface ValueTagProps extends LabelTagProps {
 }
 
 export interface IDataItem {
-  /** 标签，超出长度自动省略并显示tooltip */
-  label: string | React.ReactNode;
+  data: {
+    /** 标签，超出长度自动省略并显示tooltip */
+    label: string | React.ReactNode;
 
-  /** 数值 */
-  value?: number | string | React.ReactNode;
+    /** 数值 */
+    value?: number | string | React.ReactNode;
 
-  /** 单位 */
-  unit?: string; // 是否居中？
+    /** 单位 */
+    unit?: string; // 是否居中？
+  };
 
-  /** 业务状态，默认default */
-  status?: Status;
+  config?: {
+    /** 业务状态，默认default */
+    status?: Status;
 
-  /** icon */
-  icon?: React.ReactNode;
+    /** icon */
+    icon?: React.ReactNode;
 
-  /** 卡片中的value字号尺寸，默认medium */
-  size?: 'small' | 'medium';
+    /** 卡片中的value字号尺寸，默认medium */
+    size?: 'small' | 'medium';
 
-  /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
-  backgroundType?: 'fill' | 'none' | 'image';
+    /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
+    backgroundType?: 'fill' | 'none' | 'image';
 
-  /** 背景图,image时必传 */
-  backgroundImage?: string;
+    /** 背景图,image时必传 */
+    backgroundImage?: string;
 
-  /** icon位置，默认右边 */
-  iconPosition?: 'left' | 'right';
+    /** icon位置，默认右边 */
+    iconPosition?: 'left' | 'right';
 
-  /** label旁边的tags */
-  labelTags: LabelTagProps[];
+    /** label旁边的tags */
+    labelTags: LabelTagProps[];
 
-  /** value旁边的tags */
-  valueTags?: ValueTagProps[];
+    /** value旁边的tags */
+    valueTags?: ValueTagProps[];
 
-  /** 图表，支持线图、圆环图与RN */
-  chart?: LineProps | CircleProps | React.ReactNode;
+    /** 图表，支持线图、圆环图与RN */
+    chart?: LineProps | CircleProps | React.ReactNode;
 
-  /** 各种自定义样式，隐藏 */
-  itemStyle?: React.CSSProperties;
-  labelStyle?: React.CSSProperties;
-  valueStyle?: React.CSSProperties;
+    /** 各种自定义样式，隐藏 */
+    itemStyle?: React.CSSProperties;
+    labelStyle?: React.CSSProperties;
+    valueStyle?: React.CSSProperties;
+  };
 
   /* 其他附加数据项，如onClick事件 */
   [key: string]: any;
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
+  // 兼容老api
+  const { label, value, unit } = { ...props, ...props?.data };
+
   const {
-    label,
-    value,
-    unit,
     status,
     icon,
     size = 'medium',
@@ -129,7 +133,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     labelStyle,
     valueStyle,
     ...otherProps
-  } = props || {};
+  } = { ...props, ...props?.config };
 
   // 有minichart的卡片默认灰色
   const backgroundType = userBackgroundType ? userBackgroundType : chart ? 'fill' : 'none';
@@ -333,31 +337,34 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
 export interface IDataOverviewCard {
   data: IDataItem[];
 
-  /** 列数，columns=1表示竖着排，不指定则自适应 */
-  columns?: number;
+  config?: {
+    /** 列数，columns=1表示竖着排，不指定则自适应 */
+    columns?: number;
 
-  /** 间距，默认16 */
-  margin?: number | [number, number];
+    /** 间距，默认16 */
+    margin?: number | [number, number];
 
-  /** 是否显示竖线,不指定则根据backgroundType自动判断 */
-  showDivider?: boolean;
+    /** 是否显示竖线,不指定则根据backgroundType自动判断 */
+    showDivider?: boolean;
 
-  // 整体的卡片类型，不指定则根据卡片内容、行数自动判断
-  backgroundType?: 'fill' | 'none' | 'image';
+    // 整体的卡片类型，不指定则根据卡片内容、行数自动判断
+    backgroundType?: 'fill' | 'none' | 'image';
 
-  /** 整体的卡片尺寸，默认medium */
-  size?: 'small' | 'medium';
+    /** 整体的卡片尺寸，默认medium */
+    size?: 'small' | 'medium';
+  };
 }
 
 export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
+  const { data = [] } = props || {};
+
   const {
-    data = [],
     columns: userColumns,
     margin = 16,
     showDivider: userShowDivider,
     backgroundType: userBackgroundType,
     size = 'medium',
-  } = props || {};
+  } = { ...props, ...props?.config };
 
   const marginRight = typeof margin === 'number' ? margin : margin[1];
   const marginBottom = typeof margin === 'number' ? margin : margin[0];
@@ -458,24 +465,35 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
           style={{ marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom }}
         >
           {row.map((item: IDataItem, colIndex: number) => {
+            const { data, config, ...others } = item || {};
+            const chart = config?.chart ?? others?.chart;
+
             const itemProps = {
-              backgroundType,
-              size,
-              ...item,
-              ...(item.chart && !React.isValidElement(item.chart)
-                ? {
-                    chart: {
-                      ...item.chart,
-                      width: item.chart?.position === 'center' ? null : chartWidth,
-                    },
-                  }
-                : {}),
-              itemStyle: {
-                height: 68,
-                width: itemWidth,
-                marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
-                marginLeft: colIndex === 0 ? 0 : marginRight / 2,
-                ...(item?.itemStyle ?? {}),
+              data: {
+                label: data?.label ?? others?.label,
+                value: data?.value ?? others?.value,
+                unit: data?.unit ?? others?.unit,
+              },
+              config: {
+                backgroundType,
+                size,
+                ...others,
+                ...config,
+                ...(chart && !React.isValidElement(chart)
+                  ? {
+                      chart: {
+                        ...chart,
+                        width: chart?.position === 'center' ? null : chartWidth,
+                      },
+                    }
+                  : {}),
+                itemStyle: {
+                  height: 68,
+                  width: itemWidth,
+                  marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
+                  marginLeft: colIndex === 0 ? 0 : marginRight / 2,
+                  ...(config?.itemStyle ?? others?.itemStyle),
+                },
               },
             };
             return (
