@@ -135,7 +135,7 @@ const testData_6 = [
 
 stories.add('指标卡（基本版）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <Wlistcontainer chart="Wnumbercard" data={testData_1} />
+    <Wlistcontainer chart="Wnumbercard" data={testData_1} config={{ showDivider: true, columns: 3 }} />
   </div>
 ));
 
@@ -258,7 +258,7 @@ const status_data = [
 
 stories.add('指标卡（大盘）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <Wlistcontainer chart="Wnumbercard" data={status_data} backgroundType="none" showDivider={false} />
+    <Wlistcontainer chart="Wnumbercard" data={status_data} config={{ backgroundType: 'none', showDivider: false }} />
   </div>
 ));
 
@@ -353,7 +353,7 @@ stories.add('仪表盘（不同配置项）', () => (
 
 stories.add('指标卡（fullSize）', () => (
   <div style={{ width: '100%', height: 400 }}>
-    <Wlistcontainer chart="Wnumbercard" data={testData_1} fullSize />
+    <Wlistcontainer chart="Wnumbercard" data={testData_1} config={{ fullSize: true }} />
   </div>
 ));
 

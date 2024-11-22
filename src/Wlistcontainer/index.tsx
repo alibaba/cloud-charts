@@ -13,36 +13,33 @@ export interface ListContainerProps {
   /** 图表的数据（数组） */
   data: IDataItem[] | IWgaugeProps[];
 
-  /** 内部的图表，目前仅支持仪表盘及指标卡 */
-  chart: 'Wnumbercard' | 'Wgauge';
+  config?: {
+    /** 内部的图表，目前仅支持仪表盘及指标卡 */
+    chart: 'Wnumbercard' | 'Wgauge';
 
-  /** 列数，columns=1表示竖着排，不指定则自适应 */
-  columns?: number;
+    /** 列数，columns=1表示竖着排，不指定则自适应 */
+    columns?: number;
 
-  /** 间距，默认16 */
-  margin?: number | [number, number];
+    /** 间距，默认16 */
+    margin?: number | [number, number];
 
-  /** 是否显示竖线,不指定则根据图表自动判断 */
-  showDivider?: boolean;
+    /** 是否显示竖线,不指定则根据图表自动判断 */
+    showDivider?: boolean;
 
-  /** 是否撑满容器大小，默认false */
-  fullSize?: boolean;
+    /** 是否撑满容器大小，默认false */
+    fullSize?: boolean;
 
-  /** 其余配置项，会透传到内部图表中 */
-  [key: string]: any;
+    /** 其余配置项，会透传到内部图表中 */
+    [key: string]: any;
+  };
 }
 
-export default function ListContainer({
-  data,
-  chart,
-  columns: userColumns,
-  margin = 16,
-  fullSize = false,
-  ...userOptions
-}: ListContainerProps) {
+export default function ListContainer({ data, config: userConfig, ...others }: ListContainerProps) {
   if (!data?.length) {
     return <Wplaceholder empty />;
   }
+
+  const { chart, columns: userColumns, margin = 16, fullSize = false, ...userOptions } = { ...others, ...userConfig };
 
   const marginRight = useMemo(() => (typeof margin === 'number' ? margin : margin[1]), [margin]);
   const marginBottom = useMemo(() => (typeof margin === 'number' ? margin : margin[0]), [margin]);
