@@ -66,7 +66,6 @@ class WidgetsLegendController extends RawLegendController {
 
         // 增加特殊逻辑，如果目前包含2层以上，则只展示第一层数据
         if (dataType === 'treeNode') {
-
           let filterData = [...(this?.view?.options?.data ?? [])];
           const firstDepthCount = filterData.filter((sub: any) => sub.depth === 1)?.length;
           const secondDepthCount = filterData.filter((sub: any) => sub.depth === 2)?.length;
@@ -77,7 +76,7 @@ class WidgetsLegendController extends RawLegendController {
             filterData = [];
           }
           const filterDataIdList = filterData.map((sub: any) => sub.id);
-          items = omit(items, filterDataIdList)
+          items = omit(items, filterDataIdList);
         }
 
         const num = Object.keys(items).length ?? 0;
@@ -110,8 +109,10 @@ class WidgetsLegendController extends RawLegendController {
           return;
         }
       }
-      // @ts-ignore
-      this.view?.changeSize(size[0], size[1]);
+      if (this.view?.canvas?.get('el')) {
+        // @ts-ignore
+        this.view?.changeSize(size[0], size[1]);
+      }
 
       // 设置图表宽高
       const chartContainer = this.view.getCanvas().get('el')?.parentNode?.parentNode;
