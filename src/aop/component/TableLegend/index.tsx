@@ -138,7 +138,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           <tr
             className={`${prefix}-tr ${prefix}-legend-title`}
             style={{
-              gridTemplateColumns: `8px minmax(80px, 1fr) repeat(${columns}, 8px minmax(30px,1fr))`,
+              gridTemplateColumns: `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${60 - (1 / columns * 100)}),1fr))`,
             }}
           >
             <th />
@@ -180,7 +180,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               className={`${prefix}-tr ${prefix}-legend-item ${clickable ? 'pointer' : ''}`}
               style={{
                 gridTemplateColumns:
-                  columns > 0 ? `8px minmax(80px, 1fr) repeat(${columns}, 8px minmax(30px,1fr))` : '8px minmax(80px, 100%)',
+                  columns > 0 ? `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${60 - (1 / columns * 100)}%),1fr))` : '8px minmax(min(80px, 30%), 100%)',
                 color: !filteredItems.includes(id)
                   ? activedItem === id
                     ? themes['widgets-legend-text-highlight']

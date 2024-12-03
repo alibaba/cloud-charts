@@ -1,8 +1,9 @@
 import { Action, IGroup, Util } from '@antv/g2';
 import { get, isNil, last, size } from '@antv/util';
+import themes from '../../../themes';
 import { DrillDownCfg } from '../types/drill-down';
 import { deepAssign } from '../../common';
-import { computeData, transformNodes } from '../../utils/transformTreeNodeData';
+import { computeData } from '../../utils/transformTreeNodeData';
 
 // 面包屑文字和分割符'/'之间的距离
 const PADDING = 4;
@@ -21,11 +22,11 @@ export const DEFAULT_BREAD_CRUMB_CONFIG: DrillDownCfg['breadCrumb'] = {
   dividerText: '/',
   textStyle: {
     fontSize: 12,
-    fill: 'rgba(0, 0, 0, 0.65)',
+    fill: themes['widgets-legend-text-normal'],
     cursor: 'pointer',
   },
   activeTextStyle: {
-    fill: '#87B5FF',
+    fill: themes['widgets-legend-text-highlight'],
   },
 };
 
@@ -87,6 +88,7 @@ export class DrillDownAction extends Action {
     if (!data) return false;
 
     this.drill(data);
+    // console.log('click', data)
     this.drawBreadCrumb();
   }
 

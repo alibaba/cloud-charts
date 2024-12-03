@@ -109,6 +109,18 @@ function dodgeItems(data: ChartData, config: WsunburstConfig) {
   return newItems;
 }
 
+function deleteChildren(dom: HTMLElement) {
+  let container = dom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+
+  if (container) {
+    dom.removeChild(container);
+  }
+
+  container = document.createElement('div');
+
+  return container;
+}
+
 export class Sunburst extends Base<WsunburstConfig> {
   chartName = 'G2MultiPie';
 
@@ -294,10 +306,11 @@ export class Sunburst extends Base<WsunburstConfig> {
       !this.props.loading &&
       !this.props.errorInfo
     ) {
-      const container = document.createElement('div');
+      const container = deleteChildren(this.chartDom);
       container.className = `${FullCrossName}-children`;
       const firstChild = this.chartDom.firstChild;
       this.chartDom.insertBefore(container, firstChild);
+
       const content = (
         <Wnumber
           bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
@@ -309,10 +322,7 @@ export class Sunburst extends Base<WsunburstConfig> {
       ReactDOM.render(content, container);
     } else if (!this.props.children) {
       // 删去中心内容
-      const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
-      if (container) {
-        this.chartDom.removeChild(container);
-      }
+      deleteChildren(this.chartDom);
     }
 
     chart.on('afterpaint', () => {
@@ -336,13 +346,7 @@ export class Sunburst extends Base<WsunburstConfig> {
           })
         }
   
-        const container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
-  
-        if (container) {
-          this.chartDom.removeChild(container);
-        }
-  
-        const newContainer = document.createElement('div');
+        const newContainer = deleteChildren(this.chartDom);
         newContainer.className = `${FullCrossName}-children`;
         const firstChild = this.chartDom.firstChild;
         this.chartDom.insertBefore(newContainer, firstChild);
@@ -375,13 +379,8 @@ export class Sunburst extends Base<WsunburstConfig> {
       !this.props.loading &&
       !this.props.errorInfo
     ) {
-      let container = this.chartDom.getElementsByClassName(`${FullCrossName}-children`)?.[0];
+      const container = deleteChildren(this.chartDom);
 
-      if (container) {
-        this.chartDom.removeChild(container);
-      }
-
-      container = document.createElement('div');
       container.className = `${FullCrossName}-children`;
       const firstChild = this.chartDom.firstChild;
       this.chartDom.insertBefore(container, firstChild);

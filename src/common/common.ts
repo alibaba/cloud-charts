@@ -795,7 +795,7 @@ export function calcLinearColor(primaryColor: string, backgroundColor?: string, 
           }).toHexString();
         } else {
           // 暗色模式
-          colorString = tinycolor.mix(backgroundColor, primaryColor, i * 10).toHexString();
+          colorString = tinycolor.mix(backgroundColor, primaryColor, distributionArray[count - i - 1] * 100).toHexString();
         }
 
         linear.push(colorString);
