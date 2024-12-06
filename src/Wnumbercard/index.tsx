@@ -255,11 +255,15 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         }
         style={
           chartElement && chartPosition === 'center'
-            ? {}
+            ? { width: '100%' }
             : {
                 justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
                 alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
-                alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
+              alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
+              width:
+              chartElement && ['left', 'right'].includes(chartPosition)
+                ? `calc(100% - ${(chart?.type === 'Wcircle' ? (chart?.config?.radius ?? 22)*2 :( chart?.width ?? 0)) + 20}px)`
+                : '100%',
               }
         }
       >
