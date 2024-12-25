@@ -5,7 +5,7 @@ import { merge, customFormatter, customFormatterConfig } from './common';
 
 export interface YAxisConfig extends customFormatterConfig {
   visible?: boolean;
-  alias?: boolean;
+  alias?: string | boolean;
   autoRotate?: boolean;
   rotate?: number;
   autoHide?: boolean;

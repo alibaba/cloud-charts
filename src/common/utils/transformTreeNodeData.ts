@@ -64,6 +64,16 @@ function getAllNodes(root: any) {
       nodes.push(node);
     });
   }
+
+  nodes?.map((node: any) => {
+    node.data = node?.data?.data?.data
+      ? {
+          ...findValueByKey(node.data.data, 'data'),
+          ...node?.data?.data,
+        }
+      : Object.assign({}, node?.data, node?.data?.data);
+    return node;
+  });
   return nodes;
 }
 
@@ -123,16 +133,33 @@ function getParentList(node: Types.LooseObject, target: Types.LooseObject[] = []
   }
 
   target.unshift({
-    name: parentNode.data.name,
+    name: parentNode?.data?.name || findValueByKey(parentNode?.data, 'name'),
     value: parentNode.value,
     rawValue: parentNode.data.value,
     depth: parentNode.depth,
-    color: parentNode.color ?? undefined, // root没有颜色
+    color: parentNode?.color, // root没有颜色
     children: parentNode.children,
-    id: parentNode?.id ?? parentNode?.data?.id
+    id: parentNode?.id || findValueByKey(parentNode?.data, 'id')
   });
 
   return getParentList(parentNode, target);
+}
+
+export function findValueByKey(obj: any, key: string): any {
+  if (obj.hasOwnProperty(key)) {
+    return obj[key];
+  }
+
+  for (const k in obj) {
+    if (obj[k] && typeof obj[k] === 'object') {
+      const result = findValueByKey(obj[k], key);
+      if (result !== undefined) {
+        return result;
+      }
+    }
+  }
+
+  return undefined;
 }
 
 export function transformNodes(nodes: any) {
@@ -175,7 +202,7 @@ export function transformNodes(nodes: any) {
     }
 
     source.push({
-      name: node?.data?.name ?? node?.data?.data?.name ?? node?.data?.data?.data?.name,
+      name: findValueByKey(node, 'name'),
       value: node.value,
       rawValue: node.data.value,
       depth: node.depth,
@@ -186,7 +213,7 @@ export function transformNodes(nodes: any) {
       color,
       children: node.children,
       percent: isInvalidNumber(node.value / nodes?.[0]?.value) ? 0 : node.value / nodes?.[0]?.value,
-      id: node?.data?.id ?? node?.data?.data?.id ?? node?.data?.data?.data?.id ?? node?.data?.name ?? node?.data?.data?.name ?? node?.data?.data?.data?.name,
+      id: findValueByKey(node.data, 'id') ?? findValueByKey(node.data, 'name')
     });
   });
 
