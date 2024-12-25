@@ -88,18 +88,23 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     unitTransformTo,
   } = config || {};
 
-
   let sourceValue = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
   let current = percentage ? (sourceValue / total) * 100 : sourceValue;
 
   let finalUnit = percentage ? '%' : unit;
 
-  if(needUnitTransform && (unit || valueType)) {
+  if (needUnitTransform && (unit || valueType)) {
     if (valueType === 'percent_1') {
       current = current * 100;
     }
 
-    const { value, unit: transformUnit } = unitConversion(current, finalUnit, decimal, unitTransformTo, valueType);
+    const { value, unit: transformUnit } = unitConversion(
+      current,
+      finalUnit,
+      decimal,
+      unitTransformTo,
+      valueType,
+    );
 
     current = value;
     finalUnit = transformUnit;
@@ -128,12 +133,15 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       : 0
     : getFontSizeNumber(gaugeTextStyle);
   const { scaleNum = 5, scale = true } =
-    typeof gaugeScale === 'object' && gaugeScale !== null ? gaugeScale : { scaleNum: 0, scale: false };
+    typeof gaugeScale === 'object' && gaugeScale !== null
+      ? gaugeScale
+      : { scaleNum: 0, scale: false };
 
   const containerRef = useRef(null); // 用于引用父容器的ref
   const [radius, setRadius] = useState(100); // 默认半径为100，实际会基于父元素高度来调整
   const strokeWidth = radius * 0.12 < 12 ? 12 : radius * 0.12;
-  const decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : (outRing ? strokeWidth : 0);
+  const decorationGap =
+    config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : outRing ? strokeWidth : 0;
   const [lineSize, setLineSize] = useState(100 * 0.8 * 0.24);
   const [gap, setGap] = useState(0);
   const textRef = useRef(null);
@@ -159,7 +167,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         }
         const realradius = width < height * 2 ? width / 2 : height;
         const strokeWidth = realradius * 0.12 < 12 ? 12 : realradius * 0.12;
-        const decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : (outRing ? strokeWidth : 0);
+        const decorationGap =
+          config?.angle && config.angle?.end - config.angle?.start > 180
+            ? 0
+            : outRing
+            ? strokeWidth
+            : 0;
         const scaleHeight = gaugeScaleFlag && width < height * 2 ? decorationStrokeWidth * 2 : 0;
         // 圆的半径需要考虑strokeWidth的影响，以便圆完全显示在父元素内
         // setGap(height - (realradius - strokeWidth - decorationGap - decorationStrokeWidth - scaleHeight));
@@ -186,14 +199,14 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   }, [containerRef]);
 
   useEffect(() => {
-    if(radius < 40){
-      setGaugeScaleFlag(true)
+    if (radius < 40) {
+      setGaugeScaleFlag(true);
       setRealScaleLineLength(0);
-    }else {
+    } else {
       setGaugeScaleFlag(false);
       setRealScaleLineLength(scaleLineLength);
     }
-  }, [radius])
+  }, [radius]);
 
   // 计算弧度的起始角和结束角
   const startAngle = angle.start;
@@ -209,13 +222,23 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const largeArcFlag = angle.end - angle.start > 180 ? 1 : 0;
   const dataArcFlag = (current / total) * (angle.end - angle.start) > 180 ? 1 : 0;
 
-  const { x: decoratedStartX, y: decoratedStartY } = calculatePositionOnCircle(startAngle, radius, decorationGap);
-  const { x: decoratedEndX, y: decoratedEndY } = calculatePositionOnCircle(bottomEnd, radius, decorationGap);
+  const { x: decoratedStartX, y: decoratedStartY } = calculatePositionOnCircle(
+    startAngle,
+    radius,
+    decorationGap,
+  );
+  const { x: decoratedEndX, y: decoratedEndY } = calculatePositionOnCircle(
+    bottomEnd,
+    radius,
+    decorationGap,
+  );
 
   // 仪表盘装饰圆环
   const pathRingData = [
     `M ${decoratedStartX} ${decoratedStartY}`, // 移动到装饰性弧线的起点
-    `A ${radius + decorationGap} ${radius + decorationGap} 0 ${largeArcFlag} 1 ${decoratedEndX} ${decoratedEndY}`,
+    `A ${radius + decorationGap} ${
+      radius + decorationGap
+    } 0 ${largeArcFlag} 1 ${decoratedEndX} ${decoratedEndY}`,
     // `A ${radius + decorationGap} ${radius + decorationGap} 0 0 1 ${decoratedStartX} ${decoratedStartY}`,
   ].join(' ');
 
@@ -239,14 +262,21 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       <div className={`${prefix}-value-wrapper`}>
         <div
           className={`${prefix}-num`}
-          style={{ fontSize: fontSize ? fontSize : lineSize, lineHeight: lineHeight ? lineHeight : `${lineSize}px` }}
+          style={{
+            fontSize: fontSize ? fontSize : lineSize,
+            lineHeight: lineHeight ? lineHeight : `${lineSize}px`,
+          }}
         >
           {current}
         </div>
-        <div style={{
-          fontSize: fontSize ? fontSize : lineSize * 0.7, lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
-          ...unitStyle
-        }} className={`${prefix}-unit`}>
+        <div
+          style={{
+            fontSize: fontSize ? fontSize : lineSize * 0.7,
+            lineHeight: lineHeight ? lineHeight : `${lineSize * 0.7}px`,
+            ...unitStyle,
+          }}
+          className={`${prefix}-unit`}
+        >
           {finalUnit}
         </div>
       </div>
@@ -256,7 +286,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   // strokeWidth：24，decorationGap：22，decorationStrokeWidth：4
   const viewBoxDecoratedX = -strokeWidth / 2 - decorationGap - decorationStrokeWidth / 2;
   const viewBoxDecoratedY = -strokeWidth / 2 - decorationGap - decorationStrokeWidth / 2;
-  const viewBoxWidthWithDecorations = 2 * radius + strokeWidth + 2 * (decorationGap + decorationStrokeWidth);
+  const viewBoxWidthWithDecorations =
+    2 * radius + strokeWidth + 2 * (decorationGap + decorationStrokeWidth);
   const viewBoxHeightWithDecorations =
     radius + strokeWidth + decorationGap + decorationStrokeWidth > 50
       ? config?.angle && config.angle?.end - config.angle?.start > 180
@@ -271,7 +302,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const tickMarks = tickArr.map((value: number, index: number) => {
     // 根据圆环划分段数，计算对应的角度
     let angleValue = angle.start + ((angle.end - angle.start) * value) / 100;
-    const textOffset = (angle.end - angle.start) > 180 ? strokeWidth : decorationGap + decorationStrokeWidth ;
+    const textOffset =
+      angle.end - angle.start > 180 ? strokeWidth : decorationGap + decorationStrokeWidth;
     const innerPos = calculatePositionOnCircle(angleValue, radius, textOffset);
     const outerPos = calculatePositionOnCircle(
       angleValue,
@@ -292,7 +324,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       <text
         x={textPos.x}
         y={textPos.y}
-        className={angle.end - angle.start > 180 ? `${prefix}-scale-num-big` : `${prefix}-scale-num`}
+        className={
+          angle.end - angle.start > 180 ? `${prefix}-scale-num-big` : `${prefix}-scale-num`
+        }
         style={gaugeTextStyle}
         textAnchor="middle"
         alignmentBaseline="middle"
@@ -316,7 +350,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         )}
         {/* 当仪表盘段数不超过8时，显示全部刻度线 */}
         {/* 当段数超过8，且分段数为偶数（即scaleNum 为奇数时刻度线有间隔，偶数则都展示出来*/}
-        {scaleNum > 8 ? (scaleNum % 2 !== 0 ? index % 2 === 0 && renderText : renderText) : renderText}
+        {scaleNum > 8
+          ? scaleNum % 2 !== 0
+            ? index % 2 === 0 && renderText
+            : renderText
+          : renderText}
       </>
     );
   });
@@ -325,12 +363,20 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   const viewBox =
     angle.end - angle.start > 180
-      ? `${viewBoxDecoratedX} ${viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2 - realScaleLineLength} ${viewBoxWidthWithDecorations} ${
-          viewBoxHeightWithDecorations + Math.cos(((angle.start - 180) * Math.PI) / 180) * (radius + gaugeTextSize + realScaleLineLength) + gaugeTextSize + realScaleLineLength * 2
+      ? `${viewBoxDecoratedX} ${
+          viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2 - realScaleLineLength
+        } ${viewBoxWidthWithDecorations} ${
+          viewBoxHeightWithDecorations +
+          Math.cos(((angle.start - 180) * Math.PI) / 180) *
+            (radius + gaugeTextSize + realScaleLineLength) +
+          gaugeTextSize +
+          realScaleLineLength * 2
         }`
-      : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${viewBoxDecoratedY - strokeWidth / 3} ${
-          viewBoxWidthWithDecorations + realScaleLineLength * 4 + gaugeTextSize * 2
-        } ${viewBoxHeightWithDecorations - realScaleLineLength * 2 - gaugeTextSize}`;
+      : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${
+          viewBoxDecoratedY - strokeWidth / 3
+        } ${viewBoxWidthWithDecorations + realScaleLineLength * 4 + gaugeTextSize * 2} ${
+          viewBoxHeightWithDecorations - realScaleLineLength * 2 - gaugeTextSize
+        }`;
 
   return (
     <div
@@ -361,11 +407,21 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           </linearGradient>
         </defs>
         {outRing && angle.end - angle.start <= 180 && (
-          <path d={pathRingData} fill="none" stroke="url(#gradient1)" strokeWidth={decorationStrokeWidth} />
+          <path
+            d={pathRingData}
+            fill="none"
+            stroke="url(#gradient1)"
+            strokeWidth={decorationStrokeWidth}
+          />
         )}
-        <path d={pathBottomData} fill="none" className={`${prefix}-path`} strokeWidth={strokeWidth} />
+        <path
+          d={pathBottomData}
+          fill="none"
+          className={`${prefix}-path`}
+          strokeWidth={strokeWidth}
+        />
         <path d={pathData} fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
-        {(!gaugeScaleFlag) ? tickMarks : <></>}
+        {!gaugeScaleFlag ? tickMarks : <></>}
       </svg>
       <div
         ref={textRef}
@@ -373,7 +429,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           flag && angle.end - angle.start <= 180 ? prefix + '-width-scale' : ''
         }`}
         style={{
-          transform: angle.end - angle.start > 180 ?  `translateY(50%)` : `translateY(-${textOffset}px)`,
+          transform:
+            angle.end - angle.start > 180 ? `translateY(50%)` : `translateY(-${textOffset}px)`,
           color: fontColorFit && strokeColor,
         }}
       >
@@ -403,7 +460,11 @@ function calculatePositionOnCircle(angle: number, radius: number, offset: number
   return { x, y };
 }
 
-function getColorForCurrent(current: number, total: number, colors: Array<[number, Status | string]>) {
+function getColorForCurrent(
+  current: number,
+  total: number,
+  colors: Array<[number, Status | string]>,
+) {
   for (let i = 0; i < colors.length; i++) {
     const [threshold, colorName] = colors[i];
     if (current <= threshold) {
@@ -415,7 +476,9 @@ function getColorForCurrent(current: number, total: number, colors: Array<[numbe
 
 function getFontSizeNumber(style: React.CSSProperties) {
   if (style && style.hasOwnProperty('fontSize')) {
-    return parseInt(style.fontSize as string, 10) <= 12 ? 0 : parseInt(style.fontSize as string, 10);
+    return parseInt(style.fontSize as string, 10) <= 12
+      ? 0
+      : parseInt(style.fontSize as string, 10);
   }
   return 0;
 }
