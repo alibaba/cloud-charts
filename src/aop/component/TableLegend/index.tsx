@@ -47,6 +47,37 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     [chart, statistics, config, legendItems],
   );
 
+  const updateItems = useMemo(() => {
+    let newItems: any = legendItems;
+    if (dataType === 'treeNode') {
+      let filterData = [...(chart?.options?.data ?? [])];
+      const firstDepthCount = filterData.filter((sub: any) => sub.depth === 1)?.length;
+      const secondDepthCount = filterData.filter((sub: any) => sub.depth === 2)?.length;
+  
+      // 增加特殊逻辑，如果目前包含2层以上，则只展示第一层数据
+      if (firstDepthCount > 0 && secondDepthCount > 0) {
+        filterData = filterData.filter((sub: any) => sub.depth === 1);
+      }
+  
+      const filterDataIdList = filterData.map((sub: any) => sub.id);
+      newItems = newItems.filter((item: ListItem) => filterDataIdList.includes(item.id));
+  
+      newItems.map((item: ListItem) => {
+        const idx = filterData.findIndex((sub: any) => sub.id === item.id);
+        if (typeof item.marker === 'object') {
+          item.marker.dataFill = filterData[idx].color ?? null;
+        }
+  
+        item.data = filterData[idx]?.value ?? filterData[idx]?.rawValue ?? null;
+      })
+  
+      legendItems.sort((a: any, b: any) => b.data - a.data);
+    }
+
+    return newItems;
+  }, [legendItems]);
+
+
   // 表格列数
   const columns = (statistics?.length || 0) + (config?.table?.custom?.length || 0);
 
@@ -100,31 +131,6 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     formatConfig = chartConfig?.yAxis ?? {};
   }
 
-  if (dataType === 'treeNode') {
-    let filterData = [...(chart?.options?.data ?? [])];
-    const firstDepthCount = filterData.filter((sub: any) => sub.depth === 1)?.length;
-    const secondDepthCount = filterData.filter((sub: any) => sub.depth === 2)?.length;
-
-    // 增加特殊逻辑，如果目前包含2层以上，则只展示第一层数据
-    if (firstDepthCount > 0 && secondDepthCount > 0) {
-      filterData = filterData.filter((sub: any) => sub.depth === 1);
-    }
-
-    const filterDataIdList = filterData.map((sub: any) => sub.id);
-    legendItems = legendItems.filter((item: ListItem) => filterDataIdList.includes(item.id));
-
-    legendItems.map((item: ListItem) => {
-      const idx = filterData.findIndex((sub: any) => sub.id === item.id);
-      if (typeof item.marker === 'object') {
-        item.marker.dataFill = filterData[idx].color ?? null;
-      }
-
-      item.data = filterData[idx]?.value ?? filterData[idx]?.rawValue ?? null;
-    })
-
-    legendItems.sort((a: any, b: any) => b.data - a.data);
-  }
-
   return (
     <table
       className={`${prefix}-container`}
@@ -168,7 +174,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           height: `calc(100% - ${columns > 0 && !config?.table?.hideTitle ? 20 : 0}px)`,
         }}
       >
-        {legendItems.map((legendItem: ListItem, index: number) => {
+        {updateItems.map((legendItem: ListItem, index: number) => {
           let { name, marker } = legendItem;
           const id = legendItem.id ?? name;
           if (itemName) {
@@ -203,18 +209,18 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 if (clickable) {
                   if ((!useReverseChecked && !hasControl) || (useReverseChecked && hasControl)) {
                     // 正选
-                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
                       setFilteredItems([]);
                     } else {
                       setFilteredItems(
-                        legendItems
+                        updateItems
                           .map((item: ListItem) => item.id || item.name)
                           .filter((legendName: string) => legendName !== id),
                       );
                     }
                   } else {
                     // 反选
-                    if (filteredItems?.length === legendItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
                       setFilteredItems([]);
                     } else if (filteredItems.includes(id)) {
                       setFilteredItems((pre: string[]) => pre.filter((p: string) => p !== id));

@@ -369,6 +369,12 @@ export class Sunburst extends Base<WsunburstConfig> {
     const { source, total } = computeData(data, config, this);
     this.totalData = total;
 
+    // 多重圆环为自定义图例，需要根据数据重新计算
+    const newItems: any = dodgeItems(source, config);
+    chart.legend({
+      items: newItems,
+    });
+
     chart.changeData(source);
 
     // 环图中心内容

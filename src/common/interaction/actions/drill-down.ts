@@ -1,5 +1,6 @@
 import { Action, IGroup, Util } from '@antv/g2';
 import { get, isNil, last, size } from '@antv/util';
+import { cloneDeep } from 'lodash';
 import themes from '../../../themes';
 import { DrillDownCfg } from '../types/drill-down';
 import { deepAssign } from '../../common';
@@ -87,8 +88,8 @@ export class DrillDownAction extends Action {
     const data = get(this.context, ['event', 'data', 'data']);
     if (!data) return false;
 
-    this.drill(data);
     // console.log('click', data)
+    this.drill(data);
     this.drawBreadCrumb();
   }
 
@@ -160,11 +161,13 @@ export class DrillDownAction extends Action {
     view.changeData(drillData);
 
     // 存储历史记录
+    // 目前只考虑两层，history永远是root + 当前选中节点
     const historyCache: HistoryCache = [];
 
+    // 当前选中值
     let node = nodeInfo;
     while (node) {
-      const nodeData = node.data || node;
+      const nodeData = cloneDeep(node.data || node);
       nodeData.value = undefined;
 
       const { source: childrenData } = computeData(nodeData);
@@ -177,7 +180,7 @@ export class DrillDownAction extends Action {
       });
       node = node?.parent;
     }
-
+  
     this.historyCache = (this.historyCache || []).slice(0, -1).concat(historyCache);
 
     if (this.rootData?.length === 0) {
@@ -200,7 +203,7 @@ export class DrillDownAction extends Action {
     const { view } = this.context;
     // const data = last(historyCache).children; // 处理后的数组
     // 目前只考虑两层的计算
-    // console.log('backTo', historyCache, this.rootData)
+    // console.log('backTo', this.rootData[0].children)
 
     view.changeData(this.rootData[0].children);
 
