@@ -144,7 +144,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           <tr
             className={`${prefix}-tr ${prefix}-legend-title`}
             style={{
-              gridTemplateColumns: `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${60 - (1 / columns * 100)}),1fr))`,
+              gridTemplateColumns: `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${
+                60 - (1 / columns) * 100
+              }%),1fr))`,
             }}
           >
             <th />
@@ -153,7 +155,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               return (
                 <>
                   <th />
-                  <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>
+                  <th key={statistic}>
+                    {getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}
+                  </th>
                 </>
               );
             })}
@@ -186,7 +190,11 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               className={`${prefix}-tr ${prefix}-legend-item ${clickable ? 'pointer' : ''}`}
               style={{
                 gridTemplateColumns:
-                  columns > 0 ? `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${60 - (1 / columns * 100)}%),1fr))` : '8px minmax(min(80px, 30%), 100%)',
+                  columns > 0
+                    ? `8px minmax(min(80px, 40%), 1fr) repeat(${columns}, 8px minmax(min(30px, ${
+                        60 - (1 / columns) * 100
+                      }%),1fr))`
+                    : '8px minmax(min(80px, 30%), 100%)',
                 color: !filteredItems.includes(id)
                   ? activedItem === id
                     ? themes['widgets-legend-text-highlight']
@@ -209,7 +217,10 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 if (clickable) {
                   if ((!useReverseChecked && !hasControl) || (useReverseChecked && hasControl)) {
                     // 正选
-                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (
+                      filteredItems?.length === updateItems?.length - 1 &&
+                      !filteredItems.includes(id)
+                    ) {
                       setFilteredItems([]);
                     } else {
                       setFilteredItems(
@@ -220,7 +231,10 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                     }
                   } else {
                     // 反选
-                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (
+                      filteredItems?.length === updateItems?.length - 1 &&
+                      !filteredItems.includes(id)
+                    ) {
                       setFilteredItems([]);
                     } else if (filteredItems.includes(id)) {
                       setFilteredItems((pre: string[]) => pre.filter((p: string) => p !== id));
@@ -232,7 +246,11 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               }}
             >
               <td className={`${prefix}-marker`}>
-                <LegendMarker marker={marker} disable={filteredItems.includes(id)} item={legendItem} />
+                <LegendMarker
+                  marker={marker}
+                  disable={filteredItems.includes(id)}
+                  item={legendItem}
+                />
               </td>
               <td>
                 <LegendName name={name} />
@@ -248,7 +266,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                     if (Array.isArray(formatConfig)) {
                       // 双轴
                       // @ts-ignore
-                      const dataGroup = getItemData(name, widgetsCtx?.rawData, config?.dataType, widgetsCtx?.data);
+                      const dataGroup = getItemData(
+                        name,
+                        widgetsCtx?.rawData,
+                        config?.dataType,
+                        widgetsCtx?.data,
+                      );
                       customValueFormatter =
                         (dataGroup as any)?.yAxis === 1
                           ? customFormatter(formatConfig[1])
