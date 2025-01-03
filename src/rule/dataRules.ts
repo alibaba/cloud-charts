@@ -23,6 +23,11 @@ export function runDataRules(data: any, config: any) {
       }
     });
 
+    // 兜底6位
+    if (maxDecimals > 6) {
+      maxDecimals = 6;
+    }
+
     if (!config.yAxis?.decimal && !config?.closeDataRules && maxDecimals !== 0) {
       config.decimal = maxDecimals;
 
@@ -38,6 +43,7 @@ export function runDataRules(data: any, config: any) {
     }
   }
 
+  console.log(1111, config)
   return {
     data,
     config,
