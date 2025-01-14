@@ -262,9 +262,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       style={{
         backgroundImage: backgroundType === 'image' ? `url(${backgroundImage})` : 'none',
         minHeight: label && value !== undefined ? 68 : !label && value !== undefined ? 48 : 42,
-        ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
         padding: chartPosition === 'bottom' ? '16px 12px' : '12px 16px',
+        ...(itemStyle || {}),
       }}
       {...otherProps}
     >
