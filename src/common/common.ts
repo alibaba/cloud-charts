@@ -2,6 +2,8 @@ import tinycolor from 'tinycolor2';
 import { Colors, Types } from './types';
 import themes from '../themes';
 import { warn } from './log';
+// @ts-ignore
+import worldGeo from '../plugins/worldmap/data/world-without-antarctic.json';
 
 import isEqual from 'lodash/isEqual';
 import isEqualWith from 'lodash/isEqualWith';
@@ -988,4 +990,38 @@ function calculateAverageDifference(chartData: number[]): number {
     sumOfDifferences += Math.abs(chartData[i] - chartData[i - 1]);
   }
   return chartData.length > 1 ? sumOfDifferences / (chartData.length - 1) : 0;
+}
+
+const chinaBorderGeoJSON = worldGeo?.features?.find((item: any) => item.properties?.name === 'China')
+// 点在多边形内的算法（射线法）
+function pointInPolygon(point: number[], polygon: any[]) {
+  const [x, y] = point;
+  let inside = false;
+
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const [xi, yi] = polygon[i];
+    const [xj, yj] = polygon[j];
+
+    const intersect = ((yi > y) !== (yj > y))
+      && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+}
+
+/**
+ * 判断一个地点是否在中国境内
+ * @param latitude number 维度
+ * @param longitude number 经度
+ */
+export function isInsideChina(latitude: number, longitude: number) {
+  if (!chinaBorderGeoJSON) return false;
+  // 遍历GeoJSON中的每个多边形，检查点是否在其中一个多边形内
+  for (const polygon of chinaBorderGeoJSON.geometry.coordinates) {
+    if (pointInPolygon([longitude, latitude], polygon[0])) {
+      return true; // 点在多边形内，即在中国境内
+    }
+  }
+  return false; // 点不在任何多边形内，即不在中国境内
 }
