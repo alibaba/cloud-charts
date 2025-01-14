@@ -158,6 +158,23 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+  }
+
+  #{$wnumbercard-prefix}-item-label-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  #{$wnumbercard-prefix}-item-label-right-hidden {
+    visibility: hidden;
+  }
+
+  &:hover {
+    #{$wnumbercard-prefix}-item-label-right-hidden {
+      visibility: visible;
+    }
   }
 
   #{$wnumbercard-prefix}-top-left-icon {

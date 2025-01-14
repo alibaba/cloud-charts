@@ -131,6 +131,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     backgroundType: userBackgroundType,
     backgroundImage,
     iconPosition = 'left',
+    extra,
+    extraTriggerType = 'none',
     labelTags = [],
     valueTags = [],
     chart,
@@ -291,15 +293,26 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               marginBottom: value || value === 0 ? (chartPosition === 'bottom' ? 20 : 8) : 0,
             }}
           >
-            {iconPosition === 'top-left' && iconElement && (
-              <div className={`${prefix}-top-left-icon`}>{iconElement}</div>
-            )}
-            <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
-              {label || ''}
+            <div className={`${prefix}-item-label-left`}>
+              {iconPosition === 'top-left' && iconElement && (
+                <div className={`${prefix}-top-left-icon`}>{iconElement}</div>
+              )}
+              <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
+                {label || ''}
+              </div>
+              <WidgetsTooltip ref={labelRef} content={label || ''} />
+              {labelTagElements?.length > 0 && (
+                <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
+              )}
             </div>
-            <WidgetsTooltip ref={labelRef} content={label || ''} />
-            {labelTagElements?.length > 0 && (
-              <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
+            {extra && React.isValidElement(extra) && (
+              <div
+                className={`${prefix}-item-label-right ${
+                  extraTriggerType === 'hover' ? `${prefix}-item-label-right-hidden` : ''
+                }`}
+              >
+                {extra}
+              </div>
             )}
           </div>
           <div className={`${prefix}-label-value-container`}>
