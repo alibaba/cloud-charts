@@ -23,7 +23,7 @@ export interface LineProps {
   // 高度，默认40
   height?: number | string;
 
-  // 位置，center表示以线图为背景
+  // 位置，center特用于大盘，线图在下方，但label与value居中展示
   position?: 'left' | 'right' | 'top' | 'bottom' | 'center';
   config?: WlineConfig;
 }
@@ -148,6 +148,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   const chartPosition = chart?.position || 'right';
 
   const labelRef = useRef<HTMLDivElement>(null);
+  const extraRef = useRef<HTMLDivElement>(null);
+
+  const [extraWidth, setExtraWidth] = useState<number>(0);
 
   // icon
   const iconElement = icon && React.isValidElement(icon) ? icon : false;
@@ -224,10 +227,13 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       className={`${prefix}-item-chart`}
       style={{
         justifyContent: chartPosition === 'right' ? 'flex-end' : 'flex-start',
-        marginLeft: chartPosition === 'right' ? 20 : 0,
-        marginRight: chartPosition === 'left' ? 20 : 0,
-        marginTop: chartPosition === 'bottom' ? 20 : 0,
-        marginBottom: chartPosition === 'top' ? 20 : 0,
+        marginLeft: chartPosition === 'right' ? 8 : 0,
+        marginRight: chartPosition === 'left' ? 8 : 0,
+        marginTop: chartPosition === 'bottom' || chartPosition === 'center' ? 8 : 0,
+        marginBottom: chartPosition === 'top' ? 8 : 0,
+        height: ['top', 'bottom', 'center'].includes(chartPosition)
+          ? `calc(100% - ${label && value !== undefined ? 58 : 26}px)`
+          : '100%',
       }}
     >
       {chartElement}
@@ -242,6 +248,13 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     [prefix + '-image-card']: backgroundType === 'image',
     [prefix + '-clickable']: !!otherProps?.onClick,
   });
+
+  useEffect(() => {
+    if (!extraRef.current) {
+      return;
+    }
+    setExtraWidth(extraRef?.current?.offsetWidth);
+  }, [extra]);
 
   return (
     <div
@@ -290,10 +303,15 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <div
             className={`${prefix}-item-label-container`}
             style={{
-              marginBottom: value || value === 0 ? (chartPosition === 'bottom' ? 20 : 8) : 0,
+              marginBottom: value || value === 0 || (chart && chartPosition === 'bottom') ? 8 : 0,
             }}
           >
-            <div className={`${prefix}-item-label-left`}>
+            <div
+              className={`${prefix}-item-label-left`}
+              style={{
+                maxWidth: extra ? `calc(100% - ${extraWidth + 8}px)` : '100%',
+              }}
+            >
               {iconPosition === 'top-left' && iconElement && (
                 <div className={`${prefix}-top-left-icon`}>{iconElement}</div>
               )}
@@ -310,6 +328,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                 className={`${prefix}-item-label-right ${
                   extraTriggerType === 'hover' ? `${prefix}-item-label-right-hidden` : ''
                 }`}
+                ref={extraRef}
               >
                 {extra}
               </div>
@@ -362,7 +381,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         </div>
         {iconPosition === 'right' && iconElement}
       </div>
-      {(chartPosition === 'right' || chartPosition === 'bottom') && chartContainer}
+      {(chartPosition === 'right' || chartPosition === 'bottom' || chartPosition === 'center') &&
+        chartContainer}
     </div>
   );
 };
@@ -476,6 +496,17 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   const itemWidth =
     (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
+  // 当任意卡片有图表（不在左右）时，高度100%，否则68
+  const itemHeight = data.some((item: IDataItem) => {
+    const chart = item?.config?.chart ?? item?.chart;
+    if (chart && chart?.position !== 'left' && chart?.position !== 'right') {
+      return true;
+    }
+    return false;
+  })
+    ? '100%'
+    : 68;
+  
   const chartWidth = Math.max(62, itemWidth / 3);
 
   const dataByRow = [];
@@ -495,7 +526,10 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
         <div
           key={rowIndex}
           className={`${prefix}-data-overview-row`}
-          style={{ marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom }}
+          style={{
+            marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom,
+            height: `${100 / dataByRow?.length}%`,
+          }}
         >
           {row.map((item: IDataItem, colIndex: number) => {
             const { data, config, ...others } = item || {};
@@ -521,7 +555,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
                     }
                   : {}),
                 itemStyle: {
-                  height: 68,
+                  height: itemHeight,
                   width: itemWidth,
                   marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
                   marginLeft: colIndex === 0 ? 0 : marginRight / 2,

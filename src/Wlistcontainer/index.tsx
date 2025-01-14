@@ -26,9 +26,6 @@ export interface ListContainerProps {
     /** 是否显示竖线,不指定则根据图表自动判断 */
     showDivider?: boolean;
 
-    /** 是否撑满容器大小，默认false */
-    fullSize?: boolean;
-
     /** 其余配置项，会透传到内部图表中 */
     [key: string]: any;
   };
@@ -48,7 +45,7 @@ export default function ListContainer({ data, config: userConfig, ...others }: L
   const [columns, setColumns] = useState(1);
 
   const [containerWidth, setContainerWidth] = useState<number>(0);
-  const [containerHeight, setContainerHeight] = useState<number>(0);
+  // const [containerHeight, setContainerHeight] = useState<number>(0);
 
   // 计算内部元素的最大宽度
   const maxWidth = useMemo(() => Math.max(...data.map((item) => calcMinWidth(chart, item))), [chart, data]);
@@ -58,7 +55,7 @@ export default function ListContainer({ data, config: userConfig, ...others }: L
     const width = container?.current?.offsetWidth || 0;
     const height = container?.current?.offsetHeight || 0;
     setContainerWidth(width);
-    setContainerHeight(height);
+    // setContainerHeight(height);
 
     // 用户设置了列数则直接用
     if (userColumns) {
@@ -92,9 +89,9 @@ export default function ListContainer({ data, config: userConfig, ...others }: L
   const config = getDefaultConfig(chart, data, userOptions);
   const { showDivider = false, ...otherConfig } = config;
 
-  const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
+  // const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
   const rows = Math.ceil((data?.length ?? 0) / columns);
-  const itemHeight = fullSize ? (containerHeight - marginBottom * (rows - 1)) / rows : calcMinHeight(chart, itemWidth);
+  // const itemHeight = fullSize ? (containerHeight - marginBottom * (rows - 1)) / rows : calcMinHeight(chart, itemWidth);
 
   const dataByRow: any[] = [];
   for (let index = 0; index < data?.length; index += columns) {
@@ -103,41 +100,60 @@ export default function ListContainer({ data, config: userConfig, ...others }: L
 
   return (
     <div className={`${FullCrossName} ${prefix}-container`} ref={container}>
-      {dataByRow.map((row: any[], rowIndex: number) => (
-        <div
-          key={rowIndex}
-          className={`${prefix}-row`}
-          style={{
-            marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom,
-            height: itemHeight,
-          }}
-        >
-          {row.map((item: IDataItem | IWgaugeProps, colIndex: number) => {
-            const itemProps = {
-              ...otherConfig,
-              ...item,
-              ...getChartConfig(chart, item, itemWidth),
-            };
-
-            return (
-              <Fragment key={rowIndex * columns + colIndex}>
-                <div
-                  style={{
-                    marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
-                    marginLeft: colIndex === 0 ? 0 : marginRight / 2,
-                    width: itemWidth,
-                    height: '100%',
-                  }}
-                >
-                  {chart === 'Wnumbercard' && <Wnumbercard {...itemProps} />}
-                  {chart === 'Wgauge' && <Wgauge {...itemProps} />}
-                </div>
-                {colIndex !== row.length - 1 && showDivider && <div className={`${prefix}-divider`} />}
-              </Fragment>
-            );
-          })}
-        </div>
-      ))}
+      {dataByRow.map((row: any[], rowIndex: number) => {
+        const itemWidth = (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (row.length - 1)) / row.length;
+        return (
+          <div
+            key={rowIndex}
+            className={`${prefix}-row-container`}
+            style={{
+              height: `calc((100% - ${((showDivider ? 1 : 0) + marginBottom) * (rows - 1)}px) / ${rows} + ${
+                (rowIndex === 0 ? 0 : marginBottom / 2) +
+                (rowIndex === rows - 1 ? 0 : marginBottom / 2) +
+                (showDivider && rowIndex !== rows - 1 ? 1 : 0)
+              }px)`,
+            }}
+          >
+            <div
+              className={`${prefix}-row`}
+              style={{
+                marginBottom: rowIndex === rows - 1 ? 0 : marginBottom / 2,
+                marginTop: rowIndex === 0 ? 0 : marginBottom / 2,
+                height: `calc(100% - ${
+                  (showDivider && rowIndex !== rows - 1 ? 1 : 0) +
+                  (rowIndex === 0 ? 0 : marginBottom / 2) +
+                  (rowIndex === rows - 1 ? 1 : marginBottom / 2)
+                }px)`,
+              }}
+            >
+              {row.map((item: IDataItem | IWgaugeProps, colIndex: number) => {
+                const itemProps = {
+                  ...otherConfig,
+                  ...item,
+                  ...getChartConfig(chart, item),
+                };
+                return (
+                  <Fragment key={rowIndex * columns + colIndex}>
+                    <div
+                      style={{
+                        marginRight: colIndex === row.length - 1 ? 0 : marginRight / 2,
+                        marginLeft: colIndex === 0 ? 0 : marginRight / 2,
+                        width: itemWidth,
+                        height: '100%',
+                      }}
+                    >
+                      {chart === 'Wnumbercard' && <Wnumbercard {...itemProps} />}
+                      {chart === 'Wgauge' && <Wgauge {...itemProps} />}
+                    </div>
+                    {colIndex !== row.length - 1 && showDivider && <div className={`${prefix}-divider-column`} />}
+                  </Fragment>
+                );
+              })}
+            </div>
+            {rowIndex !== dataByRow.length - 1 && showDivider && <div className={`${prefix}-divider-row`} />}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -156,9 +172,23 @@ function calcMinWidth(chart: 'Wnumbercard' | 'Wgauge', item: IDataItem | IWgauge
 }
 
 // 计算高度
-function calcMinHeight(chart: 'Wnumbercard' | 'Wgauge', width: number) {
+function calcMinHeight(
+  chart: 'Wnumbercard' | 'Wgauge',
+  data: IDataItem[] | IWgaugeProps[],
+  width: number,
+  height: number,
+) {
   if (chart === 'Wnumbercard') {
-    return 68;
+    // 当任意卡片有图表（不在左右）时，高度100%，否则68
+    return data.some((item: IDataItem) => {
+      const chart = item?.config?.chart ?? item?.chart;
+      if (chart && chart?.position !== 'left' && chart?.position !== 'right') {
+        return true;
+      }
+      return false;
+    })
+      ? height
+      : 68;
   } else {
     return Math.round(width / 1.8);
   }
@@ -200,23 +230,25 @@ function getDefaultConfig(chart: 'Wnumbercard' | 'Wgauge', data: IDataItem[] | I
 function getChartConfig(
   chart: 'Wnumbercard' | 'Wgauge',
   item: IDataItem | IWgaugeProps,
-  itemWidth: number,
-  fullSize: boolean = false,
+  // itemWidth: number,
+  // itemHeight: number,
+  // fullSize: boolean = false,
 ) {
   if (chart === 'Wnumbercard') {
-    const chartWidth = Math.max(62, itemWidth / 3);
+    // const chartWidth = Math.max(62, itemWidth / 3);
     const chart = (item as IDataItem)?.chart;
     return {
       ...(chart && !React.isValidElement(chart)
         ? {
             chart: {
               ...chart,
-              width: chart?.position === 'center' ? null : chartWidth,
+              // width: chart?.position === 'center' ? null : chartWidth,
             },
           }
         : {}),
       itemStyle: {
         height: '100%',
+        // height: itemHeight,
         width: '100%',
         ...(item?.itemStyle ?? {}),
       },
