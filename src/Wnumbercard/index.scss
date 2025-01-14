@@ -160,6 +160,16 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     align-items: center;
   }
 
+  #{$wnumbercard-prefix}-top-left-icon {
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
   #{$wnumbercard-prefix}-item-label {
     font-size: $font-size-small;
     color: $label-color;

@@ -93,8 +93,8 @@ export interface IDataItem {
     /** 背景图,image时必传 */
     backgroundImage?: string;
 
-    /** icon位置，默认右边 */
-    iconPosition?: 'left' | 'right';
+    /** icon位置，默认左边 */
+    iconPosition?: 'left' | 'right' | 'top-left';
 
     /** label旁边的tags */
     labelTags: LabelTagProps[];
@@ -105,14 +105,19 @@ export interface IDataItem {
     /** 图表，支持线图、圆环图与RN */
     chart?: LineProps | CircleProps | React.ReactNode;
 
+    /** 右上角操作 */
+    extra?: React.ReactNode;
+
+    /** 右上角操作的显示逻辑，默认none，一直展示 */
+    extraTriggerType?: 'hover' | 'none';
+
     /** 各种自定义样式，隐藏 */
     itemStyle?: React.CSSProperties;
     labelStyle?: React.CSSProperties;
     valueStyle?: React.CSSProperties;
+    /* 其他附加数据项，如onClick事件 */
+    [key: string]: any;
   };
-
-  /* 其他附加数据项，如onClick事件 */
-  [key: string]: any;
 }
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
@@ -233,7 +238,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     [prefix + '-none-card']: backgroundType === 'none',
     [prefix + '-fill-card']: backgroundType === 'fill',
     [prefix + '-image-card']: backgroundType === 'image',
-    [prefix + '-clickable']: !!props?.onClick,
+    [prefix + '-clickable']: !!otherProps?.onClick,
   });
 
   return (
@@ -248,22 +253,30 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       }}
       {...otherProps}
     >
-      {(chartPosition === 'left' || chartPosition === 'top' || chartPosition === 'center') && chartContainer}
+      {(chartPosition === 'left' || chartPosition === 'top' || chartPosition === 'center') &&
+        chartContainer}
       <div
         className={
-          chartElement && chartPosition === 'center' ? `${prefix}-item-content-center` : `${prefix}-item-content`
+          chartElement && chartPosition === 'center'
+            ? `${prefix}-item-content-center`
+            : `${prefix}-item-content`
         }
         style={
           chartElement && chartPosition === 'center'
             ? { width: '100%' }
             : {
-                justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
+                justifyContent:
+                  chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
                 alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
-              alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
-              width:
-              chartElement && ['left', 'right'].includes(chartPosition)
-                ? `calc(100% - ${(chart?.type === 'Wcircle' ? (chart?.config?.radius ?? 22)*2 :( chart?.width ?? 0)) + 20}px)`
-                : '100%',
+                alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
+                width:
+                  chartElement && ['left', 'right'].includes(chartPosition)
+                    ? `calc(100% - ${
+                        (chart?.type === 'Wcircle'
+                          ? (chart?.config?.radius ?? 22) * 2
+                          : chart?.width ?? 0) + 20
+                      }px)`
+                    : '100%',
               }
         }
       >
@@ -278,6 +291,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               marginBottom: value || value === 0 ? (chartPosition === 'bottom' ? 20 : 8) : 0,
             }}
           >
+            {iconPosition === 'top-left' && iconElement && (
+              <div className={`${prefix}-top-left-icon`}>{iconElement}</div>
+            )}
             <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
               {label || ''}
             </div>
