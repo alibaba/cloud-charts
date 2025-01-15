@@ -643,7 +643,7 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
     const unitArrays = unitMap[valueType];
 
     // 遍历待查找的数组列表
-    if (unitArrays.includes(input)) {
+    if (unitArrays?.includes(input)) {
       // 如果输入值存在于当前数组中，返回该数组
       return unitArrays;
     }

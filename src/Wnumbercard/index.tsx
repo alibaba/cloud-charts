@@ -11,6 +11,7 @@ import WidgetsTooltip from '../common/Tooltip';
 import classNames from 'classnames';
 import chartLog from '../common/log';
 import { GlobalResizeObserver } from '../common/globalResizeObserver';
+import { unitConversion, customFormatterConfig } from '../common/common';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -65,6 +66,49 @@ interface ValueTagProps extends LabelTagProps {
   trend?: 'up' | 'down';
 }
 
+interface IConfig extends customFormatterConfig {
+  /** 业务状态，默认default */
+  status?: Status;
+
+  /** icon */
+  icon?: React.ReactNode;
+
+  /** 卡片中的value字号尺寸，默认medium */
+  size?: 'small' | 'medium';
+
+  /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
+  backgroundType?: 'fill' | 'none' | 'image';
+
+  /** 背景图,image时必传 */
+  backgroundImage?: string;
+
+  /** icon位置，默认左边 */
+  iconPosition?: 'left' | 'right' | 'top-left';
+
+  /** label旁边的tags */
+  labelTags: LabelTagProps[];
+
+  /** value旁边的tags */
+  valueTags?: ValueTagProps[];
+
+  /** 图表，支持线图、圆环图与RN */
+  chart?: LineProps | CircleProps | React.ReactNode;
+
+  /** 右上角操作 */
+  extra?: React.ReactNode;
+
+  /** 右上角操作的显示逻辑，默认none，一直展示 */
+  extraTriggerType?: 'hover' | 'none';
+
+  /** 各种自定义样式，隐藏 */
+  itemStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
+  valueStyle?: React.CSSProperties;
+
+  /* 其他附加数据项，如onClick事件 */
+  [key: string]: any;
+}
+
 export interface IDataItem {
   data: {
     /** 标签，超出长度自动省略并显示tooltip */
@@ -77,48 +121,9 @@ export interface IDataItem {
     unit?: string; // 是否居中？
   };
 
-  config?: {
-    /** 业务状态，默认default */
-    status?: Status;
-
-    /** icon */
-    icon?: React.ReactNode;
-
-    /** 卡片中的value字号尺寸，默认medium */
-    size?: 'small' | 'medium';
-
-    /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
-    backgroundType?: 'fill' | 'none' | 'image';
-
-    /** 背景图,image时必传 */
-    backgroundImage?: string;
-
-    /** icon位置，默认左边 */
-    iconPosition?: 'left' | 'right' | 'top-left';
-
-    /** label旁边的tags */
-    labelTags: LabelTagProps[];
-
-    /** value旁边的tags */
-    valueTags?: ValueTagProps[];
-
-    /** 图表，支持线图、圆环图与RN */
-    chart?: LineProps | CircleProps | React.ReactNode;
-
-    /** 右上角操作 */
-    extra?: React.ReactNode;
-
-    /** 右上角操作的显示逻辑，默认none，一直展示 */
-    extraTriggerType?: 'hover' | 'none';
-
-    /** 各种自定义样式，隐藏 */
-    itemStyle?: React.CSSProperties;
-    labelStyle?: React.CSSProperties;
-    valueStyle?: React.CSSProperties;
-    /* 其他附加数据项，如onClick事件 */
-    [key: string]: any;
-  };
+  config?: IConfig;
 }
+
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
   // 兼容老api
@@ -139,8 +144,24 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     itemStyle,
     labelStyle,
     valueStyle,
+    needUnitTransform,
+    decimal,
+    unitTransformTo,
+    valueType,
     ...otherProps
   } = { ...props, ...props?.config };
+
+  let current = value;
+  let finalUnit = unit;
+  if (needUnitTransform && valueType) {
+
+    if (valueType === 'percent_1' && typeof current === 'number') {
+      current = current * 100;
+    }
+    const { value, unit: transformUnit } = unitConversion(current, unit, decimal, unitTransformTo, valueType);
+    current = value;
+    finalUnit = transformUnit;
+  }
 
   // 有minichart的卡片默认灰色
   const backgroundType = userBackgroundType ? userBackgroundType : chart ? 'fill' : 'none';
@@ -343,7 +364,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                   }`}
                   style={valueStyle || {}}
                 >
-                  {beautifyNumber(value || 0, ',')}
+                  {beautifyNumber(current || 0, ',')}
                 </span>
               ) : typeof value === 'string' ? (
                 <span
@@ -370,7 +391,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                         : 2,
                   }}
                 >
-                  {unit}
+                  {finalUnit}
                 </div>
               )}
               {valueTagElements?.length > 0 && (
