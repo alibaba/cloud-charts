@@ -456,7 +456,8 @@ const unitMap: any = {
   money: ['¥'],
   percent_1: ['%'],
   percent_100: ['%'],
-  count: ['counts','k', 'm', 'b'],
+  count: ['', 'k', 'm', 'b'],
+  counts: ['counts', 'k', 'm', 'b'],
   time: ['ps', 'ns', 'μs', 'ms', 's'],
   date: ['m', 'h', 'days', 'weeks', 'months', 'years']
 };
