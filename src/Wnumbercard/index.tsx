@@ -11,6 +11,7 @@ import WidgetsTooltip from '../common/Tooltip';
 import classNames from 'classnames';
 import chartLog from '../common/log';
 import { GlobalResizeObserver } from '../common/globalResizeObserver';
+import { unitConversion, customFormatterConfig } from '../common/common';
 import './index.scss';
 
 const prefix = `${PrefixName}-wnumbercard`;
@@ -23,7 +24,7 @@ export interface LineProps {
   // 高度，默认40
   height?: number | string;
 
-  // 位置，center表示以线图为背景
+  // 位置，center特用于大盘，线图在下方，但label与value居中展示
   position?: 'left' | 'right' | 'top' | 'bottom' | 'center';
   config?: WlineConfig;
 }
@@ -65,6 +66,49 @@ interface ValueTagProps extends LabelTagProps {
   trend?: 'up' | 'down';
 }
 
+interface IConfig extends customFormatterConfig {
+  /** 业务状态，默认default */
+  status?: Status;
+
+  /** icon */
+  icon?: React.ReactNode;
+
+  /** 卡片中的value字号尺寸，默认medium */
+  size?: 'small' | 'medium';
+
+  /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
+  backgroundType?: 'fill' | 'none' | 'image';
+
+  /** 背景图,image时必传 */
+  backgroundImage?: string;
+
+  /** icon位置，默认左边 */
+  iconPosition?: 'left' | 'right' | 'top-left';
+
+  /** label旁边的tags */
+  labelTags: LabelTagProps[];
+
+  /** value旁边的tags */
+  valueTags?: ValueTagProps[];
+
+  /** 图表，支持线图、圆环图与RN */
+  chart?: LineProps | CircleProps | React.ReactNode;
+
+  /** 右上角操作 */
+  extra?: React.ReactNode;
+
+  /** 右上角操作的显示逻辑，默认none，一直展示 */
+  extraTriggerType?: 'hover' | 'none';
+
+  /** 各种自定义样式，隐藏 */
+  itemStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
+  valueStyle?: React.CSSProperties;
+
+  /* 其他附加数据项，如onClick事件 */
+  [key: string]: any;
+}
+
 export interface IDataItem {
   data: {
     /** 标签，超出长度自动省略并显示tooltip */
@@ -77,43 +121,9 @@ export interface IDataItem {
     unit?: string; // 是否居中？
   };
 
-  config?: {
-    /** 业务状态，默认default */
-    status?: Status;
-
-    /** icon */
-    icon?: React.ReactNode;
-
-    /** 卡片中的value字号尺寸，默认medium */
-    size?: 'small' | 'medium';
-
-    /** 背景类型，灰色/透明/背景图片，有图表时默认fill，无图表时默认none */
-    backgroundType?: 'fill' | 'none' | 'image';
-
-    /** 背景图,image时必传 */
-    backgroundImage?: string;
-
-    /** icon位置，默认右边 */
-    iconPosition?: 'left' | 'right';
-
-    /** label旁边的tags */
-    labelTags: LabelTagProps[];
-
-    /** value旁边的tags */
-    valueTags?: ValueTagProps[];
-
-    /** 图表，支持线图、圆环图与RN */
-    chart?: LineProps | CircleProps | React.ReactNode;
-
-    /** 各种自定义样式，隐藏 */
-    itemStyle?: React.CSSProperties;
-    labelStyle?: React.CSSProperties;
-    valueStyle?: React.CSSProperties;
-  };
-
-  /* 其他附加数据项，如onClick事件 */
-  [key: string]: any;
+  config?: IConfig;
 }
+
 
 export const Wnumbercard: React.FC<IDataItem> = (props) => {
   // 兼容老api
@@ -126,14 +136,32 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     backgroundType: userBackgroundType,
     backgroundImage,
     iconPosition = 'left',
+    extra,
+    extraTriggerType = 'none',
     labelTags = [],
     valueTags = [],
     chart,
     itemStyle,
     labelStyle,
     valueStyle,
+    needUnitTransform,
+    decimal,
+    unitTransformTo,
+    valueType,
     ...otherProps
   } = { ...props, ...props?.config };
+
+  let current = value;
+  let finalUnit = unit;
+  if (needUnitTransform && valueType) {
+
+    if (valueType === 'percent_1' && typeof current === 'number') {
+      current = current * 100;
+    }
+    const { value, unit: transformUnit } = unitConversion(current, unit, decimal, unitTransformTo, valueType);
+    current = value;
+    finalUnit = transformUnit;
+  }
 
   // 有minichart的卡片默认灰色
   const backgroundType = userBackgroundType ? userBackgroundType : chart ? 'fill' : 'none';
@@ -141,6 +169,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
   const chartPosition = chart?.position || 'right';
 
   const labelRef = useRef<HTMLDivElement>(null);
+  const extraRef = useRef<HTMLDivElement>(null);
+
+  const [extraWidth, setExtraWidth] = useState<number>(0);
 
   // icon
   const iconElement = icon && React.isValidElement(icon) ? icon : false;
@@ -217,10 +248,13 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       className={`${prefix}-item-chart`}
       style={{
         justifyContent: chartPosition === 'right' ? 'flex-end' : 'flex-start',
-        marginLeft: chartPosition === 'right' ? 20 : 0,
-        marginRight: chartPosition === 'left' ? 20 : 0,
-        marginTop: chartPosition === 'bottom' ? 20 : 0,
-        marginBottom: chartPosition === 'top' ? 20 : 0,
+        marginLeft: chartPosition === 'right' ? 8 : 0,
+        marginRight: chartPosition === 'left' ? 8 : 0,
+        marginTop: chartPosition === 'bottom' || chartPosition === 'center' ? 8 : 0,
+        marginBottom: chartPosition === 'top' ? 8 : 0,
+        height: ['top', 'bottom', 'center'].includes(chartPosition)
+          ? `calc(100% - ${label && value !== undefined ? 58 : 26}px)`
+          : '100%',
       }}
     >
       {chartElement}
@@ -233,8 +267,15 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     [prefix + '-none-card']: backgroundType === 'none',
     [prefix + '-fill-card']: backgroundType === 'fill',
     [prefix + '-image-card']: backgroundType === 'image',
-    [prefix + '-clickable']: !!props?.onClick,
+    [prefix + '-clickable']: !!otherProps?.onClick,
   });
+
+  useEffect(() => {
+    if (!extraRef.current) {
+      return;
+    }
+    setExtraWidth(extraRef?.current?.offsetWidth);
+  }, [extra]);
 
   return (
     <div
@@ -242,28 +283,36 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
       style={{
         backgroundImage: backgroundType === 'image' ? `url(${backgroundImage})` : 'none',
         minHeight: label && value !== undefined ? 68 : !label && value !== undefined ? 48 : 42,
-        ...(itemStyle || {}),
         flexDirection: chartPosition === 'left' || chartPosition === 'right' ? 'row' : 'column',
         padding: chartPosition === 'bottom' ? '16px 12px' : '12px 16px',
+        ...(itemStyle || {}),
       }}
       {...otherProps}
     >
-      {(chartPosition === 'left' || chartPosition === 'top' || chartPosition === 'center') && chartContainer}
+      {(chartPosition === 'left' || chartPosition === 'top' || chartPosition === 'center') &&
+        chartContainer}
       <div
         className={
-          chartElement && chartPosition === 'center' ? `${prefix}-item-content-center` : `${prefix}-item-content`
+          chartElement && chartPosition === 'center'
+            ? `${prefix}-item-content-center`
+            : `${prefix}-item-content`
         }
         style={
           chartElement && chartPosition === 'center'
             ? { width: '100%' }
             : {
-                justifyContent: chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
+                justifyContent:
+                  chartElement && chartPosition === 'left' ? 'flex-end' : 'space-between',
                 alignItems: chartElement && chartPosition === 'bottom' ? 'flex-start' : 'center',
-              alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
-              width:
-              chartElement && ['left', 'right'].includes(chartPosition)
-                ? `calc(100% - ${(chart?.type === 'Wcircle' ? (chart?.config?.radius ?? 22)*2 :( chart?.width ?? 0)) + 20}px)`
-                : '100%',
+                alignSelf: chartElement && chartPosition === 'left' ? 'flex-end' : 'flex-start',
+                width:
+                  chartElement && ['left', 'right'].includes(chartPosition)
+                    ? `calc(100% - ${
+                        (chart?.type === 'Wcircle'
+                          ? (chart?.config?.radius ?? 22) * 2
+                          : chart?.width ?? 0) + 20
+                      }px)`
+                    : '100%',
               }
         }
       >
@@ -275,15 +324,35 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <div
             className={`${prefix}-item-label-container`}
             style={{
-              marginBottom: value || value === 0 ? (chartPosition === 'bottom' ? 20 : 8) : 0,
+              marginBottom: value || value === 0 || (chart && chartPosition === 'bottom') ? 8 : 0,
             }}
           >
-            <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
-              {label || ''}
+            <div
+              className={`${prefix}-item-label-left`}
+              style={{
+                maxWidth: extra ? `calc(100% - ${extraWidth + 8}px)` : '100%',
+              }}
+            >
+              {iconPosition === 'top-left' && iconElement && (
+                <div className={`${prefix}-top-left-icon`}>{iconElement}</div>
+              )}
+              <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
+                {label || ''}
+              </div>
+              <WidgetsTooltip ref={labelRef} content={label || ''} />
+              {labelTagElements?.length > 0 && (
+                <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
+              )}
             </div>
-            <WidgetsTooltip ref={labelRef} content={label || ''} />
-            {labelTagElements?.length > 0 && (
-              <div className={`${prefix}-tag-container`}>{labelTagElements}</div>
+            {extra && React.isValidElement(extra) && (
+              <div
+                className={`${prefix}-item-label-right ${
+                  extraTriggerType === 'hover' ? `${prefix}-item-label-right-hidden` : ''
+                }`}
+                ref={extraRef}
+              >
+                {extra}
+              </div>
             )}
           </div>
           <div className={`${prefix}-label-value-container`}>
@@ -295,7 +364,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                   }`}
                   style={valueStyle || {}}
                 >
-                  {beautifyNumber(value || 0, ',')}
+                  {beautifyNumber(current || 0, ',')}
                 </span>
               ) : typeof value === 'string' ? (
                 <span
@@ -322,7 +391,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
                         : 2,
                   }}
                 >
-                  {unit}
+                  {finalUnit}
                 </div>
               )}
               {valueTagElements?.length > 0 && (
@@ -333,7 +402,8 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
         </div>
         {iconPosition === 'right' && iconElement}
       </div>
-      {(chartPosition === 'right' || chartPosition === 'bottom') && chartContainer}
+      {(chartPosition === 'right' || chartPosition === 'bottom' || chartPosition === 'center') &&
+        chartContainer}
     </div>
   );
 };
@@ -447,6 +517,17 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
   const itemWidth =
     (containerWidth - (marginRight + (showDivider ? 1 : 0)) * (columns - 1)) / columns;
 
+  // 当任意卡片有图表（不在左右）时，高度100%，否则68
+  const itemHeight = data.some((item: IDataItem) => {
+    const chart = item?.config?.chart ?? item?.chart;
+    if (chart && chart?.position !== 'left' && chart?.position !== 'right') {
+      return true;
+    }
+    return false;
+  })
+    ? '100%'
+    : 68;
+  
   const chartWidth = Math.max(62, itemWidth / 3);
 
   const dataByRow = [];
@@ -466,7 +547,10 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
         <div
           key={rowIndex}
           className={`${prefix}-data-overview-row`}
-          style={{ marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom }}
+          style={{
+            marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom,
+            height: `${100 / dataByRow?.length}%`,
+          }}
         >
           {row.map((item: IDataItem, colIndex: number) => {
             const { data, config, ...others } = item || {};
@@ -492,7 +576,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
                     }
                   : {}),
                 itemStyle: {
-                  height: 68,
+                  height: itemHeight,
                   width: itemWidth,
                   marginRight: colIndex === columns - 1 ? 0 : marginRight / 2,
                   marginLeft: colIndex === 0 ? 0 : marginRight / 2,

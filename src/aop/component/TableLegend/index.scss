@@ -11,7 +11,7 @@ $scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-
 
 #{$prefix}container {
   // width: 100%;
-  // display: block;
+  display: block;
   flex: 1 1 auto;
   border-spacing: 0;
 }

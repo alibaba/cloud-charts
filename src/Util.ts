@@ -22,4 +22,5 @@ export default {
   traverseTree: common.traverseTree,
   deepAssign: common.deepAssign,
   unitConversion: common.unitConversion,
+  isInsideChina: common.isInsideChina,
 };

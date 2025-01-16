@@ -52,7 +52,9 @@ export default function (chart: Chart, config: DecorationConfig, size: any, char
     if (Math.min(viewWidth, viewHeight) > 60) {
       if (config.cycle || chartName === 'G2MultiCircle') {
         chart.annotation().html({
-          html: `<div class='${FullCrossName} circle-innerBackground' style="display: flex; align-items: center;height: ${innerR}px;width: ${innerR}px;border-radius: 50%;"></div>`,
+          html: `<div class='${FullCrossName} circle-innerBackground' style="display: flex; align-items: center;height: ${innerR}px;width: ${innerR}px;border-radius: 50%;${
+            config?.showDecoration?.innerStyle ?? ''
+          }"></div>`,
           alignX: 'middle',
           alignY: 'middle',
           position: ['50%', '50%'],

@@ -52,6 +52,12 @@ interface FacetConfig {
 
 interface ColumnConfig {
   reflect?: boolean;
+  // 显示TOP
+  top?: number;
+  // 显示排行ICON
+  showRanking?: boolean;
+  // 排行ICON配置
+  rankConfig?: any;
 }
 
 // TODO 目前G2默认缩略轴为线图，分类型数据不推荐使用，这里暂时开放为一个趋势关系，后期研究缩略轴怎么显示
@@ -216,8 +222,25 @@ export class Bar extends Base<WbarConfig> {
           if (filterData.length > 0) {
             el.sum = filterData[0].sum;
           }
-        })
+        });
       }
+
+      // 排行图
+      if (typeof config?.column === 'object' && (config?.column?.top || config?.column?.showRanking)) {
+        data?.sort((a: any, b: any) => {
+          if (a.sum !== undefined && b.sum !== undefined) {
+            return config?.column?.rankConfig?.type === 'asc' ? (b?.sum ?? 0) - (a?.sum ?? 0) : (a?.sum ?? 0) - (b?.sum ?? 0);
+          }
+        });
+
+        const sortList = data?.filter((el: any) => el.sum).slice(-config?.column?.top);
+        const xList = sortList.map((el: any) => el.x);
+
+        data = data?.map(((el: any) => {
+          return xList.includes(el.x) ? el : false;
+        }))
+      }
+
       chart.data(data);
     }
 
@@ -252,6 +275,11 @@ export class Bar extends Base<WbarConfig> {
           rectYAxis(this, chart, config);
         }
       }
+    }
+
+    // 如果是横向柱图，且没有配置省略的话，关闭自动省略
+    if(config?.column === false && !config?.xAxis?.hasOwnProperty('autoEllipsis') && config.xAxis ) {
+      config.xAxis.autoEllipsis = false;
     }
 
     // 设置X轴
@@ -572,7 +600,23 @@ export class Bar extends Base<WbarConfig> {
           if (filterData.length > 0) {
             el.sum = filterData[0].sum;
           }
-        })
+        });
+
+        // 排行图
+        if (typeof config?.column === 'object' && (config?.column?.top || config?.column?.showRanking)) {
+          data?.sort((a: any, b: any) => {
+            if (a.sum !== undefined && b.sum !== undefined) {
+              return config?.column?.rankConfig?.type === 'asc' ? (b?.sum ?? 0) - (a?.sum ?? 0) : (a?.sum ?? 0) - (b?.sum ?? 0);
+            }
+          });
+
+          const sortList = data?.filter((el: any) => el.sum).slice(-config?.column?.top);
+          const xList = sortList.map((el: any) => el.x);
+
+          data = data?.map(((el: any) => {
+            return xList.includes(el.x) ? el : false;
+          }))
+        }
       }
       chart.changeData(data);
     }
@@ -653,8 +697,7 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any, 
   // TOPO 图表类型的规则执行，以及API制定
   // 【API执行】堆叠/分组堆叠/百分比堆叠的时候，开启label内置增加优化显示，已配置的业务关闭
   if (config.showStackSum && config.stack && !Array.isArray(config.yAxis)) {
-    console.warn('showStackSum配置 暂不支持双轴');
-
+    // console.warn('showStackSum配置 暂不支持双轴');
     const labelGeom = chart
       .interval({})
       .position(['x', 'sum'])
@@ -670,8 +713,18 @@ function drawBar(chart: Chart, config: WbarConfig, colors: Colors, facet?: any, 
         opacity: 0,
         r: 0,
       });
-    labelGeom.label('sum');
 
+    if (typeof config?.column === 'object' && config?.column?.top) {
+      labelGeom.label('sum', {
+        // offsetY: -10,
+        // offsetX: -20,
+        ...config?.label,
+        ...config?.column?.rankConfig?.sum
+      });
+
+    } else {
+      labelGeom.label('sum', config?.label);
+    }
   } else {
     label({
       geom: geom,
@@ -701,7 +754,7 @@ function computerData(config: WbarConfig, data: any) {
       groupBy: ['x'],
       as: 'percent',
     });
-  } else if (stack){
+  } else if (stack || typeof config?.column === 'object'){
     // 只算第一组的数据总量
     // 按X轴计算Y的总量，映射到sum字段上
     dv.transform({

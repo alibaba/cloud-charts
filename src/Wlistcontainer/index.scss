@@ -7,18 +7,33 @@ $divider-color: getVar(widgets-map-area-bg, $widgets-map-area-bg);
 #{$list-container-prefix}-container {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+
+  #{$list-container-prefix}-row-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 
   #{$list-container-prefix}-row {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
   }
 
-  #{$list-container-prefix}-divider {
+  #{$list-container-prefix}-divider-column {
     display: inline-block;
     width: 1px;
     background: $divider-color;
-    height: 40px;
+    height: 100%;
+  }
+
+  #{$list-container-prefix}-divider-row {
+    display: inline-block;
+    width: 100%;
+    background: $divider-color;
+    height: 1px;
   }
 }

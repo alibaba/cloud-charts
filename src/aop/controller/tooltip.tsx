@@ -40,7 +40,7 @@ class WidgetsTooltipController extends RawTooltipController {
       if (!this.tooltipContainer) {
         const container = document.createElement('div');
         container.className = `${FullCrossName} widgets-tooltip`;
-        container.style.cssText = `position: fixed;z-index: 1001; pointer-events: none; transition: left 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.1s cubic-bezier(0.23, 1, 0.32, 1) 0s;`;
+        container.style.cssText = `position: fixed;z-index: 1001; pointer-events: none; top: 0; left: 0;`;
 
         document.body.append(container);
 
@@ -141,9 +141,10 @@ class WidgetsTooltipController extends RawTooltipController {
 
       // 定位
       // @ts-ignore
-      this.tooltipContainer.style.top = `${position.y}px`;
+      this.tooltipContainer.style.transform = `translate3d(${position.x}px, ${position.y}px, 0px)`;
+      // this.tooltipContainer.style.top = `${position.y}px`;
       // @ts-ignore
-      this.tooltipContainer.style.left = `${position.x}px`;
+      // this.tooltipContainer.style.left = `${position.x}px`;
 
       if (cfg?.showMarkers) {
         // @ts-ignore
@@ -228,8 +229,11 @@ class WidgetsTooltipController extends RawTooltipController {
       const offsetX = currentRect.x - this.startRect.x;
       const offsetY = currentRect.y - this.startRect.y;
 
-      this.tooltipContainer.style.left = `${this.startPosition.x + offsetX}px`;
-      this.tooltipContainer.style.top = `${this.startPosition.y + offsetY}px`;
+      // this.tooltipContainer.style.left = `${this.startPosition.x + offsetX}px`;
+      // this.tooltipContainer.style.top = `${this.startPosition.y + offsetY}px`;
+      this.tooltipContainer.style.transform = `translate3d(${this.startPosition.x + offsetX}px, ${
+        this.startPosition.y + offsetY
+      }px, 0px)`;
 
       clearTimeout(this.timer);
       this.timer = null;
