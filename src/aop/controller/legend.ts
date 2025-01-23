@@ -50,6 +50,7 @@ class WidgetsLegendController extends RawLegendController {
       legendConfig?.visible !== false &&
       (legendConfig?.table || legendConfig?.gradient || legendConfig?.foldable)
     ) {
+      this.legendContainer.style.visibility = 'visible';
       const legendElement = this.legendContainer?.childNodes?.[0];
       const position = (legendConfig?.position ?? 'bottom').split('-')[0];
 
@@ -130,6 +131,7 @@ class WidgetsLegendController extends RawLegendController {
         }
       }
     } else {
+      this.legendContainer.style.visibility = 'hidden';
       super.layout();
     }
   }
