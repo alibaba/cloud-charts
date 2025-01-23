@@ -49,6 +49,25 @@ class WidgetsTooltipController extends RawTooltipController {
 
       this.tooltipContainer.style.visibility = 'visible';
 
+      // 图表离开视窗时隐藏tooltip
+      this.observer = new IntersectionObserver((entries: any[]) => {
+        for (const entry of entries) {
+          // 元素离开视口
+          if (!entry.isIntersecting) {
+            this.unlockTooltip();
+            this.hideTooltip();
+          }
+        }
+      });
+
+      this.observer.observe(this.parentDom);
+
+      // 通过事件手动隐藏tooltip
+      window.addEventListener(HideTooltipEventName, () => {
+        this.unlockTooltip();
+        this.hideTooltip();
+      });
+
       // 绘制
       const items = this.getTooltipItems(point);
 
@@ -245,23 +264,6 @@ class WidgetsTooltipController extends RawTooltipController {
 
     if (this.tooltipContainer) {
       this.tooltipContainer.style.pointerEvents = 'auto';
-
-      this.observer = new IntersectionObserver((entries: any[]) => {
-        for (const entry of entries) {
-          // 元素离开视口
-          if (!entry.isIntersecting) {
-            this.unlockTooltip();
-            this.hideTooltip();
-          }
-        }
-      });
-
-      this.observer.observe(this.parentDom);
-
-      window.addEventListener(HideTooltipEventName, () => {
-        this.unlockTooltip();
-        this.hideTooltip();
-      });
     }
   }
 
