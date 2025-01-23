@@ -458,7 +458,7 @@ const unitMap: any = {
   money: ['¥'],
   percent_1: ['%'],
   percent_100: ['%'],
-  count: ['', 'k', 'm', 'b'],
+  count: ['counts', 'k', 'm', 'b'],
   counts: ['counts', 'k', 'm', 'b'],
   time: ['ps', 'ns', 'μs', 'ms', 's'],
   date: ['m', 'h', 'days', 'weeks', 'months', 'years']
@@ -621,6 +621,11 @@ export function customFormatter(config: customFormatterConfig) {
 
       result = value;
       newUnit = transformUnit;
+
+      // count计数时不显示单位
+      if (valueType === 'count' && newUnit === 'counts') {
+        newUnit = '';
+      }
     }
 
     // 小数位
@@ -669,6 +674,12 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
  * */
 export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
   let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
+
+  // 只有流量、存储单位大写
+  if (!['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
+    currentUnit = currentUnit.toLowerCase();
+  }
+
   // 单位的特殊处理，后期统一从unitFamily中取
   if (valueType === 'time') {
     currentUnit = unit ?? 's';
