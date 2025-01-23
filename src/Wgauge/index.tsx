@@ -47,6 +47,7 @@ interface WgaugeProps extends customFormatterConfig {
     start?: number; // 起始角度，默认x轴负方向
     end?: number; // 结束角度，默认x轴方向
   };
+  renderText?: string,
   // colorsType?: 'gradient' | 'single'; // 默认为single(单色)
   // type?: 'solid' | 'dashed'; // 实线仪表盘或虚线仪表盘
   customStyles?: {
@@ -74,6 +75,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       start: -180, // 默认起始角度（x轴负方向）
       end: 0, // 默认结束角度（x轴方向）
     },
+    renderText,
     className = '',
     // decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 22,
     decorationStrokeWidth = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
@@ -267,7 +269,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
             lineHeight: lineHeight ? lineHeight : `${lineSize}px`,
           }}
         >
-          {current}
+          {renderText ? renderText : current}
         </div>
         <div
           style={{
