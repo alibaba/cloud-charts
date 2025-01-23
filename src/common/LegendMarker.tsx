@@ -16,6 +16,7 @@ export interface LegendMarkerProps {
  */
 export default function LegendMarker({ marker, disable = false, item }: LegendMarkerProps) {
   const { symbol, style } = marker;
+  console.log(marker)
   if (['line', 'smooth', 'hv', 'circle'].includes(typeof symbol === 'string' ? symbol : symbol?.name)) {
     return (
       <div
@@ -30,7 +31,7 @@ export default function LegendMarker({ marker, disable = false, item }: LegendMa
     );
   } else {
     // 处理渐变
-    const fill = style?.fill?.startsWith('l(') ? style.fill.split(' ')?.[1]?.slice(2) : style.fill;
+    const fill = style?.fill?.startsWith('l(') ? style.fill.split(' ')?.[1]?.slice(2, 9) : style.fill;
     return (
       <div
         style={{
