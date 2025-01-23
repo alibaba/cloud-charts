@@ -16,7 +16,7 @@ export interface LegendMarkerProps {
  */
 export default function LegendMarker({ marker, disable = false, item }: LegendMarkerProps) {
   const { symbol, style } = marker;
-  console.log(marker)
+
   if (['line', 'smooth', 'hv', 'circle'].includes(typeof symbol === 'string' ? symbol : symbol?.name)) {
     return (
       <div

@@ -23,4 +23,5 @@ export default {
   deepAssign: common.deepAssign,
   unitConversion: common.unitConversion,
   isInsideChina: common.isInsideChina,
+  getAutoMask: common.getAutoMask
 };
