@@ -130,7 +130,7 @@ export default function ListContainer({ data, config: userConfig, ...others }: L
                 const itemProps = {
                   ...otherConfig,
                   ...item,
-                  ...getChartConfig(chart, item),
+                  ...getChartConfig(chart, item, otherConfig),
                 };
                 return (
                   <Fragment key={rowIndex * columns + colIndex}>
@@ -230,6 +230,7 @@ function getDefaultConfig(chart: 'Wnumbercard' | 'Wgauge', data: IDataItem[] | I
 function getChartConfig(
   chart: 'Wnumbercard' | 'Wgauge',
   item: IDataItem | IWgaugeProps,
+  otherConfig: any,
   // itemWidth: number,
   // itemHeight: number,
   // fullSize: boolean = false,
@@ -250,6 +251,7 @@ function getChartConfig(
         height: '100%',
         // height: itemHeight,
         width: '100%',
+        ...(otherConfig?.itemStyle ?? {}),
         ...(item?.itemStyle ?? {}),
       },
     };
