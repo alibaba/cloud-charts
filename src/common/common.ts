@@ -2,6 +2,8 @@ import tinycolor from 'tinycolor2';
 import { Colors, Types } from './types';
 import themes from '../themes';
 import { warn } from './log';
+import { getText } from '../ChartProvider/index';
+import LanguageMap from '../locales';
 // @ts-ignore
 import worldGeo from '../plugins/worldmap/data/world-without-antarctic.json';
 
@@ -254,7 +256,7 @@ export function getAreaColors(areaColors: string[], isStack?: boolean) {
     } else if(isStack) {
       return subColor;
     } else {
-      return `l(90) 0:${subColor}1a 0.7:${subColor}14 1:${subColor}03`;
+      return `l(90) 0:${subColor}70 0.7:${subColor}66 1:${subColor}03`;
     }
   });
 }
@@ -456,7 +458,7 @@ const unitMap: any = {
   money: ['¥'],
   percent_1: ['%'],
   percent_100: ['%'],
-  count: ['', 'k', 'm', 'b'],
+  count: ['counts', 'k', 'm', 'b'],
   counts: ['counts', 'k', 'm', 'b'],
   time: ['ps', 'ns', 'μs', 'ms', 's'],
   date: ['m', 'h', 'days', 'weeks', 'months', 'years']
@@ -619,6 +621,11 @@ export function customFormatter(config: customFormatterConfig) {
 
       result = value;
       newUnit = transformUnit;
+
+      // count计数时不显示单位
+      if (valueType === 'count' && newUnit === 'counts') {
+        newUnit = '';
+      }
     }
 
     // 小数位
@@ -667,6 +674,12 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
  * */
 export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
   let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
+
+  // 只有流量、存储单位大写
+  if (!['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
+    currentUnit = currentUnit.toLowerCase();
+  }
+
   // 单位的特殊处理，后期统一从unitFamily中取
   if (valueType === 'time') {
     currentUnit = unit ?? 's';
@@ -993,7 +1006,7 @@ function calculateAverageDifference(chartData: number[]): number {
   return chartData.length > 1 ? sumOfDifferences / (chartData.length - 1) : 0;
 }
 
-const chinaBorderGeoJSON = worldGeo?.features?.find((item: any) => item.properties?.name === 'China')
+const chinaBorderGeoJSON = worldGeo?.features?.find((item: any) => item.properties?.name === 'China');
 // 点在多边形内的算法（射线法）
 function pointInPolygon(point: number[], polygon: any[]) {
   const [x, y] = point;
@@ -1003,8 +1016,7 @@ function pointInPolygon(point: number[], polygon: any[]) {
     const [xi, yi] = polygon[i];
     const [xj, yj] = polygon[j];
 
-    const intersect = ((yi > y) !== (yj > y))
-      && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
     if (intersect) inside = !inside;
   }
 
@@ -1025,4 +1037,48 @@ export function isInsideChina(latitude: number, longitude: number) {
     }
   }
   return false; // 点不在任何多边形内，即不在中国境内
+}
+
+const MINUTE_MS = 60 * 1000;
+const HOUR_MS = 59 * 60 * 1000;
+const DAY_MS = 22 * HOUR_MS;
+const YEAR_MS = 365 * DAY_MS;
+// 跨度判定列表：大于半年、大于28天、大于22小时、大于59分钟、大于一分钟、（小于分钟）
+// todo后期改为跨度是否跨天/跨年/跨月判定
+const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS];
+
+function getTimeIndex(t: number): number {
+  for (let i = 0; i < timeList.length; i++) {
+    if (t >= timeList[i]) {
+      return i;
+    }
+  }
+  return timeList.length;
+}
+
+// 取数据的跨度和间距两种值，跨度决定上限，间距决定下限。
+export function getAutoMask(def: Types.ScaleOption, data: any, language?: keyof typeof LanguageMap): string {
+  if (data.length < 2) {
+    return getText('defaultMask', language, null);
+  }
+  // 假设数据是升序的，且传入为 Date 能识别的格式
+  data?.sort((a: any, b: any) => a[0] - b[0]);
+
+  // 只取第一、二个元素的间距
+  const min = new Date(data[0][0]).getTime();
+  const minFirst = new Date(data[1][0]).getTime();
+  const max = new Date(data[data.length - 1][0]).getTime();
+  if (isNaN(min) || isNaN(max) || isNaN(minFirst)) {
+    return getText('defaultMask', language, null);
+  }
+  const span = max - min; // 间隔
+  const interval = def.tickInterval || minFirst - min; // 跨度
+
+  const spanIndex = getTimeIndex(span);
+  const intervalIndex = getTimeIndex(interval);
+
+  const maskMap = getText('timeMask', language, null);
+
+  // 如果记录表中没有记录，则使用默认 mask
+  return maskMap[intervalIndex][spanIndex] || getText('defaultMask', language, null);
 }

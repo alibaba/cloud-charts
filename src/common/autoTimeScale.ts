@@ -3,14 +3,7 @@ import { Types, ChartData } from './types';
 import { timePretty, timeCat } from './autoTimeTicksMethod';
 import LanguageMap from '../locales';
 import { getText } from '../ChartProvider';
-
-const MINUTE_MS = 60 * 1000;
-const HOUR_MS = 59 * 60 * 1000;
-const DAY_MS = 22 * HOUR_MS;
-const YEAR_MS = 365 * DAY_MS;
-// 跨度判定列表：大于半年、大于28天、大于22小时、大于59分钟、大于一分钟、（小于分钟）
-// todo后期改为跨度是否跨天/跨年/跨月判定
-const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS];
+import {getAutoMask} from '../common/common';
 
 // 移入国际化文件中
 /*
@@ -22,15 +15,6 @@ const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS];
 | 大于一分钟  | YYYY-MM-DD HH:mm    | MM-DD HH:mm    | MM-DD HH:mm    | HH:mm      | HH:mm      | -        |
 | 小于分钟    | YYYY-MM-DD HH:mm:ss | MM-DD HH:mm:ss | MM-DD HH:mm:ss | HH:mm:ss   | mm:ss      | mm:ss    |
 */
-
-function getTimeIndex(t: number): number {
-  for (let i = 0; i < timeList.length; i++) {
-    if (t >= timeList[i]) {
-      return i;
-    }
-  }
-  return timeList.length;
-}
 
 function findIndexOfSubStringIn2DArray(needle: string, haystack: string[][]) {
   for (let i = 0; i < haystack.length; i++) {
@@ -106,35 +90,4 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
       def.showLast = true;
     }
   }
-}
-
-// 取数据的跨度和间距两种值，跨度决定上限，间距决定下限。
-function getAutoMask(
-  def: Types.ScaleOption,
-  data: any,
-  language?: keyof typeof LanguageMap,
-): string {
-  if (data.length < 2) {
-    return getText('defaultMask', language, null);
-  }
-  // 假设数据是升序的，且传入为 Date 能识别的格式
-  data?.sort((a: any, b: any) => a[0] - b[0]);
-
-  // 只取第一、二个元素的间距
-  const min = new Date(data[0][0]).getTime();
-  const minFirst = new Date(data[1][0]).getTime();
-  const max = new Date(data[data.length - 1][0]).getTime();
-  if (isNaN(min) || isNaN(max) || isNaN(minFirst)) {
-    return getText('defaultMask', language, null);
-  }
-  const span = max - min; // 间隔
-  const interval = def.tickInterval || minFirst - min; // 跨度
-
-  const spanIndex = getTimeIndex(span);
-  const intervalIndex = getTimeIndex(interval);
-
-  const maskMap = getText('timeMask', language, null);
-
-  // 如果记录表中没有记录，则使用默认 mask
-  return maskMap[intervalIndex][spanIndex] || getText('defaultMask', language, null);
 }
