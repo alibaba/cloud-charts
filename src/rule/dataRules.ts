@@ -12,7 +12,9 @@ export function runDataRules(data: any, config: any) {
     dataList?.forEach((number: number) => {
       if (number && number?.toString()?.includes('.')) {
         // 将数字转换为字符串，然后查找小数点后的字符长度
-        const decimals = number.toString().split('.')[1] ? number.toString().split('.')[1].length : 0;
+        const decimals = number.toString().split('.')[1]
+          ? number.toString().split('.')[1].length
+          : 0;
         // 更新最大小数位数
         if (decimals > maxDecimals) {
           maxDecimals = decimals;
@@ -43,7 +45,6 @@ export function runDataRules(data: any, config: any) {
     }
   }
 
-  console.log(1111, config)
   return {
     data,
     config,
