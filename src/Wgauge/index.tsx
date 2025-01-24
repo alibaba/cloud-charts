@@ -47,7 +47,7 @@ interface WgaugeProps extends customFormatterConfig {
     start?: number; // 起始角度，默认x轴负方向
     end?: number; // 结束角度，默认x轴方向
   };
-  renderText?: string,
+  renderText?: string;
   // colorsType?: 'gradient' | 'single'; // 默认为single(单色)
   // type?: 'solid' | 'dashed'; // 实线仪表盘或虚线仪表盘
   customStyles?: {
@@ -82,7 +82,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     outRing = true,
     gaugeScale = false,
     percentage = true,
-    unit = '',
+    unit,
     customStyles = {},
     needUnitTransform,
     valueType,
@@ -279,7 +279,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           }}
           className={`${prefix}-unit`}
         >
-          {finalUnit}
+          {!renderText ? finalUnit : undefined}
         </div>
       </div>
     );
