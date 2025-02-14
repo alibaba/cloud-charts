@@ -114,15 +114,27 @@ export function isBigDataBeforePaint(
 /** 柱图大数据处理方式：开启slider */
 export function processBarBigData(chartObj: any, data: any) {
   const { dataSize } = chartObj;
-  const { force } = chartObj.props;
-  const chartName = chartObj?.chartRule?.name;
+  const { force, config } = chartObj.props;
+
+  // force时不进行处理
+  if (force === true || force?.bigdata === true) {
+    return {};
+  }
+
+  // 暂定：开启自定义图例时，不进行大数据处理
+  // 待修复缺陷后去掉
+  if (config?.legend?.foldable || config?.legend?.table || config?.legend?.gradient) {
+    return {};
+  }
+
   return {
     config: {
-      // 暂时不显示slider
-      // slider: {
-      //   start: 1 - Math.max(Number((30 / dataSize).toFixed(2)), 0.01),
-      //   end: 1,
-      // },
+      slider: config?.slider
+        ? config?.slider
+        : {
+            start: 1 - Math.max(Number((30 / dataSize).toFixed(2)), 0.01),
+            end: 1,
+          },
     },
   };
 }
@@ -130,9 +142,11 @@ export function processBarBigData(chartObj: any, data: any) {
 /** 线图大数据处理方式： */
 export function processLineBigData(chartObj: any, data: any) {
   const { dataSize } = chartObj;
-  const { force } = chartObj.props;
+  const { force, config } = chartObj.props;
   const chartId = chartObj?.chartRule?.id;
-  if (force === true) {
+
+  // 开启force时不进行大数据处理
+  if (force === true || force?.bigdata === true) {
     return {};
   }
 
@@ -142,16 +156,32 @@ export function processLineBigData(chartObj: any, data: any) {
     shouldArea = true;
   }
 
+  let needSlider = true;
+
+  // 暂定：开启自定义图例时，不开启缩略轴
+  // 待修复缺陷后去掉
+  if (config?.legend?.foldable || config?.legend?.table || config?.legend?.gradient) {
+    needSlider = false;
+  }
+
+  // 仅cat类型的线图需要自动开启slider
+  if (config?.xAxis?.type !== 'cat') {
+    needSlider = false;
+  }
+
   return {
     config: {
       symbol: false,
       spline: false,
       area: shouldArea,
-      // 暂时不显示slider
-      // slider: {
-      //   start: 1 - Math.max(Number((100 / dataSize).toFixed(2)), 0.01),
-      //   end: 1,
-      // },
+      slider: config?.slider
+        ? config?.slider
+        : needSlider
+        ? {
+            start: 1 - Math.max(Number((30 / dataSize).toFixed(2)), 0.01),
+            end: 1,
+          }
+        : false,
     },
   };
 }
@@ -190,9 +220,11 @@ export function processPieBigData(chartObj: any, data: any) {
     if (remainReverseIndex !== data.length) {
       const remainIndex = data.length - (remainReverseIndex + 1);
       // 计算剩余占比
-      const remainTotal = numberDecimal(data
-        .slice(remainIndex, data.length)
-        .reduce((pre: number, cur: Types.LooseObject) => pre + cur.y, 0));
+      const remainTotal = numberDecimal(
+        data
+          .slice(remainIndex, data.length)
+          .reduce((pre: number, cur: Types.LooseObject) => pre + cur.y, 0),
+      );
 
       const newData = [
         ...data.slice(0, remainIndex),
@@ -226,7 +258,12 @@ export function processPieBigData(chartObj: any, data: any) {
                         >
                           <div
                             className="g2-tooltip-marker"
-                            style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: el.color }}
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: el.color,
+                            }}
                           ></div>
                           <div className="g2-tooltip-name">{el.name}</div>:
                           <div
@@ -275,7 +312,10 @@ export function processPieBigData(chartObj: any, data: any) {
                                 backgroundColor: themes.category_20[remainIndex + index],
                               }}
                             ></div>
-                            <div className={`${FullCrossName}-tooltip-extra-name g2-tooltip-name`}>{el.x}</div>:
+                            <div className={`${FullCrossName}-tooltip-extra-name g2-tooltip-name`}>
+                              {el.x}
+                            </div>
+                            :
                             <div
                               className={`${FullCrossName}-tooltip-extra-value g2-tooltip-value`}
                               style={{

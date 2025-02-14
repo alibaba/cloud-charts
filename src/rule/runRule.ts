@@ -90,6 +90,7 @@ export function runInitRule(chartObj: any, config: any, data: any) {
     if (chartRule?.bigData?.process) {
       const { data: bigReplaceData, config: bigDataConfig } = chartRule?.bigData?.process?.(chartObj, data);
 
+      console.log('bigdata', bigDataConfig);
       return {
         data: bigReplaceData,
         config: merge({}, config, bigDataConfig),
@@ -288,7 +289,7 @@ export function runAfterDataChangedRule(chartObj: any, config: any, data: any) {
   if (chartRule.extremeData) {
     const extremeProcess = chartRule.extremeData;
     const { isExtreme } = extremeProcess?.(chartObj, config, data);
-    needRerender = chartObj.isExtreme !== isExtreme;
+    needRerender = (chartObj.isExtreme ?? false) !== isExtreme;
     chartObj.isExtreme = isExtreme;
   }
 

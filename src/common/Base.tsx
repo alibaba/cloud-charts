@@ -20,6 +20,8 @@ import {
 import { ChartContext } from '../ChartProvider';
 import chartRefs from './chartRefs';
 import { runInitRule, runBeforePaintRule, runAfterDataChangedRule } from '../rule/runRule';
+import { processFinalConfig } from '../rule/configRules';
+import { processFinalData } from '../rule/dataRules';
 import registerAopController from '../aop/controller/index';
 import { convertThemeKey } from '../themes';
 import { getG2theme } from '../themes/themeTools';
@@ -632,21 +634,29 @@ class Base<
     data = specialData ?? data;
     config = specialConfig ?? config;
 
+    // 后置配置项处理
+    config = processFinalConfig(this, config);
+
+    // 后置数据处理
+    const { data: finalData, config: finalConfig } = processFinalData(this, data, config);
+    data = finalData;
+    config = finalConfig;
+
     // 特殊配置项检测
     // 目前仅对线图、线点图与散点图微调x轴range
     // todo: 加入规则体系
-    const extraConfig = checkSpecialConfig(this.chartName, config, force);
-    config = merge({}, config, extraConfig);
+    // const extraConfig = checkSpecialConfig(this.chartName, config, force);
+    // config = merge({}, config, extraConfig);
 
     // 检测饼图、多重饼图、多重圆环是否有chilren
-    if (['G2Pie', 'G2MultiPie', 'G2MultiCircle'].includes(this.chartName) && this.props.children) {
-      // @ts-ignore
-      if (this.props.config?.innerContent) {
-        warn(`W${this.chartName.slice(2)}`, '图表的中心内容innerContent配置项会被chilren覆盖，建议删除chilren');
-      } else {
-        warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
-      }
-    }
+    // if (['G2Pie', 'G2MultiPie', 'G2MultiCircle'].includes(this.chartName) && this.props.children) {
+    //   // @ts-ignore
+    //   if (this.props.config?.innerContent) {
+    //     warn(`W${this.chartName.slice(2)}`, '图表的中心内容innerContent配置项会被chilren覆盖，建议删除chilren');
+    //   } else {
+    //     warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
+    //   }
+    // }
 
     // 生成图表实例
     const chart = new Chart({

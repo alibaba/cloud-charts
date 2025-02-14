@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 
 // 统一数据处理
 export function runDataRules(data: any, config: any) {
@@ -49,4 +49,21 @@ export function runDataRules(data: any, config: any) {
     data,
     config,
   };
+}
+
+// 后置数据处理
+export function processFinalData(chartObj: any, data: any, config: any) {
+  const { chartRule } = chartObj;
+
+  let finalConfig = config;
+  let finalData = data;
+
+  // 增加预处理数据
+  if (chartRule?.processData) {
+    const { data: targetData, config: targetConfig } = chartRule?.processData(data, config);
+    finalConfig = merge({}, config, targetConfig);
+    finalData = targetData;
+  }
+
+  return { data: finalData, config: finalConfig };
 }

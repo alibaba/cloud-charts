@@ -35,7 +35,7 @@ const stories = storiesOf('bigdata', module);
 
 const lineData = generateData(400);
 
-stories.add('线图', () => (
+stories.add('线图（time）', () => (
   <Wcontainer className="demos">
     <Wline
       height="300"
@@ -73,7 +73,28 @@ stories.add('线图', () => (
         },
       }}
       data={lineData}
-      force={true}
+      // force={true}
+    />
+  </Wcontainer>
+));
+
+stories.add('线图（cat）', () => (
+  <Wcontainer className="demos">
+    <Wline
+      height="300"
+      config={{
+        xAxis: {
+          type: 'cat',
+        },
+        // legend: {
+        //   foldable: true,
+        // },
+        symbol: true,
+        // spline: true,
+        area: true,
+      }}
+      data={lineData}
+      // force={true}
     />
   </Wcontainer>
 ));
@@ -89,15 +110,21 @@ stories.add('柱状图', () => (
           type: 'timeCat',
           mask: 'HH:mm:ss',
         },
-        slider: true,
-        animate: {
-          // enter: false,
-          update: false,
-          // leave: false,
-        },
+        // legend: {
+        //   foldable: true,
+        // },
+        // slider: true,
+        // animate: {
+        //   // enter: false,
+        //   update: false,
+        //   // leave: false,
+        // },
         // columnWidthRatio: 1,
       }}
       data={barData}
+      // force={{
+      //   bigdata: true,
+      // }}
     />
   </Wcontainer>
 ));
@@ -167,6 +194,85 @@ stories.add('数据从无到有', () => {
           area: true,
         }}
         data={d}
+      />
+    </Wcontainer>
+  );
+});
+
+stories.add('从大数据变普通数据（线图）', () => {
+  const [d, setD] = useState(lineData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newData = generateData(10);
+      setD(newData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wline
+        height="300"
+        config={{
+          area: true,
+          xAxis: {
+            type: 'cat',
+          },
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
+
+const simplePieData = [
+  {
+    name: '饼图测试数据',
+    data: [
+      ['a', 40.5],
+      ['e', 7.1],
+      ['b', 27.9],
+      ['c', 24.1],
+    ],
+  },
+];
+
+stories.add('从大数据变普通数据（饼图）', () => {
+  const [d, setD] = useState(pieData);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setD(simplePieData);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        height="300"
+        config={{
+          autoFormat: true,
+        }}
+        data={d}
+      />
+    </Wcontainer>
+  );
+});
+
+stories.add('更改配置项', () => {
+  const [format, setFormat] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFormat(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <Wcontainer className="demos">
+      <Wpie
+        height="300"
+        config={{
+          autoFormat: format,
+        }}
+        data={pieData}
       />
     </Wcontainer>
   );

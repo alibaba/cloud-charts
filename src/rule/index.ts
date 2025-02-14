@@ -1,8 +1,17 @@
-import { IBigData, BigDataJudgement, processBarBigData, processLineBigData, processPieBigData } from './bigData';
+import {
+  IBigData,
+  BigDataJudgement,
+  processBarBigData,
+  processLineBigData,
+  processPieBigData,
+} from './bigData';
 import { DataStructure } from './data';
 import { EmptyDataProcess } from './emptyData';
-import { processBarExtremeData, processLineExtremeData, processLPieExtremeData } from './extremeData';
-import { runConfigRules } from './configRules';
+import {
+  processBarExtremeData,
+  processLineExtremeData,
+  processLPieExtremeData,
+} from './extremeData';
 import { runDataRules } from './dataRules';
 import { numberDecimal } from '../common/common';
 
@@ -52,7 +61,7 @@ export interface IChartRule {
   /** 子类 */
   children?: Record<string, IChartRule>;
 
-  /** 处理配置 */
+  /** 处理配置（前置） */
   processConfig?: (config: any) => any;
 
   /** 处理数据 */
@@ -94,9 +103,9 @@ const barChart: IChartRule = {
     const isDodge = !isDodgeStack && !isStack && !!config?.dodge && hasDodges;
 
     // 编码
-    const code = `${isColumn ? 1 : 0}${isInterval ? 1 : 0}${isPolar ? 1 : 0}${isFacet ? 1 : 0}${isPercentage ? 1 : 0}${
-      isDodgeStack ? 1 : 0
-    }${isStack ? 1 : 0}${isDodge ? 1 : 0}`;
+    const code = `${isColumn ? 1 : 0}${isInterval ? 1 : 0}${isPolar ? 1 : 0}${isFacet ? 1 : 0}${
+      isPercentage ? 1 : 0
+    }${isDodgeStack ? 1 : 0}${isStack ? 1 : 0}${isDodge ? 1 : 0}`;
 
     // 映射
     const chartMap = {
@@ -277,7 +286,8 @@ const barChart: IChartRule = {
           {
             type: BigDataJudgement.Number,
             threshold: 10,
-            message: '该极坐标横向柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用普通柱图',
+            message:
+              '该极坐标横向柱图柱子数量过多，不利于数据间的比较，建议减少数据量或改用普通柱图',
           },
         ],
       },
@@ -304,17 +314,45 @@ const barChart: IChartRule = {
     },
   },
   processConfig: (config: any) => {
-    if (config.percentage && !config.yAxis.labelFormatter) {
-      config.yAxis.labelFormatter = (value: any) => {
-        return numberDecimal(value * 100, config?.decimal) + '%';
-      }
+    let finalConfig = config;
+
+    // 处理百分比柱图的y轴%展示
+    if (finalConfig.percentage && !finalConfig.yAxis.labelFormatter) {
+      finalConfig = {
+        ...finalConfig,
+        yAxis: {
+          labelFormatter: (value: any) => {
+            return numberDecimal(value * 100, finalConfig?.decimal) + '%';
+          },
+          ...finalConfig?.yAxis,
+        },
+      };
     }
 
-    return runConfigRules(config);
+    // 线图与柱图当同时使用自定义legend与slider时，切换为默认legend
+    // 临时方案，自定义legend与slider无法兼容，待修复bug后删除
+    if (
+      (finalConfig?.legend?.foldable ||
+        finalConfig?.legend?.table ||
+        finalConfig?.legend?.gradient) &&
+      finalConfig?.slider
+    ) {
+      finalConfig = {
+        ...finalConfig,
+        legend: {
+          ...finalConfig?.legend,
+          foldable: false,
+          table: false,
+          gradient: false,
+        },
+      };
+    }
+
+    return finalConfig;
   },
   processData: (data: any, config: any) => {
     return runDataRules(data, config);
-  }
+  },
 };
 
 /** 线图 */
@@ -341,7 +379,9 @@ const lineChart: IChartRule = {
     const isInterval = data?.some((item: any) => Array.isArray(item.y));
 
     // 编码
-    const code = `${isStep ? 1 : 0}${isSpline ? 1 : 0}${isArea ? 1 : 0}${isStack ? 1 : 0}${isInterval ? 1 : 0}`;
+    const code = `${isStep ? 1 : 0}${isSpline ? 1 : 0}${isArea ? 1 : 0}${isStack ? 1 : 0}${
+      isInterval ? 1 : 0
+    }`;
 
     // 映射
     const chartMap = {
@@ -409,14 +449,59 @@ const lineChart: IChartRule = {
     },
   },
   processConfig: (config: any) => {
-    if (config.stack) {
-      config.area = true;
+    let finalConfig = config;
+
+    if (finalConfig.stack) {
+      finalConfig = {
+        ...finalConfig,
+        area: true,
+      };
     }
-    return config;
+
+    // 显示label时处理x轴range，避免label显示不全
+    let range;
+    if (finalConfig?.label && finalConfig?.label?.visible !== false) {
+      range = [0.02, 0.98];
+    } else if (finalConfig?.symbol) {
+      range = [0.01, 0.99];
+    }
+
+    if (range) {
+      finalConfig = {
+        ...finalConfig,
+        xAxis: finalConfig?.xAxis
+          ? {
+              range,
+              ...(finalConfig?.xAxis || {}),
+            }
+          : finalConfig?.xAxis,
+      };
+    }
+
+    // 线图与柱图当同时使用自定义legend与slider时，切换为默认legend
+    // 临时方案，自定义legend与slider无法兼容，待修复bug后删除
+    if (
+      (finalConfig?.legend?.foldable ||
+        finalConfig?.legend?.table ||
+        finalConfig?.legend?.gradient) &&
+      finalConfig?.slider
+    ) {
+      finalConfig = {
+        ...finalConfig,
+        legend: {
+          ...finalConfig?.legend,
+          foldable: false,
+          table: false,
+          gradient: false,
+        },
+      };
+    }
+
+    return finalConfig;
   },
   processData: (data: any, config: any) => {
     return runDataRules(data, config);
-  }
+  },
 };
 
 /** 饼图 */
@@ -454,9 +539,6 @@ const pieChart: IChartRule = {
       name: '环图',
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 直方图 */
@@ -511,8 +593,8 @@ const histogram: IChartRule = {
     },
   },
   processData: (data: any, config: any) => {
-    return { data, config };
-  }
+    return runDataRules(data, config);
+  },
 };
 
 /** 线柱图 */
@@ -583,7 +665,10 @@ const lineBarChart: IChartRule = {
       id: 'grouped_stacked_area_bar_chart',
       name: '分组堆叠面积线柱图',
     },
-  }
+  },
+  processData: (data: any, config: any) => {
+    return runDataRules(data, config);
+  },
 };
 
 /** 线点图 */
@@ -616,9 +701,37 @@ const lineScatterChart: IChartRule = {
       name: '面积线点图',
     },
   },
+  processConfig: (config: any) => {
+    let finalConfig = config;
+
+    // 显示label时处理x轴range，避免label显示不全
+    let range;
+    if (
+      (finalConfig?.lineLabel && finalConfig?.lineLabel?.visible !== false) ||
+      (finalConfig?.scatterLabel && finalConfig?.scatterLabel?.visible !== false)
+    ) {
+      range = [0.02, 0.98];
+    } else {
+      range = [0.01, 0.99];
+    }
+
+    if (range) {
+      finalConfig = {
+        ...finalConfig,
+        xAxis: finalConfig?.xAxis
+          ? {
+              range,
+              ...(finalConfig?.xAxis || {}),
+            }
+          : finalConfig?.xAxis,
+      };
+    }
+
+    return finalConfig;
+  },
   processData: (data: any, config: any) => {
-    return { data, config };
-  }
+    return runDataRules(data, config);
+  },
 };
 
 /** 散点图 */
@@ -651,9 +764,36 @@ const scatterChart: IChartRule = {
       name: '扰动点图',
     },
   },
+  processConfig: (config: any) => {
+    let finalConfig = config;
+
+    // 显示label时处理x轴range，避免label显示不全
+    let range;
+    if (!finalConfig.jitter) {
+      if (finalConfig?.label && finalConfig?.label?.visible !== false) {
+        range = [0.02, 0.98];
+      } else {
+        range = [0.01, 0.99];
+      }
+    }
+
+    if (range) {
+      finalConfig = {
+        ...finalConfig,
+        xAxis: finalConfig?.xAxis
+          ? {
+              range,
+              ...(finalConfig?.xAxis || {}),
+            }
+          : finalConfig?.xAxis,
+      };
+    }
+
+    return finalConfig;
+  },
   processData: (data: any, config: any) => {
-    return { data, config };
-  }
+    return runDataRules(data, config);
+  },
 };
 
 /** 玫瑰图 */
@@ -689,9 +829,6 @@ const nightingaleRoseChart: IChartRule = {
       name: '玫瑰环图',
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 雷达图 */
@@ -727,9 +864,6 @@ const radarChart: IChartRule = {
       name: '雷达面积图',
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 漏斗图 */
@@ -794,9 +928,6 @@ const funnelChart: IChartRule = {
       mainAxis: 'x',
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 多重饼图 */
@@ -832,9 +963,6 @@ const multiPieChart: IChartRule = {
       name: '多重环图',
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 矩形树图 */
@@ -857,9 +985,6 @@ const treemap: IChartRule = {
       coord: Coordinate.Polar,
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 相邻层次图 */
@@ -882,9 +1007,6 @@ const hierarchyChart: IChartRule = {
       coord: Coordinate.Polar,
     },
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 箱型图 */
@@ -909,9 +1031,6 @@ const boxChart: IChartRule = {
       },
     ],
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 烛形图 */
@@ -936,9 +1055,6 @@ const candlestickChart: IChartRule = {
       },
     ],
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 多重圆环 */
@@ -962,9 +1078,6 @@ const multiCircle: IChartRule = {
       },
     ],
   },
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 热力图 */
@@ -974,9 +1087,6 @@ const heatmap: IChartRule = {
   coord: Coordinate.Cartesian,
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 箱型线图 */
@@ -1011,9 +1121,6 @@ const rectangleChart: IChartRule = {
   mainAxis: 'x',
   dataStructure: DataStructure.Common,
   emptyData: EmptyDataProcess.Background,
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 /** 桑基图 */
@@ -1023,9 +1130,6 @@ const sankeyChart: IChartRule = {
   coord: Coordinate.Cartesian,
   dataStructure: DataStructure.Graph,
   emptyData: EmptyDataProcess.Background,
-  processData: (data: any, config: any) => {
-    return { data, config };
-  }
 };
 
 export default {

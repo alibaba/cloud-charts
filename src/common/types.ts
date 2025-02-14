@@ -59,4 +59,6 @@ export type Rule =
             // 是否显示占位
             showPlaceholder?: boolean;
           };
+      /** 大数据场景开关，true表示关闭对应处理 */
+      bigdata?: boolean;
     };
