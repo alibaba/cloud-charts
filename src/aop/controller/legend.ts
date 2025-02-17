@@ -129,6 +129,9 @@ class WidgetsLegendController extends RawLegendController {
         if (legendMaxSize) {
           legendElement.style.maxHeight = `${legendMaxSize[1]}px`;
         }
+
+        // 记录legend尺寸
+        widgetsCtx.legendSize = legendSize;
       }
     } else {
       this.legendContainer.style.visibility = 'hidden';

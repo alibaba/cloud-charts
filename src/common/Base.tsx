@@ -900,7 +900,7 @@ class Base<
         style={{
           position: 'relative',
           width: width ? `${width}px` : '100%',
-          height: height ? `${height}px` : undefined,
+          height: height ? `${height}px` : '100%',
           display: 'flex',
           // 部分图表的legend默认开启table布局
           flexDirection:
