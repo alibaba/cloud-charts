@@ -676,7 +676,7 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
   let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
 
   // 只有流量、存储单位大写
-  if (!['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
+  if (currentUnit && !['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
     currentUnit = currentUnit.toLowerCase();
   }
 
