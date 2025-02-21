@@ -162,8 +162,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
         newMap[id][statistic] = value;
       });
 
-      (config?.table?.custom || []).forEach((customItem: any) => {
-        const title = customItem.title;
+      (config?.table?.custom || []).forEach((customItem: any, index: number) => {
+        const title = customItem.title || `custom${index}`;
         const value =
           typeof customItem?.value === 'function'
             ? customItem.value({
@@ -171,6 +171,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 ...statisticsRes[id],
               })
             : customItem?.value ?? '';
+        if (!(id in newMap)) {
+          newMap[id] = {};
+        }
         newMap[id][title] = value;
       });
     });
@@ -209,7 +212,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
             '8px minmax(80px, 40%)',
             ...statistics.map((statistic: string) => `minmax(${widthMap[statistic]}px, ${60 / columns}%)`),
             ...(config?.table?.custom || []).map(
-              (customItem: any) => `minmax(${widthMap[customItem.title]}px, ${60 / columns}%)`,
+              (customItem: any, index: number) =>
+                `minmax(${widthMap[customItem.title || `custom${index}`]}px, ${60 / columns}%)`,
             ),
           ].join(' 8px ')
         : '8px minmax(min(80px, 30%), 100%)';
@@ -229,8 +233,8 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       res += 8 + widthMap[statistic];
     });
 
-    (config?.table?.columns || []).forEach((customItem: any) => {
-      res += 8 + widthMap[customItem.title];
+    (config?.table?.columns || []).forEach((customItem: any, index: number) => {
+      res += 8 + widthMap[customItem.title || `custom${index}`];
     });
 
     if (((updateItems?.length ?? 0) + 1) * 20 > legendHeight) {
@@ -360,13 +364,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 );
               })}
               {(config?.table?.custom || []).map((customItem: any, index: number) => {
-                const value =
-                  typeof customItem?.value === 'function'
-                    ? customItem.value({
-                        ...legendItem,
-                        ...statisticsRes[id],
-                      })
-                    : customItem?.value ?? '';
+                const value = valueMap[id][customItem?.title || `custom${index}`];
                 return (
                   <>
                     <td />
