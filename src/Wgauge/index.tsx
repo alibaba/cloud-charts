@@ -11,8 +11,7 @@ import './index.scss';
 const prefix = `${PrefixName}-wgauge`;
 
 interface IDataWgauge {
-  total?: number; // 表盘总数, 默认100
-  current: number; // 当前数据
+  current: number; // 当前数据，默认0
   label?: string; // 表盘文字
 }
 
@@ -22,8 +21,9 @@ export interface IWgaugeProps {
 }
 
 interface WgaugeProps extends customFormatterConfig {
-  colors?: string | Array<[number, Status | string]>;
-  percentage?: boolean;
+  min?: number; // 最小值，默认0
+  max?: number; // 最大值，默认100
+  colors?: string | Array<[number | 'max', Status | string]>;
   className?: string;
   outRing?: boolean;
   fontColorFit?: boolean;
@@ -41,7 +41,6 @@ interface WgaugeProps extends customFormatterConfig {
         scaleNum?: number; // 数字段数, 默认为5（0，25，50，75，100）
         scale?: boolean; // 是否显示仪表盘指针刻度，段数与scaleNum相同，大段中间有一小段
       }; // 默认为false，不展示数字及刻度
-  unit?: string;
   // todo
   angle?: {
     start?: number; // 起始角度，默认x轴负方向
@@ -62,9 +61,11 @@ interface WgaugeProps extends customFormatterConfig {
 
 const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const { data, config } = props;
-  const { total = 100, label } = data;
+  const { label } = data;
 
   const {
+    min: minValue = 0,
+    max: maxValue,
     colors = [
       [60, 'error'],
       [80, 'warning'],
@@ -81,25 +82,27 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     decorationStrokeWidth = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
     outRing = true,
     gaugeScale = false,
-    percentage = true,
     unit,
     customStyles = {},
     needUnitTransform,
-    valueType,
+    valueType = 'percent_100', // 默认百分比
     decimal,
     unitTransformTo,
   } = config || {};
 
-  let sourceValue = data.current > 100 ? 100 : data.current < 0 ? 0 : data.current;
-  let current = percentage ? (sourceValue / total) * 100 : sourceValue;
+  let current = data.current || 0;
 
-  let finalUnit = percentage ? '%' : unit;
+  if (valueType === 'percent_1') {
+    current = current * 100;
+  }
+
+  let finalValue = current;
+  let finalUnit = unit;
+
+  const min = minValue;
+  const max = maxValue === undefined ? 100 : valueType === 'percent_1' ? maxValue * 100 : maxValue;
 
   if (needUnitTransform && (unit || valueType)) {
-    if (valueType === 'percent_1') {
-      current = current * 100;
-    }
-
     const { value, unit: transformUnit } = unitConversion(
       current,
       finalUnit,
@@ -108,10 +111,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       valueType,
     );
 
-    current = value;
+    finalValue = value;
     finalUnit = transformUnit;
   } else {
-    current = numberDecimal(current, decimal);
+    finalValue = numberDecimal(current, decimal);
   }
 
   const {
@@ -149,7 +152,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const textRef = useRef(null);
   const [flag, setFlag] = useState(false);
   const strokeColor = Array.isArray(colors)
-    ? `var(--${prefix}-${getColorForCurrent(current, total, colors)}-color)`
+    ? `var(--${prefix}-${getColorForCurrent(current, min, max, colors)}-color)`
     : `var(--${prefix}-${colors}-color)`;
 
   useEffect(() => {
@@ -212,7 +215,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   // 计算弧度的起始角和结束角
   const startAngle = angle.start;
-  const endAngle = startAngle + (current / total) * (angle.end - angle.start);
+  const endAngle =
+    startAngle +
+    Math.min(1, Math.max(0, (current - min) / (max - min))) * (angle.end - angle.start);
   const bottomEnd = angle.end;
 
   // 计算起始点和结束点坐标
@@ -222,7 +227,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
 
   // 根据圆弧长短设置 largeArcFlag
   const largeArcFlag = angle.end - angle.start > 180 ? 1 : 0;
-  const dataArcFlag = (current / total) * (angle.end - angle.start) > 180 ? 1 : 0;
+  const dataArcFlag =
+    Math.min(1, Math.max(0, (current - min) / (max - min))) * (angle.end - angle.start) > 180
+      ? 1
+      : 0;
 
   const { x: decoratedStartX, y: decoratedStartY } = calculatePositionOnCircle(
     startAngle,
@@ -269,7 +277,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
             lineHeight: lineHeight ? lineHeight : `${lineSize}px`,
           }}
         >
-          {renderText ? renderText : current}
+          {renderText ? renderText : finalValue}
         </div>
         <div
           style={{
@@ -398,10 +406,14 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
             {Array.isArray(colors) &&
               colors.map(([offset, colorName]) => {
+                const numberOffset =
+                  offset === 'max'
+                    ? 100
+                    : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
                 return (
                   <stop
                     key={colorName}
-                    offset={`${(offset / total) * 100}%`}
+                    offset={`${numberOffset}%`}
                     stopColor={`var(--${prefix}-${colorName}-color)`}
                   />
                 );
@@ -464,12 +476,13 @@ function calculatePositionOnCircle(angle: number, radius: number, offset: number
 
 function getColorForCurrent(
   current: number,
-  total: number,
-  colors: Array<[number, Status | string]>,
+  min: number,
+  max: number,
+  colors: Array<[number | 'max', Status | string]>,
 ) {
   for (let i = 0; i < colors.length; i++) {
     const [threshold, colorName] = colors[i];
-    if (current <= threshold) {
+    if (threshold === 'max' || current <= threshold) {
       return colorName;
     }
   }
