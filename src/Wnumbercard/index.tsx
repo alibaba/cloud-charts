@@ -516,6 +516,7 @@ export const Wnumberoverview: React.FC<IDataOverviewCard> = (props) => {
           style={{
             marginBottom: rowIndex === dataByRow.length - 1 ? 0 : marginBottom,
             height: `${100 / dataByRow?.length}%`,
+            minHeight: 68,
           }}
         >
           {row.map((item: IDataItem, colIndex: number) => {
