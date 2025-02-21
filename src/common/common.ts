@@ -675,6 +675,7 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
 export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
   let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
 
+  console.log(value, unit, valueType)
   // 只有流量、存储单位大写
   if (currentUnit && !['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
     currentUnit = currentUnit.toLowerCase();
@@ -720,6 +721,10 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
     }
 
     finalUnit = units[index];
+  }
+
+  if (valueType === 'count' && finalUnit === 'counts') {
+    finalUnit = '';
   }
 
   return {
