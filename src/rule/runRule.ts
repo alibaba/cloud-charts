@@ -90,7 +90,6 @@ export function runInitRule(chartObj: any, config: any, data: any) {
     if (chartRule?.bigData?.process) {
       const { data: bigReplaceData, config: bigDataConfig } = chartRule?.bigData?.process?.(chartObj, data);
 
-      console.log('bigdata', bigDataConfig);
       return {
         data: bigReplaceData,
         config: merge({}, config, bigDataConfig),
