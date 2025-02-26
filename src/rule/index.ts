@@ -317,14 +317,19 @@ const barChart: IChartRule = {
     let finalConfig = config;
 
     // 处理百分比柱图的y轴%展示
-    if (finalConfig.percentage && !finalConfig.yAxis.labelFormatter) {
+    if (!Array.isArray(finalConfig?.yAxis) && finalConfig.percentage && !finalConfig.yAxis.labelFormatter) {
+      const customFormatter = finalConfig.yAxis?.labelFormatter;
       finalConfig = {
         ...finalConfig,
         yAxis: {
-          labelFormatter: (value: any) => {
-            return numberDecimal(value * 100, finalConfig?.decimal) + '%';
-          },
           ...finalConfig?.yAxis,
+          min: 0,
+          max: 1,
+          labelFormatter: (value: any) => {
+            return customFormatter
+              ? customFormatter(value)
+              : numberDecimal(value * 100, finalConfig?.decimal) + '%';
+          },
         },
       };
     }
