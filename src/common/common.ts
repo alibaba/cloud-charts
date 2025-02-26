@@ -461,8 +461,60 @@ const unitMap: any = {
   count: ['counts', 'k', 'm', 'b'],
   counts: ['counts', 'k', 'm', 'b'],
   time: ['ps', 'ns', 'μs', 'ms', 's'],
-  date: ['m', 'h', 'days', 'weeks', 'months', 'years']
+  date: ['ms', 's', 'm', 'h', 'days', 'weeks', 'months', 'years'],
 };
+
+function convertTimeUnit(value: number, unit?: 'ms' | 's' | 'm' | 'h' | 'days' | 'weeks' | 'months' | 'years', decimal?: number): any {
+  let resultValue: number = value;
+  const currentUnit = (!unitMap['date'].includes(unit) || !unit) ? 'ms' : unit;
+
+  const conversions = {
+      ms: 1,
+      s: 1000,
+      m: 60 * 1000,
+      h: 60 * 60 * 1000,
+      days: 24 * 60 * 60 * 1000,
+      weeks: 7 * 24 * 60 * 60 * 1000,
+      months: 30 * 24 * 60 * 60 * 1000, // 这里假设一个月为30天
+      years: 365 * 24 * 60 * 60 * 1000 // 这里假设一年为365天
+  };
+  if (currentUnit !== 'ms') {
+    resultValue = resultValue * conversions[currentUnit];
+  }
+
+  let resultUnit: string = currentUnit;
+
+  if (resultValue >= conversions.years) {
+      resultValue = numberDecimal(resultValue / conversions.years, decimal);
+      resultUnit = 'y';
+  } else if (resultValue >= conversions.months) {
+      resultValue = numberDecimal(resultValue / conversions.months, decimal);
+      resultUnit = 'months';
+  } else if (resultValue >= conversions.weeks) {
+      resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
+      resultUnit = 'weeks';
+  } else if (resultValue >= conversions.days) {
+      resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
+      resultUnit = 'days';
+  } else if (resultValue >= conversions.h) {
+      resultValue = numberDecimal(resultValue / conversions.h, decimal);
+      resultUnit = 'h';
+  } else if (resultValue >= conversions.m) {
+      resultValue = numberDecimal(resultValue / conversions.m, decimal);
+      resultUnit = 'm';
+  } else if (resultValue >= conversions.s) {
+      resultValue = numberDecimal(resultValue / conversions.s, decimal);
+      resultUnit = 's';
+  } else {
+      resultUnit = 'ms';
+  }
+
+  return {
+    value: resultValue,
+    unit: resultUnit,
+    formattedValue: `${resultValue}${resultUnit}`
+  };
+}
 
  export const unitFamily:  any =  {
   disk_1000: {
@@ -673,63 +725,70 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
  * 统一进位单位格式化
  * */
 export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
-  let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
-
-  // 只有流量、存储单位大写
-  if (currentUnit && !['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
-    currentUnit = currentUnit.toLowerCase();
-  }
-
-  // 单位的特殊处理，后期统一从unitFamily中取
-  if (valueType === 'time') {
-    currentUnit = unit ?? 's';
-  }
-  const units = findUnitArray(currentUnit, valueType);
-  let finalUnit = unit;
-
-  const threshold = currentUnit?.includes('IB') || currentUnit?.includes('BYTE') ? 1024 : 1000;
-
-  let index = units.indexOf(currentUnit);
-  if (index === -1) {
+  if (valueType === 'date') {
     return {
-      value,
-      unit,
+      value: convertTimeUnit(value, unit, decimal)?.value ?? '-',
+      unit: convertTimeUnit(value, unit, decimal)?.unit ?? '',
     };
-  }
-  if (unitTransformTo) {
-    let UpUnitTransformTot = unitTransformTo.toUpperCase();
-    let targetUnitIndex = units.indexOf(UpUnitTransformTot);
-    if (index === targetUnitIndex) {
+  } else {
+    let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
+
+    // 只有流量、存储单位大写
+    if (currentUnit && !['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
+      currentUnit = currentUnit.toLowerCase();
+    }
+  
+    // 单位的特殊处理，后期统一从unitFamily中取
+    if (valueType === 'time') {
+      currentUnit = unit ?? 's';
+    }
+    const units = findUnitArray(currentUnit, valueType);
+    let finalUnit = unit;
+  
+    const threshold = currentUnit?.includes('IB') || currentUnit?.includes('BYTE') ? 1024 : 1000;
+  
+    let index = units.indexOf(currentUnit);
+    if (index === -1) {
       return {
         value,
         unit,
       };
     }
-    const distance = Math.abs(index - targetUnitIndex);
-    if (index > targetUnitIndex) {
-      value *= Math.pow(threshold, distance);
-    } else {
-      value /= Math.pow(threshold, distance);
+    if (unitTransformTo) {
+      let UpUnitTransformTot = unitTransformTo.toUpperCase();
+      let targetUnitIndex = units.indexOf(UpUnitTransformTot);
+      if (index === targetUnitIndex) {
+        return {
+          value,
+          unit,
+        };
+      }
+      const distance = Math.abs(index - targetUnitIndex);
+      if (index > targetUnitIndex) {
+        value *= Math.pow(threshold, distance);
+      } else {
+        value /= Math.pow(threshold, distance);
+      }
+      finalUnit = unitTransformTo;
     }
-    finalUnit = unitTransformTo;
-  }
-  if (!unitTransformTo) {
-    while (value >= threshold && index < units.length - 1) {
-      value /= threshold;
-      index++;
+    if (!unitTransformTo) {
+      while (value >= threshold && index < units.length - 1) {
+        value /= threshold;
+        index++;
+      }
+  
+      finalUnit = units[index];
     }
-
-    finalUnit = units[index];
+  
+    if (valueType === 'count' && finalUnit === 'counts') {
+      finalUnit = '';
+    }
+  
+    return {
+      value: numberDecimal(value, decimal),
+      unit: finalUnit,
+    };
   }
-
-  if (valueType === 'count' && finalUnit === 'counts') {
-    finalUnit = '';
-  }
-
-  return {
-    value: numberDecimal(value, decimal),
-    unit: finalUnit,
-  };
 }
 
 function generateScaledArray(dataSize: number) {
