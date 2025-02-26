@@ -23,5 +23,7 @@ export default {
   deepAssign: common.deepAssign,
   unitConversion: common.unitConversion,
   isInsideChina: common.isInsideChina,
-  getAutoMask: common.getAutoMask
+  getAutoMask: common.getAutoMask,
+  generateTimestamps: common.generateTimestamps,
+  getHourlyTimestamp: common.getHourlyTimestamp
 };

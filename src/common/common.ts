@@ -1086,3 +1086,23 @@ export function getAutoMask(def: Types.ScaleOption, data: any, language?: keyof 
   // 如果记录表中没有记录，则使用默认 mask
   return maskMap[intervalIndex][spanIndex] || getText('defaultMask', language, null);
 }
+
+// 获取时间戳刻度
+export function getHourlyTimestamp(timestamp: number) {
+  const date = new Date(timestamp);
+  date.setMinutes(0, 0, 0); // 设置分钟、秒和毫秒为0
+  return date.getTime();
+}
+export function generateTimestamps(start: number, end: number, interval: number, showLast?: boolean, showInteger?: boolean) {
+  const timestamps: number[] = [];
+  const newStart = showInteger ? getHourlyTimestamp(start) : start;
+  const newEnd = showInteger ? getHourlyTimestamp(end) : end;
+  for (let i = newStart; i <= newEnd; i += interval) {
+      timestamps.push(i);
+  }
+
+  if (showLast && !timestamps.includes(end) && end) {
+    timestamps.push(end);
+  }
+  return timestamps;
+}
