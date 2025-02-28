@@ -28,13 +28,15 @@ export function getStatistics(
     items[legendName].push({
       ...item,
       // 解决树类型数据遍历的时候value值计算出现undefined得问题
-      value: item?.value ?? item?.rawValue
+      value: item?.value ?? item?.rawValue,
     });
   });
 
   const res: Record<string, any> = {};
   Object.keys(items).forEach((name: string) => {
-    let yValues = items[name].map((item: Datum) => item.y ?? item.y0 ?? item.y1 ?? 0);
+    let yValues = items[name]
+      .map((item: Datum) => item.y ?? item.y0 ?? item.y1)
+      .filter((val: any) => typeof val === 'number');
 
     if (dataType === 'treeNode') {
       yValues = [items[name].map((item: Datum) => item.value ?? item?.rawValue)];
