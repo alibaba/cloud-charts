@@ -65,12 +65,12 @@ export function processBarExtremeData(chartObj: any, config: any, data: any) {
       lastY = data
         .filter((item: any) => item.x === lastX && item.dodge === lastDodge)
         .map((item: any) => item.y || 0)
-        .reduce((pre: number, cur: number) => pre + cur);
+        .reduce((pre: number, cur: number) => pre + cur, 0);
     } else if (config.stack) {
       lastY = data
         .filter((item: any) => item.x === lastX)
         .map((item: any) => item.y || 0)
-        .reduce((pre: number, cur: number) => pre + cur);
+        .reduce((pre: number, cur: number) => pre + cur, 0);
     } else if (config.dodge && lastDodge) {
       const filteredData = data.filter((item: any) => item.x === lastX && item.dodge === lastDodge);
       lastY = filteredData[filteredData.length - 1].y;
