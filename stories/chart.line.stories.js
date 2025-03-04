@@ -1015,7 +1015,7 @@ const labelData = [
 const labelData2 = [
   {
     name: '进位',
-    data: [[1741055716000, 100000]],
+    data: [[1741055716000, -100000]],
   },
 ];
 
@@ -1025,7 +1025,8 @@ stories.add('label格式化', () => (
     data={labelData2}
     config={{
       yAxis: {
-        valueType: 'count',
+        valueType: 'disk_1000',
+        unit: 'B',
         needUnitTransform: true,
       },
     }}

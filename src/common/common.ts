@@ -728,11 +728,15 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
 /**
  * 统一进位单位格式化
  * */
-export function unitConversion(value: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
+export function unitConversion(originValue: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
+  const isNegative = originValue < 0;
+  let value = Math.abs(originValue);
+
   if (valueType === 'date') {
+    const { value: finalValue, unit: finalUnit } = convertTimeUnit(value, unit, decimal) ?? {};
     return {
-      value: convertTimeUnit(value, unit, decimal)?.value ?? '-',
-      unit: convertTimeUnit(value, unit, decimal)?.unit ?? '',
+      value: typeof finalValue==='number'? (isNegative? -finalValue: finalValue): '-',
+      unit: finalUnit ?? '',
     };
   } else {
     let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
@@ -754,7 +758,7 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
     let index = units.indexOf(currentUnit);
     if (index === -1) {
       return {
-        value,
+        value: originValue,
         unit,
       };
     }
@@ -763,7 +767,7 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
       let targetUnitIndex = units.indexOf(UpUnitTransformTot);
       if (index === targetUnitIndex) {
         return {
-          value,
+          value: originValue,
           unit,
         };
       }
@@ -788,8 +792,10 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
       finalUnit = '';
     }
 
+    const finalValue = numberDecimal(value, decimal);
+
     return {
-      value: numberDecimal(value, decimal),
+      value: typeof finalValue === 'number'? (isNegative? -finalValue: finalValue) : '-',
       unit: finalUnit,
     };
   }
