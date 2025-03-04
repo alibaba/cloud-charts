@@ -1,9 +1,9 @@
 'use strict';
 
-import { Geometry, Types } from "./types";
+import { Geometry, Types } from './types';
 import themes from '../themes';
-import { merge, pxToNumber } from './common';
-import { IGroup, IShape } from "@antv/g2/esm/dependents";
+import { merge, pxToNumber, getFormatConfig, customFormatter } from './common';
+import { IGroup, IShape } from '@antv/g2/esm/dependents';
 import { warn } from './log';
 
 export interface LabelConfig extends Types.GeometryLabelCfg {
@@ -30,27 +30,25 @@ export interface LabelConfig extends Types.GeometryLabelCfg {
 
 const defaultConfigKey = 'label';
 
-export default function (
-  {
-    geom,
-    config,
-    field = 'y',
-    defaultConfig = {},
-    extraConfigKey = null,
-    useCustomOffset = undefined,
-    componentConfig = undefined,
-    extraCallbackParams,
-  }: {
-    geom: Geometry;
-    config: { label?: LabelConfig | boolean; [p: string]: any };
-    field?: string;
-    defaultConfig?: Types.GeometryLabelCfg;
-    extraConfigKey?: string;
-    useCustomOffset?: boolean;
-    componentConfig?: Types.GeometryLabelCfg;
-    extraCallbackParams?: any[];
-  }
-) {
+export default function ({
+  geom,
+  config,
+  field = 'y',
+  defaultConfig = {},
+  extraConfigKey = null,
+  useCustomOffset = undefined,
+  componentConfig = undefined,
+  extraCallbackParams,
+}: {
+  geom: Geometry;
+  config: { label?: LabelConfig | boolean; [p: string]: any };
+  field?: string;
+  defaultConfig?: Types.GeometryLabelCfg;
+  extraConfigKey?: string;
+  useCustomOffset?: boolean;
+  componentConfig?: Types.GeometryLabelCfg;
+  extraCallbackParams?: any[];
+}) {
   let configLabel = config[defaultConfigKey];
   if (extraConfigKey && config[extraConfigKey] !== undefined) {
     configLabel = config[extraConfigKey];
@@ -98,6 +96,14 @@ export default function (
   if (labelFormatter) {
     labelConfig.content = (v, item, index) => {
       return labelFormatter(v[newField], item, index);
+    };
+  } else {
+    const formatConfig = getFormatConfig(config);
+    const customValueFormatter = customFormatter(formatConfig);
+    if (customValueFormatter) {
+      labelConfig.content = (v, item, index) => {
+        return customValueFormatter(v[newField]);
+      };
     }
   }
 
@@ -125,9 +131,13 @@ export default function (
 
   if (callback) {
     if (extraCallbackParams) {
-      geom.label(newField, function (...args){
-        return callback(...args, ...extraCallbackParams);
-      }, labelConfig);
+      geom.label(
+        newField,
+        function (...args) {
+          return callback(...args, ...extraCallbackParams);
+        },
+        labelConfig,
+      );
     } else {
       geom.label(newField, callback, labelConfig);
     }

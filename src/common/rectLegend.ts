@@ -2,7 +2,7 @@
 
 import { Chart, ChartData, Types, G2Dependents } from './types';
 // import { LocaleItem } from '../locales';
-import { customFormatter, customFormatterConfig, merge } from './common';
+import { customFormatter, customFormatterConfig, merge, getFormatConfig } from './common';
 import themes from '../themes';
 import { pxToNumber } from './common';
 import { warn } from './log';
@@ -901,47 +901,3 @@ export function getItemData(
 // function noopEvent(e) {
 //   e.stopPropagation();
 // }
-
-// 根据config获取进位相关配置项
-export function getFormatConfig(config: any) {
-  if (
-    typeof config.yAxis === 'object' &&
-    !Array.isArray(config.yAxis) &&
-    config?.yAxis?.needUnitTransform &&
-    typeof config.legend !== 'boolean' &&
-    config.legend?.needUnitTransform === undefined
-  ) {
-    config.legend.needUnitTransform = config.legend.needUnitTransform ?? config?.yAxis?.needUnitTransform;
-    config.legend.unit = config.legend.unit ?? config?.yAxis?.unit;
-    config.legend.unitTransformTo = config.legend.unitTransformTo ?? config?.yAxis?.unitTransformTo;
-    config.legend.valueType = config.legend.valueType ?? config?.yAxis?.valueType;
-  }
-
-  if (typeof config.legend === 'object') {
-    config.legend.grouping = config.legend.grouping ?? config?.yAxis?.grouping;
-    config.legend.decimal = config.legend.decimal ?? config?.yAxis?.decimal;
-  }
-
-  // 进位相关配置项
-  let formatConfig: any;
-  // 当legend中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
-  if (
-    typeof config?.legend === 'object' &&
-    (config?.legend?.valueType ||
-      config?.legend?.unit ||
-      config?.legend?.needUnitTransform ||
-      config?.legend?.unitTransformTo ||
-      config?.legend?.decimal)
-  ) {
-    formatConfig = config.legend;
-  } else if (Array.isArray(config.yAxis) && config.yAxis.length >= 2) {
-    // 双轴
-    formatConfig = config.yAxis;
-  } else if (Array.isArray(config.yAxis)) {
-    formatConfig = config?.yAxis?.[0] ?? {};
-  } else {
-    formatConfig = config?.yAxis ?? {};
-  }
-
-  return formatConfig;
-}

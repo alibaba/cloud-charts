@@ -40,11 +40,19 @@ const data = [
 const stories = storiesOf('Wline', module);
 stories.addDecorator(withKnobs);
 
-stories.add('折线图', () => <Wline height="300" data={data} config={{
-  yAxis: {
-    grouping: true
-  }
-}}/>);
+stories.add('折线图', () => (
+  <Wline
+    height="300"
+    data={data}
+    config={{
+      yAxis: [
+        {
+          grouping: true,
+        },
+      ],
+    }}
+  />
+));
 stories.add('平滑曲线图', () => (
   <Wcontainer className="demos">
     <Wline
@@ -156,6 +164,21 @@ stories.add('双轴折线图', () => (
       config={{
         yAxis: [{}, {}],
         area: true,
+        guide: {
+          line: [
+            {
+              // 显示标题相关
+              text: {
+                title: '警戒线',
+                autoRotate: false,
+              },
+              status: 'error', // normal | success | warning | error
+              // 线位置
+              axis: 'y1',
+              value: 5000,
+            },
+          ],
+        },
       }}
       data={data}
     />
@@ -980,4 +1003,31 @@ stories.add('带标签折线图', () => (
 
 stories.add('legend单选', () => (
   <Wline height="300" data={data} config={{ legend: { useReverseChecked: false } }} />
+));
+
+const labelData = [
+  {
+    name: '小数',
+    data: [[1741055716000, 0.04166666666666667]],
+  },
+];
+
+const labelData2 = [
+  {
+    name: '进位',
+    data: [[1741055716000, 100000]],
+  },
+];
+
+stories.add('label格式化', () => (
+  <Wline
+    height="300"
+    data={labelData2}
+    config={{
+      yAxis: {
+        valueType: 'count',
+        needUnitTransform: true,
+      },
+    }}
+  />
 ));

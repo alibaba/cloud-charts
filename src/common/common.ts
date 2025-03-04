@@ -464,19 +464,23 @@ const unitMap: any = {
   date: ['ms', 's', 'm', 'h', 'days', 'weeks', 'months', 'years'],
 };
 
-function convertTimeUnit(value: number, unit?: 'ms' | 's' | 'm' | 'h' | 'days' | 'weeks' | 'months' | 'years', decimal?: number): any {
+function convertTimeUnit(
+  value: number,
+  unit?: 'ms' | 's' | 'm' | 'h' | 'days' | 'weeks' | 'months' | 'years',
+  decimal?: number,
+): any {
   let resultValue: number = value;
-  const currentUnit = (!unitMap['date'].includes(unit) || !unit) ? 'ms' : unit;
+  const currentUnit = !unitMap['date'].includes(unit) || !unit ? 'ms' : unit;
 
   const conversions = {
-      ms: 1,
-      s: 1000,
-      m: 60 * 1000,
-      h: 60 * 60 * 1000,
-      days: 24 * 60 * 60 * 1000,
-      weeks: 7 * 24 * 60 * 60 * 1000,
-      months: 30 * 24 * 60 * 60 * 1000, // 这里假设一个月为30天
-      years: 365 * 24 * 60 * 60 * 1000 // 这里假设一年为365天
+    ms: 1,
+    s: 1000,
+    m: 60 * 1000,
+    h: 60 * 60 * 1000,
+    days: 24 * 60 * 60 * 1000,
+    weeks: 7 * 24 * 60 * 60 * 1000,
+    months: 30 * 24 * 60 * 60 * 1000, // 这里假设一个月为30天
+    years: 365 * 24 * 60 * 60 * 1000, // 这里假设一年为365天
   };
   if (currentUnit !== 'ms') {
     resultValue = resultValue * conversions[currentUnit];
@@ -485,34 +489,34 @@ function convertTimeUnit(value: number, unit?: 'ms' | 's' | 'm' | 'h' | 'days' |
   let resultUnit: string = currentUnit;
 
   if (resultValue >= conversions.years) {
-      resultValue = numberDecimal(resultValue / conversions.years, decimal);
-      resultUnit = 'y';
+    resultValue = numberDecimal(resultValue / conversions.years, decimal);
+    resultUnit = 'y';
   } else if (resultValue >= conversions.months) {
-      resultValue = numberDecimal(resultValue / conversions.months, decimal);
-      resultUnit = 'months';
+    resultValue = numberDecimal(resultValue / conversions.months, decimal);
+    resultUnit = 'months';
   } else if (resultValue >= conversions.weeks) {
-      resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
-      resultUnit = 'weeks';
+    resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
+    resultUnit = 'weeks';
   } else if (resultValue >= conversions.days) {
-      resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
-      resultUnit = 'days';
+    resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
+    resultUnit = 'days';
   } else if (resultValue >= conversions.h) {
-      resultValue = numberDecimal(resultValue / conversions.h, decimal);
-      resultUnit = 'h';
+    resultValue = numberDecimal(resultValue / conversions.h, decimal);
+    resultUnit = 'h';
   } else if (resultValue >= conversions.m) {
-      resultValue = numberDecimal(resultValue / conversions.m, decimal);
-      resultUnit = 'm';
+    resultValue = numberDecimal(resultValue / conversions.m, decimal);
+    resultUnit = 'm';
   } else if (resultValue >= conversions.s) {
-      resultValue = numberDecimal(resultValue / conversions.s, decimal);
-      resultUnit = 's';
+    resultValue = numberDecimal(resultValue / conversions.s, decimal);
+    resultUnit = 's';
   } else {
-      resultUnit = 'ms';
+    resultUnit = 'ms';
   }
 
   return {
     value: resultValue,
     unit: resultUnit,
-    formattedValue: `${resultValue}${resultUnit}`
+    formattedValue: `${resultValue}${resultUnit}`,
   };
 }
 
@@ -737,16 +741,16 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
     if (currentUnit && !['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {
       currentUnit = currentUnit.toLowerCase();
     }
-  
+
     // 单位的特殊处理，后期统一从unitFamily中取
     if (valueType === 'time') {
       currentUnit = unit ?? 's';
     }
     const units = findUnitArray(currentUnit, valueType);
     let finalUnit = unit;
-  
+
     const threshold = currentUnit?.includes('IB') || currentUnit?.includes('BYTE') ? 1024 : 1000;
-  
+
     let index = units.indexOf(currentUnit);
     if (index === -1) {
       return {
@@ -776,14 +780,14 @@ export function unitConversion(value: any, unit?: any, decimal?: number, unitTra
         value /= threshold;
         index++;
       }
-  
+
       finalUnit = units[index];
     }
-  
+
     if (valueType === 'count' && finalUnit === 'counts') {
       finalUnit = '';
     }
-  
+
     return {
       value: numberDecimal(value, decimal),
       unit: finalUnit,
@@ -1152,16 +1156,66 @@ export function getHourlyTimestamp(timestamp: number) {
   date.setMinutes(0, 0, 0); // 设置分钟、秒和毫秒为0
   return date.getTime();
 }
-export function generateTimestamps(start: number, end: number, interval: number, showLast?: boolean, showInteger?: boolean) {
+export function generateTimestamps(
+  start: number,
+  end: number,
+  interval: number,
+  showLast?: boolean,
+  showInteger?: boolean,
+) {
   const timestamps: number[] = [];
   const newStart = showInteger ? getHourlyTimestamp(start) : start;
   const newEnd = showInteger ? getHourlyTimestamp(end) : end;
   for (let i = newStart; i <= newEnd; i += interval) {
-      timestamps.push(i);
+    timestamps.push(i);
   }
 
   if (showLast && !timestamps.includes(end) && end) {
     timestamps.push(end);
   }
   return timestamps;
+}
+
+// 根据config获取进位相关配置项
+export function getFormatConfig(config: any) {
+  if (
+    typeof config.yAxis === 'object' &&
+    !Array.isArray(config.yAxis) &&
+    config?.yAxis?.needUnitTransform &&
+    typeof config.legend !== 'boolean' &&
+    config.legend?.needUnitTransform === undefined
+  ) {
+    config.legend.needUnitTransform = config.legend.needUnitTransform ?? config?.yAxis?.needUnitTransform;
+    config.legend.unit = config.legend.unit ?? config?.yAxis?.unit;
+    config.legend.unitTransformTo = config.legend.unitTransformTo ?? config?.yAxis?.unitTransformTo;
+    config.legend.valueType = config.legend.valueType ?? config?.yAxis?.valueType;
+  }
+
+  if (typeof config.legend === 'object') {
+    config.legend.grouping = config.legend.grouping ?? config?.yAxis?.grouping;
+    config.legend.decimal = config.legend.decimal ?? config?.yAxis?.decimal;
+  }
+
+  // 进位相关配置项
+  let formatConfig: any;
+  // 当legend中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
+  if (
+    typeof config?.legend === 'object' &&
+    (config?.legend?.valueType ||
+      config?.legend?.unit ||
+      config?.legend?.needUnitTransform ||
+      config?.legend?.unitTransformTo ||
+      config?.legend?.decimal)
+  ) {
+    formatConfig = config.legend;
+  } else if (Array.isArray(config.yAxis) && config.yAxis.length >= 2) {
+    // 双轴
+    formatConfig = config.yAxis;
+  } else if (Array.isArray(config.yAxis)) {
+    formatConfig = config?.yAxis?.[0] ?? {};
+  } else {
+    formatConfig = config?.yAxis ?? {};
+  }
+
+  return formatConfig;
 }
