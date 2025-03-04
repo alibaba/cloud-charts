@@ -89,7 +89,7 @@ interface IConfig extends customFormatterConfig {
   iconPosition?: 'left' | 'right' | 'top-left';
 
   /** label旁边的tags */
-  labelTags: LabelTagProps[];
+  labelTags?: LabelTagProps[];
 
   /** value旁边的tags */
   valueTags?: ValueTagProps[];
