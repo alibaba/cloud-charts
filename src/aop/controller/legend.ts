@@ -44,6 +44,7 @@ class WidgetsLegendController extends RawLegendController {
     );
 
     if (
+      this.legendContainer &&
       !widgetsCtx?.isEmpty &&
       !widgetsCtx?.props?.loading &&
       !widgetsCtx?.props?.errorInfo &&
@@ -134,7 +135,9 @@ class WidgetsLegendController extends RawLegendController {
         widgetsCtx.legendSize = legendSize;
       }
     } else {
-      this.legendContainer.style.visibility = 'hidden';
+      if (this.legendContainer) {
+        this.legendContainer.style.visibility = 'hidden';
+      }
       super.layout();
     }
   }
