@@ -93,22 +93,27 @@ stories.add('饼图', () => (
       width={300}
       height="300"
       config={{
+        label: true,
         // outerRadius: 0.5,
         legend: {
           // align: 'top',
           // padding: [20, 0, 0, 20]
-          nameFormatter(v) {
-            return v + v;
-          },
-          valueFormatter(v) {
-            return `${v}%`;
-          },
+          // nameFormatter(v) {
+          //   return v + v;
+          // },
+          // valueFormatter(v) {
+          //   return `${v}%`;
+          // },
+          unit: '¥',
+          "needUnitTransform": true,
+          "valueType": "money",
+          decimal: 3,
         },
         tooltip: {
-          valueFormatter(n, ...args) {
-            // console.log(args);
-            return n;
-          },
+          // valueFormatter(n, ...args) {
+          //   // console.log(args);
+          //   return n;
+          // },
         },
       }}
       data={data}

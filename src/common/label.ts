@@ -93,6 +93,10 @@ export default function ({
 
   const newField = key || userField || field;
 
+  if (componentConfig) {
+    Object.assign(labelConfig, componentConfig);
+  }
+
   if (labelFormatter) {
     labelConfig.content = (v, item, index) => {
       return labelFormatter(v[newField], item, index);
@@ -111,10 +115,6 @@ export default function ({
 
   if (position === 'middle') {
     labelConfig.offset = 0;
-  }
-
-  if (componentConfig) {
-    Object.assign(labelConfig, componentConfig);
   }
 
   if (offset !== undefined) {

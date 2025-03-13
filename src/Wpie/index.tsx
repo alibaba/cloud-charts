@@ -1,5 +1,6 @@
 'use strict';
 
+import React from 'react';
 import {
   Chart,
   Geometry,
@@ -11,7 +12,7 @@ import {
 } from '../common/types';
 import Base from '../common/Base';
 import themes from '../themes/index';
-import { /*pxToNumber,*/ numberDecimal /*isInvalidNumber*/ } from '../common/common';
+import { /*pxToNumber,*/ numberDecimal /*isInvalidNumber*/, customFormatter, customFormatterConfig } from '../common/common';
 import './index.scss';
 import rectTooltip, { TooltipConfig } from '../common/rectTooltip';
 import rectLegend, { LegendConfig } from '../common/rectLegend';
@@ -24,7 +25,6 @@ import updateChildrenPosition from '../common/updateChildrenPosition';
 import ReactDOM from 'react-dom';
 import { FullCrossName } from '../constants';
 import Wnumber from '../Wnumber';
-import React from 'react';
 
 // function transformCoord(coord, transform = {}) {
 //   const { type, param } = transform;
@@ -331,6 +331,24 @@ export class Pie extends Base<WpieConfig> {
       },
     );
 
+    // 饼图单独处理
+    // 进位相关配置项
+    let formatConfig: any;
+    // 当tooltip中配置了单位相关信息时，直接使用tooltip的配置项，否则使用y轴配置项
+    if (
+      typeof config?.tooltip === 'object' &&
+      (config?.tooltip?.valueType ||
+        config?.tooltip?.unit ||
+        config?.tooltip?.needUnitTransform ||
+        config?.tooltip?.unitTransformTo)
+    ) {
+      formatConfig = config.tooltip;
+    } else {
+      formatConfig = config?.legend ?? {};
+    }
+    const defaultValueFormatter = customFormatter(formatConfig)
+
+
     // tooltip
     rectTooltip(
       this,
@@ -346,34 +364,39 @@ export class Pie extends Base<WpieConfig> {
         const raw = (this.rawData && this.rawData[0]) || {};
         const { items } = ev.data;
 
+        console.log(4444, items)
         items.forEach((item: any, index: number) => {
           const percent = numberDecimal(item.value / this.totalData, 4);
 
           if (typeof config.tooltip === 'boolean') {
-            return;
+            item.value = defaultValueFormatter(item.value)
           }
 
-          if (config.tooltip.valueFormatter) {
-            item.value = config.tooltip.valueFormatter(
-              item.value,
-              {
-                ...raw,
-                percent,
-              },
-              index,
-              items,
-            );
-          }
-          if (config.tooltip.nameFormatter) {
-            item.name = config.tooltip.nameFormatter(
-              item.name,
-              {
-                ...raw,
-                percent,
-              },
-              index,
-              items,
-            );
+          if (typeof config.tooltip === 'object') {
+            if (config.tooltip.valueFormatter) {
+              item.value = config.tooltip.valueFormatter(
+                item.value,
+                {
+                  ...raw,
+                  percent,
+                },
+                index,
+                items,
+              );
+            } else {
+              item.value = defaultValueFormatter(item.value)
+            }
+            if (config.tooltip.nameFormatter) {
+              item.name = config.tooltip.nameFormatter(
+                item.name,
+                {
+                  ...raw,
+                  percent,
+                },
+                index,
+                items,
+              );
+            }
           }
         });
       },
