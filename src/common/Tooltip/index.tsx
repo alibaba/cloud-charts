@@ -23,7 +23,7 @@ const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref
 
   // 判断label是否超过宽度
   useEffect(() => {
-    setShowTooltip(ref?.current?.offsetWidth !== ref?.current?.scrollWidth);
+    setShowTooltip(ref?.current?.offsetWidth <= ref?.current?.scrollWidth);
   }, [ref?.current?.offsetWidth, ref?.current?.scrollWidth]);
 
   useEffect(() => {
