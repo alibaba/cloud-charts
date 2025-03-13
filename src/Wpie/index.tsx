@@ -215,7 +215,7 @@ export class Pie extends Base<WpieConfig> {
     data.forEach((d) => {
       totalData += d.y;
     });
-    this.totalData = totalData;
+    this.totalData = numberDecimal(totalData, config?.legend?.decimal ?? config?.tooltip?.decimal ?? 2);
 
     // 处理后的原始数据
     this.sourceData = data;

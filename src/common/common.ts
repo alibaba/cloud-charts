@@ -662,7 +662,6 @@ export function customFormatter(config: customFormatterConfig) {
       return '';
     }
 
-    console.log(3333, v, isInvalidNumber(v))
     let result = v;
     let newUnit = unit || '';
 

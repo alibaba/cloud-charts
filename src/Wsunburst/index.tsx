@@ -169,7 +169,7 @@ export class Sunburst extends Base<WsunburstConfig> {
   init(chart: Chart, config: WsunburstConfig, data: ChartData) {
     const { source, total } = computeData(data, config, this);
 
-    this.totalData = total;
+    this.totalData = numberDecimal(total, config?.legend?.decimal ?? config?.tooltip?.decimal ?? 2);
 
     chart.data(source);
 
