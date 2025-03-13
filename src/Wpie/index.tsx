@@ -228,7 +228,6 @@ export class Pie extends Base<WpieConfig> {
     });
     this.totalData = numberDecimal(totalData, config?.legend?.decimal ?? config?.tooltip?.decimal ?? 2);
 
-    console.log(data)
     // 处理后的原始数据
     this.sourceData = data;
 
