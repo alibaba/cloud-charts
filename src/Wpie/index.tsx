@@ -108,6 +108,7 @@ export interface WpieConfig extends BaseChartConfig, DecorationConfig {
     /** 单位 */
     unit?: string | React.ReactNode;
   };
+  filterNegativeNumbers?: boolean;
 }
 
 export class Pie extends Base<WpieConfig> {
@@ -138,6 +139,8 @@ export class Pie extends Base<WpieConfig> {
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
       // drawPadding: [10, 10, 10, 10],
       label: false,
+      // 过滤负数
+      filterNegativeNumbers: true
     };
   }
 
@@ -213,10 +216,19 @@ export class Pie extends Base<WpieConfig> {
     // 计算得总数据
     let totalData = 0;
     data.forEach((d) => {
+      if (d.y < 0 && config.filterNegativeNumbers) {
+        d.extra.push({
+          rawNumber: d.y
+        });
+
+        d.y = 0;
+      }
+
       totalData += d.y;
     });
     this.totalData = numberDecimal(totalData, config?.legend?.decimal ?? config?.tooltip?.decimal ?? 2);
 
+    console.log(data)
     // 处理后的原始数据
     this.sourceData = data;
 
