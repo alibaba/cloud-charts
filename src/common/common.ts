@@ -265,11 +265,12 @@ export function getAreaColors(areaColors: string[], isStack?: boolean) {
  * 判断是否是无效数字
  *
  * @param v 输入值
+ * 增加判断V中有大写字母，目的是为了区分region地址和科学记数法
  *
  * @return {boolean} 是否无效数字
  * */
 export function isInvalidNumber(v: any) {
-  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object';
+  return isNaN(v) || !isFinite(v) || v === '' || typeof v === 'object' || /[A-Z]/.test(v);
 }
 
 /**
@@ -661,6 +662,7 @@ export function customFormatter(config: customFormatterConfig) {
       return '';
     }
 
+    console.log(3333, v, isInvalidNumber(v))
     let result = v;
     let newUnit = unit || '';
 
