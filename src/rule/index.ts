@@ -326,9 +326,7 @@ const barChart: IChartRule = {
           min: 0,
           max: 1,
           labelFormatter: (value: any) => {
-            return customFormatter
-              ? customFormatter(value)
-              : numberDecimal(value * 100, finalConfig?.decimal) + '%';
+            return customFormatter ? customFormatter(value) : numberDecimal(value * 100, finalConfig?.decimal) + '%';
           },
         },
       };
@@ -350,6 +348,29 @@ const barChart: IChartRule = {
           table: false,
           gradient: false,
         },
+      };
+    }
+
+    // 处理label展示不全问题
+    let appendPadding = null;
+    if (finalConfig?.label && finalConfig?.label?.visible !== false) {
+      appendPadding = [20, 20, 0, 0];
+    }
+
+    // 隐藏左y轴时，需要左padding
+    if (
+      appendPadding &&
+      ((Array.isArray(finalConfig?.yAxis) &&
+        (finalConfig?.yAxis?.[0] === false || finalConfig?.yAxis?.[0]?.visible === false)) ||
+        (!Array.isArray(finalConfig?.yAxis) && (finalConfig?.yAxis === false || finalConfig?.yAxis?.visible === false)))
+    ) {
+      appendPadding[3] = appendPadding[0];
+    }
+
+    if (appendPadding) {
+      finalConfig = {
+        ...finalConfig,
+        appendPadding: finalConfig?.appendPadding || appendPadding,
       };
     }
 
@@ -463,23 +484,28 @@ const lineChart: IChartRule = {
       };
     }
 
-    // 显示label时处理x轴range，避免label显示不全
-    let range;
+    // 处理label和symbol展示不全问题
+    let appendPadding = null;
     if (finalConfig?.label && finalConfig?.label?.visible !== false) {
-      range = [0.02, 0.98];
+      appendPadding = [20, 20, 0, 0];
     } else if (finalConfig?.symbol) {
-      range = [0.01, 0.99];
+      appendPadding = [10, 10, 0, 0];
     }
 
-    if (range) {
+    // 隐藏左y轴时，需要左padding
+    if (
+      appendPadding &&
+      ((Array.isArray(finalConfig?.yAxis) &&
+        (finalConfig?.yAxis?.[0] === false || finalConfig?.yAxis?.[0]?.visible === false)) ||
+        (!Array.isArray(finalConfig?.yAxis) && (finalConfig?.yAxis === false || finalConfig?.yAxis?.visible === false)))
+    ) {
+      appendPadding[3] = appendPadding[0];
+    }
+
+    if (appendPadding) {
       finalConfig = {
         ...finalConfig,
-        xAxis: finalConfig?.xAxis
-          ? {
-              range,
-              ...(finalConfig?.xAxis || {}),
-            }
-          : finalConfig?.xAxis,
+        appendPadding: finalConfig?.appendPadding || appendPadding,
       };
     }
 
@@ -671,6 +697,39 @@ const lineBarChart: IChartRule = {
       name: '分组堆叠面积线柱图',
     },
   },
+  processConfig: (config: any) => {
+    let finalConfig = config;
+
+    // 处理label和symbol展示不全问题
+    let appendPadding = null;
+    if (
+      (finalConfig?.lineLabel && finalConfig?.lineLabel?.visible !== false) ||
+      (finalConfig?.barLabel && finalConfig?.barLabel?.visible !== false)
+    ) {
+      appendPadding = [20, 20, 0, 0];
+    } else if (finalConfig?.symbol) {
+      appendPadding = [10, 10, 0, 0];
+    }
+
+    // 隐藏左y轴时，需要左padding
+    if (
+      appendPadding &&
+      ((Array.isArray(finalConfig?.yAxis) &&
+        (finalConfig?.yAxis?.[0] === false || finalConfig?.yAxis?.[0]?.visible === false)) ||
+        (!Array.isArray(finalConfig?.yAxis) && (finalConfig?.yAxis === false || finalConfig?.yAxis?.visible === false)))
+    ) {
+      appendPadding[3] = appendPadding[0];
+    }
+
+    if (appendPadding) {
+      finalConfig = {
+        ...finalConfig,
+        appendPadding: finalConfig?.appendPadding || appendPadding,
+      };
+    }
+
+    return finalConfig;
+  },
   processData: (data: any, config: any) => {
     return runDataRules(data, config);
   },
@@ -709,26 +768,31 @@ const lineScatterChart: IChartRule = {
   processConfig: (config: any) => {
     let finalConfig = config;
 
-    // 显示label时处理x轴range，避免label显示不全
-    let range;
+    // 处理label和symbol展示不全问题
+    let appendPadding = null;
     if (
       (finalConfig?.lineLabel && finalConfig?.lineLabel?.visible !== false) ||
       (finalConfig?.scatterLabel && finalConfig?.scatterLabel?.visible !== false)
     ) {
-      range = [0.02, 0.98];
-    } else {
-      range = [0.01, 0.99];
+      appendPadding = [20, 20, 0, 0];
+    } else if (finalConfig?.symbol) {
+      appendPadding = [10, 10, 0, 0];
     }
 
-    if (range) {
+    // 隐藏左y轴时，需要左padding
+    if (
+      appendPadding &&
+      ((Array.isArray(finalConfig?.yAxis) &&
+        (finalConfig?.yAxis?.[0] === false || finalConfig?.yAxis?.[0]?.visible === false)) ||
+        (!Array.isArray(finalConfig?.yAxis) && (finalConfig?.yAxis === false || finalConfig?.yAxis?.visible === false)))
+    ) {
+      appendPadding[3] = appendPadding[0];
+    }
+
+    if (appendPadding) {
       finalConfig = {
         ...finalConfig,
-        xAxis: finalConfig?.xAxis
-          ? {
-              range,
-              ...(finalConfig?.xAxis || {}),
-            }
-          : finalConfig?.xAxis,
+        appendPadding: finalConfig?.appendPadding || appendPadding,
       };
     }
 
@@ -772,25 +836,30 @@ const scatterChart: IChartRule = {
   processConfig: (config: any) => {
     let finalConfig = config;
 
-    // 显示label时处理x轴range，避免label显示不全
-    let range;
+    // 处理label和symbol展示不全问题
+    let appendPadding = null;
     if (!finalConfig.jitter) {
       if (finalConfig?.label && finalConfig?.label?.visible !== false) {
-        range = [0.02, 0.98];
+        appendPadding = [20, 20, 0, 0];
       } else {
-        range = [0.01, 0.99];
+        appendPadding = [10, 10, 0, 0];
       }
     }
 
-    if (range) {
+    // 隐藏左y轴时，需要左padding
+    if (
+      appendPadding &&
+      ((Array.isArray(finalConfig?.yAxis) &&
+        (finalConfig?.yAxis?.[0] === false || finalConfig?.yAxis?.[0]?.visible === false)) ||
+        (!Array.isArray(finalConfig?.yAxis) && (finalConfig?.yAxis === false || finalConfig?.yAxis?.visible === false)))
+    ) {
+      appendPadding[3] = appendPadding[0];
+    }
+
+    if (appendPadding) {
       finalConfig = {
         ...finalConfig,
-        xAxis: finalConfig?.xAxis
-          ? {
-              range,
-              ...(finalConfig?.xAxis || {}),
-            }
-          : finalConfig?.xAxis,
+        appendPadding: finalConfig?.appendPadding || appendPadding,
       };
     }
 
