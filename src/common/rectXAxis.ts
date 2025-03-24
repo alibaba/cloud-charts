@@ -87,7 +87,7 @@ export default function <T>(
               autoRotate,
               rotate,
               autoHide,
-              autoEllipsis: ellipsisLabels(autoEllipsis, config?.xAxis?.type, config),
+              autoEllipsis: ellipsisLabels(autoEllipsis, config?.xAxis?.type, config, chart),
               formatter: labelFormatter || customFormatter(config.xAxis || {}),
               style: (item: any, index: number, items: any[]) => {
                 const width = pxToNumber(themes['widgets-font-size-1']) * item.length * 0.6;
@@ -183,7 +183,7 @@ export default function <T>(
 // }
 
 /** 自动省略函数，支持head/middle/tail */
-function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string, config?: any) {
+function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string, config?: any, chart?: Chart) {
   if (!autoEllipsis || xAxisType?.includes('time') || config?.column === false || typeof config?.column === 'object') {
     return false;
   }
@@ -191,48 +191,53 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
   // 是否自定义了省略方式
   const hasCustom = typeof autoEllipsis === 'string';
   const type = autoEllipsis === true ? 'middle' : autoEllipsis;
-  let minGap = 20;
+  let minGap = 8;
 
   return (isVertical: boolean, labelGroup: IGroup, limitLength: number) => {
     const children = labelGroup.getChildren();
+    const childrenCount = children.length ?? 1;
+    const chartCanvasWidth = chart?.coordinateBBox?.width ?? 0;
+    // const labelCanvasWidth = labelGroup.getBBox().width ?? 0;
 
     // 判断是否有重叠
-    let first = children[0];
-    // 重叠部分的最大尺寸
-    let maxOverlopGap = 0;
-    let hasOverlap = false;
-    // 数据中最长的字长(在画布中的宽度),考虑用户自定义
-    // 理论上只有一个刻度的时候最大宽度为图表尺寸，现在默认为100，后面再调整
-    let maxTextLength = children.length > 1 ? first.getBBox().width : limitLength;
+    // let first = children[0];
+    // // 重叠部分的最大尺寸
+    // let maxOverlopGap = 0;
+    // let hasOverlap = false;
+    // // 数据中最长的字长(在画布中的宽度),考虑用户自定义
+    // // 理论上只有一个刻度的时候最大宽度为图表尺寸，现在默认为100，后面再调整
+    // let maxTextLength = children.length > 1 ? first.getBBox().width : limitLength;
 
-    // 中文减少偏移， 暂定一个偏移值
-    if (containsChinese(first.attr('text'))) {
-      minGap = -16;
-    }
+    // // 中文减少偏移， 暂定一个偏移值
+    // if (containsChinese(first.attr('text'))) {
+    //   minGap = -16;
+    // }
 
     for (let i = 1; i < children.length; i++) {
-      const { isOverlap: isTextOverlap, maxGap } = isOverlap(
-        isVertical,
-        i > 1 ? children[i - 1] : first,
-        children[i],
-        minGap,
-      );
+      // const { isOverlap: isTextOverlap, maxGap } = isOverlap(
+      //   isVertical,
+      //   i > 1 ? children[i - 1] : first,
+      //   children[i],
+      //   minGap,
+      // );
       const text = children[i].attr('text') ?? '';
-      maxTextLength = Math.max(maxTextLength, children[i].getBBox().width)
+      // maxTextLength = Math.max(maxTextLength, children[i].getBBox().width)
       if (containsChinese(text)) {
-        minGap = -16;
+        minGap = 12;
       }
-      if (isTextOverlap) {
-        maxOverlopGap = Math.max(maxOverlopGap, maxGap);
-        hasOverlap = isTextOverlap;
-      }
+      // if (isTextOverlap) {
+      //   maxOverlopGap = Math.max(maxOverlopGap, maxGap);
+      //   hasOverlap = isTextOverlap;
+      // }
     }
 
-    maxTextLength = Math.min(maxTextLength, limitLength);
-    const tickDistance = children.length > 1 ? children[1].getBBox().x - first.getBBox().x : maxTextLength;
+    // maxTextLength = Math.min(maxTextLength, limitLength);
+    // const tickDistance = children.length > 1 ? children[1].getBBox().x - first.getBBox().x : maxTextLength;
     // 重叠时最大允许宽度为最大字长 - 最大重叠距离 - 刻度值间最小间距
     // 不重叠时取刻度间距 - 最小间距
-    const adjustLimitLength = hasOverlap ? maxTextLength - maxOverlopGap - minGap : tickDistance - minGap;
+    // const adjustLimitLength = hasOverlap ? maxTextLength - maxOverlopGap - minGap : tickDistance - minGap;
+
+    const textLengthForCanvas = (chartCanvasWidth - minGap * (childrenCount - 1)) / childrenCount;
 
     children.forEach((label: IElement) => {
       const text = label.attr('text') ?? '';
@@ -244,7 +249,7 @@ function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxi
         fontStyle,
         fontVariant,
       };
-      let ellipsisText = ellipsisLabel(text, adjustLimitLength, font, '...', type, hasCustom);
+      let ellipsisText = ellipsisLabel(text, textLengthForCanvas, font, '...', type, hasCustom);
 
       if (ellipsisText === '...') {
         const x = label.attr('x');
