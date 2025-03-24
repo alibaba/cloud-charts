@@ -38,7 +38,7 @@ $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
   }
 
   #{$prefix}-content {
-    word-break: break-all;
+    word-break: keep-all;
     color: $label-color;
     font-size: $font-size-small;
   }
