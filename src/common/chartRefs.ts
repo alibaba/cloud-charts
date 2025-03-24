@@ -39,7 +39,7 @@ export function getStatistics(
       .filter((val: any) => typeof val === 'number');
 
     if (dataType === 'treeNode') {
-      yValues = [items[name].map((item: Datum) => item.value ?? item?.rawValue)];
+      yValues = items[name].map((item: Datum) => item.value ?? item?.rawValue);
     }
 
     const statisticsRes: any = {};
