@@ -93,15 +93,17 @@ export default function ({
 
   const newField = key || userField || field;
 
-  if (componentConfig) {
-    Object.assign(labelConfig, componentConfig);
-  }
-
   if (labelFormatter) {
     labelConfig.content = (v, item, index) => {
       return labelFormatter(v[newField], item, index);
     };
+    if (componentConfig) {
+      Object.assign(labelConfig, componentConfig);
+    }
   } else {
+    if (componentConfig) {
+      Object.assign(labelConfig, componentConfig);
+    }
     const formatConfig = getFormatConfig(config);
     const customValueFormatter = customFormatter(formatConfig);
     if (customValueFormatter) {

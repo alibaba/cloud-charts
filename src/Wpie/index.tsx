@@ -375,7 +375,6 @@ export class Pie extends Base<WpieConfig> {
         const raw = (this.rawData && this.rawData[0]) || {};
         const { items } = ev.data;
 
-        console.log(4444, items)
         items.forEach((item: any, index: number) => {
           const percent = numberDecimal(item.value / this.totalData, 4);
 
