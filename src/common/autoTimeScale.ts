@@ -49,7 +49,7 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
     } else {
       // 业务自定义国际化处理
       // 初始化的mask
-      const sourceMaskMap = getText('timeMask', 'zh-cn', null);
+      const sourceMaskMap = getText('timeMask', 'zh-cn', null, true);
       // 当前语言下的mask
       const currentMaskMap = getText('timeMask', language, null);
       // 用户自定义mask

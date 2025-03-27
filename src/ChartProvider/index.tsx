@@ -66,7 +66,13 @@ export const getText = (
   value: keyof LocaleItem,
   language: keyof typeof LanguageMap,
   locale: LocaleItem | Record<string, LocaleItem> = null,
+  // 进根据用户传入获取语言
+  force?: boolean
 ) => {
+  if (force) {
+    return LanguageMap?.[language in LanguageMap ? language : 'zh-cn']?.[value]
+  }
+  
   // 如果用户自定义locale为Record<string, LocaleItem>
   if (locale && (currentLanguage in locale || language in locale || 'zh-cn' in locale)) {
     return currentLanguage && currentLanguage in locale
