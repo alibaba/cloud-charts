@@ -1236,7 +1236,7 @@ stories.add('legend折叠(线柱图）', () => {
   );
 });
 
-const testData = [
+const testData_1 = [
   {
     x: 'ECS 1',
     y: 'time',
@@ -1264,7 +1264,7 @@ stories.add('阶梯状legend(热力图）', () => {
     <div style={{ height: 300, width: 600 }}>
       <Wheatmap
         // height="300"
-        data={testData}
+        data={testData_1}
         config={{
           xAxis: false,
           yAxis: false,

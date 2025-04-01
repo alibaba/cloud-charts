@@ -43,12 +43,49 @@ stories.add('柱状图', () => (
     <Wbar
       height="300"
       config={{
-        legend: {
-          position: 'top',
-        },
-        yAxis: [{}]
+        // legend: {
+        //   position: 'top',
+        // },
+        // yAxis: {
+        //   type: 'quantize',
+        // },
+        // scrollbar: true,
+        size: 18,
+        xAxis: {
+          // labelFormatter: (v) => {
+          //   console.log(1111, v)
+          //   return v
+          // }
+        }
       }}
-      data={data}
+      data={[
+        {
+          "name": "数量",
+          "data": [
+            [
+              "中心云-test",
+              "26725"
+            ],
+            [
+              "17E-1",
+              "546"
+            ],
+            [
+              "59E-arm",
+              "325"
+            ],
+            [
+              "公共云测试",
+              "94"
+            ],
+            [
+              "50E-test",
+              "0"
+            ]
+          ]
+        }
+      ]}
+      force
     />
   </Wcontainer>
 ));

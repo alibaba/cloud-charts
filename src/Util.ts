@@ -25,5 +25,6 @@ export default {
   isInsideChina: common.isInsideChina,
   getAutoMask: common.getAutoMask,
   generateTimestamps: common.generateTimestamps,
-  getHourlyTimestamp: common.getHourlyTimestamp
+  getHourlyTimestamp: common.getHourlyTimestamp,
+  fillMissingTimestamps: common.fillMissingTimestamps,
 };

@@ -11,7 +11,7 @@ const data = [
     data: [
       ['Firefox', 45.0],
       ['IE', 26.8],
-      ['Chrome', 12.8],
+      ['Chrome', -12.8222222],
       ['Safari', 8.5],
       ['Opera', 6.2],
       ['Others', 0.7],
@@ -109,6 +109,8 @@ stories.add('饼图', () => (
           "valueType": "money",
           decimal: 3,
         },
+        cycle: true,
+        innerContent: true,
         tooltip: {
           // valueFormatter(n, ...args) {
           //   // console.log(args);

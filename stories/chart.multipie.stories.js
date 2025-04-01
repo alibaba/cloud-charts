@@ -6,809 +6,969 @@ import { storiesOf } from '@storybook/react';
 
 import { WmultiPie, Wnumber, Wcontainer } from '@alicloud/cloud-charts';
 
-const depth = 2;
-function mockData(target, maxDepth, deep = 0) {
-  if (deep < maxDepth) {
-    target.children = [];
-    const totalValue = Math.round(Math.random() * 100) + 100;
-    const loop = Math.round(Math.random() * 3) + 1;
-    let unuseValue = totalValue;
-
-    for (let i = 0; i < loop; i++) {
-      const name = `${target.name}-${i}`;
-      let value = Math.round((Math.random() * totalValue) / loop);
-
-      if (i === loop - 1) {
-        value = unuseValue;
-      } else {
-        unuseValue -= value;
-      }
-
-      if (deep !== maxDepth - 1) {
-        value = undefined;
-      }
-
-      target.children.push(
-        mockData(
-          {
-            name,
-            value,
-            deep: deep + 1,
-            parent: target,
-          },
-          maxDepth,
-          deep + 1,
-        ),
-      );
-    }
-  }
-
-  return target;
-}
-
-const multiPieData = mockData(
-  {
-    name: 'root',
-    value: 0,
-    deep: 0,
-  },
-  2,
-);
-const multiPieData2 = mockData(
-  {
-    name: 'root',
-    value: 0,
-  },
-  3,
-);
-const multiPieData3 = mockData(
-  {
-    name: 'root',
-    value: 0,
-  },
-  4,
-);
-
-const colors = [];
-function translateTree(node, idx) {
-  if (node.children) {
-    // if (node.deep === 1) {
-    //   node.color = themes.category_20[idx];
-    // }
-    node.children.map((el, index) => {
-      // if (el?.parent?.color) {
-      //   const colorList = Util.calcLinearColor(el.parent.color, '#ffffff', node.children.length + 1);
-      //   el.color = colorList[index];
-      // }
-      //   el.color = el.name.split('|||')[1];
-      //   el.name = el.name.split('|||')[0];
-      Reflect.deleteProperty(el, 'color');
-      translateTree(el, index);
-    });
-  }
-  // colors.push(node.color)
-  return node;
-}
-
 const data = {
   name: 'root',
+  id: 'dashboard-instance-distribution-root',
+  value: 0,
   children: [
     {
-      name: 'ahm',
       children: [
         {
-          name: 'ahm: ecs.s7-k',
-          value: 1,
-          color: '#68a3de',
+          name: 'API 分组',
+          value: 411,
+          id: 'ascm.resourceType.cloudapi_apigroup',
         },
         {
-          name: 'ahm: ecs.sn1ne',
+          name: 'API网关',
+          value: 32,
+          id: 'ascm.resourceType.cloudapi_api',
+        },
+        {
+          name: 'API应用',
           value: 9,
-          color: '#adcded',
-        },
-      ],
-      color: '#297ACC',
-    },
-    {
-      name: 'aop',
-      children: [
-        {
-          name: 'aop: ecs.s7-k',
-          value: 5,
-          color: '#56c78b',
+          id: 'ascm.resourceType.cloudapi_app',
         },
         {
-          name: 'aop: ecs.g6x-ft-k10',
-          value: 1,
-          color: '#69cf99',
+          name: 'API 插件管理',
+          value: 0,
+          id: 'ascm.resourceType.cloudapi_plugin',
         },
         {
-          name: 'aop: ecs.sn1ne',
-          value: 10,
-          color: '#7ed6a8',
-        },
-        {
-          name: 'aop: ecs.xn4',
-          value: 3,
-          color: '#97deb9',
-        },
-        {
-          name: 'aop: ecs.se1',
-          value: 3,
-          color: '#b0e8cb',
-        },
-        {
-          name: 'aop: ecs.s6-hg-k',
-          value: 16,
-          color: '#c9f0dc',
-        },
-        {
-          name: 'aop: ecs.n4',
+          name: '资源栈',
           value: 2,
-          color: '#e4f7ed',
+          id: 'ascm.resourceType.stack',
+        },
+        {
+          name: '模板管理',
+          value: 0,
+          id: 'ascm.resourceType.template',
         },
       ],
-      color: '#43BF7E',
+      name: '开发工具',
+      id: 'DeveloperTools',
     },
     {
-      name: 'appstreaming',
       children: [
         {
-          name: 'appstreaming: ecs.s7-k',
-          value: 78,
-          color: '#9a97f7',
+          name: '路由表',
+          value: 127,
+          id: 'ascm.resourceType.route_table',
         },
         {
-          name: 'appstreaming: ecs.g7m-se-x25',
-          value: 1,
-          color: '#a6a3f7',
+          name: '专有网络VPC',
+          value: 127,
+          id: 'ascm.resourceType.vpc_instance',
         },
         {
-          name: 'appstreaming: ecs.s7-hg-k',
-          value: 2,
-          color: '#b6b4fa',
+          name: '交换机',
+          value: 119,
+          id: 'ascm.resourceType.vswitch_instance',
         },
         {
-          name: 'appstreaming: ecs.sn1ne',
-          value: 6,
-          color: '#c4c3fa',
+          name: '自定义DNS主备服务器',
+          value: 0,
+          id: 'ascm.resourceType.vpc_dhcp',
         },
         {
-          name: 'appstreaming: ecs.xn4',
-          value: 10,
-          color: '#d3d2fc',
+          name: '网络ACL',
+          value: 0,
+          id: 'ascm.resourceType.network_acl',
         },
         {
-          name: 'appstreaming: ecs.s6-hg-k',
-          value: 24,
-          color: '#e1e1fc',
-        },
-        {
-          name: 'appstreaming: ecs.n4',
-          value: 5,
-          color: '#f0f0ff',
-        },
-      ],
-      color: '#8A87F5',
-    },
-    {
-      name: 'bici',
-      children: [
-        {
-          name: 'bici: ecs.s7-k',
-          value: 1,
-          color: '#fac58c',
-        },
-        {
-          name: 'bici: ecs.s6-hg-k',
-          value: 2,
-          color: '#fce2c5',
-        },
-      ],
-      color: '#F7A854',
-    },
-    {
-      name: 'edas-test',
-      children: [
-        {
-          name: 'edas-test: ecs.s7-k',
-          value: 4,
-          color: '#ebd87c',
-        },
-        {
-          name: 'edas-test: ecs.g7m-se-x25',
-          value: 1,
-          color: '#eddd8e',
-        },
-        {
-          name: 'edas-test: ecs.n4v2',
-          value: 12,
-          color: '#f0e29e',
-        },
-        {
-          name: 'edas-test: ecs.sn1ne',
-          value: 18,
-          color: '#f2e7b1',
-        },
-        {
-          name: 'edas-test: ecs.s6-hg-k',
-          value: 7,
-          color: '#f7efc6',
-        },
-        {
-          name: 'edas-test: ecs.n4',
-          value: 4,
-          color: '#faf4d9',
-        },
-        {
-          name: 'edas-test: ecs.se1ne',
-          value: 13,
-          color: '#fcf9eb',
-        },
-      ],
-      color: '#E8D36B',
-    },
-    {
-      name: 'iaas_hot_upgrade_test',
-      children: [
-        {
-          name: 'iaas_hot_upgrade_test: ecs.s7-k',
-          value: 3,
-          color: '#dfabff',
-        },
-        {
-          name: 'iaas_hot_upgrade_test: ecs.g6x-ft-k10',
-          value: 7,
-          color: '#e9c7ff',
-        },
-        {
-          name: 'iaas_hot_upgrade_test: ecs.s6-hg-k',
+          name: '负载均衡',
           value: 21,
-          color: '#f4e3ff',
-        },
-      ],
-      color: '#D48FFF',
-    },
-    {
-      name: 'iaas_test',
-      children: [
-        {
-          name: 'iaas_test: ecs.s7-k',
-          value: 34,
-          color: '#94c447',
+          id: 'ascm.resourceType.slb_instance',
         },
         {
-          name: 'iaas_test: ecs.g7m-se-x25',
-          value: 23,
-          color: '#a5cf61',
-        },
-        {
-          name: 'iaas_test: ecs.xn4v2',
-          value: 4,
-          color: '#b5d97c',
-        },
-        {
-          name: 'iaas_test: ecs.sn1ne',
+          name: 'SLB访问控制',
           value: 1,
-          color: '#c5e099',
+          id: 'ascm.resourceType.slb_access_control',
         },
         {
-          name: 'iaas_test: ecs.xn4',
-          value: 13,
-          color: '#d8ebb9',
-        },
-        {
-          name: 'iaas_test: ecs.s6-hg-k',
-          value: 18,
-          color: '#ebf5da',
-        },
-      ],
-      color: '#85BA2F',
-    },
-    {
-      name: 'acktest',
-      children: [
-        {
-          name: 'acktest: ecs.gn5i',
-          value: 3,
-          color: '#8adce6',
-        },
-        {
-          name: 'acktest: ecs.s6-hg-k',
-          value: 3,
-          color: '#c2edf2',
-        },
-      ],
-      color: '#57CCD9',
-    },
-    {
-      name: 'autotest',
-      children: [
-        {
-          name: 'autotest: ecs.g7m-se-x25',
+          name: '服务器证书',
           value: 1,
-          color: '#9bd4e8',
+          id: 'ascm.resourceType.server_certificate',
+        },
+        {
+          name: 'CA证书',
+          value: 0,
+          id: 'ascm.resourceType.ca_certificate',
+        },
+        {
+          name: '路由器接口',
+          value: 6,
+          id: 'ascm.resourceType.router_interface',
+        },
+        {
+          name: '边界路由器',
+          value: 3,
+          id: 'ascm.resourceType.virtual_border_router',
+        },
+        {
+          name: '物理专线',
+          value: 2,
+          id: 'ascm.resourceType.physical_connection',
+        },
+        {
+          name: 'EIP 实例',
+          value: 3,
+          id: 'ascm.resourceType.eip_instance',
+        },
+        {
+          name: '租户内网域名',
+          value: 3,
+          id: 'ascm.resourceType.auth_zone',
+        },
+        {
+          name: '租户默认转发配置',
+          value: 0,
+          id: 'ascm.resourceType.user_default_forward',
+        },
+        {
+          name: '租户转发域名',
+          value: 0,
+          id: 'ascm.resourceType.forward_zone',
+        },
+        {
+          name: 'DNS 私有线路',
+          value: 0,
+          id: 'ascm.resourceType.dns_private_line',
+        },
+        {
+          name: 'NAT网关',
+          value: 0,
+          id: 'ascm.resourceType.nat_gateway',
+        },
+        {
+          name: 'IPv6网关',
+          value: 0,
+          id: 'ascm.resourceType.ipv6_gateway',
+        },
+        {
+          name: '高可用虚拟IP',
+          value: 0,
+          id: 'ascm.resourceType.vpc_havip',
+        },
+        {
+          name: '用户网关',
+          value: 0,
+          id: 'ascm.resourceType.customer_gateway',
+        },
+        {
+          name: 'SSL 服务端',
+          value: 0,
+          id: 'ascm.resourceType.ssl_vpn_server',
+        },
+        {
+          name: 'IPsec连接',
+          value: 0,
+          id: 'ascm.resourceType.vpn_connection',
+        },
+        {
+          name: 'VPN 网关',
+          value: 0,
+          id: 'ascm.resourceType.vpn_gateway',
+        },
+        {
+          name: 'SSL客户端',
+          value: 0,
+          id: 'ascm.resourceType.ssl_vpn_client_cert',
         },
       ],
-      color: '#49ADD1',
+      name: '网络',
+      id: 'Networking',
     },
     {
-      name: 'xingmeng',
       children: [
         {
-          name: 'xingmeng: ecs.d1',
-          value: 2,
-          color: '#e68aa0',
+          name: 'ECS实例',
+          value: 16,
+          id: 'ascm.resourceType.ecs_instance',
         },
         {
-          name: 'xingmeng: ecs.n4',
+          name: 'ECS 磁盘',
+          value: 16,
+          id: 'ascm.resourceType.disk',
+        },
+        {
+          name: 'ECS命令执行结果',
+          value: 71,
+          id: 'ascm.resourceType.ecs_order_result',
+        },
+        {
+          name: 'ECS-安全组',
+          value: 59,
+          id: 'ascm.resourceType.security_group',
+        },
+        {
+          name: '弹性网卡',
+          value: 16,
+          id: 'ascm.resourceType.network_interface',
+        },
+        {
+          name: '云盘快照链',
           value: 2,
-          color: '#f2c2ce',
+          id: 'ascm.resourceType.snapshot_links',
+        },
+        {
+          name: 'ECS快照 SNAPSHOT',
+          value: 2,
+          id: 'ascm.resourceType.snapshot',
+        },
+        {
+          name: '异步任务',
+          value: 2,
+          id: 'ascm.resourceType.ecs_task',
+        },
+        {
+          name: 'ECS 镜像',
+          value: 2,
+          id: 'ascm.resourceType.image',
+        },
+        {
+          name: '自动快照策略',
+          value: 0,
+          id: 'ascm.resourceType.auto_snapshot_policy',
+        },
+        {
+          name: '快照一致性组',
+          value: 0,
+          id: 'ascm.resourceType.ecs_snapshot_group',
+        },
+        {
+          name: '存储集',
+          value: 0,
+          id: 'ascm.resourceType.storage_set',
+        },
+        {
+          name: '安全组参数模板',
+          value: 0,
+          id: 'ascm.resourceType.security_group_param_template',
+        },
+        {
+          name: '部署集',
+          value: 0,
+          id: 'ascm.resourceType.deployment_set',
+        },
+        {
+          name: 'HPC集群',
+          value: 0,
+          id: 'ascm.resourceType.ecs_hpccluster',
+        },
+        {
+          name: '文件下发',
+          value: 0,
+          id: 'ascm.resourceType.ecs_file_send',
+        },
+        {
+          name: 'ECS-密钥对',
+          value: 0,
+          id: 'ascm.resourceType.keypair',
+        },
+        {
+          name: 'ECS命令',
+          value: 0,
+          id: 'ascm.resourceType.ecs_order',
+        },
+        {
+          name: 'ECS回收站',
+          value: 0,
+          id: 'ascm.resourceType.ecs_instance_recycle',
+        },
+        {
+          name: 'ACK集群',
+          value: 2,
+          id: 'ascm.resourceType.cluster',
+        },
+        {
+          name: 'ESS 定时任务',
+          value: 0,
+          id: 'ascm.resourceType.scheduled_task',
+        },
+        {
+          name: 'ESS 告警任务',
+          value: 0,
+          id: 'ascm.resourceType.alarm_task',
+        },
+        {
+          name: 'ESS 伸缩组',
+          value: 0,
+          id: 'ascm.resourceType.scaling_group',
+        },
+        {
+          name: '专线绑定',
+          value: 0,
+          id: 'ascm.resourceType.dedicated_line_binding',
+        },
+        {
+          name: '裸机实例',
+          value: 0,
+          id: 'ascm.resourceType.bms_instance',
+        },
+        {
+          name: '镜像仓库（专有云高级版）',
+          value: 0,
+          id: 'ascm.resourceType.cree_repo',
+        },
+        {
+          name: '命名空间（专有云高级版）',
+          value: 0,
+          id: 'ascm.resourceType.cree_namespace',
+        },
+        {
+          name: '专有宿主机 DDH',
+          value: 0,
+          id: 'ascm.resourceType.dedicated_host',
+        },
+        {
+          name: '专有宿主机集群 DDH',
+          value: 0,
+          id: 'ascm.resourceType.dedicated_host_cluster',
+        },
+        {
+          name: '镜像仓库',
+          value: 0,
+          id: 'ascm.resourceType.cr_repo',
+        },
+        {
+          name: '命名空间',
+          value: 0,
+          id: 'ascm.resourceType.cr_namespace',
         },
       ],
-      color: '#D95777',
+      name: '弹性计算',
+      id: 'ElasticComputing',
     },
     {
-      name: 'CloudNativeAutotest',
       children: [
         {
-          name: 'CloudNativeAutotest: ecs.mn4',
-          value: 10,
-          color: '#ffecb8',
+          name: '项目',
+          value: 61,
+          id: 'ascm.resourceType.odps_engine',
         },
         {
-          name: 'CloudNativeAutotest: ecs.n4v2',
-          value: 5,
-          color: '#ffefc2',
+          name: '配额组',
+          value: 26,
+          id: 'ascm.resourceType.cu',
         },
         {
-          name: 'CloudNativeAutotest: ecs.sn1ne',
+          name: 'DataHub项目',
+          value: 9,
+          id: 'ascm.resourceType.datahub_project',
+        },
+        {
+          name: 'Hologres实例',
           value: 7,
-          color: '#fff1cc',
+          id: 'ascm.resourceType.hologres_instance',
         },
         {
-          name: 'CloudNativeAutotest: ecs.xn4',
-          value: 8,
-          color: '#fff4d6',
-        },
-        {
-          name: 'CloudNativeAutotest: ecs.se1',
+          name: 'Elasticsearch on k8s实例',
           value: 1,
-          color: '#fff7e0',
+          id: 'ascm.resourceType.elasticsearchk8s_instance',
         },
         {
-          name: 'CloudNativeAutotest: ecs.s6-hg-k',
-          value: 2,
-          color: '#fffaeb',
-        },
-        {
-          name: 'CloudNativeAutotest: ecs.n4',
-          value: 11,
-          color: '#fffcf5',
+          name: '命名空间',
+          value: 0,
+          id: 'ascm.resourceType.namespace',
         },
       ],
-      color: '#FFE9AC',
+      name: '大数据',
+      id: 'DTplus',
     },
     {
-      name: 'CloudNativeUpgrade',
       children: [
         {
-          name: 'CloudNativeUpgrade: ecs.mn4',
-          value: 1,
-          color: '#bac1cf',
+          name: 'RDS 实例',
+          value: 9,
+          id: 'ascm.resourceType.rds_instance',
         },
         {
-          name: 'CloudNativeUpgrade: ecs.sn1ne',
-          value: 1,
-          color: '#ced3de',
+          name: 'RDS回收站',
+          value: 12,
+          id: 'ascm.resourceType.rds_instance_recycle',
         },
         {
-          name: 'CloudNativeUpgrade: ecs.se1',
-          value: 3,
-          color: '#e9ebf0',
+          name: '分析型数据库MySQL集群',
+          value: 1,
+          id: 'ascm.resourceType.adb_cluster',
+        },
+        {
+          name: '云数据库Redis实例',
+          value: 0,
+          id: 'ascm.resourceType.redis_instance',
+        },
+        {
+          name: 'PolarDB本地盘实例',
+          value: 0,
+          id: 'ascm.resourceType.polardb_instance',
+        },
+        {
+          name: 'PolarDB本地盘回收站实例',
+          value: 0,
+          id: 'ascm.resourceType.polardb_instance_recycle',
+        },
+        {
+          name: 'PolarDB集群',
+          value: 0,
+          id: 'ascm.resourceType.polardb_dbcluster',
         },
       ],
-      color: '#A4ACBD',
+      name: '数据库',
+      id: 'ApsaraDB',
     },
     {
-      name: 'aopdr',
       children: [
         {
-          name: 'aopdr: ecs.n4v2',
-          value: 1,
-          color: '#8ab7e6',
-        },
-      ],
-      color: '#297ACC',
-    },
-    {
-      name: 'arms-demo',
-      children: [
-        {
-          name: 'arms-demo: ecs.n4v2',
-          value: 1,
-          color: '#97deb9',
-        },
-      ],
-      color: '#43BF7E',
-    },
-    {
-      name: 'astbbigdata',
-      children: [
-        {
-          name: 'astbbigdata: ecs.n4v2',
-          value: 18,
-          color: '#a19ef7',
-        },
-        {
-          name: 'astbbigdata: ecs.xn4',
-          value: 1,
-          color: '#b8b6fa',
-        },
-        {
-          name: 'astbbigdata: ecs.se1',
-          value: 4,
-          color: '#cecdfa',
-        },
-        {
-          name: 'astbbigdata: ecs.s6-hg-k',
-          value: 2,
-          color: '#e6e6fc',
-        },
-      ],
-      color: '#8A87F5',
-    },
-    {
-      name: 'brandneworg',
-      children: [
-        {
-          name: 'brandneworg: ecs.n4v2',
-          value: 1,
-          color: '#fad2a7',
-        },
-      ],
-      color: '#F7A854',
-    },
-    {
-      name: 'dbs',
-      children: [
-        {
-          name: 'dbs: ecs.n4v2',
-          value: 1,
-          color: '#eddd8e',
-        },
-        {
-          name: 'dbs: ecs.gs6vv-kp-k10',
-          value: 1,
-          color: '#f2e7b1',
-        },
-        {
-          name: 'dbs: ecs.s6-hg-k',
-          value: 2,
-          color: '#faf4d9',
-        },
-      ],
-      color: '#E8D36B',
-    },
-    {
-      name: 'yundunluck',
-      children: [
-        {
-          name: 'yundunluck: ecs.n4v2',
-          value: 1,
-          color: '#dda6ff',
-        },
-        {
-          name: 'yundunluck: ecs.xn4',
-          value: 1,
-          color: '#e6bdff',
-        },
-        {
-          name: 'yundunluck: ecs.se1',
-          value: 1,
-          color: '#edd1ff',
-        },
-        {
-          name: 'yundunluck: ecs.s6-hg-k',
-          value: 1,
-          color: '#f6e8ff',
-        },
-      ],
-      color: '#D48FFF',
-    },
-    {
-      name: 'yundune2e',
-      children: [
-        {
-          name: 'yundune2e: ecs.g6x-ft-k10',
-          value: 4,
-          color: '#a9d169',
-        },
-        {
-          name: 'yundune2e: ecs.sn1ne',
-          value: 5,
-          color: '#d2e8ae',
-        },
-      ],
-      color: '#85BA2F',
-    },
-    {
-      name: 'gpu专项',
-      children: [
-        {
-          name: 'gpu专项: ecs.gs6vv-kp-k10',
-          value: 1,
-          color: '#a6e6ed',
-        },
-      ],
-      color: '#57CCD9',
-    },
-    {
-      name: 'hyh',
-      children: [
-        {
-          name: 'hyh: ecs.sn1ne',
-          value: 7,
-          color: '#70bfdb',
-        },
-        {
-          name: 'hyh: ecs.s6-hg-k',
-          value: 1,
-          color: '#9bd4e8',
-        },
-        {
-          name: 'hyh: ecs.n4',
-          value: 2,
-          color: '#cbe8f2',
-        },
-      ],
-      color: '#49ADD1',
-    },
-    {
-      name: 'QHH',
-      children: [
-        {
-          name: 'QHH: ecs.xn4',
-          value: 1,
-          color: '#e68aa0',
-        },
-        {
-          name: 'QHH: ecs.n4',
-          value: 1,
-          color: '#f2c2ce',
-        },
-      ],
-      color: '#D95777',
-    },
-    {
-      name: 'hsbc',
-      children: [
-        {
-          name: 'hsbc: ecs.xn4',
-          value: 2,
-          color: '#fff0c7',
-        },
-        {
-          name: 'hsbc: ecs.s6-hg-k',
-          value: 3,
-          color: '#fff8e3',
-        },
-      ],
-      color: '#FFE9AC',
-    },
-    {
-      name: 'sub-org-1',
-      children: [
-        {
-          name: 'sub-org-1: ecs.xn4',
-          value: 1,
-          color: '#ced3de',
-        },
-      ],
-      color: '#A4ACBD',
-    },
-    {
-      name: 'yanzhen',
-      children: [
-        {
-          name: 'yanzhen: ecs.xn4',
-          value: 2,
-          color: '#68a3de',
-        },
-        {
-          name: 'yanzhen: ecs.s6-hg-k',
-          value: 2,
-          color: '#adcded',
-        },
-      ],
-      color: '#297ACC',
-    },
-    {
-      name: 'ebs_test',
-      children: [
-        {
-          name: 'ebs_test: ecs.i7x-4x4t-hg-k10',
-          value: 1,
-          color: '#97deb9',
-        },
-      ],
-      color: '#43BF7E',
-    },
-    {
-      name: 'cm-test',
-      children: [
-        {
-          name: 'cm-test: ecs.s6-hg-k',
-          value: 2,
-          color: '#c4c3fa',
-        },
-      ],
-      color: '#8A87F5',
-    },
-    {
-      name: 'csb',
-      children: [
-        {
-          name: 'csb: ecs.s6-hg-k',
-          value: 1,
-          color: '#fad2a7',
-        },
-      ],
-      color: '#F7A854',
-    },
-    {
-      name: 'gts',
-      children: [
-        {
-          name: 'gts: ecs.s6-hg-k',
-          value: 1,
-          color: '#eddd8e',
-        },
-        {
-          name: 'gts: ecs.se1ne',
-          value: 1,
-          color: '#f2e7b1',
-        },
-        {
-          name: 'gts: ecs.gn7em-k10',
-          value: 1,
-          color: '#faf4d9',
-        },
-      ],
-      color: '#E8D36B',
-    },
-    {
-      name: 'hzg_test',
-      children: [
-        {
-          name: 'hzg_test: ecs.s6-hg-k',
-          value: 3,
-          color: '#e9c7ff',
-        },
-      ],
-      color: '#D48FFF',
-    },
-    {
-      name: 'ning20240419',
-      children: [
-        {
-          name: 'ning20240419: ecs.s6-hg-k',
-          value: 1,
-          color: '#bcdb8a',
-        },
-      ],
-      color: '#85BA2F',
-    },
-    {
-      name: 'shys',
-      children: [
-        {
-          name: 'shys: ecs.s6-hg-k',
-          value: 1,
-          color: '#a6e6ed',
-        },
-      ],
-      color: '#57CCD9',
-    },
-    {
-      name: 'slb-e2e',
-      children: [
-        {
-          name: 'slb-e2e: ecs.s6-hg-k',
+          name: 'OSS 实例',
           value: 10,
-          color: '#9bd4e8',
+          id: 'ascm.resourceType.oss_instance',
+        },
+        {
+          name: 'Single Tunnel',
+          value: 0,
+          id: 'ascm.resourceType.oss_single_tunnel',
+        },
+        {
+          name: '日志服务项目',
+          value: 1,
+          id: 'ascm.resourceType.sls_product',
         },
       ],
-      color: '#49ADD1',
+      name: '存储',
+      id: 'Storage',
     },
     {
-      name: 'wyk',
       children: [
         {
-          name: 'wyk: ecs.s6-hg-k',
-          value: 1,
-          color: '#eda6b8',
+          name: '集群列表',
+          value: 4,
+          id: 'ascm.resourceType.edas_cluster',
+        },
+        {
+          name: '分布式应用服务 EDAS',
+          value: 3,
+          id: 'ascm.resourceType.edas_application',
+        },
+        {
+          name: 'Kafka实例',
+          value: 2,
+          id: 'ascm.resourceType.kafka_instance',
+        },
+        {
+          name: '云原生网关 COP 实例',
+          value: 0,
+          id: 'ascm.resourceType.cop_instance',
         },
       ],
-      color: '#D95777',
+      name: '中间件',
+      id: 'Middleware',
     },
     {
-      name: 'yhw-test',
       children: [
         {
-          name: 'yhw-test: ecs.s6-hg-k',
-          value: 1,
-          color: '#fff4d6',
+          name: '密钥',
+          value: 4,
+          id: 'ascm.resourceType.kms_instance',
         },
       ],
-      color: '#FFE9AC',
+      name: '安全',
+      id: 'Security',
     },
     {
-      name: '交通银行',
       children: [
         {
-          name: '交通银行: ecs.s6-hg-k',
+          name: '模型在线服务',
           value: 1,
-          color: '#ced3de',
+          id: 'ascm.resourceType.service',
+        },
+        {
+          name: '资源组',
+          value: 0,
+          id: 'ascm.resourceType.pai_resource_group',
+        },
+        {
+          name: 'AI工作空间',
+          value: 0,
+          id: 'ascm.resourceType.workspace',
         },
       ],
-      color: '#A4ACBD',
+      name: '人工智能与机器学习',
+      id: 'AIMachineLearning',
+    },
+    {
+      children: [
+        {
+          name: '演练计划 / 灾难恢复计划',
+          value: 0,
+          id: 'ascm.resourceType.recoveryPlan',
+        },
+        {
+          name: '保护组',
+          value: 0,
+          id: 'ascm.resourceType.protectionGroup',
+        },
+        {
+          name: '演练记录 / 灾难恢复记录',
+          value: 0,
+          id: 'ascm.resourceType.process',
+        },
+      ],
+      name: '容灾',
+      id: 'DisasterRecovery',
+    },
+    {
+      children: [
+        {
+          name: '报警规则',
+          value: 0,
+          id: 'ascm.resourceType.metric_rule',
+        },
+        {
+          name: 'CMS告警模版',
+          value: 0,
+          id: 'ascm.resourceType.metric_rule_template',
+        },
+        {
+          name: '应用分组',
+          value: 0,
+          id: 'ascm.resourceType.app_group',
+        },
+        {
+          name: '迁移源',
+          value: 0,
+          id: 'ascm.resourceType.sourceserver',
+        },
+        {
+          name: '迁移计划',
+          value: 0,
+          id: 'ascm.resourceType.migration_group',
+        },
+        {
+          name: '跨平台应用扫描',
+          value: 0,
+          id: 'ascm.resourceType.porting_task',
+        },
+        {
+          name: 'VMware 数据源',
+          value: 0,
+          id: 'ascm.resourceType.vmware_source',
+        },
+        {
+          name: '迁云网关',
+          value: 0,
+          id: 'ascm.resourceType.migration_gateway',
+        },
+        {
+          name: '调研任务',
+          value: 0,
+          id: 'ascm.resourceType.survey_job',
+        },
+        {
+          name: '调度组',
+          value: 0,
+          id: 'ascm.resourceType.dispatch_group',
+        },
+      ],
+      name: '迁移与运维管理',
+      id: 'MigrationManagement',
+    },
+    {
+      children: [
+        {
+          name: 'IaC任务',
+          value: 0,
+          id: 'ascm.resourceType.iac_task',
+        },
+        {
+          name: 'IaC模板',
+          value: 0,
+          id: 'ascm.resourceType.iac_module',
+        },
+      ],
+      name: '应用服务',
+      id: 'ApplicationServices',
     },
   ],
 };
 
 const stories = storiesOf('WmultiPie', module);
 stories.add('多重饼图', () => (
-  <div style={{ display: 'flex' }}>
-    <div style={{ width: '33.33%' }}>
-      {/* <Wcontainer className="demos">
-        <WmultiPie height="300" config={{
-          // legend: {
-          //   dodge: true,
-          //   showData: true
-          // },
-          cycle: true,
-          // innerContent: true
-        }} data={translateTree(multiPieData)} />
-      </Wcontainer> */}
-    </div>
-    {/* <div style={{ width: '33.33%' }}>
-      <Wcontainer className="demos">
-        <WmultiPie height="300" config={{
-          tooltip: {
-            valueFormatter(n, ...args) {
-              console.log(args);
-              return n;
-            }
-          }
-        }} data={multiPieData2} />
-      </Wcontainer>
-    </div> */}
-    <div
-      style={{
-        width: '50%',
+  <Wcontainer className="demos">
+    <WmultiPie
+      height="300"
+      config={{
+        cycle: true,
+        legend: {
+          // "foldable": true,
+          table: {
+            // "statistics": [
+            //   "min"
+            // ]
+          },
+          unit: '¥',
+          needUnitTransform: true,
+          valueType: 'money',
+          decimal: 3,
+        },
+        // colors: ["#29236d", "#392b9c", "#5139dd"]
       }}
-    >
-      <Wcontainer className="demos">
-        <WmultiPie
-          height="300"
-          config={{
-            cycle: true,
-            legend: {
-            //   dodge: true,
-              table: {
-                statistics: ['current']
+      data={{
+        name: 'root',
+        id: 'dashboard-instance-distribution-root',
+        value: 0,
+        children: [
+          {
+            children: [
+              {
+                name: '网络ACL',
+                value: 7009,
+                id: 'ascm.resourceType.network_acl',
               },
-            //   showData: true,
-            },
-            showSpacing: false,
-            // colors: ["#29236d", "#392b9c", "#5139dd"]
-          }}
-          data={translateTree(data)}
-        />
-      </Wcontainer>
-    </div>
-  </div>
+              {
+                name: '专有网络VPC',
+                value: 4086,
+                id: 'ascm.resourceType.vpc_instance',
+              },
+              {
+                name: '路由表',
+                value: 4085,
+                id: 'ascm.resourceType.route_table',
+              },
+              {
+                name: '交换机',
+                value: 467,
+                id: 'ascm.resourceType.vswitch_instance',
+              },
+              {
+                name: '自定义DNS主备服务器',
+                value: 9,
+                id: 'ascm.resourceType.vpc_dhcp',
+              },
+              {
+                name: '负载均衡',
+                value: 984,
+                id: 'ascm.resourceType.slb_instance',
+              },
+              {
+                name: 'SLB访问控制',
+                value: 6,
+                id: 'ascm.resourceType.slb_access_control',
+              },
+              {
+                name: '服务器证书',
+                value: 2,
+                id: 'ascm.resourceType.server_certificate',
+              },
+              {
+                name: 'CA证书',
+                value: 2,
+                id: 'ascm.resourceType.ca_certificate',
+              },
+              {
+                name: 'EIP 实例',
+                value: 73,
+                id: 'ascm.resourceType.eip_instance',
+              },
+              {
+                name: '路由器接口',
+                value: 69,
+                id: 'ascm.resourceType.router_interface',
+              },
+              {
+                name: '边界路由器',
+                value: 0,
+                id: 'ascm.resourceType.virtual_border_router',
+              },
+              {
+                name: '物理专线',
+                value: 0,
+                id: 'ascm.resourceType.physical_connection',
+              },
+              {
+                name: 'IPv6网关',
+                value: 13,
+                id: 'ascm.resourceType.ipv6_gateway',
+              },
+              {
+                name: '高可用虚拟IP',
+                value: 13,
+                id: 'ascm.resourceType.vpc_havip',
+              },
+              {
+                name: 'NAT网关',
+                value: 11,
+                id: 'ascm.resourceType.nat_gateway',
+              },
+              {
+                name: '租户内网域名',
+                value: 6,
+                id: 'ascm.resourceType.auth_zone',
+              },
+              {
+                name: 'DNS 私有线路',
+                value: 2,
+                id: 'ascm.resourceType.dns_private_line',
+              },
+              {
+                name: '租户默认转发配置',
+                value: 1,
+                id: 'ascm.resourceType.user_default_forward',
+              },
+              {
+                name: '租户转发域名',
+                value: 1,
+                id: 'ascm.resourceType.forward_zone',
+              },
+              {
+                name: '用户网关',
+                value: 4,
+                id: 'ascm.resourceType.customer_gateway',
+              },
+              {
+                name: 'SSL 服务端',
+                value: 0,
+                id: 'ascm.resourceType.ssl_vpn_server',
+              },
+              {
+                name: 'IPsec连接',
+                value: 0,
+                id: 'ascm.resourceType.vpn_connection',
+              },
+              {
+                name: 'VPN 网关',
+                value: 0,
+                id: 'ascm.resourceType.vpn_gateway',
+              },
+              {
+                name: 'SSL客户端',
+                value: 0,
+                id: 'ascm.resourceType.ssl_vpn_client_cert',
+              },
+            ],
+            name: '网络',
+            id: 'Networking',
+          },
+          {
+            children: [
+              {
+                name: 'ECS实例',
+                value: 413,
+                id: 'ascm.resourceType.ecs_instance',
+              },
+              {
+                name: 'ECS 磁盘',
+                value: 563,
+                id: 'ascm.resourceType.disk',
+              },
+              {
+                name: 'ECS快照 SNAPSHOT',
+                value: 501,
+                id: 'ascm.resourceType.snapshot',
+              },
+              {
+                name: 'ECS命令执行结果',
+                value: 487,
+                id: 'ascm.resourceType.ecs_order_result',
+              },
+              {
+                name: '云盘快照链',
+                value: 446,
+                id: 'ascm.resourceType.snapshot_links',
+              },
+              {
+                name: '弹性网卡',
+                value: 423,
+                id: 'ascm.resourceType.network_interface',
+              },
+              {
+                name: 'ECS-安全组',
+                value: 241,
+                id: 'ascm.resourceType.security_group',
+              },
+              {
+                name: 'ECS 镜像',
+                value: 116,
+                id: 'ascm.resourceType.image',
+              },
+              {
+                name: '异步任务',
+                value: 30,
+                id: 'ascm.resourceType.ecs_task',
+              },
+              {
+                name: '部署集',
+                value: 28,
+                id: 'ascm.resourceType.deployment_set',
+              },
+              {
+                name: 'ECS-密钥对',
+                value: 11,
+                id: 'ascm.resourceType.keypair',
+              },
+              {
+                name: '快照一致性组',
+                value: 8,
+                id: 'ascm.resourceType.ecs_snapshot_group',
+              },
+              {
+                name: 'ECS命令',
+                value: 8,
+                id: 'ascm.resourceType.ecs_order',
+              },
+              {
+                name: '存储集',
+                value: 5,
+                id: 'ascm.resourceType.storage_set',
+              },
+              {
+                name: '自动快照策略',
+                value: 1,
+                id: 'ascm.resourceType.auto_snapshot_policy',
+              },
+              {
+                name: '文件下发',
+                value: 1,
+                id: 'ascm.resourceType.ecs_file_send',
+              },
+              {
+                name: 'HPC集群',
+                value: 0,
+                id: 'ascm.resourceType.ecs_hpccluster',
+              },
+              {
+                name: 'ECS回收站',
+                value: 0,
+                id: 'ascm.resourceType.ecs_instance_recycle',
+              },
+              {
+                name: 'ESS 伸缩组',
+                value: 31,
+                id: 'ascm.resourceType.scaling_group',
+              },
+              {
+                name: 'ESS 定时任务',
+                value: 2,
+                id: 'ascm.resourceType.scheduled_task',
+              },
+              {
+                name: 'ESS 告警任务',
+                value: 0,
+                id: 'ascm.resourceType.alarm_task',
+              },
+              {
+                name: '命名空间（专有云高级版）',
+                value: 2,
+                id: 'ascm.resourceType.cree_namespace',
+              },
+              {
+                name: '镜像仓库（专有云高级版）',
+                value: 1,
+                id: 'ascm.resourceType.cree_repo',
+              },
+              {
+                name: '专有宿主机集群 DDH',
+                value: 2,
+                id: 'ascm.resourceType.dedicated_host_cluster',
+              },
+              {
+                name: '专有宿主机 DDH',
+                value: 1,
+                id: 'ascm.resourceType.dedicated_host',
+              },
+              {
+                name: '弹性高性能计算 E-HPC 集群',
+                value: 3,
+                id: 'ascm.resourceType.ehpc_cluster',
+              },
+              {
+                name: '裸金属-智算算力集群',
+                value: 1,
+                id: 'ascm.resourceType.bmscluster',
+              },
+              {
+                name: 'BMCP-密钥对',
+                value: 1,
+                id: 'ascm.resourceType.bmcp_keypair',
+              },
+              {
+                name: '性能评测',
+                value: 0,
+                id: 'ascm.resourceType.bmcp_evaluation_task',
+              },
+              {
+                name: 'BMCP实例',
+                value: 0,
+                id: 'ascm.resourceType.bmcp_instance',
+              },
+              {
+                name: '容器-智算算力集群',
+                value: 0,
+                id: 'ascm.resourceType.ackcluster',
+              },
+              {
+                name: '裸金属-超算算力集群',
+                value: 0,
+                id: 'ascm.resourceType.ehpccluster',
+              },
+              {
+                name: 'BMCP-安全组',
+                value: 0,
+                id: 'ascm.resourceType.bmcp_security_group',
+              },
+              {
+                name: 'EVPC',
+                value: 0,
+                id: 'ascm.resourceType.evpc_instance',
+              },
+              {
+                name: 'ACK集群',
+                value: 2,
+                id: 'ascm.resourceType.cluster',
+              },
+              {
+                name: '专线绑定',
+                value: 0,
+                id: 'ascm.resourceType.dedicated_line_binding',
+              },
+              {
+                name: '裸机实例',
+                value: 0,
+                id: 'ascm.resourceType.bms_instance',
+              },
+              {
+                name: '镜像仓库',
+                value: 0,
+                id: 'ascm.resourceType.cr_repo',
+              },
+              {
+                name: '命名空间',
+                value: 0,
+                id: 'ascm.resourceType.cr_namespace',
+              },
+            ],
+            name: '弹性计算',
+            id: 'ElasticComputing',
+          },
+          {
+            children: [
+              {
+                name: 'IaC模板',
+                value: 423,
+                id: 'ascm.resourceType.iac_module',
+              },
+              {
+                name: 'IaC任务',
+                value: 330,
+                id: 'ascm.resourceType.iac_task',
+              },
+            ],
+            name: '应用服务',
+            id: 'ApplicationServices',
+          },
+        ],
+      }}
+    />
+  </Wcontainer>
 ));
 
 stories.add('多重环图', () => (
@@ -819,15 +979,9 @@ stories.add('多重环图', () => (
           height="300"
           config={{
             cycle: true,
-            // legend: {
-            //   table: true,
-            //   //   dodge: true,
-            // },
-            // autoSort: false,
-            // reverse: true,
             autoFormat: true,
           }}
-          data={multiPieData}
+          data={data}
         />
       </Wcontainer>
     </div>

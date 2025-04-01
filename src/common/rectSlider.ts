@@ -107,13 +107,13 @@ export default function (chart: Chart, config: SliderConfig) {
           index,
         });
       }
-      return numberDecimal(el.y) ?? [];
+      return numberDecimal(el.y) ?? null;
     });
 
   // 对数据进行采样，尽量保留噪声数据
   // 宽高有误差，实际需要减去间距
   const { width: viewWidth } = chart?.coordinateBBox;
-  // 获取轴最大文本长度
+  // 获取Y轴最大文本长度
   const maxTextLength = calcTextWidth(maxValue?.toString());
   const adjustDistance = viewWidth > maxTextLength ? maxTextLength : 0;
   const adjustWidth = viewWidth - adjustDistance;
@@ -155,6 +155,7 @@ export default function (chart: Chart, config: SliderConfig) {
   const sampledData = sampleDataWithNoise(filterDataArray, _sampleRate);
   // console.log(viewData, filterDataArray, sampledData)
 
+  // 如果有NULL值，G2的slider会默认相连
   const sliderConfig = merge(defaultConfig, other, {
     trendCfg: {
       data: sampledData,

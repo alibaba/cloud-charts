@@ -379,69 +379,6 @@ export function filterKey(obj: Types.LooseObject, keys: string[]) {
   return result;
 }
 
-/**
- * 处理图表库中的默认padding值的通用函数
- *
- * @param {padding} padding 用户配置的padding值
- * @param {object} config 合并了默认配置后的最终配置项
- * 以下参数非必选
- * @param {number} [defaultTop] 默认top padding
- * @param {number} [defaultRight] 默认right padding
- * @param {number} [defaultBottom] 默认bottom padding
- * @param {number} [defaultLeft] 默认left padding
- *
- * @return
- * */
-// export function defaultPadding(padding, config, defaultTop, defaultRight, defaultBottom, defaultLeft) {
-//   if (padding) {
-//     return padding;
-//   }
-//
-//   // 取默认配置中的padding
-//   let top = defaultTop;
-//   let right = defaultRight;
-//   let bottom = defaultBottom;
-//   let left = defaultLeft;
-//
-//   if (right !== 'auto' && Array.isArray(config.yAxis)) {
-//     right = 45;
-//   }
-//
-//   if (top !== 'auto' && (config.legend === false || (config.legend && config.legend.visible === false))) {
-//     top = 16;
-//   }
-//   if (config.legend !== false && !(config.legend && config.legend.visible === false)) {
-//     const { position = 'top' } = config.legend || {};
-//     if (top !== 'auto' && position === 'bottom') {
-//       top = 10;
-//     }
-//     if (position === 'bottom') {
-//       bottom = 48;
-//     }
-//   }
-//
-//   // X轴标题
-//   if (config.xAxis && config.xAxis.visible !== false && config.xAxis.alias && bottom !== 'auto') {
-//     bottom += 14;
-//   }
-//
-//   // Y轴标题
-//   if (Array.isArray(config.yAxis)) {
-//     config.yAxis.forEach((axis, yIndex) => {
-//       if (yIndex === 0 && axis && axis.visible !== false && axis.alias && left !== 'auto') {
-//         left += 20;
-//       }
-//       if (yIndex !== 0 && axis && axis.visible !== false && axis.alias && right !== 'auto') {
-//         right += 20;
-//       }
-//     });
-//   } else if (config.yAxis && config.yAxis.visible !== false && config.yAxis.alias && left !== 'auto') {
-//     left += 20;
-//   }
-//
-//   return [top, right, bottom, left];
-// }
-
 // 内置模糊匹配
 
 // 统一存储单位显示
@@ -1015,7 +952,7 @@ export function containsChinese(str: string) {
 }
 
 // 均值采样函数
-export function sampleDataWithNoise(chartData: number[], sampleRate: number = 0.5): number[] {
+export function sampleDataWithNoise(chartData: number[], sampleRate: number = 0.5, options?: any): number[] {
   /**
    *  输入的数字数组
    * sampleRate: 采样率，取值范围为 (0, 1]
@@ -1057,6 +994,7 @@ export function sampleDataWithNoise(chartData: number[], sampleRate: number = 0.
     }
 
     // 根据采样率采样剩余数据
+    // 保留起始点和结束点
     for (let i = 0; i < chartData.length; i++) {
       if (!includedNoise.has(i)) {
         if (Math.random() < sampleRate) {
@@ -1225,4 +1163,53 @@ export function getFormatConfig(config: any) {
   }
 
   return formatConfig;
+}
+
+type DataPoint = [number, number | null];
+type InputSeries = { name: string; data: [number, number][] };
+type OutputSeries = { name: string; data: DataPoint[] };
+
+/**
+ * fillMissingTimestamps 数据补齐功能
+ */
+export function fillMissingTimestamps(
+  input: InputSeries[],
+  fillValue: null | 0 = null,
+  tickInterval?: number,
+): OutputSeries[] {
+  // 收集所有时间戳并计算最小间隔
+  const allTimestamps = input.flatMap(series => series.data.map(d => d[0]));
+  const sortedTimestamps = [...new Set(allTimestamps)].sort((a, b) => a - b);
+  
+  // 计算最小时间间隔
+  let minInterval = Infinity;
+  if (tickInterval) {
+    minInterval = tickInterval;
+  } else {
+    for (let i = 1; i < sortedTimestamps.length; i++) {
+      const interval = sortedTimestamps[i] - sortedTimestamps[i - 1];
+      minInterval = Math.min(minInterval, interval);
+    }
+  }
+
+
+  // 生成完整时间序列
+  const start = Math.min(...sortedTimestamps);
+  const end = Math.max(...sortedTimestamps);
+  const completeTimestamps: number[] = [];
+  for (let t = start; t <= end; t += minInterval || 1) {
+    completeTimestamps.push(t);
+  }
+
+  // 填充缺失数据
+  return input.map(series => {
+    const valueMap = new Map(series.data.map(([t, v]) => [t, v]));
+    return {
+      name: series.name,
+      data: completeTimestamps.map(t => [
+        t,
+        valueMap.get(t) ?? fillValue
+      ]) as DataPoint[]
+    };
+  });
 }
