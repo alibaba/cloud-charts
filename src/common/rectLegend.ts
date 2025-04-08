@@ -219,7 +219,10 @@ export default function <T>(
     config.legend === false ||
     (config.legend && typeof config.legend !== 'boolean' && config.legend.visible === false)
   ) {
-    chart.legend(false);
+    chart.legend({
+      ...defaultConfig,
+      visible: false,
+    });
   } else {
     const {
       // 自动折叠图例
