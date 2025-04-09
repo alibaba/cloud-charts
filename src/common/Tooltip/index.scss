@@ -14,7 +14,6 @@ $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
   z-index: 1001;
   background-color: $tooltip-bg-color;
   max-width: 500px;
-  transform: translate(-50%, 20px);
 
   #{$prefix}-arrow {
     display: block;
@@ -26,15 +25,30 @@ $label-color: getVar(widgets-color-text-2, $widgets-color-text-2);
     pointer-events: none;
   }
 
+  #{$prefix}-arrow-bottom {
+    top: -16px;
+  }
+
+  #{$prefix}-arrow-top {
+    top: 100%;
+  }
+
   #{$prefix}-arrow-content {
     margin: 4px;
     content: '';
     width: 8px;
     height: 8px;
-    transform: translateY(8px) rotate(45deg);
     border: 1px solid $tooltip-border-color;
     background-color: $tooltip-bg-color;
     pointer-events: none;
+  }
+
+  #{$prefix}-arrow-content-bottom {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  #{$prefix}-arrow-content-top {
+    transform: translateY(-8px) rotate(-45deg);
   }
 
   #{$prefix}-content {

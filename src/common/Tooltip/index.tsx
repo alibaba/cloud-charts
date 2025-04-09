@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useState, forwardRef } from 'react';
+import React, { MutableRefObject, useEffect, useState, forwardRef, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { PrefixName, FullCrossName } from '../../constants';
 import './index.scss';
@@ -11,84 +11,88 @@ export interface WidgetsTooltipProps {
 
   /** 位置偏移量 */
   offset?: { x?: number; y?: number };
+
+  /** 位置，默认下方，当靠近页面边缘时会自适应*/
+  position?: 'top' | 'bottom';
 }
 
 /** 监听文字，过长省略时显示tooltip */
-const WidgetsTooltip = forwardRef(({ content, offset }: WidgetsTooltipProps, ref: MutableRefObject<HTMLDivElement>) => {
-  // 是否hover在label上
-  const [visible, setVisible] = useState<boolean>(false);
+const WidgetsTooltip = forwardRef(
+  ({ content, offset, position = 'bottom' }: WidgetsTooltipProps, ref: MutableRefObject<HTMLDivElement>) => {
+    // 是否hover在label上
+    const [visible, setVisible] = useState<boolean>(false);
 
-  // label是否超过宽度，需要使用tooltip
-  const [showTooltip, setShowTooltip] = useState<boolean>(false);
+    // label是否超过宽度，需要使用tooltip
+    const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
-  // 判断label是否超过宽度
-  useEffect(() => {
-    setShowTooltip(ref?.current?.offsetWidth <= ref?.current?.scrollWidth);
-  }, [ref?.current?.offsetWidth, ref?.current?.scrollWidth]);
+    // 判断label是否超过宽度
+    useEffect(() => {
+      setShowTooltip(ref?.current?.offsetWidth < ref?.current?.scrollWidth);
+    }, [ref?.current?.offsetWidth, ref?.current?.scrollWidth]);
 
-  useEffect(() => {
-    if (!ref?.current) {
-      return;
-    }
-
-    const handleMouseEnter = () => {
-      if (showTooltip) {
-        setVisible(true);
+    useEffect(() => {
+      if (!ref?.current) {
+        return;
       }
-    };
 
-    const handleMouseLeave = () => {
-      setVisible(false);
-    };
+      const handleMouseEnter = () => {
+        if (showTooltip) {
+          setVisible(true);
+        }
+      };
 
-    ref?.current?.addEventListener('mouseenter', handleMouseEnter);
-    ref?.current?.addEventListener('mouseleave', handleMouseLeave);
+      const handleMouseLeave = () => {
+        setVisible(false);
+      };
 
-    return () => {
-      ref?.current?.removeEventListener('mouseenter', handleMouseEnter);
-      ref?.current?.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, [ref?.current, showTooltip]);
+      ref?.current?.addEventListener('mouseenter', handleMouseEnter);
+      ref?.current?.addEventListener('mouseleave', handleMouseLeave);
 
-  // 计算位置
-  const pos = { x: 0, y: 0 };
-  // let curElement = ref.current;
-  // while (curElement && curElement !== document.body) {
-  //   pos.x += curElement.offsetLeft;
-  //   pos.y += curElement.offsetTop;
-  //   curElement = curElement.offsetParent as HTMLDivElement;
-  // }
+      return () => {
+        ref?.current?.removeEventListener('mouseenter', handleMouseEnter);
+        ref?.current?.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }, [ref?.current, showTooltip]);
 
-  // 减去scroll的宽高
-  // let curElement = ref.current;
-  // while (curElement && curElement !== document.body) {
-  //   pos.x -= curElement.scrollLeft;
-  //   pos.y -= curElement.scrollTop;
-  //   curElement = curElement.parentElement as HTMLDivElement;
-  // }
+    // 计算位置
+    const pos = { x: 0, y: 0 };
 
-  const rect = ref.current?.getBoundingClientRect();
-  pos.x = (rect?.left ?? 0) + document.documentElement.scrollLeft;
-  pos.y = (rect?.top ?? 0) + document.documentElement.scrollTop;
+    const rect = ref.current?.getBoundingClientRect();
+    pos.x = (rect?.left ?? 0) + document?.documentElement?.scrollLeft;
+    pos.y = (rect?.top ?? 0) + document.documentElement.scrollTop;
 
-  return ReactDOM.createPortal(
-    visible && (
-      <div
-        className={`${FullCrossName} ${prefix}-container`}
-        style={{
-          position: 'absolute',
-          top: pos.y + (offset?.y || 0),
-          left: pos.x + ref.current?.offsetWidth / 2 + (offset?.x || 0),
-        }}
-      >
-        <div className={`${prefix}-arrow`} style={{ position: 'absolute' }}>
-          <div className={`${prefix}-arrow-content`} style={{ position: 'absolute' }} />
+    pos.x += (ref.current?.offsetWidth ?? 0) / 2;
+
+    return ReactDOM.createPortal(
+      visible && (
+        <div
+          className={`${FullCrossName} ${prefix}-container`}
+          style={{
+            position: 'absolute',
+            top: pos.y + (offset?.y || 0) + (position === 'bottom' ? 20 : -10),
+            left: pos.x + (offset?.x || 0),
+            transform: position === 'bottom' ? 'translate(-50%, 0)' : 'translate(-50%, -100%)',
+          }}
+        >
+          {position === 'bottom' && (
+            <div className={`${prefix}-arrow ${prefix}-arrow-bottom`} style={{ position: 'absolute' }}>
+              <div
+                className={`${prefix}-arrow-content ${prefix}-arrow-content-bottom`}
+                style={{ position: 'absolute' }}
+              />
+            </div>
+          )}
+          <div className={`${prefix}-content`}>{content || ''}</div>
+          {position === 'top' && (
+            <div className={`${prefix}-arrow ${prefix}-arrow-top`} style={{ position: 'absolute' }}>
+              <div className={`${prefix}-arrow-content ${prefix}-arrow-content-top`} style={{ position: 'absolute' }} />
+            </div>
+          )}
         </div>
-        <div className={`${prefix}-content`}>{content || ''}</div>
-      </div>
-    ),
-    document.body,
-  );
-});
+      ),
+      document.body,
+    );
+  },
+);
 
 export default WidgetsTooltip;

@@ -323,7 +323,7 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
               <div className={`${prefix}-item-label`} ref={labelRef} style={labelStyle || {}}>
                 {label || ''}
               </div>
-              <WidgetsTooltip ref={labelRef} content={label || ''} />
+              <WidgetsTooltip ref={labelRef} content={label || ''} position="top" />
               {labelTagElements?.length > 0 && <div className={`${prefix}-tag-container`}>{labelTagElements}</div>}
             </div>
             {extra && React.isValidElement(extra) && (
