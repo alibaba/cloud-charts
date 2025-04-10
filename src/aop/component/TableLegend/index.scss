@@ -6,7 +6,7 @@ $text-size: getVar(widgets-font-size-1, $widgets-font-size-1);
 $font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
 $title-text-color: getVar(widgets-legend-text-normal, $widgets-legend-text-normal);
 
-$scrollbar-thumb-color: getVar(widgets-axis-line, $widgets-axis-line);
+$scrollbar-thumb-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
 $scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
 
 #{$prefix}container {

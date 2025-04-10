@@ -1,6 +1,5 @@
 import React from 'react';
 import { PrefixName } from '../../../constants';
-import { Types } from '../../../common/types';
 import './index.scss';
 
 const Prefix = `${PrefixName}-free-tooltip-`;

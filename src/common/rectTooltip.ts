@@ -140,6 +140,7 @@ export default function <T>(
       customContent,
       // @ts-ignore
       customTooltip,
+      lockable,
     };
 
     if (titleFormatter) {

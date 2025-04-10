@@ -316,26 +316,8 @@ stories.add('自定义tooltip(饼图)', () => (
       height="300"
       config={{
         tooltip: {
-          customTooltip: (title, data) => {
-            return (
-              <div
-                style={{
-                  background: '#fff',
-                  cursor: 'default',
-                  padding: 20,
-                  border: '1px solid #ccc',
-                  width: 200,
-                }}
-              >
-                <div>{title}</div>
-                <div>
-                  {data.map((item) => {
-                    return <div key={item.name}>{`${item.name}: ${item.value}`}</div>;
-                  })}
-                </div>
-              </div>
-            );
-          },
+          customTooltip: true,
+          lockable: true,
         },
       }}
       data={pieData}
@@ -378,9 +360,9 @@ for (let i = 0; i < 25; i++) {
 }
 
 stories.add('自定义tooltip（锁定）', () => (
-  <div style={{ width: 500, height: 300 }}>
+  <div style={{ width: 800, height: 600 }}>
     <Wline
-      height="300"
+      height="600"
       config={{
         tooltip: {
           customTooltip: true,
