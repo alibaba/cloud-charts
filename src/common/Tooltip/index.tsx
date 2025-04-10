@@ -1,6 +1,7 @@
-import React, { MutableRefObject, useEffect, useState, forwardRef, useRef } from 'react';
+import React, { MutableRefObject, useEffect, useState, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 import { PrefixName, FullCrossName } from '../../constants';
+import { calcTextWidth } from '../ellipsisLabel';
 import './index.scss';
 
 const prefix = `${PrefixName}-tooltip`;
@@ -27,8 +28,14 @@ const WidgetsTooltip = forwardRef(
 
     // 判断label是否超过宽度
     useEffect(() => {
-      setShowTooltip(ref?.current?.offsetWidth < ref?.current?.scrollWidth);
-    }, [ref?.current?.offsetWidth, ref?.current?.scrollWidth]);
+      if (typeof content === 'string') {
+        // 计算宽度
+        const textWidth = calcTextWidth(content);
+        setShowTooltip(textWidth > ref.current?.offsetWidth);
+      } else {
+        setShowTooltip(ref.current?.offsetWidth < ref.current?.scrollWidth);
+      }
+    }, [ref.current?.offsetWidth, ref.current?.scrollWidth, content]);
 
     useEffect(() => {
       if (!ref?.current) {
