@@ -64,10 +64,12 @@ export default function (chart: Chart, config: { guide?: GuideConfig }) {
 
 // 计算 scale 排除 range 后的最大最小值
 function getMinValue(scale: G2Dependents.Scale) {
-  return scale.min - scale.range[0] * (scale.max - scale.min) / (scale.range[1] - scale.range[0]);
+  return scale.min - (scale.range[0] * (scale.max - scale.min)) / (scale.range[1] - scale.range[0]);
 }
 function getMaxValue(scale: G2Dependents.Scale) {
-  return scale.min + (1 - scale.range[0]) * (scale.max - scale.min) / (scale.range[1] - scale.range[0]);
+  return (
+    scale.min + ((1 - scale.range[0]) * (scale.max - scale.min)) / (scale.range[1] - scale.range[0])
+  );
 }
 
 interface GuideLineTextConfig extends Omit<G2Dependents.LineAnnotationTextCfg, 'content'> {
@@ -160,28 +162,55 @@ export function drawGuideLine(chart: Chart | View, guideLine: GuideLineConfig, c
       // 函数接受两个参数 xScales 和 yScales
       guideConfig.start = function (
         xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+        yScales: Record<string, G2Dependents.Scale>,
       ) {
-        if (!Array.isArray(xScales) && (xScales.isCategory || (xScales.x && xScales.x.isCategory))) {
+        let xValue = 'min';
+        if (
+          !Array.isArray(xScales) &&
+          (xScales.isCategory || (xScales.x && xScales.x.isCategory))
+        ) {
           // @ts-ignore 如果x轴是分类型数据，计算 range 外的最小值以铺满绘图区域
-          return { x: getMinValue(xScales.x || xScales), [axis]: value };
+          xValue = getMinValue(xScales.x || xScales);
         }
-        return { x: 'min', [axis]: value };
+
+        let yValue = value;
+        if (yScales?.[axis]?.min >= value) {
+          // 当辅助线低于x轴时，直接贴底展示
+          yValue = yScales?.[axis]?.min;
+        }
+
+        return {
+          x: xValue,
+          [axis]: yValue,
+        };
       };
       // 函数接受两个参数 xScales 和 yScales
       guideConfig.end = function (
         xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+        yScales: Record<string, G2Dependents.Scale>,
       ) {
+        let xValue = 'max';
         if (!Array.isArray(xScales)) {
           // 如果x轴是分类型数据，计算 range 外的最大值以铺满绘图区域
           if (xScales.x && xScales.x.isCategory) {
-            return { x: getMaxValue(xScales.x), [axis]: value };
+            xValue = getMaxValue(xScales.x);
           }
           if (xScales.isCategory) {
             // @ts-ignore G2 的类型声明和实际传入不同，暂时忽略报错
-            return { x: getMaxValue(xScales), [axis]: value };
+            xValue = getMaxValue(xScales);
           }
         }
-        return { x: 'max', [axis]: value };
+
+        let yValue = value;
+        if (yScales?.[axis]?.min >= value) {
+          // 当辅助线低于x轴时，直接贴底展示
+          yValue = yScales?.[axis]?.min;
+        }
+
+        return {
+          x: xValue,
+          [axis]: yValue,
+        };
       };
     }
   }
@@ -247,28 +276,56 @@ export function drawGuideArea(chart: Chart | View, guideArea: GuideAreaConfig) {
       // 函数接受两个参数 xScales 和 yScales
       guideConfig.start = function (
         xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+        yScales: Record<string, G2Dependents.Scale>,
       ) {
-        if (!Array.isArray(xScales) && (xScales.isCategory || (xScales.x && xScales.x.isCategory))) {
+        let xValue = 'min';
+
+        if (
+          !Array.isArray(xScales) &&
+          (xScales.isCategory || (xScales.x && xScales.x.isCategory))
+        ) {
           // @ts-ignore 如果x轴是分类型数据，计算 range 外的最小值以铺满绘图区域
-          return { x: getMinValue(xScales.x || xScales), [axis]: value[0] };
+          xValue = getMinValue(xScales.x || xScales);
         }
-        return { x: 'min', [axis]: value[0] };
+
+        let yValue = value[0];
+        if (yScales?.[axis]?.min >= value[0]) {
+          // 当辅助线低于x轴时，直接贴底展示
+          yValue = yScales?.[axis]?.min;
+        }
+
+        return {
+          x: xValue,
+          [axis]: yValue,
+        };
       };
       // 函数接受两个参数 xScales 和 yScales
       guideConfig.end = function (
         xScales: G2Dependents.Scale[] | Record<string, G2Dependents.Scale>,
+        yScales: Record<string, G2Dependents.Scale>,
       ) {
+        let xValue = 'max';
         if (!Array.isArray(xScales)) {
           // 如果x轴是分类型数据，计算 range 外的最大值以铺满绘图区域
           if (xScales.x && xScales.x.isCategory) {
-            return { x: getMaxValue(xScales.x), [axis]: value[1] };
+            xValue = getMaxValue(xScales.x);
           }
           if (xScales.isCategory) {
             // @ts-ignore G2 的类型声明和实际传入不同，暂时忽略报错
-            return { x: getMaxValue(xScales), [axis]: value[1] };
+            xValue = getMaxValue(xScales);
           }
         }
-        return { x: 'max', [axis]: value[1] };
+
+        let yValue = value[1];
+        if (yScales?.[axis]?.min >= value[1]) {
+          // 当辅助线低于x轴时，直接贴底展示
+          yValue = yScales?.[axis]?.min;
+        }
+
+        return {
+          x: xValue,
+          [axis]: yValue,
+        };
       };
     }
   }
