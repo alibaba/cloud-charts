@@ -436,7 +436,7 @@ function convertTimeUnit(
     resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
     resultUnit = 'weeks';
   } else if (resultValue >= conversions.days) {
-    resultValue = numberDecimal(resultValue / conversions.weeks, decimal);
+    resultValue = numberDecimal(resultValue / conversions.days, decimal);
     resultUnit = 'days';
   } else if (resultValue >= conversions.h) {
     resultValue = numberDecimal(resultValue / conversions.h, decimal);
@@ -666,14 +666,20 @@ export function findUnitArray(input: string, valueType?: string): Array<string> 
 /**
  * 统一进位单位格式化
  * */
-export function unitConversion(originValue: any, unit?: any, decimal?: number, unitTransformTo?: any, valueType?: string) {
+export function unitConversion(
+  originValue: any,
+  unit?: any,
+  decimal?: number,
+  unitTransformTo?: any,
+  valueType?: string,
+) {
   const isNegative = originValue < 0;
   let value = Math.abs(originValue);
 
   if (valueType === 'date') {
     const { value: finalValue, unit: finalUnit } = convertTimeUnit(value, unit, decimal) ?? {};
     return {
-      value: typeof finalValue==='number'? (isNegative? -finalValue: finalValue): '-',
+      value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
       unit: finalUnit ?? '',
     };
   } else {
@@ -733,7 +739,7 @@ export function unitConversion(originValue: any, unit?: any, decimal?: number, u
     const finalValue = numberDecimal(value, decimal);
 
     return {
-      value: typeof finalValue === 'number'? (isNegative? -finalValue: finalValue) : '-',
+      value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
       unit: finalUnit,
     };
   }
@@ -1178,9 +1184,9 @@ export function fillMissingTimestamps(
   tickInterval?: number,
 ): OutputSeries[] {
   // 收集所有时间戳并计算最小间隔
-  const allTimestamps = input.flatMap(series => series.data.map(d => d[0]));
+  const allTimestamps = input.flatMap((series) => series.data.map((d) => d[0]));
   const sortedTimestamps = [...new Set(allTimestamps)].sort((a, b) => a - b);
-  
+
   // 计算最小时间间隔
   let minInterval = Infinity;
   if (tickInterval) {
@@ -1192,7 +1198,6 @@ export function fillMissingTimestamps(
     }
   }
 
-
   // 生成完整时间序列
   const start = Math.min(...sortedTimestamps);
   const end = Math.max(...sortedTimestamps);
@@ -1202,14 +1207,11 @@ export function fillMissingTimestamps(
   }
 
   // 填充缺失数据
-  return input.map(series => {
+  return input.map((series) => {
     const valueMap = new Map(series.data.map(([t, v]) => [t, v]));
     return {
       name: series.name,
-      data: completeTimestamps.map(t => [
-        t,
-        valueMap.get(t) ?? fillValue
-      ]) as DataPoint[]
+      data: completeTimestamps.map((t) => [t, valueMap.get(t) ?? fillValue]) as DataPoint[],
     };
   });
 }
