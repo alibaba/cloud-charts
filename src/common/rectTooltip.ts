@@ -269,6 +269,8 @@ export default function <T>(
         config.tooltip.unit = config.tooltip.unit ?? config?.yAxis?.unit;
         config.tooltip.unitTransformTo = config.tooltip.unitTransformTo ?? config?.yAxis?.unitTransformTo;
         config.tooltip.valueType = config.tooltip.valueType ?? config?.yAxis?.valueType;
+        config.tooltip.customCarryUnits = config.tooltip.customCarryUnits ?? config?.yAxis?.customCarryUnits;
+        config.tooltip.customCarryThreshold = config.tooltip.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
       }
 
       if (typeof config.tooltip === 'object') {

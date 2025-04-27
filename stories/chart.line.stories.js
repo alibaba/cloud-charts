@@ -1025,10 +1025,17 @@ stories.add('label格式化', () => (
     data={labelData2}
     config={{
       yAxis: {
-        valueType: 'disk_1000',
-        unit: 'B',
+        // valueType: 'disk_1000',
+        // unit: 'B',
         needUnitTransform: true,
+        valueType: 'custom',
+        customCarryUnits: ['k', 'm'],
+        customCarryThreshold: 1000,
       },
+      tooltip: {
+        // customTooltip: true,
+        lockable: true
+      }
     }}
   />
 ));

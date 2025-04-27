@@ -569,7 +569,9 @@ export interface customFormatterConfig {
     | 'time'
     | 'count';
   hideZeroUnit?: boolean;
-  customUnitList?: string[];
+  customCarryUnits?: string | string[];
+  customCarryThreshold?: number;
+  addonTextAfter?: string;
 }
 
 /**
@@ -588,7 +590,17 @@ export interface customFormatterConfig {
  * time - ms、s
  * */
 export function customFormatter(config: customFormatterConfig) {
-  const { unit, decimal = 1, grouping = true, needUnitTransform, unitTransformTo, valueType, hideZeroUnit = false } = config;
+  const {
+    unit,
+    decimal = 1,
+    grouping = true,
+    needUnitTransform,
+    unitTransformTo,
+    valueType,
+    hideZeroUnit = false,
+    customCarryUnits = [],
+    customCarryThreshold = 1,
+  } = config;
 
   if (!unit && (decimal === undefined || decimal === null) && !grouping && !needUnitTransform) {
     return null;
@@ -606,12 +618,19 @@ export function customFormatter(config: customFormatterConfig) {
       return `${v}${newUnit}`;
     }
 
-    
-    if(needUnitTransform && (unit || valueType)) {
+    if (needUnitTransform && (unit || valueType)) {
       if (valueType === 'percent_1') {
         result = result * 100;
       }
-      const { value, unit: transformUnit } = unitConversion(result, unit, decimal, unitTransformTo, valueType);
+      const { value, unit: transformUnit } = unitConversion(
+        result,
+        unit,
+        decimal,
+        unitTransformTo,
+        valueType,
+        customCarryUnits,
+        customCarryThreshold,
+      );
 
       result = value;
       newUnit = transformUnit;
@@ -630,10 +649,10 @@ export function customFormatter(config: customFormatterConfig) {
       result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
     }
 
-    if(hideZeroUnit && Number(result) === 0) {
+    if (hideZeroUnit && Number(result) === 0) {
       newUnit = '';
     }
-  
+
     return valueType === 'money' ? `${newUnit}${result}` : `${result}${newUnit}`;
   };
 }
@@ -672,9 +691,30 @@ export function unitConversion(
   decimal?: number,
   unitTransformTo?: any,
   valueType?: string,
+  customCarryUnits?: string[],
+  customCarryThreshold?: number,
 ) {
   const isNegative = originValue < 0;
   let value = Math.abs(originValue);
+
+  // 增加自定义进位
+  if (valueType === 'custom') {
+    let currentUnit = unit || customCarryUnits[0];
+    let finalUnit = unit;
+
+    let index = customCarryUnits.indexOf(currentUnit);
+    while (value >= customCarryThreshold && index < customCarryUnits.length - 1) {
+      value /= customCarryThreshold;
+      index++;
+    }
+
+    finalUnit = customCarryUnits[index];
+    const finalValue = numberDecimal(value, decimal);
+    return {
+      value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
+      unit: finalUnit,
+    };
+  }
 
   if (valueType === 'date') {
     const { value: finalValue, unit: finalUnit } = convertTimeUnit(value, unit, decimal) ?? {};
@@ -697,7 +737,7 @@ export function unitConversion(
     const units = findUnitArray(currentUnit, valueType);
     let finalUnit = unit;
 
-    const threshold = currentUnit?.includes('IB') || currentUnit?.includes('BYTE') ? 1024 : 1000;
+    const threshold = valueType?.includes('1024') ? 1024 : 1000;
 
     let index = units.indexOf(currentUnit);
     if (index === -1) {
@@ -1140,6 +1180,8 @@ export function getFormatConfig(config: any) {
     config.legend.unit = config.legend.unit ?? config?.yAxis?.unit;
     config.legend.unitTransformTo = config.legend.unitTransformTo ?? config?.yAxis?.unitTransformTo;
     config.legend.valueType = config.legend.valueType ?? config?.yAxis?.valueType;
+    config.legend.customCarryUnits = config.legend.customCarryUnits ?? config?.yAxis?.customCarryUnits;
+    config.legend.customCarryThreshold = config.legend.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
   }
 
   if (typeof config.legend === 'object') {
