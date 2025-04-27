@@ -88,6 +88,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     valueType = 'percent_100', // 默认百分比
     decimal,
     unitTransformTo,
+    customCarryUnits,
+    customCarryThreshold,
+    addonTextAfter
   } = config || {};
 
   let current = data.current || 0;
@@ -109,6 +112,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       decimal,
       unitTransformTo,
       valueType,
+      customCarryUnits,
+      customCarryThreshold,
+      addonTextAfter
     );
 
     finalValue = value;

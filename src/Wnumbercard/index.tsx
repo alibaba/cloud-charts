@@ -151,6 +151,9 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     decimal,
     unitTransformTo,
     valueType,
+    customCarryUnits,
+    customCarryThreshold,
+    addonTextAfter,
     ...otherProps
   } = { ...props, ...props?.config };
 
@@ -160,7 +163,16 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
     if (valueType === 'percent_1' && typeof current === 'number') {
       current = current * 100;
     }
-    const { value, unit: transformUnit } = unitConversion(current, unit, decimal, unitTransformTo, valueType);
+    const { value, unit: transformUnit } = unitConversion(
+      current,
+      unit,
+      decimal,
+      unitTransformTo,
+      valueType,
+      customCarryUnits,
+      customCarryThreshold,
+      addonTextAfter,
+    );
     current = value;
     finalUnit = transformUnit;
   }

@@ -599,7 +599,8 @@ export function customFormatter(config: customFormatterConfig) {
     valueType,
     hideZeroUnit = false,
     customCarryUnits = [],
-    customCarryThreshold = 1,
+    customCarryThreshold,
+    addonTextAfter = ''
   } = config;
 
   if (!unit && (decimal === undefined || decimal === null) && !grouping && !needUnitTransform) {
@@ -630,6 +631,7 @@ export function customFormatter(config: customFormatterConfig) {
         valueType,
         customCarryUnits,
         customCarryThreshold,
+        addonTextAfter
       );
 
       result = value;
@@ -691,28 +693,31 @@ export function unitConversion(
   decimal?: number,
   unitTransformTo?: any,
   valueType?: string,
-  customCarryUnits?: string[],
+  customCarryUnits?: string | string[],
   customCarryThreshold?: number,
+  addonTextAfter?: string,
 ) {
   const isNegative = originValue < 0;
   let value = Math.abs(originValue);
 
   // 增加自定义进位
   if (valueType === 'custom') {
-    let currentUnit = unit || customCarryUnits[0];
-    let finalUnit = unit;
+    let threshold = customCarryThreshold || 1000;
+    const units = typeof customCarryUnits === 'string' ? customCarryUnits.split(',') : customCarryUnits || ["", "k", "m", "b"];
+    let currentUnit = unit || units[0] || '';
+    let finalUnit = unit || '';
 
-    let index = customCarryUnits.indexOf(currentUnit);
-    while (value >= customCarryThreshold && index < customCarryUnits.length - 1) {
-      value /= customCarryThreshold;
+    let index = units.indexOf(currentUnit);
+    while (value >= threshold && index < units.length - 1) {
+      value /= threshold;
       index++;
     }
 
-    finalUnit = customCarryUnits[index];
+    finalUnit = units[index] || '';
     const finalValue = numberDecimal(value, decimal);
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: finalUnit,
+      unit: finalUnit + addonTextAfter,
     };
   }
 
@@ -720,7 +725,7 @@ export function unitConversion(
     const { value: finalValue, unit: finalUnit } = convertTimeUnit(value, unit, decimal) ?? {};
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: finalUnit ?? '',
+      unit: (finalUnit ?? '') + addonTextAfter,
     };
   } else {
     let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
@@ -743,7 +748,7 @@ export function unitConversion(
     if (index === -1) {
       return {
         value: originValue,
-        unit,
+        unit: unit + addonTextAfter,
       };
     }
     if (unitTransformTo) {
@@ -752,7 +757,7 @@ export function unitConversion(
       if (index === targetUnitIndex) {
         return {
           value: originValue,
-          unit,
+          unit: unit + addonTextAfter,
         };
       }
       const distance = Math.abs(index - targetUnitIndex);
@@ -780,7 +785,7 @@ export function unitConversion(
 
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: finalUnit,
+      unit: finalUnit + addonTextAfter,
     };
   }
 }
@@ -1182,6 +1187,7 @@ export function getFormatConfig(config: any) {
     config.legend.valueType = config.legend.valueType ?? config?.yAxis?.valueType;
     config.legend.customCarryUnits = config.legend.customCarryUnits ?? config?.yAxis?.customCarryUnits;
     config.legend.customCarryThreshold = config.legend.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
+    config.legend.addonTextAfter = config.legend.addonTextAfter ?? config?.yAxis?.addonTextAfter;
   }
 
   if (typeof config.legend === 'object') {

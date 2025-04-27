@@ -1029,12 +1029,18 @@ stories.add('label格式化', () => (
         // unit: 'B',
         needUnitTransform: true,
         valueType: 'custom',
-        customCarryUnits: ['k', 'm'],
-        customCarryThreshold: 1000,
+        customCarryUnits: ",k,m", // ['k', 'm'],
+        // customCarryThreshold: 2000,
+        addonTextAfter: '/s'
       },
       tooltip: {
         // customTooltip: true,
-        lockable: true
+        // lockable: true
+      },
+      legend: {
+        table: {
+          statistics: ['min', 'max', 'current']
+        }
       }
     }}
   />

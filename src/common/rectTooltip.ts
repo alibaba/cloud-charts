@@ -271,6 +271,7 @@ export default function <T>(
         config.tooltip.valueType = config.tooltip.valueType ?? config?.yAxis?.valueType;
         config.tooltip.customCarryUnits = config.tooltip.customCarryUnits ?? config?.yAxis?.customCarryUnits;
         config.tooltip.customCarryThreshold = config.tooltip.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
+        config.tooltip.addonTextAfter = config.tooltip.addonTextAfter ?? config?.yAxis?.addonTextAfter;
       }
 
       if (typeof config.tooltip === 'object') {
