@@ -34,7 +34,11 @@ class WidgetsTooltipController extends RawTooltipController {
 
   public showTooltip(point: Point) {
     const cfg = this.getTooltipCfg();
-    // console.log('config', cfg);
+    const items = this.getTooltipItems(point);
+
+    if (!items?.length) {
+      return;
+    }
 
     // 自定义tooltip
     if (cfg?.customTooltip) {
@@ -71,7 +75,6 @@ class WidgetsTooltipController extends RawTooltipController {
       });
 
       // 绘制
-      const items = this.getTooltipItems(point);
 
       let title = '';
       if (cfg?.showTitle) {
@@ -117,7 +120,9 @@ class WidgetsTooltipController extends RawTooltipController {
           if (Array.isArray(formatConfig)) {
             // 双轴
             customValueFormatter =
-              'y1' in item?.data ? customFormatter(formatConfig[1]) : customFormatter(formatConfig[0]);
+              'y1' in item?.data
+                ? customFormatter(formatConfig[1])
+                : customFormatter(formatConfig[0]);
           } else {
             // 单轴
             customValueFormatter = customFormatter(formatConfig);
@@ -135,7 +140,11 @@ class WidgetsTooltipController extends RawTooltipController {
       });
 
       const element =
-        cfg.customTooltip === true ? <FreeTooltip title={title} data={items} /> : cfg.customTooltip(title, items);
+        cfg.customTooltip === true ? (
+          <FreeTooltip title={title} data={items} />
+        ) : (
+          cfg.customTooltip(title, items)
+        );
       ReactDOM.render(element, this.tooltipContainer);
 
       // 计算位置
@@ -151,11 +160,17 @@ class WidgetsTooltipController extends RawTooltipController {
       const tooltipRect = this.tooltipContainer.getBoundingClientRect();
       const bodyWidth = document.body.clientWidth;
       const bodyHeight = document.body.clientHeight;
-      if (position.x + tooltipRect.width > bodyWidth && position.x - tooltipRect.width - padding * 2 >= 0) {
+      if (
+        position.x + tooltipRect.width > bodyWidth &&
+        position.x - tooltipRect.width - padding * 2 >= 0
+      ) {
         // 超过屏幕时移至左边
         position.x = position.x - tooltipRect.width - padding * 2;
       }
-      if (position.y + tooltipRect.height > bodyHeight && position.y - tooltipRect.height - padding >= 0) {
+      if (
+        position.y + tooltipRect.height > bodyHeight &&
+        position.y - tooltipRect.height - padding >= 0
+      ) {
         // 超过屏幕时移至上方
         position.y = position.y - tooltipRect.height - padding;
       }
@@ -309,13 +324,18 @@ class WidgetsTooltipController extends RawTooltipController {
     const lockElement = (
       <>
         <div className={`${PrefixName}-free-tooltip-lock-icon-background`}></div>
-        <div className={`${PrefixName}-free-tooltip-lock-icon-container`}>{locked ? lockIcon : unlockIcon}</div>
+        <div className={`${PrefixName}-free-tooltip-lock-icon-container`}>
+          {locked ? lockIcon : unlockIcon}
+        </div>
       </>
     );
 
-    const curTooltipContainer = this.tooltipContainer || this.parentDom.querySelector('.g2-tooltip');
+    const curTooltipContainer =
+      this.tooltipContainer || this.parentDom.querySelector('.g2-tooltip');
 
-    let lockContainer = curTooltipContainer.querySelector(`.${PrefixName}-free-tooltip-lock-container`);
+    let lockContainer = curTooltipContainer.querySelector(
+      `.${PrefixName}-free-tooltip-lock-container`,
+    );
     if (lockContainer) {
       ReactDOM.render(lockElement, lockContainer);
     } else {
