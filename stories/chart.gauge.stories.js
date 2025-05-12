@@ -97,7 +97,18 @@ const config21 = {
 // };
 
 const newConfig = {
+  needUnitTransform: true,
+  angle: {
+    start: -220,
+    end: 40,
+  },
+  gaugeScale: {
+    scaleNum: 9,
+    scale: true,
+  },
   outRing: true,
+  valueType: 'percent_1',
+  renderText: 'trstg',
   percentage: false,
   // x轴负向为-180，x轴正向为0，角度沿顺时针增大，起始结束角度需保持对称
   // gaugeScale: {

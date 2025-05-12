@@ -79,7 +79,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     renderText,
     className = '',
     // decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 22,
-    decorationStrokeWidth = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
+    // decorationStrokeWidth = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : 4,
+    decorationStrokeWidth = 4,
     outRing = true,
     gaugeScale = false,
     unit,
@@ -90,8 +91,10 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     unitTransformTo,
     customCarryUnits,
     customCarryThreshold,
-    addonTextAfter
+    addonTextAfter,
   } = config || {};
+
+  const [colors1, colors2] = transformColors(colors);
 
   let current = data.current || 0;
 
@@ -114,7 +117,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
       valueType,
       customCarryUnits,
       customCarryThreshold,
-      addonTextAfter
+      addonTextAfter,
     );
 
     finalValue = value;
@@ -151,8 +154,8 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
   const containerRef = useRef(null); // 用于引用父容器的ref
   const [radius, setRadius] = useState(100); // 默认半径为100，实际会基于父元素高度来调整
   const strokeWidth = radius * 0.12 < 12 ? 12 : radius * 0.12;
-  const decorationGap =
-    config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : outRing ? strokeWidth : 0;
+  // const decorationGap = config?.angle && config.angle?.end - config.angle?.start > 180 ? 0 : outRing ? strokeWidth : 0;
+  const decorationGap = outRing ? strokeWidth : 0;
   const [lineSize, setLineSize] = useState(100 * 0.8 * 0.24);
   const [gap, setGap] = useState(0);
   const textRef = useRef(null);
@@ -225,6 +228,7 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     startAngle +
     Math.min(1, Math.max(0, (current - min) / (max - min))) * (angle.end - angle.start);
   const bottomEnd = angle.end;
+  const middleAngle = angle.start + (angle.end - angle.start) / 2;
 
   // 计算起始点和结束点坐标
   const { x: startX, y: startY } = calculatePositionOnCircle(startAngle, radius);
@@ -243,6 +247,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     radius,
     decorationGap,
   );
+  const { x: decoratedMiddleX, y: decoratedMiddleY } = calculatePositionOnCircle(
+    middleAngle,
+    radius,
+    decorationGap,
+  );
   const { x: decoratedEndX, y: decoratedEndY } = calculatePositionOnCircle(
     bottomEnd,
     radius,
@@ -254,8 +263,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     `M ${decoratedStartX} ${decoratedStartY}`, // 移动到装饰性弧线的起点
     `A ${radius + decorationGap} ${
       radius + decorationGap
-    } 0 ${largeArcFlag} 1 ${decoratedEndX} ${decoratedEndY}`,
-    // `A ${radius + decorationGap} ${radius + decorationGap} 0 0 1 ${decoratedStartX} ${decoratedStartY}`,
+    } 0 0 1 ${decoratedMiddleX} ${decoratedMiddleY}`,
+  ].join(' ');
+
+  const pathRingData1 = [
+    `M ${decoratedMiddleX} ${decoratedMiddleY}`, // 移动到装饰性弧线的起点
+    `A ${radius + decorationGap} ${radius + decorationGap} 0 0 1 ${decoratedEndX} ${decoratedEndY}`,
   ].join(' ');
 
   // 仪表盘圆环
@@ -384,7 +397,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         } ${viewBoxWidthWithDecorations} ${
           viewBoxHeightWithDecorations +
           Math.cos(((angle.start - 180) * Math.PI) / 180) *
-            (radius + gaugeTextSize + realScaleLineLength) +
+            (radius +
+              gaugeTextSize +
+              realScaleLineLength +
+              strokeWidth +
+              decorationStrokeWidth +
+              decorationGap) +
           gaugeTextSize +
           realScaleLineLength * 2
         }`
@@ -409,9 +427,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         viewBox={viewBox}
       >
         <defs>
-          <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="gradient1" x1="0" y1="0" x2="0" y2="1">
             {Array.isArray(colors) &&
-              colors.map(([offset, colorName]) => {
+              colors1.map(([offset, colorName]) => {
                 const numberOffset =
                   offset === 'max'
                     ? 100
@@ -425,12 +443,41 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
                 );
               })}
           </linearGradient>
+          <linearGradient id="gradient2" x1="0" y1="0" x2="0" y2="1">
+            {Array.isArray(colors) &&
+              colors2.map(([offset, colorName]) => {
+                const numberOffset =
+                  offset === 'max'
+                    ? 100
+                    : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
+                const colorAngle =
+                  ((angle.end - angle.start) * numberOffset) / 100 - (angle.end - angle.start) / 2;
+                const colorOffset =
+                  (1 - Math.cos((colorAngle * Math.PI) / 180)) /
+                  (1 + Math.cos(((180 - (angle.end - angle.start) / 2) * Math.PI) / 180));
+                return (
+                  <stop
+                    key={colorName}
+                    offset={numberOffset === 0 ? 0 : colorOffset}
+                    stopColor={`var(--${prefix}-${colorName}-color)`}
+                  />
+                );
+              })}
+          </linearGradient>
         </defs>
-        {outRing && angle.end - angle.start <= 180 && (
+        {outRing && (
           <path
             d={pathRingData}
             fill="none"
             stroke="url(#gradient1)"
+            strokeWidth={decorationStrokeWidth}
+          />
+        )}
+        {outRing && (
+          <path
+            d={pathRingData1}
+            fill="none"
+            stroke="url(#gradient2)"
             strokeWidth={decorationStrokeWidth}
           />
         )}
@@ -493,6 +540,31 @@ function getColorForCurrent(
     }
   }
   return colors[colors.length - 1][1];
+}
+
+function transformColors(colors, splitPoint = 50) {
+  const newColors = [];
+  let lastEnd = 0;
+
+  for (let i = 0; i < colors.length; i++) {
+    const [value, status] = colors[i];
+
+    newColors.push([lastEnd, status]);
+    if (lastEnd < splitPoint && splitPoint <= value) {
+      newColors.push([splitPoint, status]);
+    }
+
+    lastEnd = value;
+  }
+
+  const colors1 = newColors.filter((i) => i[0] <= 50);
+  const colors2 = newColors.filter((i) => i[0] >= 50);
+  colors1.forEach((i) => {
+    i[0] = Math.abs(50 - i[0]);
+  });
+  colors1.sort((a, b) => a[0] - b[0]);
+
+  return [colors1, colors2];
 }
 
 function getFontSizeNumber(style: React.CSSProperties) {
