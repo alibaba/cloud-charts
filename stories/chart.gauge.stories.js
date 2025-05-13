@@ -99,8 +99,8 @@ const config21 = {
 const newConfig = {
   needUnitTransform: true,
   angle: {
-    start: -220,
-    end: 40,
+    start: -210,
+    end: 30,
   },
   gaugeScale: {
     scaleNum: 9,
@@ -132,8 +132,14 @@ const newConfig = {
 };
 
 stories.add('仪表盘基础用法', () => (
-  <div style={{ height: 200 }}>
-    <Wgauge config={newConfig} data={{ current: 90 }} />
+  <div style={{ height: 309 }}>
+    <Wgauge
+      config={newConfig}
+      data={{
+        current: 0.9808306709265175,
+        label: 'Value',
+      }}
+    />
   </div>
 ));
 

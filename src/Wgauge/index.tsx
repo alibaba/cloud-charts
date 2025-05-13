@@ -396,15 +396,11 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           viewBoxDecoratedY - strokeWidth - gaugeTextSize * 2 - realScaleLineLength
         } ${viewBoxWidthWithDecorations} ${
           viewBoxHeightWithDecorations +
-          Math.cos(((angle.start - 180) * Math.PI) / 180) *
-            (radius +
-              gaugeTextSize +
-              realScaleLineLength +
-              strokeWidth +
-              decorationStrokeWidth +
-              decorationGap) +
+          realScaleLineLength +
           gaugeTextSize +
-          realScaleLineLength * 2
+          lineSize +
+          Math.abs(Math.sin(((angle.start - 180) * Math.PI) / 180)) *
+            (viewBoxHeightWithDecorations + realScaleLineLength + gaugeTextSize)
         }`
       : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${
           viewBoxDecoratedY - strokeWidth / 3
