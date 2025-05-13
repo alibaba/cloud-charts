@@ -699,6 +699,7 @@ export function unitConversion(
 ) {
   const isNegative = originValue < 0;
   let value = Math.abs(originValue);
+  const suffixUnit = addonTextAfter || '';
 
   // 增加自定义进位
   if (valueType === 'custom') {
@@ -717,7 +718,7 @@ export function unitConversion(
     const finalValue = numberDecimal(value, decimal);
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: finalUnit + addonTextAfter,
+      unit: finalUnit + suffixUnit,
     };
   }
 
@@ -725,7 +726,7 @@ export function unitConversion(
     const { value: finalValue, unit: finalUnit } = convertTimeUnit(value, unit, decimal) ?? {};
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: (finalUnit ?? '') + addonTextAfter,
+      unit: (finalUnit ?? '') + suffixUnit,
     };
   } else {
     let currentUnit = unit ? unit.toUpperCase() : unitMap[valueType][0];
@@ -748,7 +749,7 @@ export function unitConversion(
     if (index === -1) {
       return {
         value: originValue,
-        unit: unit + addonTextAfter,
+        unit: unit + suffixUnit,
       };
     }
     if (unitTransformTo) {
@@ -757,7 +758,7 @@ export function unitConversion(
       if (index === targetUnitIndex) {
         return {
           value: originValue,
-          unit: unit + addonTextAfter,
+          unit: unit + suffixUnit,
         };
       }
       const distance = Math.abs(index - targetUnitIndex);
@@ -785,7 +786,7 @@ export function unitConversion(
 
     return {
       value: typeof finalValue === 'number' ? (isNegative ? -finalValue : finalValue) : '-',
-      unit: finalUnit + addonTextAfter,
+      unit: finalUnit + suffixUnit,
     };
   }
 }
