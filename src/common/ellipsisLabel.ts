@@ -124,12 +124,12 @@ export default function ellipsisLabel(
     adjustEllipsisType = 'tail';
   }
   // 页面统一省略方式
-  themes.setTheme(
-    {
-      'widgets-global-axis-label-ellipsisType': adjustEllipsisType,
-    },
-    false,
-  );
+  // themes.setTheme(
+  //   {
+  //     'widgets-global-axis-label-ellipsisType': adjustEllipsisType,
+  //   },
+  //   false,
+  // );
 
   if (adjustEllipsisType === 'tail') {
     let leftStr = '';
