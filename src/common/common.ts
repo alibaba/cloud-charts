@@ -394,6 +394,7 @@ const unitMap: any = {
   bandwidth_1000: GBSpeedUnit,
   bandwidth_1024: GiBSpeedUnit,
   money: ['¥'],
+  dollar: ['$'],
   percent_1: ['%'],
   percent_100: ['%'],
   count: ['counts', 'k', 'm', 'b'],
@@ -647,7 +648,7 @@ export function customFormatter(config: customFormatterConfig) {
     result = numberDecimal(result, decimal);
 
     // 千分位
-    if (grouping || valueType === 'money' || valueType === 'count') {
+    if (grouping || ['money', 'dollar', 'count'].includes(valueType)) {
       result = beautifyNumber(result, typeof grouping === 'boolean' ? ',' : grouping);
     }
 
@@ -655,7 +656,7 @@ export function customFormatter(config: customFormatterConfig) {
       newUnit = '';
     }
 
-    return valueType === 'money' ? `${newUnit}${result}` : `${result}${newUnit}`;
+    return ['money', 'dollar'].includes(valueType) ? `${newUnit}${result}` : `${result}${newUnit}`;
   };
 }
 
