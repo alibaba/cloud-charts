@@ -309,6 +309,12 @@ class WidgetsTooltipController extends RawTooltipController {
 
   // 绘制锁定相关元素
   public drawLockElement(locked: boolean) {
+    const curTooltipContainer = this.tooltipContainer || this.parentDom.querySelector('.g2-tooltip');
+
+    if (!curTooltipContainer) {
+      return;
+    }
+
     const lockIcon = (
       <svg viewBox="0 0 1024 1024" width="12" height="12">
         <path d="M921.6 391.68l-288-288c-5.12-5.12-11.52-7.68-17.92-7.68s-13.44 2.56-17.92 7.68L497.28 203.52c-5.12 4.48-7.68 11.52-7.68 17.92s2.56 13.44 7.68 17.92l51.84 51.84-241.28 104.32c-3.2 1.28-5.76 3.2-7.68 5.12L202.88 497.92c-10.24 10.24-10.24 26.24 0 36.48l85.76 85.76-185.6 257.92c-8.96 12.8-7.68 30.08 3.2 40.96 6.4 6.4 14.72 9.6 23.04 9.6 6.4 0 12.8-1.92 18.56-5.76l262.4-181.76 81.28 81.28c10.24 10.24 26.24 10.24 36.48 0l96.64-96.64c1.92-1.92 3.84-4.48 5.12-7.68L737.28 480l48 48c5.12 5.12 11.52 7.68 17.92 7.68s13.44-2.56 17.92-7.68L921.6 427.52c5.12-5.12 7.68-11.52 7.68-17.92s-3.2-13.44-7.68-17.92z"></path>
@@ -330,12 +336,8 @@ class WidgetsTooltipController extends RawTooltipController {
       </>
     );
 
-    const curTooltipContainer =
-      this.tooltipContainer || this.parentDom.querySelector('.g2-tooltip');
+    let lockContainer = curTooltipContainer?.querySelector(`.${PrefixName}-free-tooltip-lock-container`);
 
-    let lockContainer = curTooltipContainer.querySelector(
-      `.${PrefixName}-free-tooltip-lock-container`,
-    );
     if (lockContainer) {
       ReactDOM.render(lockElement, lockContainer);
     } else {
