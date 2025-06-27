@@ -6,6 +6,8 @@ import { getText } from '../ChartProvider';
 import { isBigDataInit } from './bigData';
 import { classifyChart } from './classification';
 import { PrefixName } from '../constants';
+import ReactDOM from 'react-dom';
+import React from 'react';
 
 /** 图表初始化时运行的规则 */
 export function runInitRule(chartObj: any, config: any, data: any) {
@@ -134,21 +136,26 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
       chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
     }
     // 加错误提示
+    const element = document.createElement('div');
+    ReactDOM.render(
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', transform: 'translateX(-50%)' }}>
+        <svg width="13.990234375px" height="13.990234375px" viewBox="0 0 13.990234375 13.990234375">
+          <g>
+            <path
+              d="M13.2992,4.0833C12.1972,1.5882,9.71352,0.00200162,6.99922,0C5.33879,-0.00111527,3.72987,0.576434,2.44922,1.6333L12.3659,11.55C14.1045,9.4635,14.497,6.5439,13.2992,4.0833ZM11.55,12.3667L1.6333,2.44995C0.576382,3.73057,-0.00117366,5.33951,0,6.99995C0.00200179,9.71425,1.5883,12.198,4.0833,13.3C6.544,14.4978,9.4635,14.1053,11.55,12.3667Z"
+              fillRule="evenodd"
+              fill={themes['widgets-error-svg-color']}
+            />
+          </g>
+        </svg>
+        <div style={{ fontSize: 12, color: themes['widgets-color-text-3'], marginLeft: 5 }}>
+          {chartObj.props?.errorInfo}
+        </div>
+      </div>,
+      element,
+    );
     chartObj.chart.annotation().html({
-      html: `
-          <div style="display: flex; align-items: center;">
-            <svg width="13.990234375px" height="13.990234375px" viewBox="0 0 13.990234375 13.990234375">
-              <g>
-                <path
-                  d="M13.2992,4.0833C12.1972,1.5882,9.71352,0.00200162,6.99922,0C5.33879,-0.00111527,3.72987,0.576434,2.44922,1.6333L12.3659,11.55C14.1045,9.4635,14.497,6.5439,13.2992,4.0833ZM11.55,12.3667L1.6333,2.44995C0.576382,3.73057,-0.00117366,5.33951,0,6.99995C0.00200179,9.71425,1.5883,12.198,4.0833,13.3C6.544,14.4978,9.4635,14.1053,11.55,12.3667Z"
-                  fillRule="evenodd"
-                  fill="${themes['widgets-error-svg-color']}"
-                />
-              </g>
-            </svg>
-            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${chartObj.props?.errorInfo}<span>
-          </div>
-        `,
+      html: element,
       alignX: 'middle',
       alignY: 'middle',
       position: ['50%', '50%'],

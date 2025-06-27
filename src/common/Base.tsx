@@ -166,7 +166,7 @@ export interface ChartProps<ChartConfig> {
   /** loading状态 */
   loading?: boolean;
   /** 错误信息，非空时直接显示图表的异常状态 */
-  errorInfo?: string;
+  errorInfo?: string | React.ReactNode;
   /** chartRef */
   chartRef?: React.MutableRefObject<any>;
   chartLifecycle?: {
