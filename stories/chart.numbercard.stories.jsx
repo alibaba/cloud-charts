@@ -60,7 +60,7 @@ stories.add('指标卡片基础用法', () => (
 stories.add('label超过宽度显示tooltip', () => (
   <Wnumbercard
     label="测试数据懂法守法打开iUSA分个大吉手机打萨法手打"
-    value={100}
+    value={1004879653148368446452435646}
     unit="%"
     status="success"
     itemStyle={{
@@ -147,7 +147,7 @@ stories.add('带tag的指标卡片', () => (
       ]}
     />
     <Wnumbercard
-      label="超出截断"
+      label="超出滚动"
       value={673242}
       unit="个"
       status="success"

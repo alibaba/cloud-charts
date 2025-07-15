@@ -352,19 +352,19 @@ export const Wnumbercard: React.FC<IDataItem> = (props) => {
           <div className={`${prefix}-label-value-container`}>
             <div className={`${prefix}-item-value`}>
               {typeof value === 'number' ? (
-                <span
+                <div
                   className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}
                   style={valueStyle || {}}
                 >
                   {beautifyNumber(current || 0, ',')}
-                </span>
+                </div>
               ) : typeof value === 'string' ? (
-                <span
+                <div
                   className={`${prefix}-value-number ${prefix}-${status || 'default'} ${size || 'medium'}`}
                   style={valueStyle || {}}
                 >
                   {value}
-                </span>
+                </div>
               ) : (
                 value
               )}

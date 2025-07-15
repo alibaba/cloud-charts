@@ -59,6 +59,9 @@ $p7-bg-color: getVar(widgets-color-bg-p7, $widgets-color-bg-p7);
 $default-color: getVar(widgets-color-text-2, $widgets-color-text-2);
 $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-color-hover);
 
+$scrollbar-thumb-color: getVar(widgets-tooltip-cross-line, $widgets-tooltip-cross-line);
+$scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-decoration-background);
+
 #{$wnumbercard-prefix}-data-item-container {
   display: flex;
   flex-direction: row;
@@ -201,9 +204,10 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     line-height: 1;
     color: $text-color;
     // max-width: 140px;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     #{$wnumbercard-prefix}-item-unit {
       font-size: $font-size-small;
@@ -219,6 +223,25 @@ $default-bg-color: getVar(widgets-numbercard-color-hover, $widgets-numbercard-co
     &.medium {
       font-size: $font-size-big;
     }
+
+    flex-shrink: 0;
+  }
+
+  /*滚动条整体样式*/
+  #{$wnumbercard-prefix}-item-value::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  /*滚动条里面小方块*/
+  #{$wnumbercard-prefix}-item-value::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background: $scrollbar-thumb-color;
+  }
+
+  /*滚动条里面轨道*/
+  #{$wnumbercard-prefix}-item-value::-webkit-scrollbar-track {
+    background: $scrollbar-bg-color;
   }
 
   #{$wnumbercard-prefix}-normal {
