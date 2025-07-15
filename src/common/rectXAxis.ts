@@ -184,7 +184,14 @@ export default function <T>(
 
 /** 自动省略函数，支持head/middle/tail */
 function ellipsisLabels(autoEllipsis: boolean | 'head' | 'middle' | 'tail', xAxisType: string, config?: any, chart?: Chart) {
-  if (!autoEllipsis || xAxisType?.includes('time') || config?.column === false || typeof config?.column === 'object') {
+  if (
+    !autoEllipsis ||
+    xAxisType?.includes('time') ||
+    config?.column === false ||
+    typeof config?.column === 'object' ||
+    config?.slider ||
+    config?.scrollbar
+  ) {
     return false;
   }
 
