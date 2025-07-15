@@ -20,7 +20,9 @@ export default function (chart: Chart, dom: HTMLElement) {
 
     let parentMinSize = 0;
     // 获取父元素配置
-    const innerRadius = chart?.widgetsCtx?.props?.config?.innerRadius || 0.6;
+    const chartType = chart?.widgetsCtx?.chartName || 'G2Pie';
+    const defaultRadius = chartType === 'G2Pie' ? 0.6 : 0.4;
+    let innerRadius = chart?.widgetsCtx?.props?.config?.innerRadius || defaultRadius;
 
     // 获取父元素尺寸
     const parentDom = childDom && (childDom.parentNode as HTMLElement);

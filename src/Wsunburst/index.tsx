@@ -316,7 +316,7 @@ export class Sunburst extends Base<WsunburstConfig> {
           bottomTitle={config?.innerContent?.title ?? this.rawData?.name}
           unit={config?.innerContent?.unit ?? ''}
         >
-          {config?.innerContent?.value ?? this.totalData}
+          {numberDecimal(config?.innerContent?.value ?? this.totalData, config?.legend?.decimal ?? config?.tooltip?.decimal ?? 2)}
         </Wnumber>
       );
       ReactDOM.render(content, container);
