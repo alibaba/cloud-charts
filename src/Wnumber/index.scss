@@ -90,5 +90,9 @@
     font-size: $font-size-s;
     margin-top: $size-1;
     color: $color-2;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

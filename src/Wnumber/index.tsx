@@ -3,8 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { getStatusColorName, beautifyNumber } from '../common/common';
+import WidgetsTooltip from '../common/Tooltip';
 import Warrow from '../common/arrow';
-import chartLog from "../common/log";
+import chartLog from '../common/log';
 import { Status, Trend } from '../common/types';
 import { FullCrossName, PrefixName } from '../constants';
 import './index.scss';
@@ -41,9 +42,11 @@ export default class Wnumber extends React.Component<WnumberProps> {
   static defaultProps = {
     numberTrend: '',
     rightRatioTrend: '',
-    status: ''
+    status: '',
   };
 
+  labelRef = React.createRef();
+  numberRef = React.createRef();
   constructor(props: WnumberProps) {
     super(props);
 
@@ -53,8 +56,11 @@ export default class Wnumber extends React.Component<WnumberProps> {
 
   renderBottom(bottomTitle: React.ReactNode) {
     if (!!bottomTitle) {
-      return(
-        <div className={`${prefix}-bottomTitle`}>{bottomTitle}</div>
+      return (
+        <div className={`${prefix}-bottomTitle`} ref={this.labelRef}>
+          <WidgetsTooltip ref={this.labelRef} content={bottomTitle || ''} position="bottom" />
+          {bottomTitle}
+        </div>
       );
     } else {
       return null;
@@ -76,57 +82,42 @@ export default class Wnumber extends React.Component<WnumberProps> {
     const numberClasses = `${prefix}-number`;
 
     const rightRatioTrendIcon = getTrendIcon(rightRatioTrend);
-    const rightRatioTrendClasses = `${prefix}-rightRatio ${rightRatioTrend} ${rightRatioStatus ? getStatusColorName(rightRatioStatus) : ''}`;
+    const rightRatioTrendClasses = `${prefix}-rightRatio ${rightRatioTrend} ${
+      rightRatioStatus ? getStatusColorName(rightRatioStatus) : ''
+    }`;
 
-    return(
+    return (
       <div className={`${prefix}-main ${numberTrend} ${status ? getStatusColorName(status) : ''}`}>
-        {
-          numberTrend &&
-          <span className={`${prefix}-leftIcon`}>
-            {numberTrendIcon}
-          </span>
-        }
-        <span className={numberClasses}>
-          {beautifyNumber(children)}
-        </span>
-        {
-          unit &&
-          <span className={`${prefix}-unit`}>
-            {unit}
-          </span>
-        }
-        {
-          rightTitle &&
-          <span className={`${prefix}-rightTitle`}>
-            {rightTitle}
-          </span>
-        }
-        {
-          rightRatio &&
+        {numberTrend && <span className={`${prefix}-leftIcon`}>{numberTrendIcon}</span>}
+        <span className={numberClasses}>{beautifyNumber(children)}</span>
+
+        {unit && <span className={`${prefix}-unit`}>{unit}</span>}
+        {rightTitle && <span className={`${prefix}-rightTitle`}>{rightTitle}</span>}
+        {rightRatio && (
           <span className={rightRatioTrendClasses}>
-            {
-              rightRatioTrend &&
-              <span className={`${prefix}-rightRatioIcon`}>
-                {rightRatioTrendIcon}
-              </span>
-            }
+            {rightRatioTrend && <span className={`${prefix}-rightRatioIcon`}>{rightRatioTrendIcon}</span>}
             {rightRatio}
           </span>
-        }
-        { trend &&
-          <span className={`${prefix}-trend`}>
-            {trend()}
-          </span>
-        }
+        )}
+        {trend && <span className={`${prefix}-trend`}>{trend()}</span>}
       </div>
     );
   }
 
   render() {
     const {
-      className, style,
+      className,
+      style,
       // main props
-      status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children,
+      status,
+      unit,
+      numberTrend,
+      rightRatioTrend,
+      rightTitle,
+      rightRatio,
+      rightRatioStatus,
+      trend,
+      children,
       // bottom props
       bottomTitle,
       ...otherProps
@@ -135,12 +126,22 @@ export default class Wnumber extends React.Component<WnumberProps> {
     const mainClasses = classNames({
       [FullCrossName]: true,
       [`${prefix}`]: true,
-      [className]: !!className
+      [className]: !!className,
     });
 
     return (
       <div className={mainClasses} style={style} {...otherProps}>
-        {this.renderMain(status, unit, numberTrend, rightRatioTrend, rightTitle, rightRatio, rightRatioStatus, trend, children)}
+        {this.renderMain(
+          status,
+          unit,
+          numberTrend,
+          rightRatioTrend,
+          rightTitle,
+          rightRatio,
+          rightRatioStatus,
+          trend,
+          children,
+        )}
         {this.renderBottom(bottomTitle)}
       </div>
     );

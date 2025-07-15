@@ -7,7 +7,7 @@ import { Wpie, Wnumber, Wcontainer } from '@alicloud/cloud-charts';
 
 const data = [
   {
-    name: '浏览器占比',
+    name: '浏览器占比11111111111111111111',
     data: [
       ['Firefox', 45.0],
       ['IE', 26.8],

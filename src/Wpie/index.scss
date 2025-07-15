@@ -23,6 +23,10 @@ $bg-shadow: getVar(widgets-circle-inner-shadow, $widgets-circle-inner-shadow);
     transform: translate(-50%, -50%);
     z-index: 8;
     //overflow: auto;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   //& > div {
