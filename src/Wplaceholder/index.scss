@@ -126,7 +126,25 @@
   font-size: $font-size;
   line-height: 1;
 
-  &-indicator {
+  // &-inline {
+  //   pointer-events: none;
+  //   display: inline-block;
+  //   position: relative;
+  //   height: 100%;
+  //   width: 100%;
+  // }
+
+  /* text on the right side of */
+  &-right-tip {
+    display: flex;
+    align-items: center;
+
+    #{$loading-prefix}-indicator {
+      display: inline-block;
+      margin-right: $font-size / 2;
+      width: 40px;
+      height: 40px;
+
       div {
         box-sizing: border-box;
         display: block;
@@ -152,27 +170,10 @@
         animation-delay: -0.15s;
       }
     }
-
-  // &-inline {
-  //   pointer-events: none;
-  //   display: inline-block;
-  //   position: relative;
-  //   height: 100%;
-  //   width: 100%;
-  // }
-
-  // /* text on the right side of */
-  // &-right-tip {
-  //   display: flex;
-  //   align-items: center;
-  //   #{$loading-prefix}-indicator {
-  //     display: inline-block;
-  //     margin-right: $font-size;
-  //   }
-  //   #{$loading-prefix}-tip-content {
-  //     display: inline-block;
-  //   }
-  // }
+    #{$loading-prefix}-tip-content {
+      display: inline-block;
+    }
+  }
   // /* 动效 */
   // &-fusion-reactor {
   //   display: inline-block;
