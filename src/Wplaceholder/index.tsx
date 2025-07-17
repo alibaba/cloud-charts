@@ -95,17 +95,24 @@ const emptySvg = (
 
 const loadingDom = (text: string) => {
   return (
-    <div className={`${prefix}-loading-right-tip`}>
-      <div className={`${prefix}-loading-indicator`}>
-        <div className={`${prefix}-loading-fusion-reactor`}>
-          <span className={`${prefix}-loading-dot`}></span>
-          <span className={`${prefix}-loading-dot`}></span>
-          <span className={`${prefix}-loading-dot`}></span>
-          <span className={`${prefix}-loading-dot`}></span>
-        </div>
-      </div>
-      <div className={`${prefix}-loading-tip-content`}>{text}</div>
+    <div className={`${prefix}-loading-indicator`}>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+    // 旧版loading暂时保留
+    // <div className={`${prefix}-loading-right-tip`}>
+    //   <div className={`${prefix}-loading-indicator`}>
+    //     <div className={`${prefix}-loading-fusion-reactor`}>
+    //       <span className={`${prefix}-loading-dot`}></span>
+    //       <span className={`${prefix}-loading-dot`}></span>
+    //       <span className={`${prefix}-loading-dot`}></span>
+    //       <span className={`${prefix}-loading-dot`}></span>
+    //     </div>
+    //   </div>
+    //   <div className={`${prefix}-loading-tip-content`}>{text}</div>
+    // </div>
   );
 };
 

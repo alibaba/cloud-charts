@@ -20,7 +20,7 @@ $loading-indicator-size: 28px;
 $loading-vector-seconds: 5.6s;
 $loading-vector-dot-seconds: 1.4s;
 $loading-dot-size: 8px;
-$loading-dot-fill: getVar(widgets-color-normal, $widgets-color-normal);
+$loading-dot-fill: getVar(widgets-loading, $widgets-loading);
 $loading-background: getVar(
   widgets-color-container-background,
   $widgets-color-container-background
