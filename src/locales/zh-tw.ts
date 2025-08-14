@@ -1,6 +1,7 @@
 export default {
   // 状态
   loading: '加載中...',
+  aiLoading: '圖表正在生成中...',
   error: '數據異常',
   noData: '無數據',
   empty: '暫無數據',
@@ -59,5 +60,5 @@ export default {
     ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm'],
     ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm', 'HH:mm'],
     ['HH:mm:ss\nYYYY-MM-DD', 'MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss'],
-  ]
+  ],
 };
