@@ -91,7 +91,7 @@ interface ErrorState {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              transform: 'translateX(-50%)',
+              transform: 'translateX(-50%, -50%)',
             }}
           >
             <svg
