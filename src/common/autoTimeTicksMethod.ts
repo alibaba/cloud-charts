@@ -76,6 +76,7 @@ export function timePretty(cfg: ScaleConfig): number[] {
     }
   }
   tickInterval = Math.max(Math.floor((max - min) / (2 ** 12 - 1)), tickInterval);
+
   const minYear = getYear(min);
   // 如果间距大于 1 年，则将开始日期从整年开始
   if (tickInterval > YEAR) {
@@ -122,7 +123,7 @@ export function timePretty(cfg: ScaleConfig): number[] {
     for (let i = 0; i <= dMinus + minutes; i = i + minutes) {
       ticks.push(min + i * MINUTE);
     }
-  } else {
+  } else if (tickInterval > SECOND){
     // 小于分钟
     let interval = tickInterval;
     if (interval < SECOND) {
@@ -131,8 +132,16 @@ export function timePretty(cfg: ScaleConfig): number[] {
     const minSecond = Math.floor(min / SECOND) * SECOND;
     const dSeconds = Math.ceil((max - min) / SECOND);
     const seconds = Math.ceil(interval / SECOND);
+
     for (let i = 0; i < dSeconds + seconds; i = i + seconds) {
       ticks.push(minSecond + i * SECOND);
+    }
+  } else {
+    // 小于秒
+    const dSeconds = Math.ceil((max - min) / tickInterval);
+
+    for (let i = 0; i < dSeconds + tickInterval; i = i + 1) {
+      ticks.push(min + i * tickInterval);
     }
   }
 

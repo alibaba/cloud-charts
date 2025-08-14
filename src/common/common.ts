@@ -1104,13 +1104,14 @@ export function isInsideChina(latitude: number, longitude: number) {
   return false; // 点不在任何多边形内，即不在中国境内
 }
 
+const SECOND_MS = 1000;
 const MINUTE_MS = 60 * 1000;
 const HOUR_MS = 59 * 60 * 1000;
 const DAY_MS = 22 * HOUR_MS;
 const YEAR_MS = 365 * DAY_MS;
 // 跨度判定列表：大于半年、大于28天、大于22小时、大于59分钟、大于一分钟、（小于分钟）
 // todo后期改为跨度是否跨天/跨年/跨月判定
-const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS];
+const timeList = [0.51 * YEAR_MS, 28 * DAY_MS, DAY_MS, HOUR_MS, MINUTE_MS, SECOND_MS];
 
 function getTimeIndex(t: number): number {
   for (let i = 0; i < timeList.length; i++) {
@@ -1138,6 +1139,7 @@ export function getAutoMask(def: Types.ScaleOption, data: any, language?: keyof 
   }
   const span = max - min; // 间隔
   const interval = def.tickInterval || minFirst - min; // 跨度
+
 
   const spanIndex = getTimeIndex(span);
   const intervalIndex = getTimeIndex(interval);

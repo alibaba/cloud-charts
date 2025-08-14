@@ -3,26 +3,27 @@ import { Types, ChartData } from './types';
 import { timePretty, timeCat } from './autoTimeTicksMethod';
 import LanguageMap from '../locales';
 import { getText } from '../ChartProvider';
-import {getAutoMask} from '../common/common';
+import { getAutoMask } from '../common/common';
 
 // 移入国际化文件中
 /*
-| 间隔 \ 跨度 | 大于半年             | 大于一个月      | 大于一天        | 大于一小时  | 大于一分钟   | 小于分钟  |
-| 大于半年    | YYYY                | -              | -              | -          | -          | -        |
-| 大于一个月  | YYYY-MM             | YYYY-MM        | -              | -          | -          | -        |
-| 大于一天    | YYYY-MM-DD          | MM-DD          | MM-DD          | -          | -          | -        |
-| 大于一小时  | YYYY-MM-DD HH:mm    | MM-DD HH:mm    | MM-DD HH:mm    | HH:mm      | -          | -        |
-| 大于一分钟  | YYYY-MM-DD HH:mm    | MM-DD HH:mm    | MM-DD HH:mm    | HH:mm      | HH:mm      | -        |
-| 小于分钟    | YYYY-MM-DD HH:mm:ss | MM-DD HH:mm:ss | MM-DD HH:mm:ss | HH:mm:ss   | mm:ss      | mm:ss    |
+| 间隔 \ 跨度 | 大于半年             | 大于一个月      | 大于一天        | 大于一小时  | 大于一分钟   | 小于分钟  | 小于秒  |
+| 大于半年    | YYYY                | -              | -              | -          | -          | -        | -        |
+| 大于一个月  | YYYY-MM             | YYYY-MM        | -              | -          | -          | -        | -        |
+| 大于一天    | YYYY-MM-DD          | MM-DD          | MM-DD          | -          | -          | -        | -        |
+| 大于一小时  | YYYY-MM-DD HH:mm    | MM-DD HH:mm    | MM-DD HH:mm    | HH:mm      | -          | -        | -        |
+| 大于一分钟  | YYYY-MM-DD HH:mm    | MM-DD HH:mm    | MM-DD HH:mm    | HH:mm      | HH:mm      | -        | -        |
+| 小于分钟    | YYYY-MM-DD HH:mm:ss | MM-DD HH:mm:ss | MM-DD HH:mm:ss | HH:mm:ss   | mm:ss      | mm:ss    | -        |
+｜ 小于秒     | YYYY-MM-DD HH:mm:ss | MM-DD HH:mm:ss | MM-DD HH:mm:ss | HH:mm:ss   | mm:ss      | mm:ss.SSS    | mm:ss.SSS |
 */
 
 function findIndexOfSubStringIn2DArray(needle: string, haystack: string[][]) {
   for (let i = 0; i < haystack.length; i++) {
-      for (let j = 0; j < haystack[i].length; j++) {
-          if (haystack[i][j] === needle) {
-              return [i, j];
-          }
+    for (let j = 0; j < haystack[i].length; j++) {
+      if (haystack[i][j] === needle) {
+        return [i, j];
       }
+    }
   }
 
   // 如果未找到，则返回null或其他合适的默认值
@@ -34,7 +35,11 @@ function findIndexOfSubStringIn2DArray(needle: string, haystack: string[][]) {
  * @param defs {object} 数据列定义
  * @param data {array} G2图表实例
  * */
-export default function (defs: Record<string, Types.ScaleOption>, data: ChartData, language?: keyof typeof LanguageMap): void {
+export default function (
+  defs: Record<string, Types.ScaleOption>,
+  data: ChartData,
+  language?: keyof typeof LanguageMap,
+): void {
   const def = defs.x;
   // 所有的时间刻度计算都走图表库自己内置的（迁移G2的算法）
   if (
@@ -57,7 +62,9 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
       // 获取自定义mask在初始化mask Map下的索引地址
       const customMaskIndex = findIndexOfSubStringIn2DArray(customMask, sourceMaskMap);
       // 得到当前语言下的mask
-      const currentMask = customMaskIndex ? currentMaskMap[customMaskIndex[0]][customMaskIndex[1]] || customMask : customMask;
+      const currentMask = customMaskIndex
+        ? currentMaskMap[customMaskIndex[0]][customMaskIndex[1]] || customMask
+        : customMask;
       def.mask = currentMask;
     }
 
@@ -73,7 +80,7 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
           // 补充优化逻辑，针对当前画布尺寸适配标签个数
           tickCount: def.tickCount || values?.length || 7,
         });
-      }
+      };
     } else if (!def.tickMethod && def.type === 'timeCat') {
       def.tickMethod = (cfg: Types.ScaleOption) => {
         const { values } = cfg;
@@ -82,11 +89,11 @@ export default function (defs: Record<string, Types.ScaleOption>, data: ChartDat
           ...def,
           tickCount: def.tickCount || values?.length || 7,
         });
-      }
+      };
     }
   } else {
     // 分类型默认显示最后一个
-    if(def.type === 'cat' || def.type==='timeCat') {
+    if (def.type === 'cat' || def.type === 'timeCat') {
       def.showLast = true;
     }
   }
