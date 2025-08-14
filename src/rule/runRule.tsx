@@ -137,12 +137,8 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
     // 加错误提示
     const element = document.createElement('div');
-    ReactDOM.render(
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        {chartObj.props?.errorInfo}
-      </div>,
-      element,
-    );
+    ReactDOM.render(chartObj.props?.errorInfo, element);
+
     chartObj.chart.annotation().html({
       html: element,
       alignX: 'middle',
@@ -158,27 +154,28 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
 
     // 加loading提示
+    const element = document.createElement('div');
     const prefix = `${PrefixName}-wplaceholder-loading`;
-    chartObj.chart.annotation().html({
-      html: `
-    <div class="${prefix}" style="background: none;">
-      <div class="${prefix}-right-tip">
-      <div class="${prefix}-indicator">
-        <div class="${prefix}-fusion-reactor">
-          <span class="${prefix}-dot"></span>
-          <span class="${prefix}-dot"></span>
-          <span class="${prefix}-dot"></span>
-          <span class="${prefix}-dot"></span>
+    const loadingElement = chartObj.props?.loadingInfo ?? (
+      <div className={`${prefix}`} style={{ background: 'none', transform: 'translateX(-50%)' }}>
+        <div className={`${prefix}-right-tip`}>
+          <div className={`${prefix}-indicator`}>
+            <div className={`${prefix}-fusion-reactor`}>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
+            </div>
+          </div>
+          <div className={`${prefix}-tip-content`}>
+            {getText('loading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+          </div>
         </div>
       </div>
-      <div class="${prefix}-tip-content">${getText(
-        'loading',
-        chartObj.props?.language || chartObj.context.language,
-        chartObj.context.locale,
-      )}</div>
-    </div>
-  </div>
-      `,
+    );
+    ReactDOM.render(loadingElement, element);
+    chartObj.chart.annotation().html({
+      html: element,
       alignX: 'middle',
       alignY: 'middle',
       position: ['50%', '50%'],
@@ -192,17 +189,23 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
 
     // 加暂无数据提示
+    const element = document.createElement('div');
+    const emptyElement = chartObj.props?.emptyInfo ?? (
+      <div style={{ display: 'flex', alignItems: 'center', transform: 'translateX(-50%)' }}>
+        <svg width="14px" height="14px" viewBox="0 0 1024 1024">
+          <path
+            d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z"
+            fill="#AAAAAA"
+          ></path>
+        </svg>
+        <span style={{ fontSize: 12, color: '#808080', marginLeft: 5 }}>
+          {getText('empty', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+        </span>
+      </div>
+    );
+    ReactDOM.render(emptyElement, element);
     chartObj.chart.annotation().html({
-      html: `
-          <div style="display: flex; align-items: center;">
-            <svg width="14px" height="14px" viewBox="0 0 1024 1024"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z" fill="#AAAAAA"></path></svg>
-            <span style="font-size: 12px;color: #808080; margin-left: 5px;">${getText(
-              'empty',
-              chartObj.props?.language || chartObj.context.language,
-              chartObj.context.locale,
-            )}<span>
-          </div>
-        `,
+      html: element,
       alignX: 'middle',
       alignY: 'middle',
       position: ['50%', '50%'],

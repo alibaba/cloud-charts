@@ -163,10 +163,18 @@ export interface ChartProps<ChartConfig> {
   customChart?: any;
   /** 是否使用业务配置覆盖规则，默认为否。true表示关闭所有处理 */
   force?: Rule;
+
+  /** 特殊状态类型，默认common */
+  stateType?: 'common' | 'ai';
+  /** 自定义空状态文案 */
+  emptyInfo?: string | React.ReactNode;
   /** loading状态 */
   loading?: boolean;
+  /** 自定义loading文案 */
+  loadingInfo?: string | React.ReactNode;
   /** 错误信息，非空时直接显示图表的异常状态 */
   errorInfo?: string | React.ReactNode;
+
   /** chartRef */
   chartRef?: React.MutableRefObject<any>;
   chartLifecycle?: {
@@ -882,7 +890,10 @@ class Base<
       customChart,
       getChartInstance,
       enableFunctionUpdate,
+      stateType,
+      emptyInfo,
       loading,
+      loadingInfo,
       errorInfo,
       chartRef,
       force,
