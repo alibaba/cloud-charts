@@ -52,13 +52,13 @@ export default {
   max: 'Max',
   avg: 'Avg',
 
-  defaultMask: 'HH:mm:ss\nMMM DD, YYYY',
+  defaultMask: 'HH:mm:ss\nYYYY-MM-DD',
   timeMask: [
     ['YYYY'],
-    ['MMM, YYYY', 'MMM, YYYY'],
-    ['MMM DD, YYYY', 'MMM DD', 'MMM DD'],
-    ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm'],
-    ['MMM DD, YYYY, HH:mm', 'MMM DD, HH:mm', 'MMM DD, HH:mm', 'HH:mm', 'HH:mm'],
-    ['HH:mm:ss\nMMM DD, YYYY', 'MMM DD, HH:mm:ss', 'MMM DD, HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss'],
+    ['YYYY-MM', 'YYYY-MM'],
+    ['YYYY-MM-DD', 'MM-DD', 'MM-DD'],
+    ['YYYY-MM-DD, HH:mm', 'MM-DD, HH:mm', 'MM-DD, HH:mm', 'HH:mm'],
+    ['YYYY-MM-DD, HH:mm', 'MM-DD, HH:mm', 'MM-DD, HH:mm', 'HH:mm', 'HH:mm'],
+    ['HH:mm:ss\nYYYY-MM-DD', 'MM-DD, HH:mm:ss', 'MM-DD, HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss'],
   ],
 };
