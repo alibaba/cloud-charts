@@ -29,7 +29,8 @@
     "prepublishOnly": "npm run build",
     "lint": "eslint --cache --ext .js,.jsx ./",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "changelog": "node generate-changelog.js"
   },
   "files": [
     "package.json",
