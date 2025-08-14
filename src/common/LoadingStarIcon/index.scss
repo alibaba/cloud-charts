@@ -1,0 +1,34 @@
+.star-icon-container {
+  position: relative;
+  width: 40px;
+  height: 40px;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg); /* 起始角度 */
+    }
+    to {
+      transform: rotate(360deg); /* 结束角度 */
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1; /* 显示状态 */
+    }
+    50% {
+      opacity: 0; /* 隐藏状态 */
+    }
+  }
+
+  .loading-start-center {
+    position: absolute;
+    animation: spin 1.5s ease-out infinite; /* 持续 1 秒，线性运动，无限循环 */
+  }
+
+  .loading-start-around {
+    position: absolute;
+    animation: blink 1.5s infinite; /* 每 1.5 秒完成一次动画，无限循环 */
+  }
+}
