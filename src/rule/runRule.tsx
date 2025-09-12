@@ -138,7 +138,7 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
     // 加错误提示
     const element = document.createElement('div');
-    ReactDOM.render(chartObj.props?.errorInfo, element);
+    ReactDOM.render(<div>{chartObj.props?.errorInfo}</div>, element);
 
     chartObj.chart.annotation().html({
       html: element,
@@ -157,34 +157,34 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     // 加loading提示
     const element = document.createElement('div');
     const prefix = `${PrefixName}-wplaceholder-loading`;
-    const loadingElement =
-      chartObj.props?.loadingInfo ??
-      (chartObj.props?.stateType === 'ai' ? (
-        <div className={`${prefix}`} style={{ background: 'none', transform: 'translate(-50%, -50%)' }}>
-          <div className={`${prefix}-right-tip`}>
-            <LoadingStarIcon />
-            <div>
-              {getText('aiLoading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
-            </div>
+    const loadingElement = chartObj.props?.loadingInfo ? (
+      <div>{chartObj.props?.loadingInfo}</div>
+    ) : chartObj.props?.stateType === 'ai' ? (
+      <div className={`${prefix}`} style={{ background: 'none' }}>
+        <div className={`${prefix}-right-tip`}>
+          <LoadingStarIcon />
+          <div>
+            {getText('aiLoading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
           </div>
         </div>
-      ) : (
-        <div className={`${prefix}`} style={{ background: 'none', transform: 'translate(-50%, -50%)' }}>
-          <div className={`${prefix}-right-tip`}>
-            <div className={`${prefix}-indicator`}>
-              <div className={`${prefix}-fusion-reactor`}>
-                <span className={`${prefix}-dot`}></span>
-                <span className={`${prefix}-dot`}></span>
-                <span className={`${prefix}-dot`}></span>
-                <span className={`${prefix}-dot`}></span>
-              </div>
-            </div>
-            <div className={`${prefix}-tip-content`}>
-              {getText('loading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+      </div>
+    ) : (
+      <div className={`${prefix}`} style={{ background: 'none' }}>
+        <div className={`${prefix}-right-tip`}>
+          <div className={`${prefix}-indicator`}>
+            <div className={`${prefix}-fusion-reactor`}>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
+              <span className={`${prefix}-dot`}></span>
             </div>
           </div>
+          <div className={`${prefix}-tip-content`}>
+            {getText('loading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+          </div>
         </div>
-      ));
+      </div>
+    );
     ReactDOM.render(loadingElement, element);
     chartObj.chart.annotation().html({
       html: element,
@@ -202,8 +202,10 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
 
     // 加暂无数据提示
     const element = document.createElement('div');
-    const emptyElement = chartObj.props?.emptyInfo ?? (
-      <div style={{ display: 'flex', alignItems: 'center', transform: 'translate(-50%, -50%)' }}>
+    const emptyElement = chartObj.props?.emptyInfo ? (
+      <div>{chartObj.props?.emptyInfo}</div>
+    ) : (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <svg width="14px" height="14px" viewBox="0 0 1024 1024">
           <path
             d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448-448-200.576-448-448 200.576-448 448-448z m11.2 339.2h-64l-1.3888 0.032A32 32 0 0 0 427.2 435.2l0.032 1.3888A32 32 0 0 0 459.2 467.2h32v227.2H448l-1.3888 0.032A32 32 0 0 0 448 758.4h140.8l1.3888-0.032A32 32 0 0 0 588.8 694.4h-33.6V435.2l-0.032-1.3888A32 32 0 0 0 523.2 403.2zM512 268.8a44.8 44.8 0 1 0 0 89.6 44.8 44.8 0 0 0 0-89.6z"
