@@ -13,7 +13,6 @@ $lock-background: getVar(widgets-color-container-background, $widgets-color-cont
   border-radius: getVar(widgets-tooltip-corner-radius, $widgets-tooltip-corner-radius);
   box-shadow: getVar(widgets-tooltip-shadow, $widgets-tooltip-shadow);
   padding: $container-padding;
-  padding-right: 0;
   font-family: getVar(widgets-font-family-txd-m-number, $widgets-font-family-txd-m-number);
   font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
   color: getVar(widgets-tooltip-text, $widgets-tooltip-text);
