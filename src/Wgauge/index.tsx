@@ -23,7 +23,7 @@ export interface IWgaugeProps {
 interface WgaugeProps extends customFormatterConfig {
   min?: number; // 最小值，默认0
   max?: number; // 最大值，默认100
-  colors?: string | Array<[number | 'max', Status | string]>;
+  colors?: string | Array<[number | 'max', Status | string]>; // 分割点为整数
   className?: string;
   outRing?: boolean;
   fontColorFit?: boolean;
@@ -94,7 +94,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     addonTextAfter,
   } = config || {};
 
-  const [colors1, colors2] = transformColors(colors);
+  const [colors1, colors2] = Array.isArray(colors)
+    ? transformColors(colors)
+    : [[[100, colors]], [[100, colors]]];
 
   let current = data.current || 0;
 
@@ -258,16 +260,22 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
     decorationGap,
   );
 
-  // 仪表盘装饰圆环
-  const pathRingData = [
+  // 仪表盘装饰圆环左侧
+  const pathRingDataLeft = [
     `M ${decoratedStartX} ${decoratedStartY}`, // 移动到装饰性弧线的起点
     `A ${radius + decorationGap} ${
       radius + decorationGap
     } 0 0 1 ${decoratedMiddleX} ${decoratedMiddleY}`,
   ].join(' ');
 
-  const pathRingData1 = [
-    `M ${decoratedMiddleX} ${decoratedMiddleY}`, // 移动到装饰性弧线的起点
+  // 仪表盘装饰圆环右侧
+  const pathRingDataRight = [
+    `M ${decoratedMiddleX} ${decoratedMiddleY}`, // 移动到装饰性弧线的中点
+    `A ${radius + decorationGap} ${radius + decorationGap} 0 0 1 ${decoratedEndX} ${decoratedEndY}`,
+  ].join(' ');
+
+  const pathRingDataAll = [
+    `M ${decoratedStartX} ${decoratedStartY}`, // 移动到装饰性弧线的中点
     `A ${radius + decorationGap} ${radius + decorationGap} 0 0 1 ${decoratedEndX} ${decoratedEndY}`,
   ].join(' ');
 
@@ -402,11 +410,9 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
           Math.abs(Math.sin(((angle.start - 180) * Math.PI) / 180)) *
             (viewBoxHeightWithDecorations + realScaleLineLength + gaugeTextSize)
         }`
-      : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${
-          viewBoxDecoratedY - strokeWidth / 3
-        } ${viewBoxWidthWithDecorations + realScaleLineLength * 4 + gaugeTextSize * 2} ${
-          viewBoxHeightWithDecorations - realScaleLineLength * 2 - gaugeTextSize
-        }`;
+      : `${viewBoxDecoratedX - realScaleLineLength * 2 - gaugeTextSize - 2} ${viewBoxDecoratedY - strokeWidth / 3} ${
+          viewBoxWidthWithDecorations + realScaleLineLength * 4 + gaugeTextSize * 2
+        } ${viewBoxHeightWithDecorations - realScaleLineLength * 2 - gaugeTextSize}`;
 
   return (
     <div
@@ -423,31 +429,12 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
         viewBox={viewBox}
       >
         <defs>
-          <linearGradient id="gradient1" x1="0" y1="0" x2="0" y2="1">
-            {Array.isArray(colors) &&
+          <linearGradient id="gradientLeft" x1="0" y1="0" x2="0" y2="1">
+            {Array.isArray(colors1) &&
               colors1.map(([offset, colorName]) => {
                 const numberOffset =
-                  offset === 'max'
-                    ? 100
-                    : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
-                return (
-                  <stop
-                    key={colorName}
-                    offset={`${numberOffset}%`}
-                    stopColor={`var(--${prefix}-${colorName}-color)`}
-                  />
-                );
-              })}
-          </linearGradient>
-          <linearGradient id="gradient2" x1="0" y1="0" x2="0" y2="1">
-            {Array.isArray(colors) &&
-              colors2.map(([offset, colorName]) => {
-                const numberOffset =
-                  offset === 'max'
-                    ? 100
-                    : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
-                const colorAngle =
-                  ((angle.end - angle.start) * numberOffset) / 100 - (angle.end - angle.start) / 2;
+                  offset === 'max' ? 100 : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
+                const colorAngle = ((angle.end - angle.start) * numberOffset) / 100 - (angle.end - angle.start) / 2;
                 const colorOffset =
                   (1 - Math.cos((colorAngle * Math.PI) / 180)) /
                   (1 + Math.cos(((180 - (angle.end - angle.start) / 2) * Math.PI) / 180));
@@ -460,22 +447,46 @@ const Wgauge: React.FC<IWgaugeProps> = (props) => {
                 );
               })}
           </linearGradient>
+          <linearGradient id="gradientRight" x1="0" y1="0" x2="0" y2="1">
+            {Array.isArray(colors2) &&
+              colors2.map(([offset, colorName]) => {
+                const numberOffset =
+                  offset === 'max' ? 100 : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
+                const colorAngle = ((angle.end - angle.start) * numberOffset) / 100 - (angle.end - angle.start) / 2;
+                const colorOffset =
+                  (1 - Math.cos((colorAngle * Math.PI) / 180)) /
+                  (1 + Math.cos(((180 - (angle.end - angle.start) / 2) * Math.PI) / 180));
+                return (
+                  <stop
+                    key={colorName}
+                    offset={numberOffset === 0 ? 0 : colorOffset}
+                    stopColor={`var(--${prefix}-${colorName}-color)`}
+                  />
+                );
+              })}
+          </linearGradient>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            {Array.isArray(colors) ? (
+              colors.map(([offset, colorName]) => {
+                const numberOffset =
+                  offset === 'max' ? 100 : Math.min(1, Math.max(0, (offset - min) / (max - min))) * 100;
+                return (
+                  <stop key={colorName} offset={`${numberOffset}%`} stopColor={`var(--${prefix}-${colorName}-color)`} />
+                );
+              })
+            ) : (
+              <stop key={colors} offset="100%" stopColor={`var(--${prefix}-${colors}-color)`} />
+            )}
+          </linearGradient>
         </defs>
-        {outRing && (
-          <path
-            d={pathRingData}
-            fill="none"
-            stroke="url(#gradient1)"
-            strokeWidth={decorationStrokeWidth}
-          />
+        {outRing && angle.end - angle.start > 180 && (
+          <path d={pathRingDataLeft} fill="none" stroke="url(#gradientLeft)" strokeWidth={decorationStrokeWidth} />
         )}
-        {outRing && (
-          <path
-            d={pathRingData1}
-            fill="none"
-            stroke="url(#gradient2)"
-            strokeWidth={decorationStrokeWidth}
-          />
+        {outRing && angle.end - angle.start > 180 && (
+          <path d={pathRingDataRight} fill="none" stroke="url(#gradientRight)" strokeWidth={decorationStrokeWidth} />
+        )}
+        {outRing && angle.end - angle.start <= 180 && (
+          <path d={pathRingDataAll} fill="none" stroke="url(#gradient)" strokeWidth={decorationStrokeWidth} />
         )}
         <path
           d={pathBottomData}
@@ -538,29 +549,71 @@ function getColorForCurrent(
   return colors[colors.length - 1][1];
 }
 
-function transformColors(colors, splitPoint = 50) {
-  const newColors = [];
-  let lastEnd = 0;
+function transformColors(data, opts = {}) {
+  const split = opts.split ?? 50;
+  const offsetFrom = opts.offsetFrom ?? 'edge';
+  // 假设整体范围以 data 最后一个值为最大值、0 为最小值
+  const arr = data.slice().sort((a, b) => a[0] - b[0]);
+  const domainMin = 0;
+  const domainMax = arr[arr.length - 1][0];
 
-  for (let i = 0; i < colors.length; i++) {
-    const [value, status] = colors[i];
-
-    newColors.push([lastEnd, status]);
-    if (lastEnd < splitPoint && splitPoint <= value) {
-      newColors.push([splitPoint, status]);
-    }
-
-    lastEnd = value;
+  // 构造区间：prev..value 区间用当前颜色
+  const intervals = [];
+  let prev = domainMin;
+  for (let i = 0; i < arr.length; i++) {
+    const [value, color] = arr[i];
+    if (value > prev) intervals.push({ start: prev, end: value, color });
+    prev = value;
   }
 
-  const colors1 = newColors.filter((i) => i[0] <= 50);
-  const colors2 = newColors.filter((i) => i[0] >= 50);
-  colors1.forEach((i) => {
-    i[0] = Math.abs(50 - i[0]);
-  });
-  colors1.sort((a, b) => a[0] - b[0]);
+  // 切分到左右两半
+  const leftPieces = [];
+  const rightPieces = [];
+  for (const seg of intervals) {
+    const { start, end, color } = seg;
+    if (end <= split) {
+      leftPieces.push({ start, end, color });
+    } else if (start >= split) {
+      rightPieces.push({ start, end, color });
+    } else {
+      leftPieces.push({ start, end: split, color });
+      rightPieces.push({ start: split, end, color });
+    }
+  }
 
-  return [colors1, colors2];
+  // 排序：从中间往外
+  leftPieces.sort((a, b) => b.end - a.end); // 左半：end 越大越靠近中间
+  rightPieces.sort((a, b) => a.start - b.start); // 右半：start 越小越靠近中间
+
+  function buildStops(pieces, side) {
+    if (pieces.length === 0) return [];
+    const stops = [];
+    // 起点颜色（靠近 50 的那段）
+    stops.push([0, pieces[0].color]);
+
+    if (offsetFrom === 'center') {
+      // 从中间向外的累计距离
+      let cum = 0;
+      for (let i = 0; i < pieces.length - 1; i++) {
+        const len = pieces[i].end - pieces[i].start;
+        cum += len;
+        stops.push([cum, pieces[i + 1].color]);
+      }
+    } else {
+      // 从两端算起的距离
+      for (let i = 0; i < pieces.length - 1; i++) {
+        // 左半的边界取 pieces[i].start；右半的边界取 pieces[i].end
+        const boundaryVal = side === 'left' ? pieces[i].start : pieces[i].end;
+        const offset = side === 'left' ? boundaryVal - domainMin : domainMax - boundaryVal;
+        stops.push([offset, pieces[i + 1].color]);
+      }
+    }
+    return stops;
+  }
+
+  const colors1 = buildStops(leftPieces, 'left'); // 左半（从中间到左侧）
+  const colors2 = buildStops(rightPieces, 'right'); // 右半（从中间到右侧）
+  return [ colors1, colors2 ];
 }
 
 function getFontSizeNumber(style: React.CSSProperties) {

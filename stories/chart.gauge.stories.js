@@ -102,6 +102,8 @@ const newConfig = {
     start: -210,
     end: 30,
   },
+  // colors: 'success',
+  colors: [[10, 'normal'],[50, 'warning'], [100, 'success']],
   gaugeScale: {
     scaleNum: 9,
     scale: true,
