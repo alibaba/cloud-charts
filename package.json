@@ -102,7 +102,8 @@
     "@antv/component": "0.8.28",
     "@antv/matrix-util": "3.1.0-beta.3",
     "@antv/util": "2.0.17",
-    "typescript": "4.6.4"
+    "typescript": "4.6.4",
+    "d3-composite-projections": "1.4.0"
   },
   "author": "maplor@163.com"
 }
