@@ -316,6 +316,24 @@ const barChart: IChartRule = {
   processConfig: (config: any) => {
     let finalConfig = config;
 
+    // 如果没有配置最大值，但是有辅助线，则默认增加最大值
+    if (finalConfig.yAxis && finalConfig.guide) {
+      let guideYMax: number | null = null;
+      Object.keys(finalConfig.guide).forEach((key) => {
+        const guideItem = finalConfig.guide[key];
+        if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
+          if (guideYMax === null || guideItem.value > guideYMax) {
+            guideYMax = guideItem.value;
+          }
+        }
+      });
+
+      // 双轴不做处理
+      if (guideYMax !== null && !Array.isArray(finalConfig?.yAxis)) {
+        finalConfig.yAxis.max = Math.max(finalConfig.yAxis.max, guideYMax);
+      }
+    }
+
     // 处理百分比柱图的y轴%展示
     if (!Array.isArray(finalConfig?.yAxis) && finalConfig.percentage && !finalConfig.yAxis.labelFormatter) {
       const customFormatter = finalConfig.yAxis?.labelFormatter;
@@ -526,6 +544,24 @@ const lineChart: IChartRule = {
           gradient: false,
         },
       };
+    }
+
+    // 如果没有配置最大值，但是有辅助线，则默认增加最大值
+    if (finalConfig.yAxis && finalConfig.guide) {
+      let guideYMax: number | null = null;
+      Object.keys(finalConfig.guide).forEach((key) => {
+        const guideItem = finalConfig.guide[key];
+        if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
+          if (guideYMax === null || guideItem.value > guideYMax) {
+            guideYMax = guideItem.value;
+          }
+        }
+      });
+
+      // 双轴不做处理
+      if (guideYMax !== null && !Array.isArray(finalConfig?.yAxis)) {
+        finalConfig.yAxis.max = Math.max(finalConfig.yAxis.max, guideYMax);
+      }
     }
 
     return finalConfig;
