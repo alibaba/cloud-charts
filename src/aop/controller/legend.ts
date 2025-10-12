@@ -40,7 +40,7 @@ class WidgetsLegendController extends RawLegendController {
       widgetsCtx?.defaultConfig?.legend ?? {},
       globalBaseConfig?.legend ?? {},
       globalComsConfig?.legend ?? {},
-      widgetsCtx?.props?.config?.legend ?? {},
+      widgetsCtx?.finalConfig?.legend ?? {},
     );
 
     if (

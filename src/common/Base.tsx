@@ -220,6 +220,9 @@ class Base<
   // 通过context传递的合并后的config
   public mergeConfig: ChartConfig;
 
+  // 经过规则处理后的最终config
+  public finalConfig: ChartConfig;
+
   protected language: Language;
 
   protected rawData: ChartData;
@@ -665,6 +668,8 @@ class Base<
     //     warn(`W${this.chartName.slice(2)}`, '推荐通过innerContent配置项设置中心内容');
     //   }
     // }
+
+    this.finalConfig = config;
 
     // 生成图表实例
     const chart = new Chart({
