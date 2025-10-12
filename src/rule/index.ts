@@ -321,9 +321,19 @@ const barChart: IChartRule = {
       let guideYMax: number | null = null;
       Object.keys(finalConfig.guide).forEach((key) => {
         const guideItem = finalConfig.guide[key];
-        if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
-          if (guideYMax === null || guideItem.value > guideYMax) {
-            guideYMax = guideItem.value;
+        if (Array.isArray(guideItem)) {
+          guideItem.forEach((subItem) => {
+            if (subItem?.axis === 'y' && (subItem?.value || subItem?.value === 0)) {
+              if (guideYMax === null || subItem.value > guideYMax) {
+                guideYMax = subItem.value;
+              }
+            }
+          });
+        } else {
+          if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
+            if (guideYMax === null || guideItem.value > guideYMax) {
+              guideYMax = guideItem.value;
+            }
           }
         }
       });
@@ -551,9 +561,19 @@ const lineChart: IChartRule = {
       let guideYMax: number | null = null;
       Object.keys(finalConfig.guide).forEach((key) => {
         const guideItem = finalConfig.guide[key];
-        if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
-          if (guideYMax === null || guideItem.value > guideYMax) {
-            guideYMax = guideItem.value;
+        if (Array.isArray(guideItem)) {
+          guideItem.forEach((subItem) => {
+            if (subItem?.axis === 'y' && (subItem?.value || subItem?.value === 0)) {
+              if (guideYMax === null || subItem.value > guideYMax) {
+                guideYMax = subItem.value;
+              }
+            }
+          });
+        } else {
+          if (guideItem?.axis === 'y' && (guideItem?.value || guideItem?.value === 0)) {
+            if (guideYMax === null || guideItem.value > guideYMax) {
+              guideYMax = guideItem.value;
+            }
           }
         }
       });
