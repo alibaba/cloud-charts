@@ -3,8 +3,8 @@ export default {
   loading: 'Loading...',
   aiLoading: 'The chart is generating...',
   error: 'Error',
-  noData: 'No data',
-  empty: 'No data',
+  noData: 'No Data',
+  empty: 'No Data',
   reset: 'Reset',
 
   // 地图
@@ -59,7 +59,23 @@ export default {
     ['YYYY-MM-DD', 'MM-DD', 'MM-DD'],
     ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm'],
     ['YYYY-MM-DD HH:mm', 'MM-DD HH:mm', 'MM-DD HH:mm', 'HH:mm', 'HH:mm'],
-    ['HH:mm:ss\nYYYY-MM-DD', 'MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss.SSS'],
-    ['HH:mm:ss\nYYYY-MM-DD', 'MM-DD HH:mm:ss', 'MM-DD HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss', 'HH:mm:ss.SSS', 'HH:mm:ss.SSS'],
+    [
+      'HH:mm:ss\nYYYY-MM-DD',
+      'MM-DD HH:mm:ss',
+      'MM-DD HH:mm:ss',
+      'HH:mm:ss',
+      'HH:mm:ss',
+      'HH:mm:ss',
+      'HH:mm:ss.SSS',
+    ],
+    [
+      'HH:mm:ss\nYYYY-MM-DD',
+      'MM-DD HH:mm:ss',
+      'MM-DD HH:mm:ss',
+      'HH:mm:ss',
+      'HH:mm:ss',
+      'HH:mm:ss.SSS',
+      'HH:mm:ss.SSS',
+    ],
   ],
 };
