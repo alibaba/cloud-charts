@@ -679,7 +679,7 @@ class Base<
       padding: config.padding,
       appendPadding: config.appendPadding,
       localRefresh: localRefresh,
-      limitInPlot: false,
+      limitInPlot: true,
       // forceFit: forceFit || false,
       // auto-padding 时自带的内边距
       // autoPaddingAppend: 3,
