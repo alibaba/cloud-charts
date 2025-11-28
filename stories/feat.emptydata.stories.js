@@ -33,11 +33,7 @@ stories.add('业务图表空数据', () => (
 
 stories.add('线图', () => (
   <Wcontainer className="demos">
-    <Wline
-      height="300"
-      data={[]}
-      emptyInfo={<div style={{ transform: 'translateX(-50%)' }}>tesatehasfkjdhkfladsljgkhdsagfhdsjklfbsdjkf</div>}
-    />
+    <Wline height="300" data={[]} emptyInfo={<div>tesatehasfkjdhkfladsljgkhdsagfhdsjklfbsdjkf</div>} />
   </Wcontainer>
 ));
 

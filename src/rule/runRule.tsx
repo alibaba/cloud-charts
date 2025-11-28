@@ -91,7 +91,10 @@ export function runInitRule(chartObj: any, config: any, data: any) {
     chartObj.isBigData = true;
 
     if (chartRule?.bigData?.process) {
-      const { data: bigReplaceData, config: bigDataConfig } = chartRule?.bigData?.process?.(chartObj, data);
+      const { data: bigReplaceData, config: bigDataConfig } = chartRule?.bigData?.process?.(
+        chartObj,
+        data,
+      );
 
       return {
         data: bigReplaceData,
@@ -129,6 +132,17 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
   if (!chartObj.chartRule) {
     return;
   }
+
+  // 特殊状态的容器
+  const existedContainer = chartObj.chartDom?.querySelector(
+    `.${PrefixName}-wplaceholder-container`,
+  );
+  let container = existedContainer;
+  if (!container) {
+    container = document.createElement('div');
+    container.className = `${PrefixName}-wplaceholder-container`;
+  }
+
   // 状态：error > loading > empty
   // error
   if (chartObj?.props?.errorInfo && !chartObj.props.children) {
@@ -137,15 +151,8 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
       chartObj.chartDom.style.backgroundColor = themes['widgets-color-layout-background'];
     }
     // 加错误提示
-    const element = document.createElement('div');
-    ReactDOM.render(<div>{chartObj.props?.errorInfo}</div>, element);
-
-    chartObj.chart.annotation().html({
-      html: element,
-      alignX: 'middle',
-      alignY: 'middle',
-      position: ['50%', '50%'],
-    });
+    ReactDOM.render(<div>{chartObj.props?.errorInfo}</div>, container);
+    chartObj.chartDom.appendChild(container);
   }
   // loading
   else if (chartObj?.props?.loading && !chartObj.props.children) {
@@ -155,7 +162,6 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
 
     // 加loading提示
-    const element = document.createElement('div');
     const prefix = `${PrefixName}-wplaceholder-loading`;
     const loadingElement = chartObj.props?.loadingInfo ? (
       <div>{chartObj.props?.loadingInfo}</div>
@@ -164,7 +170,11 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
         <div className={`${prefix}-right-tip`}>
           <LoadingStarIcon />
           <div>
-            {getText('aiLoading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+            {getText(
+              'aiLoading',
+              chartObj.props?.language || chartObj.context.language,
+              chartObj.context.locale,
+            )}
           </div>
         </div>
       </div>
@@ -180,18 +190,17 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
             </div>
           </div>
           <div className={`${prefix}-tip-content`}>
-            {getText('loading', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+            {getText(
+              'loading',
+              chartObj.props?.language || chartObj.context.language,
+              chartObj.context.locale,
+            )}
           </div>
         </div>
       </div>
     );
-    ReactDOM.render(loadingElement, element);
-    chartObj.chart.annotation().html({
-      html: element,
-      alignX: 'middle',
-      alignY: 'middle',
-      position: ['50%', '50%'],
-    });
+    ReactDOM.render(loadingElement, container);
+    chartObj.chartDom.appendChild(container);
   }
   // 空数据处理
   else if (chartObj.isEmpty && !chartObj.props.children) {
@@ -201,7 +210,6 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
     }
 
     // 加暂无数据提示
-    const element = document.createElement('div');
     const emptyElement = chartObj.props?.emptyInfo ? (
       <div>{chartObj.props?.emptyInfo}</div>
     ) : (
@@ -213,20 +221,24 @@ export function runBeforePaintRule(chartObj: any, config: any, data: any) {
           ></path>
         </svg>
         <span style={{ fontSize: 12, color: '#808080', marginLeft: 5 }}>
-          {getText('empty', chartObj.props?.language || chartObj.context.language, chartObj.context.locale)}
+          {getText(
+            'empty',
+            chartObj.props?.language || chartObj.context.language,
+            chartObj.context.locale,
+          )}
         </span>
       </div>
     );
-    ReactDOM.render(emptyElement, element);
-    chartObj.chart.annotation().html({
-      html: element,
-      alignX: 'middle',
-      alignY: 'middle',
-      position: ['50%', '50%'],
-    });
+    ReactDOM.render(emptyElement, container);
+    chartObj.chartDom.appendChild(container);
   } else {
     // 当不是无数据状态时需要删除对应背景色
     chartObj.chartDom.style.removeProperty('background-color');
+
+    // 删除特殊状态的元素
+    if (existedContainer) {
+      chartObj.chartDom.removeChild(existedContainer);
+    }
   }
 
   // 大数据处理

@@ -47,3 +47,9 @@ stories.add('不完整数据', () => (
     />
   </div>
 ));
+
+stories.add('自定义错误信息', () => (
+  <div style={{ height: 400 }}>
+    <Wline config={{}} data={[]} errorInfo={<div>自定义错误信息</div>} />
+  </div>
+));
