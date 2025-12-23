@@ -28,7 +28,7 @@ export function getStatistics(
     items[legendName].push({
       ...item,
       // 解决树类型数据遍历的时候value值计算出现undefined得问题
-      value: item?.value ?? item?.rawValue,
+      value: item?.value ?? item?.rawValue ?? item?.y,
     });
   });
 

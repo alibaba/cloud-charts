@@ -359,6 +359,28 @@ class Base<
     return hasConfigChange;
   }
 
+  // 检查数据变化前后，坐标轴和类型映射是否改变
+  checkDataAxisChange(newData: ChartData, oldData: ChartData): boolean {
+    const getAxisMap = (originData: ChartData) => {
+      const axisMap = new Map<string, string>();
+
+      (originData || []).forEach((item: any) => {
+        const { name, yAxis, type } = item || {};
+        axisMap.set(name, `${yAxis || ''}-${type || ''}`);
+      });
+
+      return axisMap;
+    };
+
+    const oldAxisMap = getAxisMap(oldData);
+    const newAxisMap = getAxisMap(newData);
+
+    const keys = new Set([...oldAxisMap.keys(), ...newAxisMap.keys()]);
+    return Array.from(keys).some(
+      (key: string) => oldAxisMap.has(key) && newAxisMap.has(key) && oldAxisMap.get(key) !== newAxisMap.get(key),
+    );
+  }
+
   componentDidUpdate(prevProps: Props) {
     const {
       data: newData,
@@ -481,6 +503,12 @@ class Base<
 
       // 必须重绘的场景：空数据变成有数据、极端与非极端切换、异常与非异常切换
       if (needRerender) {
+        this.rerender();
+        return;
+      }
+
+      // 当数据中的坐标轴改变时，也需要进行重绘
+      if (this.checkDataAxisChange(newData, oldData)) {
         this.rerender();
         return;
       }
