@@ -20,6 +20,7 @@ $lock-background: getVar(widgets-color-container-background, $widgets-color-cont
   #{$prefix}title {
     color: getVar(widgets-tooltip-title, $widgets-tooltip-title);
     margin-bottom: 8px;
+    white-space: pre-line;
   }
 
   #{$prefix}items-container {
