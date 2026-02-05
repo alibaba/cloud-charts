@@ -123,6 +123,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   // id -> 统计值的最终展示值 映射表
   const valueMap: Record<string, any> = useMemo(() => {
     const newMap: Record<string, any> = {};
+    console.log('updateItems', updateItems, statisticsRes);
     updateItems.map((legendItem: ListItem) => {
       let { name } = legendItem;
       const id = legendItem.id ?? name;
@@ -185,6 +186,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   const widthMap: Record<string, number> = useMemo(() => {
     const newMap: Record<string, any> = {};
 
+    console.log('valueMap', valueMap, statistics);
     Object.keys(valueMap).forEach((id: string) => {
       const statisticMap = valueMap[id];
       Object.keys(statisticMap).forEach((statistic: string) => {

@@ -122,6 +122,7 @@ export class Pie extends Base<WpieConfig> {
       // padding: [20, 20, 20, 20],
       legend: {
         position: 'right',
+        // foldable: true,
         align: '',
         showData: true,
         nameFormatter: null, // 可以强制覆盖，手动设置label
@@ -134,7 +135,7 @@ export class Pie extends Base<WpieConfig> {
       // coord: null,
       autoSort: true,
       cycle: false,
-      select: false,
+      select: true,
       innerRadius: 0.8, // 内环半径大小，仅cycle为true时可用
       outerRadius: 0.8, // 饼图半径大小，初始化时可用
       // drawPadding: [10, 10, 10, 10],

@@ -313,7 +313,10 @@ export function runAfterDataChangedRule(chartObj: any, config: any, data: any) {
   if (chartRule.extremeData) {
     const extremeProcess = chartRule.extremeData;
     const { isExtreme } = extremeProcess?.(chartObj, config, data);
-    needRerender = (chartObj.isExtreme ?? false) !== isExtreme;
+
+    // 极端场景与非极端场景之间切换、极端到极端（防止配置项变化）都需要重绘
+    needRerender = (chartObj.isExtreme ?? false) !== isExtreme || isExtreme;
+
     chartObj.isExtreme = isExtreme;
   }
 
