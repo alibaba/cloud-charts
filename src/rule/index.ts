@@ -362,22 +362,22 @@ const barChart: IChartRule = {
 
     // 线图与柱图当同时使用自定义legend与slider时，切换为默认legend
     // 临时方案，自定义legend与slider无法兼容，待修复bug后删除
-    if (
-      (finalConfig?.legend?.foldable ||
-        finalConfig?.legend?.table ||
-        finalConfig?.legend?.gradient) &&
-      finalConfig?.slider
-    ) {
-      finalConfig = {
-        ...finalConfig,
-        legend: {
-          ...finalConfig?.legend,
-          foldable: false,
-          table: false,
-          gradient: false,
-        },
-      };
-    }
+    // if (
+    //   (finalConfig?.legend?.foldable ||
+    //     finalConfig?.legend?.table ||
+    //     finalConfig?.legend?.gradient) &&
+    //   finalConfig?.slider
+    // ) {
+    //   finalConfig = {
+    //     ...finalConfig,
+    //     legend: {
+    //       ...finalConfig?.legend,
+    //       foldable: false,
+    //       table: false,
+    //       gradient: false,
+    //     },
+    //   };
+    // }
 
     // 处理label展示不全问题
     let appendPadding = null;
@@ -539,22 +539,22 @@ const lineChart: IChartRule = {
 
     // 线图与柱图当同时使用自定义legend与slider时，切换为默认legend
     // 临时方案，自定义legend与slider无法兼容，待修复bug后删除
-    if (
-      (finalConfig?.legend?.foldable ||
-        finalConfig?.legend?.table ||
-        finalConfig?.legend?.gradient) &&
-      finalConfig?.slider
-    ) {
-      finalConfig = {
-        ...finalConfig,
-        legend: {
-          ...finalConfig?.legend,
-          foldable: false,
-          table: false,
-          gradient: false,
-        },
-      };
-    }
+    // if (
+    //   (finalConfig?.legend?.foldable ||
+    //     finalConfig?.legend?.table ||
+    //     finalConfig?.legend?.gradient) &&
+    //   finalConfig?.slider
+    // ) {
+    //   finalConfig = {
+    //     ...finalConfig,
+    //     legend: {
+    //       ...finalConfig?.legend,
+    //       foldable: false,
+    //       table: false,
+    //       gradient: false,
+    //     },
+    //   };
+    // }
 
     // 如果没有配置最大值，但是有辅助线，则默认增加最大值
     if (finalConfig.yAxis && finalConfig.guide) {

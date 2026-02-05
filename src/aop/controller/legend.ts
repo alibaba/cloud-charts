@@ -112,8 +112,10 @@ class WidgetsLegendController extends RawLegendController {
         }
       }
       if (this.view?.canvas?.get('el')) {
-        // @ts-ignore
-        this.view?.changeSize(size[0], size[1]);
+        setTimeout(() => {
+          // @ts-ignore
+          this.view?.changeSize(size[0], size[1]);
+        }, 0);
       }
 
       // 设置图表宽高

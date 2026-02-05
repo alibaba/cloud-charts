@@ -121,12 +121,6 @@ export function processBarBigData(chartObj: any, data: any) {
     return {};
   }
 
-  // 暂定：开启自定义图例时，不进行大数据处理
-  // 待修复缺陷后去掉
-  if (config?.legend?.foldable || config?.legend?.table || config?.legend?.gradient) {
-    return {};
-  }
-
   return {
     config: {
       slider: config?.slider
@@ -157,12 +151,6 @@ export function processLineBigData(chartObj: any, data: any) {
   }
 
   let needSlider = true;
-
-  // 暂定：开启自定义图例时，不开启缩略轴
-  // 待修复缺陷后去掉
-  if (config?.legend?.foldable || config?.legend?.table || config?.legend?.gradient) {
-    needSlider = false;
-  }
 
   // 仅cat类型的线图需要自动开启slider
   if (config?.xAxis?.type !== 'cat') {
