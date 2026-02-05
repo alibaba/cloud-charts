@@ -7,6 +7,7 @@ import { PrefixName } from '../../constants';
 import React from 'react';
 import { getRawData, customFormatter } from '../../common/common';
 import '../component/FreeTooltip/index.scss';
+import { calcTextWidth } from '../../common/ellipsisLabel';
 
 // @ts-ignore
 class WidgetsTooltipController extends RawTooltipController {
@@ -120,9 +121,7 @@ class WidgetsTooltipController extends RawTooltipController {
           if (Array.isArray(formatConfig)) {
             // 双轴
             customValueFormatter =
-              'y1' in item?.data
-                ? customFormatter(formatConfig[1])
-                : customFormatter(formatConfig[0]);
+              'y1' in item?.data ? customFormatter(formatConfig[1]) : customFormatter(formatConfig[0]);
           } else {
             // 单轴
             customValueFormatter = customFormatter(formatConfig);
@@ -140,47 +139,75 @@ class WidgetsTooltipController extends RawTooltipController {
       });
 
       const element =
-        cfg.customTooltip === true ? (
-          <FreeTooltip title={title} data={items} />
-        ) : (
-          cfg.customTooltip(title, items)
-        );
+        cfg.customTooltip === true ? <FreeTooltip title={title} data={items} /> : cfg.customTooltip(title, items);
       ReactDOM.render(element, this.tooltipContainer);
 
-      // 计算位置
+      // 计算位置和尺寸
       const padding = 10;
       const position = {
         x: point.x + padding,
         y: point.y,
       };
+
       const parentRect = this.parentDom.getBoundingClientRect();
+      const bodyWidth = document.body.clientWidth;
+      const bodyHeight = document.body.clientHeight;
+
       position.x += parentRect.left;
       position.y += parentRect.top;
 
-      const tooltipRect = this.tooltipContainer.getBoundingClientRect();
-      const bodyWidth = document.body.clientWidth;
-      const bodyHeight = document.body.clientHeight;
-      if (
-        position.x + tooltipRect.width > bodyWidth &&
-        position.x - tooltipRect.width - padding * 2 >= 0
-      ) {
-        // 超过屏幕时移至左边
-        position.x = position.x - tooltipRect.width - padding * 2;
+      // 根据title与items计算内部尺寸
+      const maxName = (items || []).reduce((longest, current) =>
+        current.name.length + current.value.toString().length > longest.name.length + longest.value.toString().length
+          ? current
+          : longest,
+      );
+      const innerSize = {
+        width: calcTextWidth(`${maxName.name}${maxName.value}`) + (maxName?.color ? 10 : 0) + 8 + 24 + 12 + 4,
+        height: (title ? 26 : 0) + (items?.length || 0) * 18 + (items?.length > 0 ? items.length - 1 : 0) * 8 + 24,
+      };
+
+      const size = {
+        width: Math.min(bodyWidth / 4, innerSize.width),
+        height: Math.min(bodyHeight / 2, innerSize.height),
+      };
+
+      // 宽度超过屏幕时
+      if (position.x + size.width > bodyWidth) {
+        // 判断左边和右边哪边区域更大就放哪边
+        const leftWidth = position.x - padding;
+        const rightWidth = bodyWidth - position.x - padding;
+        if (leftWidth > rightWidth) {
+          // 移至左侧
+          position.x = Math.max(position.x - size.width - padding, 0);
+          size.width = Math.min(size.width, leftWidth);
+        } else {
+          // 依然在右侧，缩小宽度
+          size.width = Math.min(size.width, rightWidth);
+        }
       }
-      if (
-        position.y + tooltipRect.height > bodyHeight &&
-        position.y - tooltipRect.height - padding >= 0
-      ) {
-        // 超过屏幕时移至上方
-        position.y = position.y - tooltipRect.height - padding;
+
+      // 高度超过屏幕时
+      if (position.y + size.height > bodyHeight) {
+        // 判断上边和下边哪边区域更大就放哪边
+        const topHeight = position.y - padding;
+        const bottomHeight = bodyHeight - position.y - padding;
+
+        if (topHeight > bottomHeight) {
+          // 移至上方
+          position.y = Math.max(position.y - size.height - padding, 0);
+          size.height = Math.min(size.height, topHeight);
+        } else {
+          // 依然在下方，缩小高度
+          size.height = Math.min(size.height, bottomHeight);
+        }
       }
 
       // 定位
       // @ts-ignore
       this.tooltipContainer.style.transform = `translate3d(${position.x}px, ${position.y}px, 0px)`;
-      // this.tooltipContainer.style.top = `${position.y}px`;
-      // @ts-ignore
-      // this.tooltipContainer.style.left = `${position.x}px`;
+      this.tooltipContainer.style.width = `${size.width}px`;
+      this.tooltipContainer.style.height = `${size.height}px`;
 
       if (cfg?.showMarkers) {
         // @ts-ignore
@@ -330,9 +357,7 @@ class WidgetsTooltipController extends RawTooltipController {
     const lockElement = (
       <>
         <div className={`${PrefixName}-free-tooltip-lock-icon-background`}></div>
-        <div className={`${PrefixName}-free-tooltip-lock-icon-container`}>
-          {locked ? lockIcon : unlockIcon}
-        </div>
+        <div className={`${PrefixName}-free-tooltip-lock-icon-container`}>{locked ? lockIcon : unlockIcon}</div>
       </>
     );
 

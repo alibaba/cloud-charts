@@ -29,13 +29,15 @@ export default function Tooltip({ title, data }: FreeTooltipProps) {
   return (
     <div className={`${Prefix}container`}>
       {title && <div className={`${Prefix}title`}>{title}</div>}
-      <div className={`${Prefix}items-container`}>
+      <div className={`${Prefix}items-container`} style={{ maxHeight: title ? 'calc(100% - 26px)' : '100%' }}>
         {(data || []).map((item) => {
           return (
             <div key={item.name} className={`${Prefix}item`}>
               <div className={`${Prefix}name-container`}>
                 {item.color && <div className={`${Prefix}marker`} style={{ background: item.color }} />}
-                <div className={`${Prefix}name`}>{item.name}</div>
+                <div className={`${Prefix}name`} style={{ width: item.color ? 'calc(100% - 10px)' : '100%' }}>
+                  {item.name}
+                </div>
               </div>
               <div className={`${Prefix}value`}>{item.value}</div>
             </div>
