@@ -93,6 +93,8 @@ interface CustomView {
 }
 
 export class Map extends Base<WmapConfig, MapProps> {
+  legendField = 'pointType';
+
   public static Area = MapArea;
   public static Point = MapPoint;
   public static HeatMap = MapHeatMap;

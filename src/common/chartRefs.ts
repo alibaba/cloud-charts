@@ -3,12 +3,7 @@ import { Datum } from '@antv/g2/esm/interface';
 import { ListItem } from '@antv/g2/esm/dependents';
 
 /** 计算每个legend的统计数据 */
-export function getStatistics(
-  chart: Chart,
-  statistics: Array<'min' | 'max' | 'avg' | 'current'>,
-  legendField: string,
-  dataType?: string,
-) {
+export function getStatistics(chart: Chart, statistics: Array<'min' | 'max' | 'avg' | 'current'>, legendField: string) {
   // 业务偶现chart为null，导致filteredData无法获取的报错，暂不清楚原因，这里增加兜底逻辑
   // @ts-ignore
   let data = [...(chart?.options?.data ?? [])];
@@ -32,13 +27,16 @@ export function getStatistics(
     });
   });
 
+  // @ts-ignore
+  const chartName = chart?.widgetsCtx?.chartName;
+
   const res: Record<string, any> = {};
   Object.keys(items).forEach((name: string) => {
     let yValues = items[name]
       .map((item: Datum) => item.y ?? item.y0 ?? item.y1)
       .filter((val: any) => typeof val === 'number');
 
-    if (dataType === 'treeNode') {
+    if (['G2MultiPie', 'G2Map'].includes(chartName)) {
       yValues = items[name].map((item: Datum) => item.value ?? item?.rawValue);
     }
 
@@ -81,9 +79,13 @@ export function getLegendItems(
     }));
   }
 
+  // @ts-ignore
+  const chartName = chart?.widgetsCtx?.chartName;
+
   return Object.keys(statisticsRes).map((name: string, index: number) => {
+    const colors = chartName === 'G2Map' ? config?.pointColors : config?.colors;
     const color =
-      typeof config?.colors === 'function' ? config?.colors(name) : config?.colors[index % config.colors.length];
+      typeof colors === 'function' ? colors(name) : Array.isArray(colors) ? colors[index % colors.length] : colors;
     return {
       name,
       color,
