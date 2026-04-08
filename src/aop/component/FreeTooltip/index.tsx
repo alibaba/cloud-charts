@@ -29,7 +29,7 @@ export default function Tooltip({ title, data }: FreeTooltipProps) {
   return (
     <div className={`${Prefix}container`}>
       {title && <div className={`${Prefix}title`}>{title}</div>}
-      <div className={`${Prefix}items-container`} style={{ maxHeight: title ? 'calc(100% - 26px)' : '100%' }}>
+      <div className={`${Prefix}items-container`}>
         {(data || []).map((item) => {
           return (
             <div key={item.name} className={`${Prefix}item`}>
