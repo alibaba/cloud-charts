@@ -75,7 +75,11 @@ export interface TooltipConfig extends customFormatterConfig {
 export default function <T>(
   ctx: T,
   chart: Chart,
-  config: { tooltip?: TooltipConfig | boolean; yAxis?: YAxisConfig | YAxisConfig[] | boolean },
+  config: {
+    tooltip?: TooltipConfig | boolean;
+    yAxis?: YAxisConfig | YAxisConfig[] | boolean;
+    xAxis?: { type?: string } | false;
+  },
   defaultConfig?: Types.TooltipCfg,
   onTooltipChange?: Function,
   componentConfig?: Types.TooltipCfg,
@@ -244,6 +248,20 @@ export default function <T>(
       });
     }
 
+    // 当 x 轴为 time 或 timeCat 类型时，添加 customItems 过滤逻辑
+    // 避免 shared tooltip 将不同 x 值的数据点合并显示
+    const xAxisType = typeof config.xAxis === 'object' && config.xAxis?.type;
+    if (xAxisType && (xAxisType === 'time' || xAxisType === 'timeCat')) {
+      tooltipConfig.customItems = (items: any[]) => {
+        if (items.length <= 1) return items;
+        // 获取第一个 item（离鼠标最近的点）的 x 值
+        const baseX = items[0]?.data?.x;
+        if (baseX === undefined || baseX === null) return items;
+        // 只保留 x 值完全相同的 items
+        return items.filter((item: any) => item.data?.x === baseX);
+      };
+    }
+
     if (componentConfig) {
       Object.assign(tooltipConfig, componentConfig);
     }
@@ -270,7 +288,8 @@ export default function <T>(
         config.tooltip.unitTransformTo = config.tooltip.unitTransformTo ?? config?.yAxis?.unitTransformTo;
         config.tooltip.valueType = config.tooltip.valueType ?? config?.yAxis?.valueType;
         config.tooltip.customCarryUnits = config.tooltip.customCarryUnits ?? config?.yAxis?.customCarryUnits;
-        config.tooltip.customCarryThreshold = config.tooltip.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
+        config.tooltip.customCarryThreshold =
+          config.tooltip.customCarryThreshold ?? config?.yAxis?.customCarryThreshold;
         config.tooltip.addonTextAfter = config.tooltip.addonTextAfter ?? config?.yAxis?.addonTextAfter;
       }
 
