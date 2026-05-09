@@ -34,7 +34,11 @@ class WidgetsTooltipController extends RawTooltipController {
 
   public showTooltip(point: Point) {
     const cfg = this.getTooltipCfg();
-    const items = this.getTooltipItems(point);
+    let items = this.getTooltipItems(point);
+
+    if (cfg?.customItems) {
+      items = cfg.customItems(items);
+    }
 
     if (!items?.length) {
       return;
