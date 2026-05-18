@@ -1002,7 +1002,15 @@ stories.add('带标签折线图', () => (
 ));
 
 stories.add('legend单选', () => (
-  <Wline height="300" data={data} config={{ legend: { useReverseChecked: false } }} />
+  <Wline
+    height="300"
+    data={data}
+    config={{
+      legend: {
+        useReverseChecked: false,
+      },
+    }}
+  />
 ));
 
 const labelData = [
@@ -1029,9 +1037,9 @@ stories.add('label格式化', () => (
         // unit: 'B',
         needUnitTransform: true,
         valueType: 'custom',
-        customCarryUnits: ",k,m", // ['k', 'm'],
+        customCarryUnits: ',k,m', // ['k', 'm'],
         // customCarryThreshold: 2000,
-        addonTextAfter: '/s'
+        addonTextAfter: '/s',
       },
       tooltip: {
         // customTooltip: true,
@@ -1039,9 +1047,63 @@ stories.add('label格式化', () => (
       },
       legend: {
         table: {
-          statistics: ['min', 'max', 'current']
-        }
-      }
+          statistics: ['min', 'max', 'current'],
+        },
+      },
+    }}
+  />
+));
+
+const bugData = [
+  {
+    name: 'A-POST',
+    data: [
+      [1778092800000, 628],
+      [1778093160000, 374],
+      [1778093520000, 705],
+      [1778094240000, 732],
+      [1778095020000, 210],
+      [1778098620000, 565],
+      [1778100120000, 686],
+      [1778101200000, 731],
+      [1778107020000, 330],
+      [1778109900000, 630],
+      [1778111340000, 440],
+      [1778113920000, 931],
+      [1778120460000, 522],
+    ],
+  },
+  {
+    name: 'A-HEAD',
+    data: [
+      [1778096100000, 289],
+      [1778097180000, 429],
+      [1778105520000, 301],
+      [1778106660000, 345],
+      [1778107380000, 465],
+      [1778110980000, 228],
+      [1778114640000, 163],
+      [1778115720000, 899],
+      [1778116080000, 211],
+      [1778116440000, 444],
+      [1778120820000, 663],
+      [1778124480000, 535],
+      [1778129160000, 340],
+      [1778131320000, 232],
+      [1778131680000, 120],
+    ],
+  },
+];
+
+stories.add('合并点bug', () => (
+  <Wline
+    height="300"
+    data={bugData}
+    config={{
+      xAxis: {
+        type: 'time',
+        mask: 'YYYY-MM-DD HH:mm:ss',
+      },
     }}
   />
 ));
