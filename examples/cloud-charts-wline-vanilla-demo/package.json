@@ -1,0 +1,24 @@
+{
+  "name": "cloud-charts-wline-vanilla-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@alicloud/cloud-charts-core": "file:../../packages/core",
+    "@alicloud/cloud-charts-line": "file:../../packages/charts/wline",
+    "@antv/g2": "~5.4.8"
+  },
+  "overrides": {
+    "@antv/util": "^3.0.0",
+    "@antv/matrix-util": "^3.1.0-beta.3"
+  },
+  "devDependencies": {
+    "typescript": "~4.6.4",
+    "vite": "^4.5.3"
+  }
+}

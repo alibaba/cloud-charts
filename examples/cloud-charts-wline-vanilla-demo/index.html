@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AISC Wline Vanilla JS Demo</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #f5f6f8;
+        color: #1f2329;
+      }
+
+      .page {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 32px 16px;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+
+      .subtitle {
+        color: #646a73;
+        margin-bottom: 24px;
+        font-size: 13px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+      }
+
+      .toolbar {
+        margin-bottom: 16px;
+        display: flex;
+        gap: 8px;
+      }
+
+      button {
+        border: 1px solid #d0d3d6;
+        background: #fff;
+        border-radius: 6px;
+        padding: 6px 14px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      button:hover {
+        border-color: #1664ff;
+        color: #1664ff;
+      }
+
+      #chart {
+        width: 100%;
+        height: 360px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>AISC Wline · Vanilla JS 渲染验证</h1>
+      <p class="subtitle">
+        通过 @aisc/charts-wline + @aisc/charts-core + @antv/g2 5.4.8 渲染，不依赖 React / Solid。
+      </p>
+      <div class="card">
+        <div class="toolbar">
+          <button id="update-btn">更新数据</button>
+          <button id="destroy-btn">销毁图表</button>
+        </div>
+        <div id="chart"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

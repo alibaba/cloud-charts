@@ -1,0 +1,36 @@
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(resolve(__dirname, '../../examples/wline-vanilla-demo/node_modules/.package-lock.json'));
+
+const typescript = (await import(require.resolve('@rollup/plugin-typescript'))).default;
+const nodeResolve = (await import(require.resolve('@rollup/plugin-node-resolve'))).default;
+const commonjs = (await import(require.resolve('@rollup/plugin-commonjs'))).default;
+const dtsModule = await import(require.resolve('rollup-plugin-dts'));
+const dts = dtsModule.dts || dtsModule.default;
+
+export default [
+  {
+    input: 'src/index.ts',
+    output: [
+      { file: 'dist/index.mjs', format: 'es', sourcemap: true },
+      { file: 'dist/index.cjs', format: 'cjs', sourcemap: true },
+    ],
+    external: ['@antv/g2'],
+    plugins: [
+      nodeResolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.build.json',
+      }),
+    ],
+  },
+  {
+    input: 'src/index.ts',
+    output: { file: 'dist/index.d.ts', format: 'es' },
+    external: ['@antv/g2'],
+    plugins: [dts({ tsconfig: './tsconfig.build.json' })],
+  },
+];

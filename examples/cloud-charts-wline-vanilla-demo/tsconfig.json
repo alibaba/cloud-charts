@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [],
+    "lib": ["ES2018", "DOM"],
+    "baseUrl": ".",
+    "paths": {
+      "@alicloud/cloud-charts-core": ["../../packages/core/src/index.ts"],
+      "@alicloud/cloud-charts-line": ["../../packages/charts/wline/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "@alicloud/cloud-charts-core",
+  "version": "1.0.0-alpha.3",
+  "description": "Framework-agnostic chart runtime and shared logic for cloud-charts visualization library. Powered by G2 5.4.8.",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "chart",
+    "visualization",
+    "g2",
+    "antv",
+    "cloud-charts",
+    "data-visualization",
+    "framework-agnostic"
+  ],
+  "homepage": "https://github.com/alibaba/cloud-charts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alibaba/cloud-charts.git",
+    "directory": "packages/core"
+  },
+  "license": "MIT",
+  "author": "O-Insight Team",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "rollup -c rollup.config.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@antv/g2": "~5.4.8",
+    "@antv/component": "^2.1.9"
+  },
+  "devDependencies": {
+    "@antv/g2": "~5.4.8",
+    "@antv/component": "^2.1.9",
+    "rollup": "^4.22.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.7.0",
+    "typescript": "4.6.4"
+  }
+}

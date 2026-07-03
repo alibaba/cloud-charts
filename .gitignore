@@ -14,3 +14,8 @@ es
 lib
 demo/*.js
 .history/
+
+# v3 monorepo build outputs (per-package dist/)
+packages/*/dist/
+# example demo lockfile (per-demo install; root lock is canonical)
+examples/*/package-lock.json
