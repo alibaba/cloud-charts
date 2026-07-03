@@ -1,3 +1,36 @@
+### Unreleased (refactor/v3-monorepo)
+
+#### ⚠️ 实验性：v3 架构预览
+
+> 以下内容位于 `refactor/v3-monorepo` 分支，**尚未发布到 npm**，与 master 上的 `@alicloud/cloud-charts@1.1.x` 并行存在。
+>
+> 新包名（独立 npm 包）：
+> - `@alicloud/cloud-charts-core`（框架无关运行时）
+> - `@alicloud/cloud-charts-line`（折线图 Vanilla JS 薄壳）
+> - `@alicloud/cloud-charts-wbar` / `@alicloud/cloud-charts-wpie`（占位骨架）
+
+##### 重构 (Refactor)
+
+- **feat(v3)**: 启动 `packages/core` + `packages/charts/wline` monorepo 重构分支
+- **feat(v3)**: 引入 G2 v5.4.8 Spec Mode + AI 友好的运行时模型
+- **feat(v3)**: 拆出 Vanilla JS 薄壳 API（`createWline` / `renderWline` / `renderWlineModel`），Angular 等非 React 项目可直接使用
+- **feat(v3)**: 在 `examples/cloud-charts-wline-vanilla-demo` 提供端到端 Vite demo
+- **chore**: `package.json#overrides` 把 `@antv/util` 改为 `^3.0.0`，与 `@antv/g2@~5.4.8` 兼容（同时保持老 src/ 的 `@antv/component: 0.8.28`）
+- **chore**: 在 `examples/cloud-charts-wline-vanilla-demo/vite.config.ts` 加 `resolve.dedupe`，避免 monorepo hoisting 导致的 `@antv/util` 多版本冲突
+
+##### 兼容性 (Compatibility)
+
+- master 上的 `@alicloud/cloud-charts@1.1.x` API、样式、事件、数据格式**零变化**
+- 老 `src/`、`stories/`、`build.before.js`、`build.after.js` **完全保留**
+- 新包通过独立 npm name 暴露，不影响老用户
+
+##### 验证 (Verification)
+
+- ✅ `npm run typecheck:packages` 通过
+- ✅ `npm run build:packages` 产出 `packages/core/dist/index.{cjs,mjs,d.ts}` + `packages/charts/wline/dist/index.{cjs,mjs,d.ts}`
+- ✅ `cd examples/cloud-charts-wline-vanilla-demo && npm run build` 端到端构建通过
+- ✅ `packages/charts/wline/__tests__/lineModel.test.ts` 2/2 通过
+
 ### 1.1.20 (2024-09-20)
 
 #### New Features

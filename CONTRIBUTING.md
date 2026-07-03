@@ -33,6 +33,53 @@ $ npm install
 npm run storybook
 ```
 
+### v3 monorepo 开发流程（`refactor/v3-monorepo` 分支）
+
+> 此章节仅适用于 `refactor/v3-monorepo` 分支，master 上不存在 `packages/` 目录。
+
+仓库采用 npm workspaces（pnpm 兼容），三个核心目录：
+
+| 目录 | 角色 |
+| --- | --- |
+| `packages/core/` | `@alicloud/cloud-charts-core`，框架无关运行时 |
+| `packages/charts/<wline\|wbar\|wpie>/` | 单图表 Vanilla JS 包 |
+| `examples/cloud-charts-wline-vanilla-demo/` | 端到端 Vite demo |
+
+#### 常用命令
+
+```bash
+# 类型检查（core + wline 子包）
+npm run typecheck:packages
+
+# 构建所有 v3 包（dist/{cjs,mjs,d.ts}）
+npm run build:packages
+
+# 单包构建
+npm run build:core
+npm run build:wline
+
+# 单测（wline 包）
+cd packages/charts/wline && npm run test
+
+# 启动 vanilla demo
+cd examples/cloud-charts-wline-vanilla-demo && npm run dev
+# 浏览器访问 http://localhost:5179
+```
+
+#### 添加新图表包
+
+1. 在 `packages/charts/wxxx/` 下创建子包，参考 `wline/` 的 `package.json`、`tsconfig.json`、`rollup.config.mjs`、`src/index.ts` 结构
+2. 包名 `@alicloud/cloud-charts-wxxx`，peerDep `@alicloud/cloud-charts-core`
+3. `src/index.ts` 暴露 `createWxxx` / `renderWxxx` / `renderWxxxModel`，复用 core 的 `createXxxModel` 与 `createChart`/`renderChart`
+4. 在 demo `examples/cloud-charts-wline-vanilla-demo/` 加示例（或新建 `examples/cloud-charts-wxxx-vanilla-demo/`）
+5. 在 `packages/charts/wline/__tests__/` 同级加 `__tests__/wxxxModel.test.ts`
+
+#### G2 版本与 overrides
+
+- `packages/core/package.json` 声明 `@antv/g2: "~5.4.8"`、`@antv/component: "^2.1.9"`
+- 根 `package.json#overrides` 钉 `@antv/util: "^3.0.0"`、`@antv/component: "0.8.28"`（兼容老 `@antv/g2@4.x` 路径，避免 hoisting 冲突）
+- 任何 G2 5.x 子版本升级需要先在 demo 跑回归，确认 `distanceSquareRoot` 等 API 在 `@antv/util@^3.0.0` 仍存在
+
 ### 代码风格
 
 你的代码风格必须通过 eslint，你可以运行 `$ npm run lint` 本地测试。

@@ -80,3 +80,75 @@ function Demo() {
 如果您在使用的过程中碰到问题，可以先通过 [Issues](https://github.com/alibaba/cloud-charts/issues) 看看有没有类似的 bug 或者建议。
 
 如需提交代码，请遵从我们的 [贡献指南](https://github.com/alibaba/cloud-charts/blob/master/CONTRIBUTING.md) 。
+
+## v3 预览（refactor/v3-monorepo 分支）
+
+> ⚠️ **实验性**：以下内容位于 `refactor/v3-monorepo` 分支，尚未合并到 master。请勿在生产环境使用。
+
+`refactor/v3-monorepo` 分支将 cloud-charts 从单体结构重构为 monorepo，迁移了 aisc-widgets 已验证的 v3 架构：
+
+- **底层引擎**：G2 v4 → **G2 v5.4.8**（Spec Mode，AI 友好）
+- **包结构**：`packages/core` + `packages/charts/*` 按需加载，单图表薄壳仅 0.5KB
+- **多框架支持**：Vanilla JS、Angular 可直接使用 `@alicloud/cloud-charts-line`（无需 React 运行时）
+- **构建产物**：`dist/index.{cjs,mjs,d.ts}`，支持 TypeScript / ESM / CJS 全场景
+
+### 新包预览
+
+```bash
+# 安装核心运行时
+npm install @alicloud/cloud-charts-core @antv/g2 --save
+
+# 安装单图表包（按需）
+npm install @alicloud/cloud-charts-line --save
+```
+
+### Vanilla JS 使用示例
+
+参考 [`examples/cloud-charts-wline-vanilla-demo/`](./examples/cloud-charts-wline-vanilla-demo)：
+
+```ts
+import { renderWlineModel, type LineSeries } from '@alicloud/cloud-charts-line';
+
+const { model } = renderWlineModel({
+  container: document.getElementById('chart')!,
+  data: [
+    { name: 'QPS', data: [[timestamp1, 32], [timestamp2, 45]] },
+  ],
+  config: { xAxis: { type: 'time', mask: 'auto' } },
+  context: { language: 'zh-CN' },
+});
+
+console.log('runtime model:', model.spec);
+```
+
+### 启动 demo
+
+```bash
+cd examples/cloud-charts-wline-vanilla-demo
+npm install
+npm run dev
+# 浏览器打开 http://localhost:5179
+```
+
+### v3 开发命令（仓库根）
+
+```bash
+# 类型检查（core + wline）
+npm run typecheck:packages
+
+# 构建所有 v3 包
+npm run build:packages
+
+# 跑 wline 单测
+cd packages/charts/wline && npm run test
+```
+
+### 包边界
+
+| 包 | 路径 | 角色 |
+| --- | --- | --- |
+| `@alicloud/cloud-charts-core` | `packages/core/` | 框架无关运行时（G2 5.4.8 + model + native + adapter） |
+| `@alicloud/cloud-charts-line` | `packages/charts/wline/` | 折线图 Vanilla JS 薄壳 |
+| `@alicloud/cloud-charts-{wbar,wpie}` | `packages/charts/{wbar,wpie}/` | 占位骨架，后续 Phase 1 横向扩展 |
+
+详细架构与迁移背景参考内部 [升级总览](https://code.alibaba-inc.com/aisc/aisc-widgets/blob/master/docs/upgrade-overview.md)。

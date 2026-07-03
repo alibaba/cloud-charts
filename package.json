@@ -30,8 +30,16 @@
     "lint": "eslint --cache --ext .js,.jsx ./",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "changelog": "node generate-changelog.js"
+    "changelog": "node generate-changelog.js",
+    "typecheck:packages": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json --noEmit && node node_modules/typescript/bin/tsc -p packages/charts/wline/tsconfig.json --noEmit",
+    "build:core": "npm run build -w packages/core",
+    "build:wline": "npm run build -w packages/charts/wline",
+    "build:packages": "npm run build:core && npm run build:wline"
   },
+  "workspaces": [
+    "packages/core",
+    "packages/charts/*"
+  ],
   "files": [
     "package.json",
     "README.md",
@@ -52,7 +60,7 @@
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.2.9",
     "@antv/scale": "0.3.18",
-    "@antv/util": "2.0.17",
+    "@antv/util": "^3.0.0",
     "@antv/matrix-util": "3.1.0-beta.3",
     "classnames": "^2.2.5",
     "d3-hierarchy": "^1.1.9",
@@ -101,7 +109,7 @@
   "overrides": {
     "@antv/component": "0.8.28",
     "@antv/matrix-util": "3.1.0-beta.3",
-    "@antv/util": "2.0.17",
+    "@antv/util": "$@antv/util",
     "typescript": "4.6.4",
     "d3-composite-projections": "1.4.0"
   },
