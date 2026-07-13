@@ -98,6 +98,22 @@ $scrollbar-bg-color: getVar(widgets-color-decoration-background, $widgets-color-
   }
 }
 
+#{$prefix}sort-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+#{$prefix}sort-icon {
+  flex-shrink: 0;
+  cursor: pointer;
+
+  path {
+    cursor: pointer;
+  }
+}
+
 #{$prefix}name {
   white-space: nowrap;
   overflow: hidden;

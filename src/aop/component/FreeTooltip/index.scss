@@ -85,6 +85,7 @@ $lock-background: getVar(widgets-color-container-background, $widgets-color-cont
   position: absolute;
   right: 0;
   top: 0;
+  pointer-events: none;
 
   svg {
     fill: $lock-icon-color;

@@ -3,7 +3,12 @@ import themes from '../../../themes';
 import { PrefixName } from '../../../constants';
 import { ListItem } from '@antv/g2/esm/dependents';
 import { Chart } from '@antv/g2';
-import { getStatistics, filterLegend, highlightLegend, clearHighlight } from '../../../common/chartRefs';
+import {
+  getStatistics,
+  filterLegend,
+  highlightLegend,
+  clearHighlight,
+} from '../../../common/chartRefs';
 import { getItemData } from '../../../common/rectLegend';
 import { customFormatter, getFormatConfig } from '../../../common/common';
 import WidgetsTooltip from '../../../common/Tooltip';
@@ -32,6 +37,12 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
 
   const [activedItem, setActivedItem] = useState<string>('');
   const [filteredItems, setFilteredItems] = useState<string[]>([]);
+
+  // 统计值列排序状态：key 为列名，order 为排序方向
+  const [sort, setSort] = useState<{ key: string; order: 'asc' | 'desc' | 'none' }>({
+    key: '',
+    order: 'none',
+  });
 
   const legendField = widgetsCtx?.legendField || 'type';
 
@@ -78,6 +89,36 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     return newItems;
   }, [legendItems]);
 
+  // 数据项大于 1 时才允许排序
+  const sortable = (updateItems?.length ?? 0) > 1;
+
+  // 取某列的原始统计值用于排序（valueMap 中是格式化后的展示值，不能直接比较）
+  const getSortValue = (legendItem: ListItem, key: string) => {
+    const id = legendItem.id ?? legendItem.name;
+    const raw = statisticsRes[id]?.[key];
+    const num = typeof raw === 'number' ? raw : Number(raw);
+    return Number.isNaN(num) ? -Infinity : num;
+  };
+
+  // 排序后的展示列表
+  const sortedItems = useMemo(() => {
+    if (!sortable || sort.order === 'none' || !sort.key) {
+      return updateItems;
+    }
+    return [...updateItems].sort((a: ListItem, b: ListItem) => {
+      const av = getSortValue(a, sort.key);
+      const bv = getSortValue(b, sort.key);
+      return sort.order === 'asc' ? av - bv : bv - av;
+    });
+  }, [updateItems, sort, sortable, statisticsRes]);
+
+  // 点击列排序：点击当前激活方向则取消排序恢复默认顺序
+  const handleSort = (key: string, order: 'asc' | 'desc') => {
+    setSort((prev) =>
+      prev.key === key && prev.order === order ? { key: '', order: 'none' } : { key, order },
+    );
+  };
+
   // 表格列数
   const columns = (statistics?.length || 0) + (config?.table?.custom?.length || 0);
 
@@ -121,9 +162,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
   }, [chartConfig]);
 
   // id -> 统计值的最终展示值 映射表
+  // 数据流：原始统计数组(statisticsRes) -> 排序(sortedItems) -> 单位与进位处理
   const valueMap: Record<string, any> = useMemo(() => {
     const newMap: Record<string, any> = {};
-    // console.log('updateItems', updateItems, statisticsRes);
     updateItems.map((legendItem: ListItem, index: number) => {
       let { name } = legendItem;
       const id = legendItem.id ?? name;
@@ -139,9 +180,16 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
             if (Array.isArray(formatConfig)) {
               // 双轴
               // @ts-ignore
-              const dataGroup = getItemData(name, widgetsCtx?.rawData, config?.dataType, widgetsCtx?.data);
+              const dataGroup = getItemData(
+                name,
+                widgetsCtx?.rawData,
+                config?.dataType,
+                widgetsCtx?.data,
+              );
               customValueFormatter =
-                (dataGroup as any)?.yAxis === 1 ? customFormatter(formatConfig[1]) : customFormatter(formatConfig[0]);
+                (dataGroup as any)?.yAxis === 1
+                  ? customFormatter(formatConfig[1])
+                  : customFormatter(formatConfig[0]);
             } else {
               // 单轴
               customValueFormatter = customFormatter(formatConfig);
@@ -180,7 +228,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
     });
 
     return newMap;
-  }, [updateItems, statistics, statisticsRes, config, formatConfig]);
+  }, [sortedItems, statistics, statisticsRes, config, formatConfig]);
 
   // 根据每列的标题和数值计算每列的宽度
   const widthMap: Record<string, number> = useMemo(() => {
@@ -211,7 +259,9 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
       columns > 0
         ? [
             '8px minmax(80px, 40%)',
-            ...statistics.map((statistic: string) => `minmax(${widthMap[statistic]}px, ${60 / columns}%)`),
+            ...statistics.map(
+              (statistic: string) => `minmax(${widthMap[statistic]}px, ${60 / columns}%)`,
+            ),
             ...(config?.table?.custom || []).map(
               (customItem: any, index: number) =>
                 `minmax(${widthMap[customItem.title || `custom${index}`]}px, ${60 / columns}%)`,
@@ -268,7 +318,19 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               return (
                 <>
                   <th />
-                  <th key={statistic}>{getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}</th>
+                  <th key={statistic}>
+                    <div className={`${prefix}-sort-title`}>
+                      <span>
+                        {getText(statistic, widgetsCtx?.language, widgetsCtx?.context?.locale)}
+                      </span>
+                      {sortable && (
+                        <ColumnSortIcon
+                          order={sort.key === statistic ? sort.order : 'none'}
+                          onChange={(order) => handleSort(statistic, order)}
+                        />
+                      )}
+                    </div>
+                  </th>
                 </>
               );
             })}
@@ -291,7 +353,7 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
           paddingBottom: legendWidth < tableMinWidth ? 4 : 0,
         }}
       >
-        {updateItems.map((legendItem: ListItem, index: number) => {
+        {sortedItems.map((legendItem: ListItem, index: number) => {
           let { name, marker } = legendItem;
           const id = legendItem.id ?? name;
           if (itemName) {
@@ -325,7 +387,10 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                 if (clickable) {
                   if ((!useReverseChecked && !hasControl) || (useReverseChecked && hasControl)) {
                     // 正选
-                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (
+                      filteredItems?.length === updateItems?.length - 1 &&
+                      !filteredItems.includes(id)
+                    ) {
                       setFilteredItems([]);
                     } else {
                       setFilteredItems(
@@ -336,7 +401,10 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
                     }
                   } else {
                     // 反选
-                    if (filteredItems?.length === updateItems?.length - 1 && !filteredItems.includes(id)) {
+                    if (
+                      filteredItems?.length === updateItems?.length - 1 &&
+                      !filteredItems.includes(id)
+                    ) {
                       setFilteredItems([]);
                     } else if (filteredItems.includes(id)) {
                       setFilteredItems((pre: string[]) => pre.filter((p: string) => p !== id));
@@ -348,7 +416,11 @@ export default function TableLegend({ config, chart, legendItems = [] }: TableLe
               }}
             >
               <td className={`${prefix}-marker`}>
-                <LegendMarker marker={marker} disable={filteredItems.includes(id)} item={legendItem} />
+                <LegendMarker
+                  marker={marker}
+                  disable={filteredItems.includes(id)}
+                  item={legendItem}
+                />
               </td>
               <td>
                 <LegendName name={name} />
@@ -393,6 +465,41 @@ function LegendName({ name = '' }: { name: string }) {
       </div>
       <WidgetsTooltip ref={ref} content={name} />
     </>
+  );
+}
+
+/** 列排序箭头图标，上下箭头可分别点击，点击当前激活方向则取消排序 */
+function ColumnSortIcon({
+  order,
+  onChange,
+}: {
+  order: 'asc' | 'desc' | 'none';
+  onChange: (order: 'asc' | 'desc') => void;
+}) {
+  const upActive = order === 'asc';
+  const downActive = order === 'desc';
+
+  return (
+    <svg
+      className={`${prefix}-sort-icon`}
+      width="8"
+      height="12"
+      viewBox="0 0 10 14"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5 0L9 5H1L5 0Z"
+        fill="currentColor"
+        fillOpacity={upActive ? 1 : 0.3}
+        onClick={() => onChange('asc')}
+      />
+      <path
+        d="M5 14L1 9H9L5 14Z"
+        fill="currentColor"
+        fillOpacity={downActive ? 1 : 0.3}
+        onClick={() => onChange('desc')}
+      />
+    </svg>
   );
 }
 
