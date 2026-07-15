@@ -17,6 +17,12 @@ $lock-background: getVar(widgets-color-container-background, $widgets-color-cont
   font-size: getVar(widgets-font-size-1, $widgets-font-size-1);
   color: getVar(widgets-tooltip-text, $widgets-tooltip-text);
 
+  #{$prefix}header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   #{$prefix}title {
     color: getVar(widgets-tooltip-title, $widgets-tooltip-title);
     margin-bottom: 8px;
@@ -61,6 +67,10 @@ $lock-background: getVar(widgets-color-container-background, $widgets-color-cont
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
+  }
+
+  #{$prefix}sort {
+    cursor: pointer;
   }
 }
 
