@@ -27,9 +27,20 @@ export function calcDataSize(type: DataStructure, data: RuleData): number {
   }
 
   if (type === DataStructure.Tree) {
+    // 新版 pipeline 会先 normalizeData 再进 runRules，传入的是数组形态：
+    //  - 相邻/旭日：[treeRoot]（单元素数组，元素含 children）
+    //  - 矩阵树图：扁平 path 记录数组（元素无 children）
+    // 兼容旧版直接传 tree root 对象的情况。
+    let root = data as RuleTreeNode;
+    if (Array.isArray(data)) {
+      if (data.length === 0) return 0;
+      const first = data[0] as RuleTreeNode | undefined;
+      // 扁平记录数组（无 children）：以记录数表示数据量
+      if (!first || !first.children || !first.children.length) return data.length;
+      root = first;
+    }
     // 层次遍历，取每层节点数的最大值（旧 src/rule/data.ts:33-53）
-    const root = data as RuleTreeNode;
-    if (Array.isArray(root) || !root.children || !root.children.length) return 0;
+    if (!root.children || !root.children.length) return 0;
     let maxNum = 0;
     let queue: RuleTreeNode[] = [root];
     while (queue.length) {

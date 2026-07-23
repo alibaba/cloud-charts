@@ -88,6 +88,7 @@ export interface TooltipModel {
   customContent?: unknown;
   reactContent?: unknown;
   customTooltip?: unknown;
+  dodge?: boolean;
   /** G2 v5 spec.interaction.tooltip 配置（shared/crosshairs），由 model 调用方合并到 interaction */
   interactionTooltip?: Record<string, unknown>;
 }

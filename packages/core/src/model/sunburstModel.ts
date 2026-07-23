@@ -15,8 +15,8 @@ export interface CreateSunburstModelInput {
 }
 
 /**
- * 旭日图（多重饼图）：G2 v5 'sunburst' mark + path 数据。
- * 旧版 src/Wsunburst 用 @antv/data-set hierarchy.partition；G2 v5 内置 sunburst mark。
+ * 旭日图（多重饼图）：G2 v5 无 'sunburst' mark，改用内置 'partition' mark + 极坐标（径向即旭日）。
+ * partition 接受树结构、内部自做 layout；旧版 src/Wsunburst 用 @antv/data-set hierarchy.partition。
  */
 export function createSunburstModel(input: CreateSunburstModelInput): ChartModel {
   const pipeline = runRuntimePipeline<SunburstData, SunburstChartConfig>({
@@ -42,19 +42,24 @@ export function createSunburstModel(input: CreateSunburstModelInput): ChartModel
   });
   const interactions = legendInteractions as InteractionModel[];
 
-  // G2 v5 sunburst mark：基于 path 字段自动 partition
-  const sunburstMark: ChartSpec = {
-    type: 'sunburst',
-    data: finalData,
-    encode: { value: 'value', color: 'name' },
-    style: { stroke: '#fff', lineWidth: 1 },
-    tooltip: tooltipModel.markSpec,
-  } as ChartSpec;
-
   const coordinate: Record<string, unknown> = { type: 'polar' };
   if (finalConfig.cycle) {
     coordinate.innerRadius = finalConfig.innerRadius ?? 0.5;
   }
+
+  // G2 v5 partition mark + 极坐标：径向布局即旭日图。
+  // partition composite 会把自带的 coordinate.cartesian 合并覆盖 view 层，
+  // 故必须在 mark 上显式覆写 polar，否则退化成冰柱图。
+  const sunburstMark: ChartSpec = {
+    type: 'partition',
+    data: finalData,
+    coordinate,
+    axis: false,
+    labels: [],
+    encode: { value: 'value', color: 'name' },
+    style: { stroke: '#fff', lineWidth: 1 },
+    tooltip: tooltipModel.markSpec,
+  } as ChartSpec;
 
   const spec: ChartSpec = {
     type: 'view',

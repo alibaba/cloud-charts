@@ -85,7 +85,7 @@ function Demo() {
 
 > ⚠️ **实验性**：以下内容位于 `refactor/v3-monorepo` 分支，尚未合并到 master。请勿在生产环境使用。
 
-`refactor/v3-monorepo` 分支将 cloud-charts 从单体结构重构为 monorepo，迁移了 aisc-widgets 已验证的 v3 架构：
+`refactor/v3-monorepo` 分支将 cloud-charts 从单体结构重构为 monorepo，迁移了已验证的 v3 架构：
 
 - **底层引擎**：G2 v4 → **G2 v5.4.8**（Spec Mode，AI 友好）
 - **包结构**：`packages/core` + `packages/charts/*` 按需加载，单图表薄壳仅 0.5KB
@@ -150,5 +150,3 @@ cd packages/charts/wline && npm run test
 | `@alicloud/cloud-charts-core` | `packages/core/` | 框架无关运行时（G2 5.4.8 + model + native + adapter） |
 | `@alicloud/cloud-charts-line` | `packages/charts/wline/` | 折线图 Vanilla JS 薄壳 |
 | `@alicloud/cloud-charts-{wbar,wpie}` | `packages/charts/{wbar,wpie}/` | 占位骨架，后续 Phase 1 横向扩展 |
-
-详细架构与迁移背景参考内部 [升级总览](https://code.alibaba-inc.com/aisc/aisc-widgets/blob/master/docs/upgrade-overview.md)。

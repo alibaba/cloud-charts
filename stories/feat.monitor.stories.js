@@ -21,7 +21,7 @@ stories.addDecorator(withKnobs);
 stories.add('线图-秒级CPU', () => {
   const [d, setD] = useState([]);
   useEffect(() => {
-    fetch('https://mocks.alibaba-inc.com/mock/lf7wkn3y//monitorCPU.json')
+    fetch('./mocks/monitorCPU.json')
       .then((response) => response.json())
       .then((data) => setD(data.data));
   }, []);
@@ -55,7 +55,7 @@ stories.add('线图-秒级CPU', () => {
 stories.add('热力图-代码提交', () => {
   const [d, setD] = useState([]);
   useEffect(() => {
-    fetch('https://mocks.alibaba-inc.com/mock/lf7wkn3y//monitorCode.json')
+    fetch('./mocks/monitorCode.json')
       .then((response) => response.json())
       .then((data) => setD(data.data));
   }, []);
@@ -116,7 +116,7 @@ stories.add('全局配置', () => {
   });
 
   useEffect(() => {
-    fetch('https://mocks.alibaba-inc.com/mock/lf7wkn3y//monitorCPU.json')
+    fetch('./mocks/monitorCPU.json')
       .then((response) => response.json())
       .then((data) => setD(data.data?.slice(0, 3)));
   }, []);

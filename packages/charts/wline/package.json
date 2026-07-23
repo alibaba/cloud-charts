@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/cloud-charts-line",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Vanilla JavaScript line/area chart for Angular, Vue, or any non-React projects. Part of cloud-charts visualization library.",
   "type": "module",
   "main": "dist/index.cjs",
@@ -36,7 +36,7 @@
     "directory": "packages/charts/wline"
   },
   "license": "MIT",
-  "author": "O-Insight Team",
+  "author": "cloud-charts Team",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
@@ -48,7 +48,7 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@alicloud/cloud-charts-core": "1.0.0-alpha.3"
+    "@alicloud/cloud-charts-core": "1.0.0-alpha.4"
   },
   "devDependencies": {
     "rollup": "^4.22.0",

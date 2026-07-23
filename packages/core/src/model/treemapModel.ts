@@ -29,7 +29,8 @@ export function createTreemapModel(input: CreateTreemapModelInput): ChartModel {
   });
 
   const { finalConfig, theme } = pipeline;
-  const finalData = pipeline.finalData as unknown as NormalizedTreemapRecord[];
+  // normalizeTreemapData 返回 [treeRoot]；treemap mark 需要树对象本身，取第一个元素。
+  const treeRoot = (pipeline.finalData as unknown as NormalizedTreemapRecord[])[0];
 
   const legendModel = normalizeLegend(finalConfig.legend, theme.token, {});
   const tooltipModel = normalizeTooltip(
@@ -42,20 +43,19 @@ export function createTreemapModel(input: CreateTreemapModelInput): ChartModel {
   });
   const interactions = legendInteractions as InteractionModel[];
 
+  const treeSource = { type: 'inline', value: treeRoot } as unknown as ChartSpec['data'];
+
   const treemapMark: ChartSpec = {
     type: 'treemap',
-    data: finalData,
-    encode: { value: 'value', color: 'name' },
+    data: treeSource,
+    encode: { value: 'value' },
     style: { stroke: '#fff', lineWidth: 1 },
     tooltip: tooltipModel.markSpec,
   } as ChartSpec;
-  if (finalConfig.label) {
-    treemapMark.labels = [{ text: 'name', position: 'inside', style: { fill: '#fff', fontSize: 11 } }];
-  }
 
   const spec: ChartSpec = {
     type: 'view',
-    data: finalData,
+    data: treeSource,
     coordinate: finalConfig.polar ? { type: 'polar' } : undefined,
     legend: legendModel.spec === false ? false : { color: legendModel.spec },
     children: [treemapMark],

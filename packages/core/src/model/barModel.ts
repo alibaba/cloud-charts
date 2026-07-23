@@ -41,10 +41,61 @@ function buildIntervalLabels(label: unknown, yField: string): Array<Record<strin
   return [item];
 }
 
+function normalizeGeomStyle(styleConfig: unknown): Record<string, unknown> {
+  if (!styleConfig || typeof styleConfig === 'function' || typeof styleConfig !== 'object') {
+    return {};
+  }
+  const config = styleConfig as Record<string, unknown>;
+  if (config.cfg && typeof config.cfg === 'object') {
+    return config.cfg as Record<string, unknown>;
+  }
+  if (typeof config.callback === 'function') {
+    return { callback: config.callback, fields: config.fields };
+  }
+  const style: Record<string, unknown> = {};
+  Object.entries(config).forEach(([key, value]) => {
+    if (!['fields', 'callback', 'cfg'].includes(key)) {
+      style[key] = value;
+    }
+  });
+  return style;
+}
+
 export interface CreateBarModelInput {
   data: BarSeries[];
   config?: BarChartConfig;
   context?: ChartRuntimeContext;
+}
+
+const scaleAxisIgnoredKeys = new Set([
+  'alias',
+  'autoEllipsis',
+  'autoHide',
+  'autoRotate',
+  'breaks',
+  'customConfig',
+  'grid',
+  'label',
+  'labelFormatter',
+  'line',
+  'rotate',
+  'tick',
+  'tickLine',
+  'visible',
+]);
+
+function getScaleAxisConfig(axis: unknown): Record<string, unknown> {
+  if (!axis || typeof axis !== 'object') {
+    return {};
+  }
+
+  const scaleConfig: Record<string, unknown> = {};
+  Object.entries(axis as Record<string, unknown>).forEach(([key, value]) => {
+    if (!scaleAxisIgnoredKeys.has(key)) {
+      scaleConfig[key] = value;
+    }
+  });
+  return scaleConfig;
 }
 
 function buildScale(config: BarChartConfig): Record<string, unknown> {
@@ -53,7 +104,7 @@ function buildScale(config: BarChartConfig): Record<string, unknown> {
     x: { type: 'band', ...xAxisConfig },
   };
   if (config.yAxis !== false) {
-    scale.y = { type: 'linear', nice: true, ...(config.yAxis || {}) };
+    scale.y = { type: 'linear', nice: true, ...getScaleAxisConfig(config.yAxis) };
   }
   return scale;
 }
@@ -115,12 +166,13 @@ export function createBarModel(input: CreateBarModelInput): ChartModel {
   const zoomInteraction = normalizeZoom(
     finalConfig,
     getText('reset', { language: context.language, locale: context.locale }),
+    theme.token,
   );
   const legendInteractions = normalizeLegendInteractions(legendModel, {
     showStackSum: Boolean(finalConfig.showStackSum),
     rawData: input.data as unknown as Array<Record<string, unknown>>,
   });
-  const sliderSpec = normalizeSlider(finalConfig);
+  const sliderSpec = normalizeSlider(finalConfig, { token: theme.token, data: finalData, width: context.size?.[0] });
   const scrollbarSpec = normalizeScrollbar(finalConfig);
   // 条形图（column===false）滚动改纵向
   if (scrollbarSpec && (finalConfig as { column?: boolean }).column === false && !((finalConfig.scrollbar as { type?: string })?.type)) {
@@ -146,6 +198,7 @@ export function createBarModel(input: CreateBarModelInput): ChartModel {
     transform: transforms.length > 0 ? transforms : undefined,
     style: {
       ...(typeof finalConfig.columnWidthRatio === 'number' ? { columnWidthRatio: finalConfig.columnWidthRatio } : {}),
+      ...normalizeGeomStyle(finalConfig.geomStyle),
     },
     tooltip: tooltipModel.markSpec,
   } as ChartSpec;
@@ -156,7 +209,7 @@ export function createBarModel(input: CreateBarModelInput): ChartModel {
   // guide marks (annotations): line / area 辅助线辅助区，statusColor 由 themeToken 自动解析
   const guideMarks = buildGuideMarks(
     finalConfig.guide as Parameters<typeof buildGuideMarks>[0],
-    { themeToken: theme.token },
+    { themeToken: theme.token, scales: scale },
   );
 
   const childrenSpecs: ChartSpec[] = [intervalSpec];

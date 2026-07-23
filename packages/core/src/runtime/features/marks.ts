@@ -17,7 +17,7 @@ export interface LineLabelConfig {
 }
 
 export interface LineMarkConfig {
-  area?: boolean;
+  area?: boolean | { geomStyle?: unknown; [key: string]: unknown };
   stack?: boolean;
   spline?: boolean;
   step?: string | boolean;
@@ -28,6 +28,7 @@ export interface LineMarkConfig {
   lineWidth?: number;
   symbolFillColor?: string;
   symbolLineWidth?: number;
+  geomStyle?: unknown;
   /** 数据标签：false 关闭；true 默认；object 详细配置 */
   label?: boolean | LineLabelConfig;
   animate?: boolean | Record<string, unknown>;
@@ -82,19 +83,54 @@ function buildLabelsArray(label: boolean | LineLabelConfig | undefined, yField: 
   return [item];
 }
 
+function normalizeGeomStyle(styleConfig: unknown): Record<string, unknown> {
+  if (!styleConfig || typeof styleConfig === 'function') {
+    return {};
+  }
+  if (typeof styleConfig !== 'object') {
+    return {};
+  }
+
+  const config = styleConfig as Record<string, unknown>;
+  if (config.cfg && typeof config.cfg === 'object') {
+    return config.cfg as Record<string, unknown>;
+  }
+  if (typeof config.callback === 'function') {
+    return { callback: config.callback, fields: config.fields };
+  }
+
+  const style: Record<string, unknown> = {};
+  Object.entries(config).forEach(([key, value]) => {
+    if (['fields', 'callback', 'cfg'].includes(key)) {
+      return;
+    }
+    style[key] = value;
+  });
+  return style;
+}
+
+function getAreaGeomStyle(area: LineMarkConfig['area']): Record<string, unknown> {
+  return area && typeof area === 'object' ? normalizeGeomStyle(area.geomStyle) : {};
+}
+
+function isAreaEnabled(area: LineMarkConfig['area']): boolean {
+  return Boolean(area);
+}
+
 /**
  * 将折线图业务配置规范化为 G2 5 spec 的 marks 数组。
  * 复现旧 drawLine 的语义：area+stack→stackY、spline→smooth、step→hv/vh、symbol→point mark、lineWidth、label。
  */
 export function buildLineMarks(config: LineMarkConfig, yField = 'y'): MarkSpec[] {
   const marks: MarkSpec[] = [];
-  const stackTransform = config.area && config.stack ? [{ type: 'stackY', reverse: true }] : undefined;
+  const areaEnabled = isAreaEnabled(config.area);
+  const stackTransform = areaEnabled && config.stack ? [{ type: 'stackY', reverse: true }] : undefined;
   const lineShape = resolveLineShape(config);
   const areaShape = config.spline ? 'smooth' : 'area';
   const animate = config.animate === false ? false : undefined;
   const labels = buildLabelsArray(config.label, yField);
 
-  if (config.area) {
+  if (areaEnabled) {
     marks.push({
       type: 'area',
       encode: { x: 'x', y: yField, color: 'type' },
@@ -103,6 +139,7 @@ export function buildLineMarks(config: LineMarkConfig, yField = 'y'): MarkSpec[]
       style: {
         shape: areaShape,
         fillOpacity: config.areaFillOpacity,
+        ...getAreaGeomStyle(config.area),
       },
       tooltip: false,
     });
@@ -117,6 +154,7 @@ export function buildLineMarks(config: LineMarkConfig, yField = 'y'): MarkSpec[]
       shape: lineShape,
       lineWidth: config.lineWidth,
       lineJoin: 'round',
+      ...normalizeGeomStyle(config.geomStyle),
     },
   };
   if (labels) {
@@ -126,6 +164,7 @@ export function buildLineMarks(config: LineMarkConfig, yField = 'y'): MarkSpec[]
 
   if (config.symbol) {
     const symbolConfig = typeof config.symbol === 'object' ? config.symbol : {};
+    const { geomStyle, size: _size, ...symbolStyleConfig } = symbolConfig;
     marks.push({
       type: 'point',
       encode: { x: 'x', y: yField, color: 'type' },
@@ -135,7 +174,8 @@ export function buildLineMarks(config: LineMarkConfig, yField = 'y'): MarkSpec[]
         shape: (symbolConfig.shape as string) || 'hollowCircle',
         fill: config.symbolFillColor,
         lineWidth: config.symbolLineWidth,
-        ...symbolConfig,
+        ...symbolStyleConfig,
+        ...normalizeGeomStyle(geomStyle),
       },
     });
   }

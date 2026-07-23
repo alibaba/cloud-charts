@@ -37,7 +37,7 @@ function formatTimeByMask(value: unknown, mask?: string): string {
 
 export interface TooltipBusinessConfig extends ValueFormatConfig {
   visible?: boolean;
-  sort?: 'asce' | 'desc' | ((left: unknown, right: unknown) => number);
+  sort?: 'asce' | 'desc' | ((left: unknown, right?: unknown) => number);
   showTitle?: boolean;
   showColon?: boolean;
   position?: 'top' | 'bottom' | 'left' | 'right';
@@ -56,10 +56,56 @@ export interface TooltipBusinessConfig extends ValueFormatConfig {
   xAxisMask?: string;
   themeToken?: ThemeToken;
   yAxisFormatConfig?: ValueFormatConfig;
+  dualYAxisFormatConfigs?: ValueFormatConfig[];
   [key: string]: unknown;
 }
 
 export type TooltipInput = TooltipBusinessConfig | boolean | undefined;
+
+function cleanTooltipName(name: unknown): unknown {
+  return typeof name === 'string' && name.startsWith('undefined-name-') ? '' : name;
+}
+
+function getTooltipYAxisIndex(datum: Record<string, unknown>): number {
+  const yAxis = Number(datum.yAxis ?? 0);
+  return Number.isFinite(yAxis) && yAxis > 0 ? yAxis : 0;
+}
+
+function createTooltipValueFormatter(config: TooltipBusinessConfig, datum: Record<string, unknown>) {
+  const axisFormatConfig = Array.isArray(config.dualYAxisFormatConfigs)
+    ? config.dualYAxisFormatConfigs[getTooltipYAxisIndex(datum)] ?? config.dualYAxisFormatConfigs[0]
+    : config.yAxisFormatConfig;
+
+  return createValueFormatter({
+    ...axisFormatConfig,
+    ...config,
+    grouping: config.grouping ?? axisFormatConfig?.grouping ?? true,
+    decimal: config.decimal ?? axisFormatConfig?.decimal ?? 1,
+  });
+}
+
+function createTooltipItemFilter() {
+  return (item: Record<string, unknown>, index: number, items: Array<Record<string, unknown>>) => (
+    items.findIndex((target) => target.name === item.name && target.value === item.value) === index
+  );
+}
+
+function createTooltipSort(sort: TooltipBusinessConfig['sort']) {
+  if (!sort) {
+    return undefined;
+  }
+  if (typeof sort === 'function') {
+    return sort;
+  }
+
+  return (item: Record<string, unknown>) => {
+    const value = Number(item.value);
+    if (Number.isNaN(value)) {
+      return Infinity;
+    }
+    return sort === 'desc' ? -value : value;
+  };
+}
 
 /**
  * 将业务 tooltip 配置规范化为 TooltipModel + G2 5 spec 的 tooltip 对象。
@@ -122,18 +168,14 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   };
 
   const isTimeAxis = config.xAxisType === 'time' || config.xAxisType === 'timeCat';
-  const valueFormatter = createValueFormatter({
-    ...config.yAxisFormatConfig,
-    ...config,
-    grouping: config.grouping ?? config.yAxisFormatConfig?.grouping ?? true,
-    decimal: config.decimal ?? config.yAxisFormatConfig?.decimal ?? 1,
-  });
   const markSpec: Record<string, unknown> = {};
 
   if (config.showTitle === false) {
     markSpec.title = false;
   } else if (config.titleFormatter) {
-    markSpec.title = (datum: Record<string, unknown>) => config.titleFormatter?.(datum.x, datum);
+    if (!isTimeAxis) {
+      markSpec.title = (datum: Record<string, unknown>) => config.titleFormatter?.(datum.x, datum);
+    }
   } else if (isTimeAxis) {
     markSpec.title = (datum: Record<string, unknown>) => formatTimeByMask(datum.x, config.xAxisMask);
   }
@@ -143,13 +185,14 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
       const rawName = datum.type;
       const rawValue = datum.y;
       const name = config.nameFormatter ? config.nameFormatter(rawName, datum, index, data) : rawName;
+      const valueFormatter = createTooltipValueFormatter(config, datum);
       const value = config.valueFormatter
         ? config.valueFormatter(rawValue, datum, index, data)
         : valueFormatter
           ? valueFormatter(rawValue, datum, index, data)
           : rawValue;
 
-      return { name, value };
+      return { name: cleanTooltipName(name), value };
     },
   ];
 
@@ -161,6 +204,14 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
     : { crosshairs: { type: 'x' } };
   if (config.shared !== false) {
     interactionTooltip.shared = true;
+  }
+  interactionTooltip.filter = createTooltipItemFilter();
+  if (config.titleFormatter) {
+    interactionTooltip.title = (title: unknown, datum: unknown) => config.titleFormatter?.(title, datum);
+  }
+  const tooltipSort = createTooltipSort(config.sort);
+  if (tooltipSort) {
+    interactionTooltip.sort = tooltipSort;
   }
 
   if (config.lockable) {
@@ -177,6 +228,12 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   }
   if (config.columns !== undefined) {
     spec.columns = config.columns;
+    if (typeof config.columns === 'number' && config.columns > 1) {
+      (spec.css as Record<string, Record<string, unknown>>)['.g2-tooltip-list'] = {
+        'column-count': config.columns,
+        'column-gap': '8px',
+      };
+    }
   }
   if (config.customContent) {
     spec.customContent = config.customContent;
@@ -187,13 +244,6 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   if (config.reactContent) {
     spec.reactContent = config.reactContent;
   }
-  if (config.dodge) {
-    spec.dodge = true;
-  }
-  if (config.sort) {
-    spec.sort = config.sort;
-  }
-
   const mergedSpec = config.customConfig ? deepMerge(spec, config.customConfig) : spec;
 
   return {
@@ -206,6 +256,7 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
     customContent: config.customContent,
     reactContent: config.reactContent,
     customTooltip: config.customTooltip,
+    dodge: Boolean(config.dodge),
     interactionTooltip,
   };
 }

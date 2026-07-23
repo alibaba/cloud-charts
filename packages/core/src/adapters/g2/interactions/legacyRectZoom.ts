@@ -27,7 +27,7 @@ type G2DisplayObject = {
   className?: string;
   id?: string;
   ownerDocument?: { createElement?: (tagName: string) => G2DisplayObject };
-  parentNode?: { appendChild?: (child: G2DisplayObject) => void };
+  parentNode?: G2DisplayObject;
   style?: Record<string, unknown>;
   addEventListener?: (eventName: string, listener: (event: G2PointerEvent) => void) => void;
   appendChild?: (child: G2DisplayObject) => void;
@@ -44,6 +44,8 @@ type G2PointerEvent = {
   target?: G2DisplayObject;
   timeStamp?: number;
   nativeEvent?: boolean;
+  preventDefault?: () => void;
+  stopPropagation?: () => void;
 };
 
 type G2InteractionTarget = {
@@ -192,6 +194,96 @@ function createBrushMask(plotArea: G2DisplayObject): G2DisplayObject | undefined
   return mask;
 }
 
+function getObjectOption(options: Record<string, unknown>, key: string): Record<string, unknown> {
+  const value = options[key];
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+}
+
+function createResetButton(
+  plotArea: G2DisplayObject,
+  options: Record<string, unknown>,
+  onReset: (event: G2PointerEvent) => void,
+): G2DisplayObject | undefined {
+  const document = plotArea.ownerDocument;
+  const group = document?.createElement?.('g');
+  const rect = document?.createElement?.('rect');
+  const text = document?.createElement?.('text');
+  if (!group || !rect || !text) {
+    return undefined;
+  }
+
+  const resetText = String(options.resetText ?? 'Reset');
+  const buttonStyle = getObjectOption(options, 'style');
+  const textStyle = getObjectOption(options, 'textStyle');
+  const activeStyle = getObjectOption(options, 'activeStyle');
+  const width = Math.max(48, resetText.length * 12 + 20);
+  const height = 24;
+  const bounds = plotArea.getBBox?.() || { width, height };
+  const x = Math.max(0, bounds.width - width - 8);
+  const y = 8;
+
+  group.className = 'reset-button';
+  group.attributes = { ...(group.attributes || {}), className: 'reset-button', name: 'reset-button' };
+  group.style = { ...(group.style || {}), cursor: 'pointer', pointerEvents: 'auto' };
+  rect.attributes = { ...(rect.attributes || {}), name: 'button-rect' };
+  rect.style = {
+    ...(rect.style || {}),
+    x,
+    y,
+    width,
+    height,
+    radius: 2,
+    fill: '#ffffff',
+    stroke: '#aaaaaa',
+    lineWidth: 0.5,
+    pointerEvents: 'none',
+    ...buttonStyle,
+  };
+  text.attributes = { ...(text.attributes || {}), name: 'button-text' };
+  text.style = {
+    ...(text.style || {}),
+    x: x + width / 2,
+    y: y + height / 2,
+    text: resetText,
+    textAlign: 'center',
+    textBaseline: 'middle',
+    fontSize: 12,
+    fill: '#6250f9',
+    pointerEvents: 'none',
+    ...textStyle,
+  };
+
+  group.appendChild?.(rect);
+  group.appendChild?.(text);
+  plotArea.appendChild?.(group);
+
+  const resetFromButton = (event: G2PointerEvent) => {
+    event.preventDefault?.();
+    event.stopPropagation?.();
+    onReset(event);
+  };
+  const activate = () => {
+    rect.style = { ...(rect.style || {}), ...activeStyle };
+  };
+  const deactivate = () => {
+    rect.style = { ...(rect.style || {}), ...buttonStyle };
+  };
+
+  group.addEventListener?.('click', resetFromButton);
+  group.addEventListener?.('pointerenter', activate as unknown as (event: G2PointerEvent) => void);
+  group.addEventListener?.('pointerleave', deactivate as unknown as (event: G2PointerEvent) => void);
+
+  const remove = group.remove?.bind(group);
+  group.remove = () => {
+    group.removeEventListener?.('click', resetFromButton);
+    group.removeEventListener?.('pointerenter', activate as unknown as (event: G2PointerEvent) => void);
+    group.removeEventListener?.('pointerleave', deactivate as unknown as (event: G2PointerEvent) => void);
+    remove?.();
+  };
+
+  return group;
+}
+
 function updateBrushMask(mask: G2DisplayObject | undefined, region: [number, number, number, number]): void {
   if (!mask) {
     return;
@@ -226,7 +318,20 @@ function isDoubleClick(event: G2PointerEvent, lastClickTime: number | undefined)
   return lastClickTime !== undefined && event.timeStamp !== undefined && event.timeStamp - lastClickTime < 300;
 }
 
-function LegacyRectZoom(_options: Record<string, unknown>) {
+function isResetButtonTarget(target: G2DisplayObject | undefined): boolean {
+  let current = target;
+  while (current) {
+    const className = current.className || current.attributes?.className || current.attributes?.class;
+    const name = current.attributes?.name || current.attributes?.id;
+    if (String(className || '').includes('reset-button') || name === 'button-rect' || name === 'button-text') {
+      return true;
+    }
+    current = current.parentNode;
+  }
+  return false;
+}
+
+function LegacyRectZoom(options: Record<string, unknown>) {
   return (target: G2InteractionTarget, _viewInstances: unknown, emitter: G2InteractionEmitter) => {
     const plotArea = findPlotArea(target.container);
     if (!plotArea?.addEventListener) {
@@ -241,6 +346,17 @@ function LegacyRectZoom(_options: Record<string, unknown>) {
     let lastClickTime: number | undefined;
     let brushStart: [number, number] | undefined;
     let brushMask: G2DisplayObject | undefined;
+    let resetButton: G2DisplayObject | undefined;
+
+    const hideResetButton = () => {
+      resetButton?.remove?.();
+      resetButton = undefined;
+    };
+
+    const showResetButton = () => {
+      hideResetButton();
+      resetButton = createResetButton(plotArea, options, reset);
+    };
 
     const filter = async (domainX: unknown[], event: G2PointerEvent) => {
       if (filtering || domainX.length === 0) {
@@ -259,6 +375,7 @@ function LegacyRectZoom(_options: Record<string, unknown>) {
       currentView = nextState.view;
       filtering = false;
       filtered = true;
+      showResetButton();
     };
 
     const reset = (event: G2PointerEvent) => {
@@ -275,11 +392,15 @@ function LegacyRectZoom(_options: Record<string, unknown>) {
       });
       filtered = false;
       currentView = originalView;
+      hideResetButton();
       target.setState('brushFilter');
       target.update();
     };
 
     const onDragStart = (event: G2PointerEvent) => {
+      if (isResetButtonTarget(event.target)) {
+        return;
+      }
       brushStart = getBrushPoint(plotArea, event);
       brushMask?.remove?.();
       brushMask = createBrushMask(plotArea);
@@ -312,6 +433,9 @@ function LegacyRectZoom(_options: Record<string, unknown>) {
     };
 
     const onClick = (event: G2PointerEvent) => {
+      if (isResetButtonTarget(event.target)) {
+        return;
+      }
       if (isDoubleClick(event, lastClickTime)) {
         reset(event);
         lastClickTime = undefined;
@@ -344,6 +468,7 @@ function LegacyRectZoom(_options: Record<string, unknown>) {
 
     return () => {
       brushMask?.remove?.();
+      hideResetButton();
       plotArea.removeEventListener?.('dragstart', onDragStart);
       plotArea.removeEventListener?.('drag', onDrag);
       plotArea.removeEventListener?.('dragend', onDragEnd);

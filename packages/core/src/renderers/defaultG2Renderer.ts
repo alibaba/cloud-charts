@@ -3,7 +3,7 @@ import { customAxisBreaksShape } from '../runtime/axis';
 import type { G2SpecRenderer } from '../adapters/g2/index';
 import type { ChartSpec } from '../types/spec';
 
-const ChartCtor: any = (G2 as any).Chart || ((G2 as any).default && (G2 as any).default.Chart);
+const ChartCtor: any = (G2 as any).Chart;
 const registerFn: ((name: string, value: unknown) => void) | undefined = (G2 as any).register;
 
 /**

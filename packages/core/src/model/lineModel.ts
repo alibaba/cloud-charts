@@ -32,6 +32,37 @@ function toScaleSeries(seriesList: LineSeries[]): Array<{ data: Array<[unknown, 
   return seriesList.map((series) => ({ data: series.data }));
 }
 
+const scaleAxisIgnoredKeys = new Set([
+  'alias',
+  'autoEllipsis',
+  'autoHide',
+  'autoRotate',
+  'breaks',
+  'customConfig',
+  'grid',
+  'label',
+  'labelFormatter',
+  'line',
+  'rotate',
+  'tick',
+  'tickLine',
+  'visible',
+]);
+
+function getScaleAxisConfig(axis: unknown): Record<string, unknown> {
+  if (!axis || typeof axis !== 'object') {
+    return {};
+  }
+
+  const scaleConfig: Record<string, unknown> = {};
+  Object.entries(axis as Record<string, unknown>).forEach(([key, value]) => {
+    if (!scaleAxisIgnoredKeys.has(key)) {
+      scaleConfig[key] = value;
+    }
+  });
+  return scaleConfig;
+}
+
 function buildScale(config: LineChartConfig, seriesList: LineSeries[], context: ChartRuntimeContext): Record<string, unknown> {
   const xAxisConfig = (config.xAxis ? config.xAxis : {}) as ScaleOption;
   const defs: Record<string, ScaleOption> = {
@@ -50,11 +81,11 @@ function buildScale(config: LineChartConfig, seriesList: LineSeries[], context: 
         type: 'linear',
         nice: true,
         independent: axisIndex > 0,
-        ...(axisConfig || {}),
+        ...getScaleAxisConfig(axisConfig),
       };
     });
   } else if (config.yAxis !== false) {
-    scale.y = { type: 'linear', nice: true, ...(config.yAxis || {}) };
+    scale.y = { type: 'linear', nice: true, ...getScaleAxisConfig(config.yAxis) };
   }
   return scale;
 }
@@ -117,6 +148,7 @@ export function createLineModel(input: CreateLineModelInput): ChartModel {
           ...(typeof primaryYAxisConfig === 'object' ? primaryYAxisConfig : {}),
           ...finalConfig.tooltip,
           yAxisFormatConfig: typeof primaryYAxisConfig === 'object' ? primaryYAxisConfig : undefined,
+          dualYAxisFormatConfigs: Array.isArray(finalConfig.yAxis) ? finalConfig.yAxis : undefined,
           xAxisType: (scale.x as ScaleOption)?.type,
           xAxisMask: (scale.x as ScaleOption)?.mask,
           themeToken: theme.token,
@@ -144,17 +176,18 @@ export function createLineModel(input: CreateLineModelInput): ChartModel {
   const areaFillOpacity = getAreaFillOpacity(theme.token['widgets-shape-area-opacity']);
   const symbolFillColor = toStringValue(theme.token['widgets-container-background'], '#ffffff');
   const symbolLineWidth = 1.5;
-  const guideMarks = buildGuideMarks(finalConfig.guide, { themeToken: theme.token });
+  const guideMarks = buildGuideMarks(finalConfig.guide, { themeToken: theme.token, scales: scale });
 
   const zoomInteraction = normalizeZoom(
     finalConfig,
     getText('reset', { language: context.language, locale: context.locale }),
+    theme.token,
   );
   const legendInteractions = normalizeLegendInteractions(legendModel, {
     showStackSum: Boolean(finalConfig.showStackSum),
     rawData: input.data as unknown as Array<Record<string, unknown>>,
   });
-  const sliderSpec = normalizeSlider(finalConfig);
+  const sliderSpec = normalizeSlider(finalConfig, { token: theme.token, data: finalData, width: context.size?.[0] });
   const scrollbarSpec = normalizeScrollbar(finalConfig);
   const interactions = [zoomInteraction, ...legendInteractions].filter(Boolean) as InteractionModel[];
 

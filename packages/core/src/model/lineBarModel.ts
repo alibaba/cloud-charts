@@ -44,7 +44,17 @@ export function createLineBarModel(input: CreateLineBarModelInput): ChartModel {
   const legendModel = normalizeLegend(finalConfig.legend, theme.token, {});
   const tooltipModel = normalizeTooltip(
     typeof finalConfig.tooltip === 'object'
-      ? { ...finalConfig.tooltip, xAxisType: 'band', themeToken: theme.token }
+      ? {
+          ...finalConfig.tooltip,
+          xAxisType: 'band',
+          yAxisFormatConfig: Array.isArray(finalConfig.yAxis)
+            ? finalConfig.yAxis[0]
+            : finalConfig.yAxis === false
+              ? undefined
+              : finalConfig.yAxis,
+          dualYAxisFormatConfigs: Array.isArray(finalConfig.yAxis) ? finalConfig.yAxis : undefined,
+          themeToken: theme.token,
+        }
       : { visible: finalConfig.tooltip !== false, xAxisType: 'band', themeToken: theme.token },
   );
   const legendInteractions = normalizeLegendInteractions(legendModel, {

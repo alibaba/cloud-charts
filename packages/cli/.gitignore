@@ -1,0 +1,3 @@
+# 组件源码快照，由 scripts/build-vendor.mjs 在 prepublishOnly 时生成
+vendor/
+*.tgz

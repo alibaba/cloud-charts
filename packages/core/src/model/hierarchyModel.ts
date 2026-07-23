@@ -15,8 +15,8 @@ export interface CreateHierarchyModelInput {
 }
 
 /**
- * 层次相邻图：G2 v5 'icicle' mark（笛卡尔）或 'sunburst' mark（极坐标）。
- * 旧版 src/Whierarchy 用 @antv/data-set hierarchy.partition；G2 v5 内置 mark + partition transform。
+ * 层次相邻图：G2 v5 内置 'partition' mark。笛卡尔坐标为冰柱图，极坐标为旭日样式。
+ * 旧版 src/Whierarchy 用 @antv/data-set hierarchy.partition + polygon geom。
  */
 export function createHierarchyModel(input: CreateHierarchyModelInput): ChartModel {
   const pipeline = runRuntimePipeline<HierarchyData, HierarchyChartConfig>({
@@ -42,21 +42,22 @@ export function createHierarchyModel(input: CreateHierarchyModelInput): ChartMod
   });
   const interactions = legendInteractions as InteractionModel[];
 
-  const markType = finalConfig.polar ? 'sunburst' : 'icicle';
   const mark: ChartSpec = {
-    type: markType,
+    type: 'partition',
     data: finalData,
+    axis: false,
     encode: { value: 'value', color: 'name' },
     style: { stroke: '#fff', lineWidth: 1 },
     tooltip: tooltipModel.markSpec,
   } as ChartSpec;
-  if (finalConfig.label) {
-    mark.labels = [{ text: 'name', position: 'inside', style: { fill: '#fff', fontSize: 11 } }];
-  }
+  mark.labels = finalConfig.label
+    ? [{ text: 'name', position: 'inside', style: { fill: '#fff', fontSize: 11 } }]
+    : [];
 
   const spec: ChartSpec = {
     type: 'view',
     data: finalData,
+    coordinate: finalConfig.polar ? { type: 'polar' } : undefined,
     legend: legendModel.spec === false ? false : { color: legendModel.spec },
     children: [mark],
   };

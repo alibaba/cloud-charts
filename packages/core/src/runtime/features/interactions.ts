@@ -1,4 +1,4 @@
-import type { InteractionModel, LegendModel } from '../types';
+import type { InteractionModel, LegendModel, ThemeToken } from '../types';
 
 export interface ZoomBusinessConfig {
   zoom?: boolean;
@@ -37,15 +37,26 @@ function getHiddenLegendValues(rawData?: Array<Record<string, unknown>>): unknow
  * 将业务 zoom 配置规范化为旧版 rectZoom 语义。
  * 具体的 G2 5 转接由 renderer 注册 legacyRectZoom interaction 完成。
  */
-export function normalizeZoom(config: ZoomBusinessConfig, resetText?: unknown): InteractionModel | undefined {
+function tokenString(token: ThemeToken | undefined, key: string, fallback: string): string {
+  const value = token?.[key];
+  return typeof value === 'string' ? value : fallback;
+}
+
+export function normalizeZoom(config: ZoomBusinessConfig, resetText?: unknown, token?: ThemeToken): InteractionModel | undefined {
   if (!config.zoom) {
     return undefined;
   }
+  const primary = tokenString(token, 'widgets-color-primary', '#6250f9');
+  const background = tokenString(token, 'widgets-color-background', '#ffffff');
+  const gray = tokenString(token, 'widgets-color-gray', '#aaaaaa');
   return {
     name: 'legacyRectZoom',
     spec: {
       resetText,
       events: ['zoom:start', 'zoom:end', 'zoom:reset'],
+      style: { fill: background, stroke: gray, lineWidth: 0.5, pointerEvents: 'none' },
+      textStyle: { fill: primary },
+      activeStyle: { fill: background, stroke: primary },
     },
   };
 }
@@ -97,25 +108,90 @@ export function normalizeLegendInteractions(
   return interactions;
 }
 
+export interface SliderNormalizeOptions {
+  token?: ThemeToken;
+  data?: Array<Record<string, unknown>>;
+  width?: number;
+}
+
+function sampleSliderData(data: Array<Record<string, unknown>> | undefined, rate: number): Array<Record<string, unknown>> | undefined {
+  if (!Array.isArray(data) || data.length <= 2 || rate >= 1) {
+    return data;
+  }
+
+  const step = Math.max(1, Math.ceil(1 / Math.max(rate, 0.001)));
+  const sampled = data.filter((_, index) => index === 0 || index === data.length - 1 || index % step === 0);
+  return sampled.length >= 2 ? sampled : [data[0], data[data.length - 1]];
+}
+
+function getSliderStyle(sliderConfig: Record<string, unknown>, token?: ThemeToken, data?: Array<Record<string, unknown>>) {
+  const trendCfg = (typeof sliderConfig.trendCfg === 'object' && sliderConfig.trendCfg) as Record<string, unknown> | undefined;
+  const backgroundStyle = (typeof sliderConfig.backgroundStyle === 'object' && sliderConfig.backgroundStyle) as Record<string, unknown> | undefined;
+  const handlerStyle = (typeof sliderConfig.handlerStyle === 'object' && sliderConfig.handlerStyle) as Record<string, unknown> | undefined;
+  const textStyle = (typeof sliderConfig.textStyle === 'object' && sliderConfig.textStyle) as Record<string, unknown> | undefined;
+  const trendColor = tokenString(token, 'widgets-slider-trend-bg', '#4c4f53');
+  const trendBorder = tokenString(token, 'widgets-slider-trend-border-color', '#808080');
+  const handlerBorder = tokenString(token, 'widgets-slider-handler-border-color', '#414448');
+  const background = tokenString(token, 'widgets-color-background', '#ffffff');
+  const trendOpacity = Number(token?.['widgets-slider-trend-opacity'] ?? 0.1);
+
+  return {
+    track: { fill: background, stroke: trendBorder, fillOpacity: trendOpacity, ...backgroundStyle },
+    handle: { fill: background, stroke: handlerBorder, ...handlerStyle },
+    handleLabel: { ...textStyle },
+    sparkline: {
+      data: trendCfg?.data ?? data,
+      smooth: trendCfg?.smooth ?? false,
+      isArea: trendCfg?.isArea ?? true,
+      line: { stroke: trendColor, opacity: trendOpacity, ...((trendCfg?.lineStyle as Record<string, unknown> | undefined) || {}) },
+      area: { fill: trendColor, fillOpacity: trendOpacity, ...((trendCfg?.areaStyle as Record<string, unknown> | undefined) || {}) },
+    },
+  };
+}
+
 /**
  * 将业务 slider 配置规范化为 G2 5 spec 的 slider 对象。
  * 复现旧 rectSlider 的缩略轴语义（start/end/showText/labelFormatter/sampleRate/type）。
  */
-export function normalizeSlider(config: SliderBusinessConfig): Record<string, unknown> | false {
+export function normalizeSlider(config: SliderBusinessConfig, options: SliderNormalizeOptions = {}): Record<string, unknown> | false {
   if (!config.slider) {
     return false;
   }
 
   const sliderConfig = typeof config.slider === 'object' ? config.slider : {};
-  const { labelFormatter, showText = false, sampleRate = 1, type = 'simple', ...restSliderConfig } = sliderConfig;
+  const {
+    labelFormatter,
+    showText = false,
+    sampleRate = 1,
+    type = 'simple',
+    start,
+    end,
+    trendCfg,
+    backgroundStyle,
+    handlerStyle,
+    textStyle,
+    ...restSliderConfig
+  } = sliderConfig;
+  const autoSampleRate = options.width && options.data?.length && options.data.length > options.width
+    ? options.width / options.data.length
+    : 1;
+  const effectiveSampleRate = Math.min(Number(sampleRate) || 1, autoSampleRate);
+  const sampledData = sampleSliderData(options.data, effectiveSampleRate);
+  const style = getSliderStyle(
+    { ...sliderConfig, trendCfg, backgroundStyle, handlerStyle, textStyle },
+    options.token,
+    sampledData,
+  );
+
   return {
     x: {
-      start: restSliderConfig.start ?? 0.64,
-      end: restSliderConfig.end ?? 1,
+      start: start ?? 0.64,
+      end: end ?? 1,
       labelFormatter,
       showText,
-      sampleRate,
+      sampleRate: effectiveSampleRate,
       type,
+      style,
       ...restSliderConfig,
     },
   };

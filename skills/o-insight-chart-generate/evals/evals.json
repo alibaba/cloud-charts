@@ -1,0 +1,29 @@
+{
+  "skill_name": "cloud-charts-chart-generate",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我做一个销售经营 dashboard，包含总销售额、同比、目标达成，以及销售趋势、城市对比、渠道占比。可以用模拟数据，生成一个可运行页面方案。",
+      "expected_output": "输出一个多图 dashboard 方案或可运行页面代码，使用 KPI + Line + Bar + Pie，模拟数据要合理并说明。",
+      "expectations": [
+        "包含 KPI row 和至少三个图表组件",
+        "使用真实 @alicloud/cloud-charts-react 组件和 ChartProvider",
+        "说明模拟数据或给出合理数据",
+        "不暴露旧底层接口心智"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想做一个 AI 一步步画图的效果：先展示柱状图，再逐步加入趋势线，最后形成组合图。请给我设计实现方式。",
+      "expected_output": "输出 DrawOp/逐步生成模式，最终落到真实 cloud-charts 组件，说明操作流和渲染循环。",
+      "expectations": [
+        "包含逐步操作流或 DrawOp 类似结构",
+        "最终图表使用真实 cloud-charts 组件",
+        "说明每一步如何更新状态和叙事",
+        "不建议用截图或底层绘图替代真实组件"
+      ],
+      "files": []
+    }
+  ]
+}

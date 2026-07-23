@@ -13,7 +13,7 @@ function formatTimeByMask(value: unknown, mask?: string): string {
     return String(value ?? '');
   }
 
-  const formatMask = mask || 'HH:mm:ss\nYYYY-MM-DD';
+  const formatMask = !mask || mask === 'auto' ? 'HH:mm:ss\nYYYY-MM-DD' : mask;
   return formatMask
     .replace(/YYYY/g, String(time.getFullYear()))
     .replace(/MM/g, padNumber(time.getMonth() + 1))
@@ -55,6 +55,8 @@ export interface AxisBusinessConfig extends ValueFormatConfig {
   max?: number;
   tickCount?: number;
   mask?: string;
+  tick?: boolean | Record<string, unknown>;
+  tickLine?: boolean | Record<string, unknown>;
   grid?: boolean;
   breaks?: BreakOptions[];
   customConfig?: Record<string, unknown>;
@@ -142,6 +144,13 @@ export function normalizeAxis(axis: AxisInput, options: NormalizeAxisOptions = {
     important: axisThemeStyle,
   };
 
+  if (config.tick !== undefined) {
+    result.tick = config.tick;
+  }
+  if (config.tickLine !== undefined) {
+    result.tick = config.tickLine;
+  }
+
   if (isDoubleYAxis) {
     result.lineStroke = axisLineColor;
     result.lineStrokeOpacity = 1;
@@ -210,6 +219,9 @@ export function normalizeAxis(axis: AxisInput, options: NormalizeAxisOptions = {
 
   if (config.alias) {
     result.title = typeof config.alias === 'string' ? config.alias : undefined;
+    if ((field === 'y' || isDoubleYAxis) && result.title) {
+      result.titleTransform = 'rotate(-90deg)';
+    }
   }
 
   if (config.customConfig) {

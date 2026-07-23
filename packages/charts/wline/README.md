@@ -17,7 +17,7 @@
 ## 安装
 
 ```bash
-npm install @alicloud/cloud-charts-line @alicloud/cloud-charts-core --registry=https://registry.anpm.alibaba-inc.com
+npm install @alicloud/cloud-charts-line @alicloud/cloud-charts-core
 ```
 
 > `@antv/g2` 已是 `@alicloud/cloud-charts-core` 的 dependencies，**无需额外安装**。
@@ -52,7 +52,7 @@ const { chart } = renderWlineModel({
 
 ## Angular 17+ 集成
 
-完整 demo：[examples/angular-wline-demo](https://github.com/alibaba/cloud-charts/tree/refactor/ai-v2-migration/examples/angular-wline-demo)
+完整 demo：本仓库 `examples/angular-wline-demo`（随后续批次提供）
 
 ```ts
 import { Component, ElementRef, ViewChild, Input, AfterViewInit, OnDestroy } from '@angular/core';
@@ -64,11 +64,11 @@ import {
 } from '@alicloud/cloud-charts-line';
 
 @Component({
-  selector: 'aisc-wline',
+  selector: 'cloud-charts-wline',
   standalone: true,
   template: `<div #container style="width:100%;height:300px"></div>`,
 })
-export class AiscWlineComponent implements AfterViewInit, OnDestroy {
+export class CloudChartsWlineComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLDivElement>;
   @Input() data: LineSeries[] = [];
   @Input() config: LineChartConfig = {};
@@ -154,8 +154,8 @@ import {
 
 ## 版本与发布
 
-- 当前版本：`1.0.0-alpha.3`
-- Registry：`https://registry.anpm.alibaba-inc.com`
+- 当前版本：`1.0.0-alpha.4`
+- Registry：`https://registry.npmjs.org`（本包当前为 monorepo 工作区内部包，暂不独立发布）
 - Tag：`alpha`
 
 ## License

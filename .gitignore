@@ -17,5 +17,15 @@ demo/*.js
 
 # v3 monorepo build outputs (per-package dist/)
 packages/*/dist/
-# example demo lockfile (per-demo install; root lock is canonical)
+packages/charts/*/dist/
+packages/frameworks/*/dist/
+packages/compat/dist/
+# example demo build outputs & lockfiles
+examples/*/dist/
 examples/*/package-lock.json
+# Angular cache
+.angular/
+# skill eval workspace artifacts
+skills/*-workspace/
+# storybook static build
+storybook-static-v3/

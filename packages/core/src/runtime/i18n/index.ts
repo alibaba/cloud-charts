@@ -31,11 +31,16 @@ function isLanguageMap(locale: LocaleConfig): locale is Record<ChartLanguage, Lo
 }
 
 function resolveLanguage(language: ChartLanguage | undefined): ChartLanguage {
-  if (language && language in builtInLocales) {
-    return language;
+  const targetLanguage = language || currentLanguage;
+  if (targetLanguage && targetLanguage in builtInLocales) {
+    return targetLanguage;
   }
 
   return DEFAULT_LANGUAGE;
+}
+
+function getBuiltInText(key: string, language: ChartLanguage): LocaleTextMap[string] {
+  return builtInLocales[language]?.[key] ?? builtInLocales[DEFAULT_LANGUAGE]?.[key];
 }
 
 export interface GetTextOptions {
@@ -49,21 +54,25 @@ export function getText(key: string, options: GetTextOptions = {}): LocaleTextMa
   const resolvedLanguage = resolveLanguage(language);
 
   if (force) {
-    return builtInLocales[resolvedLanguage]?.[key];
+    return getBuiltInText(key, resolvedLanguage);
   }
 
   if (locale) {
     if (isLanguageMap(locale)) {
-      const languageLocale = locale[resolvedLanguage] ?? locale[DEFAULT_LANGUAGE];
+      const languageLocale = locale[resolvedLanguage];
       if (languageLocale && key in languageLocale) {
         return languageLocale[key];
+      }
+      const defaultLocale = locale[DEFAULT_LANGUAGE];
+      if (defaultLocale && key in defaultLocale) {
+        return defaultLocale[key];
       }
     } else if (key in locale) {
       return (locale as LocaleTextMap)[key];
     }
   }
 
-  return builtInLocales[resolvedLanguage]?.[key];
+  return getBuiltInText(key, resolvedLanguage);
 }
 
 const SECOND_MS = 1000;

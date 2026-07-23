@@ -1,6 +1,4 @@
-import type { ChartPrimitiveValue } from '../types/spec';
-
-/** Hierarchy 数据：单根树（partition / icicle-style 层次图） */
+/** Hierarchy 数据：单根树（partition 层次图） */
 export interface HierarchyNode {
   name: string;
   value?: number;
@@ -16,35 +14,14 @@ export interface HierarchySpecConfig {
   polar?: boolean;
 }
 
-export interface NormalizedHierarchyRecord {
-  name: ChartPrimitiveValue;
-  value: ChartPrimitiveValue;
-  path: string;
-  depth: number;
-  [key: string]: unknown;
-}
+export type NormalizedHierarchyRecord = HierarchyNode;
 
 /**
- * 把 Tree 摊平。G2 v5 'icicle' mark 自动 partition 适合层次相邻图。
- * 旧版用 @antv/data-set hierarchy.partition；G2 v5 内置 icicle/sunburst mark。
+ * G2 v5 'partition' mark 需要树结构（PartitionNode[]），内部自行 partition 布局，
+ * 不接受预摊平的 path 记录。此处把单根树包装成数组 [root] 原样返回。
+ * 旧版用 @antv/data-set hierarchy.partition + polygon geom。
  */
 export function normalizeHierarchyData(data: HierarchyData): NormalizedHierarchyRecord[] {
   if (!data) return [];
-  const records: NormalizedHierarchyRecord[] = [];
-  const walk = (node: HierarchyNode, path: string[], depth: number) => {
-    const nextPath = [...path, node.name];
-    const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-    if (!hasChildren) {
-      records.push({
-        name: node.name,
-        value: typeof node.value === 'number' ? node.value : 1,
-        path: nextPath.join('/'),
-        depth,
-      });
-    } else {
-      (node.children as HierarchyNode[]).forEach((child) => walk(child, nextPath, depth + 1));
-    }
-  };
-  walk(data, [], 0);
-  return records;
+  return [data];
 }

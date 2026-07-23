@@ -106,7 +106,7 @@ function convertDateUnit(
 
 function normalizeUnit(unit: string | undefined, valueType: string | undefined): string | undefined {
   if (!unit) {
-    return valueType ? unitMap[valueType]?.[0] : unit;
+    return valueType === 'time' ? 's' : valueType ? unitMap[valueType]?.[0] : unit;
   }
 
   if (valueType && ['disk_1000', 'disk_1024', 'bandwidth_1000', 'bandwidth_1024'].includes(valueType)) {

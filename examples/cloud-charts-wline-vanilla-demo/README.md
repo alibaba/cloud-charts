@@ -29,5 +29,5 @@ vite.config.ts      # alias 指向 packages/*，resolve.dedupe 避免 monorepo h
 
 ## 参考
 
-- 源实现：[`aisc-widgets/examples/wline-vanilla-demo`](../../../aisc-widgets/examples/wline-vanilla-demo)
+- 源实现：[`cloud-charts/examples/wline-vanilla-demo`](../../../cloud-charts/examples/wline-vanilla-demo)
 - 升级背景：参考 `docs/upgrade-overview.md` 与 `docs/refactor/architecture-v2-spec.md`

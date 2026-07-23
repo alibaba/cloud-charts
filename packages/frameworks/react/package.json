@@ -1,0 +1,208 @@
+{
+  "name": "@alicloud/cloud-charts-react",
+  "version": "1.0.0-alpha.4",
+  "description": "React adapter components for cloud-charts. Supports both 整包 import and sub-path tree-shaking.",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./bar": {
+      "types": "./dist/charts/bar/index.d.ts",
+      "import": "./dist/charts/bar/index.mjs",
+      "require": "./dist/charts/bar/index.cjs"
+    },
+    "./line": {
+      "types": "./dist/charts/line/index.d.ts",
+      "import": "./dist/charts/line/index.mjs",
+      "require": "./dist/charts/line/index.cjs"
+    },
+    "./pie": {
+      "types": "./dist/charts/pie/index.d.ts",
+      "import": "./dist/charts/pie/index.mjs",
+      "require": "./dist/charts/pie/index.cjs"
+    },
+    "./scatter": {
+      "types": "./dist/charts/scatter/index.d.ts",
+      "import": "./dist/charts/scatter/index.mjs",
+      "require": "./dist/charts/scatter/index.cjs"
+    },
+    "./funnel": {
+      "types": "./dist/charts/funnel/index.d.ts",
+      "import": "./dist/charts/funnel/index.mjs",
+      "require": "./dist/charts/funnel/index.cjs"
+    },
+    "./radar": {
+      "types": "./dist/charts/radar/index.d.ts",
+      "import": "./dist/charts/radar/index.mjs",
+      "require": "./dist/charts/radar/index.cjs"
+    },
+    "./line-bar": {
+      "types": "./dist/charts/lineBar/index.d.ts",
+      "import": "./dist/charts/lineBar/index.mjs",
+      "require": "./dist/charts/lineBar/index.cjs"
+    },
+    "./box": {
+      "types": "./dist/charts/box/index.d.ts",
+      "import": "./dist/charts/box/index.mjs",
+      "require": "./dist/charts/box/index.cjs"
+    },
+    "./heatmap": {
+      "types": "./dist/charts/heatmap/index.d.ts",
+      "import": "./dist/charts/heatmap/index.mjs",
+      "require": "./dist/charts/heatmap/index.cjs"
+    },
+    "./nightingale": {
+      "types": "./dist/charts/nightingale/index.d.ts",
+      "import": "./dist/charts/nightingale/index.mjs",
+      "require": "./dist/charts/nightingale/index.cjs"
+    },
+    "./histogram": {
+      "types": "./dist/charts/histogram/index.d.ts",
+      "import": "./dist/charts/histogram/index.mjs",
+      "require": "./dist/charts/histogram/index.cjs"
+    },
+    "./line-scatter": {
+      "types": "./dist/charts/lineScatter/index.d.ts",
+      "import": "./dist/charts/lineScatter/index.mjs",
+      "require": "./dist/charts/lineScatter/index.cjs"
+    },
+    "./linebox": {
+      "types": "./dist/charts/linebox/index.d.ts",
+      "import": "./dist/charts/linebox/index.mjs",
+      "require": "./dist/charts/linebox/index.cjs"
+    },
+    "./sankey": {
+      "types": "./dist/charts/sankey/index.d.ts",
+      "import": "./dist/charts/sankey/index.mjs",
+      "require": "./dist/charts/sankey/index.cjs"
+    },
+    "./candlestick": {
+      "types": "./dist/charts/candlestick/index.d.ts",
+      "import": "./dist/charts/candlestick/index.mjs",
+      "require": "./dist/charts/candlestick/index.cjs"
+    },
+    "./sunburst": {
+      "types": "./dist/charts/sunburst/index.d.ts",
+      "import": "./dist/charts/sunburst/index.mjs",
+      "require": "./dist/charts/sunburst/index.cjs"
+    },
+    "./treemap": {
+      "types": "./dist/charts/treemap/index.d.ts",
+      "import": "./dist/charts/treemap/index.mjs",
+      "require": "./dist/charts/treemap/index.cjs"
+    },
+    "./hierarchy": {
+      "types": "./dist/charts/hierarchy/index.d.ts",
+      "import": "./dist/charts/hierarchy/index.mjs",
+      "require": "./dist/charts/hierarchy/index.cjs"
+    },
+    "./rectangle": {
+      "types": "./dist/charts/rectangle/index.d.ts",
+      "import": "./dist/charts/rectangle/index.mjs",
+      "require": "./dist/charts/rectangle/index.cjs"
+    },
+    "./miniline": {
+      "types": "./dist/charts/miniline/index.d.ts",
+      "import": "./dist/charts/miniline/index.mjs",
+      "require": "./dist/charts/miniline/index.cjs"
+    },
+    "./multi-circle": {
+      "types": "./dist/charts/multiCircle/index.d.ts",
+      "import": "./dist/charts/multiCircle/index.mjs",
+      "require": "./dist/charts/multiCircle/index.cjs"
+    },
+    "./hexagonal": {
+      "types": "./dist/charts/hexagonal/index.d.ts",
+      "import": "./dist/charts/hexagonal/index.mjs",
+      "require": "./dist/charts/hexagonal/index.cjs"
+    },
+    "./map": {
+      "types": "./dist/charts/map/index.d.ts",
+      "import": "./dist/charts/map/index.mjs",
+      "require": "./dist/charts/map/index.cjs"
+    },
+    "./hooks/useChart": {
+      "types": "./dist/hooks/useChart.d.ts",
+      "import": "./dist/hooks/useChart.mjs",
+      "require": "./dist/hooks/useChart.cjs"
+    },
+    "./hooks/useTheme": {
+      "types": "./dist/hooks/useTheme.d.ts",
+      "import": "./dist/hooks/useTheme.mjs",
+      "require": "./dist/hooks/useTheme.cjs"
+    },
+    "./hooks/useResize": {
+      "types": "./dist/hooks/useResize.d.ts",
+      "import": "./dist/hooks/useResize.mjs",
+      "require": "./dist/hooks/useResize.cjs"
+    },
+    "./hooks/useCustomTooltip": {
+      "types": "./dist/hooks/useCustomTooltip.d.ts",
+      "import": "./dist/hooks/useCustomTooltip.mjs",
+      "require": "./dist/hooks/useCustomTooltip.cjs"
+    },
+    "./components/FreeTooltip": {
+      "types": "./dist/components/FreeTooltip/index.d.ts",
+      "import": "./dist/components/FreeTooltip/index.mjs",
+      "require": "./dist/components/FreeTooltip/index.cjs"
+    },
+    "./components/AiLoadingIcon": {
+      "types": "./dist/components/AiLoadingIcon/index.d.ts",
+      "import": "./dist/components/AiLoadingIcon/index.mjs",
+      "require": "./dist/components/AiLoadingIcon/index.cjs"
+    },
+    "./components/legends": {
+      "types": "./dist/components/legends/index.d.ts",
+      "import": "./dist/components/legends/index.mjs",
+      "require": "./dist/components/legends/index.cjs"
+    },
+    "./provider": {
+      "types": "./dist/provider/index.d.ts",
+      "import": "./dist/provider/index.mjs",
+      "require": "./dist/provider/index.cjs"
+    }
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "rollup -c rollup.config.mjs",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=17 <20",
+    "react-dom": ">=17 <20"
+  },
+  "dependencies": {
+    "@alicloud/cloud-charts-core": "1.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "rollup": "^4.22.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.7.0",
+    "typescript": "4.6.4",
+    "vitest": "^1.6.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0"
+  },
+  "license": "MIT"
+}

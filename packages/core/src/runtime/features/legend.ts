@@ -59,12 +59,23 @@ export interface LegendChartDefaults {
   markerSize?: number;
   /** showData 时按 name 查询数值的映射。pie 用每片 y，bar/line 用每系列最后一个 y。 */
   valueMap?: Record<string, unknown>;
+  isPolar?: boolean;
 }
 
 const MARKER_ALIAS: Record<string, string> = {
   square: 'rect',
   dot: 'circle',
 };
+
+function getLegendPadding(position: LegendModel['position'], fontSize: number, isPolar?: boolean): number[] {
+  const len = fontSize * 4 / 3;
+  const lrLen = isPolar ? fontSize * 2 : len;
+  if (position === 'bottom') return [len, 0, 0, 0];
+  if (position === 'top') return [0, 0, len, 0];
+  if (position === 'left') return [0, lrLen, 0, 0];
+  if (position === 'right') return [0, 0, 0, lrLen];
+  return [len, 0, 0, 0];
+}
 
 /**
  * 将业务 legend 配置规范化为 LegendModel + G2 5 spec 的 legend 对象。
@@ -106,7 +117,7 @@ export function normalizeLegend(
   const spec: LegendCategorySpec = {
     position,
     layout,
-    padding: position === 'bottom' ? [fontSize * 2.5, 0, 0, 0] : [0, 0, fontSize * 4 / 3, 0],
+    padding: getLegendPadding(position, fontSize, chartDefaults.isPolar),
     itemLabelFill: legendTextColor,
     itemLabelFontSize: fontSize,
     itemLabelFontFamily: fontFamily,
@@ -124,7 +135,11 @@ export function normalizeLegend(
   const showData = Boolean(config.showData);
 
   if (config.nameFormatter) {
-    spec.itemLabelText = config.nameFormatter;
+    const nameFormatter = config.nameFormatter;
+    spec.itemLabelText = (datum: unknown, index: unknown) => {
+      const text = typeof datum === 'string' ? datum : (datum as { label?: string } | undefined)?.label ?? '';
+      return nameFormatter(text, datum, index);
+    };
   }
   if (showData && chartDefaults.valueMap) {
     const valueMap = chartDefaults.valueMap;

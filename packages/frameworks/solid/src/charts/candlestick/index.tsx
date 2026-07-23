@@ -1,0 +1,9 @@
+import {
+  createCandlestickModel,
+  type CandlestickChartConfig,
+  type CandlestickSeries,
+} from '@alicloud/cloud-charts-core';
+import { createModelChart, type ModelChartProps } from '../createModelChart';
+
+export type CandlestickProps = ModelChartProps<CandlestickSeries[], CandlestickChartConfig>;
+export const Candlestick = createModelChart<CandlestickSeries[], CandlestickChartConfig>('Candlestick', createCandlestickModel);

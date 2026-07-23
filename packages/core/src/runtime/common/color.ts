@@ -103,7 +103,13 @@ export function mapColors<T extends string | string[] | undefined>(colors: T, to
 
   const mapColor = (color: string): string => {
     const tokenValue = token?.[color];
-    return typeof tokenValue === 'string' ? tokenValue : color;
+    if (typeof tokenValue === 'string') {
+      return tokenValue;
+    }
+
+    const statusTokenName = statusColorTokenMap[color];
+    const statusTokenValue = statusTokenName ? token?.[statusTokenName] : undefined;
+    return typeof statusTokenValue === 'string' ? statusTokenValue : color;
   };
 
   if (typeof colors === 'string') {

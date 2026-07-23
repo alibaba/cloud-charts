@@ -1,0 +1,29 @@
+{
+  "skill_name": "cloud-charts-chart-usage",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在 React 里用了 @alicloud/cloud-charts-react 的 Bar，但是数据写成 [{ name:'A', data:[{x:'1月', y:100}] }]，帮我改成正确写法，并加上 ChartProvider、类型导入和一个基础 config。",
+      "expected_output": "输出正确的 React 组件代码，使用 @alicloud/cloud-charts-react 的 Bar 和 @alicloud/cloud-charts-core 类型，data 使用元组数组，包含 ChartProvider 和 config。",
+      "expectations": [
+        "没有要求用户查看或安装旧底层知识相关 skill",
+        "代码从 @alicloud/cloud-charts-react 导入组件、从 @alicloud/cloud-charts-core 导入类型",
+        "data 使用 { name, data: [[x, y]] }[] 形状",
+        "包含 ChartProvider theme/locale 或等价说明"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我在 Vue 里想命令式挂载一个柱状图，容器是 div ref，数据是各城市销售额。请用我们的图表库写最小示例，并说明销毁逻辑。",
+      "expected_output": "输出 Vue/命令式集成示例，使用 per-chart 包 renderWbarModel，container 是 HTMLElement，卸载时 destroy。",
+      "expectations": [
+        "使用 renderWbarModel({ container, data, config, context }) 选项对象",
+        "container 不是 selector 字符串",
+        "说明或展示 unmount 时 chart.destroy()",
+        "不暴露底层 renderer 或旧底层知识路径"
+      ],
+      "files": []
+    }
+  ]
+}

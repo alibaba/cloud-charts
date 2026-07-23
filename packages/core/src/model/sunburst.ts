@@ -1,5 +1,3 @@
-import type { ChartPrimitiveValue } from '../types/spec';
-
 /** Sunburst 数据：单根树（与 RuleTreeNode 兼容）*/
 export interface SunburstNode {
   name: string;
@@ -19,36 +17,14 @@ export interface SunburstSpecConfig {
   innerRadius?: number;
 }
 
-export interface NormalizedSunburstRecord {
-  name: ChartPrimitiveValue;
-  value: ChartPrimitiveValue;
-  /** path string：A/B/C 表示根→A→B→C */
-  path: string;
-  depth: number;
-  [key: string]: unknown;
-}
+export type NormalizedSunburstRecord = SunburstNode;
 
 /**
- * 把 Tree 摊平成 path 数组（G2 v5 sunburst mark 需要 path 形式）。
- * 旧版用 @antv/data-set hierarchy.partition；G2 v5 内置 sunburst mark + partition transform。
+ * G2 v5 极坐标 'partition' mark 需要树结构（PartitionNode[]），内部自行 partition 布局，
+ * 不接受预摊平的 path 记录。此处把单根树包装成数组 [root] 原样返回。
+ * 旧版用 @antv/data-set hierarchy.partition + 极坐标 polygon geom。
  */
 export function normalizeSunburstData(data: SunburstData): NormalizedSunburstRecord[] {
   if (!data) return [];
-  const records: NormalizedSunburstRecord[] = [];
-  const walk = (node: SunburstNode, path: string[], depth: number) => {
-    const nextPath = [...path, node.name];
-    const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-    if (!hasChildren) {
-      records.push({
-        name: node.name,
-        value: typeof node.value === 'number' ? node.value : 1,
-        path: nextPath.join('/'),
-        depth,
-      });
-    } else {
-      (node.children as SunburstNode[]).forEach((child) => walk(child, nextPath, depth + 1));
-    }
-  };
-  walk(data, [], 0);
-  return records;
+  return [data];
 }

@@ -1,5 +1,3 @@
-import type { ChartPrimitiveValue } from '../types/spec';
-
 /** Treemap 数据：单根树（与 RuleTreeNode 兼容） */
 export interface TreemapNode {
   name: string;
@@ -16,35 +14,15 @@ export interface TreemapSpecConfig {
   polar?: boolean;
 }
 
-export interface NormalizedTreemapRecord {
-  name: ChartPrimitiveValue;
-  value: ChartPrimitiveValue;
-  path: string;
-  depth: number;
-  [key: string]: unknown;
-}
+export type NormalizedTreemapRecord = TreemapNode;
 
 /**
- * 把 Tree 摊平成 path 数组。G2 v5 'treemap' mark 自动 partition。
- * 旧版用 @antv/data-set hierarchy.treemap；G2 v5 内置 treemap mark。
+ * G2 v5 'treemap' composite mark 内部用 d3 hierarchy(data) 重建树并自做 layout，
+ * 需要树对象（或带 id/parentId 的扁平数组），不接受预摊平的 path 记录。
+ * 此处把单根树包装成数组 [root] 原样返回，模型层取 [0] 喂给 mark。
+ * 旧版用 @antv/data-set hierarchy.treemap。
  */
 export function normalizeTreemapData(data: TreemapData): NormalizedTreemapRecord[] {
   if (!data) return [];
-  const records: NormalizedTreemapRecord[] = [];
-  const walk = (node: TreemapNode, path: string[], depth: number) => {
-    const nextPath = [...path, node.name];
-    const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-    if (!hasChildren) {
-      records.push({
-        name: node.name,
-        value: typeof node.value === 'number' ? node.value : 1,
-        path: nextPath.join('/'),
-        depth,
-      });
-    } else {
-      (node.children as TreemapNode[]).forEach((child) => walk(child, nextPath, depth + 1));
-    }
-  };
-  walk(data, [], 0);
-  return records;
+  return [data];
 }

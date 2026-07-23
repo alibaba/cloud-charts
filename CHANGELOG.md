@@ -297,7 +297,7 @@
 
 #### New Features
 
-- 新增规范（色彩、字体、间距、大小、布局位置、数据状态统一）具体设计 20+细节（详情：https://mgdone.alibaba-inc.com/file/111647510831029?fileOpenFrom=home）；
+- 新增规范（色彩、字体、间距、大小、布局位置、数据状态统一）具体设计 20+细节（详情：(内部链接已移除)）；
 - 开放图例、tooltip 的自定义能力
 - 增加列表型图例能力
 - 增加图例折叠能力
@@ -1045,7 +1045,7 @@
 #### New Features
 
 - 新增图例方向支持自动计算 padding 功能，目前所有直角坐标系图表默认全部使用 auto padding。
-- 新增 npm 按需加载能力，大幅调整文件结构，现在可以使用 tree-shaking 来精简图表库尺寸了。详情：https://widgets.alibaba-inc.com/quickstart/tree-shaking
+- 新增 npm 按需加载能力，大幅调整文件结构，现在可以使用 tree-shaking 来精简图表库尺寸了。详情：(内部链接已移除)
 - Wcontainer 卡片新增捕获包裹组件的报错并提示的功能，防止图表库报错导致页面崩溃。
 - 调整 Wcandlestick 烛形图的配置项和数据格式，更贴近其它组件的用法。
 - 优化 Whistogram 直方图逻辑和配置项，支持更多分箱算法配置。
@@ -1101,12 +1101,12 @@
 
 #### New Features
 
-- 新增「动态切换主题」功能，不刷线页面也能切换主题，更加简单易用，详见：https://widgets.alibaba-inc.com/quickstart/theme
+- 新增「动态切换主题」功能，不刷线页面也能切换主题，更加简单易用，详见：(内部链接已移除)
 - 新增「自动计算时间格式」功能，已在 线图、迷你线图、散点图 中默认开启，其余图表可以手动开启。
-- 新增图表：Whistogram 直方图，详见：https://widgets.alibaba-inc.com/example/Whistogram
-- 新增图表：Wcandlestick 烛型图，详见：https://widgets.alibaba-inc.com/example/Wcandlestick
-- Wnightingale 玫瑰图 新增「玫瑰环图」功能。详见：https://widgets.alibaba-inc.com/example/Wnightingale/Wnightingale-circle
-- Wbar 柱状图 新增「玉玦图」功能。详见：https://widgets.alibaba-inc.com/example/Recommendation/Wbar-radial
+- 新增图表：Whistogram 直方图，详见：(内部链接已移除)
+- 新增图表：Wcandlestick 烛型图，详见：(内部链接已移除)
+- Wnightingale 玫瑰图 新增「玫瑰环图」功能。详见：(内部链接已移除)
+- Wbar 柱状图 新增「玉玦图」功能。详见：(内部链接已移除)
 - Wmap 区域地图&散点地图 支持 props 传入 config 配置项。
 - Wfunnel 漏斗图配置项优化，`config.align` 可以使用 start/end 指代之前的 left/right 或 top/bottom。
 - chore: 优化 npm 引入方式，支持手动按需引入。
@@ -1234,7 +1234,7 @@
 #### New Features
 
 - chore: 升级打包框架至 Webpack4，并添加 StoryBook 作为开发调试框架。
-- 添加拖拽缩放的事件回调，包括 zoom:start, zoom:end, zoom:reset。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/145>
+- 添加拖拽缩放的事件回调，包括 zoom:start, zoom:end, zoom:reset。详情：<(内部链接已移除)
 
 #### Bug Fixes
 
@@ -1244,16 +1244,16 @@
 
 #### New Features
 
-- 新增插件机制，用于添加某些无法直接整合在图表库中的功能。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/304>
-- 新增世界地图插件，增强了展示能力。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/305>
+- 新增插件机制，用于添加某些无法直接整合在图表库中的功能。<(内部链接已移除)
+- 新增世界地图插件，增强了展示能力。<(内部链接已移除)
 - 调整 Wcontainer 卡片内边距逻辑，微调图表的内边距。对外部调整更友好。
 
 ### 2.4.6 (2019-06-06)
 
 #### New Features
 
-- 新增 X&Y 轴标题功能，通过 xAxis.alias / yAxis.alias 即可设定标题。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/141>
-- 圆环组件增加 linecap 属性，允许将两端圆角设为直角。<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/33>
+- 新增 X&Y 轴标题功能，通过 xAxis.alias / yAxis.alias 即可设定标题。<(内部链接已移除)
+- 圆环组件增加 linecap 属性，允许将两端圆角设为直角。<(内部链接已移除)
 
 #### Bug Fixes
 
@@ -1312,8 +1312,8 @@
 #### New Features
 
 - 升级底层 G2 依赖至最新版本 3.5.3。
-- 新增 filter 型辅助标记，可以用于图表部分元素染色。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/144>
-- 新增 饼图蜘蛛型 label 功能。详情：<http://aisc.alibaba-inc.com/site/pc#/cate/4/page/25/example/537>
+- 新增 filter 型辅助标记，可以用于图表部分元素染色。详情：<(内部链接已移除)
+- 新增 饼图蜘蛛型 label 功能。详情：<(内部链接已移除)
 - 色块图组件 分割线颜色适配主题变化。
 
 #### Bug Fixes
@@ -1325,7 +1325,7 @@
 
 #### New Features
 
-- 新增 色块图组件，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/301
+- 新增 色块图组件，地址：(内部链接已移除)
 
 #### Bug Fixes
 
@@ -1336,8 +1336,8 @@
 
 #### New Features
 
-- 新增 箱型图(盒须图) 组件，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/298。
-- 散点图 新增 气泡图 功能，地址：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/147/example/529。
+- 新增 箱型图(盒须图) 组件，地址：(内部链接已移除)
+- 散点图 新增 气泡图 功能，地址：(内部链接已移除)
 - 辅助标记(Guide) 增强配置兼容性，添加更多错误配置提示。
 - 多重饼图支持颜色配置。
 
@@ -1399,9 +1399,9 @@
 
 #### New Features
 
-- 升级新版 g2-connect 插件，支持按照数据维度联动，详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/267。
+- 升级新版 g2-connect 插件，支持按照数据维度联动，详情见：(内部链接已移除)
 - 增强线图&柱图 size 设置能力，支持自定义映射字段。
-- tooltip 添加新控制项，允许 tooltip 移出图表外，用于图表较小的场景，详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143。
+- tooltip 添加新控制项，允许 tooltip 移出图表外，用于图表较小的场景，详情见：(内部链接已移除)
 - 新增 getChartInstance 方法，用于直接获得图表实例，方便进行联动等操作。
 
 ### 2.3.9 (2019-01-25)
@@ -1420,7 +1420,7 @@
 #### New Features
 
 - 添加多层饼图组件，内部测试中。
-- 饼图添加选中效果，并且可以通过配置项控制选中。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/25/example/523
+- 饼图添加选中效果，并且可以通过配置项控制选中。详情见：(内部链接已移除)
 
 ### 2.3.7 (2018-12-28)
 
@@ -1461,7 +1461,7 @@
 
 - 卡片 container 蓝色标记线大小跟随文字大小变化。
 - 卡片 container 随新版 aisc 规范，添加圆角。
-- 新增图例项可以默认置灰的功能。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
+- 新增图例项可以默认置灰的功能。详情见：(内部链接已移除)
 
 ### 2.3.2 (2018-11-26)
 
@@ -1483,8 +1483,8 @@
 
 #### New Features
 
-- 增强图例位置控制功能，支持 上左、上中、上右、下左、下中、下右 六个方位。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
-- 新增 图形 label 功能。详情见：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/286
+- 增强图例位置控制功能，支持 上左、上中、上右、下左、下中、下右 六个方位。详情见：(内部链接已移除)
+- 新增 图形 label 功能。详情见：(内部链接已移除)
 - 新增仪表盘组件。
 - 构建工程优化，打包体积减少，gzip 大小（400kb）比原来精简 17%。
 
@@ -1520,7 +1520,7 @@
 
 - 折线图新增单独配置面积图颜色的功能。
 - 地图 - 南海诸岛图颜色跟随主地图颜色，且大小会根据图表大小缩放。
-- 开放 图例 click/hover 功能配置项（http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142）。
+- 开放 图例 click/hover 功能配置项（(内部链接已移除)）。
 
 #### Bug Fixes
 
@@ -1558,7 +1558,7 @@
 
 #### New Features
 
-- 正式发布 图例过多时自动折叠的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
+- 正式发布 图例过多时自动折叠的功能。(内部链接已移除)
 - 辅助标记 - line 的文案添加自定义样式的功能。
 - 初步添加移动端适配方案，容器卡片自动适配移动端内边距。
 
@@ -1610,8 +1610,8 @@
 
 #### New Features
 
-- 柱图开放柱宽度配置。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/28
-- 图例开放自定义样式功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
+- 柱图开放柱宽度配置。(内部链接已移除)
+- 图例开放自定义样式功能。(内部链接已移除)
 - chore: 锁定底层库版本。
 
 #### Bug Fixes
@@ -1622,16 +1622,16 @@
 
 #### New Features
 
-- 圆环组件添加自定义颜色的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/33
-- 常用图例开放全部关闭图例的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142
-- 常用 tooltip 开放关闭标题的功能。http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143
+- 圆环组件添加自定义颜色的功能。(内部链接已移除)
+- 常用图例开放全部关闭图例的功能。(内部链接已移除)
+- 常用 tooltip 开放关闭标题的功能。(内部链接已移除)
 - 优化地图组件投影函数的逻辑，可以通过配置项自定义投影函数。
 
 ### 2.1.17 (2018-07-12)
 
 #### New Features
 
-- 柱状图添加 分组堆栈图 功能，详情：http://aisc.alibaba-inc.com/site/pc#/cate/4/page/28/example/508
+- 柱状图添加 分组堆栈图 功能，详情：(内部链接已移除)
 - 优化 区域地图 颜色计算逻辑。
 - 全新暗色主题上线，适配新视觉规范。
 
@@ -1656,7 +1656,7 @@
 
 #### New Features
 
-- 常用图例增加显示最后一项数据的功能（http://aisc.alibaba-inc.com/site/pc#/cate/4/page/142）。
+- 常用图例增加显示最后一项数据的功能（(内部链接已移除)）。
 - 增强线图几何图形自定义能力。
 
 #### Bug Fixes
@@ -1667,7 +1667,7 @@
 
 #### New Features
 
-- 新增漏斗图组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/279)。
+- 新增漏斗图组件((内部链接已移除))。
 - 线柱图重新支持 辅助标记(guide) 功能。
 - chore: 升级 G2 依赖至 3.1.2 。
 
@@ -1680,8 +1680,8 @@
 
 #### New Features
 
-- 新增矩形分箱图组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/278)。
-- 柱状图添加 镜面柱图 功能(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/28/example/503)。
+- 新增矩形分箱图组件((内部链接已移除))。
+- 柱状图添加 镜面柱图 功能((内部链接已移除))。
 
 #### Bug Fixes
 
@@ -1692,8 +1692,8 @@
 
 #### New Features
 
-- 添加 tooltip 项目排序功能(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/143)。
-- 新增数字翻牌器组件(http://aisc.alibaba-inc.com/site/pc#/cate/4/page/277)。
+- 添加 tooltip 项目排序功能((内部链接已移除))。
+- 新增数字翻牌器组件((内部链接已移除))。
 - 优化适配高度逻辑，兼容带有内边距的情况。
 - 增强地图样式可配置性。
 
@@ -1809,10 +1809,8 @@
 
 #### New Features
 
-- 新增图表联动功能，已提取为公共 tnpm 包，可推广给其它 G2 使用者使用。
+- 新增图表联动功能，已提取为公共包，可推广给其它 G2 使用者使用。
   - 思路：<https://github.com/antvis/g2/issues/485>
-  - 包地址：<http://web.npm.alibaba-inc.com/package/@alife/g2-connect>
-  - 示例：<http://riddle.alibaba-inc.com/riddles/a49ae3a6>
 
 #### Bug Fixes
 
@@ -1910,7 +1908,7 @@
 
 ### 2.0.0 (2017-12-29)
 
-大版本更新，详细的配置项变更请看 [2.0 升级指南](http://aisc.alibaba-inc.com/site/pc#/cate/4/page/137)
+大版本更新，详细的配置项变更请看 [2.0 升级指南]((内部链接已移除))
 
 #### 新特性
 

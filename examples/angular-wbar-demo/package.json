@@ -1,0 +1,29 @@
+{
+  "name": "angular-wbar-demo",
+  "private": true,
+  "scripts": {
+    "dev": "ng serve --port 5182",
+    "build": "ng build"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.3.0",
+    "@angular/common": "^17.3.0",
+    "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/platform-browser": "^17.3.0",
+    "@angular/platform-browser-dynamic": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3",
+    "@alicloud/cloud-charts-core": "1.0.0-alpha.3",
+    "@alicloud/cloud-charts-bar": "1.0.0-alpha.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.0",
+    "@angular/cli": "^17.3.0",
+    "@angular/compiler-cli": "^17.3.0",
+    "typescript": "~5.4.0"
+  }
+}

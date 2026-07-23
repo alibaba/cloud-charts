@@ -64,7 +64,7 @@ function isDarkBackground(token: ThemeToken): boolean {
 }
 
 /**
- * 将 AISC token 适配为 G2 5 spec mode 可用的 theme 对象。
+ * 将 cloud-charts token 适配为 G2 5 spec mode 可用的 theme 对象。
  * 仅生成 spec mode 支持的字段，覆盖折线图视觉所需的色板、字体、坐标轴、图例、tooltip、line 样式。
  */
 export function createG2Theme(token: ThemeToken): Record<string, unknown> {
@@ -160,9 +160,9 @@ export function createG2Theme(token: ThemeToken): Record<string, unknown> {
       itemMarkerLineWidth: 2,
       itemMarkerFillOpacity: 1,
       itemMarkerStrokeOpacity: 1,
-      itemSpacing: [8, 8, 4],
-      rowPadding: 8,
-      colPadding: 12,
+      itemSpacing: [fontSize / 2, fontSize * 1.5],
+      rowPadding: fontSize / 2,
+      colPadding: fontSize * 1.5,
       title: false,
       titleFill: legendTextColor,
       titleFontSize: fontSize,

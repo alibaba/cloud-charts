@@ -1,29 +1,66 @@
 /* eslint-disable */
-// v3 链路 stories：通过 vanilla API 在 iframe 中渲染新架构图表，验证 @alicloud/cloud-charts-line 包可用。
-// 启动方式：在 examples/cloud-charts-wline-vanilla-demo 跑 `npm run dev`，然后访问对应端口。
-// 此处仅作 Storybook 元数据登记。
+// v3 链路验收 stories：新 vanilla 包（@alicloud/cloud-charts-line，G2 v5）与旧 React 组件（G2 v4）双列对比。
+// 启动：npm run storybook:v3（端口 6007）
 
 import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { renderWlineModel } from '@alicloud/cloud-charts-line';
+import { Wline } from '@alicloud/cloud-charts';
+import { CompareTwoCols } from './_helpers/CompareTwoCols';
 
-const VANILLA_DEMO_URL = 'http://localhost:5179';
-
-export default {
-  title: 'Wline/v3',
-  parameters: {
-    docs: {
-      description: {
-        component:
-          '通过 @alicloud/cloud-charts-line（基于 G2 v5.4.8 + @alicloud/cloud-charts-core 运行时模型）渲染的折线图。' +
-          '请先启动 `examples/cloud-charts-wline-vanilla-demo` 的 vite dev server，本故事通过 iframe 内嵌该 demo。',
-      },
-    },
+const data = [
+  {
+    name: '机房A',
+    data: [
+      [1483372800000, 4092], [1483459200000, 1592], [1483545600000, 3714],
+      [1483632000000, 4854], [1483718400000, 6514], [1483804800000, 9022],
+      [1483891200000, 6023], [1483977600000, 4018],
+    ],
   },
-};
+  {
+    name: '机房B',
+    data: [
+      [1483372800000, 6051], [1483459200000, 3278], [1483545600000, 5175],
+      [1483632000000, 6548], [1483718400000, 9048], [1483804800000, 11394],
+      [1483891200000, 8597], [1483977600000, 6588],
+    ],
+  },
+];
 
-export const Vanilla折线图 = () => (
-  <iframe
-    src={VANILLA_DEMO_URL}
-    title="@alicloud/cloud-charts-line vanilla demo"
-    style={{ width: '100%', height: 600, border: '1px solid #ddd' }}
-  />
-);
+const cases = [
+  { name: '基础折线图', config: {} },
+  { name: '平滑曲线图', config: { spline: true } },
+  { name: '带点折线图', config: { symbol: true } },
+  { name: '面积折线图', config: { area: true } },
+  { name: '堆叠面积图', config: { area: true, stack: true } },
+  { name: '阶梯折线图', config: { step: true } },
+  { name: '带网格线', config: { grid: true } },
+  { name: '拖拽缩放 (zoom)', config: { zoom: true } },
+];
+
+const renderVanillaLine = (container, { themeName, language, config, chartData }) =>
+  renderWlineModel({
+    container,
+    data: chartData,
+    config,
+    context: { theme: themeName, language },
+  });
+
+const stories = storiesOf('v3/Line 新旧对比', module);
+cases.forEach((item) => {
+  stories.add(item.name, (_args, context) => {
+    const themeName = context?.globals?.theme || 'normal';
+    return (
+      <CompareTwoCols
+        OldComponent={Wline}
+        data={data}
+        config={item.config}
+        themeName={themeName}
+        newPackageLabel="@alicloud/cloud-charts-line"
+        renderVanilla={(container, opts) =>
+          renderVanillaLine(container, { ...opts, config: item.config, chartData: data })
+        }
+      />
+    );
+  });
+});

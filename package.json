@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/cloud-charts",
-  "version": "1.1.28",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
@@ -30,6 +30,8 @@
     "lint": "eslint --cache --ext .js,.jsx ./",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "storybook:v3": "start-storybook -p 6007 -c .storybook-v3",
+    "build-storybook:v3": "build-storybook -c .storybook-v3 -o storybook-static-v3",
     "changelog": "node generate-changelog.js",
     "typecheck:packages": "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json --noEmit && node node_modules/typescript/bin/tsc -p packages/charts/wline/tsconfig.json --noEmit",
     "build:core": "npm run build -w packages/core",
@@ -60,7 +62,7 @@
     "@antv/data-set": "^0.11.5",
     "@antv/g2": "^4.2.9",
     "@antv/scale": "0.3.18",
-    "@antv/util": "^3.0.0",
+    "@antv/util": "~2.0.5",
     "@antv/matrix-util": "3.1.0-beta.3",
     "classnames": "^2.2.5",
     "d3-hierarchy": "^1.1.9",
@@ -109,9 +111,21 @@
   "overrides": {
     "@antv/component": "0.8.28",
     "@antv/matrix-util": "3.1.0-beta.3",
-    "@antv/util": "$@antv/util",
+    "@antv/util": "~2.0.5",
     "typescript": "4.6.4",
-    "d3-composite-projections": "1.4.0"
+    "d3-composite-projections": "1.4.0",
+    "@antv/g2@~5.4.8": {
+      "@antv/component": "^2.1.9",
+      "@antv/util": "^3.0.0"
+    },
+    "@alicloud/cloud-charts-core": {
+      "@antv/component": "^2.1.9",
+      "@antv/util": "^3.0.0"
+    }
   },
-  "author": "maplor@163.com"
+  "author": "maplor@163.com",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
 }

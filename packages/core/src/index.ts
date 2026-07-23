@@ -164,7 +164,7 @@ export {
   assembleInteractionSpec,
 } from './model/createChartModel';
 export { getText, getAutoTimeMask, setLanguage, getLanguage, onLanguageChange } from './runtime/i18n';
-export { resolveTheme, createG2Theme, setTheme, getThemeName, onThemeChange, injectCSSVariables } from './runtime/theme';
+export { resolveTheme, createG2Theme, setTheme, getThemeName, onThemeChange, injectCSSVariables, builtInThemeTokens } from './runtime/theme';
 export { on as onEvent, off as offEvent, emit as emitEvent } from './runtime/eventBus';
 export { runRules, applyRuleProcessors, classifyChart } from './runtime/rules';
 export { applyAutoTimeScale } from './runtime/scale';
@@ -197,3 +197,11 @@ export type {
   PlaceholderHandle,
   PlaceholderState,
 } from './runtime/placeholder';
+export { createNumberElement } from './runtime/number/index';
+export type { CreateNumberOptions, NumberHandle, NumberTrend, NumberStatus } from './runtime/number/index';
+export { createCircleElement } from './runtime/circle/index';
+export type { CreateCircleOptions, CircleHandle, CircleType } from './runtime/circle/index';
+export { createCountElement } from './runtime/count/index';
+export type { CreateCountOptions, CountElement, CountUpOptions } from './runtime/count/index';
+export { createGaugeElement } from './runtime/gauge/index';
+export type { CreateGaugeOptions, GaugeHandle, GaugeColorStop } from './runtime/gauge/index';

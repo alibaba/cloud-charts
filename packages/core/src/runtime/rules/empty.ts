@@ -20,6 +20,7 @@ export function processEmptyData(
       config: {
         xAxis: { min: 0, max: 100, label: false },
         yAxis: { min: 0, max: 100, label: false },
+        colors: ['gray'],
         padding: 0,
         guide: { visible: false },
         zoom: false,
@@ -51,7 +52,7 @@ export function processEmptyData(
     if (dataType === DataStructure.Common) {
       return {
         data: [{ x: 'a', y: 100 }],
-        config: { legend: false, tooltip: false, label: false, zoom: false, padding: 0 },
+        config: { legend: false, tooltip: false, label: false, colors: ['gray'], zoom: false, padding: 0 },
       };
     }
   }

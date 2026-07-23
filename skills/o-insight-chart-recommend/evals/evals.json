@@ -1,0 +1,29 @@
+{
+  "skill_name": "cloud-charts-chart-recommend",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我有 12 个月的销售额和同比增长率，想知道适合用什么图，并给我一个基础 React 示例。",
+      "expected_output": "推荐 LineBar 或类似量+率组合图，解释原因，给出数据形状和基础 React 示例。",
+      "expectations": [
+        "先给出一个明确主推荐，并说明原因",
+        "提到量和率适合 LineBar/双轴组合",
+        "输出 cloud-charts 组件库 React 示例",
+        "没有让用户阅读 旧底层知识 skill"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "这批数据是用户从首页到搜索、详情、支付的流转量，我应该用什么可视化组件？如果可以，顺便生成基础图。",
+      "expected_output": "推荐 Sankey，说明适合流向/转移关系，并生成基础 Sankey 组件代码。",
+      "expectations": [
+        "推荐 Sankey 作为主图",
+        "说明 nodes/links 数据形状",
+        "生成基础组件代码或清晰的代码片段",
+        "不出现旧底层依赖说明"
+      ],
+      "files": []
+    }
+  ]
+}

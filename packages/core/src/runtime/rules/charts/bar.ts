@@ -8,6 +8,7 @@ import {
   type RuleData,
   type RuleProcessParams,
 } from '../types';
+import { appendPaddingForCartesian } from './_shared';
 import { runDataRules } from '../dataRules';
 import { processBarBigData } from '../bigData';
 
@@ -61,10 +62,7 @@ function processBarConfig(config: RuleConfigObject): RuleConfigObject {
   const label = finalConfig.label as { visible?: boolean } | boolean | undefined;
   const labelVisible = label === true || (typeof label === 'object' && label !== null && label.visible !== false);
   if (labelVisible) {
-    finalConfig = {
-      ...finalConfig,
-      appendPadding: finalConfig.appendPadding || [20, 20, 0, 0],
-    };
+    finalConfig = appendPaddingForCartesian(finalConfig, { labelKeys: ['label'], symbolKey: 'symbol' });
   }
 
   return finalConfig;

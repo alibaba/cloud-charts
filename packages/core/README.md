@@ -13,7 +13,7 @@
 ## 安装
 
 ```bash
-npm install @alicloud/cloud-charts-core --registry=https://registry.anpm.alibaba-inc.com
+npm install @alicloud/cloud-charts-core
 ```
 
 `@antv/g2 ~5.4.8` / `@antv/component ^2.1.9` 已是本包的 `dependencies`，**自动随 cloud-core 安装**，用户无需手动声明。
@@ -94,8 +94,8 @@ import {
 
 ## 版本与发布
 
-- 当前版本：`1.0.0-alpha.3`
-- Registry：`https://registry.anpm.alibaba-inc.com`
+- 当前版本：`1.0.0-alpha.4`
+- Registry：`https://registry.npmjs.org`（本包当前为 monorepo 工作区内部包，暂不独立发布）
 - Tag：`alpha`
 
 ## License
