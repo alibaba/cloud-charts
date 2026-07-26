@@ -162,6 +162,7 @@ export {
   runRuntimePipeline,
   composeChartModel,
   assembleInteractionSpec,
+  applyDefaultLayout,
 } from './model/createChartModel';
 export { getText, getAutoTimeMask, setLanguage, getLanguage, onLanguageChange } from './runtime/i18n';
 export { resolveTheme, createG2Theme, setTheme, getThemeName, onThemeChange, injectCSSVariables, builtInThemeTokens } from './runtime/theme';

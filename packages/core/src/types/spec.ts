@@ -20,6 +20,11 @@ export interface ChartSpec {
   coordinate?: Record<string, unknown>;
   animate?: Record<string, unknown> | boolean;
   padding?: 'auto' | number | number[];
+  margin?: number;
+  marginTop?: number;
+  marginRight?: number;
+  marginBottom?: number;
+  marginLeft?: number;
   inset?: number | { top?: number; right?: number; bottom?: number; left?: number };
   children?: ChartSpec[];
 }

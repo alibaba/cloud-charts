@@ -1,5 +1,6 @@
 import type { G2SpecRenderer } from '../adapters/g2/index';
 import type { ChartSpec } from '../types/spec';
+import { applyDefaultLayout } from '../model/createChartModel';
 
 export interface G2RenderTarget {
   render(): unknown;
@@ -44,11 +45,13 @@ class NativeChartController<TChart extends G2RenderTarget> implements NativeChar
 
   constructor(options: NativeChartOptions<TChart>) {
     this.renderer = options.renderer;
-    this.currentSpec = options.spec;
+    // spec-first 路径（createChart/renderChart）不经过 composeChartModel，
+    // 在这里调用 applyDefaultLayout 确保与 data+config 路径视觉行为一致。
+    this.currentSpec = applyDefaultLayout(options.spec);
     this.eventHandlers = options.event ?? {};
     this.chart = options.renderer.createChart(options.container);
     this.bindEvents();
-    this.renderer.applySpec(this.chart, options.spec);
+    this.renderer.applySpec(this.chart, this.currentSpec);
   }
 
   render(): unknown {
@@ -56,7 +59,7 @@ class NativeChartController<TChart extends G2RenderTarget> implements NativeChar
   }
 
   update(nextSpec: ChartSpec): unknown {
-    this.currentSpec = nextSpec;
+    this.currentSpec = applyDefaultLayout(nextSpec);
     this.renderer.applySpec(this.chart, this.currentSpec);
     return this.chart.render();
   }

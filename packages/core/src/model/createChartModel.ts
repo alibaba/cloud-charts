@@ -105,6 +105,33 @@ export interface ComposeChartModelInput<TConfig> {
   interactions: InteractionModel[];
 }
 
+/**
+ * 对 spec 应用默认布局兜底（padding / margin）。
+ *
+ * 此函数是 data+config 路径（composeChartModel）和 spec-first 路径（NativeChartController）
+ * 共享的布局归一化入口，确保两条路径视觉行为一致。
+ *
+ * - padding: 默认 'auto'，对齐旧版 G2 v4 的 chart.padding('auto') 行为
+ * - margin: 默认 0（G2 v5 classic 主题硬编码 margin=16，见 theme/create.js），
+ *   旧版 G2 v4 无 view margin 概念，兜底为 0 对齐旧版视觉
+ * - marginTop: 默认 8，补偿 G2 v5 autopadding 不计算顶端刻度文本垂直溢出的问题
+ *
+ * 用户显式传值时尊重用户值（仅对 undefined 字段兜底）。
+ */
+export function applyDefaultLayout(spec: ChartSpec): ChartSpec {
+  const result: ChartSpec = { ...spec };
+  if (result.padding === undefined) {
+    result.padding = 'auto';
+  }
+  if (result.margin === undefined) {
+    result.margin = 0;
+    if (result.marginTop === undefined) {
+      result.marginTop = 8;
+    }
+  }
+  return result;
+}
+
 /** 将 spec + pipeline 上下文 + legend/tooltip/interactions 包装为统一的 ChartModel 返回值。 */
 export function composeChartModel<TConfig>(input: ComposeChartModelInput<TConfig>): ChartModel {
   const interactionSpec = assembleInteractionSpec(input.interactions);
@@ -115,17 +142,12 @@ export function composeChartModel<TConfig>(input: ComposeChartModelInput<TConfig
       ...input.tooltip.interactionTooltip,
     };
   }
-  const spec: ChartSpec = { ...input.spec };
+  const spec: ChartSpec = applyDefaultLayout({ ...input.spec });
   if (Object.keys(interactionSpec).length > 0) {
     spec.interaction = interactionSpec;
   }
   if (spec.animate === undefined) {
     spec.animate = { update: { type: 'morphing', duration: 300 } };
-  }
-  // 旧版默认 chart.padding('auto')；G2 v5 不传时由 autoFit + 内置 padding 计算，但部分场景（label 显示、长 axis label）会裁切。
-  // 主动设置 'auto' 让 G2 v5 走 autopadding 算法，与旧版视觉对齐。
-  if (spec.padding === undefined) {
-    spec.padding = 'auto';
   }
 
   return {
