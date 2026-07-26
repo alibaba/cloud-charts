@@ -31,6 +31,12 @@
 - ✅ `cd examples/cloud-charts-wline-vanilla-demo && npm run build` 端到端构建通过
 - ✅ `packages/charts/wline/__tests__/lineModel.test.ts` 2/2 通过
 
+##### Bug Fixes (packages/core)
+
+- **fix(core)**: 修复 spec-first 路径（NativeChartController）未应用默认 margin/padding 导致 G2 v5 classic 主题下 canvas 四周出现 16px 意外留白
+  - 提取 `applyDefaultLayout()` 为共享函数，data+config 和 spec-first 两条路径统一调用
+  - `ChartSpec` 类型新增 `margin`、`marginTop`、`padding` 字段 (7a58bf1f)
+
 ### 1.1.20 (2024-09-20)
 
 #### New Features
