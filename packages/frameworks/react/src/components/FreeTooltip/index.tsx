@@ -11,53 +11,129 @@ export interface FreeTooltipProps {
   title?: string;
   data: FreeTooltipItem[];
   dodge?: boolean;
+  locked?: boolean;
+  onLockToggle?: () => void;
+  columns?: number;
 }
 
 const containerStyle: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.96)',
-  border: '1px solid rgba(0,0,0,0.08)',
+  background: '#ffffff',
   borderRadius: 4,
-  boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-  padding: '8px 12px',
+  boxShadow: '0 3px 8px 0 rgba(0, 0, 0, 0.18)',
+  padding: '12px 0 12px 12px',
   minWidth: 120,
+  maxWidth: 400,
   fontSize: 12,
-  color: '#333',
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'PingFang SC', 'Microsoft YaHei', 'Arial', sans-serif",
+  color: '#333333',
   pointerEvents: 'auto',
+  position: 'relative',
 };
-const titleStyle: React.CSSProperties = { fontWeight: 600, marginBottom: 6, color: '#666' };
-const itemStyle: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 };
+const titleStyle: React.CSSProperties = {
+  fontWeight: 600,
+  marginBottom: 6,
+  color: '#808080',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  paddingRight: 12,
+};
+const listStyle: React.CSSProperties = {
+  maxHeight: 250,
+  overflowY: 'auto',
+  paddingRight: 12,
+};
+const itemStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  margin: '4px 0',
+  lineHeight: '20px',
+};
+const nameStyle: React.CSSProperties = {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  flex: 1,
+  minWidth: 0,
+};
+const valueStyle: React.CSSProperties = {
+  fontWeight: 600,
+  marginLeft: 12,
+  fontVariantNumeric: 'tabular-nums',
+  flexShrink: 0,
+};
 const markerStyle = (color: string): React.CSSProperties => ({
   display: 'inline-block',
-  width: 8,
-  height: 8,
+  width: 6,
+  height: 6,
   borderRadius: '50%',
   background: color,
   marginRight: 6,
+  flexShrink: 0,
 });
+const lockIconStyle: React.CSSProperties = {
+  cursor: 'pointer',
+  lineHeight: 0,
+  flexShrink: 0,
+  marginLeft: 8,
+  pointerEvents: 'auto',
+};
+// 与内置 tooltip 一致的 pin/thumbtack SVG 图标
+const LOCK_SVG = (
+  <svg viewBox="0 0 1024 1024" width="12" height="12">
+    <path fill="#999" d="M921.6 391.68l-288-288c-5.12-5.12-11.52-7.68-17.92-7.68s-13.44 2.56-17.92 7.68L497.28 203.52c-5.12 4.48-7.68 11.52-7.68 17.92s2.56 13.44 7.68 17.92l51.84 51.84-241.28 104.32c-3.2 1.28-5.76 3.2-7.68 5.12L202.88 497.92c-10.24 10.24-10.24 26.24 0 36.48l85.76 85.76-185.6 257.92c-8.96 12.8-7.68 30.08 3.2 40.96 6.4 6.4 14.72 9.6 23.04 9.6 6.4 0 12.8-1.92 18.56-5.76l262.4-181.76 81.28 81.28c10.24 10.24 26.24 10.24 36.48 0l96.64-96.64c1.92-1.92 3.84-4.48 5.12-7.68L737.28 480l48 48c5.12 5.12 11.52 7.68 17.92 7.68s13.44-2.56 17.92-7.68L921.6 427.52c5.12-5.12 7.68-11.52 7.68-17.92s-3.2-13.44-7.68-17.92z" />
+  </svg>
+);
+const UNLOCK_SVG = (
+  <svg viewBox="0 0 1024 1024" width="12" height="12">
+    <path fill="#ccc" d="M920.32 391.68l-288-288c-4.48-5.12-10.88-7.68-17.92-7.68s-13.44 2.56-17.92 7.68L496 203.52c-5.12 5.12-7.68 11.52-7.68 17.92s2.56 13.44 7.68 17.92l51.84 51.84-241.28 104.32c-3.2 1.28-5.76 3.2-7.68 5.12L202.24 497.92c-10.24 10.24-10.24 26.24 0 36.48L288 620.16l-185.6 257.92c-8.96 12.8-7.68 30.08 3.2 40.96 6.4 6.4 14.72 9.6 23.04 9.6 6.4 0 12.8-1.92 18.56-5.76l262.4-181.76 81.28 81.28c10.24 10.24 26.24 10.24 36.48 0l96.64-96.64c1.92-1.92 3.84-4.48 5.12-7.68L736 480l48 48c5.12 5.12 11.52 7.68 17.92 7.68s13.44-2.56 17.92-7.68l100.48-100.48c5.12-5.12 7.68-11.52 7.68-17.92s-2.56-13.44-7.68-17.92z m-117.12 63.36l-51.84-51.84c-5.76-5.76-13.44-7.68-21.12-6.4-7.68 1.28-14.08 6.4-17.28 13.44l-135.04 270.08L508.8 748.8l-72.96-72.96c-8.32-8.32-21.12-9.6-30.72-2.56l-239.36 183.68 188.16-234.24c7.04-9.6 5.76-22.4-2.56-30.72l-76.8-76.8 68.48-68.48 273.92-131.2c7.04-3.2 12.16-9.6 14.08-17.28 1.28-7.68-1.28-16-6.4-21.12l-55.68-55.68 45.44-45.44L848 409.6l-44.8 45.44z" />
+  </svg>
+);
 
 /**
  * FreeTooltip：旧 src/aop/component/FreeTooltip 的 framework-agnostic 移植。
  * 不依赖项目内部 SCSS，所有样式 inline，便于通过 ReactDOM portal / createRoot 渲染到 document.body。
+ * 支持 tooltip 锁定：locked 状态时显示锁定图标，点击切换锁定/解锁。
  */
-export function FreeTooltip({ title, data, dodge }: FreeTooltipProps): JSX.Element | null {
+export function FreeTooltip({ title, data, dodge, locked, onLockToggle, columns }: FreeTooltipProps): JSX.Element | null {
   if (!title && (!data || data.length === 0)) return null;
   let previousDodge: string | undefined;
+  const lockIcon = locked !== undefined ? (
+    <div
+      onClick={(e) => { e.stopPropagation(); onLockToggle?.(); }}
+      style={lockIconStyle}
+    >
+      {locked ? LOCK_SVG : UNLOCK_SVG}
+    </div>
+  ) : null;
+
+  const listStyleMerged: React.CSSProperties = columns && columns > 1
+    ? { ...listStyle, columnCount: columns, columnGap: '8px' }
+    : listStyle;
+
   return (
     <div style={containerStyle}>
-      {title ? <div style={titleStyle}>{title}</div> : null}
-      <div>
+      <style>{`.free-tooltip-list::-webkit-scrollbar{width:4px;height:4px}.free-tooltip-list::-webkit-scrollbar-thumb{border-radius:100px;background:#d9d9d9;border:none}.free-tooltip-list::-webkit-scrollbar-track{background:transparent}`}</style>
+      {title || lockIcon ? (
+        <div style={titleStyle}>
+          {title ? <span>{title}</span> : <span />}
+          {lockIcon}
+        </div>
+      ) : null}
+      <div className="free-tooltip-list" style={listStyleMerged}>
         {(data || []).map((item, index) => {
           const currentDodge = dodge ? item.dodge : undefined;
           const showDodge = Boolean(currentDodge && currentDodge !== previousDodge);
           previousDodge = currentDodge;
           return (
             <div key={`${item.name}-${index}`} style={itemStyle}>
-              {dodge ? <span style={{ width: 64, marginRight: 8 }}>{showDodge ? currentDodge : ''}</span> : null}
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              {dodge ? <span style={{ width: 64, marginRight: 8, flexShrink: 0 }}>{showDodge ? currentDodge : ''}</span> : null}
+              <div style={{ display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }}>
                 {item.color ? <span style={markerStyle(item.color)} /> : null}
-                <span>{item.name}</span>
+                <span style={nameStyle} title={item.name}>{item.name}</span>
               </div>
-              <span style={{ marginLeft: 12 }}>{item.value}</span>
+              <span style={valueStyle}>{item.value}</span>
             </div>
           );
         })}

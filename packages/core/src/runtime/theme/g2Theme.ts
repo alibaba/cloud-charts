@@ -64,7 +64,7 @@ function isDarkBackground(token: ThemeToken): boolean {
 }
 
 /**
- * 将 cloud-charts token 适配为 G2 5 spec mode 可用的 theme 对象。
+ * 将 AISC token 适配为 G2 5 spec mode 可用的 theme 对象。
  * 仅生成 spec mode 支持的字段，覆盖折线图视觉所需的色板、字体、坐标轴、图例、tooltip、line 样式。
  */
 export function createG2Theme(token: ThemeToken): Record<string, unknown> {
@@ -172,6 +172,7 @@ export function createG2Theme(token: ThemeToken): Record<string, unknown> {
         '.g2-tooltip': {
           background: applyColorOpacity(tooltipBackground, tooltipBackgroundOpacity),
           color: tooltipTextColor,
+          padding: '12px 0 12px 12px',
           'border-radius': `${tooltipRadius}px`,
           'box-shadow': tooltipShadow,
           'font-size': `${fontSize}px`,
@@ -181,12 +182,38 @@ export function createG2Theme(token: ThemeToken): Record<string, unknown> {
         },
         '.g2-tooltip-title': {
           color: tooltipTitleColor,
+          'padding-right': '12px',
         },
         '.g2-tooltip-list-item': {
           color: tooltipTextColor,
         },
+        '.g2-tooltip-name': {
+          overflow: 'hidden',
+          'text-overflow': 'ellipsis',
+          'white-space': 'nowrap',
+          flex: '1',
+          'min-width': '0',
+        },
         '.g2-tooltip-value': {
           color: tooltipTextColor,
+          'flex-shrink': '0',
+        },
+        '.g2-tooltip-list': {
+          'max-height': '250px',
+          'overflow-y': 'auto',
+          'padding-right': '12px',
+        },
+        '.g2-tooltip-list::-webkit-scrollbar': {
+          width: '4px',
+          height: '4px',
+        },
+        '.g2-tooltip-list::-webkit-scrollbar-thumb': {
+          'border-radius': '100px',
+          background: tooltipCrossColor,
+          border: 'none',
+        },
+        '.g2-tooltip-list::-webkit-scrollbar-track': {
+          background: 'transparent',
         },
       },
       crosshairsStroke: tooltipCrossColor,

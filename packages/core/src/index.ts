@@ -165,7 +165,7 @@ export {
   applyDefaultLayout,
 } from './model/createChartModel';
 export { getText, getAutoTimeMask, setLanguage, getLanguage, onLanguageChange } from './runtime/i18n';
-export { resolveTheme, createG2Theme, setTheme, getThemeName, onThemeChange, injectCSSVariables, builtInThemeTokens } from './runtime/theme';
+export { resolveTheme, createG2Theme, setTheme, getThemeName, onThemeChange, injectCSSVariables } from './runtime/theme';
 export { on as onEvent, off as offEvent, emit as emitEvent } from './runtime/eventBus';
 export { runRules, applyRuleProcessors, classifyChart } from './runtime/rules';
 export { applyAutoTimeScale } from './runtime/scale';
@@ -192,6 +192,13 @@ export {
   buildLineMarks,
   buildGuideMarks,
 } from './runtime/features';
+export {
+  extractLegendItems,
+  filterChartByValues,
+  highlightChartByValue,
+  clearChartHighlight,
+} from './runtime/legendInteractions';
+export type { LegendItem } from './runtime/legendInteractions';
 export { createPlaceholderElement } from './runtime/placeholder';
 export type {
   CreatePlaceholderOptions,

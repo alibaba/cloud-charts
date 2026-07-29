@@ -41,7 +41,7 @@ export function createLineBarModel(input: CreateLineBarModelInput): ChartModel {
     token: theme.token,
   });
 
-  const legendModel = normalizeLegend(finalConfig.legend, theme.token, {});
+  const legendModel = normalizeLegend(finalConfig.legend, theme.token, { defaultMode: 'foldable' });
   const tooltipModel = normalizeTooltip(
     typeof finalConfig.tooltip === 'object'
       ? {

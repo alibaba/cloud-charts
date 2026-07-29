@@ -140,6 +140,7 @@ export function createLineModel(input: CreateLineModelInput): ChartModel {
   const legendModel = normalizeLegend(finalConfig.legend, theme.token, {
     marker: isAreaChart ? 'square' : 'hyphen',
     valueMap: legendValueMap,
+    defaultMode: 'foldable',
   });
   const primaryYAxisConfig = Array.isArray(finalConfig.yAxis) ? finalConfig.yAxis[0] : finalConfig.yAxis;
   const tooltipModel = normalizeTooltip(

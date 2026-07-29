@@ -54,7 +54,7 @@ export function getLineDefaultConfig(): LineChartConfig {
       titleFormatter: undefined,
       nameFormatter: undefined,
       valueFormatter: undefined,
-      lockable: false,
+      lockable: true,
     },
     area: false,
     stack: false,

@@ -138,6 +138,7 @@ export function createBarModel(input: CreateBarModelInput): ChartModel {
   const legendModel = normalizeLegend(finalConfig.legend, theme.token, {
     marker: 'square',
     valueMap: legendValueMap,
+    defaultMode: 'foldable',
   });
   const tooltipModel = normalizeTooltip(
     typeof finalConfig.tooltip === 'object'

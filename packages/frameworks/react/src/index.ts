@@ -66,6 +66,11 @@ export type {
   GradientLegendProps,
 } from './components/legends/index';
 export { g2Renderer } from './renderers/g2Renderer';
+export { createModelChart } from './charts/createModelChart';
+export type { ModelChartProps, ModelFactory, CreateModelChartOptions } from './charts/createModelChart';
+export { useLegendInteractions } from './components/legends/useLegendInteractions';
+export type { LegendInteractionProps } from './components/legends/useLegendInteractions';
+export type { LegendItem } from '@alicloud/cloud-charts-core';
 export { Wicon, Wcapacity, Wshoot, Wminicontainer, Wcontainer } from './components/legacy/index';
 export { Wnumber } from './components/Wnumber/index';
 export type { WnumberProps } from './components/Wnumber/index';

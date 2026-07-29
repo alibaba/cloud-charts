@@ -39,7 +39,7 @@ function resolvePosition(position?: string): LegendModel['position'] {
   return 'bottom';
 }
 
-function resolveMode(config: LegendBusinessConfig): LegendModel['mode'] {
+function resolveMode(config: LegendBusinessConfig, defaultMode: LegendModel['mode'] = 'g2'): LegendModel['mode'] {
   if (config.table) {
     return 'table';
   }
@@ -49,7 +49,7 @@ function resolveMode(config: LegendBusinessConfig): LegendModel['mode'] {
   if (config.gradient) {
     return 'gradient';
   }
-  return 'g2';
+  return defaultMode;
 }
 
 export interface LegendChartDefaults {
@@ -60,6 +60,8 @@ export interface LegendChartDefaults {
   /** showData 时按 name 查询数值的映射。pie 用每片 y，bar/line 用每系列最后一个 y。 */
   valueMap?: Record<string, unknown>;
   isPolar?: boolean;
+  /** 当用户未显式指定 table/foldable/gradient 时的默认图例模式，rect 图表可设为 'foldable'。 */
+  defaultMode?: LegendModel['mode'];
 }
 
 const MARKER_ALIAS: Record<string, string> = {
@@ -93,7 +95,7 @@ export function normalizeLegend(
 
   const config = (legend === true || legend === undefined ? {} : legend) as LegendBusinessConfig;
   const position = resolvePosition(config.position);
-  const mode = resolveMode(config);
+  const mode = resolveMode(config, chartDefaults.defaultMode);
   const fontSize = pxToNumber(token?.['widgets-font-size-1'], 12);
   const legendTextColor = toStringValue(token?.['widgets-legend-text'], '#696969');
   const fontFamily = toStringValue(
@@ -178,7 +180,7 @@ export function normalizeLegend(
     onClick: config.onClick,
     itemNameFormatter: config.nameFormatter,
     itemValueFormatter,
-    tableConfig: mode === 'table' ? (typeof config.table === 'object' ? (config.table as Record<string, unknown>) : {}) : undefined,
+    tableConfig: mode === 'table' ? { ...(typeof config.table === 'object' ? (config.table as Record<string, unknown>) : {}), valueMap: chartDefaults.valueMap } : undefined,
     foldableConfig: mode === 'foldable' ? { defaultExpand: false } : undefined,
     gradientConfig: mode === 'gradient' ? (typeof config.gradient === 'object' ? (config.gradient as Record<string, unknown>) : {}) : undefined,
   };

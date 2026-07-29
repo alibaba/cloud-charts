@@ -133,6 +133,7 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   const tooltipRadius = pxToNumber(token?.['widgets-tooltip-corner-radius'], 4);
   const tooltipShadow = toStringValue(token?.['widgets-tooltip-shadow'], '0 3px 8px 0 rgba(0, 0, 0, 0.18)');
   const tooltipPadding = toStringValue(token?.['widgets-tooltip-padding'], '12px');
+  const tooltipCrossColor = toStringValue(token?.['widgets-tooltip-cross-line'], '#d9d9d9');
 
   const spec: Record<string, unknown> = {
     shared: true,
@@ -140,7 +141,7 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
       '.g2-tooltip': {
         background: applyColorOpacity(tooltipBackground, tooltipBackgroundOpacity),
         color: tooltipTextColor,
-        padding: tooltipPadding,
+        padding: '12px 0 12px 12px',
         'border-radius': `${tooltipRadius}px`,
         'box-shadow': tooltipShadow,
         'font-size': `${fontSize}px`,
@@ -150,19 +151,45 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
       },
       '.g2-tooltip-title': {
         color: tooltipTitleColor,
+        'padding-right': '12px',
       },
       '.g2-tooltip-list-item': {
         color: tooltipTextColor,
       },
+      '.g2-tooltip-name': {
+        overflow: 'hidden',
+        'text-overflow': 'ellipsis',
+        'white-space': 'nowrap',
+        flex: '1',
+        'min-width': '0',
+      },
       '.g2-tooltip-value': {
         color: tooltipTextColor,
+        'flex-shrink': '0',
       },
       '.g2-tooltip-marker': {
-        width: `${fontSize / 2}px`,
-        height: `${fontSize / 2}px`,
+        width: `${fontSize / 2 - 2}px`,
+        height: `${fontSize / 2 - 2}px`,
         'border-radius': '50%',
         border: `1px solid ${tooltipMarkerFill}`,
         'margin-right': `${fontSize / 3}px`,
+      },
+      '.g2-tooltip-list': {
+        'max-height': '250px',
+        'overflow-y': 'auto',
+        'padding-right': '12px',
+      },
+      '.g2-tooltip-list::-webkit-scrollbar': {
+        width: '4px',
+        height: '4px',
+      },
+      '.g2-tooltip-list::-webkit-scrollbar-thumb': {
+        'border-radius': '100px',
+        background: tooltipCrossColor,
+        border: 'none',
+      },
+      '.g2-tooltip-list::-webkit-scrollbar-track': {
+        background: 'transparent',
       },
     },
   };
@@ -214,8 +241,13 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
     interactionTooltip.sort = tooltipSort;
   }
 
-  if (config.lockable) {
-    spec.lockable = true;
+  if (config.lockable !== false) {
+    // G2 v5 内置 clickLock：pointerdown 切换锁定状态，锁定时 tooltip 不更新/不隐藏
+    // clickLock/enterable 是交互选项，必须放在 interaction.tooltip 而非 tooltip
+    // 默认开启，config.lockable === false 时关闭
+    interactionTooltip.clickLock = true;
+    // enterable：允许指针进入 tooltip 区域而不触发 pointerleave
+    interactionTooltip.enterable = true;
   }
   if (config.showColon !== undefined) {
     spec.showColon = config.showColon;
@@ -229,7 +261,17 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   if (config.columns !== undefined) {
     spec.columns = config.columns;
     if (typeof config.columns === 'number' && config.columns > 1) {
+      const existingListCss = (spec.css as Record<string, Record<string, unknown>>)['.g2-tooltip-list'] || {};
       (spec.css as Record<string, Record<string, unknown>>)['.g2-tooltip-list'] = {
+        ...existingListCss,
+        'column-count': config.columns,
+        'column-gap': '8px',
+      };
+      // CSS 必须放在 interactionTooltip 中才能被 G2 tooltip 交互应用
+      if (!interactionTooltip.css) interactionTooltip.css = {};
+      const interCss = interactionTooltip.css as Record<string, Record<string, unknown>>;
+      interCss['.g2-tooltip-list'] = {
+        ...(interCss['.g2-tooltip-list'] || {}),
         'column-count': config.columns,
         'column-gap': '8px',
       };
@@ -240,9 +282,17 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
   }
   if (config.customTooltip) {
     spec.customTooltip = config.customTooltip;
+    // 自定义 tooltip 启用时，隐藏 G2 内置 tooltip DOM（保留 tooltip 交互事件）
+    // css 必须放在 interactionTooltip 中，G2 tooltip 交互从 interaction.tooltip.css 读取
+    (spec.css as Record<string, Record<string, unknown>>)['.g2-tooltip'].display = 'none';
+    if (!interactionTooltip.css) interactionTooltip.css = {};
+    (interactionTooltip.css as Record<string, Record<string, unknown>>)['.g2-tooltip'] = { display: 'none' };
   }
   if (config.reactContent) {
     spec.reactContent = config.reactContent;
+    (spec.css as Record<string, Record<string, unknown>>)['.g2-tooltip'].display = 'none';
+    if (!interactionTooltip.css) interactionTooltip.css = {};
+    (interactionTooltip.css as Record<string, Record<string, unknown>>)['.g2-tooltip'] = { display: 'none' };
   }
   const mergedSpec = config.customConfig ? deepMerge(spec, config.customConfig) : spec;
 
@@ -250,7 +300,7 @@ export function normalizeTooltip(tooltip: TooltipInput): TooltipModel {
     visible: true,
     spec: mergedSpec,
     markSpec,
-    lockable: Boolean(config.lockable),
+    lockable: config.lockable !== false,
     showColon: Boolean(config.showColon),
     columns: config.columns,
     customContent: config.customContent,

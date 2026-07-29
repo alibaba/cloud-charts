@@ -47,10 +47,20 @@ export function createChartPrimitive<TChart extends G2RenderTarget = G2RenderTar
       });
       instance.render();
       syncExternalChart();
+      // ResizeObserver: 仅在 width/height 实际变化时触发，避免 tooltip DOM 增删导致 resize 循环
+      let prevW = 0;
+      let prevH = 0;
       if (typeof ResizeObserver !== 'undefined') {
-        observer = new ResizeObserver(() => {
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(() => instance?.resize());
+        observer = new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            const w = entry.contentRect.width;
+            const h = entry.contentRect.height;
+            if (w === prevW && h === prevH) continue;
+            prevW = w;
+            prevH = h;
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => instance?.resize());
+          }
         });
         observer.observe(el);
       }
