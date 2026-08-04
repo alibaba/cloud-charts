@@ -289,6 +289,7 @@ stories.add('自定义tooltip（默认）', () => (
       config={{
         tooltip: {
           customTooltip: true,
+          lockable: true,
         },
       }}
       data={lineData}
