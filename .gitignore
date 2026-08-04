@@ -27,5 +27,6 @@ examples/*/package-lock.json
 .angular/
 # skill eval workspace artifacts
 skills/*-workspace/
+packages/cli/vendor/skills/*-workspace/
 # storybook static build
 storybook-static-v3/

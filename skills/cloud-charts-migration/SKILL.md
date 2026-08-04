@@ -29,13 +29,13 @@ description: Internal-to-open-source migration workflow for cloud-charts. Use wh
 
 | 内网包名 | 开源包名 |
 |---------|---------|
-| `@alife/cloud-core` | `@alicloud/cloud-charts-core` |
-| `@alife/cloud-{chart}` | `@alicloud/cloud-charts-{chart}` |
-| `@alife/aisc-widgets` | `@alicloud/cloud-charts` |
-| `@alife/aisc-widgets-compat` | `@alicloud/cloud-charts-compat` |
-| `@alife/aisc-widgets-react` | `@alicloud/cloud-charts-react` |
-| `@alife/aisc-widgets-solid` | `@alicloud/cloud-charts-solid` |
-| `@alife/aisc-widgets-cli` | `@alicloud/cloud-charts-cli` |
+| `@alicloud/cloud-charts-core` | `@alicloud/cloud-charts-core` |
+| `@alicloud/cloud-charts-{chart}` | `@alicloud/cloud-charts-{chart}` |
+| `@alicloud/cloud-charts` | `@alicloud/cloud-charts` |
+| `@alicloud/cloud-charts-compat` | `@alicloud/cloud-charts-compat` |
+| `@alicloud/cloud-charts-react` | `@alicloud/cloud-charts-react` |
+| `@alicloud/cloud-charts-solid` | `@alicloud/cloud-charts-solid` |
+| `@alicloud/cloud-charts-cli` | `@alicloud/cloud-charts-cli` |
 
 ---
 
@@ -45,13 +45,13 @@ description: Internal-to-open-source migration workflow for cloud-charts. Use wh
 
 | # | 匹配模式 | 替换为 | 说明 |
 |---|---------|-------|------|
-| 1 | `@alife/cloud-core` | `@alicloud/cloud-charts-core` | core 包名 |
-| 2 | `@alife/cloud-{chart}` | `@alicloud/cloud-charts-{chart}` | 单图表包名 |
-| 3 | `@alife/aisc-widgets` | `@alicloud/cloud-charts` | 整包名 |
-| 4 | `@alife/aisc-widgets-compat` | `@alicloud/cloud-charts-compat` | compat 包名 |
-| 5 | `@alife/aisc-widgets-react` | `@alicloud/cloud-charts-react` | React 包名 |
-| 6 | `@alife/aisc-widgets-solid` | `@alicloud/cloud-charts-solid` | Solid 包名 |
-| 7 | `@alife/aisc-widgets-cli` | `@alicloud/cloud-charts-cli` | CLI 包名 |
+| 1 | `@alicloud/cloud-charts-core` | `@alicloud/cloud-charts-core` | core 包名 |
+| 2 | `@alicloud/cloud-charts-{chart}` | `@alicloud/cloud-charts-{chart}` | 单图表包名 |
+| 3 | `@alicloud/cloud-charts` | `@alicloud/cloud-charts` | 整包名 |
+| 4 | `@alicloud/cloud-charts-compat` | `@alicloud/cloud-charts-compat` | compat 包名 |
+| 5 | `@alicloud/cloud-charts-react` | `@alicloud/cloud-charts-react` | React 包名 |
+| 6 | `@alicloud/cloud-charts-solid` | `@alicloud/cloud-charts-solid` | Solid 包名 |
+| 7 | `@alicloud/cloud-charts-cli` | `@alicloud/cloud-charts-cli` | CLI 包名 |
 | 8 | `aisc-widgets` | `cloud-charts` | 仓库名/路径引用 |
 | 9 | `aisc-` (CSS 前缀) | `cc-` | CSS class/keyframe 标识符 |
 | 10 | `AISC` | `cloud-charts` | 品牌名（非 CSS） |
@@ -68,8 +68,8 @@ description: Internal-to-open-source migration workflow for cloud-charts. Use wh
 | 模式 | 原因 |
 |------|------|
 | `data-aisc-theme` | 老 SCSS 主题选择器白名单，运行时依赖 |
-| `@alife/aisc-core`（CHANGELOG 历史记录） | 历史变更记录，不修改 |
-| `@alife/cloud-{chart}`（CHANGELOG 历史记录） | 历史变更记录，不修改 |
+| `@alicloud/cloud-charts-core`（CHANGELOG 历史记录） | 历史变更记录，不修改 |
+| `@alicloud/cloud-charts-{chart}`（CHANGELOG 历史记录） | 历史变更记录，不修改 |
 
 ---
 
